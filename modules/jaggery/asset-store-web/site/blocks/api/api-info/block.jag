@@ -1,0 +1,107 @@
+<%
+jagg.block("api/api-info", {
+    initialize:function (data) {
+
+    },
+
+    getInputs:function () {
+        return {
+            "api":null
+        }
+    },
+
+    getOutputs:function (inputs) {
+
+        var applications, application, i, j, lenI, lenJ, subscriptions,isRatingActivated, subscription, username, result,
+                list = [],
+                api = inputs.api,
+                user = jagg.getUser();
+        if (user) {
+            username = user.username;
+            result = jagg.module("application").getApplications(username);
+            applications = result.applications;
+            
+            result = jagg.module("rating").isRatingActivated();
+            isRatingActivated = result.allow;
+            
+            result = jagg.module("subscription").getAPISubscriptions(api, username);
+            subscriptions = result.subscriptions;
+            if(applications!=null){
+            lenI = applications.length;
+            }if(subscriptions!=null){
+            lenJ = subscriptions.length;
+            }
+            Label1:
+                    for (i = 0; i < lenI; i++) {
+                        application = applications[i];
+                        for (j = 0; j < lenJ; j++) {
+                            subscription = subscriptions[j];
+                            if (subscription.applicationId == application.id) {
+                                continue Label1;
+                            }
+                        }
+                        list.push(application);
+                    }
+        }
+        return {
+            "api":inputs.api,
+            "applications":list,
+            "user":user,
+            "isRatingActivated":isRatingActivated,
+            "tabs":{
+                "tabs":[
+                    {
+                        "title":"Overview",
+                        "body":[
+                            {
+                                "name":"api/overview",
+                                "inputs":{
+                                    "api":api,
+                                    "user":user
+                                }
+                            }
+                        ],
+                        "enabled" : "true"
+                    },
+                    {
+                        "title":"Documentation",
+                        "body":[
+                            {
+                                "name":"api/documentation",
+                                "inputs": {
+                                    "api":api
+                                }
+                            }
+                        ],
+                        "enabled" : "true"
+                    },
+                    {
+                        "title":"Lifecycle",
+                        "body":[
+                            {
+                                "name":"api/lifecycle",
+                                "inputs": {
+                                    "api":api
+                                }
+                            }
+                        ],
+                        "enabled" : site.layout.pages.lifecycle.enabled
+                    }
+                ]
+            }
+        };
+    },
+
+    getStaticBlocks:function () {
+        return [
+            "ui/tab"
+        ];
+    },
+
+    getOutputBlocks:function () {
+        return [
+            ["tabs", "tabs", "body"]
+        ];
+    }
+});
+%>

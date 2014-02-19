@@ -1,0 +1,32 @@
+<%
+include("/jagg/jagg.jag");
+var site = require("/site/conf/site.json");
+
+(function () {
+
+    var title = site.layout.assetNameSingular + " Store-Document Viewer";
+
+    jagg.render({
+        "name":"page/base",
+        "inputs":{
+            "title":title,
+            "pagePath":"/site/pages/doc-viewer.jag",
+            "body":[
+                {
+                    "name":"layout/base",
+                    "inputs":{
+                        "title":"Document Viewer",
+                        "top":null,
+                        "left":null,
+                        "middle":{
+                            "name":"api/documentation/view"
+
+                        },
+                        "right":null
+                    }
+                }
+            ]
+        }
+    });
+}());
+//%>

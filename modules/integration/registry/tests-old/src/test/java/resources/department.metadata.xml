@@ -1,0 +1,10 @@
+<metadata xmlns="http://www.wso2.org/governance/metadata">
+    <overview>
+        <type>Quality Assurance</type>
+        <departmentManager>/people/123-abc-4567-defghi</departmentManager>
+        <name>QA Automation Department</name>
+    </overview>
+    <projectGroups>
+        <projectGroup1>/project-groups/ACME Development Group</projectGroup1>
+    </projectGroups>
+</metadata>

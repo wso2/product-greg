@@ -1,0 +1,23 @@
+<?xml version="1.0" ?>
+<project name="test" basedir=".">
+
+	<property file="system.properties"/>
+
+	<path id="opencmistck">        
+		<fileset dir="${logging.jar.path}">
+        	     <include name="**/*.jar"/>
+	        </fileset>
+	        <fileset dir="${cmis.jar.path}">
+                     <include name="**/*.jar"/>
+                </fileset>
+        </path>
+        
+	<taskdef name="cmistck" classname="org.apache.chemistry.opencmis.tck.runner.CmisTckAntTask">
+               <classpath refid="opencmistck"/>
+	</taskdef>
+
+	<target name="cmis">	
+	       <cmistck parameters="cmis-parameters.properties" groups="cmis-tck-groups.txt" output="tck-results.txt" format="text" />
+	</target>
+
+</project>

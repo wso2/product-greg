@@ -1,0 +1,57 @@
+<%
+include("/jagg/jagg.jag");
+
+(function () {
+    var mod, obj, result, username,
+            action = request.getParameter("action"),
+            site = require("/site/conf/site.json"),
+            msg = require("/site/conf/ui-messages.jag");
+    if (jagg.getUser() == null) {
+        print({
+                  error:true,
+                  message:'AuthenticateError'
+              });
+    } else {
+        if (action === "itemClick" || action === "voteClick" ) {
+            mod = jagg.module("api");
+            var api = {};
+            var action = request.getParameter("action");
+            var items = request.getParameter("items");
+            api.id = request.getParameter("id");
+
+            result = mod.invokeAspect(api, action, items);
+
+            if (result.error == "true") {
+                obj = {
+                    error:result.error,
+                    message:result.message
+                };
+            } else {
+                obj = {
+                    error:false
+                }
+            }
+            print(obj);
+        } else {
+            mod = jagg.module("api");
+            var api = {};
+            var action = request.getParameter("action");
+            api.id = request.getParameter("id");
+
+            result = mod.invokeAspect(api, action, null);
+
+            if (result.error == "true") {
+                obj = {
+                    error:result.error,
+                    message:result.message
+                };
+            } else {
+                obj = {
+                    error:false
+                }
+            }
+            print(obj);
+        }
+    }
+}());
+%>

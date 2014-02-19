@@ -1,0 +1,21 @@
+<%
+jagg.block("api/provider-apis", {
+    getOutputs:function (inputs) {
+        var providerId = inputs.providerId;
+        var currentApi = inputs.currentApi;
+        var api = jagg.module("api");
+        var result = api.getPublishedAPIsByProvider(providerId,currentApi);
+        return {
+            "apis":result.apis,
+            "providerId":providerId
+        };
+    },
+
+    getInputs:function () {
+        return {
+            "providerId":null,
+            "currentApi":null
+        };
+    }
+});
+%>

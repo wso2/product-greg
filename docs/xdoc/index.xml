@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+
+<!--
+  ~  Copyright (c) 2005-2009, WSO2 Inc. (http://www.wso2.org) All Rights Reserved.
+  ~
+  ~  WSO2 Inc. licenses this file to you under the Apache License,
+  ~  Version 2.0 (the "License"); you may not use this file except
+  ~  in compliance with the License.
+  ~  You may obtain a copy of the License at
+  ~
+  ~    http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~  Unless required by applicable law or agreed to in writing,
+  ~  software distributed under the License is distributed on an
+  ~  "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+  ~  KIND, either express or implied.  See the License for the
+  ~  specific language governing permissions and limitations
+  ~  under the License.
+  ~
+  -->
+
+<!DOCTYPE html
+        PUBLIC "-//W3C//DTD XHTML 1.1//EN"
+        "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd" >
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+    <head>
+        <meta http-equiv="content-type" content="text/html; charset=iso-8859-1"/>
+        <title>Welcome to @product.name@ v@product.version@!</title>
+        <link href="css/greg-docs.css" rel="stylesheet"/>
+        <link href="styles/dist-docs.css" rel="stylesheet" type="text/css" media="all"/>
+    </head>
+    <body xml:lang="en">
+        <h1>
+            Welcome to @product.name@ v@product.version@!
+        </h1>
+        <h3>
+            @timestamp@ - @product.name@, v@product.version@ Released!
+        </h3>
+        <p>
+            [<a href="http://www.wso2.org/downloads/governance-registry">Download</a>] | [<a
+                href="http://www.wso2.com/products/governance-registry#resources">Project Resources</a>]
+            | [<a href="http://www.wso2.com/products/governance-registry">Official Web site</a>]</p>
+        <p/>
+        <p>
+            The @product.name@ is a hub for managing data in a web-friendly and
+            community-enabled way.  It was built with enterprise metadata for SOA in
+            mind, but really it's up to you - the @product.name@ can hold any kind of
+            "stuff" including images, service descriptions, text files, office
+            documents... and every resource you put in the @product.name@ becomes a center
+            for social activity.
+        </p>
+
+        <p>
+            Eschewing the complexity (and WS-* focus) of specs like UDDI, our
+            @product.name@ uses the Atom Publishing Protocol (via Apache Abdera) to offer
+            a standard and a simple RESTful remote interface, which can be accessed
+            easily by custom code, feed readers, and browsers.
+        </p>
+
+        <p>
+            The @product.name@ has been designed both to encourage "grass-roots" community
+            around your data and also to allow for IT-friendly governance.  A full
+            feature list follows. We hope you'll find many uses for it, and that
+            you'll share them with us as we work to make it even better!
+        </p>
+
+        <p>
+            The @product.name@ is available under the
+            <a href="http://www.apache.org/licenses/LICENSE-2.0.html">Apache Software License v2.0</a>,
+            and can be either used as a complete product or used in combination with components of
+            other WSO2 products. User specific components, extensions or UIs to the Registry can be
+            easily added as Carbon components.</p>
+
+        <h2>Key Features in this Release</h2>
+
+            <ul>
+                <li>First-class support for WADL</li>
+                <li>REST API for Registry</li>
+                <li>CMIS Specification Support</li>
+                <li>Enhanced RXT functionalities</li>
+                <li>Notification for Approvals</li>
+                <li>Asset models for ESB</li>
+                <li>Lifecycle state transition through Governance API</li>
+                <li>Offline WSDL Validation</li>
+                <li>Sample Data Populator</li>
+                <li>RXT Lifecycle Workflow Integration</li>
+                <li>LifeCycle in RXT Definition</li>
+                <li>Pagination for Registry</li>
+                <li>Enhanced UDDI Support</li>
+                <li>Registry Check In-client Improvements</li>
+            </ul>
+
+        <h2>Open Source Components of @product.name@</h2>
+
+        <ul>
+            <li>WSO2 Carbon</li>
+            <li>Apache Abdera</li>
+            <li>Apache Ant</li>
+            <li>Apache Axiom (High performance XML Object Model)</li>
+            <li>Apache Axis2 (SOAP)</li>
+            <li>Apache Axis2 (WS-Addressing)</li>
+            <li>Apache Directory Studio</li>
+            <li>Apache Felix</li>
+            <li>Apache Geronimo</li>
+            <li>Apache Jackrabbit</li>
+            <li>Apache Lucene</li>
+            <li>Apache Maven</li>
+            <li>Apache Neethi (WS-Policy)</li>
+            <li>Apache Rampart/Apache WSS4J (WS-Security)</li>
+            <li>Apache Shindig</li>
+            <li>Apache Solr</li>
+            <li>Apache Synapse</li>
+            <li>Apache Tiles</li>
+            <li>Apache Tomcat (Embedded)</li>
+            <li>Apache XML Schema</li>
+            <li>Atomikos</li>
+            <li>Eclipse Equinox</li>
+            <li>Eclipse WSDL Validator</li>
+        </ul>
+
+        <h2>@product.name@ - Documentation</h2>
+
+        <p>See the <a href="http://docs.wso2.org/wiki/display/Governance450">Wiki docs of v@product.version@</a>for instructions on
+            installation, administration and running samples with @product.name@, v@product.version@</p>
+
+    </body>
+</html>

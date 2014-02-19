@@ -1,0 +1,31 @@
+div.dashboard-comp {
+    width: 300px;
+    margin: 5px;
+    float: left;
+    border:1px solid #6997b2;
+    background: #ffffff;
+    height: 300px;
+}
+
+.dashboard-comp-bottom {
+    padding-left: 5px;
+    padding-top: 5px;
+}
+
+.dashboard-comp-msg {
+    color: #505050;
+    padding: 5px;
+}
+
+div.dashboard-comp-body {
+    overflow: auto;
+    max-height: 230px;
+}
+
+div.activity-comp-body {
+    overflow: auto;
+    max-height: 278px;
+}
+.green-note {
+    color: #f00;
+}

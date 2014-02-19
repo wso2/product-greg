@@ -1,0 +1,42 @@
+<%
+var getLifecycleDetails = function (api, state, roles) {
+    var log = new Log(), lifecycle,
+            store = jagg.module("manager").getAPIStoreObj();
+
+    try {
+        lifecycle = store.getLifecycleDetails(api.id, state, roles);
+        if (log.isDebugEnabled()) {
+            log.debug("getLifecycleDetails : " + stringify(lifecycle));
+        }
+        return {
+            error:false,
+            lifecycle:lifecycle
+        };
+    } catch (e) {
+        log.error(e.message);
+        return {
+            error:e,
+            lifecycle:null
+        };
+    }
+};
+
+var invokeAspect = function (api, action, items) {
+    var log = new Log(), result, store = jagg.module("manager").getAPIStoreObj();
+
+    try {
+        result = store.invokeAspect(api.id, action, items);
+        if (log.isDebugEnabled()) {
+            log.debug("invokeAspect : " + stringify(result));
+        }
+        return {
+            error:false,
+        };
+    } catch (e) {
+        log.error(e.message);
+        return {
+            error:e,
+        };
+    }
+};
+%>

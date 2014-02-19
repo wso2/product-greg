@@ -1,0 +1,24 @@
+<% jagg.template("subscription/subscription-list", function(inputs, outputs, jagg) { %>
+
+<div class="subscription-listing accordion" style="margin-top:22px;" id="accordion2">
+    <%
+    var i, j, app, api, apis, key, lenI, clazz, lenJ, path, apps = outputs.applications; if(apps!=null){lenI = apps.length;}
+    for(i = 0; i < lenI; i++) {
+        app = apps[i];
+        var str_i = String(i).replace('.','_');
+    %>
+    <div class="accordion-group" id="accordionContent<%=str_i%>">
+    <% jagg.includeBlock("subscription/subscription-list-element", {app:app,i:i}); %>
+    </div>
+
+
+
+    <% } %>
+    <% if(lenI==0){ %>
+        <div class="alert alert-info">
+            No subscriptions created yet. Click on the '<%=site.layout.assetNamePlural%>' tab on the top to browse the <%=site.layout.assetNamePlural%>
+            available for subscription.
+        </div>
+    <% } %>
+</div>
+<% }); %>

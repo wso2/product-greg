@@ -1,0 +1,46 @@
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
+
+<suite name="GregTestSuite">
+    <parameter name="useDefaultListeners" value="false"/>
+    <test name="Test1" preserve-order="true" parallel="false">
+        <packages>
+            <package name="org.wso2.carbon.registry.utfsupport.test"/>
+        </packages>
+
+
+        <classes>
+        </classes>
+    </test>
+    <test name="Test2" preserve-order="true" parallel="false">
+        <packages>
+            <package name="org.wso2.carbon.registry.xpath.query.test"/>
+        </packages>
+
+
+        <classes>
+        </classes>
+    </test>
+    <test name="Test3" preserve-order="true" parallel="false">
+        <packages>
+            <package name="org.wso2.carbon.registry.discovery.test"/>
+        </packages>
+
+
+        <classes>
+        </classes>
+    </test>
+    <test name="Test4" preserve-order="true" parallel="false">
+        <packages>
+        </packages>
+
+
+        <classes>
+            <class name="org.wso2.carbon.registry.reporting.test.ReportNameAndTemplateTestCases"/>
+            <class name="org.wso2.carbon.registry.reporting.test.ReportGenerationTestCases"/>
+            <class name="org.wso2.carbon.registry.reporting.test.Carbon11686"/>
+            <class name="org.wso2.carbon.registry.reporting.test.ReportCopyingTestCases"/>
+            <class name="org.wso2.carbon.registry.reporting.test.ReportSchedulingTestCases"/>
+            <class name="org.wso2.carbon.registry.reporting.test.ReportClassTestCases"/>
+        </classes>
+    </test>
+</suite>

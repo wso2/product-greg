@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="ISO-8859-1" standalone="yes"?>
+<definitions xmlns:levi="http://levi.org/bpmn20" xmlns="http://www.omg.org/spec/BPMN/20100524/MODEL" id="TroubleTicket" name="TroubleTicket" targetNamespace="http://levi.org/bpmn20">
+    <!--
+        Java SE 6 is used as type language for the model whereas the Java Unified Expression
+        Language serves as language for Expressions.
+    -->
+    <process isExecutable="true" id="incidentmanagementprocess" name="incidentmanagementprocess">
+        <startEvent name="Issue received" id="startEvent">
+        </startEvent>
+        
+        <sequenceFlow sourceRef="startEvent" targetRef="scriptTask1" id="flow1" />
+        <!--
+            This script task uses the Groovy programming language to create a Data Object and fill
+            it with data of the Item received in the Message that started the Process.
+        -->
+        
+        <scriptTask name="Open ticket" scriptFormat="javascript" id="scriptTask1">
+            <script><![CDATA[
+                var createdDate = new Date();
+                var status = "Open"
+                //var reporter = issueReport.getAuthor()
+                //var desctiption = issueReport.getText()
+            ]]></script>
+        </scriptTask>
+        
+        <sequenceFlow sourceRef="scriptTask1" targetRef="eg0" id="flow2" />
+        
+        <exclusiveGateway name="Result?" gatewayDirection="Converging" id="eg0" />
+        
+        <sequenceFlow sourceRef="eg0" targetRef="userTask1" id="flow9" />
+        
+        <userTask name="Provide customer support assistance" id="userTask1" inputForm="cs_issue.vm">
+            <potentialOwner>
+            	<resourceAssignmentExpression>
+          			<formalExpression>CustomerSupportAgents</formalExpression>
+        			</resourceAssignmentExpression>
+            </potentialOwner>
+        </userTask>
+        
+        <sequenceFlow sourceRef="userTask1" targetRef="eg1" id="flow3" />
+        
+        <exclusiveGateway name="Result?" gatewayDirection="Diverging" id="eg1" />
+        
+        <sequenceFlow sourceRef="eg1" targetRef="userTask2" name="2nd level issue" id="1402">
+            <conditionExpression>
+                <![CDATA[status == "Open"]]></conditionExpression>
+        </sequenceFlow>
+        
+        <sequenceFlow sourceRef="eg1" targetRef="sendTask1" name="Issue resolved" id="1396">
+            <conditionExpression>
+                <![CDATA[status == "Resolved"]]></conditionExpression>
+        </sequenceFlow>
+        
+        <userTask name="Provide quality assuarance support" id="userTask2" inputForm="qa_issue.vm">
+            <potentialOwner>
+            		<resourceAssignmentExpression>
+          				<formalExpression>QualityAssurance</formalExpression>
+        				</resourceAssignmentExpression>
+            </potentialOwner>
+        </userTask>
+        
+        <sequenceFlow sourceRef="userTask2" targetRef="eg2" id="flow4" />
+        
+        <exclusiveGateway name="Result?" gatewayDirection="Diverging" id="eg2" />
+        
+        <sequenceFlow sourceRef="eg2" targetRef="userTask3" name="Fix in Next release"
+            id="1410">
+            <conditionExpression>
+                <![CDATA[status == "Open"]]></conditionExpression>
+        </sequenceFlow>
+        
+        <sequenceFlow sourceRef="eg2" targetRef="sendTask1" name="Issue resolved" id="flow5">
+            <conditionExpression>
+                <![CDATA[status == "Resolved"]]></conditionExpression>
+        </sequenceFlow>
+        
+        <userTask name="Insert issue into product backlog" operationRef="tns:addTicketOperation"
+            id="userTask5" inputForm="dev_report_backlog.vm">
+            <potentialOwner>
+            		<resourceAssignmentExpression>
+          				<formalExpression>Developers</formalExpression>
+        				</resourceAssignmentExpression>
+            </potentialOwner>
+        </userTask>
+        
+        <sequenceFlow sourceRef="userTask3" targetRef="eg4" id="flow6" />
+        
+        <exclusiveGateway name="Result?" gatewayDirection="Diverging" id="eg4" />
+        
+        <sequenceFlow sourceRef="eg4" targetRef="sendTask1" id="flow13">
+            <conditionExpression>
+                <![CDATA[status == "Resolved"]]>
+		</conditionExpression>
+	</sequenceFlow>
+        
+        <sequenceFlow sourceRef="eg4" targetRef="userTask5" id="flow14">
+		<conditionExpression>
+                <![CDATA[status == "Open"]]>
+		</conditionExpression>    
+	</sequenceFlow>    
+
+        <userTask name="Examine and provide feedback on issue" operationRef="tns:addTicketOperation"
+            id="userTask3" inputForm="dev_issue.vm">
+            <potentialOwner>
+            		<resourceAssignmentExpression>
+          				<formalExpression>Developers</formalExpression>
+        				</resourceAssignmentExpression>
+            </potentialOwner>
+        </userTask>
+        
+        <sequenceFlow sourceRef="userTask5" targetRef="sendTask1" id="flow15" />
+        
+        <sendTask name="Send mail to account manager" messageRef="tns:AnswerMessage"
+            operationRef="tns:sendMailToIssueReporterOperation" id="sendTask1">
+            <extensionElements>
+            <field name="to" expression="${recipient}"/>
+				    <field name="subject" expression="Issue Tikect ${issueId}"/>
+				    <field name="content">
+				      <expression><![CDATA[
+				       <html>
+				       <body>
+				         Hello,
+				         A ticket has been created for your issue, which is now in status ${status}.
+				         Bye.
+				       </body>
+				      </html>
+				    ]]></expression>
+				    </field>
+            </extensionElements>
+        </sendTask>
+        
+        <sequenceFlow sourceRef="sendTask1" targetRef="userTask4" id="flow7" />
+        
+        <userTask name="Reopen issue" id="userTask4" inputForm="customer_feedback.vm">
+        	<potentialOwner>
+            		<resourceAssignmentExpression>
+          				<formalExpression>AccountManagers</formalExpression>
+        				</resourceAssignmentExpression>
+            </potentialOwner>
+        </userTask>
+        
+        <sequenceFlow sourceRef="userTask4" targetRef="eg3" id="flow10" />
+        
+        <exclusiveGateway name="Result?" gatewayDirection="Diverging" id="eg3" default="flow11"/>
+        
+        <sequenceFlow sourceRef="eg3" targetRef="scriptTask2" id="flow11" />
+        
+        <sequenceFlow sourceRef="eg3" targetRef="eg0" id="flow12">
+        	<conditionExpression>
+                <![CDATA[status == "Reopen"]]></conditionExpression>
+        </sequenceFlow>
+        
+        <scriptTask name="Close ticket" scriptFormat="javascript" id="scriptTask2">
+            <script><![CDATA[
+                status = "Closed"
+            ]]></script>
+        </scriptTask>
+        
+        <sequenceFlow sourceRef="scriptTask2" targetRef="endEvent" id="flow8" />
+        
+        <endEvent id="endEvent" />
+    </process>
+</definitions>

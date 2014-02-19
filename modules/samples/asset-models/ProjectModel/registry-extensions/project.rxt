@@ -1,0 +1,178 @@
+<artifactType type="application/vnd.wso2-project+xml" shortName="projects" singularLabel="Project" pluralLabel="Projects" hasNamespace="false" iconSet="22">   
+	<storagePath>/projects/@{name}</storagePath>  
+	<nameAttribute>overview_name</nameAttribute>
+	<ui>  
+		<list>         
+			<column name="Name">  
+				<data type="path" value="overview_name" href="@{storagePath}"/>    
+			</column>   
+		</list>    
+	</ui>   
+	<relationships>  
+		<association type="isPartOf" source="@{projectTeam_entry:value}"/>
+		<association type="isConsumedBy" source="@{assets_entry:value}"/>
+		<dependency type="depends" target="@{products_entry:value}"/>
+	</relationships> 
+	<content>       
+		<table name="Overview"> 
+			<field type="text" required="true">   
+				<name>Name</name>          
+			</field> 
+			<field type="text" required="true" path="true">    
+				<name>Project Manager</name>         
+			</field>          
+			<field type="text-area">    
+				<name>Description</name>      
+			</field>      
+		</table> 
+		<table name="Definition">            
+			<field type="text" path="true" url="true">                
+				<name>Project Path</name>            
+			</field>        
+		</table>
+		<table name="ProjectTeam">
+			<subheading>              
+				<heading>Type</heading>  
+				<heading>Path</heading>        
+			</subheading>            
+			<field type="option-text" maxoccurs="unbounded" path="true" url="true"> 
+				<name>Members</name>             
+				<values>                 
+					<value>Department</value>      
+					<value>Project Group</value> 
+					<value>Person</value>
+				</values>         
+			</field>     
+		</table>  		        
+		<table name="Assets">            
+			<subheading>                
+				<heading>Type</heading>                
+				<heading>Path</heading>            
+			</subheading>            
+			<field type="option-text" maxoccurs="unbounded" path="true" url="true">                
+				<name>Asset</name>                
+				<values>                    
+					<value>None</value>                    
+					<value>Service</value>                    
+					<value>Policy</value>          
+				</values>      
+			</field>      
+		</table>      
+		<table name="Products">
+			<subheading>              
+				<heading>Type</heading>  
+				<heading>Path</heading>        
+			</subheading>            
+			<field type="option-text" maxoccurs="unbounded" path="true" url="true"> 
+				<name>Product</name>             
+				<values>                 
+					<value>Application</value>      
+					<value>Process</value>                
+				</values>         
+			</field>     
+		</table>
+		<table name="Tests">
+			<field type="text" path="true">
+				<name>Test Harness</name>
+			</field>
+		</table>
+		<table name="Plan">   
+			<field type="text" url="true" template="https://wso2.org/jira/browse/@{value}">   
+				<name>Issue Tracker</name>   
+			</field>          
+			<field type="text" url="true" template="https://www.pivotaltracker.com/projects/@{value}"> 
+				<name>Roadmap</name>      
+			</field>    
+		</table>   
+		<table name="Timeline">    
+			<field type="text">      
+				<name>Start Date</name>     
+			</field>    
+			<field type="text">     
+				<name>End Date</name>  
+			</field>      
+			<field type="text">   
+				<name>Duration</name>   
+			</field>     
+		</table>      
+		<table name="Work">   
+			<field type="text">      
+				<name>Scheduled</name>     
+			</field>         
+			<field type="text">   
+				<name>Actual</name>  
+			</field>      
+			<field type="text">  
+				<name>Remaining</name>   
+			</field>     
+		</table>    
+		<table name="Cost">
+			<field type="text">    
+				<name>Scheduled</name>  
+			</field>         
+			<field type="text">   
+				<name>Actual</name>     
+			</field>     
+			<field type="text"> 
+				<name>Remaining</name>  
+			</field>    
+		</table>     
+		<table name="Sub Projects" columns="3">
+			<subheading>         
+				<heading>Sub Project</heading> 
+			</subheading>        
+			<field type="text" path="true" url="true"> 
+				<name>Sub Project</name>     
+			</field>     
+			<field type="text" path="true" url="true">  
+				<name>Sub Project1</name>       
+			</field> 
+			<field type="text" path="true" url="true">    
+				<name>Sub Project2</name>    
+			</field>       
+			<field type="text" path="true" url="true">    
+				<name>Sub Project3</name>      
+			</field>    
+			<field type="text" path="true" url="true">  
+				<name>Sub Project4</name>       
+			</field>    
+			<field type="text" path="true" url="true">  
+				<name>Sub Project5</name>      
+			</field>     
+		</table>  
+		<table name="Documentation" columns="3">  
+			<subheading>              
+				<heading>Document Type</heading>   
+				<heading>URL</heading>        
+				<heading>Comment</heading>     
+			</subheading>         
+			<field type="text">      
+				<name>Document Type</name>   
+			</field>         
+			<field type="text" url="true"> 
+				<name>URL</name>     
+			</field>       
+			<field type="text-area">    
+				<name>Document Comment</name> 
+			</field>       
+			<field type="text">    
+				<name>Document Type1</name>     
+			</field>     
+			<field type="text" url="true">  
+				<name>URL1</name>     
+			</field>         
+			<field type="text-area">   
+				<name>Document Comment1</name>   
+			</field>      
+			<field type="text">   
+				<name>Document Type2</name>  
+			</field> 
+			<field type="text" url="true">    
+				<name>URL2</name>     
+			</field>       
+			<field type="text-area">  
+				<name>Document Comment2</name>      
+			</field>      
+		</table>
+	</content>
+</artifactType>

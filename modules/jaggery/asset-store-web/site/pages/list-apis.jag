@@ -1,0 +1,27 @@
+<%
+include("/jagg/jagg.jag");
+var site = require("/site/conf/site.json");
+
+(function () {
+
+    jagg.render({
+        "name":"page/base",
+        "inputs":{
+            "title":site.layout.assetNameSingular + " Store Listing",
+            "pagePath":"/site/pages/list-apis.jag",
+            "body":[
+                {
+                    "name":"layout/extended",
+                    "inputs":{
+                        "title":null,
+                        "middle":{
+                            "name":"api/listing"
+
+                        }
+                    }
+                }
+            ]
+        }
+    });
+}());
+%>

@@ -1,0 +1,74 @@
+<%
+jagg.block("layout/extended", {
+
+    getParent:function () {
+        return "layout/base";
+    },
+
+    getOutputs:function (inputs) {
+        return {
+            "title":inputs.title,
+            "top":[
+                {
+                    "name":"banner/featured",
+                    "inputs":null
+                },
+                {
+                    "name":"search/api-search",
+                    "inputs":null
+                }
+            ],
+            "left":[
+                {
+                    "name":"ui/tab",
+                    "inputs":{
+                        "classes":"cat_and_charts",
+                        "tabs":[
+                            {
+                                "body":[
+                                    {
+                                        "name":"api/recently-added",
+                                        "inputs":null
+                                    },
+                                    {
+                                        "name":"api/top-rated",
+                                        "inputs":null
+                                    }
+                                ]
+                            }
+                        ]
+                    }
+                }
+            ],
+            "middle":inputs.middle,
+            "right":[
+                {
+                    "name":"tag/tag-cloud",
+                    "inputs":null
+                }
+            ]
+        };
+    },
+
+    getInputs:function () {
+        return {
+            "title":null,
+            "middle":null
+        };
+    },
+
+    getOutputBlocks:function () {
+        return [
+            "header",
+            "top",
+            "left",
+            "right"
+        ];
+    },
+    getInputBlocks:function () {
+        return [
+            "middle"
+        ];
+    }
+});
+%>

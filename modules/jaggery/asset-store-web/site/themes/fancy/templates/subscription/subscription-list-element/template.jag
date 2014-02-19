@@ -1,0 +1,154 @@
+<% jagg.template("subscription/subscription-list-element", function(inputs, outputs, jagg) { %>
+<% var i=outputs.i, app = outputs.app;
+        var str_i = String(i).replace('.','_');
+        %>
+              <div class="accordion-heading">
+                <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="template.jag#collapseOne<%=str_i%>">
+                  <i class="icon-application icon"></i><%=app.name%>
+                </a>
+              </div>
+              <div id="collapseOne<%=str_i%>" class="accordion-body collapse <% if(i==0){%> in <% } %>">
+                <div class="accordion-inner">
+                    <!-- Accordion Content START -->
+
+                     <div class="data-content">
+                    <div id="appDetails<%=str_i%>_super" class="super-section">
+                         <div class="container-fluid">
+                             <div class="super-rows row-fluid">
+                                            <div class="span12"><h3>Keys</h3></div>
+                                 </div>
+                         </div>
+                        <div class="container-fluid keyItems">
+                         <input type="hidden" id="prodOldAccessToken<%=str_i%>" value="<%=app.prodKey%>" >
+                         <input type="hidden" id="sandOldAccessToken<%=str_i%>" value="<%=app.sandboxKey%>" >
+                                        <div class="super-rows row-fluid">
+                                            <div class="span6 key-table">
+                                                <div class="key-table-header">Production  <a <% if(app.prodKey==null){%>style="display:none"<% } %> onclick="toggleKey(this)" class="show-hide-key pull-right"><i class="icon-arrow-down icon-white"></i> Show Keys </a> <% if(app.prodKey!=null){%> <div class="pull-right" style="padding:0 5px;"> | </div>
+                                                    <span class="show-hide-key pull-right processing-msg" style="display:none;">Generating..</span>
+                                                    <a class="show-hide-key pull-right"
+                                                 onclick="regenerate('<%=app.name%>','PRODUCTION',<%=str_i%>,this)" ><i class="icon-refresh"></i>
+                                                 Re-generate</a>
+                                                    <% } %> </div>
+
+                                                <div class="key-table-content">
+                                                    <div class="info-msg">
+                                                        <% if(app.prodKey!=null){%>
+                                                        Keys available. Click "Show Keys" to view.
+                                                        <% } else { %>
+                                                       Production keys are not yet generated for this application.
+                                                        <% } %>
+                                                    </div>
+                                                    <table id="prodTable<%=str_i%>" class="table table-bordered table-striped" style="display:none">
+                                                        <tr><th>Access Token</th><th class="accessToken"><%=app.prodKey%></th></tr>
+                                                        <tr><td>Consumer Key</td><td class="consumerKey"><%=app.prodConsumerKey%></td></tr>
+                                                        <tr><td>Consumer Secret</td><td class="consumerSecret"><%=app.prodConsumerSecret%></td></tr>
+                                                    </table>
+                                                    <div class="gen-btn-wrapper">
+                                                        <a <% if(app.prodKey!=null){%>style="display:none"<% } %> class="app-key-generate-button btn btn-primary"
+                                                       data-application="<%=app.name%>"
+                                                       data-keytype="PRODUCTION"
+                                                       iteration="<%=str_i%>"
+                                                        >
+                                                        Generate</a>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+
+                                            <div class="span6 key-table"> <div class="key-table-header">Sandbox
+                                                <a <% if(app.sandboxKey==null){%>style="display:none"<% } %> onclick="toggleKey(this)" class="show-hide-key pull-right"><i class="icon-arrow-down icon-white"></i>Show Keys </a> <% if(app.sandboxKey!=null){%> <div class="pull-right" style="padding:0 5px;"> | </div>
+                                                <span class="show-hide-key pull-right processing-msg" style="display:none;">Generating..</span>
+                                                <a class="show-hide-key pull-right"
+                                                 onclick="regenerate('<%=app.name%>','SANDBOX',<%=str_i%>,this)"><i class="icon-refresh"></i> Re-generate</a><% } %> </div>
+
+                                                <div class="key-table-content">
+                                                    <div class="info-msg">
+                                                        <% if(app.sandboxKey!=null){%>
+                                                        Keys available. Click "Show Keys" to view.
+                                                        <% } else { %>
+                                                       Sandbox keys are not yet generated for this application.
+                                                        <% } %>
+                                                    </div>
+                                                    <table id="sandTable<%=str_i%>" class="table table-bordered table-striped" style="display:none">
+                                                        <tr><th>Access Token</th><th class="accessToken"><%=app.sandboxKey%></th></tr>
+                                                        <tr><td>Consumer Key</td><td class="consumerKey"><%=app.sandboxConsumerKey%></td></tr>
+                                                        <tr><td>Consumer Secret</td><td class="consumerSecret"><%=app.sandboxConsumerSecret%></td></tr>
+                                                    </table>
+                                                    <div class="gen-btn-wrapper">
+                                                        <a <% if(app.sandboxKey!=null){%>style="display:none"<% } %> class="app-key-generate-button btn btn-primary"
+                                                       data-application="<%=app.name%>"
+                                                       data-keytype="SANDBOX"
+                                                       iteration="<%=str_i%>"
+                                                        >
+                                                        Generate</a>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+
+
+                                        </div>
+
+                            </div><!-- container-fluid -->
+                    </div>
+                    <div  id="appDetails<%=str_i%>" class="api-section">
+                                    <div class="container-fluid">
+                                        <div class="row-fluid">
+                                            <div class="span12"><h3><%=site.layout.assetNamePlural%></h3></div>
+                                        </div>
+                                    </div>
+									<div class="container-fluid subsApiListing">
+                                        <div class="row-fluid">
+
+                                    <%
+
+                                    var apis = app.subscriptions;
+                                    lenJ = apis.length;
+                                    for(j = 0; j < lenJ; j++) {
+                                        api = apis[j];
+                                        prodKey = api.prodKey;
+                                        clazz = (j%2) == 0 ? "even" : "odd";
+                                        path = jagg.getMappedUrl("/site/pages/item-info.jag") + "?id=" + api.id;
+                                        var apiName = api.name;
+                                        if(api.name.length > 12){
+                                            apiName = api.name.substring(0,10)+ "..";
+                                        }
+                                    %>
+                                        <div class="span4 keyListPadding">
+                                            <div class="thumbnail <% if(api.status == "DEPRECATED" || api.status == "RETIRED" || api.status == "BLOCKED") { %>deprecated<% } %>">
+                                                <div class="deprecatedLabel">
+                                                    <% if(api.status == "DEPRECATED") { %>
+                                                    <span class="label label-warning">Deprecated</span>
+                                                    <% } else if(api.status == "RETIRED") { %>
+                                                    <span class="label label-important">Retired</span>
+                                                    <% }else if(api.status == "BLOCKED") { %>
+                                                    <span class="label label-important">Blocked</span>
+                                                    <% } %>
+                                                </div>
+                                                <div class="container-fluid">
+                                                    <div class="row-fluid">
+                                                        <div class="span4">
+                                                            <a href="<%=path%>" class="thumbnailInsideLink"><img width="70" alt="" src="<% if(api.thumbnailurl) { %><%=api.thumbnailurl%><% } else { %><%=jagg.getAbsoluteUrl(jagg.getThemeFile("images/api-default.png"))%><% }%>"/></a>
+                                                        </div>
+                                                        <div class="span8">
+                                                            <img src="<%=jagg.getAbsoluteUrl(jagg.getThemeFile("images/close.png"))%>" onClick="removeSubscription('<%=api.id%>','<%=app.id%>',this)" align="right" data-master-id="accordionContent<%=str_i%>" class="closeBtn" />
+                                                            <a href="<%=path%>" class="service-name" title="<%=api.name%>-<%=api.version%>"><%=apiName%> - <%=api.version%></a>
+                                                            <div class="provider-info"><%=api.provider%></div>
+                                                            <div class="tier-info"><%=api.tier%> Subscription</div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    <% } %>
+                                    </div><!-- End row -->
+                            </div><!-- End container-fluid -->
+                    </div>
+            </div><!-- data-content -->
+
+
+                    <!-- Accordion Content END -->
+                </div>
+              </div>
+
+<% }); %>

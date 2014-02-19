@@ -1,0 +1,44 @@
+<% jagg.template("application/application-add", function(inputs, outputs, jagg) {
+ var apiPath = "";
+ var goBack = "";
+ if(session.get('apiPath') != null){
+        apiPath = session.get('apiPath');
+ }
+ if(request.getParameter('goBack') != null){
+        goBack = request.getParameter('goBack');
+ }
+ var mod = jagg.module("manager");
+ var httpsUrl= mod.getHTTPsURL();
+ %>
+ <script>
+ var apiViewUrl = '<%=httpsUrl%><%=site.context%>/apis/info';
+ var appAddUrl = '<%=httpsUrl%><%=request.getRequestURI()%>';
+ </script>
+<h3>Add New Application</h3>
+<form id="appAddForm">
+<div class="application-add well form-horizontal">
+
+    <div class="control-group">
+        <label class="control-label" for="application-name">Name</label>
+        <div class="controls">
+
+            <div class="span6">
+                <input type="text" class="span12 required validateSpecialChars" maxlength="70" id="application-name" autofocus="autofocus"/></div>
+            <div class="span6 app-add-btn-block">
+                <input type="submit" id="application-add-button" class="btn btn-primary" value="Add"/>
+            </div>
+            <input type="hidden" id="apiPath" value="<%=apiPath%>"/>
+            <input type="hidden" id="goBack" value="<%=goBack%>"/>
+
+            <div class="help-block span12">Applications are required to make <%=site.layout.assetNameSingular%> subscriptions and consume them. You
+                will be able to subscribe to these applications from the <%=site.layout.assetNameSingular%> details page.
+            </div>
+        </div>
+    </div>
+</div>
+<div class="alert alert-success" id="appAddMessage" style="display:none">
+        <button type="button" class="close" data-dismiss="alert">&times;</button>
+        <strong>Application "<span id="applicationShowName"></span>" Successfully added!</strong>
+</div>
+</form>
+<% }); %>

@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ ~ Copyright (c) 2009-2011, WSO2 Inc. (http://www.wso2.org) All Rights Reserved.
+ ~
+ ~ Licensed under the Apache License, Version 2.0 (the "License");
+ ~ you may not use this file except in compliance with the License.
+ ~ You may obtain a copy of the License at
+ ~
+ ~      http://www.apache.org/licenses/LICENSE-2.0
+ ~
+ ~ Unless required by applicable law or agreed to in writing, software
+ ~ distributed under the License is distributed on an "AS IS" BASIS,
+ ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ ~ See the License for the specific language governing permissions and
+ ~ limitations under the License.
+-->
+<project name="org.wso2.registry.jaxr.sample" default="run" basedir=".">
+    <property name="lib.dir" value="${basedir}/lib"/>
+    <property name="greg.home" value="${basedir}../../../"/>
+    <property name="class.dir" value="target/classes"/>
+    <target name="clean">
+        <delete dir="target" quiet="true"/>
+        <delete dir="${class.dir}" quiet="true"/>
+    </target>
+
+    <target name="init">
+        <mkdir dir="${class.dir}"/>
+        <path id="javac.classpath">
+            <pathelement path="${class.dir}"/>
+            <fileset dir="${lib.dir}">
+                <include name="*.jar"/>
+            </fileset>
+            <fileset dir="${greg.home}/repository/components/plugins">
+                <include name="juddi_*.jar"/>
+                <include name="commons-lang_*.jar"/>
+                <include name="org.wso2.carbon.logging_*.jar"/>
+                <include name="commons-collections_*.jar"/>
+                <include name="commons-configuration_*.jar"/>
+            </fileset>
+        </path>
+    </target>
+    <target name="compile" depends="init" description="Compile all Java">
+        <javac srcdir="src" destdir="${class.dir}" debug="on" debuglevel="lines,vars,source">
+            <classpath refid="javac.classpath"/>
+        </javac>
+    </target>
+
+    <target name="jar" depends="clean, compile">
+        <jar jarfile="target/${ant.project.name}.jar">
+            <fileset dir="${class.dir}">
+                <include name="**/*.class"/>
+            </fileset>
+        </jar>
+        <copy file="target/${ant.project.name}.jar" todir="dist" overwrite="true"/>
+    </target>
+
+    <target name="run" depends="jar" >
+        <java classname="org.wso2.registry.jaxr.sample.RegistryJaxrClient" classpathref="javac.classpath" fork="true">
+            <!--<jvmarg value="-Xdebug" />-->
+            <!--<jvmarg value="-Xrunjdwp:transport=dt_socket,server=y,suspend=y,address=5005" />-->
+            <sysproperty key="sample.resources" value="${basedir}/src/main/resources/"/>
+            <classpath>
+                <pathelement location="target/${ant.project.name}.jar"/>
+            </classpath>
+        </java>
+    </target>
+
+</project>

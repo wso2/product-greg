@@ -1,0 +1,70 @@
+<%
+var generateAPIKey = function (api, context, application, username, keyType) {
+    var key,
+            log = new Log(),
+            store = jagg.module("manager").getAPIStoreObj();
+
+    try {
+        key = store.getKey(api.id, context, application, username, keyType);
+        if (log.isDebugEnabled()) {
+            log.debug("generateAPIKey");
+        }
+        return {
+            error:false,
+            key:key
+        };
+    } catch (e) {
+        log.error(e.message);
+        return {
+            error:e,
+            key:null
+        };
+    }
+};
+var generateApplicationKey = function (application, username, keyType) {
+    var key,
+            log = new Log(),
+            store = jagg.module("manager").getAPIStoreObj();
+
+    try {
+        key = store.getApplicationKey( username,application, keyType);
+        if (log.isDebugEnabled()) {
+            log.debug("generateAPIKey");
+        }
+        return {
+            error:false,
+            key:key
+        };
+    } catch (e) {
+        log.error(e.message);
+        return {
+            error:e,
+            key:null
+        };
+    }
+};
+
+var refreshToken = function (username,application, keyType ,oldAccessToken) {
+    var key,
+            log = new Log(),
+            store = jagg.module("manager").getAPIStoreObj();
+
+    try {
+        key = store.refreshToken( username,application, keyType,oldAccessToken);
+        if (log.isDebugEnabled()) {
+            log.debug("generateAPIKey");
+        }
+        return {
+            error:false,
+            key:key
+        };
+    } catch (e) {
+        log.error(e.message);
+        return {
+            error:e,
+            key:null,
+            message:e.message.split("Exception:")[1]
+        };
+    }
+};
+%>

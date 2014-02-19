@@ -1,0 +1,138 @@
+<%
+include("/jagg/jagg.jag");
+(function () {
+    var mod, obj, id, tier, applicationId, application, context, result, username,
+            user = jagg.getUser(),
+            msg = require("/site/conf/ui-messages.jag"),
+            action = request.getParameter("action");
+    if (action == "addSubscription") {
+        if (!user) {
+            print({
+                error:true,
+                message:msg.error.loginRequired(action)
+            });
+            return;
+        }
+
+        id = request.getParameter("id");
+        tier = request.getParameter("tier");
+        applicationId = parseInt(request.getParameter("applicationId"), 10);
+        username = user.username;
+
+        mod = jagg.module("subscription");
+        result = mod.addAPISubscription({
+            id:id
+        }, tier, applicationId, username);
+
+        if (result.error) {
+            obj = {
+                error:result.error,
+                message:msg.error.authError(action, username)
+            };
+        } else {
+            obj = {
+                error:false
+            }
+        }
+        print(obj);
+    } else if (action == "generateAPIKey") {
+        if (!user) {
+            print({
+                error:true,
+                message:msg.error.loginRequired(action)
+            });
+            return;
+        }
+
+        id = request.getParameter("id");
+        context = request.getParameter("context");
+        application = request.getParameter("application");
+        keyType = request.getParameter("keytype");
+        username = user.username;
+
+        mod = jagg.module("subscription");
+        result = mod.generateAPIKey({
+            id:id
+        }, context, application, username,keyType);
+
+        if (result.error) {
+            obj = {
+                error:result.error,
+                message:msg.error.authError(action, username)
+            };
+        } else {
+            obj = {
+                error:false,
+                data:{
+                    key:result.key
+                }
+            }
+        }
+        print(obj);
+    } else if (action == "generateApplicationKey") {
+        if (!user) {
+            print({
+                error:true,
+                message:msg.error.loginRequired(action)
+            });
+            return;
+        }
+        application = request.getParameter("application");
+        keyType = request.getParameter("keytype");
+        username = user.username;
+
+        mod = jagg.module("subscription");
+        result = mod.generateApplicationKey(application, username,keyType);
+
+        if (result.error) {
+            obj = {
+                error:result.error,
+                message:msg.error.authError(action, username)
+            };
+        } else {
+            obj = {
+                error:false,
+                data:{
+                    key:result.key
+                }
+            }
+        }
+        print(obj);
+     }else if (action == "refreshToken") {
+        if (!user) {
+            print({
+                error:true,
+                message:msg.error.loginRequired(action)
+            });
+            return;
+        }
+        application = request.getParameter("application");
+        keyType = request.getParameter("keytype");
+        username = user.username;
+        oldAccessToken = request.getParameter("oldAccessToken");
+
+        mod = jagg.module("subscription");
+        result = mod.refreshToken(username,application,keyType,oldAccessToken);
+
+        if (result.error) {
+            obj = {
+                error:result.error,
+                message:result.message
+            };
+        } else {
+            obj = {
+                error:false,
+                data:{
+                    key:result.key
+                }
+            }
+        }
+        print(obj);
+     }else {
+        print({
+            error:true,
+            message:msg.error.invalidAction(action)
+        });
+    }
+}());
+%>

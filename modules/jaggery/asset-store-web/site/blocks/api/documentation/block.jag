@@ -1,0 +1,30 @@
+<%
+jagg.block("api/documentation", {
+    initializer:function (data) {
+
+    },
+
+    getInputs:function () {
+        return {
+            "api":null
+        }
+    },
+
+    getOutputs:function(inputs) {
+        var i, obj, result, length, doc, docs, documentations = {}, api = inputs.api;
+        result = jagg.module("documentation").getAllDocumentations(api);
+        docs = result.documentations;
+        if(docs!=null){
+        length = docs.length;
+        }
+        for(i = 0; i < length; i++) {
+            doc = docs[i];
+            obj = documentations[doc.type] || (documentations[doc.type] = []);
+            obj.push(doc);
+        }
+        return {
+            "documentations":documentations
+        };
+    }
+});
+%>

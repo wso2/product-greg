@@ -1,0 +1,30 @@
+<%
+jagg.block("api/lifecycle", {
+    initializer:function (data) {
+
+    },
+
+    getInputs:function () {
+        return {
+            "api":null
+        }
+    },
+
+    getOutputs:function(inputs) {
+        var user, result, api = inputs.api, username=null, roles=null, lifecycle, state;
+        user = jagg.getUser();
+        if (user) {
+            roles = user.roles;
+            username = user.username;
+        }
+        state = request.getParameter("state") || api.status;
+        result = jagg.module("api").getLifecycleDetails(api,state,roles);
+        lifecycle = result.lifecycle;
+        return {
+            "lifecycle": lifecycle,
+            "id": api.id,
+            "user": username
+        };
+    }
+});
+%>

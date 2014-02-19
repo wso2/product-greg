@@ -1,0 +1,90 @@
+<?xml version="1.0"?>
+<artifactType type="application/vnd.wso2-organization+xml" shortName="organizations" singularLabel="Organization" pluralLabel="Organizations" hasNamespace="false" iconSet="21">
+	<storagePath>/organizations/@{name}</storagePath>
+	<nameAttribute>overview_name</nameAttribute>
+	<ui>
+		<list>
+			<column name="Name">
+				<data type="path" value="overview_name" href="@{storagePath}"/>
+			</column>
+		</list>
+	</ui>
+	<relationships>
+		<association type="presidentOf" source="@{overview_resident}"/>
+		<association type="vicePresidentOf" source="@{overview_visePresident}"/>
+		<association type="isConsumedBy"  source="@{assets_entry:value}"/>
+		<association type="isPartOf"  source="@{departments_department1}"/>
+		<association type="isPartOf"  source="@{departments_department2}"/>
+		<association type="isPartOf"  source="@{departments_department3}"/>
+	</relationships>  	
+	<content>
+		<table name="Overview">
+			<field type="text" required="true">
+				<name>Name</name>
+			</field>
+			<field type="text" required="true" path="true">
+				<name>President</name>
+			</field>
+			<field type="text" path="true">
+				<name>Vise-President</name>
+			</field>
+			<field type="text-area">
+				<name>Description</name>
+			</field>
+		</table>
+		<table name="Assets">
+			<subheading>
+				<heading>Type</heading>
+				<heading>Path</heading>
+			</subheading>
+			<field type="option-text" maxoccurs="unbounded" path="true" url="true">
+				<name>Asset</name>
+				<values>
+					<value>None</value>
+					<value>Policy</value>
+					<value>Service</value>          
+				</values>
+			</field>
+		</table>
+		<table name="Departments" columns="2">
+			<subheading>
+				<heading>Departments</heading>
+			</subheading>
+			<field type="text" path="true">
+				<name>Department 1</name>
+			</field>
+			<field type="text" path="true">
+				<name>Department 2</name>
+			</field>
+			<field type="text" path="true">
+				<name>Department 3</name>
+			</field>
+		</table>
+		<table name="Documentation" columns="3">
+			<subheading>
+				<heading>Document Type</heading>
+				<heading>URL</heading>
+				<heading>Comment</heading>
+			</subheading>
+			<field type="text">
+				<name>Document Type</name>
+			</field>
+			<field type="text" url="true">
+				<name>URL</name>
+			</field>
+			<field type="text-area">
+				<name>Document Comment</name>
+			</field>
+			<field type="text">
+				<name>Document Type1</name>
+			</field>
+			<field type="text" url="true">
+				<name>URL1</name>
+			</field>
+			<field type="text-area">
+				<name>Document Comment1</name>
+			</field>
+		</table>
+	</content>
+</artifactType>
+

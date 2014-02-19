@@ -1,0 +1,45 @@
+<% jagg.template("tag/tag-cloud", function(inputs, outputs, jagg) { %>
+<div id="tag-cloud">
+    <ul class="nav nav-tabs pull-right">
+        <li><a href="#tab1" class="bevel-from-right active">Tags</a><div class="corner-maker-right"></div></li>
+    </ul>
+    <div class="clear"></div>
+<div class="tag-content">
+<ul class="list-main">
+    <li class="list-header">
+        Tag Cloud
+    </li>
+    <li>
+        <div class="row-fluid list-item-content">
+            <div class="clouds">
+                <div class="aCenter box10">
+    <%
+        var i, tag, tags = outputs.tags, length = tags.length;
+        var maxPercent = 150, minPercent = 100;
+        var max = -1, min = 99999999999, count = 0, size, path;
+        for(i = 0; i < length; i++) {
+            tag = tags[i];
+            count = parseInt(tags[i].count);
+            max = (count > max ? count : max);
+            min = (min > count ? count : min);
+        }
+
+        var total, link, size;
+        var multiplier = (maxPercent - minPercent) / (max - min);
+        for(i = 0; i < length; i++) {
+            tag = tags[i];
+            count = parseInt(tag.count);
+            size = minPercent + ((max - (max - (count - min))) * multiplier) + "%";
+            path = jagg.getMappedUrl("/site/pages/list-apis.jag") + "?tag=" + tag.name;
+            print('<a href="' + path + '" class="cloud-link" style="font-size:' + size + '">' + tag.name + '</a>');
+        }
+    %>
+                               </div>
+                           </div>
+                       </div>
+    </li>
+
+    </ul>
+    </div>
+</div>
+<% }); %>

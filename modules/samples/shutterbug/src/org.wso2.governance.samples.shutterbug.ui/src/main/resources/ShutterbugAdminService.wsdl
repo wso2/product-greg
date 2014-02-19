@@ -1,0 +1,232 @@
+<!--
+ ~ Copyright (c) 2005-2010, WSO2 Inc. (http://www.wso2.org) All Rights Reserved.
+ ~
+ ~ WSO2 Inc. licenses this file to you under the Apache License,
+ ~ Version 2.0 (the "License"); you may not use this file except
+ ~ in compliance with the License.
+ ~ You may obtain a copy of the License at
+ ~
+ ~    http://www.apache.org/licenses/LICENSE-2.0
+ ~
+ ~ Unless required by applicable law or agreed to in writing,
+ ~ software distributed under the License is distributed on an
+ ~ "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ ~ KIND, either express or implied.  See the License for the
+ ~ specific language governing permissions and limitations
+ ~ under the License.
+ -->
+<wsdl:definitions xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" xmlns:ns1="http://org.apache.axis2/xsd" xmlns:wsaw="http://www.w3.org/2006/05/addressing/wsdl" xmlns:ns="http://services.shutterbug.samples.governance.wso2.org" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" targetNamespace="http://services.shutterbug.samples.governance.wso2.org">
+    <wsdl:documentation>ShutterbugAdminService</wsdl:documentation>
+    <wsdl:types>
+        <xs:schema attributeFormDefault="qualified" elementFormDefault="qualified" targetNamespace="http://services.shutterbug.samples.governance.wso2.org">
+            <xs:element name="withdrawVote">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element minOccurs="0" name="imagePath" nillable="true" type="xs:string" />
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+            <xs:element name="withdrawVoteResponse">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element minOccurs="0" name="return" type="xs:boolean" />
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+            <xs:element name="vote">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element minOccurs="0" name="imagePath" nillable="true" type="xs:string" />
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+            <xs:element name="voteResponse">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element minOccurs="0" name="return" type="xs:boolean" />
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+            <xs:element name="getMyImageFeedResponse">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element minOccurs="0" name="return" nillable="true" type="xs:string" />
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+            <xs:element name="getImageFeedResponse">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element minOccurs="0" name="return" nillable="true" type="xs:string" />
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+        </xs:schema>
+    </wsdl:types>
+    <wsdl:message name="voteRequest">
+        <wsdl:part name="parameters" element="ns:vote" />
+    </wsdl:message>
+    <wsdl:message name="voteResponse">
+        <wsdl:part name="parameters" element="ns:voteResponse" />
+    </wsdl:message>
+    <wsdl:message name="getImageFeedRequest" />
+    <wsdl:message name="getImageFeedResponse">
+        <wsdl:part name="parameters" element="ns:getImageFeedResponse" />
+    </wsdl:message>
+    <wsdl:message name="withdrawVoteRequest">
+        <wsdl:part name="parameters" element="ns:withdrawVote" />
+    </wsdl:message>
+    <wsdl:message name="withdrawVoteResponse">
+        <wsdl:part name="parameters" element="ns:withdrawVoteResponse" />
+    </wsdl:message>
+    <wsdl:message name="getMyImageFeedRequest" />
+    <wsdl:message name="getMyImageFeedResponse">
+        <wsdl:part name="parameters" element="ns:getMyImageFeedResponse" />
+    </wsdl:message>
+    <wsdl:portType name="ShutterbugAdminServicePortType">
+        <wsdl:operation name="vote">
+            <wsdl:input message="ns:voteRequest" wsaw:Action="urn:vote" />
+            <wsdl:output message="ns:voteResponse" wsaw:Action="urn:voteResponse" />
+        </wsdl:operation>
+        <wsdl:operation name="getImageFeed">
+            <wsdl:input message="ns:getImageFeedRequest" wsaw:Action="urn:getImageFeed" />
+            <wsdl:output message="ns:getImageFeedResponse" wsaw:Action="urn:getImageFeedResponse" />
+        </wsdl:operation>
+        <wsdl:operation name="withdrawVote">
+            <wsdl:input message="ns:withdrawVoteRequest" wsaw:Action="urn:withdrawVote" />
+            <wsdl:output message="ns:withdrawVoteResponse" wsaw:Action="urn:withdrawVoteResponse" />
+        </wsdl:operation>
+        <wsdl:operation name="getMyImageFeed">
+            <wsdl:input message="ns:getMyImageFeedRequest" wsaw:Action="urn:getMyImageFeed" />
+            <wsdl:output message="ns:getMyImageFeedResponse" wsaw:Action="urn:getMyImageFeedResponse" />
+        </wsdl:operation>
+    </wsdl:portType>
+    <wsdl:binding name="ShutterbugAdminServiceSoap11Binding" type="ns:ShutterbugAdminServicePortType">
+        <soap:binding transport="http://schemas.xmlsoap.org/soap/http" style="document" />
+        <wsdl:operation name="vote">
+            <soap:operation soapAction="urn:vote" style="document" />
+            <wsdl:input>
+                <soap:body use="literal" />
+            </wsdl:input>
+            <wsdl:output>
+                <soap:body use="literal" />
+            </wsdl:output>
+        </wsdl:operation>
+        <wsdl:operation name="withdrawVote">
+            <soap:operation soapAction="urn:withdrawVote" style="document" />
+            <wsdl:input>
+                <soap:body use="literal" />
+            </wsdl:input>
+            <wsdl:output>
+                <soap:body use="literal" />
+            </wsdl:output>
+        </wsdl:operation>
+        <wsdl:operation name="getImageFeed">
+            <soap:operation soapAction="urn:getImageFeed" style="document" />
+            <wsdl:input>
+                <soap:body use="literal" />
+            </wsdl:input>
+            <wsdl:output>
+                <soap:body use="literal" />
+            </wsdl:output>
+        </wsdl:operation>
+        <wsdl:operation name="getMyImageFeed">
+            <soap:operation soapAction="urn:getMyImageFeed" style="document" />
+            <wsdl:input>
+                <soap:body use="literal" />
+            </wsdl:input>
+            <wsdl:output>
+                <soap:body use="literal" />
+            </wsdl:output>
+        </wsdl:operation>
+    </wsdl:binding>
+    <wsdl:binding name="ShutterbugAdminServiceSoap12Binding" type="ns:ShutterbugAdminServicePortType">
+        <soap12:binding transport="http://schemas.xmlsoap.org/soap/http" style="document" />
+        <wsdl:operation name="vote">
+            <soap12:operation soapAction="urn:vote" style="document" />
+            <wsdl:input>
+                <soap12:body use="literal" />
+            </wsdl:input>
+            <wsdl:output>
+                <soap12:body use="literal" />
+            </wsdl:output>
+        </wsdl:operation>
+        <wsdl:operation name="withdrawVote">
+            <soap12:operation soapAction="urn:withdrawVote" style="document" />
+            <wsdl:input>
+                <soap12:body use="literal" />
+            </wsdl:input>
+            <wsdl:output>
+                <soap12:body use="literal" />
+            </wsdl:output>
+        </wsdl:operation>
+        <wsdl:operation name="getImageFeed">
+            <soap12:operation soapAction="urn:getImageFeed" style="document" />
+            <wsdl:input>
+                <soap12:body use="literal" />
+            </wsdl:input>
+            <wsdl:output>
+                <soap12:body use="literal" />
+            </wsdl:output>
+        </wsdl:operation>
+        <wsdl:operation name="getMyImageFeed">
+            <soap12:operation soapAction="urn:getMyImageFeed" style="document" />
+            <wsdl:input>
+                <soap12:body use="literal" />
+            </wsdl:input>
+            <wsdl:output>
+                <soap12:body use="literal" />
+            </wsdl:output>
+        </wsdl:operation>
+    </wsdl:binding>
+    <wsdl:binding name="ShutterbugAdminServiceHttpBinding" type="ns:ShutterbugAdminServicePortType">
+        <http:binding verb="POST" />
+        <wsdl:operation name="vote">
+            <http:operation location="vote" />
+            <wsdl:input>
+                <mime:content type="text/xml" part="vote" />
+            </wsdl:input>
+            <wsdl:output>
+                <mime:content type="text/xml" part="vote" />
+            </wsdl:output>
+        </wsdl:operation>
+        <wsdl:operation name="withdrawVote">
+            <http:operation location="withdrawVote" />
+            <wsdl:input>
+                <mime:content type="text/xml" part="withdrawVote" />
+            </wsdl:input>
+            <wsdl:output>
+                <mime:content type="text/xml" part="withdrawVote" />
+            </wsdl:output>
+        </wsdl:operation>
+        <wsdl:operation name="getImageFeed">
+            <http:operation location="getImageFeed" />
+            <wsdl:input>
+                <mime:content type="text/xml" part="getImageFeed" />
+            </wsdl:input>
+            <wsdl:output>
+                <mime:content type="text/xml" part="getImageFeed" />
+            </wsdl:output>
+        </wsdl:operation>
+        <wsdl:operation name="getMyImageFeed">
+            <http:operation location="getMyImageFeed" />
+            <wsdl:input>
+                <mime:content type="text/xml" part="getMyImageFeed" />
+            </wsdl:input>
+            <wsdl:output>
+                <mime:content type="text/xml" part="getMyImageFeed" />
+            </wsdl:output>
+        </wsdl:operation>
+    </wsdl:binding>
+    <wsdl:service name="ShutterbugAdminService">
+        <wsdl:port name="ShutterbugAdminServiceHttpsSoap11Endpoint" binding="ns:ShutterbugAdminServiceSoap11Binding">
+            <soap:address location="https://10.100.1.151:9443/services/ShutterbugAdminService.ShutterbugAdminServiceHttpsSoap11Endpoint/" />
+        </wsdl:port>
+        <wsdl:port name="ShutterbugAdminServiceHttpsSoap12Endpoint" binding="ns:ShutterbugAdminServiceSoap12Binding">
+            <soap12:address location="https://10.100.1.151:9443/services/ShutterbugAdminService.ShutterbugAdminServiceHttpsSoap12Endpoint/" />
+        </wsdl:port>
+        <wsdl:port name="ShutterbugAdminServiceHttpsEndpoint" binding="ns:ShutterbugAdminServiceHttpBinding">
+            <http:address location="https://10.100.1.151:9443/services/ShutterbugAdminService.ShutterbugAdminServiceHttpsEndpoint/" />
+        </wsdl:port>
+    </wsdl:service>
+</wsdl:definitions>

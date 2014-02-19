@@ -1,0 +1,13 @@
+<%
+jagg.block("user/sign-up", {
+    initializer:function (data) {
+
+    },
+
+    getInputs:function () {
+        return {
+            "apis":null
+        };
+    }
+});
+%>

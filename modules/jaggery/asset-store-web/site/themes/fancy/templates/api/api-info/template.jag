@@ -1,0 +1,106 @@
+<% jagg.template("api/api-info", function(inputs, outputs, jagg) { %>
+<% var stars = require(jagg.getThemeFile("utils/ratings/star-generator.js")); %>
+<% var i, length, app, thumbURL, api = outputs.api, apps = outputs.applications, user = outputs.user,isRatingActivated = outputs.isRatingActivated;
+   thumbURL = api.thumbnailurl;
+   if(thumbURL && thumbURL.indexOf("images/") == 0) {
+        thumbURL = jagg.getAbsoluteUrl(jagg.getThemeFile(thumbURL));
+   }
+   var subsPermitted = jagg.module("subscription").hasSubscribePermission().permitted;
+   session.put("apiPath",request.getQueryString());
+%>
+<h2><%=api.name%> - <%=api.version%></h2>
+<h6><i class="icon-user"></i> <%=api.provider%></h6>
+<div class="api-info">
+    <div class="row-fluid">
+    <div class="span12">
+        <div class="thumbnail span2">
+            <img src="<%=thumbURL%>" width="100" />
+        </div>
+        <div class="span6">
+            <table cellspacing="0" cellpadding="0" class="table">
+                <tbody>
+                <% if(user&&isRatingActivated){%>
+                <tr>
+                    <th>Rating:</th>
+                    <%
+                        colspan=2;
+                    %>
+                    <% if(api.rates!=0) {
+                        var colspan=1;
+                    %>
+                    <td>
+                        <div class="average-rating"><%=api.rates%></div>
+                    </td>
+                    <%}%>
+                    <td colspan="<%=colspan%>">
+                        <div class="star-ratings">
+                             <% if(user) { %><%=stars.getDynamicStars(api.userRate)%>
+                            <% } else { %><%=stars.getStaticStars(site.context, api.userRate,jagg.getUserTheme().base)%><% } %>
+                        </div>
+                    </td>
+
+                </tr>
+                <%}%>
+                <tr>
+                    <th>Version:</th>
+                    <td colspan="2"><%=api.version%></td>
+                </tr>
+                <tr>
+                    <th>Status:</th>
+                    <td colspan="2"><%=api.status%></td>
+                </tr>
+                <tr>
+                    <th>Updated:</th>
+                    <td colspan="2"><%=api.updatedDate%></td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+        <%if(subsPermitted){%>
+        <div class="span4 appStyleFix">
+            <% if(api.status =="PUBLISHED") { %>
+                    <%
+                     if(user && apps) {
+                         length = apps.length;
+                     %>
+                    <Label><b>Applications</b></Label>
+                     <select id="application-list">
+                            <option value="-">Select Application...</option>
+                            <option value="createNewApp">New Application...</option>
+                            <optgroup label="My Applications">
+                                <%
+                                for(i = 0; i < length; i++) {
+                                app = apps[i];
+                                %>
+                                <option value="<%=app.id%>"><%=app.name%></option>
+                                <% } %>
+                            </optgroup>
+
+                        </select>
+                     <% }if(user && api) { %>
+                      <Label><b>Tiers</b></Label>
+                      <select id="tiers-list" name="tiers-list">
+                            <%var tiers = api.tierName;
+                            var tiersList=tiers.split(",");
+                            for(var j=0;j<tiersList.length;j++){
+                            var tier=tiersList[j];
+                            %>
+                            <option value="<%=tier%>"><%=tier%></option>
+                            <% } %>
+                        </select>
+                        <%var firstTierDesc=api.tierDescription.split(",")[0];
+                        if(firstTierDesc=="null"){firstTierDesc='';}
+                        %>
+                        <span class="help-block" id="tierDesc"><%=firstTierDesc%></span>
+                        <div class="simple-space-maker"><button id="subscribe-button" class="btn btn-primary <% if(!user) { %>need-login<% } %>">Subscribe</button></div>
+             <% } }%>
+
+        </div>
+        <%}%>
+        <div class="span12 tabs-section">
+            <% jagg.includeBlock("ui/tab", outputs.tabs); %>
+        </div>
+    </div>
+    </div>
+</div>
+<% }); %>

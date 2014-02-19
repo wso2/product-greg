@@ -1,0 +1,1032 @@
+<!--
+ ~ Copyright (c) 2005-2010, WSO2 Inc. (http://www.wso2.org) All Rights Reserved.
+ ~
+ ~ WSO2 Inc. licenses this file to you under the Apache License,
+ ~ Version 2.0 (the "License"); you may not use this file except
+ ~ in compliance with the License.
+ ~ You may obtain a copy of the License at
+ ~
+ ~    http://www.apache.org/licenses/LICENSE-2.0
+ ~
+ ~ Unless required by applicable law or agreed to in writing,
+ ~ software distributed under the License is distributed on an
+ ~ "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ ~ KIND, either express or implied.  See the License for the
+ ~ specific language governing permissions and limitations
+ ~ under the License.
+ -->
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+    <parent>
+        <groupId>org.wso2.governance</groupId>
+        <artifactId>governance-parent</artifactId>
+        <version>5.0.0</version>
+        <relativePath>../../pom.xml</relativePath>
+    </parent>
+
+    <modelVersion>4.0.0</modelVersion>
+    <artifactId>wso2greg</artifactId>
+    <version>5.0.0</version>
+    <packaging>jar</packaging>
+    <name>WSO2 Governance Registry - Distribution</name>
+    <url>http://wso2.com/products/governance-registry</url>
+    <description>WSO2 Governance Registry Distribution</description>
+
+    <dependencies>
+
+        <dependency>
+            <groupId>org.apache.ant</groupId>
+            <artifactId>ant</artifactId>
+            <version>1.7.0</version>
+        </dependency>
+        <dependency>
+            <groupId>ant-contrib</groupId>
+            <artifactId>ant-contrib</artifactId>
+            <version>1.0b2</version>
+        </dependency>
+        <dependency>
+            <groupId>org.wso2.carbon</groupId>
+            <artifactId>wso2carbon-core</artifactId>
+            <version>${carbon.version}</version>
+            <type>zip</type>
+        </dependency>
+        <dependency>
+            <groupId>org.wso2.carbon</groupId>
+            <artifactId>org.wso2.carbon.registry.core</artifactId>
+            <version>${carbon.version}</version>
+            <classifier>docs</classifier>
+            <type>zip</type>
+        </dependency>
+        <dependency>
+            <groupId>org.wso2.carbon</groupId>
+            <artifactId>org.wso2.carbon.registry.admin.api</artifactId>
+            <version>${carbon.version}</version>
+            <classifier>docs</classifier>
+            <type>zip</type>
+        </dependency>
+        <dependency>
+            <groupId>org.wso2.carbon</groupId>
+            <artifactId>org.wso2.carbon.registry.ws.api</artifactId>
+            <version>${carbon.version}</version>
+            <classifier>docs</classifier>
+            <type>zip</type>
+        </dependency>
+        <dependency>
+            <groupId>org.wso2.carbon</groupId>
+            <artifactId>org.wso2.carbon.registry.social.api</artifactId>
+            <version>${carbon.version}</version>
+            <classifier>docs</classifier>
+            <type>zip</type>
+        </dependency>
+        <dependency>
+            <groupId>org.wso2.carbon</groupId>
+            <artifactId>org.wso2.carbon.governance.api</artifactId>
+            <version>${carbon.version}</version>
+            <classifier>docs</classifier>
+            <type>zip</type>
+        </dependency>
+        <dependency>
+            <groupId>org.wso2.carbon</groupId>
+            <artifactId>org.wso2.carbon.registry.jcr</artifactId>
+            <version>${carbon.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.wso2.governance</groupId>
+            <artifactId>checkin-client</artifactId>
+            <version>${product.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.wso2.governance</groupId>
+            <artifactId>org.wso2.governance.samples.shutterbug</artifactId>
+            <version>${product.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.wso2.governance</groupId>
+            <artifactId>org.wso2.governance.samples.shutterbug.ui</artifactId>
+            <version>${product.version}</version>
+        </dependency>
+        <!--<dependency>-->
+            <!--<groupId>org.wso2.governance</groupId>-->
+            <!--<artifactId>org.wso2.carbon.governance.samples.lcm</artifactId>-->
+            <!--<version>${product.version}</version>-->
+        <!--</dependency>-->
+        <!--<dependency>-->
+            <!--<groupId>org.wso2.governance</groupId>-->
+            <!--<artifactId>org.wso2.carbon.governance.samples.lcm.notifications</artifactId>-->
+            <!--<version>${product.version}</version>-->
+        <!--</dependency>-->
+        <dependency>
+            <groupId>org.wso2.governance</groupId>
+            <artifactId>org.wso2.carbon.registry.samples.custom.topics</artifactId>
+            <version>${product.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.wso2.governance</groupId>
+            <artifactId>org.wso2.carbon.registry.samples.custom.topics.ui</artifactId>
+            <version>${product.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.wso2.governance</groupId>
+            <artifactId>org.wso2.carbon.registry.samples.handler</artifactId>
+            <version>${product.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.wso2.carbon</groupId>
+            <artifactId>org.wso2.carbon.registry.handler</artifactId>
+            <version>${registry-component.version}</version>
+        </dependency>
+        <!--this dependency is needed for remote registry client-->
+        <dependency>
+            <groupId>org.codehaus.woodstox</groupId>
+            <artifactId>wstx-asl</artifactId>
+            <version>3.2.4</version>
+            <scope>runtime</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.wso2.carbon</groupId>
+            <artifactId>org.wso2.carbon.governance.client</artifactId>
+            <version>${carbon.version}</version>
+            <scope>runtime</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.wso2.carbon</groupId>
+            <artifactId>org.wso2.carbon.registry.indexing.stub</artifactId>
+            <version>${carbon.version}</version>
+            <scope>runtime</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.juddi.scout</groupId>
+            <artifactId>scout</artifactId>
+            <version>1.2.6</version>
+        </dependency>
+        <dependency>
+            <groupId>javax.xml</groupId>
+            <artifactId>jaxr-api</artifactId>
+            <version>1.0_04</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.juddi</groupId>
+            <artifactId>juddi-client</artifactId>
+            <version>3.1.3</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.juddi</groupId>
+            <artifactId>uddi-ws</artifactId>
+            <version>3.1.3</version>
+        </dependency>
+	<!--runtime environments' dependencies -->
+	<!--CXF runtime environment-->
+	
+        <dependency>
+          <groupId>commons-lang</groupId>
+          <artifactId>commons-lang</artifactId>
+          <version>2.6</version>
+        </dependency>
+        
+        <dependency>
+          <groupId>org.apache.velocity</groupId>
+          <artifactId>velocity</artifactId>
+          <version>1.7</version>
+        </dependency>
+       
+        <dependency>
+            <groupId>net.sf.ehcache</groupId>
+            <artifactId>ehcache-core</artifactId>
+            <version>2.5.1</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.httpcomponents</groupId>
+            <artifactId>httpasyncclient</artifactId>
+            <version>4.0-beta3</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.httpcomponents</groupId>
+            <artifactId>httpclient</artifactId>
+            <version>${carbon.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.httpcomponents</groupId>
+            <artifactId>httpcore</artifactId>
+            <version>${carbon.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.httpcomponents</groupId>
+            <artifactId>httpcore-nio</artifactId>
+            <version>${carbon.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>javax.ws.rs</groupId>
+            <artifactId>javax.ws.rs-api</artifactId>
+            <version>2.0-m10</version>
+        </dependency>
+        <dependency>
+            <groupId>com.sun.xml.bind</groupId>
+            <artifactId>jaxb-impl</artifactId>
+            <version>2.1.13</version>
+        </dependency>
+        <dependency>
+            <groupId>com.sun.xml.bind</groupId>
+            <artifactId>jaxb-xjc</artifactId>
+            <version>2.1.13</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.neethi</groupId>
+            <artifactId>neethi</artifactId>
+            <version>3.0.2</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.ws.security</groupId>
+            <artifactId>wss4j</artifactId>
+            <version>1.6.9</version>
+        </dependency>
+        <dependency>
+            <groupId>xml-resolver</groupId>
+            <artifactId>xml-resolver</artifactId>
+            <version>1.2</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.ws.xmlschema</groupId>
+            <artifactId>xmlschema-core</artifactId>
+            <version>2.0.3</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.santuario</groupId>
+            <artifactId>xmlsec</artifactId>
+            <version>1.5.3</version>
+        </dependency>
+        <dependency>
+            <groupId>wsdl4j</groupId>
+            <artifactId>wsdl4j</artifactId>
+            <version>1.6.3</version>
+        </dependency>
+        <dependency>
+            <groupId>commons-logging</groupId>
+            <artifactId>commons-logging</artifactId>
+            <version>1.1.1</version>
+        </dependency>
+        <dependency>
+          <groupId>commons-collections</groupId>
+          <artifactId>commons-collections</artifactId>
+          <version>3.2.1</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.cxf.xjcplugins</groupId>
+            <artifactId>cxf-xjc-dv</artifactId>
+            <version>2.6.1</version>
+        </dependency>
+        <dependency>
+          <groupId>commons-lang</groupId>
+          <artifactId>commons-lang</artifactId>
+          <version>2.6</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.cxf.xjc-utils</groupId>
+            <artifactId>cxf-xjc-runtime</artifactId>
+            <version>2.6.1</version>
+        </dependency>
+        <dependency>
+          <groupId>org.apache.velocity</groupId>
+          <artifactId>velocity</artifactId>
+          <version>1.7</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.cxf.xjcplugins</groupId>
+            <artifactId>cxf-xjc-ts</artifactId>
+            <version>2.6.1</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.cxf.xjcplugins</groupId>
+            <artifactId>cxf-xjc-boolean</artifactId>
+            <version>2.6.1</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.cxf.xjcplugins</groupId>
+            <artifactId>cxf-xjc-bug671</artifactId>
+            <version>2.6.1</version>
+        </dependency>
+        <dependency>
+          <groupId>aopalliance</groupId>
+          <artifactId>aopalliance</artifactId>
+          <version>1.0</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-aop</artifactId>
+            <version>3.0.7.RELEASE</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-asm</artifactId>
+            <version>3.0.7.RELEASE</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-beans</artifactId>
+            <version>3.0.7.RELEASE</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-context</artifactId>
+            <version>3.0.7.RELEASE</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-core</artifactId>
+            <version>3.0.7.RELEASE</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-expression</artifactId>
+            <version>3.0.7.RELEASE</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-web</artifactId>
+            <version>3.0.7.RELEASE</version>
+        </dependency>
+        <dependency>
+            <groupId>org.wso2.governance</groupId>
+            <artifactId>juddi-listener</artifactId>
+            <version>5.0.0</version>
+        </dependency>
+    </dependencies>
+
+    <scm>
+        <connection>scm:svn:http://svn.wso2.org/repos/wso2/trunk/carbon/products/greg</connection>
+        <developerConnection>scm:svn:https://svn.wso2.org/repos/wso2/trunk/carbon/products/greg</developerConnection>
+    </scm>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-dependency-plugin</artifactId>
+                <version>2.0-alpha-4</version>
+                <inherited>false</inherited>
+                <executions>
+                    <execution>
+                        <id>unpack-wso2carbon-core</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>unpack</goal>
+                        </goals>
+                        <configuration>
+                            <artifactItems>
+                                <artifactItem>
+                                    <groupId>org.wso2.carbon</groupId>
+                                    <artifactId>wso2carbon-core</artifactId>
+                                    <version>${carbon.version}</version>
+                                    <type>zip</type>
+                                    <overWrite>true</overWrite>
+                                    <outputDirectory>target</outputDirectory>
+                                </artifactItem>
+                                <artifactItem>
+                                    <groupId>org.wso2.carbon</groupId>
+                                    <artifactId>org.wso2.carbon.registry.core</artifactId>
+                                    <classifier>docs</classifier>
+                                    <version>${carbon.version}</version>
+                                    <type>zip</type>
+                                    <overWrite>true</overWrite>
+                                    <outputDirectory>target</outputDirectory>
+                                </artifactItem>
+                                <artifactItem>
+                                    <groupId>org.wso2.carbon</groupId>
+                                    <artifactId>org.wso2.carbon.governance.api</artifactId>
+                                    <classifier>docs</classifier>
+                                    <version>${carbon.version}</version>
+                                    <type>zip</type>
+                                    <overWrite>true</overWrite>
+                                    <outputDirectory>target</outputDirectory>
+                                </artifactItem>
+                                <artifactItem>
+                                    <groupId>org.wso2.carbon</groupId>
+                                    <artifactId>org.wso2.carbon.registry.admin.api</artifactId>
+                                    <classifier>docs</classifier>
+                                    <version>${carbon.version}</version>
+                                    <type>zip</type>
+                                    <overWrite>true</overWrite>
+                                    <outputDirectory>target</outputDirectory>
+                                </artifactItem>
+                                <artifactItem>
+                                    <groupId>org.wso2.carbon</groupId>
+                                    <artifactId>org.wso2.carbon.registry.ws.api</artifactId>
+                                    <classifier>docs</classifier>
+                                    <version>${carbon.version}</version>
+                                    <type>zip</type>
+                                    <overWrite>true</overWrite>
+                                    <outputDirectory>target</outputDirectory>
+                                </artifactItem>
+                                <artifactItem>
+                                    <groupId>org.wso2.carbon</groupId>
+                                    <artifactId>org.wso2.carbon.registry.social.api</artifactId>
+                                    <classifier>docs</classifier>
+                                    <version>${carbon.version}</version>
+                                    <type>zip</type>
+                                    <overWrite>true</overWrite>
+                                    <outputDirectory>target</outputDirectory>
+                                </artifactItem>
+                            </artifactItems>
+                        </configuration>
+                    </execution>
+
+                    <!-- jaxb hack for uddi -->
+                    <execution>
+                        <id>copy-jaxb</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>copy</goal>
+                        </goals>
+                        <configuration>
+                            <artifactItems>
+                                <artifactItem>
+                                    <groupId>com.sun.xml.bind.wso2</groupId>
+                                    <artifactId>jaxb</artifactId>
+                                    <version>2.1.7.wso2v2</version>
+                                    <type>jar</type>
+                                    <overWrite>true</overWrite>
+                                    <outputDirectory>target</outputDirectory>
+                                    <destFileName>jaxb_2.1.7.wso2v2.jar</destFileName>
+                                </artifactItem>
+                            </artifactItems>
+                        </configuration>
+                    </execution>
+		    <!-- for REST APi -->
+		    <execution>
+                       <id>copy-resources</id>
+                       <phase>package</phase>
+                       <goals>
+                           <goal>copy</goal>
+                       </goals>
+                       <configuration>
+                           <artifactItems>
+                               <artifactItem>
+                                   <groupId>org.wso2.carbon</groupId>
+                                   <artifactId>org.wso2.carbon.registry.rest.api</artifactId>
+                                   <version>${carbon.version}</version>
+                                   <type>war</type>
+                                   <overWrite>true</overWrite>
+				   <outputDirectory>../jaxwebapps</outputDirectory>
+                                   <destFileName>resource.war</destFileName>
+                               </artifactItem>
+                           </artifactItems>
+                       </configuration>
+                   </execution>
+                </executions>
+            </plugin>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-antrun-plugin</artifactId>
+                <version>1.1</version>
+                <executions>
+                    <execution>
+                        <id>create-HT-database</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>run</goal>
+                        </goals>
+                        <configuration>
+                            <tasks>
+                                <path id="h2.classpath">
+                                    <path refid="maven.compile.classpath"/>
+                                </path>
+
+                                <echo
+                                        message="########### Create HT H2 Database ##############"/>
+                                <sql
+                                        driver="org.h2.Driver"
+                                        url="jdbc:h2:${basedir}/target/database/jpadb;create=true"
+                                        userid="wso2carbon" password="wso2carbon" autocommit="true"
+                                        onerror="continue">
+                                    <classpath>
+                                        <path refid="h2.classpath"/>
+                                    </classpath>
+                                    <fileset
+                                            file="${basedir}/src/main/resources/humantask/sql/h2.sql"/>
+                                </sql>
+                                <echo
+                                        message="##################### END ############################"/>
+                            </tasks>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>extract-docs-from-components</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>run</goal>
+                        </goals>
+                        <configuration>
+                            <tasks>
+                                <property name="tempdir" value="target/docs-temp"/>
+                                <mkdir dir="${tempdir}"/>
+                                <unzip dest="${tempdir}">
+                                    <fileset dir="target">
+                                        <include name="${project.artifactId}-${build.version}.zip"/>
+                                    </fileset>
+                                </unzip>
+                                <copy todir="target/wso2carbon-core-${carbon.version}/repository/components/" overwrite="false">
+                                    <fileset dir="${tempdir}/${project.artifactId}-${build.version}/repository/components/">
+                                    </fileset>
+                                </copy>
+                                <delete file="target/${project.artifactId}-${build.version}.zip"/>
+                                <delete dir="${tempdir}"/>
+                                <mkdir dir="${tempdir}"/>
+                                <unzip dest="${tempdir}">
+                                    <fileset dir="target/wso2carbon-core-${carbon.version}/repository/components/plugins/">
+                                        <include name="*.ui*.jar"/>
+                                    </fileset>
+                                </unzip>
+                                <move todir="${tempdir}/web/" includeemptydirs="false">
+                                    <fileset dir="${tempdir}/web/">
+                                        <exclude name="**/yui/**"/>
+                                        <exclude name="**/ajax/**"/>
+                                        <exclude name="**/tenant-login/**"/>
+                                        <exclude name="**/WEB-INF/**"/>
+                                        <exclude name="**/signin_userguide.html"/>
+                                        <exclude name="**/about.html"/>
+                                        <include name="**/*.html"/>
+                                    </fileset>
+                                    <mapper type="glob" from="*.html" to="*.xml"/>
+                                </move>
+                                <mkdir dir="src/site/xdoc"/>
+                                <copy todir="src/site/xdoc" overwrite="false" includeemptydirs="false">
+                                    <fileset dir="${tempdir}/web">
+                                        <exclude name="**/yui/**"/>
+                                        <exclude name="**/ajax/**"/>
+                                        <exclude name="**/dashboard/**"/>
+                                        <exclude name="**/lifecycles/**"/>
+                                        <exclude name="**/tenant-login/**"/>
+                                        <exclude name="**/impactAnalysis/**"/>
+                                        <exclude name="**/codepress.xml"/>
+                                        <exclude name="**/template.xml"/>
+                                        <exclude name="**/WEB-INF/**"/>
+                                        <exclude name="**/*.html"/>
+                                        <exclude name="**/*.js"/>
+                                        <exclude name="**/*.jsp"/>
+                                        <exclude name="**/*.xsl"/>
+                                        <exclude name="*.*"/>
+                                    </fileset>
+                                </copy>
+                                <copy todir="src/site" overwrite="false" includeemptydirs="false">
+                                    <fileset dir="../../docs">
+                                        <exclude name="**/user-mgt-*.xml"/>
+                                    </fileset>
+                                </copy>
+                                <copy todir="target/site/" overwrite="false" includeemptydirs="false">
+                                    <fileset dir="src/site/xdoc/">
+                                        <include name="**/images/*.*"/>
+                                    </fileset>
+                                </copy>
+                                <copy todir="target/site/apidocs/kernel/" overwrite="false" includeemptydirs="false">
+                                    <fileset dir="target/org.wso2.carbon.registry.core-${carbon.version}-docs/" />
+                                </copy>
+                                <copy todir="target/site/apidocs/governance/" overwrite="false" includeemptydirs="false">
+                                    <fileset dir="target/org.wso2.carbon.governance.api-${carbon.version}-docs/" />
+                                </copy>
+                                <copy todir="target/site/apidocs/admin/" overwrite="false" includeemptydirs="false">
+                                    <fileset dir="target/org.wso2.carbon.registry.admin.api-${carbon.version}-docs/" />
+                                </copy>
+                                <copy todir="target/site/apidocs/ws/" overwrite="false" includeemptydirs="false">
+                                    <fileset dir="target/org.wso2.carbon.registry.ws.api-${carbon.version}-docs/" />
+                                </copy>
+                                <copy todir="target/site/apidocs/social/" overwrite="false" includeemptydirs="false">
+                                    <fileset dir="target/org.wso2.carbon.registry.social.api-${carbon.version}-docs/" />
+                                </copy>
+                                <taskdef classname="net.sf.antcontrib.logic.IfTask" classpathref="maven.test.classpath" name="if" />
+                                <if>
+                                    <istrue value="${build.qa}" />
+                                    <then>
+                                        <copy todir="target/meta" overwrite="false" includeemptydirs="false">
+                                            <fileset dir="${settings.localRepository}${fake.artifact.path}">
+                                                <include name="maven-metadata-local.xml"/>
+                                            </fileset>
+                                        </copy>
+                                    </then>
+                                </if>
+                                <delete dir="${tempdir}"/>
+                            </tasks>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>cleanup</id>
+                        <phase>install</phase>
+                        <configuration>
+                            <tasks>
+                                <delete dir="target/archive-tmp"/>
+                                <delete dir="target/database"/>
+                                <delete dir="target/dependency-maven-plugin-markers"/>
+                                <delete dir="target/maven-archiver"/>
+                                <delete dir="target/wso2carbon-core-${carbon.version}"/>
+                                <delete dir="target/org.wso2.carbon.registry.core-${carbon.version}-docs"/>
+                                <delete dir="target/org.wso2.carbon.governance.api-${carbon.version}-docs"/>
+                                <delete dir="target/org.wso2.carbon.registry.admin.api-${carbon.version}-docs"/>
+                                <delete dir="target/org.wso2.carbon.registry.ws.api-${carbon.version}-docs"/>
+                                <delete dir="target/org.wso2.carbon.registry.social.api-${carbon.version}-docs"/>
+                                <delete file="target/${project.artifactId}-${build.version}.jar"/>
+                                <delete dir="target/sources"/>
+                                <delete dir="target/site"/>
+                                <delete dir="target/classes"/>
+                                <delete dir="src/site"/>
+                                <taskdef classname="net.sf.antcontrib.logic.IfTask" classpathref="maven.test.classpath" name="if" />
+                                <if>
+                                    <istrue value="${build.qa}" />
+                                    <then>
+                                        <delete includeEmptyDirs="true">
+                                            <fileset dir="${settings.localRepository}${fake.artifact.path}">
+                                                <include name="**/*release.version*"/>
+                                            </fileset>
+                                        </delete>
+                                        <move todir="${settings.localRepository}${fake.artifact.path}" overwrite="true" includeemptydirs="false">
+                                            <fileset dir="target/meta">
+                                                <include name="maven-metadata-local.xml"/>
+                                            </fileset>
+                                        </move>
+                                        <delete dir="target/meta"/>
+                                    </then>
+                                    <else>
+                                        <delete includeEmptyDirs="true">
+                                            <fileset dir="${settings.localRepository}${fake.artifact.path}">
+                                                <include name="**/${project.parent.version}/*.jar"/>
+                                            </fileset>
+                                        </delete>
+                                    </else>
+                                </if>
+                            </tasks>
+                        </configuration>
+                        <goals>
+                            <goal>run</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-site-plugin</artifactId>
+                <version>3.0</version>
+                <configuration>
+                    <reportPlugins>
+                        <plugin>
+                            <groupId>org.apache.maven.plugins</groupId>
+                            <artifactId>maven-project-info-reports-plugin</artifactId>
+                            <reportSets>
+                                <reportSet>
+                                    <reports>
+                                        <report>index</report>
+                                        <report>scm</report>
+                                    </reports>
+                                </reportSet>
+                            </reportSets>
+                        </plugin>
+                    </reportPlugins>
+                </configuration>
+                <executions>
+                    <execution>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>site</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <plugin>
+                <groupId>com.google.code.maven-svn-revision-number-plugin</groupId>
+                <artifactId>maven-svn-revision-number-plugin</artifactId>
+                <version>1.1</version>
+                <configuration>
+                    <reportMixedRevisions>false</reportMixedRevisions>
+                    <reportStatus>false</reportStatus>
+                </configuration>
+                <executions>
+                    <execution>
+                        <phase>validate</phase>
+                        <goals>
+                            <goal>revision</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.codehaus.groovy.maven</groupId>
+                <artifactId>gmaven-plugin</artifactId>
+                <version>1.0-rc-5</version>
+                <executions>
+                    <execution>
+                        <phase>validate</phase>
+                        <goals>
+                            <goal>execute</goal>
+                        </goals>
+                        <configuration>
+                            <source>
+                                import java.io.File
+                                import java.io.FileInputStream
+                                import java.io.FileOutputStream
+                                import java.util.Properties
+
+                                if (project.properties['build.qa'] != null) {
+                                def propFilePath
+                                if (project.properties['buildNumber.file.path'] == null) {
+                                propFilePath = new String(project.properties['local.home'])
+                                propFilePath = propFilePath.substring(0, propFilePath.lastIndexOf(File.separator))
+                                propFilePath += File.separator + "carbon-platform-build-versions.xml"
+                                } else {
+                                propFilePath = new String(project.properties['buildNumber.file.path'])
+                                }
+                                def propFile = new File(propFilePath)
+                                def props = new Properties()
+                                if (propFile.exists()) {
+                                props.loadFromXML(new FileInputStream(propFile))
+                                } else if (!propFile.getParentFile().exists()) {
+                                propFile.getParentFile().mkdirs()
+                                }
+                                def buildNumberStr = props.getProperty("greg.buildNumber")
+                                def buildNumber = (buildNumberStr != null) ? Integer.parseInt(buildNumberStr) + 1: 1
+                                buildNumberStr = Integer.toString(buildNumber)
+                                props.setProperty("greg.buildNumber", buildNumberStr)
+                                props.storeToXML(new FileOutputStream(propFile), null)
+                                def revision = new String(project.properties['workingCopyDirectory.revision'])
+                                def parentVersion = (new String(project.properties['product.version'])).replace("-SNAPSHOT", "")
+                                project.properties['release.version'] = parentVersion + "-b" + String.format("%05d", buildNumber) + "-" + revision.substring(1)
+                                }
+                                def fakeArtifactPath = File.separator + "org" + File.separator + "wso2" + File.separator + "governance" + File.separator + "wso2greg"
+                                project.properties['fake.artifact.path'] = fakeArtifactPath
+                            </source>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>buildnumber-maven-plugin</artifactId>
+                <version>1.0-beta-3</version>
+                <configuration>
+                    <buildNumberPropertyName>copyright.year</buildNumberPropertyName>
+                    <format>{0, date, yyyy}</format>
+                    <timestampFormat>{0, date, dd MMMM yyyy}</timestampFormat>
+                    <items>
+                        <item>timestamp</item>
+                    </items>
+                    <doCheck>false</doCheck>
+                    <doUpdate>false</doUpdate>
+                </configuration>
+                <executions>
+                    <execution>
+                        <phase>validate</phase>
+                        <goals>
+                            <goal>create</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+
+
+           <!-- jaxb hack for uddi -->
+            <plugin>
+                <groupId>org.codehaus.groovy.maven</groupId>
+                <artifactId>gmaven-plugin</artifactId>
+                <version>1.0-rc-5</version>
+                <executions>
+                    <execution>
+                        <id>jaxb_hack</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>execute</goal>
+                        </goals>
+                        <configuration>
+                            <source>
+                                import java.io.File
+                                import java.io.FileInputStream
+                                import java.io.FileOutputStream
+                                import java.util.Properties
+
+                                def sep = System.getProperty('file.separator')
+                                def targetPath = project.build['directory']
+                                targetPath += sep + 'wso2carbon-core-' + project.properties['carbon.version']
+
+
+
+                               def bundlesInfoPath = targetPath + sep + 'repository'  + sep + 'components' + sep + 'default' + sep + 'configuration' + sep + 'org.eclipse.equinox.simpleconfigurator' + sep + 'bundles.info' 
+
+                                println "Removing jaxb 2.2.5 from bundles.info"
+                                new File(targetPath + sep + 'bundles.info').withWriter { out ->
+                                 new File(bundlesInfoPath).eachLine { line ->
+                                  if (!line.contains("plugins/jaxb_")) {
+                                   out.writeLine(line)
+                                  } else {
+                                   out.writeLine("jaxb,2.1.7.wso2v2,plugins/jaxb_2.1.7.wso2v2.jar,4,true")
+                                  }
+                                 }
+                                }
+
+                                tempFile = new File(targetPath + sep + 'bundles.info');  
+                                file = new File(bundlesInfoPath);  
+                                fileMoved = tempFile.renameTo(file);   
+
+
+                                 
+                                def jaxbFile = targetPath + sep + 'repository' + sep + 'components' + sep + 'plugins' + sep + 'jaxb_2.1.7.wso2v2.jar'
+
+
+                                println "copying jaxb_2.1.7.wso2v2.jar to plugins"
+                                tempFile = new File(targetPath + sep + '..' + sep + 'jaxb_2.1.7.wso2v2.jar');
+                                file = new File(jaxbFile);
+                                fileMoved = tempFile.renameTo(file);
+
+                            </source>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+
+
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-assembly-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>pre_dist</id>
+                        <phase>test</phase>
+                        <goals>
+                            <goal>attached</goal>
+                        </goals>
+                        <configuration>
+                            <filters>
+                                <filter>${basedir}/src/main/assembly/filter.properties</filter>
+                            </filters>
+                            <descriptors>
+                                <descriptor>src/main/assembly/dist.xml</descriptor>
+                            </descriptors>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>dist</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>attached</goal>
+                        </goals>
+                        <configuration>
+                            <filters>
+                                <filter>${basedir}/src/main/assembly/filter.properties</filter>
+                            </filters>
+                            <descriptors>
+                                <descriptor>src/main/assembly/bin.xml</descriptor>
+                                <!--descriptor>src/main/assembly/src.xml</descriptor-->
+                                <descriptor>src/main/assembly/docs.xml</descriptor>
+                            </descriptors>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+
+ 	<!--<plugin>-->
+           <!--<groupId>com.google.code.maven-replacer-plugin</groupId>-->
+           <!--<artifactId>replacer</artifactId>-->
+           <!--<version>1.5.2</version>-->
+           <!--<executions>-->
+               <!--<execution>-->
+                   <!--<phase>prepare-package</phase>-->
+                   <!--<goals>-->
+                       <!--<goal>replace</goal>-->
+                   <!--</goals>                   -->
+               <!--</execution>-->
+           <!--</executions>-->
+           <!--<configuration>-->
+               <!--<file>${basedir}/../p2-profile-gen/target/wso2carbon-core-${carbon.version}/repository/conf/api-manager.xml</file>-->
+               <!--<replacements>-->
+                   <!--<replacement>-->
+			<!--<xpath>/APIManager/APIKeyManager/EnableThriftServer</xpath>-->
+                       <!--<token>(true)</token>-->
+                       <!--<value>false</value>-->
+                   <!--</replacement>-->
+	 	   <!--<replacement>-->
+		       <!--<xpath>/APIManager/APIGateway/Environments/Environment/GatewayEndpoint</xpath>-->
+                       <!--<token>(http.nio.port)</token>-->
+                       <!--<value>mgt.transport.http.port</value>-->
+                   <!--</replacement>-->
+		   <!--<replacement>-->
+		       <!--<xpath>/APIManager/APIGateway/Environments/Environment/GatewayEndpoint</xpath>-->
+                       <!--<token>(https.nio.port)</token>-->
+                       <!--<value>mgt.transport.https.port</value>-->
+                   <!--</replacement>-->
+		   <!--<replacement>-->
+		       <!--<xpath>/APIManager/GatewayType</xpath>-->
+                       <!--<token>(Synapse)</token>-->
+                       <!--<value>GReg</value>-->
+                   <!--</replacement>-->
+		   <!--<replacement>-->
+		       <!--<xpath>/APIManager/StartupAPIPublisher/Enabled</xpath>-->
+                       <!--<token>(false)</token>-->
+                       <!--<value>true</value>-->
+                   <!--</replacement>-->
+		   <!--<replacement>-->
+		       <!--<xpath>/APIManager/SelfSignUp/Enabled</xpath>-->
+                       <!--<token>(true)</token>-->
+                       <!--<value>false</value>-->
+                   <!--</replacement>-->
+		   <!--<replacement>-->
+		       <!--<xpath>/APIManager/StartupAPIPublisher/LocalAPI/IconPath</xpath>-->
+                       <!--<token>(none)</token>-->
+                       <!--<value>repository/resources/api-images/resource.png</value>-->
+                   <!--</replacement>-->
+		   <!--<replacement>-->
+		       <!--<xpath>/APIManager/StartupAPIPublisher/LocalAPI/DocumentURL</xpath>-->
+                       <!--<token>(none)</token>-->
+                       <!--<value>http://docs.wso2.org/display/Governance460/Registry+REST+API</value>-->
+                   <!--</replacement>    -->
+                <!--</replacements>-->
+           <!--</configuration>-->
+	<!--</plugin>-->
+
+
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-install-plugin</artifactId>
+                <version>2.2</version>
+                <executions>
+                    <execution>
+                        <id>install-binary</id>
+                        <phase>install</phase>
+                        <goals>
+                            <goal>install-file</goal>
+                        </goals>
+                        <configuration>
+                            <groupId>${project.groupId}</groupId>
+                            <artifactId>${project.artifactId}</artifactId>
+                            <version>${build.version}</version>
+                            <packaging>zip</packaging>
+                            <file>target/${project.artifactId}-${build.version}.zip</file>
+                            <pomFile>pom.xml</pomFile>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>install-docs</id>
+                        <phase>install</phase>
+                        <goals>
+                            <goal>install-file</goal>
+                        </goals>
+                        <configuration>
+                            <groupId>${project.groupId}</groupId>
+                            <artifactId>${project.artifactId}</artifactId>
+                            <version>${build.version}</version>
+                            <classifier>docs</classifier>
+                            <packaging>zip</packaging>
+                            <file>target/${project.artifactId}-${build.version}-docs.zip</file>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+
+    <pluginRepositories>
+        <pluginRepository>
+            <id>wso2-maven2-repository</id>
+            <url>http://dist.wso2.org/maven2</url>
+        </pluginRepository>
+        <pluginRepository>
+            <id>maven-svn-revision-number-plugin-repo</id>
+            <url>http://oss.sonatype.org/content/repositories/googlecode-releases</url>
+        </pluginRepository>
+        <pluginRepository>
+            <id>codehaus</id>
+            <name>Codehaus Repository</name>
+            <url>http://repository.codehaus.org</url>
+        </pluginRepository>
+    </pluginRepositories>
+    <profiles>
+        <profile>
+            <id>qa-build</id>
+            <activation>
+                <property>
+                    <name>build.qa</name>
+                </property>
+            </activation>
+            <!-- For a QA build, build with the option -Dbuild.qa which will set these properties
+   The build.version property will be generated by the gmaven-plugin -->
+            <properties>
+                <local.home>${settings.localRepository}</local.home>
+                <!--buildNumber.file.path>/home/user/carbon-platform-build-versions.xml</buildNumber.file.path-->
+                <build.version>${release.version}</build.version>
+                <product.version>${project.parent.version}</product.version>
+            </properties>
+        </profile>
+        <profile>
+            <id>default</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+            <properties>
+                <build.version>${project.parent.version}</build.version>
+                <product.version>${project.parent.version}</product.version>
+            </properties>
+        </profile>
+    </profiles>
+</project>
+
+

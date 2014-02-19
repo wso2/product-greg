@@ -1,0 +1,55 @@
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
+
+<suite name="GregTestSuite">
+    <parameter name="useDefaultListeners" value="false"/>
+    <test name="Test - GREG1" preserve-order="true" parallel="false">
+        <packages>
+               <!--<package name="org.wso2.carbon.registry.integration.ui"/>-->
+        </packages>
+
+
+        <classes>
+
+            <class name="org.wso2.carbon.registry.integration.ui.LoginTestCase"/>
+            <class name="org.wso2.carbon.registry.integration.ui.JaggeryTestCase"/>
+            <class name="org.wso2.carbon.registry.integration.ui.CarbonTestCase"/>
+            <class name="org.wso2.carbon.registry.integration.ui.ResourceTestCase"/>
+            <class name="org.wso2.carbon.registry.integration.ui.SearchActivityTestCase"/>
+            <class name="org.wso2.carbon.registry.integration.ui.AddReportTestCase"/>
+            <class name="org.wso2.carbon.registry.integration.ui.SearchTestCase"/>
+            <class name="org.wso2.carbon.registry.integration.ui.ApiTestCase"/>
+            <class name="org.wso2.carbon.registry.integration.ui.WsPolicyTestCase"/>
+            <class name="org.wso2.carbon.registry.integration.ui.SchemaTestCase"/>
+            <class name="org.wso2.carbon.registry.integration.ui.ServiceTestCase"/>
+            <class name="org.wso2.carbon.registry.integration.ui.UriTestCase"/>
+            <class name="org.wso2.carbon.registry.integration.ui.WsdlTestCase"/>
+
+        </classes>
+    </test>
+    <test name="Test - GREG2" preserve-order="true" parallel="false">
+        <packages>
+            <!--<package name="org.wso2.carbon.registry.integration.ui"/>-->
+        </packages>
+
+
+        <classes>
+
+            <class name="org.wso2.carbon.registry.integration.ui.UserCreationTestCase"/>
+            <class name="org.wso2.carbon.registry.integration.ui.RoleCreationTestCase"/>
+            <class name="org.wso2.carbon.registry.integration.ui.ChangePasswordTestCase"/>
+            <class name="org.wso2.carbon.registry.integration.ui.AddRepositoryTestCase"/>
+            <class name="org.wso2.carbon.registry.integration.ui.AddKeyStoreTestCase"/>
+            <class name="org.wso2.carbon.registry.integration.ui.Log4jConfigurationTestCase"/>
+            <class name="org.wso2.carbon.registry.integration.ui.ServerRoleTestCase"/>
+            <class name="org.wso2.carbon.registry.integration.ui.CreateNewTenantTestCase"/>
+            <class name="org.wso2.carbon.registry.integration.ui.AddNewExtensionTestCase"/>
+            <class name="org.wso2.carbon.registry.integration.ui.LifeCycleFilterStatePresistanceTest"/>
+            <class name="org.wso2.carbon.registry.integration.ui.AddNewLifeCycleTestCase"/>
+            <class name="org.wso2.carbon.registry.integration.ui.AddNewArtifactTestCase"/>
+            <class name="org.wso2.carbon.registry.integration.ui.AddNewHandlerTestCase"/>
+            <class name="org.wso2.carbon.registry.integration.ui.AddNewRegistrySubscriptionTestCase"/>
+            <class name="org.wso2.carbon.registry.integration.ui.NotificationtestCase"/>
+
+        </classes>
+    </test>
+</suite>

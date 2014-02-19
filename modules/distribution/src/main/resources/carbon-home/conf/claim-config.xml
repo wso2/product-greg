@@ -1,0 +1,109 @@
+<ClaimConfig>
+	<Dialects>
+		<Dialect dialectURI="http://schemas.xmlsoap.org/ws/2005/05/identity">
+			<Claim>
+				<ClaimURI>http://schemas.xmlsoap.org/ws/2005/05/identity/claims/givenname</ClaimURI>
+				<DisplayName>First Name</DisplayName>
+				<AttributeID>http://schemas.xmlsoap.org/ws/2005/05/identity/claims/givenname</AttributeID>
+				<Description>Given Name</Description>
+				<Required />
+				<SupportedByDefault />
+			</Claim>
+	            <Claim>
+				<ClaimURI>http://schemas.xmlsoap.org/ws/2005/05/identity/claims/surname</ClaimURI>
+				<DisplayName>Last Name</DisplayName>
+				<AttributeID>http://schemas.xmlsoap.org/ws/2005/05/identity/claims/surname</AttributeID>
+				<Description>Last Name</Description>
+				<Required />
+				<SupportedByDefault />
+			</Claim>
+			<Claim>
+				<ClaimURI>http://schemas.xmlsoap.org/ws/2005/05/identity/claims/emailaddress</ClaimURI>
+				<DisplayName>Email</DisplayName>
+				<AttributeID>http://schemas.xmlsoap.org/ws/2005/05/identity/claims/emailaddress</AttributeID>
+				<Description>Email Address</Description>
+				<Required />
+				<SupportedByDefault />
+			</Claim>	
+			<Claim>
+				<ClaimURI>http://schemas.xmlsoap.org/ws/2005/05/identity/claims/country</ClaimURI>
+				<DisplayName>Country</DisplayName>
+				<AttributeID>http://schemas.xmlsoap.org/ws/2005/05/identity/claims/country</AttributeID>
+				<Description>Country</Description>
+				<Required />
+				<SupportedByDefault />
+			</Claim>
+		      <Claim>
+				<ClaimURI>http://schemas.xmlsoap.org/ws/2005/05/identity/claims/homephone</ClaimURI>
+				<DisplayName>Home Phone</DisplayName>
+				<AttributeID>http://schemas.xmlsoap.org/ws/2005/05/identity/claims/homephone</AttributeID>
+				<Description>Home Phone</Description>
+				<SupportedByDefault />
+			</Claim>
+			<Claim>
+				<ClaimURI>http://schemas.xmlsoap.org/ws/2005/05/identity/claims/postalcode</ClaimURI>
+				<DisplayName>Postalcode</DisplayName>
+				<AttributeID>http://schemas.xmlsoap.org/ws/2005/05/identity/claims/postalcode</AttributeID>
+				<Description>Postalcode</Description>
+				<Required />
+				<SupportedByDefault />
+			</Claim>   
+	            <Claim>
+				<ClaimURI>http://schemas.xmlsoap.org/ws/2005/05/identity/claims/privatepersonalidentifier</ClaimURI>
+			      <AttributeID>http://schemas.xmlsoap.org/ws/2005/05/identity/claims/privatepersonalidentifier</AttributeID>
+				<Description>PPID</Description>
+                        <Required />			
+				<SupportedByDefault />
+			</Claim>   
+		</Dialect>
+	      <Dialect dialectURI="http://schema.openid.net/2007/05/claims">
+			<Claim>
+				<ClaimURI>nickname</ClaimURI>
+				<DisplayName>Nick Name</DisplayName>
+				<AttributeID>http://schemas.xmlsoap.org/ws/2005/05/identity/claims/givenname</AttributeID>
+				<Description>Nick Name</Description>
+				<Required />
+				<SupportedByDefault />
+			</Claim>
+	            <Claim>
+				<ClaimURI>fullname</ClaimURI>
+				<DisplayName>Full Name</DisplayName>
+				<AttributeID>http://schemas.xmlsoap.org/ws/2005/05/identity/claims/surname</AttributeID>
+				<Description>Full Name</Description>
+				<Required />
+				<SupportedByDefault />
+			</Claim>
+			<Claim>
+				<ClaimURI>email</ClaimURI>
+				<DisplayName>Email</DisplayName>
+				<AttributeID>http://schemas.xmlsoap.org/ws/2005/05/identity/claims/emailaddress</AttributeID>
+				<Description>Email Address</Description>
+				<Required />
+				<SupportedByDefault />
+			</Claim>	
+			<Claim>
+				<ClaimURI>country</ClaimURI>
+				<DisplayName>Country</DisplayName>
+				<AttributeID>http://schemas.xmlsoap.org/ws/2005/05/identity/claims/country</AttributeID>
+				<Description>Country</Description>
+				<Required />
+				<SupportedByDefault />
+			</Claim>
+		      <Claim>
+				<ClaimURI>timezone</ClaimURI>
+				<DisplayName>Time Zone</DisplayName>
+				<AttributeID>http://schema.openid.net/2007/05/claims/timezone</AttributeID>
+				<Description>Time Zone</Description>
+				<SupportedByDefault />
+			</Claim>
+			<Claim>
+				<ClaimURI>postcode</ClaimURI>
+				<DisplayName>Postalcode</DisplayName>
+				<AttributeID>http://schemas.xmlsoap.org/ws/2005/05/identity/claims/postalcode</AttributeID>
+				<Description>Postalcode</Description>
+				<Required />
+				<SupportedByDefault />
+			</Claim>
+		</Dialect>
+	</Dialects>
+</ClaimConfig>

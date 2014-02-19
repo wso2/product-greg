@@ -1,0 +1,50 @@
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
+
+<suite name="GregTestSuite">
+    <parameter name="useDefaultListeners" value="false"/>
+    <test name="Test1" parallel="false">
+        <packages>
+            <package name="org.wso2.carbon.registry.version.test"/>
+        </packages>
+
+
+        <classes>
+        </classes>
+    </test>
+    <test name="Test2" parallel="false">
+        <packages>
+            <package name="org.wso2.carbon.registry.capp.deployment.test"/>
+        </packages>
+
+
+        <classes>
+        </classes>
+    </test>
+    <test name="Test3" parallel="false">
+        <packages>
+            <package name="org.wso2.carbon.registry.search.metadata.test"/>
+        </packages>
+
+
+        <classes>
+        </classes>
+    </test>
+    <test name="Test4" parallel="false">
+        <packages>
+            <package name="org.wso2.carbon.registry.mediatype.test"/>
+        </packages>
+
+
+        <classes>
+        </classes>
+    </test>
+    <test name="Test5" parallel="false">
+        <packages>
+            <package name="org.wso2.carbon.registry.activity.search"/>
+        </packages>
+
+
+        <classes>
+        </classes>
+    </test>
+</suite>

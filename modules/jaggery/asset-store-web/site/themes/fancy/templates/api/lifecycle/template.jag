@@ -1,0 +1,158 @@
+<% jagg.template("api/lifecycle", function(inputs, outputs, jagg) { %>
+<%
+var lifecycle = outputs.lifecycle;
+var empty = !lifecycle || !lifecycle.state;
+%>
+<div id="lifecycle" <% if(!empty) { %>align="center"<% } %>>
+<% if(empty) { %><p>No lifecycle information is available for this <%=site.layout.assetNameSingular%>.</p>
+<%
+} else { %>
+<script type="text/javascript">
+var payload = <%=stringify(lifecycle)%>;
+
+$(document).ready(function(){drawGraph(payload);$('tspan').attr("dy", 2);});
+
+</script>
+<%
+    var current, i, length = lifecycle.state.length, j, length2, userVoted;
+    for (i = 0; i < length; i++) {
+        if (lifecycle.state[i].current) {
+            current = lifecycle.state[i];
+            break;
+        }
+    }
+    var pageColor = (current.mode == "completed" ? "#408140" : "#555555");
+%>
+<div style="border:4px <%=pageColor%> solid;-webkit-border-radius:6px;padding:10px;width:96%;height:100%;background-color:#ffffff">
+	<div id="canvas_container"></div>
+    <table style="padding:10px;width:100%;font-size:14px">
+        <tr>
+            <td style="width:100%"><strong style="font-size: 36px; font-weight: bold; color: <%=pageColor%>"><%=current.id%></strong>
+                <%
+                if (current.time != "") {
+                %>
+                <span style="margin-left: 10px;">[<%=current.time%> | <h6 style="display:inline-block"><i class="icon-user"></i><%=current.user%></h6>]</span>
+                <%
+                }
+                %>
+            </td>
+        </tr>
+        <tr>
+            <td style="width:100%;">
+                <hr style="border:1px <%=pageColor%> solid; width:100%;margin:5px" />
+            </td>
+        </tr>
+        <%
+        length = current.approvals.length;
+        if (length > 0) {
+        %>
+        <tr>
+            <td style="width:100%;padding-left:10px;padding-bottom:5px;padding-top:5px">
+                <%
+                if (length > 0) {
+                %>
+                <span style="font-size: 20px;margin-left:6px">Approvals</span><br/>
+                <%
+                }
+                for (i = 0; i < length; i++) {
+                    length2 = current.approvals[i].voters.length;
+                    userVoted = false;
+                    for (j = 0; j < length2; j++) {
+                        if (current.approvals[i].voters[j].user == outputs.user) {
+                            userVoted = true;
+                            break;
+                        }
+                    }
+                    %><span style="font-size: 16px;margin-top:6px;display:inline-block;margin-left:18px"><%=current.approvals[i].name%>&nbsp;&nbsp;[<%=""+length2%>/<%=current.approvals[i].votes%>]</span>&nbsp;&nbsp;<img id='<%="voteItem" + i%>' onLoad='this.value=true' <% if (current.approvals[i].enabled) { %> onClick='this.voted = !this.voted; invokeAspect("<%=outputs.id%>", "voteClick")' <% } %>  src='<%= jagg.getAbsoluteUrl(jagg.getThemeFile("images/thumbs-" + (userVoted ? "down" : "up") + (current.approvals[i].enabled ? "" : "-grey")  + ".png"))%>' voted='<%=userVoted%>' /><br/><%
+                    for (j = 0; j < length2; j++) {
+                        %><span style="font-size: 14px;margin-top:6px;display:inline-block;margin-left: 30px;"><h6 style="display:inline-block"><i class="icon-user"></i><%=current.approvals[i].voters[j].user%></h6> [<%=current.approvals[i].voters[j].time%>]</span><br/><%
+                    }
+                }
+                %>
+            </td>
+        </tr>
+        <tr>
+            <td style="width:100%;">
+                <hr style="border:1px <%=pageColor%> solid; width:100%;margin:5px" />
+            </td>
+        </tr>
+        <%
+        }
+        length = current.checklist.length;
+        if (length > 0) {
+        %>
+        <tr>
+            <td style="width:100%;padding-left:10px;padding-bottom:5px;padding-top:5px">
+                <%
+                for (i = 0; i < length; i++) {
+                    %><input type="checkbox" id='<%="checkItem" + i%>' onClick='invokeAspect("<%=outputs.id%>", "itemClick")' value="true" <%=(current.checklist[i].checked ? "checked='checked'" : "")%> <%=(current.checklist[i].enabled ? "" : "disabled='disabled'")%>/><span style="font-size: 16px;margin-left: 6px;margin-bottom:6px;display:inline-block;"><%=current.checklist[i].name%></span><%
+                    if (current.checklist[i].checked && current.checklist[i].time != "") {
+                        %><span style="margin-left: 6px;">[<%=current.checklist[i].time%><% if (current.checklist[i].user != "") {%> | <h6 style="display:inline-block"><i class="icon-user"></i><%=current.checklist[i].user%></h6><%}%>]</span><%
+                    }%><br/><%
+                }
+                %>
+                <!--input type="checkbox" value="true" checked="checked"/><span style="font-size: 16px;margin-left: 6px;margin-bottom:6px;display:inline-block;">Deployed to Servers</span>
+                <span style="margin-left: 6px;">[10/Jul/2012 | <a style="color:#0070c0" href="javascript:void(0)">admin</a>]</span><br/>
+                <input type="checkbox" value="true" checked="checked"/><span style="font-size: 16px;margin-left: 6px;margin-bottom:6px;display:inline-block;">Functional Testing Complete</span>
+                <span style="margin-left: 6px;">[01/Jul/2012 | <a style="color:#0070c0" href="javascript:void(0)">admin</a>]</span><br/>
+                <input type="checkbox" value="true"/><span style="font-size: 16px;margin-left: 6px;margin-bottom:6px;display:inline-block;">Production Staging Complete</span>
+                <span style="margin-left: 6px;color:#bd362f">[05/Jul/2012]</span><br/-->
+            </td>
+        </tr>
+        <tr>
+            <td style="width:100%;">
+                <hr style="border:1px <%=pageColor%> solid; width:100%;margin:5px" />
+            </td>
+        </tr>
+        <%
+        }
+        length = current.transition.length;
+        if (length > 0) {
+        %>
+        <tr>
+            <td style="width:100%;padding:3px;margin-left:12px">
+                <%
+                for (i = 0; i < length; i++) {
+                    var btnCSSClass = (current.transition[i].enabled ? (current.transition[i].target.type == "next" ? "btn btn-success" : (current.transition[i].target.type == "previous" ? "btn btn-danger" : "btn btn-primary" ) ) : "btn" );
+                    %><input class="<%=btnCSSClass%>" type="button" onClick='invokeAspect("<%=outputs.id%>", "<%=current.transition[i].event%>")' style="width:100px;height:30px;text-align:center;margin-right:6px;margin-bottom:0px" value="<%=current.transition[i].event%>"/><%
+                }
+                %>
+            </td>
+        </tr>
+        <tr>
+            <td style="width:100%;">
+                <hr style="border:1px <%=pageColor%> solid; width:100%;margin:5px" />
+            </td>
+        </tr>
+        <%
+        }
+        length = lifecycle.dependency.length;
+        if (length > 0) {
+        %>
+        <tr>
+            <td style="width:100%;padding:3px;">
+                <%
+                if (length > 0) {
+                %>
+                <span style="font-size: 20px;margin-left:6px">Dependencies</span><br/>
+                <%
+                }
+                for (i = 0; i < length; i++) {
+                    %><span style="font-size: 14px;margin-left:18px;margin-top:6px;display:inline-block"><a style="color:#0070c0;font-weight:bold" href='<%=jagg.getMappedUrl("/site/pages/item-info.jag") + "?id=" + lifecycle.dependency[i].id%>'><%=lifecycle.dependency[i].name%><%=(lifecycle.dependency[i].version ? "-" + lifecycle.dependency[i].version : "")%><%=(lifecycle.dependency[i].state ? "&nbsp;&nbsp;[" + lifecycle.dependency[i].state + "]" : "")%></a></span><br/><%
+                }
+                %>
+            </td>
+        </tr>
+        <tr>
+            <td style="width:100%;">
+                <hr style="border:1px <%=pageColor%> solid; width:100%;margin:5px" />
+            </td>
+        </tr>
+        <%
+        }
+        %>
+    </table>
+</div>
+<% } %>
+</div>
+<% }); %>

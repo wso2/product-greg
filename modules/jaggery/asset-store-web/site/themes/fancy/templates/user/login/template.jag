@@ -1,0 +1,71 @@
+<% jagg.template("user/login", function(inputs, outputs, jagg) { %>
+<% var user = outputs.user; %>
+<%
+        var mod = jagg.module("manager");
+        var httpsUrl= mod.getHTTPsURL();
+
+        var currentURL = request.getRequestURI();
+        if(request.getQueryString()){
+            currentURL += "?" + request.getQueryString();
+        }
+
+
+%>
+<% if(user) { %>
+       <ul class="nav actions login-sign-up">
+            <li class="dropdown">
+              <a class="link-to-user dropdown-toggle" data-toggle="dropdown"><%=user.username%> <b class="caret"></b></a>
+              <ul class="dropdown-menu" id="userInfoMenu">
+                <li class="userInfoSection">
+                    Logged in as <h4><%=user.username%></h4>
+                </li>
+                <li class="logout-link-special"><button id="logout-link" class="btn btn-danger">Logout</button></li>
+              </ul>
+            </li>
+            <li class="divider-vertical"></li>
+            <li class="dropdown settingsSection">
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="icon-weal"></i></a>
+              <ul class="dropdown-menu">
+                <li  class="themeSelection"><h3>Select a theme</h3>
+                    <form id="themeSelectForm" action="<%=jagg.getAbsoluteUrl(jagg.getThemeFile("templates/user/theme/template.jag?theme=modern"))%>">
+                        <input type="hidden" id="themeToApply" name="themeToApply" />
+                        <input type="hidden" id="subthemeToApply" name="subthemeToApply" />
+                        <input type="hidden" id="pathToSend" name="pathToSend" value="<%=currentURL%>" />
+                        <table class="table">
+                            <tr>
+                                <td>
+                                    <div class="thumbnail <% if(jagg.getUserTheme().base == "fancy" && jagg.getUserTheme().subtheme == null) { %>currentTheme<% } %>">
+                                        <a data-theme="fancy" data-subtheme="" class="badge themeLabel" onclick="applyTheme(this)">
+                                            <img src="<%=jagg.getAbsoluteUrl(jagg.getThemeFile("images/thumb-fancy.png"))%>" />
+                                            <br /><div class="themeName">Fancy</div>
+                                        </a>
+                                    </div>
+
+                                </td>
+                                <td>
+                                    <div class="thumbnail <% if(jagg.getUserTheme().base == "fancy" && jagg.getUserTheme().subtheme == "modern") { %>currentTheme<% } %>">
+                                        <a data-theme="fancy" data-subtheme="modern" class="badge themeLabel" onclick="applyTheme(this)">
+                                            <img src="<%=jagg.getAbsoluteUrl(jagg.getThemeFile("images/thumb-modern.png"))%>" />
+                                            <br /><div class="themeName">Modern</div>
+                                        </a>
+                                    </div>
+                                </td>
+                            </tr>
+                        </table>
+                    </form>
+                </li>
+              </ul>
+            </li>
+          </ul>
+<% } else { %>
+<ul class="nav actions login-sign-up">
+    <li>
+        <a id="register-link" href="<%=httpsUrl%><%=site.context%>/site/pages/sign-up.jag">Sign-up</a>
+    </li>
+    <li class="divider-vertical"></li>
+    <li>
+        <a id="login-link">Login</a>
+    </li>
+</ul>
+<% } %>
+<% }); %>

@@ -1,0 +1,12 @@
+<metadata xmlns="http://www.wso2.org/governance/metadata">
+    <documentation>
+        <documentType>JIRA</documentType>
+        <documentComment>Issue Tracker</documentComment>
+        <url>https://wso2.org/jira/browse/CARBON</url>
+    </documentation>
+    <overview>
+        <description>This is a sample Carbon Application</description>
+        <name>Carbon Application</name>
+        <version>1.0.0</version>
+    </overview>
+</metadata>

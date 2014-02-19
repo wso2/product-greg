@@ -1,0 +1,64 @@
+<%
+jagg.block("menu/primary", {
+
+    initialize:function (data) {
+
+    },
+
+    getInputs:function () {
+        return {
+            "pagePath":null
+        };
+    },
+
+    getOutputs:function (inputs) {
+        var links = [], user = jagg.getUser(),
+                path = inputs.pagePath;
+        if (site.layout.links.display == "custom") {
+            for(var i in site.layout.links.list){
+                links.push({
+                    "title":site.layout.links.list[i].title,
+                    "url":jagg.getMappedUrl(site.layout.links.list[i].query ? "/?query=" + site.layout.links.list[i].query : "/"),
+                    "classes":"link-home",
+                    "tooltip":site.layout.links.list[i].tooltip,
+                    "active":(path == "/site/pages/list-apis.jag" + site.layout.links.list[i].query ? "?query=" + site.layout.links.list[i].query : "")
+                });
+            }
+        } else if (site.layout.links.display != "none") {
+           links.push({
+               "title":site.layout.assetNamePlural,
+               "url":jagg.getMappedUrl("/"),
+               "classes":"link-home",
+               "tooltip":"Browse the latest versions of published " + site.layout.assetNamePlural + ", make subscriptions and generate " + site.layout.assetNameSingular + " keys.",
+               "active":(path == "/site/pages/list-apis.jag")
+           });
+
+           links.push({
+               "title":"My Applications",
+               "url":jagg.getMappedUrl("/site/pages/applications.jag"),
+               "classes":"link-myapplications" + (user ? "" : " need-login"),
+               "tooltip":"Browse and create applications. Applications are required to make " + site.layout.assetNameSingular + " subscriptions and consume them.",
+               "active":(path == "/site/pages/applications.jag")
+           });
+
+           links.push({
+               "title":"My Subscriptions",
+               "url":jagg.getMappedUrl("/site/pages/subscriptions.jag"),
+               "classes":"link-mysubscriptions" + (user ? "" : " need-login"),
+               "tooltip":"Browse through all the " + site.layout.assetNameSingular + " subscriptions made so far and review the generated " + site.layout.assetNameSingular + " keys.",
+               "active":(path == "/site/pages/subscriptions.jag")
+           });
+       }
+
+        return {
+            "links":links
+        };
+    },
+
+    getStaticBlocks:function () {
+        return [
+            "user/login"
+        ];
+    }
+});
+%>

@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Package xsi:schemaLocation="http://www.wfmc.org/2004/XPDL2.0alpha      http://www.wfmc.org/standards/docs/TC-1025_bpmnxpdl_24.xsd" xmlns:deprecated="http://www.wfmc.org/2002/XPDL1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://www.wfmc.org/2004/XPDL2.0alpha" Id="16" Name="XPDL BPMN Example 1">
+	<PackageHeader>
+		<XPDLVersion>2.0</XPDLVersion>
+		<Vendor>Engineering Ingegneria Informatica S.p.A.</Vendor>
+		<Created>2008-04-16</Created>
+	</PackageHeader>
+	<Participants>
+		<Participant Id="PTC_0" Name="Manager">
+			<ParticipantType Type="ROLE" />
+		</Participant>
+	</Participants>
+	<Pools>
+		<Pool Id="pool0" Name="Manager" Orientation="HORIZONTAL" Participant="Participant 0" BoundaryVisible="true">
+			<Lanes>
+				<Lane Id="LNE_0" Name="" ParentPool="pool0">
+					<NodeGraphicsInfos>
+						<NodeGraphicsInfo ToolId="BXModeller" Page="WFP_0" Height="179.0" Width="1202.0">
+							<Coordinates XCoordinate="31.0" YCoordinate="0.0" />
+						</NodeGraphicsInfo>
+					</NodeGraphicsInfos>
+				</Lane>
+			</Lanes>
+			<NodeGraphicsInfos>
+				<NodeGraphicsInfo ToolId="BXModeller" Page="WFP_0" Height="181.0" Width="1234.0">
+					<Coordinates XCoordinate="0.0" YCoordinate="0.0" />
+				</NodeGraphicsInfo>
+			</NodeGraphicsInfos>
+		</Pool>
+	</Pools>
+	<WorkflowProcesses>
+		<WorkflowProcess Id="WFP_0" Name="Workflow Process 0" AccessLevel="PUBLIC" ProcessType="NONE" status="NONE" SuppressJoinFailure="false" EnableInstanceCompensation="false" AdHoc="false" AdHocOrdering="PARALLEL">
+			<ProcessHeader>
+				<Created>2008-04-16</Created>
+			</ProcessHeader>
+			<Activities>
+				<Activity Id="STE_0" Name="Start Event 0" Status="None" StartMode="Automatic" FinishMode="Automatic">
+					<Event>
+						<StartEvent Trigger="None" />
+					</Event>
+					<NodeGraphicsInfos>
+						<NodeGraphicsInfo ToolId="BXModeller" Page="WFP_0" LaneId="LNE_0" Height="25.0" Width="25.0">
+							<Coordinates XCoordinate="86.0" YCoordinate="64.0" />
+						</NodeGraphicsInfo>
+					</NodeGraphicsInfos>
+				</Activity>
+				<Activity Id="TSK_1" Name="Task 1" Status="None" StartMode="Automatic" FinishMode="Automatic">
+					<Implementation>
+						<No />
+					</Implementation>
+					<Performer>Participant 0</Performer>
+					<NodeGraphicsInfos>
+						<NodeGraphicsInfo ToolId="BXModeller" Page="WFP_0" LaneId="LNE_0" Height="50.0" Width="63.0">
+							<Coordinates XCoordinate="217.0" YCoordinate="49.0" />
+						</NodeGraphicsInfo>
+					</NodeGraphicsInfos>
+				</Activity>
+				<Activity Id="EDE_2" Name="End Event 2" Status="None" StartMode="Automatic" FinishMode="Automatic">
+					<Event>
+						<EndEvent Result="None" />
+					</Event>
+					<NodeGraphicsInfos>
+						<NodeGraphicsInfo ToolId="BXModeller" Page="WFP_0" LaneId="LNE_0" Height="25.0" Width="25.0">
+							<Coordinates XCoordinate="396.0" YCoordinate="62.0" />
+						</NodeGraphicsInfo>
+					</NodeGraphicsInfos>
+				</Activity>
+			</Activities>
+			<Transitions>
+				<Transition Id="TRN_0" Name="Arrow1" From="STE_0" To="TSK_1">
+					<ConnectorGraphicsInfos>
+						<ConnectorGraphicsInfo ToolId="BXModeller" IsVisible="true" Page="WFP_0" Style="solid" BorderColor="black" FillColor="black">
+							<Coordinates XCoordinate="129.0" YCoordinate="76.0" />
+							<Coordinates XCoordinate="129.0" YCoordinate="76.0" />
+							<Coordinates XCoordinate="204.0" YCoordinate="76.0" />
+							<Coordinates XCoordinate="204.0" YCoordinate="76.0" />
+							<Coordinates XCoordinate="279.0" YCoordinate="76.0" />
+							<Coordinates XCoordinate="279.0" YCoordinate="74.0" />
+							<Coordinates XCoordinate="152.5" YCoordinate="66.0" />
+						</ConnectorGraphicsInfo>
+					</ConnectorGraphicsInfos>
+				</Transition>
+				<Transition Id="TRN_1" Name="Arrow2" From="TSK_1" To="EDE_2">
+					<ConnectorGraphicsInfos>
+						<ConnectorGraphicsInfo ToolId="BXModeller" IsVisible="true" Page="WFP_0" Style="solid" BorderColor="black" FillColor="black">
+							<Coordinates XCoordinate="279.0" YCoordinate="74.0" />
+							<Coordinates XCoordinate="279.0" YCoordinate="74.0" />
+							<Coordinates XCoordinate="359.0" YCoordinate="74.0" />
+							<Coordinates XCoordinate="359.0" YCoordinate="74.0" />
+							<Coordinates XCoordinate="439.0" YCoordinate="74.0" />
+							<Coordinates XCoordinate="439.0" YCoordinate="74.0" />
+							<Coordinates XCoordinate="321.5" YCoordinate="64.0" />
+						</ConnectorGraphicsInfo>
+					</ConnectorGraphicsInfos>
+				</Transition>
+			</Transitions>
+		</WorkflowProcess>
+	</WorkflowProcesses>
+</Package>
+

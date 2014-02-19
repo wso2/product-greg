@@ -1,0 +1,25 @@
+<%
+var getAllPublishedAPIs = function () {
+    var list, i, length, api, apis,
+            log = new Log(),
+            store = jagg.module("manager").getAPIStoreObj();
+
+    try {
+        apis = store.getAllPublishedAPIs();
+        if (log.isDebugEnabled()) {
+            log.debug("getAllPublishedAPIs : " + stringify(apis));
+        }
+
+        return {
+            error:false,
+            apis:apis
+        };
+    } catch (e) {
+        log.error(e.message);
+        return {
+            error:e,
+            apis:null
+        };
+    }
+};
+%>

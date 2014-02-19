@@ -1,0 +1,62 @@
+<%
+include("/jagg/jagg.jag");
+var site = require("/site/conf/site.json");
+
+(function () {
+   jagg.render({
+        "name":"page/base",
+        "inputs":{
+            "title":"Create New Account",
+            "pagePath":"/site/pages/sign-up.jag",
+            "body":[
+                {
+                    "name":"layout/base",
+                    "inputs":{
+                        "title":"Applications",
+                        "top":[
+                            {
+                                "name":"banner/featured",
+                                "inputs":null
+                            },
+                            {
+                                "name":"search/api-search",
+                                "inputs":null
+                            }
+                        ],
+                        "left":[
+                            {
+                                "name":"ui/tab",
+                                "inputs":{
+                                    "classes":"cat_and_charts",
+                                    "tabs":[
+                                        {
+                                            "body":[
+                                                {
+                                                    "name":"api/recently-added",
+                                                    "inputs":null
+                                                },
+                                                {
+                                                    "name":"api/top-rated",
+                                                    "inputs":null
+                                                }
+                                            ]
+                                        }
+                                    ]
+                                }
+                            }
+                        ],
+                        "middle":[
+                            {
+                                "name":"user/sign-up",
+                                "inputs":{
+
+                                }
+                            }
+                        ]
+                    }
+                }
+            ]
+        }
+    });
+}());
+%>

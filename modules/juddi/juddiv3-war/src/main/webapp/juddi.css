@@ -1,0 +1,157 @@
+body {
+  margin:      0px 10px 10px 10px;
+  font-family: "Trebuchet MS", sans-serif;
+  font-size:   10pt;
+  background:  #FFF;
+  color:       #000;
+}
+
+h1 {
+	font-family: "Trebuchet MS", sans-serif;
+	background: #00005A;
+	font-weight: normal;
+	color: White;
+	padding: 5px 10px;
+	margin: 0px -10px 10px -10px;
+}
+
+h2 {
+	font-family: "Trebuchet MS", sans-serif;
+	color: #00005A;
+}
+
+h3 {
+	font-family: "Trebuchet MS", sans-serif;
+	color: #00005A;
+}
+
+h4 {
+	font-family: "Trebuchet MS", sans-serif;
+	color: #00005A;
+}
+
+.sidebar {
+	border: 1px solid #00005A;
+	background: #EEE;
+	padding: 5px;
+} 
+
+pre.code_sample {
+  background: #EEE;
+  padding: 5px;
+}
+
+dt {
+  font-weight: bold;
+}
+
+dl {
+  margin-left: 3em;
+}
+
+td {
+  font-size:   10pt;
+}
+
+DIV.announcement dl {
+  margin-left: 0px;
+}
+
+div.LINK {
+  margin: 0px -10px;
+  padding: 2px 10px;
+  color: #000;
+  font-size: 10pt;
+}
+
+div.LINK A {
+  color: #6d0000;
+  text-decoration: none;
+}
+
+div.LINK A:hover {
+  color: #006200;
+  text-decoration: underline;
+}
+
+div.NAV {
+  background: #000;
+  margin: 0px -10px;
+  padding: 2px 10px;
+  color: #CCC;
+  font-size: 12pt;
+  font-weight: bold;
+}
+
+div.NAV A {
+  color: #CCC;
+  text-decoration: none;
+}
+
+div.NAV A:hover {
+  color: #FFF;
+}
+
+.msgs {
+	background-color: #FFD;
+	color: #005500;
+}
+
+.ednote {
+  color: #999;
+  font-style: italic;
+}
+
+.cvs_id {
+  color: #999;
+  font-size: 8pt;
+  border-top: solid 1px #999;
+}
+
+.author {
+  font-size: 14pt;
+  font-style: italic;
+}
+
+var {
+  font-style: italic;
+  color: #900;
+}
+
+div.footer { 
+  color: #666699; margin: 0px -10px; padding: 2px 10px; font-size: 8pt; font-weight: normal; 
+}
+
+div.footer a {
+  color: #666699; text-decoration: none; 
+}
+
+div.footer a:hover { 
+  color: #666699; text-decoration: underline; 
+}
+
+div.header { 
+  background: #000;
+  margin: 0px -10px;
+  padding: 2px 10px;
+  color: #CCC;
+  font-size: 8pt;
+  font-weight: bold;
+}
+
+div.header a {
+  color: #CCC;
+  text-decoration: none;
+}
+
+div.header a:hover { 
+  color: #FFF;
+}
+
+div.error {
+  color: #F00;
+}
+
+div.install {width:650px; background-color: #00005a;}
+div.install h4 {margin:0; padding:0; color: #fff;}
+div.install .content {margin:0; padding:4px 4px 0 4px; border-style:solid; border-color:#bbb; border-width:0 1px 1px 1px; background-color: #fff;}

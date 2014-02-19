@@ -1,0 +1,8 @@
+<%
+jagg.module("search", {
+
+    searchAPIs:function () {
+        return jagg.require(jagg.getModulesDir() + "search/apis.jag").searchAPIs.apply(this, arguments);
+    }
+});
+%>

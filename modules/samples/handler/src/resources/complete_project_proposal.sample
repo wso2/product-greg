@@ -1,0 +1,28 @@
+<project-proposal>
+   <name>Colombo Kandy Highway</name>
+
+    <abstract>This project aims to build a 6 lane higway between Colombo and Kandy. It will cut the
+    duration of travelling between two cities from 3 hours to 1 hour. It also provides fast access
+    from some main cities to the capital Colombo.</abstract>
+
+    <duration>1 year</duration>
+
+    <contractor>MegaRoads corporation</contractor>
+
+    <consultant>State Engineering Board</consultant>
+    
+    <cost>200 million rupees</cost>
+
+    <report name="environmental damage accessment">
+        Complete enviromental damage accessment for this project has been conducted by independent
+        authority named "Green Force" and all required tests have met. It is ...
+    </report>
+
+    <report name="feasibility study">
+        Initial feasibility study has been conducted by the "Can dO" division of the ...
+    </report>
+
+    <report name="resettlement plan">
+        All civilian displacements have been accessed and ...        
+    </report>
+</project-proposal>

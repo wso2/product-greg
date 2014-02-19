@@ -1,0 +1,143 @@
+<!--
+  ~ Copyright 2005-2007 WSO2, Inc. (http://wso2.com)
+  ~
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~ http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  -->
+
+<process>
+
+    <table name="Overview">
+        <field type="text" required="true">
+            <name>Name</name>
+        </field>
+	<field type="text" required="true">
+            <name>Namespace</name>
+        </field>
+        <field type="text">
+            <name>Version</name>
+        </field>
+        <field type="text-area">
+            <name>Description</name>
+        </field>
+    </table>
+
+    <table name="Process Lifecycle">
+        <field type="options">
+            <name>Lifecycle Name</name>
+            <values>
+                <value>None</value><!-- values will be added dynamically from LCM configuration-->
+            </values>
+        </field>
+    </table>
+
+
+    <table name="Contacts">
+        <subheading>
+            <heading>Contact Type</heading><heading>Contact Name/Organization Name</heading>
+        </subheading>
+        <field type="option-text">
+            <name>Contact</name>
+            <values>
+                <value>None</value><value>Technical Owner</value><value>Business Owner</value>
+            </values>
+        </field>
+    </table>
+
+    <table name="Definition">
+        <field type="text">
+            <name>BPEL URL</name>
+        </field>
+    </table>
+
+    <table name="Security">
+        <field type="options">
+            <name>Authentication Platform</name>
+            <values>
+                <value>None</value><value>TAM_WEBSEAL</value><value>XTS-WS TRUST</value><value>BuiltIn</value><value>WSO2 Identity Server</value>
+            </values>
+        </field>
+        <field type="options">
+            <name>Authentication Mechanism</name>
+            <values>
+                <value>None</value><value>OpenID</value><value>InfoCard</value><value>Client Certifcates</value><value>HTTPS Basic Authentication</value><value>IP Address Filtering</value><value>WS-Security/WS-Trust Token</value><value>Others</value>
+            </values>
+        </field>
+        <field type="options">
+            <name>Authorization Platform</name>
+            <values>
+                <value>None</value><value>TAM_WEBSEAL</value><value>XTS-WS TRUST</value><value>BuiltIn</value><value>WSO2 Identity Server</value>
+            </values>
+        </field>
+        <field type="options">
+            <name>Message Integrity</name>
+            <values>
+                <value>None</value><value>SSL</value><value>WS-Security</value><value>XML Digital Signatures</value><value>Other</value>
+            </values>
+        </field>
+        <field type="options">
+            <name>Message Encryption</name>
+            <values>
+                <value>None</value><value>SSL</value><value>WS-Security</value><value>XML Digital Signatures</value><value>Other</value>
+            </values>
+        </field>
+        <field type="text-area">
+            <name>Comments</name>
+        </field>
+    </table>
+
+    <table name="Endpoints">
+        <subheading>
+            <heading>Environments</heading><heading>URL</heading>
+        </subheading>
+        <field type="option-text" maxoccurs="unbounded">
+            <name>Endpoint</name>
+            <values>
+                <value>None</value><value>Unknown</value><value>Dev</value><value>QA</value><value>Test</value>
+            </values>
+        </field>
+    </table>
+
+    <table name="Doc Links" columns="3">
+        <subheading>
+            <heading>Document Type</heading><heading>URL</heading><heading>Comment</heading>
+        </subheading>
+        <field type="text">
+            <name>Document Type</name>
+        </field>
+        <field type="text">
+            <name>URL</name>
+        </field>
+        <field type="text-area">
+            <name>Document Comment</name>
+        </field>
+        <field type="text">
+            <name>Document Type1</name>
+        </field>
+        <field type="text">
+            <name>URL1</name>
+        </field>
+        <field type="text-area">
+            <name>Document Comment1</name>
+        </field>
+        <field type="text">
+            <name>Document Type2</name>
+        </field>
+        <field type="text">
+            <name>URL2</name>
+        </field>
+        <field type="text-area">
+            <name>Document Comment2</name>
+        </field>
+    </table>
+
+</process>

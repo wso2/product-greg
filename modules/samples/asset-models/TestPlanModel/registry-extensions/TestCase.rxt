@@ -1,0 +1,75 @@
+<?xml version="1.0"?>
+<artifactType type="application/vnd.wso2-testcase+xml" shortName="case" singularLabel="Test Case" pluralLabel="Test Cases" hasNamespace="false" iconSet="24">
+	<storagePath>/test_cases/@{name}/@{overview_version}</storagePath>
+	<nameAttribute>overview_name</nameAttribute>
+	<ui>
+		<list>
+			<column name="Name">
+				<data type="path" value="overview_name" href="@{storagePath}"/>
+			</column>
+		</list>
+	</ui>
+	<relationships>
+		<association type="usedBy"  source="@{testMethods_entry:value}"/>
+		<dependency type="depends"  target="@{testMethods_entry:value}"/>
+	</relationships>
+	<content>
+		<table name="Overview">
+			<field type="text" required="true">
+				<name label="Name">Name</name>
+			</field>
+			<field type="text" required="true">                
+				<name>Version</name>
+			</field> 
+			<field type="text-area">
+				<name label="Description">Test Case Description</name>
+			</field>
+		</table>
+		<table name="TestMethods">            
+			<subheading>                
+				<heading>Type</heading>
+				<heading>Path</heading>
+			</subheading>            
+			<field type="option-text" maxoccurs="unbounded" path="true">                
+				<name>Method</name>                
+				<values>
+					<value>Test Method</value>
+				</values>
+			</field>
+		</table>
+		<table name="Documentation" columns="3">  
+			<subheading>              
+				<heading>Document Type</heading>   
+				<heading>URL</heading>        
+				<heading>Comment</heading>     
+			</subheading>         
+			<field type="text">      
+				<name>Document Type</name>   
+			</field>         
+			<field type="text" url="true"> 
+				<name>URL</name>     
+			</field>       
+			<field type="text-area">    
+				<name>Document Comment</name> 
+			</field>       
+			<field type="text">    
+				<name>Document Type1</name>     
+			</field>     
+			<field type="text" url="true">  
+				<name>URL1</name>     
+			</field>         
+			<field type="text-area">   
+				<name>Document Comment1</name>   
+			</field>      
+			<field type="text">   
+				<name>Document Type2</name>  
+			</field> 
+			<field type="text" url="true">    
+				<name>URL2</name>     
+			</field>       
+			<field type="text-area">  
+				<name>Document Comment2</name>      
+			</field>      
+		</table>
+	</content>
+</artifactType>

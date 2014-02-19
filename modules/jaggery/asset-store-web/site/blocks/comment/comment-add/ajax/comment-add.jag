@@ -1,0 +1,68 @@
+<%
+include("/jagg/jagg.jag");
+
+(function () {
+    var mod, id, comment, obj, result,
+            msg = require("/site/conf/ui-messages.jag"),
+            action = request.getParameter("action"),
+            user = jagg.getUser();
+    if (action == "addComment") {
+        if (!user) {
+            print({
+                error:true,
+                message:msg.error.loginRequired(action)
+            });
+            return;
+        }
+        id = request.getParameter("id");
+        comment = request.getParameter("comment");
+
+        if (!id || !comment) {
+            print({
+                error:true,
+                message:msg.error.contentMissing(action)
+            });
+            return;
+        }
+
+        mod = jagg.module("comment");
+        result = mod.addComment({
+            id:id
+        }, comment);
+
+        if (result.error) {
+            obj = {
+                error:result.error,
+                message:msg.error.authError(action, username)
+            };
+        } else {
+            obj = {
+                error:false
+            }
+        }
+        print(obj);
+    } else  if (action == "isCommentActivated") {
+        
+        mod = jagg.module("comment");
+        result = mod.isCommentActivated();
+
+        if (result.error) {
+            obj = {
+                error:result.error
+               
+            };
+        } else {
+            obj = {
+                error:false,
+                allow:result.allow
+            }
+        }
+        print(obj);
+    }else {
+        print({
+            error:true,
+            message:msg.error.invalidAction(action)
+        });
+    }
+}());
+%>

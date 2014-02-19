@@ -1,0 +1,17 @@
+<%
+jagg.block("tag/tag-cloud", {
+
+    initializer:function (data) {
+
+    },
+
+    getOutputs:function (inputs) {
+        var result, tags, mod = jagg.module("tag");
+        result = mod.getAllTags();
+        tags = result.tags;
+        return {
+            "tags":tags
+        };
+    }
+});
+%>

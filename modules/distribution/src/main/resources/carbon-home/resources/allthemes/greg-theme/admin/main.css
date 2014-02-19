@@ -1,0 +1,239 @@
+/* ---------------- template styles ------------------------- */
+
+table#main-table td#header {
+	background-image: url( gov-header-region-bg.gif);
+}
+
+table#main-table td#menu-panel {
+	border-right: solid 1px #976731;
+}
+	
+
+/* ---------------- header styles ------------------ */
+div#header-div {
+    background-image: url( gov-header-bg.gif);
+}
+
+div#header-div div.left-logo {
+	background-image: url( gov-header-logo.gif );
+}
+
+div#header-div div.right-logo {
+	color: #794400;
+	display: none;
+} 
+
+/* ------------- menu styles ---------------------- */
+div#menu {
+}
+
+div#menu ul.main {
+}
+
+div#menu ul.main li {
+}
+
+div#menu ul.main li.normal {
+}
+
+div#menu ul.main li a.menu-home {
+	color: #0067B1;
+    background-image: url(gov-home-bg.gif);
+}
+
+div#menu ul.main li a.menu-home:hover {
+	color: #f47b20;
+	background-image: none;
+	background-color: #E8D6C4;
+}
+
+div#menu ul.main li.menu-header {
+}
+
+div#menu ul.main li a.menu-default {
+}
+
+div#menu ul.main li a.menu-default:hover {
+	background-color: #F5EDE5;
+	border-bottom: solid 1px #DBC1A6;
+	border-top: solid 1px #DBC1A6;
+	color: #00447C;
+}
+
+div#menu ul.sub {
+} 
+
+/* -------------- child no-01 styles -------------- */
+
+div#menu ul.sub li.normal {
+
+}
+
+div#menu ul.sub li a.menu-default {
+} 
+
+/* ----------- child no-01 (disabled) styles ------------------- */
+	
+div#menu ul.sub li a.menu-disabled-link {
+	}
+	
+	div#menu ul.sub li a.menu-disabled-link:hover {
+	} 
+
+/* -------------- child no-02 styles -------------- */
+
+div#menu ul.sub li.normal ul.sub li a.menu-default {
+
+}
+
+/* -------------- child no-03 styles -------------- */
+
+div#menu ul.sub li.normal ul.sub li.normal ul.sub li a.menu-default {
+}
+
+/* ------------- footer styles -------------------- */
+
+div#footer-div div.footer-content div.poweredby {
+	background-image: url( axis2-powered.gif);
+}
+
+/* ---- login styles ----- */
+
+
+/* --------------- table styles -------------------- */
+
+.tableOddRow{background-color: white;}
+.tableEvenRow{background-color: #eeeffb;}
+
+.button:hover{
+	border:solid 1px #834F09;
+}
+
+
+
+
+
+
+
+
+
+
+
+/* ------------ EXISTING STYLES --------------- */
+/* ---------------------------------
+.cornerExpand {
+    position: relative;
+    top: 3px;
+    left: -12px;
+    cursor: pointer;
+}
+
+.cornerCollapse {
+    position: relative;
+    top: 3px;
+    left: -12px;
+    cursor: pointer;
+}
+
+------------------------ */
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/*------------------------------ WSAS Stylesheet -------------------------------*/
+
+/* Neutralize styling:
+ Elements we want to clean out entirely: */
+    /* html, body, form, fieldset {
+        font: 100%/1.5 "Lucida Grande","Lucida Sans","Microsoft Sans Serif", "Lucida Sans Unicode",verdana,sans-serif,"trebuchet ms";
+	margin: 0;
+        padding: 0;
+       } */
+
+        
+
+        /* Apply left margin:
+Only to the few elements that need it: */
+    
+    /* Clear floats without structural markup */
+    
+
+    /* Hides from IE-mac \*/
+      /* End hide from IE-mac */
+
+       
+	/* This is to make sure the cursor is visible in text boxes in FireFox. */
+
+
+
+
+    
+
+        /* Navigation menu styles
+       ------------------------------------------------------------------- */
+    
+
+       /* Main area icons
+       -------------------------------------------------------------------------- */
+    
+	/* Main content area
+    -------------------------------------------------------------------------- */
+   
+    /*{padding: #1 #2 #3 #4}    #1=top, #2=right, #3=bottom, #4=left*/
+
+    
+	
+
+   
+    /* Promotional buzz on login page */
+   
+
+    
+
+     /* alert message box styles
+    div#alertMessageBox {
+        color: #000;
+        border: #000 1px solid;
+    }
+*/
+   
+
+    /* Forms
+   -------------------------------------------------------------------------- */
+
+    /* General Forms */
+
+   
+    /* Table: styled */
+
+    
+    
+
+   /* Table: semi */
+
+ 
+
+
+/* --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- */
+
+
+
+

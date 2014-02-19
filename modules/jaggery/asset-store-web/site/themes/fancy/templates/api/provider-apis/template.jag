@@ -1,0 +1,32 @@
+<% jagg.template("api/provider-apis", function(inputs, outputs, jagg) {%>
+<% var stars = require(jagg.getThemeFile("utils/ratings/star-generator.js")); %>
+        <div class="corner-maker-left"></div>
+<ul class="list-main more-from-provider">
+           <li class="list-header">
+               More <%=site.layout.assetNamePlural%> from '<%=outputs.providerId%>'
+           </li>
+     <%
+    var i, api, path,apis = outputs.apis, thumbURL; if(apis!=null){length = apis.length;
+    for(i = 0; i < length; i++) {
+        api = apis[i];
+        thumbURL = api.thumbnailurl;
+        if(thumbURL && thumbURL.indexOf("images/") == 0) {
+            thumbURL = jagg.getAbsoluteUrl(jagg.getThemeFile(thumbURL));
+        }
+        path = jagg.getMappedUrl("/site/pages/item-info.jag") + "?id=" + api.id;
+    %>
+    <li>
+       <div class="row-fluid list-item-content">
+           <div class="span4">
+               <img src="<%=thumbURL%>" width="70px"/>
+           </div>
+           <div class="span8">
+               <a href="<%=path%>" class="title" title="<%=api.name%>"><%=api.name%>-<%=api.version%></a>
+               <div class="star-ratings"><%=stars.getStaticStars(site.context, api.rates, jagg.getUserTheme().base)%></div>
+           </div>
+       </div>
+   </li>
+    <% }} %>
+</ul>
+
+<% }); %>

@@ -1,0 +1,49 @@
+<definitions xmlns="http://ws.apache.org/ns/synapse">
+   <registry provider="org.wso2.carbon.mediation.registry.WSO2Registry">
+      <parameter name="cachableDuration">15000</parameter>
+   </registry>
+   <proxy name="Proxy1" transports="https http" startOnLoad="true" trace="disable">
+      <description />
+      <target>
+         <inSequence>
+            <log level="full" />
+            <sequence key="Sequence1" />
+         </inSequence>
+      </target>
+   </proxy>
+   <proxy name="Proxy2" transports="https http" startOnLoad="true" trace="disable">
+      <description>foobwatr</description>
+      <target>
+         <inSequence>
+            <log level="full" />
+            <property name="test" value="foo" scope="default" type="STRING" />
+         </inSequence>
+      </target>
+   </proxy>
+   <endpoint name="Endpoint1">
+      <address uri="https://localhost:9444/carbon" />
+   </endpoint>
+   <sequence name="fault">
+      <log level="full">
+         <property name="MESSAGE" value="Executing default 'fault' sequence" />
+         <property name="ERROR_CODE" expression="get-property('ERROR_CODE')" />
+         <property name="ERROR_MESSAGE" expression="get-property('ERROR_MESSAGE')" />
+      </log>
+      <drop />
+   </sequence>
+   <sequence name="Sequence1">
+      <log level="full" />
+   </sequence>
+   <sequence name="main">
+      <in>
+         <log level="full" />
+         <filter source="get-property('To')" regex="http://localhost:9000.*">
+            <send />
+         </filter>
+      </in>
+      <out>
+         <send />
+      </out>
+      <description>The main sequence for the message mediation</description>
+   </sequence>
+</definitions>

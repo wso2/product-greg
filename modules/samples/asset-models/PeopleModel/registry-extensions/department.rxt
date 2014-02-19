@@ -1,0 +1,91 @@
+<?xml version="1.0"?>
+<artifactType type="application/vnd.wso2-department+xml" shortName="departments" singularLabel="Department" pluralLabel="Departments" hasNamespace="false" iconSet="20">
+	<storagePath>/departments/@{name}</storagePath>
+	<nameAttribute>overview_name</nameAttribute>
+	<ui>
+		<list>
+			<column name="Name">
+				<data type="path" value="overview_name" href="@{storagePath}"/>
+			</column>
+		</list>
+	</ui>
+	<relationships>
+		<association type="isConsumedBy"  source="@{assets_entry:value}"/>
+		<association type="isPartOf"  source="@{projectGroups_projectGroup1}"/>
+		<association type="isPartOf"  source="@{projectgroups_projectGroup2}"/>
+	</relationships>  	
+	<content>
+		<table name="Overview">
+			<field type="text" required="true">
+				<name>Name</name>
+			</field>
+			<field type="options">
+				<name label="type">Type</name>
+				<values>
+					<value>Production</value>
+					<value>Quality Assurance</value>
+					<value>Marketing</value>
+					<value>Sales</value>
+					<value>Other</value>
+				</values>
+			</field>
+			<field type="text" required="true" path="true">
+				<name>Department Manager</name>
+			</field>
+			<field type="text-area">
+				<name>Description</name>
+			</field>
+		</table>
+		<table name="Assets">
+			<subheading>
+				<heading>Type</heading>
+				<heading>Path</heading>
+			</subheading>
+			<field type="option-text" maxoccurs="unbounded" path="true" url="true">
+				<name>Asset</name>
+				<values>
+					<value>None</value>
+					<value>Policy</value>
+					<value>Service</value>          
+				</values>
+			</field>
+		</table>
+		<table name="Project Groups" columns="2">
+			<subheading>
+				<heading>Project Group</heading>
+			</subheading>
+			<field type="text" path="true">
+				<name>Project Group 1</name>
+			</field>
+			<field type="text" path="true">
+				<name>Project Group 2</name>
+			</field>
+		</table>
+		<table name="Documentation" columns="3">
+			<subheading>
+				<heading>Document Type</heading>
+				<heading>URL</heading>
+				<heading>Comment</heading>
+			</subheading>
+			<field type="text">
+				<name>Document Type</name>
+			</field>
+			<field type="text" url="true">
+				<name>URL</name>
+			</field>
+			<field type="text-area">
+				<name>Document Comment</name>
+			</field>
+			<field type="text">
+				<name>Document Type1</name>
+			</field>
+			<field type="text" url="true">
+				<name>URL1</name>
+			</field>
+			<field type="text-area">
+				<name>Document Comment1</name>
+			</field>
+		</table>
+	</content>
+</artifactType>
+

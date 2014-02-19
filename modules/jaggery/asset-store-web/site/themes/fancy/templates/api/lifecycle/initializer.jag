@@ -1,0 +1,11 @@
+<%
+jagg.initializer("api/lifecycle", {
+
+    preInitialize:function () {
+        jagg.addHeaderJS("api/lifecycle", "lifecycle", "templates/api/lifecycle/js/lifecycle.js");
+        jagg.addHeaderJS("api/lifecycle", "lifecycleRaphael", "templates/api/lifecycle/js/raphael/raphael-min.js");
+        jagg.addHeaderJS("api/lifecycle", "lifecycleGraph", "templates/api/lifecycle/js/graph.js");
+        jagg.addHeaderCSSCode("api/lifecycle", "lifecycleCSS", "#canvas_container {width: 100%;background:#fff;overflow:auto;margin-bottom:20px;}");
+    }
+});
+%>

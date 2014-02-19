@@ -1,0 +1,20 @@
+<%
+jagg.block("api/overview", {
+    initializer:function (data) {
+
+    },
+
+    getInputs:function () {
+        return {
+            "api":null,
+            "user":null
+        }
+    },
+
+    getStaticBlocks:function() {
+        return [
+            "comment/comment-add"
+        ];
+    }
+});
+%>

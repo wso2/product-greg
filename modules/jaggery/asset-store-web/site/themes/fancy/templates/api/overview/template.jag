@@ -1,0 +1,96 @@
+<% jagg.template("api/overview", function(inputs, outputs, jagg) { %>
+<% var api = outputs.api, user = outputs.user; %>
+<div id="overview">
+    <% if (!site.layout.pages.overview.hasOwnProperty(outputs.api.type)) { %>
+        <h6>URLs:</h6>
+        <ul>
+        <%
+        var serverEndpoints = api.serverURL.split(",");
+        for (i = 0; i < serverEndpoints.length; i++) {
+        %>
+        <li><%=serverEndpoints[i]%><%=api.context%>/<%=api.version%></li>
+        <%
+        }
+        %>
+        </ul>
+        <% if(api.wsdl && api.wsdl != ""){ %>
+            <h6>WSDL:</h6>
+        <p>
+            <a href="<%=api.wsdl%>" target="_blank"><%=api.wsdl%> </a>
+        </p>
+        <% } %>
+        <% if(api.wadl && api.wadl != ""){ %>
+            <h6>WADL:</h6>
+        <p>
+            <a href="<%=api.wadl%>" target="_blank"><%=api.wadl%></a>
+        </p>
+            <% } %>
+        <% if(api.description && api.description != ""){ %>
+            <h6>Description:</h6>
+        <p>
+            <%=api.description%>
+        </p>
+            <% } %>
+
+        <% if(api.bizOwner&& api.bizOwner != ""){ %>
+            <h6>Business Owner:</h6>
+        <p>
+            <%=api.bizOwner%> <% if(api.bizOwnerMail && api.bizOwnerMail!=""){%>
+               [<a href="mailto:<%=api.bizOwnerMail%>"><%=api.bizOwnerMail%></a>]
+            <%}%>
+        </p>
+        <% } %>
+        <% if(api.techOwner && api.techOwner != ""){ %>
+            <h6>Technical Owner:</h6>
+        <p>
+            <%=api.techOwner%>
+            <% if(api.techOwnerMail && api.techOwnerMail!=""){%>
+               [<a href="mailto:<%=api.techOwnerMail%>"><%=api.techOwnerMail%></a>]
+            <%}%>
+        </p>
+        <% } %>
+    <%
+    } else {
+        for(var i in site.layout.pages.overview[outputs.api.type].list) {
+            var e = site.layout.pages.overview[outputs.api.type].list[i];
+            var isEmpty = false;
+            for (j in e.attributes) {
+                var attr = e.attributes[j];
+                if (!api[attr] || api[attr] == "") {
+                    isEmpty = true;
+                    break;
+                }
+            }
+            if (!isEmpty) {
+                var template = e.template;
+                var attr = e.attributes[0];
+                if (template) {
+                    for (j in e.attributes) {
+                        if (j == 0) {
+                            continue;
+                        }
+                        var attrTmp = e.attributes[j];
+                        template = template.replace(new RegExp("{" + j + "}", "gm"), api[attrTmp]);
+                    }
+                }
+                if (!e.separator) {
+                    %><h6><%=e.label%>:</h6><p><%=(template ? template.replace(new RegExp("{0}", "gm"), api[attr]) : api[attr])%></p><%
+                } else {
+                    %><h6><%=e.label%>:</h6><ul><%
+                        var parts = api[attr].split(e.separator);
+                        for (var k in parts) {
+                        %>
+                        <li><%=(template ? template.replace(new RegExp("{0}", "gm"), parts[k]) : parts[k])%></li>
+                        <%
+                        }
+                    %></ul><%
+                }
+            }
+        }
+    } 
+    %>
+    <h3>Comments:</h3>
+    <% if(user) jagg.includeBlock("comment/comment-add", null); %>
+    <% jagg.includeBlock("comment/comment-list", {api:api}); %>
+</div>
+<% }); %>

@@ -1,0 +1,31 @@
+<% jagg.template("menu/primary", function(inputs, outputs, jagg) { %>
+   <div class="navbar header-menu">
+      <div class="navbar-inner">
+        <div class="container-fluid menu-content">
+          <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </a>
+            <a href="/store" class="brand"><img src="<%=jagg.getAbsoluteUrl(jagg.getThemeFile("images/logo.png"))%>" alt="<%=site.layout.assetNameSingular%> Store"></a>
+          <div class="pull-right">
+            <% jagg.includeBlock("user/login", null); %>
+          </div>
+          <div class="nav-collapse offset3">
+            <ul class="nav orderFix">
+                <%
+                var i, link, links = outputs.links, length = links.length;
+                for(i = 0; i < length; i++) {
+                    link = links[i];
+                %>
+                <li <%=(link.active ? 'class="active"' : '')%>>
+                    <a title="<%=link.tooltip%>" href="<%=link.url%>"<%=(link.classes ? ' class="' + link.classes + '"' : "")%>><%=link.title%></a>
+                </li>
+                <% } %>
+            </ul>
+          </div><!--/.nav-collapse -->
+        </div>
+      </div>
+    </div>
+
+<% }); %>

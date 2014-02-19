@@ -1,0 +1,36 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2010
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WSO2", "WSO2\WSO2.csproj", "{81D607FA-37DE-4A88-AB0F-64532E2B68D8}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WSO2Tests", "WSO2Tests\WSO2Tests.csproj", "{2B6372E8-CD2B-44FD-AC13-3DD13CBC5B5B}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{8C441B3A-F615-4088-B76E-6710A13745ED}"
+	ProjectSection(SolutionItems) = preProject
+		Local.testsettings = Local.testsettings
+		TraceAndTestImpact.testsettings = TraceAndTestImpact.testsettings
+		WSO2.vsmdi = WSO2.vsmdi
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(TestCaseManagementSettings) = postSolution
+		CategoryFile = WSO2.vsmdi
+	EndGlobalSection
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{81D607FA-37DE-4A88-AB0F-64532E2B68D8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{81D607FA-37DE-4A88-AB0F-64532E2B68D8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{81D607FA-37DE-4A88-AB0F-64532E2B68D8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{81D607FA-37DE-4A88-AB0F-64532E2B68D8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2B6372E8-CD2B-44FD-AC13-3DD13CBC5B5B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2B6372E8-CD2B-44FD-AC13-3DD13CBC5B5B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2B6372E8-CD2B-44FD-AC13-3DD13CBC5B5B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2B6372E8-CD2B-44FD-AC13-3DD13CBC5B5B}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

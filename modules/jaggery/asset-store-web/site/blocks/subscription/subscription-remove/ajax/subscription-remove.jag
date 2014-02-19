@@ -1,0 +1,45 @@
+<%
+include("/jagg/jagg.jag");
+(function () {
+    var mod, obj, id, tier, applicationId, application, context, result, username,
+            user = jagg.getUser(),
+            msg = require("/site/conf/ui-messages.jag"),
+            action = request.getParameter("action");
+    if (action == "removeSubscription") {
+        if (!user) {
+            print({
+                error:true,
+                message:msg.error.loginRequired(action)
+            });
+            return;
+        }
+
+        id = request.getParameter("id");
+        applicationId = parseInt(request.getParameter("applicationId"), 10);
+        username = user.username;
+
+        mod = jagg.module("subscription");
+        result = mod.removeAPISubscription(username,applicationId,{
+            id:id
+        });
+
+        if (result.error) {
+            obj = {
+                error:result.error,
+                message:msg.error.authError(action, username)
+            };
+        } else {
+            obj = {
+                error:false
+            }
+        }
+        print(obj);
+
+     }else {
+        print({
+            error:true,
+            message:msg.error.invalidAction(action)
+        });
+    }
+}());
+%>

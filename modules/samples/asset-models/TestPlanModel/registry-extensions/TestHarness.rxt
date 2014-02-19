@@ -1,0 +1,136 @@
+<?xml version="1.0"?>
+<artifactType type="application/vnd.wso2-testharness+xml" shortName="harness" singularLabel="Test Harness" pluralLabel="Test Harnesses" hasNamespace="false" iconSet="26">
+	<storagePath>/test_harnesses/@{name}/@{overview_version}</storagePath>
+	<nameAttribute>overview_name</nameAttribute>
+	<ui>
+		<list>
+			<column name="Name">
+				<data type="path" value="overview_name" href="@{storagePath}"/>
+			</column>
+		</list>
+	</ui>
+	<relationships>
+		<dependency type="depends"  target="@{tests_entry:value}"/>
+	</relationships>
+	<content>        
+		<table name="Overview">            
+			<field type="text" required="true">                
+				<name>Name</name>            
+			</field>           
+			<field type="text" required="true">                
+				<name>Version</name>
+			</field>            
+			<field type="text-area">                
+				<name>Description</name>            
+			</field>            
+			<field type="text" url="true">                
+				<name>Guidelines</name>            
+			</field>        
+		</table>        
+		<table name="Tests">            
+			<subheading>                
+				<heading>Type</heading>
+				<heading>Path</heading>
+			</subheading>            
+			<field type="option-text" maxoccurs="unbounded" path="true">                
+				<name>Test</name>                
+				<values>
+					<value>Test Case</value>
+					<value>Test Suite</value>
+				</values>
+			</field>
+		</table>
+		<table name="Supported Environments">
+			<field type="checkbox">                
+				<name>Windows</name>            
+			</field>            
+			<field type="checkbox">                
+				<name>RHEL</name>            
+			</field>            
+			<field type="checkbox">                
+				<name>Ubuntu</name>            
+			</field>            
+			<field type="checkbox">                
+				<name>MacOS</name> 
+			</field>            
+			<field type="checkbox">                
+				<name>Solaris</name>            
+			</field>            
+			<field type="checkbox">                
+				<name>AIX</name>            
+			</field>        
+		</table>        
+		<table name="Results" columns="3">
+			<subheading>                
+				<heading>Result</heading>
+			</subheading>            
+			<field type="text" url="true">
+				<name>Result1</name>            
+			</field>            
+			<field type="text" url="true">                
+				<name>Result2</name>            
+			</field>            
+			<field type="text" url="true">                
+				<name>Result3</name>            
+			</field>            
+			<field type="text" url="true">                
+				<name>Result4</name>            
+			</field>            
+			<field type="text" url="true">                
+				<name>Result5</name>            
+			</field>            
+			<field type="text" url="true">                
+				<name>Result6</name>            
+			</field>        
+		</table>        
+		<table name="Issues">            
+			<subheading>                
+				<heading>Type</heading>
+				<heading>Key</heading>            
+			</subheading>            
+			<field type="option-text" maxoccurs="unbounded" url="true" template="https://wso2.org/jira/browse/@{value}">
+				<name>Issue</name>                
+				<values>                    
+					<value>Bug</value>                    
+					<value>Improvement</value>                    
+					<value>Task</value>                    
+					<value>Query</value>                
+				</values>            
+			</field>        
+		</table>  
+		<table name="Documentation" columns="3">  
+			<subheading>              
+				<heading>Document Type</heading>   
+				<heading>URL</heading>        
+				<heading>Comment</heading>     
+			</subheading>         
+			<field type="text">      
+				<name>Document Type</name>   
+			</field>         
+			<field type="text" url="true"> 
+				<name>URL</name>     
+			</field>       
+			<field type="text-area">    
+				<name>Document Comment</name> 
+			</field>       
+			<field type="text">    
+				<name>Document Type1</name>     
+			</field>     
+			<field type="text" url="true">  
+				<name>URL1</name>     
+			</field>         
+			<field type="text-area">   
+				<name>Document Comment1</name>   
+			</field>      
+			<field type="text">   
+				<name>Document Type2</name>  
+			</field> 
+			<field type="text" url="true">    
+				<name>URL2</name>     
+			</field>       
+			<field type="text-area">  
+				<name>Document Comment2</name>      
+			</field>      
+		</table>
+	</content>
+</artifactType>

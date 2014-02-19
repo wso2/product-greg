@@ -1,0 +1,35 @@
+<%
+include("/jagg/jagg.jag");
+
+(function () {
+    var mod, obj, password, result, username,
+            msg = require("/site/conf/ui-messages.jag"),
+            action = request.getParameter("action"),
+            user = jagg.getUser();
+    if (action == "addUser") {
+
+        username = request.getParameter("username");
+        password = request.getParameter("password");
+
+        mod = jagg.module("user");
+        result = mod.addUser(username, password);
+
+        if (result.error) {
+            obj = {
+                error:result.error,
+                message:result.message
+            };
+        } else {
+            obj = {
+                error:false
+            }
+        }
+        print(obj);
+    } else {
+        print({
+            error:true,
+            message:msg.error.invalidAction(action)
+        });
+    }
+}());
+%>

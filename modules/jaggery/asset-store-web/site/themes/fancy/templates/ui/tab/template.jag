@@ -1,0 +1,44 @@
+<% jagg.template("ui/tab", function(inputs, outputs, jagg) { %>
+<div class="ui-tab<%=(outputs.classes ? " " + outputs.classes : "")%>">
+    <%
+        var tabs = outputs.tabs, length = tabs.length;
+        var i, index, tab, classes, activeTab = request.getParameter("tab") || 0;
+    %>
+    <ul class="nav nav-tabs all-tabs">
+    <%
+    for(i = 0; i < length; i++) {
+        tab = tabs[i];
+        if (tab.enabled == "false") {
+            continue;
+        }
+        if(i == 0) {
+            clazz = "first";
+        } else if(i == length - 1) {
+            clazz = "last";
+        } else {
+            clazz = "";
+        }
+        if (i == activeTab) {
+            clazz += " active";
+        }
+    %> <%if(tab.title!=undefined ||tab.title!=null){%>
+        <li class="<%=clazz%>">
+            <a href="#tab<%=String(i)%>"><%=tab.title%></a>
+        </li>
+    <% }} %>
+    </ul>
+    <div class="corner-maker-left"></div>
+
+    <div class="tab-content">
+    <%
+    for(i = 0; i < length; i++) {
+        tab = tabs[i];
+        if (tab.enabled == "false") {
+            continue;
+        }
+    %>
+    <div class="tab-pane <% if(i==activeTab){%>active<% } %>" id="tab<%=String(i)%>"><% jagg.includeBlocks(tab.body); %></div>
+    <% } %>
+    </div>
+</div>
+<% }); %>

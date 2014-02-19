@@ -1,0 +1,62 @@
+<?xml version="1.0"?>
+<artifactType type="application/vnd.wso2-servicetasks+xml" shortName="serviceTasks" singularLabel="Service Task" pluralLabel="Service Tasks" hasNamespace="false" iconSet="16">
+	<storagePath>/processes/service_tasks/@{name}</storagePath>
+	<nameAttribute>details_id</nameAttribute>
+	<ui>
+		<list>
+			<column name="Name">
+				<data type="path" value="details_name" href="@{storagePath}"/>
+			</column>
+			<column name="Process Name">
+				<data type="path" value="details_process" href="@{storagePath}"/>
+			</column>
+		</list>
+	</ui>	
+	<content>
+		<table name="Details">
+			<field type="text" required="true">
+				<name label="name">Name</name>
+			</field>
+			<field type="text" required="true">
+				<name label="id">ID</name>
+			</field>
+			<field type="text" required="true">
+				<name label="process">Process</name>
+			</field>
+		</table>
+		<table name="Documentation" columns="3">  
+			<subheading>              
+				<heading>Document Type</heading>   
+				<heading>URL</heading>        
+				<heading>Comment</heading>     
+			</subheading>         
+			<field type="text">      
+				<name>Document Type</name>   
+			</field>         
+			<field type="text" url="true"> 
+				<name>URL</name>     
+			</field>       
+			<field type="text-area">    
+				<name>Document Comment</name> 
+			</field>       
+			<field type="text">    
+				<name>Document Type1</name>     
+			</field>     
+			<field type="text" url="true">  
+				<name>URL1</name>     
+			</field>         
+			<field type="text-area">   
+				<name>Document Comment1</name>   
+			</field>      
+			<field type="text">   
+				<name>Document Type2</name>  
+			</field> 
+			<field type="text" url="true">    
+				<name>URL2</name>     
+			</field>       
+			<field type="text-area">  
+				<name>Document Comment2</name>      
+			</field>      
+		</table>
+	</content>
+</artifactType>

@@ -1,0 +1,55 @@
+<%
+include("/jagg/jagg.jag");
+var site = require("/site/conf/site.json");
+
+(function () {
+
+    var result, api, title, mod, links,
+            id = request.getParameter("id"),
+            user = jagg.getUser();
+   var username=null;
+   if(user!=null){
+   username=user.username;
+   }
+    result = jagg.module("api").getAPIDescription({
+        id:id
+    }, username);
+    api = result.api;
+
+    title = site.layout.assetNameSingular + " Store - " + api.name;
+
+    jagg.render({
+        "name":"page/base",
+        "inputs":{
+            "title":title,
+            "pagePath":"/site/pages/item-info.jag",
+            "body":[
+                {
+                    "name":"layout/base",
+                    "inputs":{
+                        "title":api.name,
+                        "top":{
+                            "name":"search/api-search",
+                            "inputs":null
+                        },
+                        "left":{
+                            "name":"api/provider-apis",
+                            "inputs":{
+                                     "providerId":api.provider,
+                                     "currentApi":api.name
+                                     }
+                        },
+                        "middle":{
+                            "name":"api/api-info",
+                            "inputs":{
+                                     "api":api
+                                     }
+                        },
+                        "right":null
+                    }
+                }
+            ]
+        }
+    });
+}());
+%>

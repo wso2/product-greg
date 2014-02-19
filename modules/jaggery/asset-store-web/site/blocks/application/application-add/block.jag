@@ -1,0 +1,7 @@
+<%
+jagg.block("application/application-add", {
+    initializer:function (data) {
+
+    }
+});
+%>

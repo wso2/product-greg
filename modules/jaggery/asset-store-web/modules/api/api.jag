@@ -1,0 +1,24 @@
+<%
+var getAPIDescription = function (api, username) {
+    var log = new Log(),
+            store = jagg.module("manager").getAPIStoreObj();
+
+    try {
+        api = store.getAPI(api.id, username);
+        if (log.isDebugEnabled()) {
+            log.debug("getAPI : " + stringify(api));
+        }
+        api = api[0];
+        return {
+            error:false,
+            api:api
+        };
+    } catch (e) {
+        log.error(e.message);
+        return {
+            error:e,
+            api:null
+        };
+    }
+};
+%>

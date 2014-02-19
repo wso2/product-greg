@@ -1,0 +1,7 @@
+<module name="assetstore" namespace="ns" expose="true" xmlns="http://wso2.org/projects/jaggery/module.xml">    
+    <hostObject>
+        <className>org.wso2.carbon.apimgt.hostobjects.AssetStoreHostObject</className>
+        <name>AssetStore</name>
+    </hostObject>
+</module>
+

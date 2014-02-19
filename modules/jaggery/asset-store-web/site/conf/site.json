@@ -1,0 +1,70 @@
+{
+    "theme" : {
+        "base" : "fancy"
+    },
+    "context" : "/store",
+    "layout" : {
+        "assetNameSingular" : "Asset",
+        "assetNamePlural" : "Assets",
+        "links" : {
+            "display" : "custom",
+            "list" : [{
+                "title" : "Assets",
+                "tooltip" : "Browse the latest versions of all Assets."
+            },{
+                "title" : "APIs",
+                "tooltip" : "Browse the latest versions of APIs.",
+                "query" : "type:api"
+            },{
+                "title" : "Services",
+                "tooltip" : "Browse the latest versions of Services.",
+                "query" : "type:service"
+            }]
+        },
+        "pages" : {
+            "overview" : {
+                "service" : {
+                    "list" : [{
+                        "label" : "Namespace",
+                        "attributes" : ["overview_namespace"]
+                    },{
+                        "label" : "Endpoints",
+                        "attributes" : ["serverURL"],
+                        "separator" : ",",
+                        "template" : "{0}"
+                    }]
+                },
+                "api" : {
+                    "list" : [{
+                        "label" : "URLs",
+                        "attributes" : ["serverURL", "context", "version"],
+                        "separator" : ",",
+                        "template" : "{0}{1}/{2}"
+                    },{
+                        "label" : "WSDL",
+                        "attributes" : ["wsdl"],
+                        "template" : "<a href='{0}' target='_blank'>{0}</a>"
+                    },{
+                        "label" : "WADL",
+                        "attributes" : ["wadl"],
+                        "template" : "<a href='{0}' target='_blank'>{0}</a>"
+                    },{
+                        "label" : "Description",
+                        "attributes" : ["description"]
+                    },{
+                        "label" : "Business Owner",
+                        "attributes" : ["overview_businessOwner", "overview_businessOwnerEmail"],
+                        "template" : "{0} [<a href='mailto:{1}'>{1}</a>]"
+                    },{
+                        "label" : "Technical Owner",
+                        "attributes" : ["overview_technicalOwner", "overview_technicalOwnerEmail"],
+                        "template" : "{0} [<a href='mailto:{1}'>{1}</a>]"
+                    }]
+                }
+            },
+            "lifecycle" : {
+                "enabled" : "true"
+            }
+        }
+    }
+}

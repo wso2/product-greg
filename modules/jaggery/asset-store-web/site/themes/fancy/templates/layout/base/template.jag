@@ -1,0 +1,53 @@
+<% jagg.template("layout/base", function(inputs, outputs, jagg) { %>
+<%
+    var mw = 6;
+    var mww = 12;
+    if(!outputs.left && !outputs.right) {
+        mw = 12;
+        mww = 6;
+    } else if(!outputs.left || !outputs.right) {
+        mw = 9;
+        mww = 8;
+    }
+%>
+        <% jagg.includeBlocks(outputs.top); %>
+
+    <div class="row-fluid page-content">
+           <div class="span3 section-shifter-left">
+                <% jagg.includeBlocks(outputs.left); %>
+           </div>
+           <div class="span<%=String(mw)%> <% if(mw==9){%>padding-from-right<%}%>">
+               <div class="main-heading">
+                   <div class="row-fluid">
+                       <div class="span<%=String(mww)%>">
+                       <% if(outputs.title == "Applications") { %>
+
+                            <h1>Applications</h1>
+                            <p>Browse and create applications. Applications are required to make <%=site.layout.assetNameSingular%> subscriptions and consume them.</p>
+
+                       <% } else if(outputs.title == "My Subscriptions") { %>
+
+                            <h1>Subscriptions</h1>
+                            <p>Browse through all the <%=site.layout.assetNameSingular%> subscriptions made so far and review the generated keys.</p>
+
+
+                       <% } else { %>
+                           <h1><%=site.layout.assetNamePlural%></h1>
+                           <p>The practice of publishing <%=site.layout.assetNamePlural%> has allowed web communities to create an open architecture for sharing
+                               content
+                               and data between communities and applications.</p>
+                       <% } %>
+                       </div>
+                   </div>
+               </div>
+
+               <% if(outputs.title && outputs.title==site.layout.assetNamePlural) { %><h2><%=outputs.title%></h2><% } %>
+                <% jagg.includeBlocks(outputs.middle); %>
+           </div>
+
+           <div class="span3 section-shifter-left">
+               <% jagg.includeBlocks(outputs.right); %>
+           </div>
+
+    </div>
+<% }); %>

@@ -1,0 +1,27 @@
+<project-proposal>
+    <name>Colombo Galle Highway</name>
+
+    <abstract>This super highway project is aimed at constructing a highway between Colombo and
+    Galle tp provide fast access to the main city from sothern areas of the country. Initially it was
+    planned to build covering the more inland ares and as a complement to the current Colombo-Galle
+    road. But our latest proposal is to build the highway above the current Colombo-Galle road in order
+    to reduce the current congestion in the southern roads. It is estimated that the project could
+    cut the travelling time between major cities from 2 hours.</abstract>
+
+    <duration>8 years</duration>
+
+    <contractor>CurevedLines Engineering Inc.</contractor>
+
+    <consultant>State Engineering Board</consultant>
+    
+    <cost>300 million rupees</cost>
+
+    <report name="environmental damage accessment">
+        Complete enviromental damage accessment for this project has been conducted by independent
+        authority named "Trees and Rivers" and all required tests have met. It is ...
+    </report>
+
+    <report name="resettlement plan">
+        All civilian displacements have been accessed and ...        
+    </report>
+</project-proposal>

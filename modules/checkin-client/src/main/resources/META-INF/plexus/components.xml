@@ -1,0 +1,11 @@
+<component-set>
+    <components>
+        <component>
+            <role>org.apache.maven.scm.provider.ScmProvider</role>
+            <role-hint>wso2</role-hint>
+            <implementation>org.wso2.registry.checkin.scm.Provider</implementation>
+            <description>SCM Provider for WSO2 Governance Registry</description>
+            <isolated-realm>false</isolated-realm>
+        </component>
+    </components>
+</component-set>

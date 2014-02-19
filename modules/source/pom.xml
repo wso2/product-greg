@@ -1,0 +1,178 @@
+ <project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+    <parent>
+        <groupId>org.wso2.governance</groupId>
+        <artifactId>governance-parent</artifactId>
+        <version>5.0.0</version>
+        <relativePath>../../pom.xml</relativePath>
+    </parent>
+	<modelVersion>4.0.0</modelVersion>
+    <artifactId>wso2greg-src</artifactId>
+    <packaging>pom</packaging>
+    <name>WSO2 Governance Registry Source</name>
+    <url>http://wso2.com/products/governance-registry</url>
+    <description>WSO2 Governance Registry Source</description>
+
+    <dependencies>
+        <dependency>
+            <groupId>org.apache.ant</groupId>
+            <artifactId>ant</artifactId>
+            <version>1.7.0</version>
+        </dependency>
+        <dependency>
+            <groupId>ant-contrib</groupId>
+            <artifactId>ant-contrib</artifactId>
+            <version>1.0b2</version>
+        </dependency>					
+    </dependencies>
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-antrun-plugin</artifactId>
+                <version>1.1</version>
+                <executions>
+                    <execution>
+                        <id>clean-checkout</id>
+                        <phase>validate</phase>
+                        <goals>
+                            <goal>run</goal>
+                        </goals>
+                        <configuration>
+                            <tasks>
+                                <taskdef classname="net.sf.antcontrib.logic.IfTask" classpathref="maven.test.classpath" name="if" />
+                                <if>
+                                    <istrue value="${clean.checkout}" />
+                                    <then>
+                                        <delete dir="${svn.co.dir}"/>
+                                    </then>
+                                </if>
+                            </tasks>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>prepare-src-for-packing</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>run</goal>
+                        </goals>
+                        <configuration>
+                            <tasks>
+                                <copy todir="target/src-temp/" overwrite="false">
+                                    <fileset dir="${svn.co.dir}/">
+                                        <exclude name="*.svn"/>
+                                    </fileset>
+                                </copy>
+                            </tasks>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>clean_target</id>
+                        <phase>install</phase>
+                        <goals>
+                            <goal>run</goal>
+                        </goals>
+                        <configuration>
+                            <tasks>
+                                <delete dir="target/archive-tmp"/>
+                                <delete dir="target/maven-archiver"/>
+                            </tasks>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <plugin>
+                <groupId>com.google.code.maven-svn-revision-number-plugin</groupId>
+                <artifactId>maven-svn-revision-number-plugin</artifactId>
+                <version>1.1</version>
+                <configuration>
+                    <reportMixedRevisions>false</reportMixedRevisions>
+                    <reportStatus>false</reportStatus>
+                </configuration>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>revision</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.codehaus.groovy.maven</groupId>
+                <artifactId>gmaven-plugin</artifactId>
+                <version>1.0-rc-5</version>
+                <executions>
+                    <execution>
+                        <phase>generate-sources</phase>
+                        <goals>
+                            <goal>execute</goal>
+                        </goals>
+                        <configuration>
+                            <source>
+                                import java.io.File
+
+                                if (project.properties['checkout.location'] != null) {
+                                    def sourceDir = new File(project.properties['source.path'] + File.separator + "checkout")
+                                    if (sourceDir.exists()) {
+                                        project.properties['svn.exec.args.command'] = "up"
+                                        project.properties['svn.exec.args.url'] = " "
+                                    } else {
+                                        project.properties['svn.exec.args.command'] = "co"
+                                        project.properties['svn.exec.args.url'] = project.properties['checkout.location']
+                                    }
+                                }
+                            </source>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>exec-maven-plugin</artifactId>
+                <version>1.1.1</version>
+                <configuration>
+                    <executable>svn</executable>
+                    <arguments>
+                        <argument>${svn.exec.args.command}</argument>
+                        <argument>-${workingCopyDirectory.revision}</argument>
+                        <argument>${svn.exec.args.url}</argument>
+                        <argument>${svn.co.dir}</argument>
+                    </arguments>
+                </configuration>
+                <executions>
+                    <execution>
+                        <phase>process-sources</phase>
+                        <goals>
+                            <goal>exec</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+
+    <pluginRepositories>
+        <pluginRepository>
+            <id>wso2-maven2-repository</id>
+            <url>http://dist.wso2.org/maven2</url>
+        </pluginRepository>
+        <pluginRepository>
+            <id>maven-svn-revision-number-plugin-repo</id>
+            <url>http://oss.sonatype.org/content/repositories/googlecode-releases</url>
+        </pluginRepository>
+        <pluginRepository>
+            <id>codehaus</id>
+            <name>Codehaus Repository</name>
+            <url>http://repository.codehaus.org</url>
+        </pluginRepository>
+    </pluginRepositories>
+    <properties>
+        <checkout.location>${workingCopyDirectory.repository}/branches/solutions/governance/${project.version}</checkout.location>
+        <source.path>${basedir}</source.path>
+        <svn.co.dir>checkout</svn.co.dir>
+    </properties>
+</project>
+
+

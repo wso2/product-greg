@@ -1,0 +1,58 @@
+<% jagg.template("api/documentation", function(inputs, outputs, jagg) {
+var id=request.getParameter("id");
+var reqUrl = request.getRequestURI();
+var docUrl=jagg.getAbsoluteUrl("/site/pages/doc-viewer.jag");
+var docMappedUrl=jagg.getMappedUrl("/site/pages/doc-viewer.jag");
+%>
+<div class="api-documentation">
+    <%
+    var i, type, length, doc, docs, empty = true, documentations = outputs.documentations;
+    for(type in documentations) {
+        if(documentations.hasOwnProperty(type)) {
+            empty = false;
+            docs = documentations[type];
+    %>
+    <div class="accordion-group">
+        <div class="accordion-heading">
+            <a class="accordion-toggle"><%=type%></a>
+        </div>
+        <div class="accordion-body">
+            <div class="accordion-inner">
+                <%
+                length = docs.length;
+                for(i = 0; i < length; i++) {
+                    doc = docs[i];
+                %>
+                <div class="documentation">
+                    <h6>Name:</h6>
+                    <p><%=doc.name%></p>
+                    <div class="documentaion-body">
+                    <% if(doc.summary && doc.summary != ""){ %>
+                    <h6>Summary:</h6><p><%=doc.summary%></p>
+                    <%}%>
+                    <%if(doc.sourceUrl&& doc.sourceUrl!=""){%>
+                    <p><a href="<%=doc.sourceUrl%>" target="_blank">View Content</a></p>
+                    <%}else if(doc.filePath && doc.filePath!=""){%>
+                    <p><a href="<%=doc.filePath%>" target="_blank">Download</a></p>
+                    <%}else{
+                    %>
+                    <div>
+                     <%if(reqUrl.indexOf(".jag")>=0){%>
+                     <a href="doc-viewer.jag?docName=<%=doc.name%>&id=<%=id%>"  target="_blank">View Content</a>
+                     <%}else{%>
+                     <a href="../site/pages/doc-viewer.jag?docName=<%=doc.name%>&id=<%=id%>"  target="_blank">View Content</a>
+                     <%}%>
+                    </div>
+                     <%}%>
+                    </div>
+                    <hr/>
+                </div>
+                <% } %>
+            </div>
+        </div>
+    </div>
+    <%  } %>
+    <% } %>
+    <% if(empty) { %><p>No documents have been associated with this <%=site.layout.assetNameSingular%> so far.</p><% } %>
+</div>
+<% }); %>

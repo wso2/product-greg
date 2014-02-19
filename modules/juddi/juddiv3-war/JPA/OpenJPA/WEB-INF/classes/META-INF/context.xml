@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<Context>
+    <WatchedResource>WEB-INF/web.xml</WatchedResource>
+    <!--  -->
+    <Resource name="jdbc/juddiDB" auth="Container"
+            type="javax.sql.DataSource" username="root" password="root"
+            driverClassName="com.mysql.jdbc.Driver" 
+            url="jdbc:mysql://localhost:3306/juddi2"
+            maxActive="8" 
+            />
+    
+    <!-- mysql 
+    <Resource name="jdbc/JuddiDS" auth="Container"
+            type="javax.sql.DataSource" username="root" password=""
+            driverClassName="com.mysql.jdbc.Driver" 
+            url="jdbc:mysql://localhost:3306/juddiv3"
+            maxActive="8" 
+            />
+        -->    
+</Context>
+

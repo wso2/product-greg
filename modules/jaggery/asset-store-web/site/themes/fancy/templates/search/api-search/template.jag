@@ -1,0 +1,20 @@
+<% jagg.template("search/api-search", function(inputs, outputs, jagg) {
+var query=request.getParameter("query");
+%>
+    <div class="header-section">
+        <div class="row search-back">
+
+
+                <div class="span9 offset3">
+                    <div class="searchAPIs-title"><%=site.layout.assetNamePlural%></div>
+                    <div class="input-append pull-left">
+                        <form action="<%=jagg.getMappedUrl("/site/pages/list-apis.jag")%>">
+                        <input type="text" class="span5" name="query"<%if(query!=null){%> value="<%=query%>" <%}else{%>
+                         placeholder="Search <%=site.layout.assetNamePlural%>"<%}%>/>
+                        <button class="btn btn-primary search-button"><i class="icon-search icon-white"></i></button>
+                        </form>
+                    </div>
+                </div>
+
+    </div>
+<% }); %>
