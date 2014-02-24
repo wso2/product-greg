@@ -22,12 +22,11 @@
     <parent>
         <groupId>org.wso2.governance</groupId>
         <artifactId>cloud-governance-features</artifactId>
-        <version>2.2.0</version>
+        <version>5.0.0-SNAPSHOT</version>
     </parent>
 
     <modelVersion>4.0.0</modelVersion>
     <artifactId>org.wso2.stratos.governance.ui.feature</artifactId>
-    <version>2.2.0</version>
     <packaging>pom</packaging>
     <name>WSO2 Carbon - Cloud Governance UI Feature</name>
     <url>http://wso2.org</url>
@@ -39,12 +38,12 @@
             <dependency>
                 <groupId>org.wso2.governance</groupId>
                 <artifactId>org.wso2.stratos.governance.dashboard.ui</artifactId>
-                <version>${stratos.version}</version>
+                <version>${project.version}</version>
                 </dependency>
             <dependency>
                 <groupId>org.wso2.governance</groupId>
                 <artifactId>org.wso2.stratos.governance.login.ui</artifactId>
-                <version>${stratos.version}</version>
+                <version>${project.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.wso2.governance</groupId>
@@ -53,7 +52,6 @@
             <dependency>
                 <groupId>org.wso2.carbon</groupId>
                 <artifactId>org.wso2.carbon.ui.menu.stratos</artifactId>
-		<version>2.0.0</version>
             </dependency>
         </dependencies>
 
@@ -82,17 +80,17 @@
                                 </properties>
                             </adviceFile>
                             <bundles>
-                                <bundleDef>org.wso2.governance:org.wso2.stratos.governance.dashboard.ui:${stratos.version}
+                                <bundleDef>org.wso2.governance:org.wso2.stratos.governance.dashboard.ui:${project.version}
                                 </bundleDef>
-                                <bundleDef>org.wso2.governance:org.wso2.stratos.governance.login.ui:${stratos.version}
+                                <bundleDef>org.wso2.governance:org.wso2.stratos.governance.login.ui:${project.version}
                                 </bundleDef>
-                                <bundleDef>org.wso2.governance:org.wso2.stratos.governance.styles:${stratos.version}
+                                <bundleDef>org.wso2.governance:org.wso2.stratos.governance.styles:${project.version}
                                 </bundleDef>
 				<bundleDef>org.wso2.carbon:org.wso2.carbon.ui.menu.stratos
 				</bundleDef>
                             </bundles>
                             <importFeatures>
-                                <importFeatureDef>org.wso2.carbon.core.ui:${carbon.version}
+                                <importFeatureDef>org.wso2.carbon.core.ui:${carbon.platform.version}
                                 </importFeatureDef>
                             </importFeatures>
                         </configuration>

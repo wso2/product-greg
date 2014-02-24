@@ -5,7 +5,7 @@
     <parent>
         <groupId>org.wso2.governance</groupId>
         <artifactId>registry</artifactId>
-        <version>5.0.0</version>
+        <version>5.0.0-SNAPSHOT</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
 
@@ -259,7 +259,7 @@
         <dependency>
             <groupId>org.wso2.carbon</groupId>
             <artifactId>SecVerifier</artifactId>
-            <version>${carbon.version}</version>
+            <version>${carbon.platform.version}</version>
             <type>aar</type>
         </dependency>
         <dependency>
@@ -286,22 +286,22 @@
         <dependency>
             <groupId>org.wso2.carbon</groupId>
             <artifactId>org.wso2.carbon.reporting.ui</artifactId>
-            <version>${carbon.version}</version>
+            <version>${carbon.platform.version}</version>
         </dependency>
         <dependency>
             <groupId>org.wso2.carbon</groupId>
             <artifactId>org.wso2.carbon.registry.activities</artifactId>
-            <version>${carbon.version}</version>
+            <version>${carbon.platform.version}</version>
         </dependency>
         <dependency>
             <groupId>org.wso2.carbon</groupId>
             <artifactId>org.wso2.carbon.governance.client</artifactId>
-            <version>${carbon.version}</version>
+            <version>${carbon.platform.version}</version>
         </dependency>
         <dependency>
             <groupId>org.wso2.carbon</groupId>
             <artifactId>org.wso2.carbon.discovery.core</artifactId>
-            <version>${carbon.version}</version>
+            <version>${carbon.platform.version}</version>
         </dependency>
     </dependencies>
     <properties>

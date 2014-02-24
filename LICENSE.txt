@@ -488,9 +488,6 @@ org.wso2.carbon.sso.redirector.ui_2.2.0.jar                                     
 org.wso2.carbon.statistics.stub_4.2.0.jar                                       bundle         apache2   
 org.wso2.carbon.statistics.ui_4.2.1.jar                                         bundle         apache2   
 org.wso2.carbon.statistics_4.2.1.jar                                            bundle         apache2   
-org.wso2.carbon.stratos.common.stub_4.2.0.jar                                   bundle         apache2   
-org.wso2.carbon.stratos.common_2.2.0.jar                                        bundle         apache2   
-org.wso2.carbon.stratos.landing.page.deployer_2.2.0.jar                         bundle         apache2   
 org.wso2.carbon.sts_4.2.0.jar                                                   bundle         apache2   
 org.wso2.carbon.tenant.dispatcher_2.2.0.jar                                     bundle         apache2   
 org.wso2.carbon.tenant.mgt.core_2.2.0.jar                                       bundle         apache2   
@@ -508,7 +505,6 @@ org.wso2.carbon.tomcat.patch_4.2.0.jar                                          
 org.wso2.carbon.tomcat_4.2.0.jar                                                bundle         apache2   
 org.wso2.carbon.ui.menu.general_4.2.0.jar                                       bundle         apache2   
 org.wso2.carbon.ui.menu.governance_4.2.0.jar                                    bundle         apache2   
-org.wso2.carbon.ui.menu.stratos_2.0.0.jar                                       bundle         apache2   
 org.wso2.carbon.ui.menu.tools_4.2.0.jar                                         bundle         apache2   
 org.wso2.carbon.ui_4.2.0.jar                                                    bundle         apache2   
 org.wso2.carbon.um.ws.api.stub_4.2.1.jar                                        bundle         apache2   
@@ -530,9 +526,6 @@ org.wso2.carbon.webapp.mgt_4.2.1.jar                                            
 org.wso2.ciphertool-1.0.0-wso2v2.jar                                            bundle         apache2   
 org.wso2.governance.styles_4.6.0.jar                                            bundle         apache2   
 org.wso2.securevault_1.0.0.wso2v2.jar                                           bundle         apache2   
-org.wso2.stratos.governance.dashboard.ui_2.2.0.jar                              bundle         apache2   
-org.wso2.stratos.governance.login.ui_2.2.0.jar                                  bundle         apache2   
-org.wso2.stratos.governance.styles_2.2.0.jar                                    bundle         apache2   
 pdepublishing-ant.jar                                                           jar            epl1      
 pdepublishing.jar                                                               jar            epl1      
 perf4j_0.9.12.wso2v1.jar                                                        bundle         apache2   

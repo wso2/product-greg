@@ -21,13 +21,13 @@
     <parent>
         <groupId>org.wso2.governance</groupId>
         <artifactId>governance-parent</artifactId>
-        <version>5.0.0</version>
+        <version>5.0.0-SNAPSHOT</version>
         <relativePath>../../pom.xml</relativePath>
     </parent>
 
     <modelVersion>4.0.0</modelVersion>
     <artifactId>wso2greg</artifactId>
-    <version>5.0.0</version>
+    <version>5.0.0-SNAPSHOT</version>
     <packaging>jar</packaging>
     <name>WSO2 Governance Registry - Distribution</name>
     <url>http://wso2.com/products/governance-registry</url>
@@ -48,48 +48,48 @@
         <dependency>
             <groupId>org.wso2.carbon</groupId>
             <artifactId>wso2carbon-core</artifactId>
-            <version>${carbon.version}</version>
+            <version>${carbon.platform.version}</version>
             <type>zip</type>
         </dependency>
         <dependency>
             <groupId>org.wso2.carbon</groupId>
             <artifactId>org.wso2.carbon.registry.core</artifactId>
-            <version>${carbon.version}</version>
+            <version>${carbon.platform.version}</version>
             <classifier>docs</classifier>
             <type>zip</type>
         </dependency>
         <dependency>
             <groupId>org.wso2.carbon</groupId>
             <artifactId>org.wso2.carbon.registry.admin.api</artifactId>
-            <version>${carbon.version}</version>
+            <version>${carbon.platform.version}</version>
             <classifier>docs</classifier>
             <type>zip</type>
         </dependency>
         <dependency>
             <groupId>org.wso2.carbon</groupId>
             <artifactId>org.wso2.carbon.registry.ws.api</artifactId>
-            <version>${carbon.version}</version>
+            <version>${carbon.platform.version}</version>
             <classifier>docs</classifier>
             <type>zip</type>
         </dependency>
         <dependency>
             <groupId>org.wso2.carbon</groupId>
             <artifactId>org.wso2.carbon.registry.social.api</artifactId>
-            <version>${carbon.version}</version>
+            <version>${carbon.platform.version}</version>
             <classifier>docs</classifier>
             <type>zip</type>
         </dependency>
         <dependency>
             <groupId>org.wso2.carbon</groupId>
             <artifactId>org.wso2.carbon.governance.api</artifactId>
-            <version>${carbon.version}</version>
+            <version>${carbon.platform.version}</version>
             <classifier>docs</classifier>
             <type>zip</type>
         </dependency>
         <dependency>
             <groupId>org.wso2.carbon</groupId>
             <artifactId>org.wso2.carbon.registry.jcr</artifactId>
-            <version>${carbon.version}</version>
+            <version>${carbon.platform.version}</version>
         </dependency>
         <dependency>
             <groupId>org.wso2.governance</groupId>
@@ -146,13 +146,13 @@
         <dependency>
             <groupId>org.wso2.carbon</groupId>
             <artifactId>org.wso2.carbon.governance.client</artifactId>
-            <version>${carbon.version}</version>
+            <version>${carbon.platform.version}</version>
             <scope>runtime</scope>
         </dependency>
         <dependency>
             <groupId>org.wso2.carbon</groupId>
             <artifactId>org.wso2.carbon.registry.indexing.stub</artifactId>
-            <version>${carbon.version}</version>
+            <version>${carbon.platform.version}</version>
             <scope>runtime</scope>
         </dependency>
         <dependency>
@@ -203,17 +203,17 @@
         <dependency>
             <groupId>org.apache.httpcomponents</groupId>
             <artifactId>httpclient</artifactId>
-            <version>${carbon.version}</version>
+            <version>${carbon.platform.version}</version>
         </dependency>
         <dependency>
             <groupId>org.apache.httpcomponents</groupId>
             <artifactId>httpcore</artifactId>
-            <version>${carbon.version}</version>
+            <version>${carbon.platform.version}</version>
         </dependency>
         <dependency>
             <groupId>org.apache.httpcomponents</groupId>
             <artifactId>httpcore-nio</artifactId>
-            <version>${carbon.version}</version>
+            <version>${carbon.platform.version}</version>
         </dependency>
         <dependency>
             <groupId>javax.ws.rs</groupId>
@@ -349,7 +349,7 @@
         <dependency>
             <groupId>org.wso2.governance</groupId>
             <artifactId>juddi-listener</artifactId>
-            <version>5.0.0</version>
+            <version>5.0.0-SNAPSHOT</version>
         </dependency>
     </dependencies>
 
@@ -377,7 +377,7 @@
                                 <artifactItem>
                                     <groupId>org.wso2.carbon</groupId>
                                     <artifactId>wso2carbon-core</artifactId>
-                                    <version>${carbon.version}</version>
+                                    <version>${carbon.platform.version}</version>
                                     <type>zip</type>
                                     <overWrite>true</overWrite>
                                     <outputDirectory>target</outputDirectory>
@@ -386,7 +386,7 @@
                                     <groupId>org.wso2.carbon</groupId>
                                     <artifactId>org.wso2.carbon.registry.core</artifactId>
                                     <classifier>docs</classifier>
-                                    <version>${carbon.version}</version>
+                                    <version>${carbon.platform.version}</version>
                                     <type>zip</type>
                                     <overWrite>true</overWrite>
                                     <outputDirectory>target</outputDirectory>
@@ -395,7 +395,7 @@
                                     <groupId>org.wso2.carbon</groupId>
                                     <artifactId>org.wso2.carbon.governance.api</artifactId>
                                     <classifier>docs</classifier>
-                                    <version>${carbon.version}</version>
+                                    <version>${carbon.platform.version}</version>
                                     <type>zip</type>
                                     <overWrite>true</overWrite>
                                     <outputDirectory>target</outputDirectory>
@@ -404,7 +404,7 @@
                                     <groupId>org.wso2.carbon</groupId>
                                     <artifactId>org.wso2.carbon.registry.admin.api</artifactId>
                                     <classifier>docs</classifier>
-                                    <version>${carbon.version}</version>
+                                    <version>${carbon.platform.version}</version>
                                     <type>zip</type>
                                     <overWrite>true</overWrite>
                                     <outputDirectory>target</outputDirectory>
@@ -413,7 +413,7 @@
                                     <groupId>org.wso2.carbon</groupId>
                                     <artifactId>org.wso2.carbon.registry.ws.api</artifactId>
                                     <classifier>docs</classifier>
-                                    <version>${carbon.version}</version>
+                                    <version>${carbon.platform.version}</version>
                                     <type>zip</type>
                                     <overWrite>true</overWrite>
                                     <outputDirectory>target</outputDirectory>
@@ -422,7 +422,7 @@
                                     <groupId>org.wso2.carbon</groupId>
                                     <artifactId>org.wso2.carbon.registry.social.api</artifactId>
                                     <classifier>docs</classifier>
-                                    <version>${carbon.version}</version>
+                                    <version>${carbon.platform.version}</version>
                                     <type>zip</type>
                                     <overWrite>true</overWrite>
                                     <outputDirectory>target</outputDirectory>
@@ -464,7 +464,7 @@
                                <artifactItem>
                                    <groupId>org.wso2.carbon</groupId>
                                    <artifactId>org.wso2.carbon.registry.rest.api</artifactId>
-                                   <version>${carbon.version}</version>
+                                   <version>${carbon.platform.version}</version>
                                    <type>war</type>
                                    <overWrite>true</overWrite>
 				   <outputDirectory>../jaxwebapps</outputDirectory>
@@ -526,7 +526,7 @@
                                         <include name="${project.artifactId}-${build.version}.zip"/>
                                     </fileset>
                                 </unzip>
-                                <copy todir="target/wso2carbon-core-${carbon.version}/repository/components/" overwrite="false">
+                                <copy todir="target/wso2carbon-core-${carbon.platform.version}/repository/components/" overwrite="false">
                                     <fileset dir="${tempdir}/${project.artifactId}-${build.version}/repository/components/">
                                     </fileset>
                                 </copy>
@@ -534,7 +534,7 @@
                                 <delete dir="${tempdir}"/>
                                 <mkdir dir="${tempdir}"/>
                                 <unzip dest="${tempdir}">
-                                    <fileset dir="target/wso2carbon-core-${carbon.version}/repository/components/plugins/">
+                                    <fileset dir="target/wso2carbon-core-${carbon.platform.version}/repository/components/plugins/">
                                         <include name="*.ui*.jar"/>
                                     </fileset>
                                 </unzip>
@@ -580,19 +580,19 @@
                                     </fileset>
                                 </copy>
                                 <copy todir="target/site/apidocs/kernel/" overwrite="false" includeemptydirs="false">
-                                    <fileset dir="target/org.wso2.carbon.registry.core-${carbon.version}-docs/" />
+                                    <fileset dir="target/org.wso2.carbon.registry.core-${carbon.platform.version}-docs/" />
                                 </copy>
                                 <copy todir="target/site/apidocs/governance/" overwrite="false" includeemptydirs="false">
-                                    <fileset dir="target/org.wso2.carbon.governance.api-${carbon.version}-docs/" />
+                                    <fileset dir="target/org.wso2.carbon.governance.api-${carbon.platform.version}-docs/" />
                                 </copy>
                                 <copy todir="target/site/apidocs/admin/" overwrite="false" includeemptydirs="false">
-                                    <fileset dir="target/org.wso2.carbon.registry.admin.api-${carbon.version}-docs/" />
+                                    <fileset dir="target/org.wso2.carbon.registry.admin.api-${carbon.platform.version}-docs/" />
                                 </copy>
                                 <copy todir="target/site/apidocs/ws/" overwrite="false" includeemptydirs="false">
-                                    <fileset dir="target/org.wso2.carbon.registry.ws.api-${carbon.version}-docs/" />
+                                    <fileset dir="target/org.wso2.carbon.registry.ws.api-${carbon.platform.version}-docs/" />
                                 </copy>
                                 <copy todir="target/site/apidocs/social/" overwrite="false" includeemptydirs="false">
-                                    <fileset dir="target/org.wso2.carbon.registry.social.api-${carbon.version}-docs/" />
+                                    <fileset dir="target/org.wso2.carbon.registry.social.api-${carbon.platform.version}-docs/" />
                                 </copy>
                                 <taskdef classname="net.sf.antcontrib.logic.IfTask" classpathref="maven.test.classpath" name="if" />
                                 <if>
@@ -618,12 +618,12 @@
                                 <delete dir="target/database"/>
                                 <delete dir="target/dependency-maven-plugin-markers"/>
                                 <delete dir="target/maven-archiver"/>
-                                <delete dir="target/wso2carbon-core-${carbon.version}"/>
-                                <delete dir="target/org.wso2.carbon.registry.core-${carbon.version}-docs"/>
-                                <delete dir="target/org.wso2.carbon.governance.api-${carbon.version}-docs"/>
-                                <delete dir="target/org.wso2.carbon.registry.admin.api-${carbon.version}-docs"/>
-                                <delete dir="target/org.wso2.carbon.registry.ws.api-${carbon.version}-docs"/>
-                                <delete dir="target/org.wso2.carbon.registry.social.api-${carbon.version}-docs"/>
+                                <delete dir="target/wso2carbon-core-${carbon.platform.version}"/>
+                                <delete dir="target/org.wso2.carbon.registry.core-${carbon.platform.version}-docs"/>
+                                <delete dir="target/org.wso2.carbon.governance.api-${carbon.platform.version}-docs"/>
+                                <delete dir="target/org.wso2.carbon.registry.admin.api-${carbon.platform.version}-docs"/>
+                                <delete dir="target/org.wso2.carbon.registry.ws.api-${carbon.platform.version}-docs"/>
+                                <delete dir="target/org.wso2.carbon.registry.social.api-${carbon.platform.version}-docs"/>
                                 <delete file="target/${project.artifactId}-${build.version}.jar"/>
                                 <delete dir="target/sources"/>
                                 <delete dir="target/site"/>
@@ -896,7 +896,7 @@
                <!--</execution>-->
            <!--</executions>-->
            <!--<configuration>-->
-               <!--<file>${basedir}/../p2-profile-gen/target/wso2carbon-core-${carbon.version}/repository/conf/api-manager.xml</file>-->
+               <!--<file>${basedir}/../p2-profile-gen/target/wso2carbon-core-${carbon.platform.version}/repository/conf/api-manager.xml</file>-->
                <!--<replacements>-->
                    <!--<replacement>-->
 			<!--<xpath>/APIManager/APIKeyManager/EnableThriftServer</xpath>-->

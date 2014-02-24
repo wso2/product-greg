@@ -21,7 +21,7 @@
     <parent>
         <groupId>org.wso2.governance</groupId>
         <artifactId>governance-styles-parent</artifactId>
-        <version>5.0.0</version>
+        <version>5.0.0-SNAPSHOT</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
 
@@ -29,7 +29,6 @@
     <artifactId>org.wso2.stratos.governance.styles</artifactId>
     <packaging>bundle</packaging>
     <name>WSO2 Stratos - Cloud Governance UI styles</name>
-    <version>2.2.0</version>
     <url>http://wso2.org</url>
 
     <build>
@@ -140,6 +139,6 @@
         </dependency>
     </dependencies>
     <properties>
-        <wso2carbon.version>${carbon.version}</wso2carbon.version>
+        <wso2carbon.version>${carbon.platform.version}</wso2carbon.version>
     </properties>
 </project>

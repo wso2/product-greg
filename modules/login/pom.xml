@@ -20,7 +20,7 @@
     <parent>
     	<groupId>org.wso2.governance</groupId>
     	<artifactId>governance-parent</artifactId>
-    	<version>5.0.0</version>
+    	<version>5.0.0-SNAPSHOT</version>
         <relativePath>../../pom.xml</relativePath>
     </parent>
 
@@ -28,7 +28,6 @@
     <artifactId>org.wso2.stratos.governance.login.ui</artifactId>
     <packaging>bundle</packaging>
     <name>WSO2 Stratos - Cloud Governance Login User Interface</name>
-    <version>2.2.0</version>
 
     <build>
 
@@ -93,12 +92,12 @@
         <dependency>
             <groupId>org.wso2.carbon</groupId>
             <artifactId>org.wso2.carbon.registry.common.ui</artifactId>
-            <version>${carbon.version}</version>
+            <version>${carbon.platform.version}</version>
         </dependency>
         <dependency>
             <groupId>org.wso2.carbon</groupId>
             <artifactId>org.wso2.carbon.registry.core</artifactId>
-            <version>${carbon.version}</version>
+            <version>${carbon.platform.version}</version>
         </dependency>
 
         <dependency>
@@ -132,7 +131,7 @@
 
 
     <properties>
-        <wso2carbon.version>${carbon.version}</wso2carbon.version>
+        <wso2carbon.version>${carbon.platform.version}</wso2carbon.version>
         <eclipse.version>3.2.0</eclipse.version>
         <!-- Component versions == Carbon version, if not, please change the properties below. -->
         <registry-component.version>${wso2carbon.version}</registry-component.version>

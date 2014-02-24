@@ -1,1 +1,1 @@
-WSO2 Carbon Framework v${carbon.version}
+WSO2 Carbon Framework v${carbon.platform.version}
