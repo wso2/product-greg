@@ -210,9 +210,6 @@
                                 <featureArtifactDef>org.wso2.carbon:org.wso2.carbon.ntask.feature:${carbon.platform.version}
                                 </featureArtifactDef>
                                 <featureArtifactDef>
-                                    org.wso2.carbon:org.wso2.carbon.attachment.mgt.feature:${carbon.platform.version}
-                                </featureArtifactDef>
-                                <featureArtifactDef>
                                     org.wso2.governance:org.wso2.stratos.governance.ui.feature:${project.version}
                                 </featureArtifactDef>
 
@@ -550,10 +547,6 @@
                                 </feature>
                                 <feature>
                                     <id>org.wso2.carbon.humantask.server.feature.group</id>
-                                    <version>${carbon.platform.version}</version>
-                                </feature>
-                                <feature>
-                                    <id>org.wso2.carbon.attachment.mgt.feature.group</id>
                                     <version>${carbon.platform.version}</version>
                                 </feature>
 
