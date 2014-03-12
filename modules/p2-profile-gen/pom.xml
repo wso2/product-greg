@@ -93,7 +93,7 @@
 
                                 <!--Application Management Feature list -->
                                 <featureArtifactDef>
-                                    org.wso2.carbon:org.wso2.carbon.jaxws.webapp.mgt.feature:${carbon.platform.version}
+                                    org.wso2.carbon:org.wso2.carbon.webapp.mgt.feature:${carbon.platform.version}
                                 </featureArtifactDef>
                                 <featureArtifactDef>
                                     org.wso2.carbon:org.wso2.carbon.webapp.mgt.server.feature:${carbon.platform.version}
@@ -101,9 +101,9 @@
                                 <featureArtifactDef>
                                     org.wso2.carbon:org.wso2.carbon.application.mgt.feature:${carbon.platform.version}
                                 </featureArtifactDef>
-                                <featureArtifactDef>
-                                    org.wso2.carbon:org.wso2.carbon.jaxwsservices.server.feature:${carbon.platform.version}
-                                </featureArtifactDef>
+                                <!--<featureArtifactDef>-->
+                                    <!--org.wso2.carbon:org.wso2.carbon.jaxwsservices.server.feature:${carbon.platform.version}-->
+                                <!--</featureArtifactDef>-->
                                 <featureArtifactDef>
                                     org.wso2.carbon:org.wso2.carbon.service.mgt.server.feature:${carbon.platform.version}
                                 </featureArtifactDef>
@@ -377,7 +377,7 @@
                                 <!--Application Management Features-->
 
                                 <feature>
-                                    <id>org.wso2.carbon.jaxws.webapp.mgt.feature.group</id>
+                                    <id>org.wso2.carbon.webapp.mgt.feature.group</id>
                                     <version>${carbon.platform.version}</version>
                                 </feature>
                                 <feature>
@@ -388,10 +388,10 @@
                                     <id>org.wso2.carbon.application.mgt.feature.group</id>
                                     <version>${carbon.platform.version}</version>
                                 </feature>
-                                <feature>
-                                    <id>org.wso2.carbon.jaxwsservices.server.feature.group</id>
-                                    <version>${carbon.platform.version}</version>
-                                </feature>
+                                <!--<feature>-->
+                                    <!--<id>org.wso2.carbon.jaxwsservices.server.feature.group</id>-->
+                                    <!--<version>${carbon.platform.version}</version>-->
+                                <!--</feature>-->
                                 <feature>
                                     <id>org.wso2.carbon.service.mgt.server.feature.group</id>
                                     <version>${carbon.platform.version}</version>
@@ -659,7 +659,7 @@
                                 <!--Application Management Features-->
 
                                 <feature>
-                                    <id>org.wso2.carbon.jaxws.webapp.mgt.feature.group</id>
+                                    <id>org.wso2.carbon.webapp.mgt.feature.group</id>
                                     <version>${carbon.platform.version}</version>
                                 </feature>
                                 <feature>
@@ -670,10 +670,10 @@
                                     <id>org.wso2.carbon.application.mgt.feature.group</id>
                                     <version>${carbon.platform.version}</version>
                                 </feature>
-                                <feature>
-                                    <id>org.wso2.carbon.jaxwsservices.server.feature.group</id>
-                                    <version>${carbon.platform.version}</version>
-                                </feature>
+                                <!--<feature>-->
+                                    <!--<id>org.wso2.carbon.jaxwsservices.server.feature.group</id>-->
+                                    <!--<version>${carbon.platform.version}</version>-->
+                                <!--</feature>-->
                                 <feature>
                                     <id>org.wso2.carbon.service.mgt.server.feature.group</id>
                                     <version>${carbon.platform.version}</version>
@@ -836,7 +836,7 @@
                                 <!--Application Management Features-->
 
                                 <feature>
-                                    <id>org.wso2.carbon.jaxws.webapp.mgt.feature.group</id>
+                                    <id>org.wso2.carbon.webapp.mgt.feature.group</id>
                                     <version>${carbon.platform.version}</version>
                                 </feature>
                                 <feature>
@@ -847,10 +847,10 @@
                                     <id>org.wso2.carbon.application.mgt.feature.group</id>
                                     <version>${carbon.platform.version}</version>
                                 </feature>
-                                <feature>
-                                    <id>org.wso2.carbon.jaxwsservices.server.feature.group</id>
-                                    <version>${carbon.platform.version}</version>
-                                </feature>
+                                <!--<feature>-->
+                                    <!--<id>org.wso2.carbon.jaxwsservices.server.feature.group</id>-->
+                                    <!--<version>${carbon.platform.version}</version>-->
+                                <!--</feature>-->
                                 <feature>
                                     <id>org.wso2.carbon.service.mgt.server.feature.group</id>
                                     <version>${carbon.platform.version}</version>
