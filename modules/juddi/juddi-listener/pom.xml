@@ -81,7 +81,7 @@
         <dependency>
             <groupId>org.wso2.carbon</groupId>
             <artifactId>org.wso2.carbon.utils</artifactId>
-            <version>4.0.2</version>
+            <version>${carbon.platform.version}</version>
         </dependency>
         <dependency>
             <groupId>commons-pool.wso2</groupId>
