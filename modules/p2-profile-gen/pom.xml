@@ -205,31 +205,31 @@
                                     org.wso2.carbon:org.wso2.carbon.governance.platform.extensions.feature:${carbon.platform.version}
                                 </featureArtifactDef>
                                 <featureArtifactDef>
-                                    org.wso2.carbon:org.wso2.carbon.humantask.server.feature:${carbon.platform.version}
+                                    org.wso2.carbon:org.wso2.carbon.humantask.server.feature:4.2.2
                                 </featureArtifactDef>
                                 <featureArtifactDef>org.wso2.carbon:org.wso2.carbon.ntask.feature:${carbon.platform.version}
                                 </featureArtifactDef>
-                                <featureArtifactDef>
-                                    org.wso2.governance:org.wso2.stratos.governance.ui.feature:${project.version}
-                                </featureArtifactDef>
+                                <!--<featureArtifactDef>-->
+                                    <!--org.wso2.governance:org.wso2.stratos.governance.ui.feature:${project.version}-->
+                                <!--</featureArtifactDef>-->
 
                                 <!--Asset Store Feature list -->
                                 <featureArtifactDef>org.jaggeryjs:org.jaggeryjs.feature:${jaggery.version}
                                 </featureArtifactDef>
                                 <featureArtifactDef>
-                                    org.wso2.carbon:org.wso2.carbon.apimgt.core.feature:${apim.version}
+                                    org.wso2.carbon:org.wso2.carbon.apimgt.core.feature:${carbon.platform.version}
                                 </featureArtifactDef>
                                 <featureArtifactDef>
-                                    org.wso2.carbon:org.wso2.carbon.apimgt.interceptor.feature:${apim.version}
+                                    org.wso2.carbon:org.wso2.carbon.apimgt.interceptor.feature:${carbon.platform.version}
                                 </featureArtifactDef>
                                 <featureArtifactDef>
-                                    org.wso2.carbon:org.wso2.carbon.apimgt.publisher.feature:${apim.version}
+                                    org.wso2.carbon:org.wso2.carbon.apimgt.publisher.feature:${carbon.platform.version}
                                 </featureArtifactDef>
                                 <featureArtifactDef>
-                                    org.wso2.carbon:org.wso2.carbon.apimgt.store.feature:${apim.version}
+                                    org.wso2.carbon:org.wso2.carbon.apimgt.store.feature:${carbon.platform.version}
                                 </featureArtifactDef>
                                 <featureArtifactDef>
-                                    org.wso2.carbon:org.wso2.carbon.apimgt.startup.publisher.feature:${apim.version}
+                                    org.wso2.carbon:org.wso2.carbon.apimgt.startup.publisher.feature:${carbon.platform.version}
                                 </featureArtifactDef>
 
                                 <!--Single Sign on Feature list -->
@@ -547,7 +547,7 @@
                                 </feature>
                                 <feature>
                                     <id>org.wso2.carbon.humantask.server.feature.group</id>
-                                    <version>${carbon.platform.version}</version>
+                                    <version>4.2.2</version>
                                 </feature>
 
                                 <!-- repository features -->
@@ -569,10 +569,10 @@
                                     <id>org.wso2.governance.styles.feature.group</id>
                                     <version>${pom.version}</version>
                                 </feature>
-                                <feature>
-                                    <id>org.wso2.stratos.governance.ui.feature.group</id>
-                                    <version>${project.version}</version>
-                                </feature>
+                                <!--<feature>-->
+                                    <!--<id>org.wso2.stratos.governance.ui.feature.group</id>-->
+                                    <!--<version>${project.version}</version>-->
+                                <!--</feature>-->
 
                                 <!-- reporting features -->
                                 <feature>
@@ -606,23 +606,23 @@
                                 </feature>
                                 <feature>
                                     <id>org.wso2.carbon.apimgt.core.feature.group</id>
-                                    <version>${apim.version}</version>
+                                    <version>${carbon.platform.version}</version>
                                 </feature>
                                 <feature>
                                     <id>org.wso2.carbon.apimgt.interceptor.feature.group</id>
-                                    <version>${apim.version}</version>
+                                    <version>${carbon.platform.version}</version>
                                 </feature>
                                 <feature>
                                     <id>org.wso2.carbon.apimgt.publisher.feature.group</id>
-                                    <version>${apim.version}</version>
+                                    <version>${carbon.platform.version}</version>
                                 </feature>
                                 <feature>
                                     <id>org.wso2.carbon.apimgt.store.feature.group</id>
-                                    <version>${apim.version}</version>
+                                    <version>${carbon.platform.version}</version>
                                 </feature>
                                 <feature>
                                     <id>org.wso2.carbon.apimgt.startup.publisher.feature.group</id>
-                                    <version>${apim.version}</version>
+                                    <version>${carbon.platform.version}</version>
                                 </feature>
 
                                 <!-- Misc features -->
@@ -749,10 +749,10 @@
                                     <id>org.wso2.governance.styles.feature.group</id>
                                     <version>${pom.version}</version>
                                 </feature>
-                                <feature>
-                                    <id>org.wso2.stratos.governance.ui.feature.group</id>
-                                    <version>${project.version}</version>
-                                </feature>
+                                <!--<feature>-->
+                                    <!--<id>org.wso2.stratos.governance.ui.feature.group</id>-->
+                                    <!--<version>${project.version}</version>-->
+                                <!--</feature>-->
 
                                 <!-- reporting features -->
                                 <feature>
@@ -786,23 +786,23 @@
                                 </feature>
                                 <feature>
                                     <id>org.wso2.carbon.apimgt.core.feature.group</id>
-                                    <version>${apim.version}</version>
+                                    <version>${carbon.platform.version}</version>
                                 </feature>
                                 <feature>
                                     <id>org.wso2.carbon.apimgt.interceptor.feature.group</id>
-                                    <version>${apim.version}</version>
+                                    <version>${carbon.platform.version}</version>
                                 </feature>
                                 <feature>
                                     <id>org.wso2.carbon.apimgt.publisher.feature.group</id>
-                                    <version>${apim.version}</version>
+                                    <version>${carbon.platform.version}</version>
                                 </feature>
                                 <feature>
                                     <id>org.wso2.carbon.apimgt.store.feature.group</id>
-                                    <version>${apim.version}</version>
+                                    <version>${carbon.platform.version}</version>
                                 </feature>
                                 <feature>
                                     <id>org.wso2.carbon.apimgt.startup.publisher.feature.group</id>
-                                    <version>${apim.version}</version>
+                                    <version>${carbon.platform.version}</version>
                                 </feature>
 
                                 <!-- Misc features -->
@@ -1005,10 +1005,10 @@
                                     <id>org.wso2.governance.styles.feature.group</id>
                                     <version>${pom.version}</version>
                                 </feature>
-                                <feature>
-                                    <id>org.wso2.stratos.governance.ui.feature.group</id>
-                                    <version>${project.version}</version>
-                                </feature>
+                                <!--<feature>-->
+                                    <!--<id>org.wso2.stratos.governance.ui.feature.group</id>-->
+                                    <!--<version>${project.version}</version>-->
+                                <!--</feature>-->
 
                                 <!-- reporting features -->
                                 <feature>
@@ -1042,23 +1042,23 @@
                                 </feature>
                                 <feature>
                                     <id>org.wso2.carbon.apimgt.core.feature.group</id>
-                                    <version>${apim.version}</version>
+                                    <version>${carbon.platform.version}</version>
                                 </feature>
                                 <feature>
                                     <id>org.wso2.carbon.apimgt.interceptor.feature.group</id>
-                                    <version>${apim.version}</version>
+                                    <version>${carbon.platform.version}</version>
                                 </feature>
                                 <feature>
                                     <id>org.wso2.carbon.apimgt.publisher.feature.group</id>
-                                    <version>${apim.version}</version>
+                                    <version>${carbon.platform.version}</version>
                                 </feature>
                                 <feature>
                                     <id>org.wso2.carbon.apimgt.store.feature.group</id>
-                                    <version>${apim.version}</version>
+                                    <version>${carbon.platform.version}</version>
                                 </feature>
                                 <feature>
                                     <id>org.wso2.carbon.apimgt.startup.publisher.feature.group</id>
-                                    <version>${apim.version}</version>
+                                    <version>${carbon.platform.version}</version>
                                 </feature>
 
                                 <!-- Misc features -->
