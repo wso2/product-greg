@@ -205,7 +205,7 @@
                                     org.wso2.carbon:org.wso2.carbon.governance.platform.extensions.feature:${carbon.platform.version}
                                 </featureArtifactDef>
                                 <featureArtifactDef>
-                                    org.wso2.carbon:org.wso2.carbon.humantask.server.feature:4.2.2
+                                    org.wso2.carbon:org.wso2.carbon.humantask.server.feature:${carbon.platform.version}
                                 </featureArtifactDef>
                                 <featureArtifactDef>org.wso2.carbon:org.wso2.carbon.ntask.feature:${carbon.platform.version}
                                 </featureArtifactDef>
@@ -253,19 +253,19 @@
 
                                 <!--User management feature list -->
                                 <featureArtifactDef>
-                                    org.wso2.carbon:org.wso2.carbon.identity.core.feature:4.2.0
+                                    org.wso2.carbon:org.wso2.carbon.identity.core.feature:${carbon.platform.version}
                                 </featureArtifactDef>
                                 <featureArtifactDef>
-                                    org.wso2.carbon:org.wso2.carbon.identity.user.profile.ui.feature:4.2.0
+                                    org.wso2.carbon:org.wso2.carbon.identity.user.profile.ui.feature:${carbon.platform.version}
                                 </featureArtifactDef>
                                 <featureArtifactDef>
-                                    org.wso2.carbon:org.wso2.carbon.identity.self.registration.server.feature:4.2.0
+                                    org.wso2.carbon:org.wso2.carbon.identity.self.registration.server.feature:${carbon.platform.version}
                                 </featureArtifactDef>
                                 <featureArtifactDef>
-                                    org.wso2.carbon:org.wso2.carbon.identity.oauth.feature:4.2.0
+                                    org.wso2.carbon:org.wso2.carbon.identity.oauth.feature:${carbon.platform.version}
                                 </featureArtifactDef>
                                 <featureArtifactDef>
-                                    org.wso2.carbon:org.wso2.carbon.identity.oauth.common.feature:4.2.0
+                                    org.wso2.carbon:org.wso2.carbon.identity.oauth.common.feature:${carbon.platform.version}
                                 </featureArtifactDef>
                                 <featureArtifactDef>org.wso2.carbon:org.wso2.carbon.user.mgt.feature:${carbon.platform.version}
                                 </featureArtifactDef>
@@ -276,7 +276,10 @@
                                     org.wso2.carbon:org.wso2.carbon.um.ws.service.client.feature:${carbon.platform.version}
                                 </featureArtifactDef>
                                 <featureArtifactDef>
-                                    org.wso2.carbon:org.wso2.carbon.identity.provider.server.feature:4.2.0
+                                    org.wso2.carbon:org.wso2.carbon.identity.provider.server.feature:${carbon.platform.version}
+                                </featureArtifactDef>
+                                <featureArtifactDef>
+                                    org.wso2.carbon:org.wso2.carbon.identity.application.authentication.framework.server.feature:${carbon.platform.version}
                                 </featureArtifactDef>
 
                                 <!--Reporting feature list -->
@@ -493,23 +496,23 @@
                                 <!-- User management feature -->
                                 <feature>
                                     <id>org.wso2.carbon.identity.core.feature.group</id>
-                                    <version>4.2.0</version>
+                                    <version>${carbon.platform.version}</version>
                                 </feature>
                                 <feature>
                                     <id>org.wso2.carbon.identity.user.profile.ui.feature.group</id>
-                                    <version>4.2.0</version>
+                                    <version>${carbon.platform.version}</version>
                                 </feature>
                                 <feature>
                                     <id>org.wso2.carbon.identity.self.registration.server.feature.group</id>
-                                    <version>4.2.0</version>
+                                    <version>${carbon.platform.version}</version>
                                 </feature>
                                 <feature>
                                     <id>org.wso2.carbon.identity.oauth.server.feature.group</id>
-                                    <version>4.2.0</version>
+                                    <version>${carbon.platform.version}</version>
                                 </feature>
                                 <feature>
                                     <id>org.wso2.carbon.identity.oauth.common.feature.group</id>
-                                    <version>4.2.0</version>
+                                    <version>${carbon.platform.version}</version>
                                 </feature>
                                 <feature>
                                     <id>org.wso2.carbon.user.mgt.feature.group</id>
@@ -525,8 +528,13 @@
                                 </feature>
                                 <feature>
                                     <id>org.wso2.carbon.identity.provider.server.feature.group</id>
-                                    <version>4.2.0</version>
+                                    <version>${carbon.platform.version}</version>
                                 </feature>
+                                <feature>
+                                    <id>org.wso2.carbon.identity.application.authentication.framework.server.feature.group</id>
+                                    <version>${carbon.platform.version}</version>
+                                </feature>
+
                                 <!-- Governance features -->
                                 <feature>
                                     <id>org.wso2.carbon.governance.lifecycle.management.feature.group</id>
@@ -547,7 +555,7 @@
                                 </feature>
                                 <feature>
                                     <id>org.wso2.carbon.humantask.server.feature.group</id>
-                                    <version>4.2.2</version>
+                                    <version>${carbon.platform.version}</version>
                                 </feature>
 
                                 <!-- repository features -->
@@ -696,23 +704,23 @@
                                 <!-- User management feature -->
                                 <feature>
                                     <id>org.wso2.carbon.identity.core.feature.group</id>
-                                    <version>4.2.0</version>
+                                    <version>${carbon.platform.version}</version>
                                 </feature>
                                 <feature>
                                     <id>org.wso2.carbon.identity.user.profile.ui.feature.group</id>
-                                    <version>4.2.0</version>
+                                    <version>${carbon.platform.version}</version>
                                 </feature>
                                 <feature>
                                     <id>org.wso2.carbon.identity.self.registration.server.feature.group</id>
-                                    <version>4.2.0</version>
+                                    <version>${carbon.platform.version}</version>
                                 </feature>
                                 <feature>
                                     <id>org.wso2.carbon.identity.oauth.server.feature.group</id>
-                                    <version>4.2.0</version>
+                                    <version>${carbon.platform.version}</version>
                                 </feature>
                                 <feature>
                                     <id>org.wso2.carbon.identity.oauth.common.feature.group</id>
-                                    <version>4.2.0</version>
+                                    <version>${carbon.platform.version}</version>
                                 </feature>
                                 <feature>
                                     <id>org.wso2.carbon.user.mgt.feature.group</id>
@@ -728,8 +736,13 @@
                                 </feature>
                                 <feature>
                                     <id>org.wso2.carbon.identity.provider.server.feature.group</id>
-                                    <version>4.2.0</version>
+                                    <version>${carbon.platform.version}</version>
                                 </feature>
+                                <feature>
+                                    <id>org.wso2.carbon.identity.application.authentication.framework.server.feature.group</id>
+                                    <version>${carbon.platform.version}</version>
+                                </feature>
+
                                 <!-- repository features -->
                                 <feature>
                                     <id>org.wso2.carbon.registry.core.feature.group</id>
@@ -950,23 +963,23 @@
                                 <!-- User management feature -->
                                 <feature>
                                     <id>org.wso2.carbon.identity.core.feature.group</id>
-                                    <version>4.2.0</version>
+                                    <version>${carbon.platform.version}</version>
                                 </feature>
                                 <feature>
                                     <id>org.wso2.carbon.identity.user.profile.ui.feature.group</id>
-                                    <version>4.2.0</version>
+                                    <version>${carbon.platform.version}</version>
                                 </feature>
                                 <feature>
                                     <id>org.wso2.carbon.identity.self.registration.server.feature.group</id>
-                                    <version>4.2.0</version>
+                                    <version>${carbon.platform.version}</version>
                                 </feature>
                                 <feature>
                                     <id>org.wso2.carbon.identity.oauth.server.feature.group</id>
-                                    <version>4.2.0</version>
+                                    <version>${carbon.platform.version}</version>
                                 </feature>
                                 <feature>
                                     <id>org.wso2.carbon.identity.oauth.common.feature.group</id>
-                                    <version>4.2.0</version>
+                                    <version>${carbon.platform.version}</version>
                                 </feature>
                                 <feature>
                                     <id>org.wso2.carbon.user.mgt.feature.group</id>
@@ -982,8 +995,13 @@
                                 </feature>
                                 <feature>
                                     <id>org.wso2.carbon.identity.provider.server.feature.group</id>
-                                    <version>4.2.0</version>
+                                    <version>${carbon.platform.version}</version>
                                 </feature>
+                                <feature>
+                                    <id>org.wso2.carbon.identity.application.authentication.framework.server.feature.group</id>
+                                    <version>${carbon.platform.version}</version>
+                                </feature>
+
 
 
                                 <!-- repository features -->

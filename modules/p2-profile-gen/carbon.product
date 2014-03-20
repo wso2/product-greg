@@ -13,7 +13,7 @@
    </plugins>
 
    <features>
-      <feature id="org.wso2.carbon.core.runtime" version="4.2.0"/>
+      <feature id="org.wso2.carbon.core.runtime" version="4.3.0.SNAPSHOT"/>
    </features>
 
   <configurations>
