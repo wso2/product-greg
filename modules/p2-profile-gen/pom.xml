@@ -204,9 +204,9 @@
                                 <featureArtifactDef>
                                     org.wso2.carbon:org.wso2.carbon.governance.platform.extensions.feature:${carbon.platform.version}
                                 </featureArtifactDef>
-                                <featureArtifactDef>
-                                    org.wso2.carbon:org.wso2.carbon.humantask.server.feature:${carbon.platform.version}
-                                </featureArtifactDef>
+                                <!--<featureArtifactDef>-->
+                                    <!--org.wso2.carbon:org.wso2.carbon.humantask.server.feature:${carbon.platform.version}-->
+                                <!--</featureArtifactDef>-->
                                 <featureArtifactDef>org.wso2.carbon:org.wso2.carbon.ntask.feature:${carbon.platform.version}
                                 </featureArtifactDef>
                                 <!--<featureArtifactDef>-->
@@ -553,10 +553,10 @@
                                     <id>org.wso2.carbon.ntask.feature.group</id>
                                     <version>${carbon.platform.version}</version>
                                 </feature>
-                                <feature>
-                                    <id>org.wso2.carbon.humantask.server.feature.group</id>
-                                    <version>${carbon.platform.version}</version>
-                                </feature>
+                                <!--<feature>-->
+                                    <!--<id>org.wso2.carbon.humantask.server.feature.group</id>-->
+                                    <!--<version>${carbon.platform.version}</version>-->
+                                <!--</feature>-->
 
                                 <!-- repository features -->
                                 <feature>

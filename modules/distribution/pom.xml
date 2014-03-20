@@ -201,19 +201,19 @@
             <version>4.0-beta3</version>
         </dependency>
         <dependency>
-            <groupId>org.apache.httpcomponents</groupId>
+            <groupId>org.apache.httpcomponents.wso2</groupId>
             <artifactId>httpclient</artifactId>
-            <version>${carbon.platform.version}</version>
+            <version>4.2.5.wso2v1</version>
         </dependency>
         <dependency>
-            <groupId>org.apache.httpcomponents</groupId>
+            <groupId>org.apache.httpcomponents.wso2</groupId>
             <artifactId>httpcore</artifactId>
-            <version>${carbon.platform.version}</version>
+            <version>4.3.0.wso2v1</version>
         </dependency>
         <dependency>
-            <groupId>org.apache.httpcomponents</groupId>
+            <groupId>org.apache.httpcomponents.wso2</groupId>
             <artifactId>httpcore-nio</artifactId>
-            <version>${carbon.platform.version}</version>
+            <version>4.3.0.wso2v1</version>
         </dependency>
         <dependency>
             <groupId>javax.ws.rs</groupId>
@@ -805,7 +805,7 @@
 
                                 def sep = System.getProperty('file.separator')
                                 def targetPath = project.build['directory']
-                                targetPath += sep + 'wso2carbon-core-' + project.properties['carbon.version']
+                                targetPath += sep + 'wso2carbon-core-' + project.properties['carbon.platform.version']
 
 
 
