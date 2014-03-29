@@ -376,12 +376,27 @@
 	related to those operations
     -->
     <WorkFlowExtensions>
-      <SelfSignIn>
-         <ProcessEnabled>false</ProcessEnabled>
-         <ServerURL>http://test.com/service</ServerURL>
-         <UserName>admin</UserName>
-         <Password>admin</Password>
-      </SelfSignIn>
+        <ApplicationCreation executor="org.wso2.carbon.apimgt.impl.workflow.ApplicationCreationSimpleWorkflowExecutor"/>
+        <!--ApplicationCreation executor="org.wso2.carbon.apimgt.impl.workflow.ApplicationCreationWSWorkflowExecutor">
+             <Property name="serviceEndpoint">http://localhost:9765/services/ApplicationApprovalWorkFlowProcess/</Property>
+             <Property name="username">admin</Property>
+             <Property name="password">admin</Property>
+             <Property name="callbackURL">https://localhost:8243/services/WorkflowCallbackService</Property>
+        </ApplicationCreation-->
+        <SubscriptionCreation executor="org.wso2.carbon.apimgt.impl.workflow.SubscriptionCreationSimpleWorkflowExecutor"/>
+        <!--SubscriptionCreation executor="org.wso2.carbon.apimgt.impl.workflow.SubscriptionCreationWSWorkflowExecutor">
+             <Property name="serviceEndpoint">http://localhost:9765/services/SubscriptionApprovalWorkFlowProcess/</Property>
+             <Property name="username">admin</Property>
+             <Property name="password">admin</Property>
+             <Property name="callbackURL">https://localhost:8243/services/WorkflowCallbackService</Property>
+        </SubscriptionCreation-->
+        <UserSignUp executor="org.wso2.carbon.apimgt.impl.workflow.UserSignUpSimpleWorkflowExecutor"/>
+        <!--UserSignUp executor="org.wso2.carbon.apimgt.impl.workflow.UserSignUpWSWorkflowExecutor">
+             <Property name="serviceEndpoint">http://localhost:9765/services/UserSignupProcess/</Property>
+             <Property name="username">admin</Property>
+             <Property name="password">admin</Property>
+             <Property name="callbackURL">https://localhost:8243/services/WorkflowCallbackService</Property>
+        </UserSignUp-->
     </WorkFlowExtensions>
 
     <!-- 
