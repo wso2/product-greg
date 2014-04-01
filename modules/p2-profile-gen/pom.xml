@@ -305,6 +305,11 @@
                                     org.wso2.governance:org.wso2.governance.styles.feature:${pom.version}
                                 </featureArtifactDef>
 
+                                <!--Greg apps-->
+                                <featureArtifactDef>
+                                    org.wso2.governance:org.wso2.governance.jaggeryapps.feature:${pom.version}
+                                </featureArtifactDef>
+
                                 <!--Misc feature list -->
                                 <featureArtifactDef>
                                     org.wso2.carbon:org.wso2.carbon.datasource.server.feature:${carbon.platform.version}
@@ -591,6 +596,12 @@
                                     <id>org.wso2.governance.styles.feature.group</id>
                                     <version>${pom.version}</version>
                                 </feature>
+
+                                <!-- Greg apps-->
+                                <feature>
+                                    <id>org.wso2.governance.jaggeryapps.feature.group</id>
+                                    <version>${pom.version}</version>
+                                </feature>
                                 <!--<feature>-->
                                     <!--<id>org.wso2.stratos.governance.ui.feature.group</id>-->
                                     <!--<version>${project.version}</version>-->
@@ -776,6 +787,13 @@
                                     <id>org.wso2.governance.styles.feature.group</id>
                                     <version>${pom.version}</version>
                                 </feature>
+
+                                <!--Greg apps-->
+                                <feature>
+                                    <id>org.wso2.governance.jaggeryapps.feature.group</id>
+                                    <version>${pom.version}</version>
+                                </feature>
+
                                 <!--<feature>-->
                                     <!--<id>org.wso2.stratos.governance.ui.feature.group</id>-->
                                     <!--<version>${project.version}</version>-->
@@ -1035,6 +1053,11 @@
                                 <!--Governance Style features -->
                                 <feature>
                                     <id>org.wso2.governance.styles.feature.group</id>
+                                    <version>${pom.version}</version>
+                                </feature>
+                                <!--Greg apps-->
+                                <feature>
+                                    <id>org.wso2.governance.jaggeryapps.feature.group</id>
                                     <version>${pom.version}</version>
                                 </feature>
                                 <!--<feature>-->
