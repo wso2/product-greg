@@ -1,0 +1,13 @@
+<%
+var carbon = require('carbon');
+
+var path = request.getParameter('path');
+
+var registry = new carbon.registry.Registry("http://localhost:9443/", {
+    username: "admin",
+    password: "admin"
+});
+
+
+
+%>
