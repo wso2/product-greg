@@ -150,12 +150,12 @@
             <dependency>
                 <groupId>org.wso2.carbon</groupId>
                 <artifactId>org.wso2.carbon.registry.core</artifactId>
-                <version>4.0.2</version>
+                <version>${carbon.platform.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.wso2.carbon</groupId>
                 <artifactId>org.wso2.carbon.user.core</artifactId>
-                <version>4.0.2</version>
+                <version>${carbon.platform.version}</version>
 
             </dependency>
             <dependency>
@@ -167,7 +167,7 @@
             <dependency>
                 <groupId>org.wso2.carbon</groupId>
                 <artifactId>org.wso2.carbon.registry.extensions</artifactId>
-                <version>4.0.2</version>
+                <version>${carbon.platform.version}</version>
 
             </dependency>
             <dependency>
@@ -184,7 +184,7 @@
             <dependency>
                 <groupId>org.wso2.carbon</groupId>
                 <artifactId>org.wso2.carbon.mashup.javascript.hostobjects.registry</artifactId>
-                <version>4.2.1</version>
+                <version>${carbon.platform.version}</version>
 
             </dependency>
             <dependency>
