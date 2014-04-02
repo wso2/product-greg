@@ -27,7 +27,7 @@
                             <goal>p2-feature-gen</goal>
                         </goals>
                         <configuration>
-                            <id>org.wso2.governance</id>
+                            <id>org.wso2.governance.jaggeryapps.feature</id>
                             <propertiesFile>../etc/feature.properties</propertiesFile>
                         </configuration>
                     </execution>
