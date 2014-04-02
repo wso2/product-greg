@@ -596,12 +596,6 @@
                                     <id>org.wso2.governance.styles.feature.group</id>
                                     <version>${pom.version}</version>
                                 </feature>
-
-                                <!-- Greg apps-->
-                                <feature>
-                                    <id>org.wso2.governance.jaggeryapps.feature.group</id>
-                                    <version>${pom.version}</version>
-                                </feature>
                                 <!--<feature>-->
                                     <!--<id>org.wso2.stratos.governance.ui.feature.group</id>-->
                                     <!--<version>${project.version}</version>-->
@@ -785,12 +779,6 @@
                                 <!--Governance Style features -->
                                 <feature>
                                     <id>org.wso2.governance.styles.feature.group</id>
-                                    <version>${pom.version}</version>
-                                </feature>
-
-                                <!--Greg apps-->
-                                <feature>
-                                    <id>org.wso2.governance.jaggeryapps.feature.group</id>
                                     <version>${pom.version}</version>
                                 </feature>
 
@@ -1055,11 +1043,7 @@
                                     <id>org.wso2.governance.styles.feature.group</id>
                                     <version>${pom.version}</version>
                                 </feature>
-                                <!--Greg apps-->
-                                <feature>
-                                    <id>org.wso2.governance.jaggeryapps.feature.group</id>
-                                    <version>${pom.version}</version>
-                                </feature>
+
                                 <!--<feature>-->
                                     <!--<id>org.wso2.stratos.governance.ui.feature.group</id>-->
                                     <!--<version>${project.version}</version>-->
