@@ -599,6 +599,10 @@
                                     <id>org.wso2.governance.styles.feature.group</id>
                                     <version>${pom.version}</version>
                                 </feature>
+                                <feature>
+                                    <id>org.wso2.governance.jaggeryapps.feature.group</id>
+                                    <version>${pom.version}</version>
+                                </feature>
                                 <!--<feature>-->
                                     <!--<id>org.wso2.stratos.governance.ui.feature.group</id>-->
                                     <!--<version>${project.version}</version>-->
@@ -788,6 +792,11 @@
                                     <id>org.wso2.governance.styles.feature.group</id>
                                     <version>${pom.version}</version>
                                 </feature>
+                                 <feature>
+                                    <id>org.wso2.governance.jaggeryapps.feature.group</id>
+                                    <version>${pom.version}</version>
+                                </feature>
+
 
                                 <!--<feature>-->
                                     <!--<id>org.wso2.stratos.governance.ui.feature.group</id>-->
@@ -1050,6 +1059,11 @@
                                     <id>org.wso2.governance.styles.feature.group</id>
                                     <version>${pom.version}</version>
                                 </feature>
+                                 <feature>
+                                    <id>org.wso2.governance.jaggeryapps.feature.group</id>
+                                    <version>${pom.version}</version>
+                                </feature>
+
 
                                 <!--<feature>-->
                                     <!--<id>org.wso2.stratos.governance.ui.feature.group</id>-->
