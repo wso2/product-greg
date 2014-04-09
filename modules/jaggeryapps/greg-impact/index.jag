@@ -1,0 +1,521 @@
+
+    <!DOCTYPE html>
+<meta charset="utf-8">
+
+<div style="width:1200px">
+
+<div  style="float:left;" class="ui-widget">
+<form action="javascript:loadXMLDoc(document.searchbar.searchtxt.value);" id="searchbar" name="searchbar"> <ul>
+    <li><input type="text" class="large-search" id="searchtxt" name="searchtxt"/></li>
+    <li><a onclick="document.searchbar.submit();" id="searchbtn" class="awesome large green">View Dependency</a></li>
+</ul>
+</form>
+</div>
+
+ <div id="infotable" style="width:200px; float:right;">
+<div class="awesome large value" style="width:100px;text-align: center;">
+Summary
+</div>
+<br/>
+<br/>
+<table>
+<tr>
+    <td>
+    <div class="awesome medium value">
+     Name
+    </div>
+    </td>
+    <td>
+        <div id="name" class="awesome medium text">
+        </div>
+    </td>
+</tr>
+<tr>
+    <td>
+      <div class="awesome medium value">
+      Media Type
+      </div>
+    </td>
+    <td>
+        <div id="mediaType" class="awesome medium text">
+        </div>
+    </td>
+</tr>
+<tr>
+    <td>
+      <div class="awesome medium value">
+      Lifecycle State
+      </div>
+    </td>
+    <td>
+        <div id="lcState" class="awesome medium text">
+        </div>
+    </td>
+</tr>
+ </table>
+ </div>
+
+ <div id="graphFrame" style="width:950px;float:left;height:600px;border: 3px solid black;">
+ <div id="graph" style="width:900px;float:left;height:600px;">  </div>
+
+           <div id="slider"  style="height:100px;width:10px;float:right; left:-10px;top:10px;"></div>
+
+
+<div style="clear: both"></div>
+
+</div>
+
+</div>
+
+
+<%
+
+var lifecycles = new Array();
+
+var data = '{"name":"api1","size":6714,"image":"images/policy.png","color":"#c5f0fb","children":[{"name":"service3","size":3938,"image":"images/service.png","color":"#e5e0fb"}]}';
+//   print(parse(data));
+
+//org.wso2.carbon.registry.core.service.RegistryService
+
+var carbon = require('carbon');
+
+var lcm = carbon.server.osgiService('org.wso2.carbon.registry.core.service.RegistryService') ;
+
+var pathreq = request.getParameter('path');
+
+var registry = new carbon.registry.Registry("http://localhost:9443/", {
+    username: "admin",
+    password: "admin"
+});
+
+var obj;
+//var resource = registry.get("/_system/governance/trunk/wsdls/org/charitha/calculator.wsdl");
+//print ('this is the path'+path);
+
+//var govArtifacts = Packages.org.wso2.carbon.governance.api.util.GovernanceUtils.getAllArtifacts(registry);
+
+//print(govArtifcats);
+
+
+
+if(pathreq != null){
+var resource = registry.get(pathreq);
+
+ obj = new Object();
+var lifecycle = new Array();
+generateData(resource, obj);
+}
+else{
+
+    //display dummy data
+    obj=require('graphdata/graph.json');
+}
+
+
+function generateData(resource, obj) {
+
+    var associations = registry.associations(resource.id);
+    var artifact = Packages.org.wso2.carbon.governance.api.util.GovernanceUtils.retrieveGovernanceArtifactByPath(
+            registry.registry,resource.id);
+
+    var artifactName= artifact.getAttributes("overview_name");
+
+    obj.name = artifactName == null ? resource.name : artifactName[0];
+    obj.image = getImageByMediaType(resource.mediaType);
+    obj.color = '#A3EA69';
+    obj.mediaType = resource.mediaType;
+    obj.lcState = artifact.lifecycleState;
+    obj.children = new Array();
+
+    for each(var assoc in associations)
+    {
+
+        if (assoc.type == "depends") {
+            for (var attr in assoc) {
+                //print(attr + " : " + assoc[attr]);
+                if (attr == 'src' && assoc[attr] == resource.id) {
+
+                    var resourceDest = assoc['dest'];
+                    var targertResource = registry.get(resourceDest);
+                    var targetObject = new Object();
+                    // print('<br><br>')
+                    // print (associations);
+                    generateData(targertResource, targetObject);
+                    //print('<br>'+targetObject+'<br>')  ;
+                    obj.children.push(targetObject);
+                }
+            }
+        }
+    }
+}
+
+//print(obj);
+
+function getImageByMediaType(mediatType) {
+    if (mediatType == "application/wsdl+xml") {
+        return "wsdl.png"
+    }
+    else if (mediatType == "application/vnd.wso2-service+xml") {
+        return "service.png"
+    }
+    else if (mediatType == "application/vnd.wso2.endpoint") {
+        return "endpoint.png"
+    }
+    else{
+        return "service.png"
+    }
+}
+
+%>
+
+
+<link href="style.css" rel="stylesheet" />
+<link href="jquery-ui-1.10.4.custom.min.css" rel="stylesheet" />
+<script src="extern/d3.v3.min.js"></script>
+<script src="extern/jquery.min.js"></script>
+<script src="extern/jquery.noisy.min.js"></script>
+<script src="extern/jquery-ui-1.10.4.custom.min.js"></script>
+<script>
+
+
+$(function() {
+    var availableTags = [
+      "ActionScript",
+      "AppleScript",
+      "Asp",
+      "BASIC",
+      "C",
+      "C++",
+      "Clojure",
+      "COBOL",
+      "ColdFusion",
+      "Erlang",
+      "Fortran",
+      "Groovy",
+      "Haskell",
+      "Java",
+      "JavaScript",
+      "Lisp",
+      "Perl",
+      "PHP",
+      "Python",
+      "Ruby",
+      "Scala",
+      "Scheme"
+    ];
+    $( "#searchtxt" ).autocomplete({
+      source: availableTags
+    });
+  });
+
+
+    $('body').noisy({
+        'intensity' : 1,
+        'size' : '300',
+        'opacity' : 0.127,
+        'fallback' : '',
+        'monochrome' : false
+    }).css('background-color', '#fff39d');
+
+     $('#graphFrame').noisy({
+        'intensity' : 1,
+        'size' : '300',
+        'opacity' : 0.127,
+        'fallback' : '',
+        'monochrome' : false
+    }).css('background-color', '#ddd39d');
+
+
+$(function() {
+    $( "#slider" ).slider({
+      orientation: "vertical",
+      range: "min",
+      min: 0,
+      max: 10,
+      value: 5,
+      slide: function( event, ui ) {
+        $( "#amount" ).val( ui.value );
+        svg.attr("transform"," translate( 100,100 )"+"scale(" +0.1*ui.value+ ")");
+      }
+    });
+    $( "#amount" ).val( $( "#slider" ).slider( "value" ) );
+  });
+
+    var imageScale = 0.9;
+
+    var width =950,
+            height = 600,
+            root;
+
+
+     var path;
+
+    var force = d3.layout.force()
+            .linkDistance(120)
+            .charge(-400)
+            .gravity(.01)
+            .size([width, height])
+            .on("tick", tick);
+
+    var svg = d3.select("#graph").append("svg")
+            .attr("width", width)
+            .attr("height", height)
+            .attr("pointer-events", "all")
+            .call(d3.behavior.zoom().on("zoom", redraw)).on("dblclick.zoom", null)
+            .append('g');
+
+   /* svg.append('rect')
+            .attr('width', 100)
+            .attr('height', height)
+            .attr('fill', 'white');*/
+
+    var link = svg.selectAll(".link"),
+            node = svg.selectAll(".node");
+
+    function redraw() {
+        svg.attr("transform", "translate(" + d3.event.translate + ")" + " scale(" + d3.event.scale + ")");
+    }
+
+
+        var json = <%=obj%>;
+        root = json;
+        update(root) ;
+
+        $('#name').text(root.name);
+        $ ('#mediaType').text(root.mediaType);
+        $ ('#lcState').text((root.lcState == null ? 'undefined' : root.lcState));
+
+
+
+
+    function update() {
+        var nodes = flatten(root),
+                links = d3.layout.tree().links(nodes);
+
+        // Restart the force layout.
+        force
+                .nodes(nodes)
+                .links(links)
+                .start();
+
+        // Update links.
+        link = link.data(links, function(d) { return d.target.id; })
+
+        link.exit().remove();
+
+        link.enter().insert("line", ".node")
+                .attr("class", "link")
+                .attr("marker-end", function (d) {
+                 return "url(#arrow)"});
+
+        // Update nodes.
+        node = node.data(nodes, function(d) { return d.id; });
+
+        node.exit().remove();
+
+        var nodeEnter = node.enter().append("g")
+                .attr("class", function (d) { return "node" + ('image' in d ? ' imagenode' : '') })
+                .on("dblclick", doubleclick)
+                .on("click", click)
+                .call(force.drag);
+
+       /* nodeEnter.append("circle")
+                .attr("r", function(d) { return Math.sqrt(d.size) / 10 || 4.5; });*/
+
+     var circle = nodeEnter.append("circle")
+                .attr("cx", -3)
+                .attr("cy", 0)
+                .attr("r", 15);
+
+              //  .attr("fill",function(d) { return d.color; });
+
+        node.select("circle")
+      .style("fill", color);
+
+
+
+        svg.selectAll(".imagenode")
+                .attr("class", "node")
+                .append("image")
+                .attr("x", -12)
+                .attr("y", -12)
+                .attr("xlink:href", function (d) {
+                    // var url = "graphdata/" + d['image'] + ".gif";
+                    var url = "images/" + d['image'] ;
+                    var simg = this;
+                    var img = new Image();
+                    img.onload = function () {
+                        d.width = this.width * imageScale;
+                        d.height = this.height * imageScale;
+                        simg.setAttribute("width", d.width);
+                        simg.setAttribute("height", d.height);
+                    }
+                    return img.src = url;
+                }) ;
+
+            /*   .on("click", function (d) { click })
+               .on("touchend", function (d) { click(d) })
+               .on("mouseover", function () { imageZoom(this, 1/imageScale) })
+               .on("touchend", function () { toggleImageZoom(this) })
+               .on("mouseout", function () { imageZoom(this, 1) })     */
+
+
+           nodeEnter
+                .append("image")
+                .attr("x", -24)
+                .attr("y", -24)
+                .attr("xlink:href", function (d) {
+
+                    if( d['alertimage'] != undefined)  {
+                    // var url = "graphdata/" + d['image'] + ".gif";
+                    var url = "images/" + d['alertimage'] ;
+                    var simg = this;
+                    var img = new Image();
+                    img.onload = function () {
+                        d.width = this.width * imageScale;
+                        d.height = this.height * imageScale;
+                        simg.setAttribute("width", d.width);
+                        simg.setAttribute("height", d.height);
+                    }
+                    return img.src = url;
+                    }
+                })
+        ;
+
+
+        nodeEnter.append("text")
+                .attr("dy", ".35em")
+                .attr("dx", "30")
+                .text(function(d) { return d.name; }) ;
+
+    }
+
+    // code to render arrows
+
+  markerWidth = 10,
+        markerHeight = 18,
+        cRadius = 29, // play with the cRadius value
+        refX = cRadius + (markerWidth * 2),
+        refY = 0,
+        drSub = cRadius + refY;
+
+
+     svg.append("svg:defs").selectAll("marker")
+        .data(["arrow"])
+        .enter().append("svg:marker")
+        .attr("id", "arrow")
+        .attr("viewBox", "0 -5 10 10")
+        .attr("refX", refX)
+        .attr("refY", refY)
+        .attr("markerWidth", markerWidth)
+        .attr("markerHeight", markerHeight)
+        .attr("orient", "auto")
+        .append("svg:path")
+        .attr("d", "M0,-5L10,0L0,5");
+
+         path = svg.append("svg:g").selectAll("line")
+        .data(force.links())
+        .enter()
+       .attr("class", function (d) {
+        return "link";
+    })
+        .attr("marker-end", function (d) {
+        return "url(#arrow)"});
+
+  //end of code to render arrows
+
+function color(d) {
+  /*return (d._childern && d._children.length > 0) ? "#3182bd" // collapsed package
+      : (d.children && d.children.length > 0) ? d.color // expanded package
+      : d.color; // leaf node
+      */
+
+      if(d._children){
+      if(d._children.length>0){
+      return   "#BD31AF";
+            }
+      }
+
+      if(d.children){
+      if(d.children.length>0){
+      return d.color;
+            }
+      }
+      return d.color;
+
+}
+
+    // Toggle children on click.
+    function doubleclick(d) {
+   //     if (d3.event.defaultPrevented) return; // ignore drag
+
+        if (d.children) {
+            d._children = d.children;
+            d.children = null;
+        } else {
+            d.children = d._children;
+            d._children = null;
+        }
+            update();
+    }
+
+    function click(d) {
+         displayInfo(d);
+    }
+
+    // Returns a list of all nodes under the root.
+    function flatten(root) {
+        var nodes = [], i = 0;
+
+        function recurse(node) {
+            if (node.children) node.children.forEach(recurse);
+            if (!node.id) node.id = ++i;
+            nodes.push(node);
+        }
+
+        recurse(root);
+        return nodes;
+    }
+
+    function imageZoom(img, scale) {
+        d3.select(img)
+                .transition()
+                .attr("width", function (d) {
+                    return scale * d.width;
+                })
+                .attr("height", function (d) { return scale * d.height; });
+    }
+
+   function displayInfo(resource){
+
+      $('#name').text(resource.name) ;
+      $('#mediaType').text(resource.mediaType) ;
+      if(resource.lcState==null){
+              $('#lcState').text("Not defined") ;
+      } else{
+      $('#lcState').text(resource.lcState) ;
+      }
+
+   }
+
+     function tick() {
+
+                link.attr("x1", function(d) { return d.source.x; })
+                .attr("y1", function(d) { return d.source.y; })
+                .attr("x2", function(d) { return d.target.x; })
+                .attr("y2", function(d) { return d.target.y; });
+
+        node.attr("transform", function(d) { return "translate(" + d.x + "," + d.y + ")"; });
+        /*
+         path.attr("d", function (d) {
+            var dx = d.target.x - d.source.x,
+                dy = (d.target.y - d.source.y),
+                dr = Math.sqrt(dx * dx + dy * dy);
+            return "M" + d.source.x + "," + d.source.y + "A" + (dr - drSub) + "," + (dr - drSub) + " 0 0,1 " + d.target.x + "," + d.target.y;
+        });  */
+
+    }
+
+</script>
+</body>
+

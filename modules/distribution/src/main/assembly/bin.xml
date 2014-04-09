@@ -326,6 +326,17 @@
                 <exclude>styles-layout.css</exclude>
             </excludes>
         </fileSet>
+
+        <!-- Jaggery Apps used by Greg-->
+        <fileSet>
+            <directory>../p2-profile-gen/target/wso2carbon-core-${carbon.platform.version}/repository/deployment/server/jaggeryapps/greg-bam</directory>
+            <outputDirectory>${pom.artifactId}-${pom.version}/repository/deployment/server/jaggeryapps/greg-bam</outputDirectory>
+        </fileSet>
+        <fileSet>
+            <directory>../p2-profile-gen/target/wso2carbon-core-${carbon.platform.version}/repository/deployment/server/jaggeryapps/greg-impact</directory>
+            <outputDirectory>${pom.artifactId}-${pom.version}/repository/deployment/server/jaggeryapps/greg-impact</outputDirectory>
+        </fileSet>
+
         <!-- Add APIM toolbox -->
         <fileSet>
             <directory>src/main/resources/statistics/target</directory>
