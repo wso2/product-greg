@@ -137,6 +137,7 @@
         <fileSet>
             <directory>src/main/resources/humantask/conf</directory>
             <outputDirectory>${pom.artifactId}-${build.version}/repository/conf</outputDirectory>
+            <fileMode>754</fileMode>
             <includes>
                 <include>**/humantask.xml</include>
                 <include>**/attach-mgt-conf.properties</include>
