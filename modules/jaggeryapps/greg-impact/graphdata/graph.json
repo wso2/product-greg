@@ -1,0 +1,104 @@
+{
+    "name": "service1",
+    "mediaType":"application/wsdl+xml",
+    "image": "service.png",
+    "lcState": "Active",
+    "alertimage": "warning.png",
+    "color": "#c5e0fb",
+    "children": [
+        {
+            "name": "policy1",
+            "image": "policy.png",
+            "mediaType":"application/wsdl+xml",
+            "color": "#c5e0fb",
+            "children": [
+                {
+                    "name": "service2",
+                    "image": "service.png",
+                    "mediaType":"application/wsdl+xml",
+                    "color": "#d5e000",
+                    "children": [
+                        {
+                            "name": "service3",
+                            "image": "service.png",
+                            "mediaType":"application/wsdl+xml",
+                            "color": "#e5e0fb"
+                        },
+                        {
+                            "name": "service4",
+                            "image": "service.png" ,
+                            "alertimage": "warning.png" ,
+                            "mediaType":"application/wsdl+xml",
+                            "color": "#f5e0fb"
+                        },
+                        {
+                            "name": "api1",
+                            "image": "policy.png",
+                            "mediaType":"application/wsdl+xml",
+                            "color": "#c5f0fb"
+                        },
+                        {
+                            "name": "service5",
+                            "image": "service.png",
+                            "mediaType":"application/wsdl+xml",
+                            "color": "#c5a0fb"
+                        }
+                    ]
+                },
+                {
+                    "name": "service6",
+                    "image": "service.png",
+                    "mediaType":"application/wsdl+xml",
+                    "color": "#c5e0bb",
+                    "children": [
+                        {
+                            "name": "api2",
+                            "image": "service.png",
+                            "mediaType":"application/wsdl+xml",
+                            "alertimage": "warning.png" ,
+                            "color": "#c5eefb"
+                        },
+                        {
+                            "name": "policy2",
+                            "image": "policy.png",
+                            "mediaType":"application/wsdl+xml",
+                            "color": "#c5e0fb"
+                        },
+                        {
+                            "name": "endpoint1",
+                            "image": "endpoint.png" ,
+                            "mediaType":"application/wsdl+xml",
+                            "color": "#c5e0fb"
+                        },
+                        {
+                            "name": "service8",
+                            "image": "service.png",
+                            "mediaType":"application/wsdl+xml",
+                            "color": "#f5e0fb"
+                        },
+                        {
+                            "name": "service9",
+                            "image": "wsdl.png",
+                            "mediaType":"application/wsdl+xml",
+                            "color": "#9ff828"
+                        }
+                    ]
+                },
+                {
+                    "name": "policy4",
+                    "image": "policy.png",
+                    "mediaType":"application/wsdl+xml",
+                    "color": "#ff4ff4",
+                    "children": [
+                        {
+                            "name": "service10",
+                            "image": "service.png" ,
+                            "mediaType":"application/wsdl+xml",
+                            "color": "#24d696"
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}

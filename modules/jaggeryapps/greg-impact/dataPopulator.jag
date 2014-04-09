@@ -1,0 +1,71 @@
+<%
+
+//var data = '{"name":"api1","size":6714,"image":"images/policy.png","color":"#c5f0fb","children":[{"name":"service3","size":3938,"image":"images/service.png","color":"#e5e0fb"}]}';
+//   print(parse(data));
+
+//org.wso2.carbon.registry.core.service.RegistryService
+
+var carbon = require('carbon');
+
+var path = request.getParameter('path');
+
+var registry = new carbon.registry.Registry("http://localhost:9443/", {
+    username: "admin",
+    password: "admin"
+});
+
+//var resource = registry.get("/_system/governance/trunk/wsdls/org/charitha/calculator.wsdl");
+print ('this is the path'+path);
+var resource = registry.get(path);
+
+var obj = new Object();
+generateData(resource, obj);
+
+function generateData(resource, obj) {
+
+    var associations = registry.associations(resource.id);
+
+    obj.name = resource.name;
+    obj.image = getImageByMediaType(resource.mediaType);
+    obj.color = '#c5e0fb';
+    obj.children = new Array();
+
+
+    for each(var assoc in associations)
+    {
+
+        if (assoc.type == "depends") {
+            for (var attr in assoc) {
+                //print(attr + " : " + assoc[attr]);
+                if (attr == 'src' && assoc[attr] == resource.id) {
+
+                    var resourceDest = assoc['dest'];
+                    var targertResource = registry.get(resourceDest);
+                    var targetObject = new Object();
+                    // print('<br><br>')
+                    // print (associations);
+                    generateData(targertResource, targetObject);
+                    //print('<br>'+targetObject+'<br>')  ;
+                    obj.children.push(targetObject);
+                }
+            }
+        }
+    }
+}
+
+function getImageByMediaType(mediatType) {
+    if (mediatType == "application/wsdl+xml") {
+        return "wsdl.png"
+    }
+    else if (mediatType == "application/vnd.wso2-service+xml") {
+        return "service.png"
+    }
+    else if (mediatType == "application/vnd.wso2.endpoint") {
+        return "endpoint.png"
+    }
+    else{
+        return "service.png"
+    }
+}
+
+%>
