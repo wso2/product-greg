@@ -16,25 +16,10 @@
     <name>WSO2 Governance Registry - Integration Tests</name>
     <packaging>pom</packaging>
 
-    <dependencies>
-        <dependency>
-            <groupId>org.wso2.carbon</groupId>
-            <artifactId>org.wso2.carbon.integration.framework</artifactId>
-            <version>${carbon.platform.version}</version>
-        </dependency>
-        <dependency>
-          <groupId>org.testng</groupId>
-          <artifactId>testng</artifactId>
-          <version>6.1.1</version>
-          <scope>test</scope>
-        </dependency>
-
-    </dependencies>
-
     <modules>
-	<module>tcks/cmis-tck</module>
-        <module>registry</module>
-       <!-- <module>governance-api-test</module>-->
+        <module>tests-common/admin-clients</module>
+        <module>tests-common/integration-test-utils</module>
+        <module>tests-integration</module>
     </modules>
 
   <build>
@@ -54,6 +39,5 @@
       </plugin>
     </plugins>
   </build>
-
 
 </project>
