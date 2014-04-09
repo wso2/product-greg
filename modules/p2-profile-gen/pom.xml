@@ -312,8 +312,11 @@
 
 				<!-- as runtime features-->
                                 <featureArtifactDef>
-					org.wso2.carbon:org.wso2.carbon.as.runtimes.cxf.feature:${carbon.platform.version}
-				</featureArtifactDef>
+					            org.wso2.carbon:org.wso2.carbon.as.runtimes.cxf.feature:${carbon.platform.version}
+				                </featureArtifactDef>
+                                <featureArtifactDef>
+                                    org.wso2.carbon:org.wso2.carbon.tenant.common.feature:${carbon.platform.version}
+                                </featureArtifactDef>
                                 
                             </featureArtifacts>
                         </configuration>
@@ -653,10 +656,14 @@
                                     <version>${carbon.platform.version}</version>
                                 </feature>
 
-				<!-- as-runtimes-->
+				                <!-- as-runtimes-->
                                 <feature>
                                      <id>org.wso2.carbon.as.runtimes.cxf.feature.group</id>
                                      <version>${carbon.platform.version}</version>
+                                </feature>
+                                <feature>
+                                    <id>org.wso2.carbon.tenant.common.feature.group</id>
+                                    <version>${carbon.platform.version}</version>
                                 </feature>
                             </features>
                         </configuration>
