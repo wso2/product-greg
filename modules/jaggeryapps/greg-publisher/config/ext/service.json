@@ -1,0 +1,163 @@
+{
+    "applyTo": "service",
+
+
+    "import": [
+        "/modules/ext/scripts/rxt.importer.js",
+        "/modules/ext/scripts/form.exporter.js"],
+
+    "fieldPropertyRules": [
+        "overview.name:order=1",
+        "overview.namespace:order=2",
+        "overview.description:order=3",
+        "overview.version:order=4"
+    ],
+
+    "tables": [
+
+        {
+            "name": "*"
+        },
+        {
+            "name": "basic"
+        },
+        {
+            "name": "advance"
+        }
+
+    ],
+
+    "fieldProperties": [
+
+        {
+            "field": "*",
+            "name": "order",
+            "value": ""
+        },
+        {
+            "field": "*",
+            "name": "hidden",
+            "value": "false"
+        },
+        {
+            "field": "contacts.*",
+            "name": "hidden",
+            "value": "false"
+        },
+        {
+            "field": "basic.*",
+            "name": "hidden",
+            "value": "false"
+        },
+        {
+            "field": "advance.*",
+            "name": "hidden",
+            "value": "false"
+        },
+        {
+            "field": "*",
+            "name": "visible",
+            "value": "true"
+        },
+        {
+            "field": "overview.*",
+            "name": "save",
+            "value": "default"
+        },
+        {
+            "field": "*.lifeCycle",
+            "name": "save",
+            "value": "asset.lifecycle.action.save"
+        }
+
+    ],
+
+    "fields": [
+        {
+            "name": "lifeCycle",
+            "table": "*",
+            "label": "Life Cycle",
+            "value": "SampleLifeCycle2"
+
+        } ,
+        {
+            "name": "description",
+            "table": "basic",
+            "label": "Description",
+            "isTextBox": true,
+            "type": "text-area",
+            "value": "The provider has not given a description."
+        } ,
+        {
+            "name": "provider",
+            "label": "Provider",
+            "value": "admin",
+            "isTextBox": true,
+            "type": "text",
+            "table": "basic"
+        },
+        {
+            "name": "name",
+            "label": "Name",
+            "type": "text",
+            "table": "basic"
+        },
+        {
+            "name": "url",
+            "label": "URL",
+            "value": "",
+            "type": "text",
+            "isTextBox": true,
+            "table": "basic"
+        },
+        {
+            "name": "filePath",
+            "label": "File Path",
+            "value": "",
+            "type": "file",
+            "isFile": true,
+            "table": "basic"
+        },
+        {
+            "name": "namespace",
+            "label": "Namespace",
+            "value": "",
+            "type": "text",
+            "isTextBox": true,
+            "table": "advance"
+        },
+        {
+            "name": "version",
+            "label": "Version",
+            "value": "",
+            "type": "text",
+            "isTextBox": true,
+            "table": "advance"
+        }
+
+    ],
+
+    "storage": {
+
+        "images_banner": {
+
+            "lifecycle": {
+                "created": ["private_{overview_namespace}"],
+                "in-review": ["reviewer", "private_{overview_namespace}"],
+                "published": ["Internal/everyone", "private_{overview_namespace}", "reviewer"],
+                "unpublished": ["private_{overview_namespace}"]
+            }
+        },
+
+        "images_thumbnail": {
+
+            "lifecycle": {
+                "created": ["private_{overview_namespace}"],
+                "in-review": ["reviewer", "private_{overview_namespace}"],
+                "published": ["Internal/everyone", "private_{overview_namespace}", "reviewer"],
+                "unpublished": ["private_{overview_namespace}"]
+            }
+        }
+
+    }
+}

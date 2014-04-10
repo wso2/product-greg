@@ -1,0 +1,14 @@
+ #toggle-overview {
+
+
+}
+
+.in.collapse.accordion-body{
+
+      overflow: visible;
+}
+
+.provider {
+    visibility: hidden;
+    margin-bottom: 0px; *
+}

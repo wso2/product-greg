@@ -1,0 +1,210 @@
+<div class="content-div">
+            <!--div class="row-fluid">
+                <form class="form-horizontal" id='form-asset-create'>
+                    {{#each data.fields}}
+					<div class="control-group">
+						<b><label class="control-label">{{this.label}}:</label>
+						</b>
+						<div class="controls">
+							{{#if this.isTextBox}}
+								<input id='{{this.name}}' type='text' value='{{this.value}}'
+                                    {{#if this.isReadOnly}} readonly{{/if}}/>
+							{{/if}}
+							{{#if this.isOptions}}
+								<select id="{{this.name}}">
+								{{#each this.valueList}}
+									<option>{{this}}</option>
+								{{/each}}
+								</select>
+							{{/if}}
+							{{#if this.isTextArea}}
+								<textarea id='{{this.name}}' value='{{this.value}}' ></textarea>
+							{{/if}}
+						</div>
+					</div>
+		     {{/each}}
+
+                    <div id="saveButtons" class="form-actions">
+                        <input type="button" value="Create" class="btn btn-primary" name="addNewAssetButton" id="btn-create-asset">
+			<input type="hidden" value="{{shortName}}" name="{{shortName}}" id="meta-asset-type">
+                        <input type="reset" value="Cancel" class="btn">
+                    </div>
+                </form-->
+
+
+   <div class="row-fluid">
+        <div class="span12 asset-view-container">
+            <div class="widget wlightblue">
+                <div class="widget-head">
+                    <div class="pull-left">Add {{data.meta.singularLabel}}</div>
+                    <div class="clearfix"></div>
+                </div>
+                <div class="widget-content">
+                    <form  class="form-horizontal" id="form-asset-create" enctype="multipart/form-data" data-use-plugins="UnboundDataCompiler" >
+                         <div class="accordion" id="Basic Information">
+                             <div class="accordion-group">
+                                   <div class="accordion-heading"  style="height:45px;background:#C0C0C0;" href="#collapseBasic">
+                                        <div style="float:right;">
+                                             <a style="text-transform:capitalize;font-weight:bold;">Basic Information</a>
+                                             <a class="accordion-toggle" style="display: inline-block;" id="toggle-{{this.tableNameText}}" name="toggle-{{this.tableNameText}}" data-action="" data-toggle="collapse" href="#collapseBasic"><i class="icon icon-double-angle-down icon-2x"></i>
+                                             </a>
+                                        </div>
+                                    </div>
+                                    <div id="collapseBasic" class="accordion-body collapse" id="accordion-inner">
+                                       <div class="accordion-inner">
+                                           <p>{{this.tableName}}</p>
+                                           <div class="control-group provider">
+                                              <b>
+                                                 <label class="control-label">Provider:</label>
+                                              </b>
+                                              <div class="controls">
+                                                 <input id="basic_provider" type="text" value="{{{snoop "fields(name=overview_provider).value" this.data}}}" class="fm-managed" data-use-plugins='TextFieldValueExtractor' />
+                                              </div>
+                                           </div>
+                                           <div class="control-group">
+                                              <b>
+                                                 <label class="control-label">Name:</label>
+                                              </b>
+                                              <div class="controls">
+                                                 <input id="basic_name" name="basic_name" type="text" value="" class="fm-managed" data-use-plugins='TextFieldValueExtractor' />
+                                              </div>
+                                           </div>
+                                           <div class="control-group">
+                                              <b>
+                                                 <label class="control-label">URL:</label>
+                                              </b>
+                                              <div class="controls">
+                                                 <input id="basic_url" name="basic_url" type="text" value="" class="fm-managed" data-use-plugins='TextFieldValueExtractor' />
+                                              </div>
+                                           </div>
+                                           <div class="control-group">
+                                              <b>
+                                                 <label class="control-label">Archive Path:</label>
+                                              </b>
+                                              <div class="controls">
+                                                 <div class="span8">
+                                                      <div class="tbl-upload">
+                                                           <div class="tbl-upload-row">
+                                                                <div class="tbl-upload-cell">
+                                                                     <input type="text" class="txt-filepath" disabled="true"/>
+                                                                </div>
+                                                                <div class="tbl-upload-cell">
+                                                                     <button class="btn btn-upload">Browse</button>
+                                                                     <input id='basic_filepath' type='file' name='basic_filepath'/>
+                                                                </div>
+                                                           </div>
+                                                      </div>
+
+                                                 </div>
+                                              </div>
+                                           </div>
+                                           <div class="control-group">
+                                              <b>
+                                                 <label class="control-label">Description:</label>
+                                              </b>
+                                              <div class="controls">
+                                                 <textarea id="basic_description" name="basic_description"  class="fm-managed" data-use-plugins='TextFieldValueExtractor' ></textarea>
+                                              </div>
+                                           </div>
+
+
+
+                                       </div>
+                                     </div>
+                             </div>
+                         </div>
+                         <div class="accordion" id="Advance1">
+                             <div class="accordion-group">
+                                   <div class="accordion-heading"  style="height:45px;background:#C0C0C0;" href="#collapseAdvance">
+                                        <div style="float:right;">
+                                             <a style="text-transform:capitalize;font-weight:bold;">Advanced Configuration</a>
+                                             <a class="accordion-toggle" style="display: inline-block;" id="toggle-Advance" name="toggle-Advance" data-action="" data-toggle="collapse" href="#collapseAdvance"><i class="icon icon-double-angle-down icon-2x"></i>
+                                             </a>
+                                        </div>
+                                    </div>
+                                    <div id="collapseAdvance" class="accordion-body collapse" id="accordion-inner">
+                                       <div class="accordion-inner">
+                                           <p>{{this.tableName}}</p>
+                                           <div class="control-group">
+                                              <b>
+                                                 <label class="control-label">Namespace:</label>
+                                              </b>
+                                              <div class="controls">
+                                                 <input id='advance_namespace' name='advance_namespace' type='text' value=''  class="fm-managed" data-use-plugins='TextFieldValueExtractor'    required/>
+                                              </div>
+                                           </div>
+                                           <div class="control-group">
+                                              <b>
+                                                 <label class="control-label">Version:</label>
+                                              </b>
+                                              <div class="controls">
+                                                 <input id='advance_version' name='advance_version' type='text' value=''    class="fm-managed" data-use-plugins='TextFieldValueExtractor'    required/>
+                                              </div>
+                                           </div>
+                                       </div>
+                                     </div>
+                             </div>
+                         </div>
+                         <div class="accordion" id="Contact1">
+                             <div class="accordion-group">
+                                   <div class="accordion-heading"  style="height:45px;background:#C0C0C0;" href="#collapseContact1">
+                                        <div style="float:right;">
+                                             <a style="text-transform:capitalize;font-weight:bold;">Contact Information</a>
+                                             <a class="accordion-toggle" style="display: inline-block;" id="toggle-Contact" name="toggle-Contact" data-action="" data-toggle="collapse" href="#collapseContact1"><i class="icon icon-double-angle-down icon-2x"></i>
+                                             </a>
+                                        </div>
+                                   </div>
+                                   <div id="collapseContact1" class="accordion-body collapse" id="accordion-inner">
+                                         <div class="accordion-inner">
+                                               <p>{{this.tableName}}</p>
+                                               <div class="control-group">
+                                                    <b>
+                                                        <label class="control-label">Contact:</label>
+                                                    </b>
+                                                    <div class="controls">
+                                                        <div id="contacts_contact" name='contacts_contact' class="options-text fm-managed" data-add-button="Add Contact" data-selected='' data-options='{{{snoop "fields(name=contacts_contact).valueList" this.data}}}' data-use-plugins="OptionsText" ></div>
+                                                    </div>
+                                               </div>
+                                         </div>
+                                   </div>
+                             </div>
+                         </div>
+                         <div class="accordion" id="Docs">
+                             <div class="accordion-group">
+                                   <div class="accordion-heading"  style="height:45px;background:#C0C0C0;" href="#collapseContact1">
+                                        <div style="float:right;">
+                                             <a style="text-transform:capitalize;font-weight:bold;">Documentation</a>
+                                             <a class="accordion-toggle" style="display: inline-block;" id="toggle-Docs" name="toggle-Docs" data-action="" data-toggle="collapse" href="#collapseDocs"><i class="icon icon-double-angle-down icon-2x"></i>
+                                             </a>
+                                        </div>
+                                   </div>
+                                   <div id="collapseDocs" class="accordion-body collapse" id="accordion-inner">
+                                         <div class="accordion-inner">
+                                               <p>{{this.tableName}}</p>
+                                               <div class="control-group">
+                                                    <b>
+                                                        <label class="control-label">Docs:</label>
+                                                    </b>
+		         				
+
+                                                    <div class="controls">
+                                                        {{>unbound-table this.data.fields.[19]}}
+                                                    </div>
+                                               </div>
+                                         </div>
+                                   </div>
+                             </div>
+                         </div>
+						
+                         <div id="saveButtons" class="form-actions">
+                        	<input type='button' id="btn-create-asset" class="btn btn-primary" name="addNewAssetButton" value='{{t "Create"}}'>
+                      		<button class="btn" type="reset">{{t "Reset"}}</button>
+			                <input type="hidden" value="{{shortName}}" name="{{shortName}}" id="meta-asset-type">
+                        </div>
+                    </form>
+                </div>
+             
+            </div>
+	    </div>
+    </div>
+</div>
