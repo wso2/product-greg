@@ -5,13 +5,13 @@
     <test name="Test-GREG-app" preserve-order="true" parallel="false">
         <packages>
 
-           <package name="org.wso2.greg.integration.resources.resource.test"/>
+          <!-- <package name="org.wso2.greg.integration.resources.resource.test"/>
            <package name="org.wso2.greg.integration.resources.search.metadata.test.bean"/>
-           <package name="org.wso2.greg.integration.resources.server.mgt.test"/>
+           <package name="org.wso2.greg.integration.resources.server.mgt.test"/>-->
 
         </packages>
         <classes>
-            <!--<class name="org.wso2.greg.integration.resources.resource.test.SymlinkToRootCollectionTestCase"/>-->
+            <class name="org.wso2.greg.integration.resources.resource.test.CollectionAssociationsTestCase"/>
             <!--<class name="org.wso2.greg.integration.resources.server.mgt.test.RegistryConfiguratorTestCase"/>-->
         </classes>
 

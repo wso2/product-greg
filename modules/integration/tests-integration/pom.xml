@@ -16,6 +16,7 @@
 
     <modules>
         <module>tests-resources</module>
+        <module>tests-governance</module>
     </modules>
 
     <properties>

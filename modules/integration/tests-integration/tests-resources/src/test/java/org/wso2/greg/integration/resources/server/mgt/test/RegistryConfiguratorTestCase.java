@@ -75,7 +75,6 @@ public class RegistryConfiguratorTestCase extends GREGIntegrationBaseTest {
         editConfigurationFiles();
         updateRegistry();
         addResourceFileToRegistry();
-        // ServerGroupManager.getServerUtils().restartGracefully(serverAdminClient, frameworkProperties);
         serverConfigurationManager.restartGracefully();
     }
 

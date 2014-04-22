@@ -62,11 +62,11 @@ public class RegistryProviderUtil {
                     , automationContext.getUser().getUserName(), automationContext.getUser().getPassword(), configContext);
             log.info("WS Registry -Login Success");
         } catch (AxisFault axisFault) {
-            log.error("Unable to initialize WSRegistryServiceClient :" + axisFault.getMessage());
-            throw new AxisFault("Unable to initialize WSRegistryServiceClient :" + axisFault.getMessage());
+            log.error("Unable to initialize WSRegistryServiceClient :" , axisFault);
+            throw new AxisFault("Unable to initialize WSRegistryServiceClient :" , axisFault);
         } catch (RegistryException e) {
-            log.error("Unable to initialize WSRegistryServiceClient:" + e);
-            throw new RegistryException("Unable to initialize WSRegistryServiceClient:" + e);
+            log.error("Unable to initialize WSRegistryServiceClient:" , e);
+            throw new RegistryException("Unable to initialize WSRegistryServiceClient:" , e);
         }
         return registry;
     }

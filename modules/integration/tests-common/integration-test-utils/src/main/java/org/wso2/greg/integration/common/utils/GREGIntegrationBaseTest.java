@@ -80,11 +80,13 @@ public class GREGIntegrationBaseTest {
     protected String getRemoteRegistryURLOfProducts(String httpsPort, String hostName,
                                                     Instance productInstance) {
         String remoteRegistryURL=null;
-        boolean webContextEnabled = productInstance.getProperties().containsKey(ContextXpathConstants.PRODUCT_GROUP_WEBCONTEXT);
+        boolean webContextEnabled = productInstance.getProperties().containsKey(
+                ContextXpathConstants.PRODUCT_GROUP_WEBCONTEXT);
 
         if (webContextEnabled) {
             if (productInstance != null && httpsPort != null) {
-                remoteRegistryURL = "https://" + hostName + ":" + httpsPort + "/" + productInstance + "/" + "registry/";
+                remoteRegistryURL = "https://" + hostName + ":" + httpsPort + "/" +
+                        productInstance + "/" + "registry/";
             } else if (productInstance == null && httpsPort != null) {
                 remoteRegistryURL = "https://" + hostName + ":" + httpsPort + "/" + "registry/";
             } else if (productInstance == null) {
