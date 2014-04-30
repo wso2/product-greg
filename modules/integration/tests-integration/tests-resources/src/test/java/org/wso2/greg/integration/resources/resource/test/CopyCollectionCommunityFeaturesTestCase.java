@@ -27,12 +27,15 @@ import org.wso2.greg.integration.common.clients.RelationAdminServiceClient;
 import org.wso2.greg.integration.common.clients.ResourceAdminServiceClient;
 import org.wso2.greg.integration.common.utils.RegistryProviderUtil;
 import org.wso2.greg.integration.common.utils.GREGIntegrationBaseTest;
+import org.xml.sax.SAXException;
 
 import javax.activation.DataHandler;
+import javax.xml.stream.XMLStreamException;
 import javax.xml.xpath.XPathExpressionException;
 import java.io.File;
 import java.io.IOException;
 import java.net.MalformedURLException;
+import java.net.URISyntaxException;
 import java.net.URL;
 import java.rmi.RemoteException;
 
@@ -78,7 +81,7 @@ public class CopyCollectionCommunityFeaturesTestCase extends GREGIntegrationBase
 
     @BeforeClass(alwaysRun = true)
     public void initialize()
-            throws LoginAuthenticationExceptionException, RemoteException, RegistryException, XPathExpressionException {
+            throws Exception {
 
         super.init(TestUserMode.SUPER_TENANT_ADMIN);
 
@@ -101,9 +104,7 @@ public class CopyCollectionCommunityFeaturesTestCase extends GREGIntegrationBase
                 new UserManagementClient(getBackendURL(),
                                          getSessionCookie());
         RegistryProviderUtil registryProviderUtil = new RegistryProviderUtil();
-        wsRegistryServiceClient = registryProviderUtil.getWSRegistry("GREG","greg001",
-                automationContext.getConfigurationNode("//superTenant/tenant/@key").getNodeValue(),
-                automationContext.getSuperTenant().getTenantAdmin().getKey());
+        wsRegistryServiceClient = registryProviderUtil.getWSRegistry(automationContext);
 
     }
 
@@ -116,7 +117,7 @@ public class CopyCollectionCommunityFeaturesTestCase extends GREGIntegrationBase
         resourceAdminClient.addCollection(PATH, COLL_NAME, fileType, description);
         String authorUserName = resourceAdminClient.getResource(PATH + COLL_NAME)[0].getAuthorUserName();
 
-        assertTrue(automationContext.getUser().getUserName().equalsIgnoreCase(authorUserName), "Collection creation failure");
+        assertTrue(automationContext.getContextTenant().getContextUser().getUserName().equalsIgnoreCase(authorUserName), "Collection creation failure");
     }
 
     @Test(groups = "wso2.greg", dependsOnMethods = "testAddCollection")
@@ -258,7 +259,7 @@ public class CopyCollectionCommunityFeaturesTestCase extends GREGIntegrationBase
     @Test(groups = "wso2.greg", dependsOnMethods = "testAddLifeCycleToCollection")
     public void testAddRole() throws Exception {
         if(!userManagementClient.roleNameExists(ROLE_NAME)){
-        userManagementClient.addRole(ROLE_NAME, new String[]{automationContext.getUser().getUserName()},
+        userManagementClient.addRole(ROLE_NAME, new String[]{automationContext.getContextTenant().getContextUser().getUserName()},
                                      new String[]{""});
         }
 
@@ -282,7 +283,7 @@ public class CopyCollectionCommunityFeaturesTestCase extends GREGIntegrationBase
 
         String authorUserName =
                 resourceAdminClient.getResource(COLL_COPIED_LOCATION + COLL_NAME)[0].getAuthorUserName();
-        assertTrue(automationContext.getUser().getUserName().equalsIgnoreCase(authorUserName), "Collection copying failure");
+        assertTrue(automationContext.getContextTenant().getContextUser().getUserName().equalsIgnoreCase(authorUserName), "Collection copying failure");
     }
 
     @Test(groups = "wso2.greg", dependsOnMethods = "testCopyCollection", description = "Checks the dependencies after copying the collection")

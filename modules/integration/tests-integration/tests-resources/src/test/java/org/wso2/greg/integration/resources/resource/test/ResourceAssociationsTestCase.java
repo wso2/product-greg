@@ -39,12 +39,16 @@ import org.wso2.greg.integration.common.clients.RelationAdminServiceClient;
 import org.wso2.greg.integration.common.clients.ResourceAdminServiceClient;
 import org.wso2.greg.integration.common.utils.RegistryProviderUtil;
 import org.wso2.greg.integration.common.utils.GREGIntegrationBaseTest;
+import org.xml.sax.SAXException;
 
 import javax.activation.DataHandler;
 import javax.xml.namespace.QName;
+import javax.xml.stream.XMLStreamException;
 import javax.xml.xpath.XPathExpressionException;
 import java.io.File;
+import java.io.IOException;
 import java.net.MalformedURLException;
+import java.net.URISyntaxException;
 import java.net.URL;
 import java.rmi.RemoteException;
 
@@ -79,7 +83,7 @@ public class ResourceAssociationsTestCase extends GREGIntegrationBaseTest{
 
     @BeforeClass(alwaysRun = true)
     public void initialize()
-            throws LoginAuthenticationExceptionException, RemoteException, RegistryException, XPathExpressionException {
+            throws Exception {
 
         super.init(TestUserMode.SUPER_TENANT_ADMIN);
         resourceAdminClient =
@@ -92,10 +96,8 @@ public class ResourceAssociationsTestCase extends GREGIntegrationBaseTest{
                 new ListMetaDataServiceClient(getBackendURL(),
                                               getSessionCookie());
         RegistryProviderUtil registryProviderUtil = new RegistryProviderUtil();
-        WSRegistryServiceClient registry = registryProviderUtil.getWSRegistry("GREG","greg001",
-                automationContext.getConfigurationNode("//superTenant/tenant/@key").getNodeValue(),
-                automationContext.getSuperTenant().getTenantAdmin().getKey());
-        governance = registryProviderUtil.getGovernanceRegistry(registry, automationContext.getUser().getUserName());
+        WSRegistryServiceClient registry = registryProviderUtil.getWSRegistry(automationContext);
+        governance = registryProviderUtil.getGovernanceRegistry(registry, automationContext);
 
     }
 
@@ -108,10 +110,10 @@ public class ResourceAssociationsTestCase extends GREGIntegrationBaseTest{
         resourceAdminClient.addCollection(PATH, CHILDS_CHILD_NAME, fileType, description);
 
         String authorUserName = resourceAdminClient.getResource(PARENT_PATH)[0].getAuthorUserName();
-        assertTrue(automationContext.getUser().getUserName().equalsIgnoreCase(authorUserName), "Parent collection creation failure");
+        assertTrue(automationContext.getContextTenant().getContextUser().getUserName().equalsIgnoreCase(authorUserName), "Parent collection creation failure");
 
         authorUserName = resourceAdminClient.getResource(PARENT_PATH + CHILD_NAME)[0].getAuthorUserName();
-        assertTrue(automationContext.getUser().getUserName().equalsIgnoreCase(authorUserName), "Child collection creation failure");
+        assertTrue(automationContext.getContextTenant().getContextUser().getUserName().equalsIgnoreCase(authorUserName), "Child collection creation failure");
     }
 
     @Test(dependsOnMethods = "testAddCollections")
@@ -126,7 +128,7 @@ public class ResourceAssociationsTestCase extends GREGIntegrationBaseTest{
         resourceAdminClient.addResource(PATH + RES_NAME, fileType, RES_DESC, dataHandler);
 
         String authorUserName = resourceAdminClient.getResource(PATH + RES_NAME)[0].getAuthorUserName();
-        assertTrue(automationContext.getUser().getUserName().equalsIgnoreCase(authorUserName), "Resource creation failure");
+        assertTrue(automationContext.getContextTenant().getContextUser().getUserName().equalsIgnoreCase(authorUserName), "Resource creation failure");
 
     }
 
@@ -160,7 +162,7 @@ public class ResourceAssociationsTestCase extends GREGIntegrationBaseTest{
         resourceAdminClient.moveResource(PATH, PATH + CHILDS_CHILD_NAME, ROOT, CHILDS_CHILD_NAME);
 
         String authorUserName = resourceAdminClient.getResource(ROOT + CHILDS_CHILD_NAME)[0].getAuthorUserName();
-        assertTrue(automationContext.getUser().getUserName().equalsIgnoreCase(authorUserName), "Collection move failure");
+        assertTrue(automationContext.getContextTenant().getContextUser().getUserName().equalsIgnoreCase(authorUserName), "Collection move failure");
 
         String dependencyType = "depends";
 
@@ -236,7 +238,7 @@ public class ResourceAssociationsTestCase extends GREGIntegrationBaseTest{
         resourceAdminClient.addResource(ROOT + "AmazonWebServices.wsdl",
                                         "application/wsdl+xml", "testDesc", dh);
         assertTrue(resourceAdminClient.getResource(WSDL_PATH)[0].getAuthorUserName()
-                           .contains(automationContext.getUser().getUserName()), "WSDL has not been added");
+                           .contains(automationContext.getContextTenant().getContextUser().getUserName()), "WSDL has not been added");
 
         String dependencyType = "depends";
         String todo = "add";
@@ -353,7 +355,7 @@ public class ResourceAssociationsTestCase extends GREGIntegrationBaseTest{
         resourceAdminClient.addResource(RXT_LOCATION, RXT_FILE_TYPE, "TstDec", dh);
 
         assertTrue(resourceAdminClient.getResource(RXT_LOCATION)[0].getAuthorUserName()
-                           .contains(automationContext.getUser().getUserName()));
+                           .contains(automationContext.getContextTenant().getContextUser().getUserName()));
 
     }
 

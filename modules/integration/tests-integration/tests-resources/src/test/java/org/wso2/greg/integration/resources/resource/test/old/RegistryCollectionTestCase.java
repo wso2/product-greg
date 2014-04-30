@@ -70,7 +70,7 @@ public class RegistryCollectionTestCase extends GREGIntegrationBaseTest{
 
         resourceAdminServiceClient =
                 new ResourceAdminServiceClient(getBackendURL(),
-                                               automationContext.getUser().getUserName(), automationContext.getUser().getPassword());
+                                               automationContext.getContextTenant().getContextUser().getUserName(), automationContext.getContextTenant().getContextUser().getPassword());
     }
 
     @Test(groups = {"wso2.greg"})
@@ -99,7 +99,7 @@ public class RegistryCollectionTestCase extends GREGIntegrationBaseTest{
         String authorUserName =
                 resourceAdminServiceClient.getResource(PARENT_PATH + "/" +
                                                        ESB_COLL_NAME)[0].getAuthorUserName();
-        assertTrue(automationContext.getUser().getUserName().equalsIgnoreCase(authorUserName),
+        assertTrue(automationContext.getContextTenant().getContextUser().getUserName().equalsIgnoreCase(authorUserName),
                    PARENT_PATH + "/" + ESB_COLL_NAME + " creation failure");
         log.debug("Media type " + ESB_MEDIATYPE + " collection added to " + collectionPath);
 
@@ -110,7 +110,7 @@ public class RegistryCollectionTestCase extends GREGIntegrationBaseTest{
         authorUserName =
                 resourceAdminServiceClient.getResource(PARENT_PATH + "/" +
                                                        SYNAPSE_COLL_NAME)[0].getAuthorUserName();
-        assertTrue(automationContext.getUser().getUserName().equalsIgnoreCase(authorUserName),
+        assertTrue(automationContext.getContextTenant().getContextUser().getUserName().equalsIgnoreCase(authorUserName),
                    PARENT_PATH + "/" + SYNAPSE_COLL_NAME + " creation failure");
         log.debug("Media type " + SYNAPSE_MEDIATYPE + " collection added to " + collectionPath);
 
@@ -121,7 +121,7 @@ public class RegistryCollectionTestCase extends GREGIntegrationBaseTest{
                 resourceAdminServiceClient.getResource(PARENT_PATH +
                                                        "/" +
                                                        AXIS2_COLL_NAME)[0].getAuthorUserName();
-        assertTrue(automationContext.getUser().getUserName().equalsIgnoreCase(authorUserName),
+        assertTrue(automationContext.getContextTenant().getContextUser().getUserName().equalsIgnoreCase(authorUserName),
                    PARENT_PATH + "/" + AXIS2_COLL_NAME + " creation failure");
         log.debug("Media type " + AXIS2_MEDIATYPE + " collection added to " + collectionPath);
 
@@ -132,7 +132,7 @@ public class RegistryCollectionTestCase extends GREGIntegrationBaseTest{
                 resourceAdminServiceClient.getResource(PARENT_PATH +
                                                        "/" +
                                                        WSAS_COLL_NAME)[0].getAuthorUserName();
-        assertTrue(automationContext.getUser().getUserName().equalsIgnoreCase(authorUserName),
+        assertTrue(automationContext.getContextTenant().getContextUser().getUserName().equalsIgnoreCase(authorUserName),
                    PARENT_PATH + "/" + WSAS_COLL_NAME + " creation failure");
         log.debug("Media type " + WSAS_MEDIATYPE + " collection added to " + collectionPath);
 
@@ -144,7 +144,7 @@ public class RegistryCollectionTestCase extends GREGIntegrationBaseTest{
                 resourceAdminServiceClient.getResource(PARENT_PATH +
                                                        "/" +
                                                        NEW_ESB_COLL_NAME)[0].getAuthorUserName();
-        assertTrue(automationContext.getUser().getUserName().equalsIgnoreCase(authorUserName),
+        assertTrue(automationContext.getContextTenant().getContextUser().getUserName().equalsIgnoreCase(authorUserName),
                    PARENT_PATH + "/" + ESB_COLL_NAME + " renaming failure");
 
         resourceAdminServiceClient.renameResource(PARENT_PATH,
@@ -154,7 +154,7 @@ public class RegistryCollectionTestCase extends GREGIntegrationBaseTest{
                 resourceAdminServiceClient.getResource(PARENT_PATH +
                                                        "/" +
                                                        NEW_SYNAPSE_COLL_NAME)[0].getAuthorUserName();
-        assertTrue(automationContext.getUser().getUserName().equalsIgnoreCase(authorUserName),
+        assertTrue(automationContext.getContextTenant().getContextUser().getUserName().equalsIgnoreCase(authorUserName),
                    PARENT_PATH + "/" + SYNAPSE_COLL_NAME + " renaming failure");
 
         resourceAdminServiceClient.renameResource(PARENT_PATH,
@@ -163,7 +163,7 @@ public class RegistryCollectionTestCase extends GREGIntegrationBaseTest{
         authorUserName =
                 resourceAdminServiceClient.getResource(PARENT_PATH + "/" +
                                                        NEW_AXIS2_COLL_NAME)[0].getAuthorUserName();
-        assertTrue(automationContext.getUser().getUserName().equalsIgnoreCase(authorUserName),
+        assertTrue(automationContext.getContextTenant().getContextUser().getUserName().equalsIgnoreCase(authorUserName),
                    PARENT_PATH + "/" + AXIS2_COLL_NAME + " renaming failure");
 
         resourceAdminServiceClient.renameResource(PARENT_PATH,
@@ -172,7 +172,7 @@ public class RegistryCollectionTestCase extends GREGIntegrationBaseTest{
         authorUserName =
                 resourceAdminServiceClient.getResource(PARENT_PATH + "/" +
                                                        NEW_WSAS_COLL_NAME)[0].getAuthorUserName();
-        assertTrue(automationContext.getUser().getUserName().equalsIgnoreCase(authorUserName),
+        assertTrue(automationContext.getContextTenant().getContextUser().getUserName().equalsIgnoreCase(authorUserName),
                    PARENT_PATH + "/" + WSAS_COLL_NAME + " renaming failure");
 
 
@@ -182,7 +182,7 @@ public class RegistryCollectionTestCase extends GREGIntegrationBaseTest{
         authorUserName =
                 resourceAdminServiceClient.getResource(PARENT_PATH + "/" +
                                                        MOVED_COLLECTIONS_COLL_NAME)[0].getAuthorUserName();
-        assertTrue(automationContext.getUser().getUserName().equalsIgnoreCase(authorUserName),
+        assertTrue(automationContext.getContextTenant().getContextUser().getUserName().equalsIgnoreCase(authorUserName),
                    PARENT_PATH + "/" + MOVED_COLLECTIONS_COLL_NAME + " creation failure");
 
 
@@ -195,11 +195,11 @@ public class RegistryCollectionTestCase extends GREGIntegrationBaseTest{
                                                        MOVED_COLLECTIONS_COLL_NAME +
                                                        "/" +
                                                        NEW_ESB_COLL_NAME)[0].getAuthorUserName();
-        assertTrue(automationContext.getUser().getUserName().equalsIgnoreCase(authorUserName),
+        assertTrue(automationContext.getContextTenant().getContextUser().getUserName().equalsIgnoreCase(authorUserName),
                    PARENT_PATH + "/" + ESB_COLL_NAME + " moving failure - Resource didn't move");
 //            authorUserName =
 //                    resourceAdminServiceClient.getResource(PARENT_PATH+"/"+NEW_ESB_COLL_NAME)[0].getAuthorUserName();
-//            assertTrue(automationContext.getUser().getUserName().equalsIgnoreCase(authorUserName),
+//            assertTrue(automationContext.getContextTenant().getContextUser().getUserName().equalsIgnoreCase(authorUserName),
 //                       PARENT_PATH+"/"+ESB_COLL_NAME + " resource found in original path after move");
 
 
@@ -211,7 +211,7 @@ public class RegistryCollectionTestCase extends GREGIntegrationBaseTest{
                 resourceAdminServiceClient.getResource(PARENT_PATH + "/" +
                                                        MOVED_COLLECTIONS_COLL_NAME + "/" +
                                                        NEW_SYNAPSE_COLL_NAME)[0].getAuthorUserName();
-        assertTrue(automationContext.getUser().getUserName().equalsIgnoreCase(authorUserName),
+        assertTrue(automationContext.getContextTenant().getContextUser().getUserName().equalsIgnoreCase(authorUserName),
                    PARENT_PATH + "/" + SYNAPSE_COLL_NAME + " moving failure - Resource didn't move");
 
         resourceAdminServiceClient.moveResource(PARENT_PATH, PARENT_PATH + "/" +
@@ -223,7 +223,7 @@ public class RegistryCollectionTestCase extends GREGIntegrationBaseTest{
                                                        "/" + MOVED_COLLECTIONS_COLL_NAME +
                                                        "/" +
                                                        NEW_AXIS2_COLL_NAME)[0].getAuthorUserName();
-        assertTrue(automationContext.getUser().getUserName().equalsIgnoreCase(authorUserName),
+        assertTrue(automationContext.getContextTenant().getContextUser().getUserName().equalsIgnoreCase(authorUserName),
                    PARENT_PATH + "/" + AXIS2_COLL_NAME + " moving failure - Resource didn't move");
 
         resourceAdminServiceClient.moveResource(PARENT_PATH,
@@ -234,7 +234,7 @@ public class RegistryCollectionTestCase extends GREGIntegrationBaseTest{
                 resourceAdminServiceClient.getResource(PARENT_PATH + "/" +
                                                        MOVED_COLLECTIONS_COLL_NAME +
                                                        "/" + NEW_WSAS_COLL_NAME)[0].getAuthorUserName();
-        assertTrue(automationContext.getUser().getUserName().equalsIgnoreCase(authorUserName),
+        assertTrue(automationContext.getContextTenant().getContextUser().getUserName().equalsIgnoreCase(authorUserName),
                    PARENT_PATH + "/" + WSAS_COLL_NAME + " moving failure - Resource didn't move");
 
         //copy collections
@@ -247,7 +247,7 @@ public class RegistryCollectionTestCase extends GREGIntegrationBaseTest{
         authorUserName =
                 resourceAdminServiceClient.getResource(PARENT_PATH +
                                                        "/" + NEW_ESB_COLL_NAME)[0].getAuthorUserName();
-        assertTrue(automationContext.getUser().getUserName().equalsIgnoreCase(authorUserName),
+        assertTrue(automationContext.getContextTenant().getContextUser().getUserName().equalsIgnoreCase(authorUserName),
                    PARENT_PATH + "/" + ESB_COLL_NAME + " copying failure");
 
         resourceAdminServiceClient.copyResource(PARENT_PATH + "/" +
@@ -259,7 +259,7 @@ public class RegistryCollectionTestCase extends GREGIntegrationBaseTest{
         authorUserName =
                 resourceAdminServiceClient.getResource(PARENT_PATH + "/" +
                                                        NEW_SYNAPSE_COLL_NAME)[0].getAuthorUserName();
-        assertTrue(automationContext.getUser().getUserName().equalsIgnoreCase(authorUserName),
+        assertTrue(automationContext.getContextTenant().getContextUser().getUserName().equalsIgnoreCase(authorUserName),
                    PARENT_PATH + "/" + SYNAPSE_COLL_NAME + " copying failure");
         resourceAdminServiceClient.copyResource(PARENT_PATH + "/" +
                                                 MOVED_COLLECTIONS_COLL_NAME,
@@ -269,7 +269,7 @@ public class RegistryCollectionTestCase extends GREGIntegrationBaseTest{
         authorUserName =
                 resourceAdminServiceClient.getResource(PARENT_PATH + "/" +
                                                        NEW_AXIS2_COLL_NAME)[0].getAuthorUserName();
-        assertTrue(automationContext.getUser().getUserName().equalsIgnoreCase(authorUserName),
+        assertTrue(automationContext.getContextTenant().getContextUser().getUserName().equalsIgnoreCase(authorUserName),
                    PARENT_PATH + "/" + AXIS2_COLL_NAME + " copying failure");
 
         resourceAdminServiceClient.copyResource(PARENT_PATH + "/" +
@@ -280,7 +280,7 @@ public class RegistryCollectionTestCase extends GREGIntegrationBaseTest{
         authorUserName =
                 resourceAdminServiceClient.getResource(PARENT_PATH + "/" +
                                                        NEW_WSAS_COLL_NAME)[0].getAuthorUserName();
-        assertTrue(automationContext.getUser().getUserName().equalsIgnoreCase(authorUserName),
+        assertTrue(automationContext.getContextTenant().getContextUser().getUserName().equalsIgnoreCase(authorUserName),
                    PARENT_PATH + "/" + WSAS_COLL_NAME + " copying failure");
     }
 

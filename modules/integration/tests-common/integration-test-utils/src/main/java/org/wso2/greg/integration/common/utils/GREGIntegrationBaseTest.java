@@ -23,28 +23,45 @@ import org.wso2.carbon.automation.engine.context.AutomationContext;
 import org.wso2.carbon.automation.engine.context.ContextXpathConstants;
 import org.wso2.carbon.automation.engine.context.TestUserMode;
 import org.wso2.carbon.automation.engine.context.beans.Instance;
+import org.wso2.carbon.automation.engine.frameworkutils.FrameworkPathUtil;
+import org.wso2.carbon.integration.common.utils.LoginLogoutClient;
+import org.xml.sax.SAXException;
 
+import javax.xml.stream.XMLStreamException;
 import javax.xml.xpath.XPathExpressionException;
+import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.URISyntaxException;
 import java.rmi.RemoteException;
 
+/**
+ * Base class of all integration tests
+ */
 public class GREGIntegrationBaseTest {
     protected Log log = LogFactory.getLog(GREGIntegrationBaseTest.class);
     protected AutomationContext automationContext;
+    protected String backendURL;
 
     protected void init(TestUserMode userMode) throws XPathExpressionException {
         automationContext = new AutomationContext("GREG", userMode);
+        backendURL = automationContext.getContextUrls().getBackEndUrl();
     }
 
-    protected void initPublisher(String productGroupName, String instanceName, TestUserMode userMode, String userKey) throws XPathExpressionException {
-        automationContext = new AutomationContext(productGroupName, instanceName, userMode);
+    protected void initPublisher(String productGroupName, String instanceName,
+                                 TestUserMode userMode, String userKey) throws XPathExpressionException {
+        automationContext =
+                new AutomationContext(productGroupName, instanceName, userMode);
+        backendURL = automationContext.getContextUrls().getBackEndUrl();
     }
 
     protected String getBackendURL() throws XPathExpressionException {
         return automationContext.getContextUrls().getBackEndUrl();
     }
 
-    protected String getSessionCookie() throws XPathExpressionException, LoginAuthenticationExceptionException, RemoteException {
-        return automationContext.login();
+    protected String getSessionCookie() throws XPathExpressionException, LoginAuthenticationExceptionException,
+            IOException, URISyntaxException, SAXException, XMLStreamException {
+        LoginLogoutClient loginLogoutClient = new LoginLogoutClient(automationContext);
+        return loginLogoutClient.login();
 
     }
 
@@ -52,35 +69,15 @@ public class GREGIntegrationBaseTest {
         return automationContext.getContextUrls().getServiceUrl();
     }
 
-    /*    protected String getRemoteRegistryURLOfProducts(String httpsPort, String hostName,
-                                                        String webContextRoot) {
-        String remoteRegistryURL;
-        boolean webContextEnabled = Boolean.parseBoolean(prop.getProperty("carbon.web.context.enable"));
-
-        if (portEnabled && webContextEnabled) {
-            if (webContextRoot != null && httpsPort != null) {
-                remoteRegistryURL = "https://" + hostName + ":" + httpsPort + "/" + webContextRoot + "/" + "registry/";
-            } else if (webContextRoot == null && httpsPort != null) {
-                remoteRegistryURL = "https://" + hostName + ":" + httpsPort + "/" + "registry/";
-            } else if (webContextRoot == null) {
-                remoteRegistryURL = "https://" + hostName + "/" + "services/";
-            } else {
-                remoteRegistryURL = "https://" + hostName + "/" + webContextRoot + "/" + "registry/";
-            }
-        } else if (!portEnabled && webContextEnabled) {
-            remoteRegistryURL = "https://" + hostName + "/" + webContextRoot + "/" + "registry/";
-        } else if (portEnabled && !webContextEnabled) {
-            remoteRegistryURL = "https://" + hostName + ":" + httpsPort + "/" + "registry/";
-        } else {
-            remoteRegistryURL = "https://" + hostName + "/" + "registry/";
-        }
-        return remoteRegistryURL;
+    protected String getTestArtifactLocation(){
+        return FrameworkPathUtil.getSystemResourceLocation();
     }
-    */
+
     protected String getRemoteRegistryURLOfProducts(String httpsPort, String hostName,
                                                     Instance productInstance) {
         String remoteRegistryURL=null;
-        boolean webContextEnabled = productInstance.getProperties().containsKey(ContextXpathConstants.PRODUCT_GROUP_WEBCONTEXT);
+        boolean webContextEnabled =
+                productInstance.getProperties().containsKey(ContextXpathConstants.PRODUCT_GROUP_WEBCONTEXT);
 
         if (webContextEnabled) {
             if (productInstance != null && httpsPort != null) {
@@ -95,24 +92,6 @@ public class GREGIntegrationBaseTest {
         }  else{
             remoteRegistryURL = "https://" + hostName + ":" + httpsPort + "/" + "registry/";
         }
-
-       /* if (portEnabled && webContextEnabled) {
-            if (webContextRoot != null && httpsPort != null) {
-                remoteRegistryURL = "https://" + hostName + ":" + httpsPort + "/" + webContextRoot + "/" + "registry/";
-            } else if (webContextRoot == null && httpsPort != null) {
-                remoteRegistryURL = "https://" + hostName + ":" + httpsPort + "/" + "registry/";
-            } else if (webContextRoot == null) {
-                remoteRegistryURL = "https://" + hostName + "/" + "services/";
-            } else {
-                remoteRegistryURL = "https://" + hostName + "/" + webContextRoot + "/" + "registry/";
-            }
-        } else if (!portEnabled && webContextEnabled) {
-            remoteRegistryURL = "https://" + hostName + "/" + webContextRoot + "/" + "registry/";
-        } else if (portEnabled && !webContextEnabled) {
-            remoteRegistryURL = "https://" + hostName + ":" + httpsPort + "/" + "registry/";
-        } else {
-            remoteRegistryURL = "https://" + hostName + "/" + "registry/";
-        }*/
         return remoteRegistryURL;
     }
 }

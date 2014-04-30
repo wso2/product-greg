@@ -59,10 +59,10 @@ public class LifeCycleTestCase extends GREGIntegrationBaseTest {
         log.debug("Running SuccessCase");
         resourceAdminServiceClient =
                 new ResourceAdminServiceClient(getBackendURL(),
-                        automationContext.getUser().getUserName(), automationContext.getUser().getPassword());
+                        automationContext.getContextTenant().getContextUser().getUserName(), automationContext.getContextTenant().getContextUser().getPassword());
         lifeCycleManagementClient =
                 new LifeCycleManagementClient(getBackendURL(),
-                        automationContext.getUser().getUserName(), automationContext.getUser().getPassword());
+                        automationContext.getContextTenant().getContextUser().getUserName(), automationContext.getContextTenant().getContextUser().getPassword());
     }
 
     @Test(groups = {"wso2.greg"})
@@ -84,7 +84,7 @@ public class LifeCycleTestCase extends GREGIntegrationBaseTest {
                 resourceAdminServiceClient.addCollection("/", "TestAutomation", "", "");
         String authorUserName =
                 resourceAdminServiceClient.getResource(PARENT_PATH)[0].getAuthorUserName();
-        assertTrue(automationContext.getUser().getUserName().equalsIgnoreCase(authorUserName),
+        assertTrue(automationContext.getContextTenant().getContextUser().getUserName().equalsIgnoreCase(authorUserName),
                 PARENT_PATH + " creation failure");
         log.info("collection added to " + collectionPath);
 
@@ -93,7 +93,7 @@ public class LifeCycleTestCase extends GREGIntegrationBaseTest {
                         LIFECYCLE_PARENT_COLL_NAME, "", "");
         authorUserName = resourceAdminServiceClient.getResource(
                 PARENT_PATH + "/" + LIFECYCLE_PARENT_COLL_NAME)[0].getAuthorUserName();
-        assertTrue(automationContext.getUser().getUserName().equalsIgnoreCase(authorUserName),
+        assertTrue(automationContext.getContextTenant().getContextUser().getUserName().equalsIgnoreCase(authorUserName),
                 PARENT_PATH + "/" + LIFECYCLE_PARENT_COLL_NAME + " creation failure");
         log.info("collection added to " + collectionPath);
     }

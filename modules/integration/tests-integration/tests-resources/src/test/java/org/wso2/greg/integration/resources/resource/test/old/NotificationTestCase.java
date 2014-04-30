@@ -63,7 +63,7 @@ public class NotificationTestCase extends GREGIntegrationBaseTest{
 
         infoServiceAdminClient =
                 new InfoServiceAdminClient(getBackendURL(),
-                                           automationContext.getUser().getUserName(), automationContext.getUser().getPassword());
+                                           automationContext.getContextTenant().getContextUser().getUserName(), automationContext.getContextTenant().getContextUser().getPassword());
     }
 
     @Test(groups = {"wso2.greg"})

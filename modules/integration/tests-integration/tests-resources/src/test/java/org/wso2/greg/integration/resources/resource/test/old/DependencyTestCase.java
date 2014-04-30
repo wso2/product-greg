@@ -68,10 +68,10 @@ public class DependencyTestCase extends GREGIntegrationBaseTest{
 
         resourceAdminServiceClient =
                 new ResourceAdminServiceClient(getBackendURL(),
-                                               automationContext.getUser().getUserName(), automationContext.getUser().getPassword());
+                                               automationContext.getContextTenant().getContextUser().getUserName(), automationContext.getContextTenant().getContextUser().getPassword());
         relationAdminServiceClient = new RelationAdminServiceClient(
                 getBackendURL(),
-                automationContext.getUser().getUserName(), automationContext.getUser().getPassword());
+                automationContext.getContextTenant().getContextUser().getUserName(), automationContext.getContextTenant().getContextUser().getPassword());
 
     }
 
@@ -93,7 +93,7 @@ public class DependencyTestCase extends GREGIntegrationBaseTest{
         resourceAdminServiceClient.addCollection("/", "TestAutomation", "", "");
         String authorUserName =
                 resourceAdminServiceClient.getResource(PARENT_PATH)[0].getAuthorUserName();
-        assertTrue(automationContext.getUser().getUserName().equalsIgnoreCase(authorUserName),
+        assertTrue(automationContext.getContextTenant().getContextUser().getUserName().equalsIgnoreCase(authorUserName),
                    PARENT_PATH + " creation failure");
         log.info("collection added to " + PARENT_PATH);
 
@@ -101,7 +101,7 @@ public class DependencyTestCase extends GREGIntegrationBaseTest{
                                                  COMM_FEATURE_PARENT_COLL_NAME, "", "");
         authorUserName = resourceAdminServiceClient.getResource(
                 PARENT_PATH + "/" + COMM_FEATURE_PARENT_COLL_NAME)[0].getAuthorUserName();
-        assertTrue(automationContext.getUser().getUserName().equalsIgnoreCase(authorUserName),
+        assertTrue(automationContext.getContextTenant().getContextUser().getUserName().equalsIgnoreCase(authorUserName),
                    PARENT_PATH + "/" + COMM_FEATURE_PARENT_COLL_NAME + " creation failure");
         log.info("collection added to " + PARENT_PATH + "/" + COMM_FEATURE_PARENT_COLL_NAME);
 
@@ -111,7 +111,7 @@ public class DependencyTestCase extends GREGIntegrationBaseTest{
                 PARENT_PATH + "/" + COMM_FEATURE_PARENT_COLL_NAME + "/" +
                 TEST_COLLECTION1)[0].getAuthorUserName();
 
-        assertTrue(automationContext.getUser().getUserName().equalsIgnoreCase(authorUserName),
+        assertTrue(automationContext.getContextTenant().getContextUser().getUserName().equalsIgnoreCase(authorUserName),
                    PARENT_PATH + "/" + COMM_FEATURE_PARENT_COLL_NAME + "/" +
                    TEST_COLLECTION1 + " creation failure");
 
@@ -120,7 +120,7 @@ public class DependencyTestCase extends GREGIntegrationBaseTest{
         authorUserName = resourceAdminServiceClient.getResource(
                 PARENT_PATH + "/" + COMM_FEATURE_PARENT_COLL_NAME + "/" +
                 TEST_COLLECTION2)[0].getAuthorUserName();
-        assertTrue(automationContext.getUser().getUserName().equalsIgnoreCase(authorUserName),
+        assertTrue(automationContext.getContextTenant().getContextUser().getUserName().equalsIgnoreCase(authorUserName),
                    PARENT_PATH + "/" + COMM_FEATURE_PARENT_COLL_NAME + "/" +
                    TEST_COLLECTION2 + " creation failure");
 
@@ -138,7 +138,7 @@ public class DependencyTestCase extends GREGIntegrationBaseTest{
         authorUserName = resourceAdminServiceClient.getResource(
                 PARENT_PATH + "/" + COMM_FEATURE_PARENT_COLL_NAME + "/" +
                 TEST_COLLECTION1 + "/" + RESOURCE_NAME)[0].getAuthorUserName();
-        assertTrue(automationContext.getUser().getUserName().equalsIgnoreCase(authorUserName),
+        assertTrue(automationContext.getContextTenant().getContextUser().getUserName().equalsIgnoreCase(authorUserName),
                    PARENT_PATH + "/" + COMM_FEATURE_PARENT_COLL_NAME + "/" +
                    TEST_COLLECTION1 + "/" + RESOURCE_NAME + " creation failure");
     }

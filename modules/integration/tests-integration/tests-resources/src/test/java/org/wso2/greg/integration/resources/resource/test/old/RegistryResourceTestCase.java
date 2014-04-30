@@ -62,7 +62,7 @@ public class RegistryResourceTestCase extends GREGIntegrationBaseTest{
         log.debug("Running SuccessCase");
         resourceAdminServiceClient =
                 new ResourceAdminServiceClient(getBackendURL(),
-                                               automationContext.getUser().getUserName(), automationContext.getUser().getPassword());
+                                               automationContext.getContextTenant().getContextUser().getUserName(), automationContext.getContextTenant().getContextUser().getPassword());
     }
 
     @Test(groups = {"wso2.greg"})
@@ -84,7 +84,7 @@ public class RegistryResourceTestCase extends GREGIntegrationBaseTest{
                 resourceAdminServiceClient.addCollection("/", "TestAutomation", "", "");
         String authorUserName =
                 resourceAdminServiceClient.getResource(PARENT_PATH)[0].getAuthorUserName();
-        assertTrue(automationContext.getUser().getUserName().equalsIgnoreCase(authorUserName),
+        assertTrue(automationContext.getContextTenant().getContextUser().getUserName().equalsIgnoreCase(authorUserName),
                    PARENT_PATH + " creation failure");
         log.info("collection added to " + collectionPath);
 
@@ -93,7 +93,7 @@ public class RegistryResourceTestCase extends GREGIntegrationBaseTest{
         authorUserName =
                 resourceAdminServiceClient.getResource(PARENT_PATH +
                                                        "/" + WSO2_COLL)[0].getAuthorUserName();
-        assertTrue(automationContext.getUser().getUserName().equalsIgnoreCase(authorUserName),
+        assertTrue(automationContext.getContextTenant().getContextUser().getUserName().equalsIgnoreCase(authorUserName),
                    PARENT_PATH + "/" + WSO2_COLL + " creation failure");
         log.info("collection added to " + collectionPath);
 

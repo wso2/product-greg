@@ -30,12 +30,15 @@ import org.wso2.carbon.registry.resource.stub.ResourceAdminServiceExceptionExcep
 import org.wso2.greg.integration.common.clients.RelationAdminServiceClient;
 import org.wso2.greg.integration.common.clients.ResourceAdminServiceClient;
 import org.wso2.greg.integration.common.utils.GREGIntegrationBaseTest;
+import org.xml.sax.SAXException;
 
 import javax.activation.DataHandler;
+import javax.xml.stream.XMLStreamException;
 import javax.xml.xpath.XPathExpressionException;
 import java.io.File;
 import java.io.IOException;
 import java.net.MalformedURLException;
+import java.net.URISyntaxException;
 import java.net.URL;
 import java.rmi.RemoteException;
 
@@ -52,7 +55,8 @@ public class ResourceTestCase extends GREGIntegrationBaseTest{
     private RelationAdminServiceClient relationAdminServiceClient;
 
     @BeforeClass(alwaysRun = true)
-    public void initializeTests() throws LoginAuthenticationExceptionException, RemoteException, XPathExpressionException {
+    public void initializeTests() throws LoginAuthenticationExceptionException, IOException,
+            XPathExpressionException, URISyntaxException, SAXException, XMLStreamException {
         super.init(TestUserMode.SUPER_TENANT_ADMIN);
 
         resourceAdminClient =
@@ -71,7 +75,7 @@ public class ResourceTestCase extends GREGIntegrationBaseTest{
                       + "GREG" + File.separator + "testresource.txt";
         DataHandler dataHandler = new DataHandler(new URL("file:///" + path));
         resourceAdminClient.addResource(PATH, "test/plain", "desc", dataHandler);
-        assertTrue(resourceAdminClient.getResource(PATH)[0].getAuthorUserName().contains(automationContext.getUser().getUserName()));
+        assertTrue(resourceAdminClient.getResource(PATH)[0].getAuthorUserName().contains(automationContext.getContextTenant().getContextUser().getUserName()));
     }
 
     @Test(groups = "wso2.greg", description = "Add resource to greg", dependsOnMethods = "testAddResource")

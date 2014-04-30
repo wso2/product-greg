@@ -45,12 +45,15 @@ import org.wso2.greg.integration.common.clients.*;
 import org.wso2.greg.integration.common.utils.GREGIntegrationBaseTest;
 import org.wso2.greg.integration.common.utils.RegistryProviderUtil;
 import org.wso2.greg.integration.resources.search.metadata.test.bean.SearchParameterBean;
+import org.xml.sax.SAXException;
 
 import javax.activation.DataHandler;
+import javax.xml.stream.XMLStreamException;
 import javax.xml.xpath.XPathExpressionException;
 import java.io.File;
 import java.io.IOException;
 import java.net.MalformedURLException;
+import java.net.URISyntaxException;
 import java.net.URL;
 import java.rmi.RemoteException;
 
@@ -84,7 +87,7 @@ public class SymlinkToRootCollectionTestCase extends GREGIntegrationBaseTest {
 
     @BeforeClass(alwaysRun = true)
     public void initialize()
-            throws LoginAuthenticationExceptionException, RemoteException, RegistryException, XPathExpressionException {
+            throws Exception {
 
         super.init(TestUserMode.SUPER_TENANT_ADMIN);
         sessionId = getSessionCookie();
@@ -104,9 +107,7 @@ public class SymlinkToRootCollectionTestCase extends GREGIntegrationBaseTest {
                 new UserManagementClient(getBackendURL(),
                         getSessionCookie());
         RegistryProviderUtil registryProviderUtil = new RegistryProviderUtil();
-        wsRegistryServiceClient = registryProviderUtil.getWSRegistry("GREG", "greg001",
-                automationContext.getConfigurationNode("//superTenant/tenant/@key").getNodeValue(),
-                automationContext.getSuperTenant().getTenantAdmin().getKey());
+        wsRegistryServiceClient = registryProviderUtil.getWSRegistry(automationContext);
         searchAdminServiceClient = new SearchAdminServiceClient(getBackendURL(),
                 getSessionCookie());
 
@@ -128,7 +129,7 @@ public class SymlinkToRootCollectionTestCase extends GREGIntegrationBaseTest {
         String description = "A test collection";
         resourceAdminClient.addCollection(ROOT, COLL_NAME, fileType, description);
         String authorUserName = resourceAdminClient.getResource(ROOT + COLL_NAME)[0].getAuthorUserName();
-        assertTrue(automationContext.getUser().getUserName().equalsIgnoreCase(authorUserName), "Root collection creation failure");
+        assertTrue(automationContext.getContextTenant().getContextUser().getUserName().equalsIgnoreCase(authorUserName), "Root collection creation failure");
     }
 
     @Test(groups = "wso2.greg", dependsOnMethods = "testAddCollectionToRoot")
@@ -138,7 +139,7 @@ public class SymlinkToRootCollectionTestCase extends GREGIntegrationBaseTest {
                 SYMLINK_LOC.substring(0, SYMLINK_LOC.length() - 1), SYMLINK_NAME, ROOT + COLL_NAME);
 
         String authorUserName = resourceAdminClient.getResource(SYMLINK_LOC + SYMLINK_NAME)[0].getAuthorUserName();
-        assertTrue(automationContext.getUser().getUserName().equalsIgnoreCase(authorUserName), "Symlink creation failure");
+        assertTrue(automationContext.getContextTenant().getContextUser().getUserName().equalsIgnoreCase(authorUserName), "Symlink creation failure");
     }
 
     @Test(groups = "wso2.greg", dependsOnMethods = "testAddSymlinkToRootCollection")
@@ -149,7 +150,7 @@ public class SymlinkToRootCollectionTestCase extends GREGIntegrationBaseTest {
 
         String authorUserName = resourceAdminClient.getResource(
                 SYMLINK_LOC + COPY_OF_SYMLINK_NAME)[0].getAuthorUserName();
-        assertTrue(automationContext.getUser().getUserName().equalsIgnoreCase(authorUserName), "Copy of Symlink creation failure");
+        assertTrue(automationContext.getContextTenant().getContextUser().getUserName().equalsIgnoreCase(authorUserName), "Copy of Symlink creation failure");
     }
 
 
@@ -433,7 +434,7 @@ public class SymlinkToRootCollectionTestCase extends GREGIntegrationBaseTest {
     @Test(groups = "wso2.greg", dependsOnMethods = "testRemoveTag")
     public void testAddRole() throws Exception {
 
-        userManagementClient.addRole(ROLE_NAME, new String[]{automationContext.getUser().getUserName()},
+        userManagementClient.addRole(ROLE_NAME, new String[]{automationContext.getContextTenant().getContextUser().getUserName()},
                 new String[]{""});
         assertTrue(userManagementClient.roleNameExists(ROLE_NAME));
     }

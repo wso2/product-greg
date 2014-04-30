@@ -63,7 +63,7 @@ public class RegistryConfiguratorTestCase extends GREGIntegrationBaseTest {
         super.init(TestUserMode.SUPER_TENANT_ADMIN);
         resourceAdminServiceClient =
                 new ResourceAdminServiceClient(getBackendURL(),
-                        automationContext.getUser().getUserName(), automationContext.getUser().getPassword());
+                        automationContext.getContextTenant().getContextUser().getUserName(), automationContext.getContextTenant().getContextUser().getPassword());
 
         serverConfigurationManager = new ServerConfigurationManager("GREG", TestUserMode.SUPER_TENANT_ADMIN);
     }
@@ -85,7 +85,7 @@ public class RegistryConfiguratorTestCase extends GREGIntegrationBaseTest {
 
     }
 
-    private void updateRegistry() throws RegistryException, AxisFault, XPathExpressionException {
+    private void updateRegistry() throws Exception {
         updateMimetypes();
     }
 
@@ -95,15 +95,13 @@ public class RegistryConfiguratorTestCase extends GREGIntegrationBaseTest {
         enableWorkList();
     }
 
-    private void updateMimetypes() throws RegistryException, AxisFault, XPathExpressionException {
+    private void updateMimetypes() throws Exception {
 
         final String MIME_TYPE_PATH = "/_system/config/repository/components/org.wso2.carbon.governance/media-types/index";
         WSRegistryServiceClient wsRegistry;
         RegistryProviderUtil registryProviderUtil = new RegistryProviderUtil();
 
-        wsRegistry = registryProviderUtil.getWSRegistry("GREG", "greg001",
-                automationContext.getConfigurationNode("//superTenant/tenant/@key").getNodeValue(),
-                automationContext.getSuperTenant().getTenantAdmin().getKey());
+        wsRegistry = registryProviderUtil.getWSRegistry(automationContext);
         Resource resource = wsRegistry.get(MIME_TYPE_PATH);
         resource.addProperty("properties", "text/properties");
         resource.addProperty("cfg", "text/config");
@@ -207,8 +205,8 @@ public class RegistryConfiguratorTestCase extends GREGIntegrationBaseTest {
         XMLStreamWriter writer = null;
 
         String workList = "<workList serverURL=\"local://services/\" remote=\"false\">\n" +
-                "        <username>" + automationContext.getUser().getUserName() + "</username>\n" +
-                "        <password>" + automationContext.getUser().getPassword() + "</password>\n" +
+                "        <username>" + automationContext.getContextTenant().getContextUser().getUserName() + "</username>\n" +
+                "        <password>" + automationContext.getContextTenant().getContextUser().getPassword() + "</password>\n" +
                 "    </workList>";
 
         try {
