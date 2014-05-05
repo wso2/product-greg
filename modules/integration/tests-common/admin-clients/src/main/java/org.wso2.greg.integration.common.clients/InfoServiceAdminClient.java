@@ -334,4 +334,17 @@ public class InfoServiceAdminClient {
             throw new RegistryExceptionException(msg, e);
         }
     }
+
+ public void subscribeREST(String path, String endpoint, String eventName, String sessionId) {
+
+        try {
+            infoAdminServiceStub.subscribeREST(path, endpoint, eventName, sessionId);
+        } catch (RemoteException e) {
+            log.error("Failed to subscribe for REST event ", e);
+        } catch (RegistryExceptionException e) {
+            log.error("Failed to subscribe for REST event ", e);
+        }
+    }
+
+
 }
