@@ -64,11 +64,11 @@ public class ContentSearchTestCase extends GREGIntegrationBaseTest{
 
         resourceAdminServiceClient =
                 new ResourceAdminServiceClient(getBackendURL(),
-                                               automationContext.getUser().getUserName(), automationContext.getUser().getPassword());
+                                               automationContext.getContextTenant().getContextUser().getUserName(), automationContext.getContextTenant().getContextUser().getPassword());
 
         contentSearchAdminClient = new ContentSearchAdminClient(
                 getBackendURL(),
-                automationContext.getUser().getUserName(), automationContext.getUser().getPassword());
+                automationContext.getContextTenant().getContextUser().getUserName(), automationContext.getContextTenant().getContextUser().getPassword());
     }
 
 
@@ -89,7 +89,7 @@ public class ContentSearchTestCase extends GREGIntegrationBaseTest{
         String authorUserName =
                 resourceAdminServiceClient.getResource(WSDL_PATH +
                         RESOURCE_NAME)[0].getAuthorUserName();
-        assertTrue(automationContext.getUser().getUserName().equalsIgnoreCase(authorUserName),
+        assertTrue(automationContext.getContextTenant().getContextUser().getUserName().equalsIgnoreCase(authorUserName),
                    WSDL_PATH + RESOURCE_NAME + " creation failure");
 
     }

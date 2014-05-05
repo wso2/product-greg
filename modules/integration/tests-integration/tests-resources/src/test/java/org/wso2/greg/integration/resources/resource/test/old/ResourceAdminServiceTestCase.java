@@ -52,7 +52,7 @@ public class ResourceAdminServiceTestCase extends GREGIntegrationBaseTest{
 
         resourceAdminServiceClient =
                 new ResourceAdminServiceClient(getBackendURL(),
-                                               automationContext.getUser().getUserName(), automationContext.getUser().getPassword());
+                                               automationContext.getContextTenant().getContextUser().getUserName(), automationContext.getContextTenant().getContextUser().getPassword());
     }
 
     @Test(groups = {"wso2.greg"})
@@ -61,7 +61,7 @@ public class ResourceAdminServiceTestCase extends GREGIntegrationBaseTest{
         String collectionPath = resourceAdminServiceClient.addCollection("/", "Test", "", "");
         String authorUserName =
                 resourceAdminServiceClient.getResource("/Test")[0].getAuthorUserName();
-        assertTrue(automationContext.getUser().getUserName().equalsIgnoreCase(authorUserName),
+        assertTrue(automationContext.getContextTenant().getContextUser().getUserName().equalsIgnoreCase(authorUserName),
                    "/Test creation failure");
         log.debug("collection added to " + collectionPath);
         // resourceAdminServiceStub.addResource("/Test/echo_back.xslt", "application/xml", "xslt files", null,null);

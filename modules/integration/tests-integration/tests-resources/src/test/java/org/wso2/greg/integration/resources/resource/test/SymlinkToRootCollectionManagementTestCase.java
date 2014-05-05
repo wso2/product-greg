@@ -30,6 +30,7 @@ import org.wso2.carbon.registry.resource.stub.ResourceAdminServiceExceptionExcep
 import org.wso2.carbon.registry.resource.stub.common.xsd.ResourceData;
 import org.wso2.greg.integration.common.clients.ResourceAdminServiceClient;
 import org.wso2.greg.integration.common.utils.GREGIntegrationBaseTest;
+import org.xml.sax.SAXException;
 
 import javax.xml.namespace.QName;
 import javax.xml.stream.XMLStreamException;
@@ -39,6 +40,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
+import java.net.URISyntaxException;
 import java.net.URL;
 import java.nio.charset.Charset;
 import java.rmi.RemoteException;
@@ -67,7 +69,8 @@ public class SymlinkToRootCollectionManagementTestCase extends GREGIntegrationBa
 
     @BeforeClass(alwaysRun = true)
     public void initialize()
-            throws LoginAuthenticationExceptionException, RemoteException, RegistryException, XPathExpressionException {
+            throws LoginAuthenticationExceptionException, IOException, RegistryException,
+            XPathExpressionException, URISyntaxException, SAXException, XMLStreamException {
         super.init(TestUserMode.SUPER_TENANT_ADMIN);
         resourceAdminClient =
                 new ResourceAdminServiceClient(getBackendURL(),
@@ -82,7 +85,7 @@ public class SymlinkToRootCollectionManagementTestCase extends GREGIntegrationBa
         resourceAdminClient.addCollection(ROOT, COLL_NAME, fileType, COLL_DESC);
 
         String authorUserName = resourceAdminClient.getResource(ROOT + COLL_NAME)[0].getAuthorUserName();
-        assertTrue(automationContext.getUser().getUserName().equalsIgnoreCase(authorUserName), "Root collection creation failure");
+        assertTrue(automationContext.getContextTenant().getContextUser().getUserName().equalsIgnoreCase(authorUserName), "Root collection creation failure");
 
     }
 
@@ -93,7 +96,7 @@ public class SymlinkToRootCollectionManagementTestCase extends GREGIntegrationBa
                 SYMLINK_LOC.substring(0, SYMLINK_LOC.length() - 1), SYMLINK_NAME, ROOT + COLL_NAME);
 
         String authorUserName = resourceAdminClient.getResource(SYMLINK_LOC + SYMLINK_NAME)[0].getAuthorUserName();
-        assertTrue(automationContext.getUser().getUserName().equalsIgnoreCase(authorUserName), "Symlink creation failure");
+        assertTrue(automationContext.getContextTenant().getContextUser().getUserName().equalsIgnoreCase(authorUserName), "Symlink creation failure");
     }
 
     @Test(groups = "wso2.greg", dependsOnMethods = "testAddSymlinkToRootCollection", enabled = true)
@@ -255,7 +258,7 @@ public class SymlinkToRootCollectionManagementTestCase extends GREGIntegrationBa
             HttpURLConnection connection = (HttpURLConnection) url.openConnection();
 
             connection.setRequestMethod("GET");
-            String userPassword = automationContext.getUser().getUserName() + ":" + automationContext.getUser().getPassword();
+            String userPassword = automationContext.getContextTenant().getContextUser().getUserName() + ":" + automationContext.getContextTenant().getContextUser().getPassword();
             String encodedAuthorization = Base64Utils.encode(userPassword.getBytes(Charset.forName("UTF-8")));
             connection.setRequestProperty("Authorization", "Basic " +
                     encodedAuthorization);

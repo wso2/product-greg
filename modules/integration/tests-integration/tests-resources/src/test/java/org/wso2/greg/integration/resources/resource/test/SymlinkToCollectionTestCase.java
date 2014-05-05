@@ -46,12 +46,15 @@ import org.wso2.greg.integration.common.clients.*;
 import org.wso2.greg.integration.common.utils.RegistryProviderUtil;
 import org.wso2.greg.integration.common.utils.GREGIntegrationBaseTest;
 import org.wso2.greg.integration.resources.search.metadata.test.bean.SearchParameterBean;
+import org.xml.sax.SAXException;
 
 import javax.activation.DataHandler;
+import javax.xml.stream.XMLStreamException;
 import javax.xml.xpath.XPathExpressionException;
 import java.io.File;
 import java.io.IOException;
 import java.net.MalformedURLException;
+import java.net.URISyntaxException;
 import java.net.URL;
 import java.rmi.RemoteException;
 
@@ -86,7 +89,7 @@ public class SymlinkToCollectionTestCase extends GREGIntegrationBaseTest {
 
     @BeforeClass(alwaysRun = true)
     public void initialize()
-            throws LoginAuthenticationExceptionException, RemoteException, RegistryException, XPathExpressionException {
+            throws Exception {
 
         super.init(TestUserMode.SUPER_TENANT_ADMIN);
 
@@ -106,9 +109,7 @@ public class SymlinkToCollectionTestCase extends GREGIntegrationBaseTest {
                 new UserManagementClient(getBackendURL(),
                                         getSessionCookie());
         RegistryProviderUtil registryProviderUtil = new RegistryProviderUtil();
-        wsRegistryServiceClient = registryProviderUtil.getWSRegistry("GREG","greg001",
-                automationContext.getConfigurationNode("//superTenant/tenant/@key").getNodeValue(),
-                automationContext.getSuperTenant().getTenantAdmin().getKey());
+        wsRegistryServiceClient = registryProviderUtil.getWSRegistry(automationContext);
         searchAdminServiceClient = new SearchAdminServiceClient(getBackendURL(),
                                                                 getSessionCookie());
 
@@ -126,7 +127,7 @@ public class SymlinkToCollectionTestCase extends GREGIntegrationBaseTest {
         resourceAdminClient.addCollection(PATH, COLL_NAME, fileType, description);
 
         String authorUserName = resourceAdminClient.getResource(PATH + COLL_NAME)[0].getAuthorUserName();
-        assertTrue(automationContext.getUser().getUserName().equalsIgnoreCase(authorUserName), "Root collection creation failure");
+        assertTrue(automationContext.getContextTenant().getContextUser().getUserName().equalsIgnoreCase(authorUserName), "Root collection creation failure");
     }
 
 
@@ -137,7 +138,7 @@ public class SymlinkToCollectionTestCase extends GREGIntegrationBaseTest {
                 SYMLINK_LOC.substring(0, SYMLINK_LOC.length() - 1), SYMLINK_NAME, PATH + COLL_NAME);
 
         String authorUserName = resourceAdminClient.getResource(SYMLINK_LOC + SYMLINK_NAME)[0].getAuthorUserName();
-        assertTrue(automationContext.getUser().getUserName().equalsIgnoreCase(authorUserName), "Symlink creation failure");
+        assertTrue(automationContext.getContextTenant().getContextUser().getUserName().equalsIgnoreCase(authorUserName), "Symlink creation failure");
     }
 
     @Test(groups = "wso2.greg", dependsOnMethods = "testAddSymlinkToCollection")
@@ -148,7 +149,7 @@ public class SymlinkToCollectionTestCase extends GREGIntegrationBaseTest {
 
         String authorUserName = resourceAdminClient.getResource(
                 SYMLINK_LOC + COPY_OF_SYMLINK_NAME)[0].getAuthorUserName();
-        assertTrue(automationContext.getUser().getUserName().equalsIgnoreCase(authorUserName), "Copy of Symlink creation failure");
+        assertTrue(automationContext.getContextTenant().getContextUser().getUserName().equalsIgnoreCase(authorUserName), "Copy of Symlink creation failure");
     }
 
     @Test(groups = "wso2.greg", dependsOnMethods = "testCopySymlink")
@@ -163,16 +164,16 @@ public class SymlinkToCollectionTestCase extends GREGIntegrationBaseTest {
 
         String authorUserName = resourceAdminClient.getResource(
                 PATH + COLL_NAME + "/" + RES_NAME)[0].getAuthorUserName();
-        assertTrue(automationContext.getUser().getUserName().equalsIgnoreCase(authorUserName), "Adding resource to the collection failed");
+        assertTrue(automationContext.getContextTenant().getContextUser().getUserName().equalsIgnoreCase(authorUserName), "Adding resource to the collection failed");
 
         authorUserName = resourceAdminClient.getResource(
                 SYMLINK_LOC + SYMLINK_NAME + "/" + RES_NAME)[0].getAuthorUserName();
-        assertTrue(automationContext.getUser().getUserName().equalsIgnoreCase(authorUserName),
+        assertTrue(automationContext.getContextTenant().getContextUser().getUserName().equalsIgnoreCase(authorUserName),
                    "Symlink does not point to the new resource");
 
         authorUserName = resourceAdminClient.getResource(
                 SYMLINK_LOC + COPY_OF_SYMLINK_NAME + "/" + RES_NAME)[0].getAuthorUserName();
-        assertTrue(automationContext.getUser().getUserName().equalsIgnoreCase(authorUserName),
+        assertTrue(automationContext.getContextTenant().getContextUser().getUserName().equalsIgnoreCase(authorUserName),
                    "Copied symlink does not point to the new resource");
 
     }
@@ -185,7 +186,7 @@ public class SymlinkToCollectionTestCase extends GREGIntegrationBaseTest {
 
         String authorUserName = resourceAdminClient.getResource(
                 PATH + COLL_NAME + "/" + RES_NAME_AFTER_RENAME)[0].getAuthorUserName();
-        assertTrue(automationContext.getUser().getUserName().equalsIgnoreCase(authorUserName),
+        assertTrue(automationContext.getContextTenant().getContextUser().getUserName().equalsIgnoreCase(authorUserName),
                    "Renamed resource using the symlink is not visible in the collection");
 
     }
@@ -359,8 +360,8 @@ public class SymlinkToCollectionTestCase extends GREGIntegrationBaseTest {
 
     @Test(groups = "wso2.greg", dependsOnMethods = "testAddLifeCycleToResource")
     public void testAddCommentToResource()
-            throws AddAssociationRegistryExceptionException, RemoteException, RegistryException,
-            RegistryExceptionException, LoginAuthenticationExceptionException, XPathExpressionException {
+            throws AddAssociationRegistryExceptionException, IOException, RegistryException,
+            RegistryExceptionException, LoginAuthenticationExceptionException, XPathExpressionException, URISyntaxException, SAXException, XMLStreamException {
 
         String theComment = "!@#$%^&*()";
         infoServiceAdminClient.addComment(theComment, SYMLINK_LOC + SYMLINK_NAME, getSessionCookie());
@@ -390,7 +391,7 @@ public class SymlinkToCollectionTestCase extends GREGIntegrationBaseTest {
 
     @Test(groups = "wso2.greg", dependsOnMethods = "testAddCommentToResource", enabled = true)
     public void testDeleteComment() throws RegistryException, RegistryExceptionException,
-            LoginAuthenticationExceptionException, XPathExpressionException, RemoteException {
+            LoginAuthenticationExceptionException, XPathExpressionException, IOException, URISyntaxException, SAXException, XMLStreamException {
 
         CommentBean cBean = infoServiceAdminClient.getComments(SYMLINK_LOC + SYMLINK_NAME, getSessionCookie());
         Comment[] comments = cBean.getComments();
@@ -430,7 +431,7 @@ public class SymlinkToCollectionTestCase extends GREGIntegrationBaseTest {
 
     @Test(groups = "wso2.greg", dependsOnMethods = "testDeleteComment")
     public void testAddRating() throws RegistryException, RegistryExceptionException,
-            LoginAuthenticationExceptionException, XPathExpressionException, RemoteException {
+            LoginAuthenticationExceptionException, XPathExpressionException, IOException, URISyntaxException, SAXException, XMLStreamException {
         infoServiceAdminClient.rateResource("1", SYMLINK_LOC + SYMLINK_NAME, getSessionCookie());
 
         int userRating = infoServiceAdminClient.getRatings(SYMLINK_LOC + SYMLINK_NAME, getSessionCookie()).getUserRating();
@@ -442,7 +443,7 @@ public class SymlinkToCollectionTestCase extends GREGIntegrationBaseTest {
 
     @Test(groups = "wso2.greg", dependsOnMethods = "testAddRating")
     public void testEditRating() throws RegistryException, RegistryExceptionException,
-            LoginAuthenticationExceptionException, XPathExpressionException, RemoteException {
+            LoginAuthenticationExceptionException, XPathExpressionException, IOException, URISyntaxException, SAXException, XMLStreamException {
 
         infoServiceAdminClient.rateResource("3", SYMLINK_LOC + SYMLINK_NAME, getSessionCookie());
 
@@ -455,7 +456,7 @@ public class SymlinkToCollectionTestCase extends GREGIntegrationBaseTest {
     }
 
     @Test(groups = "wso2.greg", dependsOnMethods = "testEditRating")
-    public void testAddTag() throws RegistryException, RemoteException, RegistryExceptionException, LoginAuthenticationExceptionException, XPathExpressionException {
+    public void testAddTag() throws RegistryException, IOException, RegistryExceptionException, LoginAuthenticationExceptionException, XPathExpressionException, URISyntaxException, SAXException, XMLStreamException {
 
         infoServiceAdminClient.addTag(TAG, SYMLINK_LOC + SYMLINK_NAME, getSessionCookie());
 
@@ -470,7 +471,7 @@ public class SymlinkToCollectionTestCase extends GREGIntegrationBaseTest {
 
     @Test(groups = "wso2.greg", dependsOnMethods = "testAddTag", expectedExceptions = NullPointerException.class)
     public void testRemoveTag() throws RegistryException, RegistryExceptionException,
-            LoginAuthenticationExceptionException, XPathExpressionException, RemoteException {
+            LoginAuthenticationExceptionException, XPathExpressionException, IOException, URISyntaxException, SAXException, XMLStreamException {
 
         infoServiceAdminClient.removeTag(TAG, SYMLINK_LOC + SYMLINK_NAME, getSessionCookie());
 
@@ -483,15 +484,15 @@ public class SymlinkToCollectionTestCase extends GREGIntegrationBaseTest {
     @Test(groups = "wso2.greg", dependsOnMethods = "testRemoveTag")
     public void testAddRole() throws Exception {
 
-        userManagementClient.addRole(ROLE_NAME, new String[]{automationContext.getUser().getUserName()},
+        userManagementClient.addRole(ROLE_NAME, new String[]{automationContext.getContextTenant().getContextUser().getUserName()},
                                      new String[]{""});
         assertTrue(userManagementClient.roleNameExists(ROLE_NAME));
     }
 
     @Test(groups = "wso2.greg", dependsOnMethods = "testAddRole")
     public void testAddSubscription()
-            throws RemoteException, RegistryException, RegistryExceptionException,
-            LoginAuthenticationExceptionException, XPathExpressionException {
+            throws IOException, RegistryException, RegistryExceptionException,
+            LoginAuthenticationExceptionException, XPathExpressionException, URISyntaxException, SAXException, XMLStreamException {
 
         SubscriptionBean bean =
                 infoServiceAdminClient.subscribe(SYMLINK_LOC + SYMLINK_NAME, "work://RoleSubscriptionTest",
@@ -505,8 +506,9 @@ public class SymlinkToCollectionTestCase extends GREGIntegrationBaseTest {
 
     @Test(groups = "wso2.greg", dependsOnMethods = "testAddSubscription")
     public void testRemoveSubscription()
-            throws RegistryException, RegistryExceptionException, RemoteException,
-            LoginAuthenticationExceptionException, XPathExpressionException {
+            throws RegistryException, RegistryExceptionException, IOException,
+            LoginAuthenticationExceptionException, XPathExpressionException,
+            URISyntaxException, SAXException, XMLStreamException {
 
         SubscriptionBean sBean = infoServiceAdminClient.getSubscriptions(SYMLINK_LOC + SYMLINK_NAME, getSessionCookie());
 
@@ -549,7 +551,7 @@ public class SymlinkToCollectionTestCase extends GREGIntegrationBaseTest {
 
         String authorUserName = resourceAdminClient.getResource(
                 SYMLINK_LOC + COPY_OF_SYMLINK_NAME + "/" + RES_NAME_AFTER_RENAME)[0].getAuthorUserName();
-        assertTrue(automationContext.getUser().getUserName().equalsIgnoreCase(authorUserName),
+        assertTrue(automationContext.getContextTenant().getContextUser().getUserName().equalsIgnoreCase(authorUserName),
                    "Resource cannot be accessed after the original copy of the symbolic link is deleted");
 
     }

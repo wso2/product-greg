@@ -36,6 +36,7 @@ import org.wso2.carbon.registry.resource.stub.beans.xsd.MetadataBean;
 import org.wso2.carbon.registry.resource.stub.common.xsd.ResourceData;
 import org.wso2.greg.integration.common.clients.ResourceAdminServiceClient;
 import org.wso2.greg.integration.common.utils.GREGIntegrationBaseTest;
+import org.xml.sax.SAXException;
 
 import javax.activation.DataHandler;
 import javax.xml.namespace.QName;
@@ -44,6 +45,7 @@ import javax.xml.xpath.XPathExpressionException;
 import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
+import java.net.URISyntaxException;
 import java.net.URL;
 import java.nio.charset.Charset;
 import java.rmi.RemoteException;
@@ -68,7 +70,8 @@ public class ResourceManagementTestCase extends GREGIntegrationBaseTest{
 
     @BeforeClass(alwaysRun = true)
     public void initialize()
-            throws LoginAuthenticationExceptionException, RemoteException, RegistryException, XPathExpressionException {
+            throws LoginAuthenticationExceptionException, IOException, RegistryException,
+            XPathExpressionException, URISyntaxException, SAXException, XMLStreamException {
         super.init(TestUserMode.SUPER_TENANT_ADMIN);
         resourceAdminClient =
                 new ResourceAdminServiceClient(getBackendURL(),
@@ -87,14 +90,14 @@ public class ResourceManagementTestCase extends GREGIntegrationBaseTest{
         resourceAdminClient.addResource(PATH + RES_NAME, fileType, RES_DESC, dataHandler);
 
         String authorUserName = resourceAdminClient.getResource(PATH + RES_NAME)[0].getAuthorUserName();
-        assertTrue(automationContext.getUser().getUserName().equalsIgnoreCase(authorUserName), "Resource creation failure");
+        assertTrue(automationContext.getContextTenant().getContextUser().getUserName().equalsIgnoreCase(authorUserName), "Resource creation failure");
     }
 
     @Test(dependsOnMethods = "testAddResource")
     public void testMetadata() throws ResourceAdminServiceExceptionException, RemoteException, XPathExpressionException {
         MetadataBean mBean = resourceAdminClient.getMetadata(PATH + RES_NAME);
 
-        assertTrue(automationContext.getUser().getUserName().equalsIgnoreCase(mBean.getAuthor()), "Author not correct");
+        assertTrue(automationContext.getContextTenant().getContextUser().getUserName().equalsIgnoreCase(mBean.getAuthor()), "Author not correct");
         assertNull(mBean.getMediaType(), "Media type not correct");
         assertTrue(RES_DESC.equalsIgnoreCase(mBean.getDescription()), "Description is not correct");
     }
@@ -135,7 +138,7 @@ public class ResourceManagementTestCase extends GREGIntegrationBaseTest{
 
         resourceAdminClient.updateTextContent(PATH + RES_NAME, (String) dataHandler.getContent());
         assertTrue(resourceAdminClient.getResource(PATH + RES_NAME)[0].getAuthorUserName().
-                contains(automationContext.getUser().getUserName()));
+                contains(automationContext.getContextTenant().getContextUser().getUserName()));
 
     }
 
@@ -305,7 +308,7 @@ public class ResourceManagementTestCase extends GREGIntegrationBaseTest{
             HttpURLConnection connection = (HttpURLConnection) url.openConnection();
 
             connection.setRequestMethod("GET");
-            String userPassword = automationContext.getUser().getUserName() + ":" + automationContext.getUser().getPassword();
+            String userPassword = automationContext.getContextTenant().getContextUser().getUserName() + ":" + automationContext.getContextTenant().getContextUser().getPassword();
             String encodedAuthorization = Base64Utils.encode(userPassword.getBytes(Charset.forName("UTF-8")));
             connection.setRequestProperty("Authorization", "Basic " +
                     encodedAuthorization);

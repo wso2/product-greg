@@ -31,6 +31,7 @@ import org.wso2.carbon.registry.resource.stub.ResourceAdminServiceExceptionExcep
 import org.wso2.carbon.registry.resource.stub.common.xsd.ResourceData;
 import org.wso2.greg.integration.common.clients.ResourceAdminServiceClient;
 import org.wso2.greg.integration.common.utils.GREGIntegrationBaseTest;
+import org.xml.sax.SAXException;
 
 import javax.xml.namespace.QName;
 import javax.xml.stream.XMLStreamException;
@@ -40,6 +41,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
+import java.net.URISyntaxException;
 import java.net.URL;
 import java.nio.charset.Charset;
 import java.rmi.RemoteException;
@@ -66,7 +68,8 @@ public class RootCollectionManagementTestCase extends GREGIntegrationBaseTest{
 
     @BeforeClass(alwaysRun = true)
     public void initialize()
-            throws LoginAuthenticationExceptionException, RemoteException, RegistryException, XPathExpressionException {
+            throws LoginAuthenticationExceptionException, IOException,
+            RegistryException, XPathExpressionException, URISyntaxException, SAXException, XMLStreamException {
 
         super.init(TestUserMode.SUPER_TENANT_ADMIN);
         resourceAdminClient =
@@ -82,7 +85,7 @@ public class RootCollectionManagementTestCase extends GREGIntegrationBaseTest{
         resourceAdminClient.addCollection(ROOT, COLL_NAME, fileType, COLL_DESC);
 
         String authorUserName = resourceAdminClient.getResource(ROOT + COLL_NAME)[0].getAuthorUserName();
-        assertTrue(automationContext.getUser().getUserName().equalsIgnoreCase(authorUserName), "Root collection creation failure");
+        assertTrue(automationContext.getContextTenant().getContextUser().getUserName().equalsIgnoreCase(authorUserName), "Root collection creation failure");
 
     }
 
@@ -195,7 +198,7 @@ public class RootCollectionManagementTestCase extends GREGIntegrationBaseTest{
             HttpURLConnection connection = (HttpURLConnection) url.openConnection();
 
             connection.setRequestMethod("GET");
-            String userPassword = automationContext.getUser().getUserName() + ":" + automationContext.getUser().getPassword();
+            String userPassword = automationContext.getContextTenant().getContextUser().getUserName() + ":" + automationContext.getContextTenant().getContextUser().getPassword();
             String encodedAuthorization = Base64Utils.encode(userPassword.getBytes(Charset.forName("UTF-8")));
             connection.setRequestProperty("Authorization", "Basic " +
                                                            encodedAuthorization);

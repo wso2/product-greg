@@ -67,9 +67,9 @@ public class ActivitySearchTestCase extends GREGIntegrationBaseTest {
 
         resourceAdminServiceClient =
                 new ResourceAdminServiceClient(getBackendURL(),
-                        automationContext.getUser().getUserName(), automationContext.getUser().getPassword());
+                        automationContext.getContextTenant().getContextUser().getUserName(), automationContext.getContextTenant().getContextUser().getPassword());
         activityAdminServiceClient = new ActivityAdminServiceClient(getBackendURL(),
-                automationContext.getUser().getUserName(), automationContext.getUser().getPassword());
+                automationContext.getContextTenant().getContextUser().getUserName(), automationContext.getContextTenant().getContextUser().getPassword());
     }
 
 //    @Test(groups = {"wso2.greg"})
@@ -95,7 +95,7 @@ public class ActivitySearchTestCase extends GREGIntegrationBaseTest {
         Thread.sleep(20000);
 
         assertTrue(resourceAdminServiceClient.getResource(WSDL_PATH+RESOURCE_NAME)[0].getAuthorUserName()
-                .contains(automationContext.getUser().getUserName()));
+                .contains(automationContext.getContextTenant().getContextUser().getUserName()));
     }
 
     @Test(groups = {"wso2.greg"}, dependsOnMethods = {"addResource"})

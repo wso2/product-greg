@@ -59,7 +59,7 @@ public class SymlinkTestCase extends GREGIntegrationBaseTest{
 
         resourceAdminServiceClient =
                 new ResourceAdminServiceClient(getBackendURL(),
-                                               automationContext.getUser().getUserName(), automationContext.getUser().getPassword());
+                                               automationContext.getContextTenant().getContextUser().getUserName(), automationContext.getContextTenant().getContextUser().getPassword());
     }
 
     @Test(groups = {"wso2.greg"})
@@ -79,7 +79,7 @@ public class SymlinkTestCase extends GREGIntegrationBaseTest{
                 resourceAdminServiceClient.addCollection("/", "TestAutomation", "", "");
         String authorUserName =
                 resourceAdminServiceClient.getResource(PARENT_PATH)[0].getAuthorUserName();
-        assertTrue(automationContext.getUser().getUserName().equalsIgnoreCase(authorUserName),
+        assertTrue(automationContext.getContextTenant().getContextUser().getUserName().equalsIgnoreCase(authorUserName),
                    PARENT_PATH + " creation failure");
         log.info("collection added to " + collectionPath);
 
@@ -88,7 +88,7 @@ public class SymlinkTestCase extends GREGIntegrationBaseTest{
                                                          SYMLINK_PARENT_COLL_NAME, "", "");
         authorUserName = resourceAdminServiceClient.getResource(
                 PARENT_PATH + "/" + SYMLINK_PARENT_COLL_NAME)[0].getAuthorUserName();
-        assertTrue(automationContext.getUser().getUserName().equalsIgnoreCase(authorUserName),
+        assertTrue(automationContext.getContextTenant().getContextUser().getUserName().equalsIgnoreCase(authorUserName),
                    PARENT_PATH + "/" + SYMLINK_PARENT_COLL_NAME + " creation failure");
         log.info("collection added to " + collectionPath);
 
@@ -99,7 +99,7 @@ public class SymlinkTestCase extends GREGIntegrationBaseTest{
         authorUserName = resourceAdminServiceClient.getResource(
                 PARENT_PATH + "/" + SYMLINK_PARENT_COLL_NAME + "/" +
                 TEST_COLLECTION1)[0].getAuthorUserName();
-        assertTrue(automationContext.getUser().getUserName().equalsIgnoreCase(authorUserName),
+        assertTrue(automationContext.getContextTenant().getContextUser().getUserName().equalsIgnoreCase(authorUserName),
                    PARENT_PATH + "/" + SYMLINK_PARENT_COLL_NAME + "/" +
                    TEST_COLLECTION1 + " creation failure");
         log.info("collection added to " + collectionPath);
@@ -111,7 +111,7 @@ public class SymlinkTestCase extends GREGIntegrationBaseTest{
         authorUserName = resourceAdminServiceClient.getResource(
                 PARENT_PATH + "/" + SYMLINK_PARENT_COLL_NAME + "/" +
                 TEST_COLLECTION2)[0].getAuthorUserName();
-        assertTrue(automationContext.getUser().getUserName().equalsIgnoreCase(authorUserName),
+        assertTrue(automationContext.getContextTenant().getContextUser().getUserName().equalsIgnoreCase(authorUserName),
                    PARENT_PATH + "/" + SYMLINK_PARENT_COLL_NAME + "/" +
                    TEST_COLLECTION2 + " creation failure");
 
@@ -151,7 +151,7 @@ public class SymlinkTestCase extends GREGIntegrationBaseTest{
                 resourceAdminServiceClient.getResource(PARENT_PATH + "/" +
                                                        SYMLINK_PARENT_COLL_NAME
                                                        + "/" +TEST_COLLECTION1)[0].getAuthorUserName();
-        assertTrue(automationContext.getUser().getUserName().equalsIgnoreCase(authorUserName),
+        assertTrue(automationContext.getContextTenant().getContextUser().getUserName().equalsIgnoreCase(authorUserName),
                    "Symlink creation failure");
 
     }

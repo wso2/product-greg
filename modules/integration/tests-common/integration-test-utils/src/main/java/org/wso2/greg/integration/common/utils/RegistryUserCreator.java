@@ -4,6 +4,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.wso2.carbon.authenticator.stub.LoginAuthenticationExceptionException;
 import org.wso2.carbon.automation.engine.context.AutomationContext;
+import org.wso2.carbon.automation.engine.context.beans.Tenant;
 import org.wso2.carbon.automation.engine.context.beans.User;
 import org.wso2.carbon.integration.common.admin.client.AuthenticatorClient;
 import org.wso2.carbon.integration.common.admin.client.UserManagementClient;
@@ -49,8 +50,8 @@ public class RegistryUserCreator {
         //todo -
 //        FrameworkProperties isProperties = FrameworkFactory.getFrameworkProperties(ProductConstant.IS_SERVER_NAME);
         AutomationContext isContext = new AutomationContext("IS", "is", "carbon.supper", adminUserKey);
-        User userAdminDetails = isContext.getUser();
-        sessionCookie = login(userAdminDetails.getUserName(), userAdminDetails.getPassword(),
+        Tenant userAdminDetails = isContext.getContextTenant();
+        sessionCookie = login(userAdminDetails.getContextUser().getUserName(), userAdminDetails.getContextUser().getPassword(),
                               isContext.getContextUrls().getBackEndUrl());
         userAdminStub = new UserManagementClient(isContext.getContextUrls().getBackEndUrl(), sessionCookie);
 

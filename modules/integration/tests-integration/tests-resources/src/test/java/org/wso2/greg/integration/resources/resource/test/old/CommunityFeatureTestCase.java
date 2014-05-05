@@ -62,11 +62,11 @@ public class CommunityFeatureTestCase extends GREGIntegrationBaseTest {
 
         resourceAdminServiceClient =
                 new ResourceAdminServiceClient(getBackendURL(),
-                        automationContext.getUser().getUserName(), automationContext.getUser().getPassword());
+                        automationContext.getContextTenant().getContextUser().getUserName(), automationContext.getContextTenant().getContextUser().getPassword());
 
         infoServiceAdminClient = new InfoServiceAdminClient(
                 getBackendURL(),
-                automationContext.getUser().getUserName(), automationContext.getUser().getPassword());
+                automationContext.getContextTenant().getContextUser().getUserName(), automationContext.getContextTenant().getContextUser().getPassword());
     }
 
     @Test(groups = {"wso2.greg"})
@@ -91,7 +91,7 @@ public class CommunityFeatureTestCase extends GREGIntegrationBaseTest {
         String authorUserName =
                 resourceAdminServiceClient.getResource(PARENT_PATH)[0].getAuthorUserName();
 
-        assertTrue(automationContext.getUser().getUserName().equalsIgnoreCase(authorUserName),
+        assertTrue(automationContext.getContextTenant().getContextUser().getUserName().equalsIgnoreCase(authorUserName),
                 PARENT_PATH + " creation failure");
         log.info("collection added to " + PARENT_PATH);
 
@@ -99,7 +99,7 @@ public class CommunityFeatureTestCase extends GREGIntegrationBaseTest {
         authorUserName =
                 resourceAdminServiceClient.getResource(PARENT_PATH + "/" +
                         CHILD_COLL_NAME)[0].getAuthorUserName();
-        assertTrue(automationContext.getUser().getUserName().equalsIgnoreCase(authorUserName),
+        assertTrue(automationContext.getContextTenant().getContextUser().getUserName().equalsIgnoreCase(authorUserName),
                 PARENT_PATH + "/" + CHILD_COLL_NAME + " creation failure");
         log.info("collection added to " + PARENT_PATH + "/" + CHILD_COLL_NAME);
     }

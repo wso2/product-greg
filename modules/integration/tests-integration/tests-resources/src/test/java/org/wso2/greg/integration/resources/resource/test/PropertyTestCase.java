@@ -29,11 +29,14 @@ import org.wso2.carbon.registry.resource.stub.ResourceAdminServiceExceptionExcep
 import org.wso2.greg.integration.common.clients.PropertiesAdminServiceClient;
 import org.wso2.greg.integration.common.clients.ResourceAdminServiceClient;
 import org.wso2.greg.integration.common.utils.GREGIntegrationBaseTest;
+import org.xml.sax.SAXException;
 
 import javax.activation.DataHandler;
+import javax.xml.stream.XMLStreamException;
 import javax.xml.xpath.XPathExpressionException;
 import java.io.File;
-import java.net.MalformedURLException;
+import java.io.IOException;
+import java.net.URISyntaxException;
 import java.net.URL;
 import java.rmi.RemoteException;
 
@@ -43,31 +46,36 @@ public class PropertyTestCase extends GREGIntegrationBaseTest {
 
     private ResourceAdminServiceClient resourceAdminServiceClient;
 
-    @BeforeClass()
-    public void initialize() throws LoginAuthenticationExceptionException, RemoteException, XPathExpressionException {
+    @BeforeClass ()
+    public void initialize () throws LoginAuthenticationExceptionException, RemoteException, XPathExpressionException {
+
         super.init(TestUserMode.SUPER_TENANT_ADMIN);
-       //org.wso2.carbon.automation.extensions.servers..carbonserver.CarbonServerExtension
+        //org.wso2.carbon.automation.extensions.servers..carbonserver.CarbonServerExtension
     }
 
-    @Test(groups = "wso2.greg", description = "Add property to resource")
-    public void testAddResource()
-            throws RemoteException, MalformedURLException, LoginAuthenticationExceptionException, XPathExpressionException, ResourceAdminServiceExceptionException {
+    @Test (groups = "wso2.greg", description = "Add property to resource")
+    public void testAddResource ()
+            throws IOException, LoginAuthenticationExceptionException,
+            XPathExpressionException, ResourceAdminServiceExceptionException,
+            URISyntaxException, SAXException, XMLStreamException {
+
         resourceAdminServiceClient =
                 new ResourceAdminServiceClient(getBackendURL(),
                         getSessionCookie());
         String resourcePath = FrameworkPathUtil.getSystemResourceLocation() + "artifact" + File.separator +
                 File.separator + "GREG" + File.separator + "resource.txt";
-
         DataHandler dh = new DataHandler(new URL("file:///" + resourcePath));
         resourceAdminServiceClient.addResource("/_system/config/testResource", "test/plain", "testDesc", dh);
-
         assertTrue(resourceAdminServiceClient.getResource("/_system/config/testResource")[0].getAuthorUserName()
-                .contains(automationContext.getUser().getUserName()));
+                .contains(automationContext.getContextTenant().getContextUser().getUserName()));
     }
 
-    @Test(groups = "wso2.greg", description = "add property", dependsOnMethods = "testAddResource")
-    public void testPropertyAddition()
-            throws RemoteException, PropertiesAdminServiceRegistryExceptionException, XPathExpressionException, LoginAuthenticationExceptionException {
+    @Test (groups = "wso2.greg", description = "add property", dependsOnMethods = "testAddResource")
+    public void testPropertyAddition ()
+            throws IOException, PropertiesAdminServiceRegistryExceptionException,
+            XPathExpressionException, LoginAuthenticationExceptionException,
+            URISyntaxException, SAXException, XMLStreamException {
+
         PropertiesAdminServiceClient propertyPropertiesAdminServiceClient =
                 new PropertiesAdminServiceClient(getBackendURL(),
                         getSessionCookie());
@@ -80,7 +88,8 @@ public class PropertyTestCase extends GREGIntegrationBaseTest {
     }
 
     @AfterClass
-    public void testCleanup() throws ResourceAdminServiceExceptionException, RemoteException {
+    public void testCleanup () throws ResourceAdminServiceExceptionException, RemoteException {
+
         resourceAdminServiceClient.deleteResource("/_system/config/testResource");
         resourceAdminServiceClient = null;
     }

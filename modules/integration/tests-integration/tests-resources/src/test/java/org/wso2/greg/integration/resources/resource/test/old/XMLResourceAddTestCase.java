@@ -58,7 +58,7 @@ public class XMLResourceAddTestCase extends GREGIntegrationBaseTest {
 
         resourceAdminServiceClient =
                 new ResourceAdminServiceClient(getBackendURL(),
-                        automationContext.getUser().getUserName(), automationContext.getUser().getPassword());
+                        automationContext.getContextTenant().getContextUser().getUserName(), automationContext.getContextTenant().getContextUser().getPassword());
     }
 
     @Test(groups = {"wso2.greg"})
@@ -75,7 +75,7 @@ public class XMLResourceAddTestCase extends GREGIntegrationBaseTest {
                 resourceAdminServiceClient.getResource(PARENT_PATH +
                         "/" +
                         RES_FILES_COLLECTION)[0].getAuthorUserName();
-        assertTrue(automationContext.getUser().getUserName().equalsIgnoreCase(authorUserName),
+        assertTrue(automationContext.getContextTenant().getContextUser().getUserName().equalsIgnoreCase(authorUserName),
                 PARENT_PATH + "/" + RES_FILES_COLLECTION + " creation failure");
         log.info("collection added to " + collectionPath);
 

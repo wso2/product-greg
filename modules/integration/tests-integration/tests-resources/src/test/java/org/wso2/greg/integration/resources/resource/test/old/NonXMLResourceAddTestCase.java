@@ -56,7 +56,7 @@ public class NonXMLResourceAddTestCase extends GREGIntegrationBaseTest{
         log.debug("Add Non-XML Resource Test Initialised");
         resourceAdminServiceClient =
                 new ResourceAdminServiceClient(getBackendURL(),
-                                               automationContext.getUser().getUserName(), automationContext.getUser().getPassword());
+                                               automationContext.getContextTenant().getContextUser().getUserName(), automationContext.getContextTenant().getContextUser().getPassword());
     }
 
     @Test(groups = {"wso2.greg"})
@@ -70,7 +70,7 @@ public class NonXMLResourceAddTestCase extends GREGIntegrationBaseTest{
         String authorUserName =
                 resourceAdminServiceClient.getResource(
                         (PARENT_PATH + RES_FILE_FOLDER))[0].getAuthorUserName();
-        assertTrue(automationContext.getUser().getUserName().equalsIgnoreCase(authorUserName),
+        assertTrue(automationContext.getContextTenant().getContextUser().getUserName().equalsIgnoreCase(authorUserName),
                    PARENT_PATH + RES_FILE_FOLDER + " creation failure");
         log.info("collection added to " + collectionPath);
 
@@ -83,7 +83,7 @@ public class NonXMLResourceAddTestCase extends GREGIntegrationBaseTest{
         authorUserName =
                 resourceAdminServiceClient.getResource(
                         (PARENT_PATH + RES_FILE_FOLDER))[0].getAuthorUserName();
-        assertTrue(automationContext.getUser().getUserName().equalsIgnoreCase(authorUserName),
+        assertTrue(automationContext.getContextTenant().getContextUser().getUserName().equalsIgnoreCase(authorUserName),
                    PARENT_PATH + RES_FILE_FOLDER + " updating failure");
         log.info("collection updated in " + collectionPath);
 
