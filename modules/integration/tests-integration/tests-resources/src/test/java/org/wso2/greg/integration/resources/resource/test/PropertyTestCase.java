@@ -62,8 +62,9 @@ public class PropertyTestCase extends GREGIntegrationBaseTest {
         resourceAdminServiceClient =
                 new ResourceAdminServiceClient(getBackendURL(),
                         getSessionCookie());
-        String resourcePath = FrameworkPathUtil.getSystemResourceLocation() + "artifact" + File.separator +
-                File.separator + "GREG" + File.separator + "resource.txt";
+        String resourcePath = FrameworkPathUtil.getSystemResourceLocation() + "artifacts" + File
+                .separator +  File.separator + "GREG" + File.separator + "txt" + File
+                .separator + "resource.txt";
         DataHandler dh = new DataHandler(new URL("file:///" + resourcePath));
         resourceAdminServiceClient.addResource("/_system/config/testResource", "test/plain", "testDesc", dh);
         assertTrue(resourceAdminServiceClient.getResource("/_system/config/testResource")[0].getAuthorUserName()

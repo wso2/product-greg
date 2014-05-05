@@ -130,11 +130,11 @@
                     </user>
                 </admin>
                 <users>
-                    <user key="userKey1">
+                    <user key="user1">
                         <userName>testuser11</userName>
                         <password>testuser11</password>
                     </user>
-                    <user key="userKey2">
+                    <user key="user2">
                         <userName>testuser21</userName>
                         <password>testuser21</password>
                     </user>
@@ -150,11 +150,11 @@
                     </user>
                 </admin>
                 <users>
-                    <user key="userKey1">
+                    <user key="user1">
                         <userName>testuser11</userName>
                         <password>testuser11</password>
                     </user>
-                    <user key="userKey2">
+                    <user key="user2">
                         <userName>testuser21</userName>
                         <password>testuser21</password>
                     </user>
