@@ -15,7 +15,8 @@
 *specific language governing permissions and limitations
 *under the License.
 */
-package org.wso2.greg.integration.resources.resource.test.old;
+
+package org.wso2.greg.integration.resources.resource.test;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -44,76 +45,65 @@ import static org.testng.Assert.*;
 public class XMLResourceAddTestCase extends GREGIntegrationBaseTest {
 
     private static final Log log = LogFactory.getLog(XMLResourceAddTestCase.class);
-
     private static final String PARENT_PATH = "/_system/config";
     private static final String RES_FILES_COLLECTION = "ResFiles";
     private static final String RESOURCE_NAME = "synapse.xml";
     private static final String ESB_MEDIATYPE = "application/vnd.wso2.esb";
     private ResourceAdminServiceClient resourceAdminServiceClient;
 
-    @BeforeClass(groups = {"wso2.greg"})
-    public void init() throws Exception {
+    @BeforeClass (groups = {"wso2.greg"})
+    public void init () throws Exception {
 
         super.init(TestUserMode.SUPER_TENANT_ADMIN);
-
         resourceAdminServiceClient =
                 new ResourceAdminServiceClient(getBackendURL(),
-                        automationContext.getContextTenant().getContextUser().getUserName(), automationContext.getContextTenant().getContextUser().getPassword());
+                        automationContext.getContextTenant().getContextUser().getUserName(),
+                        automationContext.getContextTenant().getContextUser().getPassword());
     }
 
-    @Test(groups = {"wso2.greg"})
-    public void testAddArtifacts()
-            throws ResourceAdminServiceExceptionException, RemoteException, MalformedURLException, XPathExpressionException {
+    @Test (groups = {"wso2.greg"})
+    public void testAddArtifacts ()
+            throws ResourceAdminServiceExceptionException, RemoteException, MalformedURLException,
+            XPathExpressionException {
+
         log.debug("Running SuccessCase");
-
-
         //add a collection to the registry
         String collectionPath =
                 resourceAdminServiceClient.addCollection(PARENT_PATH, RES_FILES_COLLECTION, "",
                         "contains ResFiles");
         String authorUserName =
                 resourceAdminServiceClient.getResource(PARENT_PATH +
-                        "/" +
-                        RES_FILES_COLLECTION)[0].getAuthorUserName();
+                        "/" + RES_FILES_COLLECTION)[0].getAuthorUserName();
         assertTrue(automationContext.getContextTenant().getContextUser().getUserName().equalsIgnoreCase(authorUserName),
                 PARENT_PATH + "/" + RES_FILES_COLLECTION + " creation failure");
         log.info("collection added to " + collectionPath);
-
         // Changing media type
         resourceAdminServiceClient.addCollection(PARENT_PATH,
                 RES_FILES_COLLECTION,
                 ESB_MEDIATYPE,
                 ESB_MEDIATYPE + " type collection");
-
         String resource = FrameworkPathUtil.getSystemResourceLocation() +
                 "artifacts" + File.separator
                 + "GREG" + File.separator + "xml" + File.separator + RESOURCE_NAME;
-
-
         DataHandler dh = new DataHandler(new URL("file:///" + resource));
-
         resourceAdminServiceClient.addResource(PARENT_PATH + "/" +
                 RES_FILES_COLLECTION + "/" + RESOURCE_NAME,
                 "application/xml", "resDesc",
                 dh);
-
         String textContent =
                 resourceAdminServiceClient.getTextContent(PARENT_PATH + "/" +
                         RES_FILES_COLLECTION +
                         "/" + RESOURCE_NAME);
-
         assertNotNull(textContent, "Unable to get text content");
 
     }
 
-
-    @Test(groups = {"wso2.greg"}, dependsOnMethods = "testAddArtifacts")
-    public void testDeleteArtifacts()
+    @Test (groups = {"wso2.greg"}, dependsOnMethods = "testAddArtifacts")
+    public void testDeleteArtifacts ()
             throws ResourceAdminServiceExceptionException, RemoteException {
 
         resourceAdminServiceClient.deleteResource(PARENT_PATH + "/" +
                 RES_FILES_COLLECTION + "/" + RESOURCE_NAME);
-
         boolean isResourceExist = false;
         CollectionContentBean collectionContentBean =
                 resourceAdminServiceClient.getCollectionContent(PARENT_PATH +
@@ -129,12 +119,11 @@ public class XMLResourceAddTestCase extends GREGIntegrationBaseTest {
 
             }
         }
-
         assertFalse(isResourceExist, "Resource exists even after deleting");
     }
 
     @AfterClass
-    public void cleanup() throws ResourceAdminServiceExceptionException, RemoteException {
+    public void cleanup () throws ResourceAdminServiceExceptionException, RemoteException {
 
         resourceAdminServiceClient.deleteResource(PARENT_PATH + "/" + RES_FILES_COLLECTION);
         resourceAdminServiceClient = null;

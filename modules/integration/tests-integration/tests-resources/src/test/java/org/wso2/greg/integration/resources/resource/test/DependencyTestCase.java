@@ -17,7 +17,8 @@
 *
 */
 
-package org.wso2.greg.integration.resources.resource.test.old;
+
+package org.wso2.greg.integration.resources.resource.test;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -37,23 +38,23 @@ import org.wso2.greg.integration.common.utils.GREGIntegrationBaseTest;
 import javax.activation.DataHandler;
 import javax.xml.xpath.XPathExpressionException;
 import java.io.File;
-import java.io.IOException;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.rmi.RemoteException;
 
 import static org.testng.Assert.assertTrue;
 
 /**
- * A test case which tests registry associations operation
+ * A test case which tests dependency feature validate operation
  */
-public class AssociationsTestCase extends GREGIntegrationBaseTest{
+public class DependencyTestCase extends GREGIntegrationBaseTest{
 
-    private static final Log log = LogFactory.getLog(AssociationsTestCase.class);
+    private static final Log log = LogFactory.getLog(DependencyTestCase.class);
 
     private ResourceAdminServiceClient resourceAdminServiceClient;
     private RelationAdminServiceClient relationAdminServiceClient;
     private static final String PARENT_PATH = "/TestAutomation";
-    private static final String ASSOCIATION_PARENT_COLL_NAME = "AssociationTest";
+    private static final String COMM_FEATURE_PARENT_COLL_NAME = "communityTest";
     private static final String TEST_COLLECTION1 = "TestCollection1";
     private static final String TEST_COLLECTION2 = "TestCollection2";
     private static final String RESOURCE_NAME = "sampleText.txt";
@@ -62,23 +63,24 @@ public class AssociationsTestCase extends GREGIntegrationBaseTest{
     public void init() throws Exception {
 
         super.init(TestUserMode.SUPER_TENANT_ADMIN);
+
         log.debug("Running SuccessCase");
+
         resourceAdminServiceClient =
                 new ResourceAdminServiceClient(getBackendURL(),
                                                automationContext.getContextTenant().getContextUser().getUserName(), automationContext.getContextTenant().getContextUser().getPassword());
         relationAdminServiceClient = new RelationAdminServiceClient(
-               getBackendURL(),
+                getBackendURL(),
                 automationContext.getContextTenant().getContextUser().getUserName(), automationContext.getContextTenant().getContextUser().getPassword());
+
     }
 
     @Test(groups = {"wso2.greg"})
-    public void runSuccessCase() throws ResourceAdminServiceExceptionException, IOException, XPathExpressionException {
-        log.debug("Running SuccessCase");
-
+    public void testAddCollections()
+            throws ResourceAdminServiceExceptionException, RemoteException, MalformedURLException, XPathExpressionException {
 
         CollectionContentBean collectionContentBean =
                 resourceAdminServiceClient.getCollectionContent("/");
-
         if (collectionContentBean.getChildCount() > 0) {
             String[] childPath = collectionContentBean.getChildPaths();
             for (int i = 0; i <= childPath.length - 1; i++) {
@@ -87,6 +89,7 @@ public class AssociationsTestCase extends GREGIntegrationBaseTest{
                 }
             }
         }
+
         resourceAdminServiceClient.addCollection("/", "TestAutomation", "", "");
         String authorUserName =
                 resourceAdminServiceClient.getResource(PARENT_PATH)[0].getAuthorUserName();
@@ -94,139 +97,143 @@ public class AssociationsTestCase extends GREGIntegrationBaseTest{
                    PARENT_PATH + " creation failure");
         log.info("collection added to " + PARENT_PATH);
 
-
-        resourceAdminServiceClient.addCollection(PARENT_PATH, ASSOCIATION_PARENT_COLL_NAME, "", "");
+        resourceAdminServiceClient.addCollection(PARENT_PATH,
+                                                 COMM_FEATURE_PARENT_COLL_NAME, "", "");
         authorUserName = resourceAdminServiceClient.getResource(
-                PARENT_PATH + "/" + ASSOCIATION_PARENT_COLL_NAME)[0].getAuthorUserName();
+                PARENT_PATH + "/" + COMM_FEATURE_PARENT_COLL_NAME)[0].getAuthorUserName();
         assertTrue(automationContext.getContextTenant().getContextUser().getUserName().equalsIgnoreCase(authorUserName),
-                   PARENT_PATH + "/" + ASSOCIATION_PARENT_COLL_NAME + " creation failure");
-        log.info("collection added to " + PARENT_PATH + "/" + ASSOCIATION_PARENT_COLL_NAME);
+                   PARENT_PATH + "/" + COMM_FEATURE_PARENT_COLL_NAME + " creation failure");
+        log.info("collection added to " + PARENT_PATH + "/" + COMM_FEATURE_PARENT_COLL_NAME);
 
-
-        resourceAdminServiceClient.addCollection(PARENT_PATH + "/" + ASSOCIATION_PARENT_COLL_NAME,
+        resourceAdminServiceClient.addCollection(PARENT_PATH + "/" + COMM_FEATURE_PARENT_COLL_NAME,
                                                  TEST_COLLECTION1, "", "");
         authorUserName = resourceAdminServiceClient.getResource(
-                PARENT_PATH + "/" + ASSOCIATION_PARENT_COLL_NAME + "/" +
+                PARENT_PATH + "/" + COMM_FEATURE_PARENT_COLL_NAME + "/" +
                 TEST_COLLECTION1)[0].getAuthorUserName();
 
         assertTrue(automationContext.getContextTenant().getContextUser().getUserName().equalsIgnoreCase(authorUserName),
-                   PARENT_PATH + "/" + ASSOCIATION_PARENT_COLL_NAME + "/" +
+                   PARENT_PATH + "/" + COMM_FEATURE_PARENT_COLL_NAME + "/" +
                    TEST_COLLECTION1 + " creation failure");
 
-        resourceAdminServiceClient.addCollection(PARENT_PATH + "/" + ASSOCIATION_PARENT_COLL_NAME,
+        resourceAdminServiceClient.addCollection(PARENT_PATH + "/" + COMM_FEATURE_PARENT_COLL_NAME,
                                                  TEST_COLLECTION2, "", "");
         authorUserName = resourceAdminServiceClient.getResource(
-                PARENT_PATH + "/" + ASSOCIATION_PARENT_COLL_NAME + "/" +
+                PARENT_PATH + "/" + COMM_FEATURE_PARENT_COLL_NAME + "/" +
                 TEST_COLLECTION2)[0].getAuthorUserName();
         assertTrue(automationContext.getContextTenant().getContextUser().getUserName().equalsIgnoreCase(authorUserName),
-                   PARENT_PATH + "/" + ASSOCIATION_PARENT_COLL_NAME + "/" +
+                   PARENT_PATH + "/" + COMM_FEATURE_PARENT_COLL_NAME + "/" +
                    TEST_COLLECTION2 + " creation failure");
 
         String resource = FrameworkPathUtil.getSystemResourceLocation() +
                           "artifacts" + File.separator
-                          + "GREG" + File.separator + "txt" + File.separator + "sampleText.txt";
+                          + "GREG" + File.separator + "txt" + File.separator +  "sampleText.txt";
 
         DataHandler dh = new DataHandler(new URL("file:///" + resource));
-        resourceAdminServiceClient.addResource(
-                PARENT_PATH + "/" + ASSOCIATION_PARENT_COLL_NAME + "/" +
-                TEST_COLLECTION1 + "/" + RESOURCE_NAME,
-                "text/html",
-                "txtDesc", dh);
 
-        String text = resourceAdminServiceClient.getTextContent(
-                PARENT_PATH + "/" + ASSOCIATION_PARENT_COLL_NAME + "/" +
-                TEST_COLLECTION1 + "/" + RESOURCE_NAME);
-        String fileText = dh.getContent().toString();
 
-        assertTrue(fileText.equalsIgnoreCase(text),
-                   PARENT_PATH + "/" + ASSOCIATION_PARENT_COLL_NAME + "/" +
-                   TEST_COLLECTION1 + "/" + RESOURCE_NAME +
-                   " creation failure");
+        resourceAdminServiceClient.addResource(PARENT_PATH + "/" +
+                                               COMM_FEATURE_PARENT_COLL_NAME + "/" +
+                                               TEST_COLLECTION1 + "/" + RESOURCE_NAME,
+                                               "text/html", "txtDesc", dh);
+        authorUserName = resourceAdminServiceClient.getResource(
+                PARENT_PATH + "/" + COMM_FEATURE_PARENT_COLL_NAME + "/" +
+                TEST_COLLECTION1 + "/" + RESOURCE_NAME)[0].getAuthorUserName();
+        assertTrue(automationContext.getContextTenant().getContextUser().getUserName().equalsIgnoreCase(authorUserName),
+                   PARENT_PATH + "/" + COMM_FEATURE_PARENT_COLL_NAME + "/" +
+                   TEST_COLLECTION1 + "/" + RESOURCE_NAME + " creation failure");
     }
 
-    @Test(groups = {"wso2.greg"}, dependsOnMethods = "runSuccessCase")
-    public void testAddAssociation()
+    @Test(groups = {"wso2.greg"}, dependsOnMethods = "testAddCollections")
+    public void testAddDependency()
             throws AddAssociationRegistryExceptionException, RemoteException {
 
         relationAdminServiceClient.addAssociation(PARENT_PATH + "/" +
-                                                  ASSOCIATION_PARENT_COLL_NAME + "/" +
+                                                  COMM_FEATURE_PARENT_COLL_NAME + "/" +
                                                   TEST_COLLECTION2,
                                                   "association",
-                                                  PARENT_PATH + "/" + ASSOCIATION_PARENT_COLL_NAME +
+                                                  PARENT_PATH + "/" +
+                                                  COMM_FEATURE_PARENT_COLL_NAME +
                                                   "/" + TEST_COLLECTION1 + "/" +
                                                   RESOURCE_NAME, "add");
 
         AssociationTreeBean associationTreeBean = relationAdminServiceClient.getAssociationTree(
-                PARENT_PATH + "/" + ASSOCIATION_PARENT_COLL_NAME + "/" +
+                PARENT_PATH + "/" + COMM_FEATURE_PARENT_COLL_NAME + "/" +
                 TEST_COLLECTION2, "association");
 
         log.debug("associationTreeBean : " + associationTreeBean.getAssociationTree());
 
         assertTrue(associationTreeBean.getAssociationTree().contains(
-                PARENT_PATH + "/" + ASSOCIATION_PARENT_COLL_NAME + "/" +
+                PARENT_PATH + "/" + COMM_FEATURE_PARENT_COLL_NAME + "/" +
                 TEST_COLLECTION1 + "/" + RESOURCE_NAME),
                    "Added association not found in " + PARENT_PATH + "/" +
-                   ASSOCIATION_PARENT_COLL_NAME + "/" + TEST_COLLECTION2);
+                   COMM_FEATURE_PARENT_COLL_NAME + "/" + TEST_COLLECTION2);
+
     }
 
-    @Test(groups = {"wso2.greg"}, dependsOnMethods = "testAddAssociation")
-    public void testDeleteAssociation()
+    @Test(groups = {"wso2.greg"}, dependsOnMethods = "testAddDependency")
+    public void testDeleteDependency()
             throws AddAssociationRegistryExceptionException, RemoteException {
 
+
         relationAdminServiceClient.addAssociation(PARENT_PATH + "/" +
-                                                  ASSOCIATION_PARENT_COLL_NAME + "/" +
+                                                  COMM_FEATURE_PARENT_COLL_NAME + "/" +
                                                   TEST_COLLECTION2,
                                                   "association",
-                                                  PARENT_PATH + "/" + ASSOCIATION_PARENT_COLL_NAME +
+                                                  PARENT_PATH + "/" +
+                                                  COMM_FEATURE_PARENT_COLL_NAME +
                                                   "/" + TEST_COLLECTION1 + "/" + RESOURCE_NAME,
                                                   "remove");
 
         AssociationTreeBean associationTreeBean = relationAdminServiceClient.getAssociationTree(
-                PARENT_PATH + "/" + ASSOCIATION_PARENT_COLL_NAME + "/" + TEST_COLLECTION2,
+                PARENT_PATH + "/" + COMM_FEATURE_PARENT_COLL_NAME + "/" + TEST_COLLECTION2,
                 "association");
 
-        log.debug("Association removed in : " + PARENT_PATH + "/" + ASSOCIATION_PARENT_COLL_NAME +
+        log.debug("Association removed in : " + PARENT_PATH + "/" + COMM_FEATURE_PARENT_COLL_NAME +
                 "/" + TEST_COLLECTION2);
 
         assertTrue(!associationTreeBean.getAssociationTree().contains(
-                PARENT_PATH + "/" + ASSOCIATION_PARENT_COLL_NAME + "/" + TEST_COLLECTION1 +
+                PARENT_PATH + "/" + COMM_FEATURE_PARENT_COLL_NAME + "/" + TEST_COLLECTION1 +
                 "/" + RESOURCE_NAME),
                    "Association still exists in " + PARENT_PATH + "/" +
-                   ASSOCIATION_PARENT_COLL_NAME + "/" + TEST_COLLECTION2);
+                   COMM_FEATURE_PARENT_COLL_NAME + "/" + TEST_COLLECTION2);
     }
 
     //Disabled because REGISTRY-1257
-    @Test(groups = {"wso2.greg"}, dependsOnMethods = "testDeleteAssociation", enabled = false)
-    public void testAddInvalidTargetAssociation()
+    @Test(groups = {"wso2.greg"}, dependsOnMethods = "testDeleteDependency", enabled = false)
+    public void testAddInvalidTargetDependency()
             throws AddAssociationRegistryExceptionException, RemoteException {
+        //TODO - add the expected exceptions to the test
 
-        //TODO - dd the expected exceptions to the test
 
         relationAdminServiceClient.addAssociation(
-                PARENT_PATH + "/" + ASSOCIATION_PARENT_COLL_NAME + "/" + TEST_COLLECTION2,
+                PARENT_PATH + "/" + COMM_FEATURE_PARENT_COLL_NAME + "/" + TEST_COLLECTION2,
                 "association",
-                PARENT_PATH + "/" + ASSOCIATION_PARENT_COLL_NAME + "/" +
+                PARENT_PATH + "/" + COMM_FEATURE_PARENT_COLL_NAME + "/" +
                 TEST_COLLECTION2 + "/invalid", "add");
 
     }
 
     //Disabled because REGISTRY-1257
-    @Test(groups = {"wso2.greg"}, dependsOnMethods = "testDeleteAssociation", enabled = false)
-    public void testAddInvalidSourceAssociation()
+    @Test(groups = {"wso2.greg"}, dependsOnMethods = "testDeleteDependency", enabled = false)
+    public void testAddInvalidSourceDependency()
             throws AddAssociationRegistryExceptionException, RemoteException {
-        //TODO - dd the expected exceptions to the test
+        //TODO - add the expected exceptions to the test
 
 
         relationAdminServiceClient.addAssociation(
-                "TestAutomation" + "/" + ASSOCIATION_PARENT_COLL_NAME + "/" + TEST_COLLECTION2,
+                "TestAutomation" + "/" + COMM_FEATURE_PARENT_COLL_NAME + "/" + TEST_COLLECTION2,
                 "association",
-                PARENT_PATH + "/" + ASSOCIATION_PARENT_COLL_NAME + "/" + TEST_COLLECTION1 + "/" +
+                PARENT_PATH + "/" + COMM_FEATURE_PARENT_COLL_NAME + "/" + TEST_COLLECTION1 + "/" +
                 RESOURCE_NAME, "add");
+
+
     }
 
     @AfterClass
     public void cleanup() throws ResourceAdminServiceExceptionException, RemoteException {
         resourceAdminServiceClient.deleteResource("/TestAutomation");
+
         resourceAdminServiceClient=null;
+        relationAdminServiceClient=null;
     }
 }
