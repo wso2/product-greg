@@ -58,6 +58,8 @@ public class GovernanceMediationAssestsTestCase {
     protected String sequenceKey = "sequence";
     protected String endpointKey = "endpoint";
     private static final String RXT_MEDIA_TYPE = "application/vnd.wso2.registry-ext-type+xml";
+    private static String cookie;
+
 
     protected OMElement synapseConfig;
 
@@ -118,17 +120,28 @@ public class GovernanceMediationAssestsTestCase {
             String url = "https://" + FrameworkSettings.HOST_NAME + ":" + FrameworkSettings.HTTPS_PORT
                     + "/services/";
             WSRegistrySearchClient wsRegistrySearchClient =
-                    new WSRegistrySearchClient(url, FrameworkSettings.USER_NAME,
-                            FrameworkSettings.PASSWORD, ConfigurationContextFactory.createConfigurationContextFromFileSystem(
+                                                 new WSRegistrySearchClient();
+                    
+
+  cookie = wsRegistrySearchClient.authenticate(ConfigurationContextFactory.createConfigurationContextFromFileSystem(
+                             FrameworkSettings.CARBON_HOME +
+                                     File.separator + "repository" + File.separator +
+                                     "deployment" +
+                                     File.separator + "client",
+                             ServerConfiguration.getInstance()
+                                     .getFirstProperty(
+                                            "Axis2Config.clientAxis2XmlLocation")),url,FrameworkSettings.USER_NAME,FrameworkSettings.PASSWORD);
+            wsRegistrySearchClient.init(cookie,url,ConfigurationContextFactory.createConfigurationContextFromFileSystem(
                             FrameworkSettings.CARBON_HOME +
                                     File.separator + "repository" + File.separator +
                                     "deployment" +
                                     File.separator + "client",
                             ServerConfiguration.getInstance()
                                     .getFirstProperty(
-                                            "Axis2Config.clientAxis2XmlLocation")));
+                                             "Axis2Config.clientAxis2XmlLocation")));
 
-            wsRegistrySearchClient.init();
+
+
             MediationUtils.setRegistryService(new TestRegistryServiceImpl(registry));
 
             GenericArtifactManager proxyManager = new GenericArtifactManager(registry, proxyKey);

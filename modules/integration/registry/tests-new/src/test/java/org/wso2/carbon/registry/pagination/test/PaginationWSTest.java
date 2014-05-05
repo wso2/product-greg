@@ -32,6 +32,11 @@ import org.wso2.carbon.registry.core.exceptions.RegistryException;
 import org.wso2.carbon.registry.core.pagination.PaginationContext;
 import org.wso2.carbon.registry.core.session.UserRegistry;
 import org.wso2.carbon.registry.ws.client.registry.WSRegistryServiceClient;
+import org.apache.axis2.context.ConfigurationContextFactory;
+import org.wso2.carbon.base.ServerConfiguration;
+import org.wso2.carbon.integration.framework.utils.FrameworkSettings;
+import java.io.File;
+
 
 import javax.xml.namespace.QName;
 import java.util.ArrayList;
@@ -44,6 +49,7 @@ import static org.testng.Assert.assertTrue;
 public class PaginationWSTest {
     private WSRegistryServiceClient registry;
     private ManageEnvironment environment;
+    private static String cookie;
 
     @BeforeClass(alwaysRun = true)
     public void initTest() throws Exception {
@@ -69,6 +75,29 @@ public class PaginationWSTest {
                     environment.getGreg().getServiceUrl(),environment.getGreg().getSessionCookie());
             //This should be execute to initialize the AttributeSearchService.
             wsRegistrySearchClient.init();
+
+            WSRegistrySearchClient wsRegistrySearchClient = new WSRegistrySearchClient();
+
+                                String url = "https://" + FrameworkSettings.HOST_NAME + ":" + FrameworkSettings.HTTPS_PORT
+                                        + "/services/";
+                        cookie = wsRegistrySearchClient.authenticate(ConfigurationContextFactory.createConfigurationContextFromFileSystem(
+                                       FrameworkSettings.CARBON_HOME +
+                                                        File.separator + "repository" + File.separator +
+                                                        "deployment" +
+                                                        File.separator + "client",
+                                       ServerConfiguration.getInstance()
+                                                        .getFirstProperty(
+                                                        "Axis2Config.clientAxis2XmlLocation")),url,FrameworkSettings.USER_NAME,FrameworkSettings.PASSWORD);
+                      wsRegistrySearchClient.init(cookie,url,ConfigurationContextFactory.createConfigurationContextFromFileSystem(
+                                        FrameworkSettings.CARBON_HOME +
+                                                        File.separator + "repository" + File.separator +
+                                                        "deployment" +
+                                                        File.separator + "client",
+                                        ServerConfiguration.getInstance()
+                                                        .getFirstProperty(
+                                                        "Axis2Config.clientAxis2XmlLocation")));
+
+
             //Initialize the GenericArtifactManager
             GenericArtifactManager artifactManager =
                     new GenericArtifactManager(gov, "service");
