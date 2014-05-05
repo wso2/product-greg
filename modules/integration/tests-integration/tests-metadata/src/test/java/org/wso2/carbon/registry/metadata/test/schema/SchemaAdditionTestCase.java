@@ -21,6 +21,7 @@ import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 import org.wso2.carbon.authenticator.stub.LoginAuthenticationExceptionException;
+import org.wso2.carbon.automation.engine.context.TestUserMode;
 import org.wso2.carbon.automation.engine.frameworkutils.FrameworkPathUtil;
 import org.wso2.carbon.automation.test.utils.common.FileManager;
 import org.wso2.carbon.governance.api.exception.GovernanceException;
@@ -54,6 +55,7 @@ public class SchemaAdditionTestCase extends GREGIntegrationBaseTest {
 
     @BeforeClass(groups = "wso2.greg", alwaysRun = true)
     public void initialize() throws Exception {
+        super.init(TestUserMode.SUPER_TENANT_USER);
         RegistryProviderUtil provider = new RegistryProviderUtil();
         WSRegistryServiceClient wsRegistry = provider.getWSRegistry(automationContext);
         governanceRegistry = provider.getGovernanceRegistry(wsRegistry, automationContext);

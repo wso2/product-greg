@@ -56,7 +56,7 @@ public class LargeWSDLAdditionTestCase extends GREGIntegrationBaseTest{
         super.init(TestUserMode.SUPER_TENANT_USER);
         String sessionCookie = new LoginLogoutClient(automationContext).login();
         RegistryProviderUtil provider = new RegistryProviderUtil();
-        WSRegistryServiceClient wsRegistry = provider.getWSRegistry(automationContext);
+        wsRegistry = provider.getWSRegistry(automationContext);
         governanceRegistry = provider.getGovernanceRegistry(wsRegistry, automationContext);
         wsdlManager = new WsdlManager(governanceRegistry);
     }

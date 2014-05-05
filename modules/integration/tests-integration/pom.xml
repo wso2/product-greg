@@ -16,7 +16,7 @@
 
     <modules>
         <module>tests-resources</module>
-        <module>tests-metadata</module>
+        <!--<module>tests-metadata</module>-->
     </modules>
 
     <properties>

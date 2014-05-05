@@ -21,6 +21,7 @@ import org.apache.axis2.AxisFault;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
+import org.wso2.carbon.automation.engine.context.TestUserMode;
 import org.wso2.carbon.governance.api.exception.GovernanceException;
 import org.wso2.carbon.governance.api.schema.SchemaManager;
 import org.wso2.carbon.governance.api.schema.dataobjects.Schema;
@@ -49,7 +50,7 @@ public class SchemaCommentsVerificationTestCase extends GREGIntegrationBaseTest{
 
     @BeforeClass(groups = "wso2.greg", alwaysRun = true)
     public void initialize() throws Exception {
-
+        super.init(TestUserMode.SUPER_TENANT_USER);
         sessionCookie = new LoginLogoutClient(automationContext).login();
         infoServiceAdminclient =
                 new InfoServiceAdminClient(automationContext.getContextUrls().getBackEndUrl(),

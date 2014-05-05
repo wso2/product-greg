@@ -24,6 +24,7 @@ import org.apache.commons.logging.LogFactory;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
+import org.wso2.carbon.automation.engine.context.TestUserMode;
 import org.wso2.carbon.automation.engine.frameworkutils.FrameworkPathUtil;
 import org.wso2.carbon.integration.common.utils.LoginLogoutClient;
 import org.wso2.carbon.registry.core.exceptions.RegistryException;
@@ -51,9 +52,7 @@ public class PolicyAddTestCase extends GREGIntegrationBaseTest{
 
     @BeforeClass(groups = {"wso2.greg"})
     public void init() throws Exception {
-        log.info("Initializing Add/Update Policy Registry Tests");
-        log.debug("Add/Update Policy Registry Test Initialised");
-        log.debug("Running SuccessCase");
+        super.init(TestUserMode.SUPER_TENANT_USER);
         String session = new LoginLogoutClient(automationContext).login();
         resourceAdminServiceClient =
                 new ResourceAdminServiceClient(automationContext.getContextUrls().getBackEndUrl()

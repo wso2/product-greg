@@ -23,6 +23,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
+import org.wso2.carbon.automation.engine.context.TestUserMode;
 import org.wso2.carbon.automation.engine.frameworkutils.FrameworkPathUtil;
 import org.wso2.carbon.integration.common.utils.LoginLogoutClient;
 import org.wso2.carbon.registry.resource.stub.ResourceAdminServiceExceptionException;
@@ -53,9 +54,7 @@ public class PolicyDeleteTestCase extends GREGIntegrationBaseTest{
 
     @BeforeClass(groups = {"wso2.greg"})
     public void init() throws Exception {
-        log.info("Initializing Add/Remove Policy Registry Test");
-        log.debug("Add/Remove Policy Registry Test Initialised");
-        log.debug("Running SuccessCase");
+        super.init(TestUserMode.SUPER_TENANT_ADMIN);
         String session = new LoginLogoutClient(automationContext).login();
         resourceAdminServiceClient =
                 new ResourceAdminServiceClient(automationContext.getContextUrls().getBackEndUrl()

@@ -22,6 +22,7 @@ import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 import org.wso2.carbon.authenticator.stub.LoginAuthenticationExceptionException;
+import org.wso2.carbon.automation.engine.context.TestUserMode;
 import org.wso2.carbon.governance.api.exception.GovernanceException;
 import org.wso2.carbon.integration.common.utils.LoginLogoutClient;
 import org.wso2.carbon.registry.relations.stub.AddAssociationRegistryExceptionException;
@@ -55,7 +56,7 @@ public class SchemaAssociationVerificationTestCase extends GREGIntegrationBaseTe
     @BeforeClass (groups = "wso2.greg", alwaysRun = true)
     public void initialize () throws LoginAuthenticationExceptionException,
             IOException, XPathExpressionException, URISyntaxException, SAXException, XMLStreamException {
-
+        super.init(TestUserMode.SUPER_TENANT_USER);
         sessionCookie = new LoginLogoutClient(automationContext).login();
         resourceAdminServiceClient =
                 new ResourceAdminServiceClient(automationContext.getContextUrls().getBackEndUrl(),

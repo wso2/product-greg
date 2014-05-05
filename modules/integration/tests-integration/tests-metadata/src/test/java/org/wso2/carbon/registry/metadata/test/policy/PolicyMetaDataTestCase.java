@@ -24,6 +24,7 @@ import org.testng.Assert;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
+import org.wso2.carbon.automation.engine.context.TestUserMode;
 import org.wso2.carbon.automation.engine.frameworkutils.FrameworkPathUtil;
 import org.wso2.carbon.governance.custom.lifecycles.checklist.stub.CustomLifecyclesChecklistAdminServiceExceptionException;
 import org.wso2.carbon.governance.custom.lifecycles.checklist.stub.beans.xsd.LifecycleBean;
@@ -74,11 +75,7 @@ public class PolicyMetaDataTestCase extends GREGIntegrationBaseTest {
     @BeforeClass(groups = {"wso2.greg."})
     public void init() throws Exception {
 
-        log.info("Initializing Tests for Community Features in Registry Policy");
-        log.debug("Community Features in Registry Policy Tests Initialised");
-        log.debug("Running SuccessCase");
-        log.debug("Running SuccessCase");
-
+        super.init(TestUserMode.SUPER_TENANT_USER);
         session = new LoginLogoutClient(automationContext).login();
 
         resourceAdminServiceClient =
