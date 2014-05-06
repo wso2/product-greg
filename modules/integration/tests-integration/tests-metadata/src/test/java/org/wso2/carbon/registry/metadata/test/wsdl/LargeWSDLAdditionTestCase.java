@@ -72,9 +72,9 @@ public class LargeWSDLAdditionTestCase extends GREGIntegrationBaseTest{
 
 
         wsdl = wsdlManager
-                .newWsdl("https://svn.wso2.org/repos/wso2/carbon/platform/trunk/"
-                        + "platform-integration/platform-automated-test-suite/org.wso2.carbon.automation.test.repo/"
-                        + "src/main/resources/artifacts/GREG/wsdl/info.wsdl"); // 65KB
+                .newWsdl("https://svn.wso2.org/repos/wso2/carbon/platform/trunk/platform-integration" +
+                        "/platform-automated-test-suite/org.wso2.carbon.automation.test.repo/src/main" +
+                        "/resources/artifacts/GREG/wsdl/info.wsdl"); // 65KB
 
         wsdl.addAttribute("version", "1.0.0");
         wsdl.addAttribute("author", "Aparna");
@@ -123,7 +123,5 @@ public class LargeWSDLAdditionTestCase extends GREGIntegrationBaseTest{
         wsdl = null;
         wsdlManager = null;
         governanceRegistry = null;
-
-
     }
 }

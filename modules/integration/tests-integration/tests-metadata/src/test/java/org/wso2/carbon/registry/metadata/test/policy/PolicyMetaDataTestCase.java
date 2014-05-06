@@ -103,8 +103,11 @@ public class PolicyMetaDataTestCase extends GREGIntegrationBaseTest {
         // wait for sometime until the resource has been added. The activity logs are written
         // every 10 seconds, so you'll need to wait until that's done.
         Thread.sleep(20000);
+        String userName = automationContext.getContextTenant().getContextUser().getUserName();
+        String userNameWithoutDomain = userName.substring(0, userName.indexOf('@'));
+
         assertTrue(resourceAdminServiceClient.getResource(policyPath + resourceName)[0].getAuthorUserName().
-                contains(automationContext.getContextTenant().getContextUser().getUserName()));
+                contains(userNameWithoutDomain));
     }
 
 

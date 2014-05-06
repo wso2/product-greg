@@ -135,9 +135,8 @@ public class WsdlRetentionVerificationTestCase extends GREGIntegrationBaseTest {
             dependsOnMethods = "testFirstUserSetRetention")
     public void testSecondUserVerifyRetention () throws Exception {
 
-        int userId2 = 3;
         AutomationContext automationContext1 = new AutomationContext("GREG", "greg001",
-                "superTenant", "userKey2");
+                "superTenant", "user2");
         String sessionCookieUser2 = new LoginLogoutClient(automationContext1).login();
         propertiesAdminServiceClient = new PropertiesAdminServiceClient( automationContext1
                 .getContextUrls().getBackEndUrl(), sessionCookieUser2);
@@ -163,8 +162,10 @@ public class WsdlRetentionVerificationTestCase extends GREGIntegrationBaseTest {
         RetentionBean retentionBean = propertiesAdminServiceClient
                 .getRetentionProperties(wsdlPath);
         assertEquals(retentionBean.getFromDate(), dateFormat.format(date));
-        assertEquals(retentionBean.getUserName(), automationContext1.getContextTenant()
-                .getContextUser().getUserName());
+
+        String userName = automationContext.getContextTenant().getContextUser().getUserName();
+        String userNameWithoutDomain = userName.substring(0, userName.indexOf('@'));
+        assertEquals(retentionBean.getUserName(), userNameWithoutDomain);
         assertFalse(retentionBean.getWriteLocked());
         assertTrue(retentionBean.getDeleteLocked());
 

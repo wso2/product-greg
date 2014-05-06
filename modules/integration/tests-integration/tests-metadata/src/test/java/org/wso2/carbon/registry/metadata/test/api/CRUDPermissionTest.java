@@ -61,20 +61,21 @@ public class CRUDPermissionTest extends GREGIntegrationBaseTest {
     private String artifactId;
     private String eprAPI;
     private String userName = "CRUDPermissionTestUser";
+    private String password = "CRUDPermissionTestUserPassword";
 
     @BeforeClass (alwaysRun = true)
     public void initialize () throws Exception {
 
         super.init(TestUserMode.SUPER_TENANT_USER);
-        String sessionCookie =
-                new LoginLogoutClient(automationContext).login();
+        String sessionCookie = new LoginLogoutClient(automationContext).login();
 
         userManagementClient =
-                new UserManagementClient(automationContext.getContextUrls().getBackEndUrl(), sessionCookie);
+                new UserManagementClient(automationContext.getContextUrls().getBackEndUrl(),
+                        sessionCookie);
 
-        userManagementClient.addUser("CRUDPermissionTestUser", "CRUDPermissionTestUserPassword", null, null);
+        userManagementClient.addUser(userName, password, null, null);
 
-        addTestRole("testRole2", new String[]{"CRUDPermissionTestUser"}, new String[]{"/permission/admin/login"});
+        addTestRole("testRole2", new String[]{userName}, new String[]{"/permission/admin/login"});
         RegistryProviderUtil registryProviderUtil = new RegistryProviderUtil();
 
         WSRegistryServiceClient WSRegistry = registryProviderUtil.getWSRegistry(automationContext);
@@ -84,8 +85,7 @@ public class CRUDPermissionTest extends GREGIntegrationBaseTest {
         authenticatorClient =
                 new AuthenticatorClient(automationContext.getContextUrls().getBackEndUrl());
 
-        authenticatorClient.login(automationContext.getContextTenant().getContextUser().getUserName(),
-                automationContext.getContextTenant().getContextUser().getPassword(),
+        authenticatorClient.login(userName, password,
                 automationContext.getDefaultInstance().getHosts().get("default"));
 
         stub = (AuthenticationAdminStub) authenticatorClient.getAuthenticationAdminStub();
@@ -102,7 +102,7 @@ public class CRUDPermissionTest extends GREGIntegrationBaseTest {
         Options options = client.getOptions();
         options.setManageSession(true);
 
-        eprAPI = automationContext.getContextUrls().getServiceUrl() + "/API";
+        eprAPI = getBackendURL() + "API";
 
         options.setTo(new EndpointReference(eprAPI));
         options.setAction("urn:addAPI");
@@ -121,8 +121,7 @@ public class CRUDPermissionTest extends GREGIntegrationBaseTest {
 
     @Test (groups = "wso2.greg", description = "Add/get/delete API Artifact (CRUD)",
             dependsOnMethods = "testAPIArtifactDenyPermission")
-    public void testAPIArtifact ()
-            throws Exception {
+    public void testAPIArtifact () throws Exception {
 
         userManagementClient.updateUserListOfRole("testRole2", new String[]{},
                 new String[]{userName});
@@ -135,8 +134,7 @@ public class CRUDPermissionTest extends GREGIntegrationBaseTest {
         authenticatorClient =
                 new AuthenticatorClient(automationContext.getContextUrls().getBackEndUrl());
 
-        authenticatorClient.login(automationContext.getContextTenant().getContextUser().getUserName(),
-                automationContext.getContextTenant().getContextUser().getPassword(),
+        authenticatorClient.login(userName,password,
                 automationContext.getDefaultInstance().getHosts().get("default"));
 
         stub = (AuthenticationAdminStub) authenticatorClient.getAuthenticationAdminStub();
@@ -146,6 +144,7 @@ public class CRUDPermissionTest extends GREGIntegrationBaseTest {
         options.setTo(new EndpointReference(eprAPI));
         options.setAction("urn:addAPI");
         options.setManageSession(true);
+
         OMElement omElement = client.sendReceive(AXIOMUtil.stringToOM("<ser:addAPI " +
                 "xmlns:ser=\"http://services.add.api.governance.carbon.wso2.org\"><ser:info>&lt;metadata " +
                 "xmlns=\"http://www.wso2.org/governance/metadata\">&lt;overview>&lt;status>CREATED&lt;" +
@@ -154,6 +153,7 @@ public class CRUDPermissionTest extends GREGIntegrationBaseTest {
                 "&lt;tier>Gold&lt;/tier>" + "&lt;isLatest>false&lt;/isLatest>" +
                 "&lt;provider>API_Povider&lt;/provider>" +
                 "&lt;/overview>&lt;/metadata></ser:info></ser:addAPI>"));
+
         AXIOMXPath expression = new AXIOMXPath("//ns:return");
         expression.addNamespace("ns", omElement.getNamespace().getNamespaceURI());
         artifactId = ((OMElement) expression.selectSingleNode(omElement)).getText();
@@ -166,9 +166,7 @@ public class CRUDPermissionTest extends GREGIntegrationBaseTest {
 
     @Test (groups = "wso2.greg", description = "Add/get/delete API Artifact (CRUD)",
             dependsOnMethods = "testAPIArtifact", expectedExceptions = AxisFault.class)
-    public void testAPIArtifactDeleteDeniedPermission ()
-            throws Exception,
-            JaxenException, RegistryException {
+    public void testAPIArtifactDeleteDeniedPermission () throws Exception {
 
         userManagementClient.updateUserListOfRole("testRole3", new String[]{},
                 new String[]{userName});
@@ -205,11 +203,8 @@ public class CRUDPermissionTest extends GREGIntegrationBaseTest {
         }
     }
 
-    @AfterClass
+    @AfterClass(alwaysRun = true)
     public void DeleteRolesAndRestoreTestUser1 () throws Exception {
-
-        userManagementClient.updateUserListOfRole("testRole", new String[]{userName},
-                new String[]{});
 
         GovernanceUtils.loadGovernanceArtifacts((UserRegistry) governance);
         GenericArtifactManager artifactManager = new GenericArtifactManager(governance, "api");
@@ -220,7 +215,7 @@ public class CRUDPermissionTest extends GREGIntegrationBaseTest {
         }
         userManagementClient.deleteRole("testRole2");
         userManagementClient.deleteRole("testRole3");
-        userManagementClient.deleteRole("testRole4");
+        userManagementClient.deleteUser(userName);
     }
 
     public boolean isGenericArtifactExists (String[] allApiGenericArtifacts, String artifactId) {

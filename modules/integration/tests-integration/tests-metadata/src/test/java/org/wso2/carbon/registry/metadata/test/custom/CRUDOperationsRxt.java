@@ -58,7 +58,6 @@ import static org.testng.Assert.assertTrue;
 
 public class CRUDOperationsRxt extends GREGIntegrationBaseTest {
 
-    int userId = 2;
     private Registry governance;
 
     @BeforeClass
@@ -115,7 +114,7 @@ public class CRUDOperationsRxt extends GREGIntegrationBaseTest {
                 automationContext.getDefaultInstance().getHosts().get("default"));
 
         String eprPerson;
-        eprPerson = automationContext.getContextUrls().getBackEndUrl() + "/Person";
+        eprPerson = getBackendURL() + "Person";
         options.setTo(new EndpointReference(eprPerson));
         options.setAction("urn:addPerson");
         options.setManageSession(true);

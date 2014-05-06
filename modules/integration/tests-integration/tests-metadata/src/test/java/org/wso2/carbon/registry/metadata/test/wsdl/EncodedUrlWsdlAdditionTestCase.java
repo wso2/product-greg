@@ -15,6 +15,7 @@
  *specific language governing permissions and limitations
  *under the License.
  */
+
 package org.wso2.carbon.registry.metadata.test.wsdl;
 
 import org.testng.annotations.AfterClass;
@@ -40,19 +41,18 @@ import java.rmi.RemoteException;
 
 import static org.testng.Assert.*;
 
-public class EncodedUrlWsdlAdditionTestCase extends GREGIntegrationBaseTest{
+public class EncodedUrlWsdlAdditionTestCase extends GREGIntegrationBaseTest {
 
     private Registry governanceRegistry;
     private Wsdl wsdl;
     private WsdlManager wsdlManager;
     private WSRegistryServiceClient wsRegistry;
-    private String sessionCookie;
 
-    @BeforeClass(groups = "wso2.greg", alwaysRun = true)
-    public void initialize() throws Exception {
+    @BeforeClass (groups = "wso2.greg", alwaysRun = true)
+    public void initialize () throws Exception {
+
         super.init(TestUserMode.SUPER_TENANT_ADMIN);
-        sessionCookie = new LoginLogoutClient(automationContext).login();
-
+        String sessionCookie = new LoginLogoutClient(automationContext).login();
         RegistryProviderUtil provider = new RegistryProviderUtil();
         wsRegistry = provider.getWSRegistry(automationContext);
         governanceRegistry = provider.getGovernanceRegistry(wsRegistry, automationContext);
@@ -63,58 +63,48 @@ public class EncodedUrlWsdlAdditionTestCase extends GREGIntegrationBaseTest{
     /**
      * adding a encoded URL wsdl
      */
-    @Test(groups = "wso2.greg", description = "Add Encoded WSDL")
-    public void testAddEncodedURLWSDL() throws RemoteException,
-            ResourceAdminServiceExceptionException,
-            GovernanceException,
-            MalformedURLException {
+    @Test (groups = "wso2.greg", description = "Add Encoded WSDL")
+    public void testAddEncodedURLWSDL () throws RemoteException, ResourceAdminServiceExceptionException,
+            GovernanceException, MalformedURLException {
 
-
-        wsdl = wsdlManager
-                .newWsdl("https://svn.wso2.org/repos/wso2/carbon/platform/branches/4.2.0/products/greg/4.6.0/modules/" +
-                        "integration/registry/tests-metadata/src/test/resources/artifacts/GREG/wsdl/StockQuote.wsdl");
+        wsdl = wsdlManager.newWsdl(
+                "http://svn.wso2.org/repos/wso2/carbon/platform/branches/turing/" +
+                        "products/greg/4.6.0/modules/integration/registry/tests-metadata/src/test/resources/" +
+                        "artifacts/GREG/wsdl/StockQuote.wsdl");
 
         wsdl.addAttribute("version", "1.0.0");
         wsdl.addAttribute("author", "Aparna");
         wsdl.addAttribute("description", "added encoded url wsdl");
         wsdlManager.addWsdl(wsdl);
-
         assertFalse(wsdl.getId().isEmpty());
         assertNotNull(wsdl);
-        assertTrue(wsdl.getAttribute("author").contentEquals("Aparna")); // encoded
-        // URL
-        // WSDL
-        // addition:
-        // verification
+        assertTrue(wsdl.getAttribute("author").contentEquals("Aparna"));    // encoded url wsdl
+                                                                            // addition verification
     }
 
-    @AfterClass(groups = "wso2.greg", alwaysRun = true, description = "cleaning up the artifacts added")
-    public void tearDown()
-            throws RegistryException, LoginAuthenticationExceptionException, RemoteException,
+    @AfterClass (groups = "wso2.greg", alwaysRun = true, description = "cleaning up the artifacts added")
+    public void tearDown () throws RegistryException, LoginAuthenticationExceptionException, RemoteException,
             ResourceAdminServiceExceptionException {
 
         String pathPrefix = "/_system/governance";
-
         Endpoint[] endpoints;
+
         endpoints = wsdl.getAttachedEndpoints();
+        assertNotNull(endpoints, "there should be associated endpoints with the wsdl");
 
         GovernanceArtifact[] governanceArtifacts = wsdl.getDependents();
+        assertNotNull(governanceArtifacts, "there should be dependent of the wsdl");
+
         for (GovernanceArtifact tmpGovernanceArtifact : governanceArtifacts) {
             wsRegistry.delete(pathPrefix + tmpGovernanceArtifact.getPath());
         }
-        
+
         for (Endpoint tmpEndpoint : endpoints) {
-        	GovernanceArtifact[] dependentArtifacts =  tmpEndpoint.getDependents();
-        	for (GovernanceArtifact tmpGovernanceArtifact : dependentArtifacts) {
+            GovernanceArtifact[] dependentArtifacts = tmpEndpoint.getDependents();
+            for (GovernanceArtifact tmpGovernanceArtifact : dependentArtifacts) {
                 wsRegistry.delete(pathPrefix + tmpGovernanceArtifact.getPath());
             }
             wsRegistry.delete(pathPrefix + tmpEndpoint.getPath());
         }
-        wsRegistry = null;
-        governanceRegistry = null;
-        wsdl = null;
-        wsdl = null;
-
-
     }
 }

@@ -33,7 +33,8 @@ public class NameWithSpacesWsdlAdditionTestCase extends GREGIntegrationBaseTest 
     @BeforeClass (groups = "wso2.greg", alwaysRun = true)
     public void initialize () throws IOException,
             LoginAuthenticationExceptionException,
-            org.wso2.carbon.registry.api.RegistryException, XPathExpressionException, URISyntaxException, SAXException, XMLStreamException {
+            org.wso2.carbon.registry.api.RegistryException, XPathExpressionException,
+            URISyntaxException, SAXException, XMLStreamException {
 
         super.init(TestUserMode.SUPER_TENANT_ADMIN);
         sessionCookie = new LoginLogoutClient(automationContext).login();
@@ -47,14 +48,10 @@ public class NameWithSpacesWsdlAdditionTestCase extends GREGIntegrationBaseTest 
             ResourceAdminServiceExceptionException,
             RegistryExceptionException {
 
-        resourceAdminServiceClient
-                .addWSDL(
-                        "Wsdl with spaces in the name",
-                        "to check wsdl addtion with spaces in its name",
-                        "https://svn.wso2.org/repos/wso2/carbon/platform/branches/4.2.0/products/greg" +
-                                "/4.6.0/modules/integration/" +
-                                "registry/tests-metadata/src/test/resources/artifacts/GREG/wsdl" +
-                                "/wsdl%20with%20spaces%20in%20the%20name.wsdl");
+        resourceAdminServiceClient.addWSDL(
+                "Wsdl with spaces in the name", "to check wsdl addtion with spaces in its name",
+                "http://svn.wso2.org/repos/wso2/people/krishantha/wsdl/wsdl%20with%20spaces%20in%20the%20name.wsdl");
+
         resourceAdminServiceClient.setDescription(wsdlPath,
                 "this wsdl has spaces in its name");
 

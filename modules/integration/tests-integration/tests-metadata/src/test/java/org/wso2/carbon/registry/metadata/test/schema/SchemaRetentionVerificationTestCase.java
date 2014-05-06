@@ -51,7 +51,6 @@ import static org.testng.Assert.*;
 
 public class SchemaRetentionVerificationTestCase extends GREGIntegrationBaseTest {
 
-    private int userId1 = 2;
     private Schema schema;
     private Registry governanceRegistry;
     private PropertiesAdminServiceClient propertiesAdminServiceClient;
@@ -135,9 +134,8 @@ public class SchemaRetentionVerificationTestCase extends GREGIntegrationBaseTest
             dependsOnMethods = "testFirstUserRetention")
     public void testSecondUserRetention () throws Exception {
 
-        int userId2 = 3;
         AutomationContext automationContext1 = new AutomationContext("GREG", "greg001",
-                "superTenant", "userKey2");
+                "superTenant", "user2");
         String sessionCookieUser2 = new LoginLogoutClient(automationContext1).login();
         propertiesAdminServiceClient = new PropertiesAdminServiceClient(
                 automationContext1.getContextUrls().getBackEndUrl(),
@@ -165,8 +163,9 @@ public class SchemaRetentionVerificationTestCase extends GREGIntegrationBaseTest
         RetentionBean retentionBean = propertiesAdminServiceClient
                 .getRetentionProperties(schemaPath);
         assertEquals(retentionBean.getFromDate(), dateFormat.format(date));
-        assertEquals(retentionBean.getUserName(), automationContext1.getContextTenant()
-                .getContextUser().getUserName());
+        String userName = automationContext.getContextTenant().getContextUser().getUserName();
+        String userNameWithoutDomain = userName.substring(0, userName.indexOf('@'));
+        assertEquals(retentionBean.getUserName(), userNameWithoutDomain);
         assertFalse(retentionBean.getWriteLocked());
         assertTrue(retentionBean.getDeleteLocked());
 

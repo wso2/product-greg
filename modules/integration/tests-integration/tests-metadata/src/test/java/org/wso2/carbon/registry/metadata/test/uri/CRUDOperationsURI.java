@@ -51,27 +51,25 @@ import java.rmi.RemoteException;
 
 import static org.testng.Assert.assertEquals;
 
-public class CRUDOperationsURI extends GREGIntegrationBaseTest{
+public class CRUDOperationsURI extends GREGIntegrationBaseTest {
 
-    int userId = 2;
     private Registry governance;
     private AuthenticatorClient authenticatorClient;
     private AuthenticationAdminStub stub;
     private String eprURI;
-
+    private String sessionCookie;
 
     @BeforeClass
-    public void initialize()
-            throws Exception {
+    public void initialize () throws Exception {
+
         super.init(TestUserMode.SUPER_TENANT_USER);
+
         RegistryProviderUtil registryProviderUtil = new RegistryProviderUtil();
         WSRegistryServiceClient registry = registryProviderUtil.getWSRegistry(automationContext);
         governance = registryProviderUtil.getGovernanceRegistry(registry, automationContext);
 
-        authenticatorClient =
-                new AuthenticatorClient(backendURL);
-
-        new LoginLogoutClient(automationContext).login();
+        authenticatorClient = new AuthenticatorClient(backendURL);
+        sessionCookie = new LoginLogoutClient(automationContext).login();
 
         stub = (AuthenticationAdminStub) authenticatorClient.getAuthenticationAdminStub();
 
@@ -85,225 +83,175 @@ public class CRUDOperationsURI extends GREGIntegrationBaseTest{
         }
     }
 
-    @Test(groups = "wso2.greg", description = "Add/get/delete URI Artifact (CRUD)")
-    public void testUriArtifact()
-            throws XMLStreamException, LoginAuthenticationExceptionException, RemoteException,
-                   JaxenException, RegistryException, MalformedURLException {
-
+    @Test (groups = "wso2.greg", description = "Add/get/delete URI Artifact (CRUD)")
+    public void testUriArtifact () throws XMLStreamException, LoginAuthenticationExceptionException, RemoteException,
+            JaxenException, RegistryException, MalformedURLException {
 
         ServiceClient client = stub._getServiceClient();
+
+        eprURI = backendURL + "URI";
+
         Options options = client.getOptions();
         options.setManageSession(true);
-
-        eprURI = backendURL + "/URI";
-
         options.setTo(new EndpointReference(eprURI));
         options.setAction("urn:addURI");
         options.setManageSession(true);
+        options.setProperty(org.apache.axis2.transport.http.HTTPConstants.COOKIE_STRING,
+                sessionCookie);
+
         OMElement omElementAddWsdl =
                 client.sendReceive(AXIOMUtil.stringToOM("<ser:addURI " +
-                                                        "xmlns:ser=\"http://services.add.uri.governance.carbon.wso2.org\">" +
-                                                        "<ser:info>&lt;metadata xmlns=\"http://www.wso2.org/governance/metadata\">" +
-                                                        "&lt;overview>&lt;type>WSDL&lt;/type>&lt;name>Axis2Service_Wsdl_With_Wsdl_Imports.wsdl&lt;/name>" +
-                                                        "&lt;uri>https://svn.wso2.org/repos/wso2/carbon/platform/trunk/platform-integration/platform-automated-test-suite/" +
-                                                        "org.wso2.carbon.automation.test.repo/src/main/resources/artifacts/GREG/wsdl/Axis2Service_Wsdl_With_Wsdl_Imports.wsdl&lt;" +
-                                                        "/uri>&lt;/overview>&lt;/metadata></ser:info></ser:addURI>"));
-
+                        "xmlns:ser=\"http://services.add.uri.governance.carbon.wso2.org\">" +
+                        "<ser:info>&lt;metadata xmlns=\"http://www.wso2.org/governance/metadata\">" +
+                        "&lt;overview>&lt;type>WSDL&lt;/type>&lt;name>Axis2Service_Wsdl_With_Wsdl_Imports.wsdl&lt;/name>" +
+                        "&lt;uri>https://svn.wso2.org/repos/wso2/carbon/platform/trunk/platform-integration/platform-automated-test-suite/" +
+                        "org.wso2.carbon.automation.test.repo/src/main/resources/artifacts/GREG/wsdl/Axis2Service_Wsdl_With_Wsdl_Imports.wsdl&lt;" +
+                        "/uri>&lt;/overview>&lt;/metadata></ser:info></ser:addURI>"));
 
         AXIOMXPath expression = new AXIOMXPath("//ns:return");
         expression.addNamespace("ns", omElementAddWsdl.getNamespace().getNamespaceURI());
         String artifactId = ((OMElement) expression.selectSingleNode(omElementAddWsdl)).getText();
-
         GovernanceUtils.loadGovernanceArtifacts((UserRegistry) governance);
         GenericArtifactManager artifactManager = new GenericArtifactManager(governance, "uri");
         String[] allUriGenericArtifacts = artifactManager.getAllGenericArtifactIds();
-
         assertEquals(isGenericArtifactExists(allUriGenericArtifacts, artifactId), true);
 
         options.setAction("urn:getURI");
         client.sendReceive(AXIOMUtil.stringToOM("<ser:getURI " +
-                                                "xmlns:ser=\"http://services.get.uri.governance.carbon.wso2.org\"><ser:artifactId>" + artifactId + "</ser:artifactId></ser:getURI>"));
-
-
+                "xmlns:ser=\"http://services.get.uri.governance.carbon.wso2.org\"><ser:artifactId>" +
+                artifactId + "</ser:artifactId></ser:getURI>"));
         options.setAction("urn:getURIArtifactIDs");
         client.sendReceive(AXIOMUtil.stringToOM("<ser:getURIArtifactIDs " +
-                                                "" +
-                                                "xmlns:ser=\"http://services.get.uri.artifactids.governance.carbon.wso2.org\"/>"));
-
-
+                "" +
+                "xmlns:ser=\"http://services.get.uri.artifactids.governance.carbon.wso2.org\"/>"));
         options.setAction("urn:getURIDependencies");
         OMElement omElementGetWsdlDependencies = client.sendReceive(AXIOMUtil.stringToOM
                 ("<ser:getURIDependencies" +
-                 " " +
-                 "xmlns:ser=\"http://services.get.uri.dependencies.governance.carbon.wso2.org\"><ser:artifactId>" + artifactId + "</ser:artifactId></ser:getURIDependencies>"));
-
-
+                        " " +
+                        "xmlns:ser=\"http://services.get.uri.dependencies.governance.carbon.wso2.org\"><ser:artifactId>" +
+                        artifactId + "</ser:artifactId></ser:getURIDependencies>"));
         expression = new AXIOMXPath("//ns:return");
         expression.addNamespace("ns", omElementGetWsdlDependencies.getNamespace().getNamespaceURI());
-
-
         options.setAction("urn:deleteURI");
         client.setOptions(options);
         OMElement omElementDeleteWsdl = client.sendReceive(AXIOMUtil.stringToOM("<ser:deleteURI " +
-                                                                                "xmlns:ser=\"http://services" +
-                                                                                ".delete.uri.governance.carbon.wso2.org\"><ser:artifactId>" + artifactId + "</ser:artifactId></ser:deleteURI>"));
+                "xmlns:ser=\"http://services" +
+                ".delete.uri.governance.carbon.wso2.org\"><ser:artifactId>" + artifactId + "</ser:artifactId></ser:deleteURI>"));
         assertEquals(omElementDeleteWsdl.toString(), "<ns:deleteURIResponse xmlns:ns=\"http://services.delete.uri.governance.carbon.wso2.org\"><ns:return>true</ns:return></ns:deleteURIResponse>");
 
 
         /*CRUD support for Schemas*/
-
         options.setAction("urn:addURI");
         options.setManageSession(true);
         OMElement omElementAddSchema = client.sendReceive(AXIOMUtil.stringToOM("<ser:addURI " +
-                                                                               "xmlns:ser=\"http://services.add.uri.governance.carbon.wso2.org\"><ser:info>&lt;metadata " +
-                                                                               "xmlns=\"http://www.wso2.org/governance/metadata\">&lt;overview>&lt;type>XSD&lt;/type>&lt;" +
-                                                                               "name>SchemaImportSample.xsd&lt;/name>&lt;uri>https://svn.wso2" +
-                                                                               ".org/repos/wso2/carbon/platform/trunk/platform-integration/platform-automated-test-suite/org.wso2.carbon.automation.test.repo/src/main/resources/artifacts/GREG/schema/SchemaImportSample.xsd&lt;/uri>&lt;/overview>&lt;/metadata></ser:info></ser:addURI>"));
-
+                "xmlns:ser=\"http://services.add.uri.governance.carbon.wso2.org\"><ser:info>&lt;metadata " +
+                "xmlns=\"http://www.wso2.org/governance/metadata\">&lt;overview>&lt;type>XSD&lt;/type>&lt;" +
+                "name>SchemaImportSample.xsd&lt;/name>&lt;uri>https://svn.wso2" +
+                ".org/repos/wso2/carbon/platform/trunk/platform-integration/platform-automated-test-suite/org.wso2.carbon.automation.test.repo/src/main/resources/artifacts/GREG/schema/SchemaImportSample.xsd&lt;/uri>&lt;/overview>&lt;/metadata></ser:info></ser:addURI>"));
 
         expression.addNamespace("ns", omElementAddSchema.getNamespace().getNamespaceURI());
         String schemaArtifactId = ((OMElement) expression.selectSingleNode(omElementAddSchema)).getText();
-
-
         String[] allUriGenericArtifactsSchema = artifactManager.getAllGenericArtifactIds();
         assertEquals(isGenericArtifactExists(allUriGenericArtifactsSchema, schemaArtifactId), true);
-
-
         options.setAction("urn:getURI");
         client.sendReceive(AXIOMUtil.stringToOM("<ser:getURI " +
-                                                "xmlns:ser=\"http://services.get.uri.governance.carbon.wso2.org\"><ser:artifactId>" + schemaArtifactId + "</ser:artifactId></ser:getURI>"));
-
-
+                "xmlns:ser=\"http://services.get.uri.governance.carbon.wso2.org\"><ser:artifactId>" +
+                schemaArtifactId + "</ser:artifactId></ser:getURI>"));
         options.setAction("urn:getURIArtifactIDs");
         client.sendReceive(AXIOMUtil.stringToOM("<ser:getURIArtifactIDs" +
-                                                " " +
-                                                "" +
-                                                "xmlns:ser=\"http://services.get.uri.artifactids.governance.carbon.wso2.org\"/>"));
-
-
+                " " +
+                "" +
+                "xmlns:ser=\"http://services.get.uri.artifactids.governance.carbon.wso2.org\"/>"));
         options.setAction("urn:getURIDependencies");
         OMElement omElementGetSchemaDependencies = client.sendReceive(AXIOMUtil.stringToOM
                 ("<ser:getURIDependencies" +
-                 " " +
-                 "xmlns:ser=\"http://services.get.uri.dependencies.governance.carbon.wso2" +
-                 ".org\"><ser:artifactId>" + schemaArtifactId + "</ser:artifactId></ser:getURIDependencies>"));
-
-
+                        " " +
+                        "xmlns:ser=\"http://services.get.uri.dependencies.governance.carbon.wso2" +
+                        ".org\"><ser:artifactId>" + schemaArtifactId + "</ser:artifactId></ser:getURIDependencies>"));
         expression = new AXIOMXPath("//ns:return");
         expression.addNamespace("ns", omElementGetSchemaDependencies.getNamespace().getNamespaceURI());
-
-
         options.setAction("urn:deleteURI");
         client.setOptions(options);
         client.sendReceive(AXIOMUtil.stringToOM("<ser:deleteURI " +
-                                                "xmlns:ser=\"http://services" +
-                                                ".delete.uri.governance.carbon.wso2.org\"><ser:artifactId>" + schemaArtifactId +
-                                                "</ser:artifactId></ser:deleteURI>"));
+                "xmlns:ser=\"http://services" +
+                ".delete.uri.governance.carbon.wso2.org\"><ser:artifactId>" + schemaArtifactId +
+                "</ser:artifactId></ser:deleteURI>"));
         assertEquals(omElementDeleteWsdl.toString(), "<ns:deleteURIResponse xmlns:ns=\"http://services.delete.uri.governance.carbon.wso2.org\"><ns:return>true</ns:return></ns:deleteURIResponse>");
 
 
         /*CRUD support for Policies*/
-
         options.setAction("urn:addURI");
         options.setManageSession(true);
         OMElement omElementAddPolicy = client.sendReceive(AXIOMUtil.stringToOM("<ser:addURI " +
-                                                                               "xmlns:ser=\"http://services.add.uri.governance.carbon.wso2.org\"><ser:info>&lt;metadata " +
-                                                                               "xmlns=\"http://www.wso2.org/governance/metadata\">&lt;overview>&lt;type>Policy&lt;/type>&lt;" +
-                                                                               "name>policy.xml&lt;/name>&lt;uri>https://svn.wso2" +
-                                                                               ".org/repos/wso2/carbon/platform/trunk/platform-integration/platform-automated-test-suite/org.wso2.carbon.automation.test.repo/src/main/resources/artifacts/GREG/policy/policy.xml&lt;/uri>&lt;/overview>&lt;/metadata></ser:info></ser:addURI>"));
-
-
+                "xmlns:ser=\"http://services.add.uri.governance.carbon.wso2.org\"><ser:info>&lt;metadata " +
+                "xmlns=\"http://www.wso2.org/governance/metadata\">&lt;overview>&lt;type>Policy&lt;/type>&lt;" +
+                "name>policy.xml&lt;/name>&lt;uri>https://svn.wso2" +
+                ".org/repos/wso2/carbon/platform/trunk/platform-integration/platform-automated-test-suite/org.wso2.carbon.automation.test.repo/src/main/resources/artifacts/GREG/policy/policy.xml&lt;/uri>&lt;/overview>&lt;/metadata></ser:info></ser:addURI>"));
         expression.addNamespace("ns", omElementAddPolicy.getNamespace().getNamespaceURI());
         String policyArtifactId = ((OMElement) expression.selectSingleNode(omElementAddPolicy)).getText();
-
-
         String[] allUriGenericArtifactsPolicy = artifactManager.getAllGenericArtifactIds();
         assertEquals(isGenericArtifactExists(allUriGenericArtifactsPolicy, policyArtifactId), true);
-
-
         options.setAction("urn:getURI");
         client.sendReceive(AXIOMUtil.stringToOM("<ser:getURI " +
-                                                "xmlns:ser=\"http://services.get.uri.governance.carbon.wso2.org\"><ser:artifactId>" + policyArtifactId
-                                                + "</ser:artifactId></ser:getURI>"));
-
-
+                "xmlns:ser=\"http://services.get.uri.governance.carbon.wso2.org\"><ser:artifactId>" + policyArtifactId
+                + "</ser:artifactId></ser:getURI>"));
         options.setAction("urn:getURIArtifactIDs");
         client.sendReceive(AXIOMUtil.stringToOM("<ser:getURIArtifactIDs" +
-                                                " " +
-                                                "" +
-                                                "xmlns:ser=\"http://services.get.uri.artifactids.governance.carbon.wso2.org\"/>"));
-
-
+                " " +
+                "" +
+                "xmlns:ser=\"http://services.get.uri.artifactids.governance.carbon.wso2.org\"/>"));
         options.setAction("urn:getURIDependencies");
         client.sendReceive(AXIOMUtil.stringToOM
                 ("<ser:getURIDependencies" +
-                 " " +
-                 "xmlns:ser=\"http://services.get.uri.dependencies.governance.carbon.wso2" +
-                 ".org\"><ser:artifactId>" + policyArtifactId + "</ser:artifactId></ser:getURIDependencies>"));
-
-
+                        " " +
+                        "xmlns:ser=\"http://services.get.uri.dependencies.governance.carbon.wso2" +
+                        ".org\"><ser:artifactId>" + policyArtifactId + "</ser:artifactId></ser:getURIDependencies>"));
         expression = new AXIOMXPath("//ns:return");
         expression.addNamespace("ns", omElementGetSchemaDependencies.getNamespace().getNamespaceURI());
-
         options.setAction("urn:deleteURI");
         client.setOptions(options);
         client.sendReceive(AXIOMUtil.stringToOM("<ser:deleteURI " +
-                                                "xmlns:ser=\"http://services" +
-                                                ".delete.uri.governance.carbon.wso2.org\"><ser:artifactId>" + policyArtifactId +
-                                                "</ser:artifactId></ser:deleteURI>"));
+                "xmlns:ser=\"http://services" +
+                ".delete.uri.governance.carbon.wso2.org\"><ser:artifactId>" + policyArtifactId +
+                "</ser:artifactId></ser:deleteURI>"));
         assertEquals(omElementDeleteWsdl.toString(), "<ns:deleteURIResponse xmlns:ns=\"http://services.delete.uri.governance.carbon.wso2.org\"><ns:return>true</ns:return></ns:deleteURIResponse>");
 
 
         /*CRUD support for Generic Artifacts*/
-
         options.setAction("urn:addURI");
         options.setManageSession(true);
         OMElement omElementAddGeneric = client.sendReceive(AXIOMUtil.stringToOM("<ser:addURI " +
-                                                                                "xmlns:ser=\"http://services.add.uri.governance.carbon.wso2.org\"><ser:info>&lt;metadata " +
-                                                                                "xmlns=\"http://www.wso2.org/governance/metadata\">&lt;overview>&lt;type>Generic&lt;/type>&lt;" +
-                                                                                "name>resource.txtl&lt;/name>&lt;uri>https://svn.wso2.org/repos/wso2/carbon/platform/trunk/platform-integration/platform-automated-test-suite/org.wso2.carbon.automation.test.repo/src/main/resources/artifacts/GREG/resource.txt&lt;/uri>&lt;/overview>&lt;/metadata></ser:info></ser:addURI>"));
-
-
+                "xmlns:ser=\"http://services.add.uri.governance.carbon.wso2.org\"><ser:info>&lt;metadata " +
+                "xmlns=\"http://www.wso2.org/governance/metadata\">&lt;overview>&lt;type>Generic&lt;/type>&lt;" +
+                "name>resource.txtl&lt;/name>&lt;uri>https://svn.wso2.org/repos/wso2/carbon/platform/trunk/platform-integration/platform-automated-test-suite/org.wso2.carbon.automation.test.repo/src/main/resources/artifacts/GREG/resource.txt&lt;/uri>&lt;/overview>&lt;/metadata></ser:info></ser:addURI>"));
         expression.addNamespace("ns", omElementAddGeneric.getNamespace().getNamespaceURI());
         String genericArtifactId = ((OMElement) expression.selectSingleNode(omElementAddGeneric)).getText();
-
-
         String[] allUriGenericArtifactsGeneric = artifactManager.getAllGenericArtifactIds();
         assertEquals(isGenericArtifactExists(allUriGenericArtifactsGeneric, genericArtifactId), true);
-
-
         options.setAction("urn:getURI");
         client.sendReceive(AXIOMUtil.stringToOM("<ser:getURI " +
-                                                "xmlns:ser=\"http://services.get.uri.governance.carbon.wso2.org\"><ser:artifactId>" + genericArtifactId
-                                                + "</ser:artifactId></ser:getURI>"));
-
-
+                "xmlns:ser=\"http://services.get.uri.governance.carbon.wso2.org\"><ser:artifactId>" + genericArtifactId
+                + "</ser:artifactId></ser:getURI>"));
         options.setAction("urn:getURIArtifactIDs");
         client.sendReceive(AXIOMUtil.stringToOM
                 ("<ser:getURIArtifactIDs" +
-                 " " +
-                 "" +
-                 "xmlns:ser=\"http://services.get.uri.artifactids.governance.carbon.wso2.org\"/>"));
-
-
+                        " " +
+                        "" +
+                        "xmlns:ser=\"http://services.get.uri.artifactids.governance.carbon.wso2.org\"/>"));
         options.setAction("urn:getURIDependencies");
         client.sendReceive(AXIOMUtil.stringToOM
                 ("<ser:getURIDependencies" +
-                 " " +
-                 "xmlns:ser=\"http://services.get.uri.dependencies.governance.carbon.wso2" +
-                 ".org\"><ser:artifactId>" + genericArtifactId + "</ser:artifactId></ser:getURIDependencies>"));
-
-
+                        " " +
+                        "xmlns:ser=\"http://services.get.uri.dependencies.governance.carbon.wso2" +
+                        ".org\"><ser:artifactId>" + genericArtifactId + "</ser:artifactId></ser:getURIDependencies>"));
         expression = new AXIOMXPath("//ns:return");
         expression.addNamespace("ns", omElementGetSchemaDependencies.getNamespace().getNamespaceURI());
-
-
         options.setAction("urn:deleteURI");
         client.setOptions(options);
         client.sendReceive(AXIOMUtil.stringToOM("<ser:deleteURI " +
-                                                "xmlns:ser=\"http://services" +
-                                                ".delete.uri.governance.carbon.wso2.org\"><ser:artifactId>" + genericArtifactId +
-                                                "</ser:artifactId></ser:deleteURI>"));
+                "xmlns:ser=\"http://services" +
+                ".delete.uri.governance.carbon.wso2.org\"><ser:artifactId>" + genericArtifactId +
+                "</ser:artifactId></ser:deleteURI>"));
         assertEquals(omElementDeleteWsdl.toString(), "<ns:deleteURIResponse xmlns:ns=\"http://services.delete.uri.governance.carbon.wso2.org\"><ns:return>true</ns:return></ns:deleteURIResponse>");
         String[] allGenericArtifacts = artifactManager.getAllGenericArtifactIds();
         for (String genericArtifacts : allGenericArtifacts) {
@@ -311,15 +259,12 @@ public class CRUDOperationsURI extends GREGIntegrationBaseTest{
 
         }
 
-
     }
 
-    @Test(groups = "wso2.greg", description = "Add/get/delete URI Artifact (CRUD)",
-          dependsOnMethods = "testUriArtifact", expectedExceptions = AxisFault.class)
-    public void testUriInvalidArtifact()
-            throws XMLStreamException, LoginAuthenticationExceptionException, RemoteException,
-                   JaxenException, RegistryException {
-
+    @Test (groups = "wso2.greg", description = "Add/get/delete URI Artifact (CRUD)",
+            dependsOnMethods = "testUriArtifact", expectedExceptions = AxisFault.class)
+    public void testUriInvalidArtifact () throws XMLStreamException, LoginAuthenticationExceptionException, RemoteException,
+            JaxenException, RegistryException {
 
         ServiceClient client = stub._getServiceClient();
         Options options = client.getOptions();
@@ -329,19 +274,18 @@ public class CRUDOperationsURI extends GREGIntegrationBaseTest{
         options.setManageSession(true);
         OMElement omElementAddWsdl =
                 client.sendReceive(AXIOMUtil.stringToOM("<ser:addURI " +
-                                                        "xmlns:ser=\"http://services.add.uri.governance.carbon.wso2.org\">" +
-                                                        "<ser:info>&lt;metadata xmlns=\"http://www.wso2.org/governance/metadata\">" +
-                                                        "&lt;overview>&lt;type>WSDL&lt;/type>&lt;name>Axis2Service_Wsdl_With_Wsdl_Imports2.wsdl&lt;" +
-                                                        "/name>" +
-                                                        "&lt;uri>https://svn.wso2.org/repos/wso2/carbon/platform/trunk/platform-integration/platform-automated-test-suite/" +
-                                                        "org.wso2.carbon.automation.test.repo/src/main/resources/artifacts/Axis2Service_Wsdl_With_Wsdl_Imports.wsdl&lt;" +
-                                                        "/uri>&lt;/overview>&lt;/metadata></ser:info></ser:addURI>"));
-
+                        "xmlns:ser=\"http://services.add.uri.governance.carbon.wso2.org\">" +
+                        "<ser:info>&lt;metadata xmlns=\"http://www.wso2.org/governance/metadata\">" +
+                        "&lt;overview>&lt;type>WSDL&lt;/type>&lt;name>Axis2Service_Wsdl_With_Wsdl_Imports2.wsdl&lt;" +
+                        "/name>" +
+                        "&lt;uri>https://svn.wso2.org/repos/wso2/carbon/platform/trunk/platform-integration/platform-automated-test-suite/" +
+                        "org.wso2.carbon.automation.test.repo/src/main/resources/artifacts/Axis2Service_Wsdl_With_Wsdl_Imports.wsdl&lt;" +
+                        "/uri>&lt;/overview>&lt;/metadata></ser:info></ser:addURI>"));
 
     }
 
     @AfterClass
-    public void RemoveArtifacts() throws RegistryException {
+    public void RemoveArtifacts () throws RegistryException {
 
         ServiceManager serviceManager = new ServiceManager(governance);
         Service[] services = serviceManager.getAllServices();
@@ -350,7 +294,6 @@ public class CRUDOperationsURI extends GREGIntegrationBaseTest{
                 serviceManager.removeService(s.getId());
             }
         }
-
         if (governance.resourceExists("uris/WSDL/Axis2ImportedWsdl.wsdl")) {
             governance.delete("uris/WSDL/Axis2ImportedWsdl.wsdl");
         }
@@ -360,15 +303,13 @@ public class CRUDOperationsURI extends GREGIntegrationBaseTest{
         if (governance.resourceExists("trunk/endpoints/_1")) {
             governance.delete("trunk/endpoints/_1");
         }
-
         governance = null;
         authenticatorClient = null;
         stub = null;
 
     }
 
-
-    public boolean isGenericArtifactExists(String[] allUriGenericArtifacts, String artifactId) {
+    public boolean isGenericArtifactExists (String[] allUriGenericArtifacts, String artifactId) {
 
         for (String uriArtifacts : allUriGenericArtifacts) {
             if (uriArtifacts.equals(artifactId)) {

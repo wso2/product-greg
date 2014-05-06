@@ -53,7 +53,7 @@ public class AddWADLTestCase extends GREGIntegrationBaseTest{
 
     @Test(groups = "wso2.greg", description = "wadl addition")
     public void addWADLFromURL() throws Exception{
-        String wadlPath = "/_system/governance/trunk/wadls/com/sun/research/wadl/_2006/_10/StorageService.wadl";
+        String wadlPath = "/_system/governance/trunk/wadls/com/sun/research/wadl/_2006/_10/StorageService";
 
         resourceAdminServiceClient.addWADL("StorageService", "Adding simple WADL",
                 "https://svn.wso2.org/repos/wso2/trunk/commons/qa/qa-artifacts/greg/wadl/StorageService.wadl");
@@ -79,7 +79,7 @@ public class AddWADLTestCase extends GREGIntegrationBaseTest{
 
     @Test(groups = "wso2.greg", description = "adding wadl with schema import")
     public void addWADLWithSchemaImport() throws Exception {
-        String wadlPath = "/_system/governance/trunk/wadls/net/java/dev/wadl/_2009/_02/SearchSearvice.wadl";
+        String wadlPath = "/_system/governance/trunk/wadls/net/java/dev/wadl/_2009/_02/SearchSearvice";
 
         resourceAdminServiceClient.addWADL("SearchSearvice", "Adding simple WADL with schema import",
                         "https://svn.wso2.org/repos/wso2/trunk/commons/qa/qa-artifacts/greg/wadl/SearchSearvice.wadl");
@@ -121,7 +121,7 @@ public class AddWADLTestCase extends GREGIntegrationBaseTest{
             resourceAdminServiceClient.addWADL("InvalidSchemaImportWADL", "Adding WADL with invalid schema import",
                             "http://svn.wso2.org/repos/wso2/trunk/commons/qa/qa-artifacts/greg/wadl/InvalidSchemaImport.wadl");
         } catch (Exception e){
-            if (!e.getMessage().contains("WADL not found/Invalid grammar import/s found")) {
+            if (!e.getMessage().contains("WADL not found")) {
                 Assert.assertTrue(false, "");
             }
         }

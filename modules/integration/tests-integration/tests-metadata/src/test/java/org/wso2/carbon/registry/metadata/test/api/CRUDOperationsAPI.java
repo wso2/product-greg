@@ -79,7 +79,7 @@ public class CRUDOperationsAPI extends GREGIntegrationBaseTest {
         ServiceClient client = stub._getServiceClient();
         Options options = client.getOptions();
         options.setManageSession(true);
-        eprAPI = getBackendURL() + "/API";
+        eprAPI = getBackendURL() + "API";
         options.setTo(new EndpointReference(eprAPI));
         options.setAction("urn:addAPI");
         options.setManageSession(true);
