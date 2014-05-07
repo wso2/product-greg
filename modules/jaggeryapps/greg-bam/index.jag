@@ -197,10 +197,12 @@ if( noToolboxes != null && noToolboxes == "true"){
 			}else{
 				var host = location.host+"/"+app;
 			}
+			host = "https://localhost:9443/admin";
 			var usr = {name:""+usrName+"",pass:""+pass+"",host:""+host+""}
 			$.post("createSession.jag",usr,function(json) {
 				if(json == "true"){
-					redirectToDashboard();
+					//redirectToDashboard();
+					location.href = 'service_stats/index.jag';
 				}else{
 					alert("Login failed! Please recheck the username and password and try again.");
 				}
