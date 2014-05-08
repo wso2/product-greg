@@ -47,7 +47,8 @@ public class PropertyTestCase extends GREGIntegrationBaseTest {
     private ResourceAdminServiceClient resourceAdminServiceClient;
 
     @BeforeClass ()
-    public void initialize () throws LoginAuthenticationExceptionException, RemoteException, XPathExpressionException {
+    public void initialize () throws LoginAuthenticationExceptionException, IOException,
+            XPathExpressionException, URISyntaxException, SAXException, XMLStreamException {
 
         super.init(TestUserMode.SUPER_TENANT_ADMIN);
         //org.wso2.carbon.automation.extensions.servers..carbonserver.CarbonServerExtension
