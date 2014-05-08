@@ -78,19 +78,17 @@ public class CollectionAssociationsTestCase extends GREGIntegrationBaseTest {
     private WSRegistryServiceClient registry;
 
     @BeforeClass (alwaysRun = true)
-    public void initialize ()
-            throws Exception {
+    public void initialize () throws Exception {
 
         super.init(TestUserMode.SUPER_TENANT_ADMIN);
+        String sessionCookie = getSessionCookie();
         resourceAdminClient =
-                new ResourceAdminServiceClient(getBackendURL(),
-                        getSessionCookie());
+                new ResourceAdminServiceClient(getBackendURL(),sessionCookie);
         relationServiceClient =
-                new RelationAdminServiceClient(getBackendURL(),
-                        getSessionCookie());
+                new RelationAdminServiceClient(getBackendURL(),sessionCookie);
         listMetaDataServiceClient =
-                new ListMetaDataServiceClient(getBackendURL(),
-                        getSessionCookie());
+                new ListMetaDataServiceClient(getBackendURL(),sessionCookie);
+
         RegistryProviderUtil registryProviderUtil = new RegistryProviderUtil();
         registry = registryProviderUtil.getWSRegistry(automationContext);
         governance = registryProviderUtil.getGovernanceRegistry(registry, automationContext);

@@ -9,9 +9,10 @@
         <relativePath>../pom.xml</relativePath>
     </parent>
 
+
     <modelVersion>4.0.0</modelVersion>
-    <name>Registry Metadata TestNG Test Module</name>
-    <artifactId>org.wso2.carbon.registry.test.metadata</artifactId>
+    <name>Registry Lifecycle TestNG Test Module</name>
+    <artifactId>org.wso2.carbon.registry.test.lifecycle</artifactId>
     <packaging>jar</packaging>
 
     <build>
@@ -215,16 +216,6 @@
     </build>
 
     <dependencies>
-        <dependency>
-            <artifactId>juddi-core</artifactId>
-            <groupId>org.apache.juddi</groupId>
-            <version>3.1.5.wso2v1</version>
-        </dependency>
-        <dependency>
-            <groupId>pdfbox</groupId>
-            <artifactId>pdfbox</artifactId>
-            <version>0.6.4</version>
-        </dependency>
         <dependency>
             <groupId>org.codehaus.jettison.wso2</groupId>
             <artifactId>jettison</artifactId>
