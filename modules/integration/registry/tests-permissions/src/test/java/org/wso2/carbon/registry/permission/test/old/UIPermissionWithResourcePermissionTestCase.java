@@ -71,8 +71,7 @@ public class UIPermissionWithResourcePermissionTestCase {
 
 
         registryProviderUtil = new RegistryProviderUtil();
-        registry = registryProviderUtil.getWSRegistry(userId,
-                ProductConstant.GREG_SERVER_NAME);
+        registry = registryProviderUtil.getWSRegistry(automationContext);
         roleName = "manager";
         userName = "ajith";
         userPassword = "ajith123";

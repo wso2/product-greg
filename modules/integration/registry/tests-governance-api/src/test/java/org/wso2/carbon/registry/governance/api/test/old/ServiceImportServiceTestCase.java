@@ -50,8 +50,7 @@ public class ServiceImportServiceTestCase {
 
 
         registryProviderUtil = new RegistryProviderUtil();
-        registry = registryProviderUtil.getWSRegistry(userId,
-                ProductConstant.GREG_SERVER_NAME);
+        registry = registryProviderUtil.getWSRegistry(automationContext);
         governance = registryProviderUtil.getGovernanceRegistry(registry, userId);
     }
 

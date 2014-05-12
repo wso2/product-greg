@@ -53,8 +53,7 @@ public class WSDLWithSpecialCharTestCase {
     public void init() throws RegistryException, AxisFault {
         int userId = 1;
         RegistryProviderUtil provider = new RegistryProviderUtil();
-        wsRegistry = provider.getWSRegistry(userId,
-                ProductConstant.GREG_SERVER_NAME);
+        wsRegistry = provider.getWSRegistry(automationContext);
         governanceRegistry = provider.getGovernanceRegistry(wsRegistry, userId);
     }
 

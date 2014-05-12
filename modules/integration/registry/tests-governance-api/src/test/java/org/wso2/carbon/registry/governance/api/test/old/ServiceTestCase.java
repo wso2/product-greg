@@ -52,8 +52,7 @@ public class ServiceTestCase {
     public void initTest() throws RegistryException, AxisFault {
 
         RegistryProviderUtil registryProviderUtil = new RegistryProviderUtil();
-        WSRegistryServiceClient wsRegistry = registryProviderUtil.getWSRegistry(userId,
-                ProductConstant.GREG_SERVER_NAME);
+        WSRegistryServiceClient wsRegistry = registryProviderUtil.getWSRegistry(automationContext);
         governance = registryProviderUtil.getGovernanceRegistry(wsRegistry, userId);
         configPath = ProductConstant.SYSTEM_TEST_RESOURCE_LOCATION + "artifacts" +
                 File.separator + "GREG" + File.separator + "xml" + File.separator + "service.metadata.xml";

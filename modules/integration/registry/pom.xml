@@ -29,13 +29,13 @@
     <packaging>pom</packaging>
     <name>WSO2 Governance Registry Test Framework - Registry Test Module Group</name>
     <modules>
-        <!-- module>app-remote-registry-test</module>
+        <module>app-remote-registry-test</module>
         <module>registry-metadata-test</module>
         <module>registry-handler-test</module>
         <module>registry-ws-api-test</module>
-        <module>registry-resource-test</module -->
+        <module>registry-resource-test</module>
        
-        <!--<module>test.samples</module>
+        <module>test.samples</module>
         <module>tests-old</module>
         <module>tests-resources</module>
         <module>tests-metadata</module>
@@ -47,6 +47,6 @@
         <module>tests-governance-api</module>
         <module>tests-new</module>
         <module>tests-ui</module>
-        <module>reports</module>-->
+        <module>reports</module>
     </modules>
 </project>

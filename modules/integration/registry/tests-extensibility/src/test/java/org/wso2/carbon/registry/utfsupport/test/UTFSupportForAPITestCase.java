@@ -42,8 +42,7 @@ public class UTFSupportForAPITestCase {
         ManageEnvironment environment = builder.build();
         UserInfo userInfo = UserListCsvReader.getUserInfo(userId);
 
-        wsRegistryServiceClient = registryProviderUtil.getWSRegistry(userId,
-                ProductConstant.GREG_SERVER_NAME);
+        wsRegistryServiceClient = registryProviderUtil.getWSRegistry(automationContext);
         resourceAdminServiceClient =
                 new ResourceAdminServiceClient(environment.getGreg().getProductVariables().getBackendUrl(),
                         environment.getGreg().getSessionCookie());

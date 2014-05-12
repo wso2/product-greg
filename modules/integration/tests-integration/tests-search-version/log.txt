@@ -1,0 +1,99 @@
+[INFO] Scanning for projects...
+[INFO]                                                                         
+[INFO] ------------------------------------------------------------------------
+[INFO] Building Registry Search and Version TestNG Test Module 5.0.0-SNAPSHOT
+[INFO] ------------------------------------------------------------------------
+[WARNING] The metadata /home/waruna/.m2/repository/org/wso2/carbon/org.wso2.carbon.governance.api/4.3.0-SNAPSHOT/maven-metadata-wso2-nexus.xml is invalid: end tag name </HEAD> must be the same as start tag <META> from line 1 (position: START_TAG seen ...2.carbon.governance.api/4.3.0-SNAPSHOT/maven-metadata.xml"></HEAD>... @1:428) 
+[WARNING] The metadata /home/waruna/.m2/repository/org/wso2/carbon/org.wso2.carbon.governance.api/4.3.0-SNAPSHOT/maven-metadata-wso2.releases.xml is invalid: end tag name </HEAD> must be the same as start tag <META> from line 1 (position: START_TAG seen ...2.carbon.governance.api/4.3.0-SNAPSHOT/maven-metadata.xml"></HEAD>... @1:431) 
+[WARNING] The metadata /home/waruna/.m2/repository/org/wso2/carbon/org.wso2.carbon.governance.api/4.3.0-SNAPSHOT/maven-metadata-wso2.snapshots.xml is invalid: end tag name </HEAD> must be the same as start tag <META> from line 1 (position: START_TAG seen ...2.carbon.governance.api/4.3.0-SNAPSHOT/maven-metadata.xml"></HEAD>... @1:432) 
+[WARNING] The metadata /home/waruna/.m2/repository/org/wso2/carbon/org.wso2.carbon.governance.api/4.3.0-SNAPSHOT/maven-metadata-wso2-nexus.xml is invalid: end tag name </HEAD> must be the same as start tag <META> from line 1 (position: START_TAG seen ...2.carbon.governance.api/4.3.0-SNAPSHOT/maven-metadata.xml"></HEAD>... @1:428) 
+[WARNING] The metadata /home/waruna/.m2/repository/org/wso2/carbon/org.wso2.carbon.governance.api/4.3.0-SNAPSHOT/maven-metadata-wso2.releases.xml is invalid: end tag name </HEAD> must be the same as start tag <META> from line 1 (position: START_TAG seen ...2.carbon.governance.api/4.3.0-SNAPSHOT/maven-metadata.xml"></HEAD>... @1:431) 
+[WARNING] The metadata /home/waruna/.m2/repository/org/wso2/carbon/org.wso2.carbon.governance.api/4.3.0-SNAPSHOT/maven-metadata-wso2.snapshots.xml is invalid: end tag name </HEAD> must be the same as start tag <META> from line 1 (position: START_TAG seen ...2.carbon.governance.api/4.3.0-SNAPSHOT/maven-metadata.xml"></HEAD>... @1:432) 
+[WARNING] The metadata /home/waruna/.m2/repository/org/wso2/carbon/governance/4.3.0-SNAPSHOT/maven-metadata-wso2-nexus.xml is invalid: end tag name </HEAD> must be the same as start tag <META> from line 1 (position: START_TAG seen .../wso2/carbon/governance/4.3.0-SNAPSHOT/maven-metadata.xml"></HEAD>... @1:408) 
+[WARNING] The metadata /home/waruna/.m2/repository/org/wso2/carbon/governance/4.3.0-SNAPSHOT/maven-metadata-wso2.releases.xml is invalid: end tag name </HEAD> must be the same as start tag <META> from line 1 (position: START_TAG seen .../wso2/carbon/governance/4.3.0-SNAPSHOT/maven-metadata.xml"></HEAD>... @1:411) 
+[WARNING] The metadata /home/waruna/.m2/repository/org/wso2/carbon/governance/4.3.0-SNAPSHOT/maven-metadata-wso2.snapshots.xml is invalid: end tag name </HEAD> must be the same as start tag <META> from line 1 (position: START_TAG seen .../wso2/carbon/governance/4.3.0-SNAPSHOT/maven-metadata.xml"></HEAD>... @1:412) 
+[WARNING] The metadata /home/waruna/.m2/repository/org/wso2/carbon/carbon-governance/4.3.0-SNAPSHOT/maven-metadata-wso2-nexus.xml is invalid: end tag name </HEAD> must be the same as start tag <META> from line 1 (position: START_TAG seen ...arbon/carbon-governance/4.3.0-SNAPSHOT/maven-metadata.xml"></HEAD>... @1:415) 
+[WARNING] The metadata /home/waruna/.m2/repository/org/wso2/carbon/carbon-governance/4.3.0-SNAPSHOT/maven-metadata-wso2.releases.xml is invalid: end tag name </HEAD> must be the same as start tag <META> from line 1 (position: START_TAG seen ...arbon/carbon-governance/4.3.0-SNAPSHOT/maven-metadata.xml"></HEAD>... @1:418) 
+[WARNING] The metadata /home/waruna/.m2/repository/org/wso2/carbon/carbon-governance/4.3.0-SNAPSHOT/maven-metadata-wso2.snapshots.xml is invalid: end tag name </HEAD> must be the same as start tag <META> from line 1 (position: START_TAG seen ...arbon/carbon-governance/4.3.0-SNAPSHOT/maven-metadata.xml"></HEAD>... @1:419) 
+[WARNING] The POM for uddi:uddi4j:jar:1.0.1 is invalid, transitive dependencies (if any) will not be available, enable debug logging for more details
+[WARNING] The POM for org.eclipse.core:org.eclipse.core.runtime:jar:3.5.0.v20090429-1800 is invalid, transitive dependencies (if any) will not be available, enable debug logging for more details
+[WARNING] The metadata /home/waruna/.m2/repository/org/wso2/carbon/org.wso2.carbon.registry.indexing/4.3.0-SNAPSHOT/maven-metadata-wso2-nexus.xml is invalid: end tag name </HEAD> must be the same as start tag <META> from line 1 (position: START_TAG seen ...arbon.registry.indexing/4.3.0-SNAPSHOT/maven-metadata.xml"></HEAD>... @1:431) 
+[WARNING] The metadata /home/waruna/.m2/repository/org/wso2/carbon/org.wso2.carbon.registry.indexing/4.3.0-SNAPSHOT/maven-metadata-wso2.releases.xml is invalid: end tag name </HEAD> must be the same as start tag <META> from line 1 (position: START_TAG seen ...arbon.registry.indexing/4.3.0-SNAPSHOT/maven-metadata.xml"></HEAD>... @1:434) 
+[WARNING] The metadata /home/waruna/.m2/repository/org/wso2/carbon/org.wso2.carbon.registry.indexing/4.3.0-SNAPSHOT/maven-metadata-wso2.snapshots.xml is invalid: end tag name </HEAD> must be the same as start tag <META> from line 1 (position: START_TAG seen ...arbon.registry.indexing/4.3.0-SNAPSHOT/maven-metadata.xml"></HEAD>... @1:435) 
+[WARNING] The metadata /home/waruna/.m2/repository/org/wso2/carbon/org.wso2.carbon.registry.indexing/4.3.0-SNAPSHOT/maven-metadata-wso2-nexus.xml is invalid: end tag name </HEAD> must be the same as start tag <META> from line 1 (position: START_TAG seen ...arbon.registry.indexing/4.3.0-SNAPSHOT/maven-metadata.xml"></HEAD>... @1:431) 
+[WARNING] The metadata /home/waruna/.m2/repository/org/wso2/carbon/org.wso2.carbon.registry.indexing/4.3.0-SNAPSHOT/maven-metadata-wso2.releases.xml is invalid: end tag name </HEAD> must be the same as start tag <META> from line 1 (position: START_TAG seen ...arbon.registry.indexing/4.3.0-SNAPSHOT/maven-metadata.xml"></HEAD>... @1:434) 
+[WARNING] The metadata /home/waruna/.m2/repository/org/wso2/carbon/org.wso2.carbon.registry.indexing/4.3.0-SNAPSHOT/maven-metadata-wso2.snapshots.xml is invalid: end tag name </HEAD> must be the same as start tag <META> from line 1 (position: START_TAG seen ...arbon.registry.indexing/4.3.0-SNAPSHOT/maven-metadata.xml"></HEAD>... @1:435) 
+[INFO] 
+[INFO] --- maven-clean-plugin:2.4.1:clean (default-clean) @ org.wso2.carbon.registry.test.serarch-version ---
+[INFO] Deleting /home/waruna/GIT/greg/product-greg/modules/integration/tests-integration/tests-search-version/target
+[INFO] 
+[INFO] --- maven-clean-plugin:2.4.1:clean (auto-clean) @ org.wso2.carbon.registry.test.serarch-version ---
+[INFO] 
+[INFO] --- maven-resources-plugin:2.6:resources (default-resources) @ org.wso2.carbon.registry.test.serarch-version ---
+[WARNING] Using platform encoding (UTF-8 actually) to copy filtered resources, i.e. build is platform dependent!
+[INFO] skip non existing resourceDirectory /home/waruna/GIT/greg/product-greg/modules/integration/tests-integration/tests-search-version/src/main/resources
+[INFO] 
+[INFO] --- maven-compiler-plugin:2.3.2:compile (default-compile) @ org.wso2.carbon.registry.test.serarch-version ---
+[INFO] No sources to compile
+[INFO] 
+[INFO] --- maven-dependency-plugin:2.1:copy-dependencies (copy-emma-dependencies) @ org.wso2.carbon.registry.test.serarch-version ---
+[INFO] Copying emma-2.1.5320.jar to /home/waruna/GIT/greg/product-greg/modules/integration/tests-integration/tests-search-version/target/emma/emma-2.1.5320.jar
+[INFO] 
+[INFO] --- maven-dependency-plugin:2.1:copy-dependencies (copy-secVerifier) @ org.wso2.carbon.registry.test.serarch-version ---
+[INFO] 
+[INFO] --- maven-dependency-plugin:2.1:unpack (unpack-mar-jks) @ org.wso2.carbon.registry.test.serarch-version ---
+[INFO] Configured Artifact: org.wso2.governance:wso2greg:5.0.0-SNAPSHOT:zip
+[INFO] Unpacking /home/waruna/.m2/repository/org/wso2/governance/wso2greg/5.0.0-SNAPSHOT/wso2greg-5.0.0-SNAPSHOT.zip to
+  /home/waruna/GIT/greg/product-greg/modules/integration/tests-integration/tests-search-version/target/tobeCopied
+   with includes **/*.jks,**/*.mar,**/axis2_client.xml and excludes:null
+[INFO] 
+[INFO] --- maven-resources-plugin:2.6:copy-resources (copy-resources-jks) @ org.wso2.carbon.registry.test.serarch-version ---
+[WARNING] Using platform encoding (UTF-8 actually) to copy filtered resources, i.e. build is platform dependent!
+[INFO] Copying 2 resources
+[INFO] 
+[INFO] --- maven-resources-plugin:2.6:copy-resources (copy-axis2files) @ org.wso2.carbon.registry.test.serarch-version ---
+[WARNING] Using platform encoding (UTF-8 actually) to copy filtered resources, i.e. build is platform dependent!
+[INFO] Copying 1 resource
+[INFO] 
+[INFO] --- maven-resources-plugin:2.6:copy-resources (copy-resources-mar) @ org.wso2.carbon.registry.test.serarch-version ---
+[WARNING] Using platform encoding (UTF-8 actually) to copy filtered resources, i.e. build is platform dependent!
+[INFO] Copying 1 resource
+[INFO] 
+[INFO] --- maven-resources-plugin:2.6:testResources (default-testResources) @ org.wso2.carbon.registry.test.serarch-version ---
+[WARNING] Using platform encoding (UTF-8 actually) to copy filtered resources, i.e. build is platform dependent!
+[INFO] Copying 450 resources
+[INFO] 
+[INFO] --- maven-compiler-plugin:2.3.2:testCompile (default-testCompile) @ org.wso2.carbon.registry.test.serarch-version ---
+[WARNING] File encoding has not been set, using platform encoding UTF-8, i.e. build is platform dependent!
+[INFO] Compiling 68 source files to /home/waruna/GIT/greg/product-greg/modules/integration/tests-integration/tests-search-version/target/test-classes
+[INFO] 
+[INFO] --- maven-surefire-plugin:2.12.4:test (default-test) @ org.wso2.carbon.registry.test.serarch-version ---
+[INFO] Surefire report directory: /home/waruna/GIT/greg/product-greg/modules/integration/tests-integration/tests-search-version/target/surefire-reports
+
+-------------------------------------------------------
+ T E S T S
+-------------------------------------------------------
+Running TestSuite
+1
+2
+1
+2
+
+Results :
+
+Tests run: 0, Failures: 0, Errors: 0, Skipped: 0
+
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD FAILURE
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time: 1:05.091s
+[INFO] Finished at: Fri May 09 12:01:15 IST 2014
+[INFO] Final Memory: 75M/966M
+[INFO] ------------------------------------------------------------------------
+[ERROR] Failed to execute goal org.apache.maven.plugins:maven-surefire-plugin:2.12.4:test (default-test) on project org.wso2.carbon.registry.test.serarch-version: Execution default-test of goal org.apache.maven.plugins:maven-surefire-plugin:2.12.4:test failed: The forked VM terminated without saying properly goodbye. VM crash or System.exit called ? -> [Help 1]
+[ERROR] 
+[ERROR] To see the full stack trace of the errors, re-run Maven with the -e switch.
+[ERROR] Re-run Maven using the -X switch to enable full debug logging.
+[ERROR] 
+[ERROR] For more information about the errors and possible solutions, please read the following articles:
+[ERROR] [Help 1] http://cwiki.apache.org/confluence/display/MAVEN/PluginExecutionException

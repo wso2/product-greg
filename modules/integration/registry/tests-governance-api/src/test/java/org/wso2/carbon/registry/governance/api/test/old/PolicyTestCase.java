@@ -43,8 +43,7 @@ public class PolicyTestCase {
     @BeforeClass(groups = {"wso2.greg"})
     public void initTest() throws RegistryException, AxisFault {
         registryProviderUtil = new RegistryProviderUtil();
-        wsRegistry = registryProviderUtil.getWSRegistry(userId,
-                ProductConstant.GREG_SERVER_NAME);
+        wsRegistry = registryProviderUtil.getWSRegistry(automationContext);
         registry = registryProviderUtil.getGovernanceRegistry(wsRegistry, userId);
     }
 

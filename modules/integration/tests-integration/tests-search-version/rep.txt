@@ -1,0 +1,42 @@
+[INFO] Scanning for projects...
+[INFO]                                                                         
+[INFO] ------------------------------------------------------------------------
+[INFO] Building Registry Search and Version TestNG Test Module 5.0.0-SNAPSHOT
+[INFO] ------------------------------------------------------------------------
+[WARNING] The metadata /home/waruna/.m2/repository/org/wso2/carbon/org.wso2.carbon.governance.api/4.3.0-SNAPSHOT/maven-metadata-wso2-nexus.xml is invalid: end tag name </HEAD> must be the same as start tag <META> from line 1 (position: START_TAG seen ...2.carbon.governance.api/4.3.0-SNAPSHOT/maven-metadata.xml"></HEAD>... @1:428) 
+[WARNING] The metadata /home/waruna/.m2/repository/org/wso2/carbon/org.wso2.carbon.governance.api/4.3.0-SNAPSHOT/maven-metadata-wso2.releases.xml is invalid: end tag name </HEAD> must be the same as start tag <META> from line 1 (position: START_TAG seen ...2.carbon.governance.api/4.3.0-SNAPSHOT/maven-metadata.xml"></HEAD>... @1:431) 
+[WARNING] The metadata /home/waruna/.m2/repository/org/wso2/carbon/org.wso2.carbon.governance.api/4.3.0-SNAPSHOT/maven-metadata-wso2.snapshots.xml is invalid: end tag name </HEAD> must be the same as start tag <META> from line 1 (position: START_TAG seen ...2.carbon.governance.api/4.3.0-SNAPSHOT/maven-metadata.xml"></HEAD>... @1:432) 
+[WARNING] The metadata /home/waruna/.m2/repository/org/wso2/carbon/org.wso2.carbon.governance.api/4.3.0-SNAPSHOT/maven-metadata-wso2-nexus.xml is invalid: end tag name </HEAD> must be the same as start tag <META> from line 1 (position: START_TAG seen ...2.carbon.governance.api/4.3.0-SNAPSHOT/maven-metadata.xml"></HEAD>... @1:428) 
+[WARNING] The metadata /home/waruna/.m2/repository/org/wso2/carbon/org.wso2.carbon.governance.api/4.3.0-SNAPSHOT/maven-metadata-wso2.releases.xml is invalid: end tag name </HEAD> must be the same as start tag <META> from line 1 (position: START_TAG seen ...2.carbon.governance.api/4.3.0-SNAPSHOT/maven-metadata.xml"></HEAD>... @1:431) 
+[WARNING] The metadata /home/waruna/.m2/repository/org/wso2/carbon/org.wso2.carbon.governance.api/4.3.0-SNAPSHOT/maven-metadata-wso2.snapshots.xml is invalid: end tag name </HEAD> must be the same as start tag <META> from line 1 (position: START_TAG seen ...2.carbon.governance.api/4.3.0-SNAPSHOT/maven-metadata.xml"></HEAD>... @1:432) 
+[WARNING] The metadata /home/waruna/.m2/repository/org/wso2/carbon/governance/4.3.0-SNAPSHOT/maven-metadata-wso2-nexus.xml is invalid: end tag name </HEAD> must be the same as start tag <META> from line 1 (position: START_TAG seen .../wso2/carbon/governance/4.3.0-SNAPSHOT/maven-metadata.xml"></HEAD>... @1:408) 
+[WARNING] The metadata /home/waruna/.m2/repository/org/wso2/carbon/governance/4.3.0-SNAPSHOT/maven-metadata-wso2.releases.xml is invalid: end tag name </HEAD> must be the same as start tag <META> from line 1 (position: START_TAG seen .../wso2/carbon/governance/4.3.0-SNAPSHOT/maven-metadata.xml"></HEAD>... @1:411) 
+[WARNING] The metadata /home/waruna/.m2/repository/org/wso2/carbon/governance/4.3.0-SNAPSHOT/maven-metadata-wso2.snapshots.xml is invalid: end tag name </HEAD> must be the same as start tag <META> from line 1 (position: START_TAG seen .../wso2/carbon/governance/4.3.0-SNAPSHOT/maven-metadata.xml"></HEAD>... @1:412) 
+[WARNING] The metadata /home/waruna/.m2/repository/org/wso2/carbon/carbon-governance/4.3.0-SNAPSHOT/maven-metadata-wso2-nexus.xml is invalid: end tag name </HEAD> must be the same as start tag <META> from line 1 (position: START_TAG seen ...arbon/carbon-governance/4.3.0-SNAPSHOT/maven-metadata.xml"></HEAD>... @1:415) 
+[WARNING] The metadata /home/waruna/.m2/repository/org/wso2/carbon/carbon-governance/4.3.0-SNAPSHOT/maven-metadata-wso2.releases.xml is invalid: end tag name </HEAD> must be the same as start tag <META> from line 1 (position: START_TAG seen ...arbon/carbon-governance/4.3.0-SNAPSHOT/maven-metadata.xml"></HEAD>... @1:418) 
+[WARNING] The metadata /home/waruna/.m2/repository/org/wso2/carbon/carbon-governance/4.3.0-SNAPSHOT/maven-metadata-wso2.snapshots.xml is invalid: end tag name </HEAD> must be the same as start tag <META> from line 1 (position: START_TAG seen ...arbon/carbon-governance/4.3.0-SNAPSHOT/maven-metadata.xml"></HEAD>... @1:419) 
+[WARNING] The POM for uddi:uddi4j:jar:1.0.1 is invalid, transitive dependencies (if any) will not be available, enable debug logging for more details
+[WARNING] The POM for org.eclipse.core:org.eclipse.core.runtime:jar:3.5.0.v20090429-1800 is invalid, transitive dependencies (if any) will not be available, enable debug logging for more details
+[WARNING] The metadata /home/waruna/.m2/repository/org/wso2/carbon/org.wso2.carbon.registry.indexing/4.3.0-SNAPSHOT/maven-metadata-wso2-nexus.xml is invalid: end tag name </HEAD> must be the same as start tag <META> from line 1 (position: START_TAG seen ...arbon.registry.indexing/4.3.0-SNAPSHOT/maven-metadata.xml"></HEAD>... @1:431) 
+[WARNING] The metadata /home/waruna/.m2/repository/org/wso2/carbon/org.wso2.carbon.registry.indexing/4.3.0-SNAPSHOT/maven-metadata-wso2.releases.xml is invalid: end tag name </HEAD> must be the same as start tag <META> from line 1 (position: START_TAG seen ...arbon.registry.indexing/4.3.0-SNAPSHOT/maven-metadata.xml"></HEAD>... @1:434) 
+[WARNING] The metadata /home/waruna/.m2/repository/org/wso2/carbon/org.wso2.carbon.registry.indexing/4.3.0-SNAPSHOT/maven-metadata-wso2.snapshots.xml is invalid: end tag name </HEAD> must be the same as start tag <META> from line 1 (position: START_TAG seen ...arbon.registry.indexing/4.3.0-SNAPSHOT/maven-metadata.xml"></HEAD>... @1:435) 
+[WARNING] The metadata /home/waruna/.m2/repository/org/wso2/carbon/org.wso2.carbon.registry.indexing/4.3.0-SNAPSHOT/maven-metadata-wso2-nexus.xml is invalid: end tag name </HEAD> must be the same as start tag <META> from line 1 (position: START_TAG seen ...arbon.registry.indexing/4.3.0-SNAPSHOT/maven-metadata.xml"></HEAD>... @1:431) 
+[WARNING] The metadata /home/waruna/.m2/repository/org/wso2/carbon/org.wso2.carbon.registry.indexing/4.3.0-SNAPSHOT/maven-metadata-wso2.releases.xml is invalid: end tag name </HEAD> must be the same as start tag <META> from line 1 (position: START_TAG seen ...arbon.registry.indexing/4.3.0-SNAPSHOT/maven-metadata.xml"></HEAD>... @1:434) 
+[WARNING] The metadata /home/waruna/.m2/repository/org/wso2/carbon/org.wso2.carbon.registry.indexing/4.3.0-SNAPSHOT/maven-metadata-wso2.snapshots.xml is invalid: end tag name </HEAD> must be the same as start tag <META> from line 1 (position: START_TAG seen ...arbon.registry.indexing/4.3.0-SNAPSHOT/maven-metadata.xml"></HEAD>... @1:435) 
+[INFO] 
+[INFO] --- maven-clean-plugin:2.4.1:clean (default-clean) @ org.wso2.carbon.registry.test.serarch-version ---
+[INFO] Deleting /home/waruna/GIT/greg/product-greg/modules/integration/tests-integration/tests-search-version/target
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD FAILURE
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time: 2.638s
+[INFO] Finished at: Fri May 09 12:12:20 IST 2014
+[INFO] Final Memory: 35M/874M
+[INFO] ------------------------------------------------------------------------
+[ERROR] Failed to execute goal org.apache.maven.plugins:maven-clean-plugin:2.4.1:clean (default-clean) on project org.wso2.carbon.registry.test.serarch-version: Failed to clean project: Failed to delete /home/waruna/GIT/greg/product-greg/modules/integration/tests-integration/tests-search-version/target -> [Help 1]
+[ERROR] 
+[ERROR] To see the full stack trace of the errors, re-run Maven with the -e switch.
+[ERROR] Re-run Maven using the -X switch to enable full debug logging.
+[ERROR] 
+[ERROR] For more information about the errors and possible solutions, please read the following articles:
+[ERROR] [Help 1] http://cwiki.apache.org/confluence/display/MAVEN/MojoExecutionException
