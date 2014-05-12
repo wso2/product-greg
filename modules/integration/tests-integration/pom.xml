@@ -18,6 +18,8 @@
         <module>tests-resources</module>
         <module>tests-metadata</module>
         <module>tests-search-version</module>
+        <module>tests-lifecycle</module>
+
     </modules>
 
 </project>

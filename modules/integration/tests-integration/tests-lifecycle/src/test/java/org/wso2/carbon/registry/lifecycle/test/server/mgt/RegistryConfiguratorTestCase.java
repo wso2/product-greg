@@ -16,14 +16,13 @@
 *under the License.
 */
 
-package org.wso2.carbon.registry.server.mgt.test;
+package org.wso2.carbon.registry.lifecycle.test.server.mgt;
 
 import org.apache.axiom.om.OMAttribute;
 import org.apache.axiom.om.OMElement;
 import org.apache.axiom.om.impl.builder.StAXOMBuilder;
 import org.apache.axiom.om.util.AXIOMUtil;
 import org.apache.axiom.om.xpath.AXIOMXPath;
-import org.apache.axis2.AxisFault;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.testng.annotations.BeforeClass;
@@ -36,7 +35,6 @@ import org.wso2.carbon.integration.common.admin.client.ServerAdminClient;
 import org.wso2.carbon.integration.common.utils.LoginLogoutClient;
 import org.wso2.carbon.integration.common.utils.mgt.ServerConfigurationManager;
 import org.wso2.carbon.registry.core.Resource;
-import org.wso2.carbon.registry.core.exceptions.RegistryException;
 import org.wso2.carbon.registry.resource.stub.ResourceAdminServiceExceptionException;
 import org.wso2.carbon.registry.ws.client.registry.WSRegistryServiceClient;
 import org.wso2.carbon.utils.CarbonUtils;
@@ -61,8 +59,10 @@ public class RegistryConfiguratorTestCase extends GREGIntegrationBaseTest {
     @BeforeClass (alwaysRun = true)
     @SetEnvironment (executionEnvironments = {ExecutionEnvironment.STANDALONE})
     public void serverRestart () throws Exception {
+
         super.init(TestUserMode.SUPER_TENANT_ADMIN);
-        sessionCookie = new LoginLogoutClient(automationContext).login();
+        sessionCookie =
+                new LoginLogoutClient(automationContext).login();
         resourceAdminServiceClient =
                 new ResourceAdminServiceClient(backendURL, sessionCookie);
 
@@ -80,7 +80,6 @@ public class RegistryConfiguratorTestCase extends GREGIntegrationBaseTest {
         ServerConfigurationManager serverConfigurationManager =
                 new ServerConfigurationManager (automationContext);
         serverConfigurationManager.restartGracefully();
-
     }
 
     public void copyResources () throws Exception {
