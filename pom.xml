@@ -260,7 +260,6 @@
                 <version>${stub.version}</version>
                 <scope>test</scope>
             </dependency>
-
             <dependency>
                 <groupId>org.wso2.carbon</groupId>
                 <artifactId>org.wso2.carbon.registry.profiles.stub</artifactId>
@@ -365,7 +364,7 @@
                 <groupId>org.wso2.governance</groupId>
                 <artifactId>org.wso2.greg.integration.common.clients</artifactId>
                 <version>${project.version}</version>
-                <scope>test</scope>
+                <scope>compile</scope>
             </dependency>
             <dependency>
                 <groupId>org.wso2.carbon</groupId>
