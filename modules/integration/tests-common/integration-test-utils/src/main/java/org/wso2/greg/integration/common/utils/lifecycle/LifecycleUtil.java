@@ -26,6 +26,7 @@ import org.wso2.carbon.governance.custom.lifecycles.checklist.stub.util.xsd.Prop
 import org.wso2.carbon.humantask.stub.ui.task.client.api.IllegalAccessFault;
 import org.wso2.carbon.humantask.stub.ui.task.client.api.IllegalArgumentFault;
 import org.wso2.carbon.humantask.stub.ui.task.client.api.IllegalStateFault;
+import org.wso2.carbon.integration.common.admin.client.UserManagementClient;
 import org.wso2.carbon.integration.common.utils.LoginLogoutClient;
 import org.wso2.carbon.registry.core.exceptions.RegistryException;
 import org.wso2.carbon.registry.info.stub.beans.xsd.SubscriptionBean;
@@ -63,8 +64,6 @@ public class LifecycleUtil {
 
     /**
      * @param path    path of the collection or resource to be subscribed
-     * @param env     ManageEnvironment
-     * @param userInf UserInfo
      * @param type    type of the element
      * @return true if subscriptions are created for all events and required
      *         notifications are captured, false otherwise
@@ -280,7 +279,7 @@ public class LifecycleUtil {
      *
      */
     private boolean checkItem(String path) throws RemoteException,
-                                                  CustomLifecyclesChecklistAdminServiceExceptionException {
+            CustomLifecyclesChecklistAdminServiceExceptionException {
         lifeCycleAdminServiceClient.invokeAspect(path, ASPECT_NAME, ACTION_ITEM_CLICK,
                                                  new String[]{"true", "true", "true"});
         LifecycleBean lifeCycle = lifeCycleAdminServiceClient.getLifecycleBean(path);

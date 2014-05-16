@@ -96,7 +96,7 @@ public class UTFSupport {
         else
             userNameWithoutDomain = userName;
 
-        userManagementClient.addRole(roleName, new String[]{userNameWithoutDomain}, new String[]{""});
+        userManagementClient.addRole(roleName, null, null);
         return (userManagementClient.roleNameExists(roleName));
 
     }

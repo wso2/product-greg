@@ -126,7 +126,7 @@ public class ReportNameAndTemplateTestCases extends ReportingTestCaseSuper {
                 .getReportBytes(configurationBean);
 
         String result = readInputStreamAsString(report.getInputStream());
-
+        log.info("testGetReportBytes result : " + result);
         assertTrue(result.contains("G-regTesting"));
         assertTrue(result.contains("4.5.0"));
         assertTrue(result.contains("Smoke test"));

@@ -106,7 +106,7 @@ public class DiscoveryProxyTest extends GREGIntegrationBaseTest {
 
         authenticatorClient.login(userName,
                 automationContext.getContextTenant().getContextUser().getPassword(),
-                                  backEndUrl);
+                automationContext.getInstance().getHosts().get("default"));
         if (governance.resourceExists("trunk/endpoints/eu")) {
             governance.delete("trunk/endpoints/eu");
 

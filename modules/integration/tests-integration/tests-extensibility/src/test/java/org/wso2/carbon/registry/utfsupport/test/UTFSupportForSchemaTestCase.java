@@ -35,8 +35,12 @@ public class UTFSupportForSchemaTestCase extends GREGIntegrationBaseTest {
     private final String WSDL_URL = "https://svn.wso2.org/repos/wso2/carbon/platform/trunk/products/greg/modules/" +
             "integration/registry/tests-new/src/test/resources/artifacts/GREG/wsdl/AmazonWebServices.wsdl";
 
+    /*private final String SCHEMA_URL = "https://svn.wso2.org/repos/wso2/carbon/platform/trunk/products/greg/modules/" +
+            "integration/registry/tests-new/src/test/resources/artifacts/GREG/schema/LinkedSchema.xsd";*/
+
     private final String SCHEMA_URL = "https://svn.wso2.org/repos/wso2/carbon/platform/trunk/products/greg/modules/" +
-            "integration/registry/tests-new/src/test/resources/artifacts/GREG/schema/LinkedSchema.xsd";
+            "integration/registry/tests-extensibility/src/test/resources/artifacts/GREG/schema/LinkedSchema.xsd";
+
     private final String LC_NAME = "ÀÁÂÃÄÅÆÇÈÉ";
     private String pathPrefix = "/_system/governance";
     private LifeCycleManagementClient lifeCycleManagementClient;
@@ -65,27 +69,28 @@ public class UTFSupportForSchemaTestCase extends GREGIntegrationBaseTest {
             userNameWithoutDomain = userName.substring(0, userName.indexOf('@'));
         else
             userNameWithoutDomain = userName;
+
         userManagementClient =
                 new UserManagementClient(backEndUrl,
-                                         backEndUrl);
+                                         sessionCookie);
 
         infoServiceAdminClient =
                 new InfoServiceAdminClient(backEndUrl,
-                                           backEndUrl);
+                        sessionCookie);
         wsRegistryServiceClient =
                 registryProviderUtil.getWSRegistry(automationContext);
         lifeCycleAdminServiceClient =
                 new LifeCycleAdminServiceClient(backEndUrl,
-                                                backEndUrl);
+                        sessionCookie);
         lifeCycleManagementClient =
                 new LifeCycleManagementClient(backEndUrl,
-                                              backEndUrl);
+                        sessionCookie);
         relationAdminServiceClient =
                 new RelationAdminServiceClient(backEndUrl,
-                                               backEndUrl);
+                        sessionCookie);
         resourceAdminServiceClient =
                 new ResourceAdminServiceClient(backEndUrl,
-                                               backEndUrl);
+                        sessionCookie);
 
         RegistryProviderUtil registryProviderUtil = new RegistryProviderUtil();
 
@@ -202,11 +207,19 @@ public class UTFSupportForSchemaTestCase extends GREGIntegrationBaseTest {
     @AfterClass
     public void clean() throws Exception {
         delete(pathPrefix + schemaPath);
-        Schema[] schemas = schemaManager.getAllSchemas();
+
+        Schema[] schemas = null;
+
+        if ( schemaManager != null )
+            schemas = schemaManager.getAllSchemas();
+
         boolean schemaDeleted = true;
-        for (Schema schema : schemas) {
-            if (schema.getPath().equals(pathPrefix + schemaPath)) {
-                schemaDeleted = false;
+
+        if ( schemas != null ) {
+            for (Schema schema : schemas) {
+                if (schema.getPath().equals(pathPrefix + schemaPath)) {
+                    schemaDeleted = false;
+                }
             }
         }
         Assert.assertTrue(schemaDeleted);

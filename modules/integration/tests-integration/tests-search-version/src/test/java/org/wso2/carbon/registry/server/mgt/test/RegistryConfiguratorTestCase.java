@@ -32,7 +32,6 @@ import org.wso2.carbon.automation.engine.annotations.SetEnvironment;
 import org.wso2.carbon.automation.engine.context.TestUserMode;
 import org.wso2.carbon.automation.test.utils.common.FileManager;
 import org.wso2.carbon.integration.common.admin.client.ServerAdminClient;
-import org.wso2.carbon.integration.common.utils.LoginLogoutClient;
 import org.wso2.carbon.integration.common.utils.mgt.ServerConfigurationManager;
 import org.wso2.carbon.registry.core.Resource;
 import org.wso2.carbon.registry.resource.stub.ResourceAdminServiceExceptionException;
@@ -56,13 +55,24 @@ public class RegistryConfiguratorTestCase extends GREGIntegrationBaseTest {
     private ResourceAdminServiceClient resourceAdminServiceClient;
     private ServerAdminClient serverAdminClient;
     private String sessionCookie;
+    private String backEndUrl;
+    private String userName;
+    private String userNameWithoutDomain;
 
     @BeforeClass (alwaysRun = true)
     @SetEnvironment (executionEnvironments = {ExecutionEnvironment.STANDALONE})
     public void serverRestart () throws Exception {
 
         super.init(TestUserMode.SUPER_TENANT_ADMIN);
-        sessionCookie = new LoginLogoutClient(automationContext).login();
+        backEndUrl = getBackendURL();
+        sessionCookie = getSessionCookie();
+        userName = automationContext.getContextTenant().getContextUser().getUserName();
+
+        if (userName.contains("@"))
+            userNameWithoutDomain = userName.substring(0, userName.indexOf('@'));
+        else
+            userNameWithoutDomain = userName;
+
         serverAdminClient =
                 new ServerAdminClient(backendURL, sessionCookie);
         resourceAdminServiceClient =

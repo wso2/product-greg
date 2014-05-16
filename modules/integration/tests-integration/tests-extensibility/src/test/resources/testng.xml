@@ -6,10 +6,6 @@
         <packages>
             <package name="org.wso2.carbon.registry.utfsupport.test"/>
         </packages>
-
-
-        <classes>
-        </classes>
     </test>
     <test name="Test2" preserve-order="true" parallel="false">
         <packages>

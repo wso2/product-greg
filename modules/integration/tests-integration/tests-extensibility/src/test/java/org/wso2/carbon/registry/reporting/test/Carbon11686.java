@@ -35,7 +35,6 @@ import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 import org.wso2.carbon.automation.engine.context.TestUserMode;
-import org.wso2.carbon.automation.engine.context.beans.User;
 import org.wso2.carbon.automation.engine.frameworkutils.FrameworkPathUtil;
 import org.wso2.carbon.registry.activities.stub.RegistryExceptionException;
 import org.wso2.carbon.registry.activity.search.bean.ActivityReportBean;
@@ -69,7 +68,7 @@ public class Carbon11686 extends ReportingTestCaseSuper {
     private UserManagementClient userManagementClient;
     private String[] activities;
     private String userNameRandom = "random1";
-    private String password = "random1";
+    private String passwordRandom = "random1";
     private final static int waitTime = 120; //time to wait till activities are fetched
 
     private String sessionCookie;
@@ -98,30 +97,14 @@ public class Carbon11686 extends ReportingTestCaseSuper {
 
         String[] roles = {"testRoleCarbon11686"};
 
-
-        if (!userManagementClient.userNameExists(roles[0], userName)) {
+        if (!userManagementClient.userNameExists(roles[0], userNameRandom)) {
             userManagementClient.addRole(roles[0],null, null);
-            userManagementClient.addUser(userName, password, roles, null);
+            userManagementClient.addUser(userNameRandom, passwordRandom, roles, null);
         }
 
-        String randomUserId = Integer.toString( automationContext.getContextTenant().getTenantUserList().size() + 1);
-
-        User randomUser = new User();
-        randomUser.setKey(randomUserId);
-        randomUser.setUserName(userNameRandom);
-        randomUser.setPassword(password);
-
-        automationContext.getContextTenant().addTenantUsers(randomUser);
-
-        userManagementClient.userNameExists("testRole", userNameWithoutDomain);
-
-
-//        EnvironmentBuilder randomUserBuilder = new EnvironmentBuilder().greg(Integer.parseInt(randomUserId));
-//        ManageEnvironment randomUserEnvironment = randomUserBuilder.build();
-
         String randomUserSession = new AuthenticatorClient(backEndUrl).
-                login(randomUser.getUserName(), randomUser.getPassword(),
-                        automationContext.getContextUrls().getServiceUrl());
+                login(userNameRandom, passwordRandom,
+                        automationContext.getInstance().getHosts().get("default"));
 
         activityAdminServiceClient =
                 new ActivityAdminServiceClient(backEndUrl,

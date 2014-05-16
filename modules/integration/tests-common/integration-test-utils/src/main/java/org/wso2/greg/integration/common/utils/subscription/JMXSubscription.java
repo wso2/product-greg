@@ -44,8 +44,6 @@ public class JMXSubscription {
     /**
      * @param path      path of the collection or resource to be subscribed
      * @param eventType event to be subscribed
-     * @param env       ManageEnvironment
-     * @param userInf   UserInfo
      * @return true if the required jmx notification is generated for
      *         subscription, false otherwise
      * @throws Exception
@@ -59,10 +57,12 @@ public class JMXSubscription {
         sessionCookie = loginLogoutClient.login();
         userName = automationContext.getContextTenant().getContextUser().getUserName();
 
-        if (userName.contains("@"))
+        if (userName.contains("@")){
             userNameWithoutDomain = userName.substring(0, userName.indexOf('@'));
-        else
+        }
+        else {
             userNameWithoutDomain = userName;
+        }
 
         boolean result = JMXSubscribe(path, eventType) && update(path) && getJMXNotification();
         clean(path);

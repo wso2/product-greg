@@ -237,7 +237,7 @@ public class UTFSupportForMetadataTestCase extends GREGIntegrationBaseTest {
 
         String[] roles = {"testBycreatedUser"};
 
-        if (!userManagementClient.userNameExists("testRole", userNameWithoutDomain)) {
+        if (!userManagementClient.userNameExists("testBycreatedUser", utfString)) {
             userManagementClient.addRole(roles[0],null, null);
             userManagementClient.addUser(utfString, "abcdef2", roles, utfString);
         }
@@ -246,14 +246,17 @@ public class UTFSupportForMetadataTestCase extends GREGIntegrationBaseTest {
 
         Assert.assertTrue(userAdded);
         
-        String sessionCookie = new AuthenticatorClient(backEndUrl).
-                login(utfString, "abcdef2",
-                      automationContext.getContextUrls().getServiceUrl());
+        AuthenticatorClient authenticatorClient = new AuthenticatorClient(automationContext.getContextUrls().getBackEndUrl());
+
+        String sessionCookieLocal = authenticatorClient.login(utfString, "abcdef2",
+                automationContext.getInstance().getHosts().get("default"));
+
+        //new URL(backEndUrl).getHost();
 
         //create collection with new user
         resourceAdminServiceClient =
                 new ResourceAdminServiceClient(backEndUrl,
-                                               sessionCookie);
+                        sessionCookieLocal);
 
         resourceAdminServiceClient.addCollection("/", "test_collection", "other", "desc");
 

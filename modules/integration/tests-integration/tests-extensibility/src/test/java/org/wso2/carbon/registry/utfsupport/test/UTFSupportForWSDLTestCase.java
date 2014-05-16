@@ -226,7 +226,6 @@ public class UTFSupportForWSDLTestCase extends GREGIntegrationBaseTest {
         relationAdminServiceClient = null;
         registryProviderUtil = null;
         wsRegistryServiceClient = null;
-        userManagementClient = null;
         lifeCycleManagementClient = null;
         lifeCycleAdminServiceClient = null;
         infoServiceAdminClient = null;

@@ -45,9 +45,14 @@ public class UTFSupportForUserNameTestCase extends GREGIntegrationBaseTest {
 
     @Test(groups = {"wso2.greg"}, description = "create user", dependsOnMethods = "testreadFile")
     public void testCreateUser() throws Exception {
+
         String[] roles = {"testRole"};
-        Assert.assertTrue(userManagementClient.roleNameExists("testRole"));
-        userManagementClient.addUser(utfString, "abcdef2", roles, utfString);
+
+        if (!userManagementClient.roleNameExists("testRole")) {
+            userManagementClient.addRole(roles[0],null, null);
+            userManagementClient.addUser(utfString, "abcdef2", roles, utfString);
+        }
+
         boolean userAdded = userManagementClient.userNameExists("testRole", utfString);
         Assert.assertTrue(userAdded);
     }
@@ -58,6 +63,5 @@ public class UTFSupportForUserNameTestCase extends GREGIntegrationBaseTest {
         utfString = null;
         userManagementClient=null;
     }
-
 
 }
