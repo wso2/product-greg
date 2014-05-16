@@ -16,6 +16,8 @@
 
 package org.wso2.registry.checkin;
 
+import org.apache.axiom.om.OMElement;
+import org.apache.axiom.om.impl.builder.StAXOMBuilder;
 import org.apache.axis2.AxisFault;
 import org.apache.axis2.context.ConfigurationContext;
 import org.apache.axis2.context.ConfigurationContextFactory;
@@ -34,22 +36,56 @@ import org.wso2.carbon.user.core.common.DefaultRealmService;
 import org.wso2.carbon.user.core.service.RealmService;
 import org.wso2.carbon.utils.ServerConstants;
 
+import javax.xml.namespace.QName;
+import javax.xml.stream.XMLStreamException;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.net.MalformedURLException;
 import java.net.URL;
 
 @SuppressWarnings("ResultOfMethodCallIgnored")
 public class ClientUtils {
 
-    public static void setSystemProperties() {
+    public static void setSystemProperties() throws Exception {
+        String ns  = "http://wso2.org/projects/carbon/carbon.xml";
         if (System.getProperty("javax.net.ssl.trustStore") == null) {
-            System.setProperty("javax.net.ssl.trustStore", System.getProperty("carbon.home") +
-                    File.separator + "repository" + File.separator + "resources" + File.separator +
-                    "security" + File.separator + "client-truststore.jks");
+
+            try {
+                StAXOMBuilder builder = new StAXOMBuilder(System.getProperty("carbon.home") + File.separator +
+                        "repository" + File.separator + "conf" + File.separator +
+                        "carbon.xml");
+                OMElement omElement = builder.getDocumentElement();
+                OMElement trustStoreOmElement = omElement.getFirstChildWithName(new QName(ns, "Security")).
+                        getFirstChildWithName(new QName(ns,"TrustStore"));
+                String location = trustStoreOmElement.getFirstChildWithName(new QName(ns, "Location")).getText();
+
+                if (location == null || "".equals(location)) {
+                    throw new Exception("trust store location is can't be null or empty, " +
+                            "check the configuration in carbon.xml");
+                }
+                if (location.contains("${carbon.home}")) {
+                    location = System.getProperty("carbon.home") + location.replace("${carbon.home}", "");
+                }
+                String type = trustStoreOmElement.getFirstChildWithName(new QName(ns, "Type")).getText();
+                if (type == null || "".equals(type)) {
+                    throw new Exception("trust store type is can't be null or empty, " +
+                            "check the configuration in carbon.xml");
+                }
+                String password = trustStoreOmElement.getFirstChildWithName(new QName(ns ,"Password")).getText();
+                if (password == null) {
+                    throw new Exception("trust store pasword is can't be null, " +
+                            "check the configuration in carbon.xml");
+                }
+                System.setProperty("javax.net.ssl.trustStore", location);
+                System.setProperty("javax.net.ssl.trustStorePassword", password);
+                System.setProperty("javax.net.ssl.trustStoreType", type);
+                System.setProperty(ServerConstants.REPO_WRITE_MODE, Boolean.toString(true));
+            } catch (XMLStreamException e) {
+                throw new Exception("Failed to set the client-truststore ", e);
+            } catch (FileNotFoundException e) {
+                throw new Exception(e);
+            }
         }
-        System.setProperty("javax.net.ssl.trustStorePassword", "wso2carbon");
-        System.setProperty("javax.net.ssl.trustStoreType", "JKS");
-        System.setProperty(ServerConstants.REPO_WRITE_MODE, Boolean.toString(true));
     }
 
 
@@ -70,7 +106,7 @@ public class ClientUtils {
                                                         File.separator + "repository" +
                                                         File.separator +
                                                         "deployment" + File.separator + "client",
-                                                        ServerConfiguration.getInstance().getFirstProperty("Axis2Config.clientAxis2XmlLocation"));                                                                
+                                                ServerConfiguration.getInstance().getFirstProperty("Axis2Config.clientAxis2XmlLocation"));
                         if (registryUrl.endsWith("/")) {
                             registryUrl = registryUrl.substring(0, registryUrl.length() - 1);
                         }
@@ -168,9 +204,9 @@ public class ClientUtils {
         } else {
             String parentDirName = file.getParent();
             return parentDirName + File.separator + SynchronizationConstants.META_DIRECTORY +
-                    File.separator + SynchronizationConstants.META_FILE_PREFIX +
-                    Utils.encodeResourceName(file.getName()) +
-                    SynchronizationConstants.META_FILE_EXTENSION;
+                            File.separator + SynchronizationConstants.META_FILE_PREFIX +
+                            Utils.encodeResourceName(file.getName()) +
+                            SynchronizationConstants.META_FILE_EXTENSION;
         }
     }
 
