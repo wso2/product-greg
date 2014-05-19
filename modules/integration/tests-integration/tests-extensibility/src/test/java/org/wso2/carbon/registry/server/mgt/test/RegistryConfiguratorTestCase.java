@@ -54,9 +54,7 @@ import java.rmi.RemoteException;
 public class RegistryConfiguratorTestCase extends GREGIntegrationBaseTest {
 
     private static final Log log = LogFactory.getLog(RegistryConfiguratorTestCase.class);
-    private FrameworkProperties frameworkProperties;
     private ResourceAdminServiceClient resourceAdminServiceClient;
-    private ServerAdminClient serverAdminClient;
 
     private String sessionCookie;
     private String backEndUrl;
@@ -64,7 +62,6 @@ public class RegistryConfiguratorTestCase extends GREGIntegrationBaseTest {
     private String userNameWithoutDomain;
 
     @BeforeClass(alwaysRun = true)
-    @SetEnvironment(executionEnvironments = {ExecutionEnvironment.STANDALONE})
     public void serverRestart() throws Exception {
 
         super.init(TestUserMode.SUPER_TENANT_ADMIN);
@@ -76,10 +73,6 @@ public class RegistryConfiguratorTestCase extends GREGIntegrationBaseTest {
             userNameWithoutDomain = userName.substring(0, userName.indexOf('@'));
         else
             userNameWithoutDomain = userName;
-
-        serverAdminClient =
-                new ServerAdminClient(backEndUrl,
-                                      sessionCookie);
         resourceAdminServiceClient =
                 new ResourceAdminServiceClient(backEndUrl,
                                                sessionCookie);

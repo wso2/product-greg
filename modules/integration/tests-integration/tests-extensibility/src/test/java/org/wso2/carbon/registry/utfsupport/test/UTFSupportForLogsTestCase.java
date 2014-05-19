@@ -31,20 +31,14 @@ public class UTFSupportForLogsTestCase extends GREGIntegrationBaseTest {
     private String sessionCookie;
     private String backEndUrl;
     private String userName;
-    private String userNameWithoutDomain;
 
-    @BeforeClass
+    @BeforeClass(alwaysRun = true)
     public void init() throws Exception {
 
         super.init(TestUserMode.SUPER_TENANT_ADMIN);
         backEndUrl = getBackendURL();
         sessionCookie = getSessionCookie();
         userName = automationContext.getContextTenant().getContextUser().getUserName();
-
-        if (userName.contains("@"))
-            userNameWithoutDomain = userName.substring(0, userName.indexOf('@'));
-        else
-            userNameWithoutDomain = userName;
 
         wsRegistryServiceClient = registryProviderUtil.getWSRegistry(automationContext);
         logViewerClient =
@@ -53,6 +47,9 @@ public class UTFSupportForLogsTestCase extends GREGIntegrationBaseTest {
         userManagementClient =
                 new UserManagementClient(backEndUrl,
                                          sessionCookie);
+        resourceAdminServiceClient =
+                new ResourceAdminServiceClient(backEndUrl,
+                                               sessionCookie);
 
     }
 
@@ -67,9 +64,20 @@ public class UTFSupportForLogsTestCase extends GREGIntegrationBaseTest {
     public void testSystemLogs() throws Exception {
 
         String[] roles = {"testRole"};
+        String[] permissions = {"/permission/admin/configure/",
+                                "/permission/admin/login",
+                                "/permission/admin/manage/",
+                                "/permission/admin/monitor",
+                                "/permission/protected"};
 
-        if (!userManagementClient.userNameExists("testRole", userNameWithoutDomain)) {
-            userManagementClient.addRole(roles[0],null, null);
+        if (!userManagementClient.userNameExists("testBycreatedUser", utfString)) {
+            if (!userManagementClient.roleNameExists(roles[0])) {
+                userManagementClient.addRole(roles[0], null, permissions);
+                resourceAdminServiceClient.addResourcePermission("/", roles[0], "3", "1");
+                resourceAdminServiceClient.addResourcePermission("/", roles[0], "2", "1");
+                resourceAdminServiceClient.addResourcePermission("/", roles[0], "4", "1");
+                resourceAdminServiceClient.addResourcePermission("/", roles[0], "5", "1");
+            }
             userManagementClient.addUser(utfString, "abcdef2", roles, utfString);
         }
 
@@ -78,13 +86,13 @@ public class UTFSupportForLogsTestCase extends GREGIntegrationBaseTest {
 
         AuthenticatorClient loginClient = new AuthenticatorClient(backEndUrl);
         String sessionCookie = loginClient.login(userName, "abcdef2",
-                automationContext.getInstance().getHosts().get("default"));
+                                                 automationContext.getInstance().getHosts().get("default"));
         //create collection with new user
         resourceAdminServiceClient =
                 new ResourceAdminServiceClient(backEndUrl,
                                                sessionCookie);
 
-        resourceAdminServiceClient.addCollection("/", "test_collection", "other", "desc");
+        resourceAdminServiceClient.addCollection("/", "test_collection_2", "other", "desc");
 
         //search logs
         Thread.sleep(1000);
@@ -93,7 +101,7 @@ public class UTFSupportForLogsTestCase extends GREGIntegrationBaseTest {
         boolean status = false;
         LogEvent[] logEvents = logViewerClient.getLogs("INFO", utfString, "", "");
         if (logEvents != null) {
-                for (LogEvent event : logEvents) {
+            for (LogEvent event : logEvents) {
                 if (event.getMessage().contains(utfString)) {
                     status = true;
                     break;
@@ -106,7 +114,7 @@ public class UTFSupportForLogsTestCase extends GREGIntegrationBaseTest {
 
     @AfterClass(alwaysRun = true)
     public void clean() throws Exception {
-        delete("/test_collection");
+        delete("/test_collection_2");
         userManagementClient = new UserManagementClient(backEndUrl,
                                                         sessionCookie);
         userManagementClient.deleteUser(utfString);

@@ -2,12 +2,25 @@
 
 <suite name="GregTestSuite">
     <parameter name="useDefaultListeners" value="false"/>
+    <listeners>
+        <listener class-name="org.wso2.carbon.automation.engine.testlisteners.TestExecutionListener"/>
+        <listener class-name="org.wso2.carbon.automation.engine.testlisteners.TestManagerListener"/>
+        <listener class-name="org.wso2.carbon.automation.engine.testlisteners.TestReportListener"/>
+        <listener class-name="org.wso2.carbon.automation.engine.testlisteners.TestSuiteListener"/>
+        <listener class-name="org.wso2.carbon.automation.engine.testlisteners.TestTransformerListener"/>
+    </listeners>
+    <test name="InitializedAndSetupServer" preserve-order="true" parallel="false">
+        <classes>
+            <!--<class name="org.wso2.carbon.registry.server.mgt.test.ServerStartupTestCase"/>-->
+            <class name="org.wso2.carbon.registry.server.mgt.test.RegistryConfiguratorTestCase"/>
+        </classes>
+    </test>
     <test name="Test1" preserve-order="true" parallel="false">
         <packages>
             <package name="org.wso2.carbon.registry.utfsupport.test"/>
         </packages>
     </test>
-    <test name="Test2" preserve-order="true" parallel="false">
+    <!--<test name="Test2" preserve-order="true" parallel="false">
         <packages>
             <package name="org.wso2.carbon.registry.xpath.query.test"/>
         </packages>
@@ -38,5 +51,5 @@
             <class name="org.wso2.carbon.registry.reporting.test.ReportSchedulingTestCases"/>
             <class name="org.wso2.carbon.registry.reporting.test.ReportClassTestCases"/>
         </classes>
-    </test>
+    </test>-->
 </suite>
