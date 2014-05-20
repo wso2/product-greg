@@ -36,7 +36,7 @@ import static org.testng.Assert.assertTrue;
 
 public class ReportCopyingTestCases extends ReportingTestCaseSuper {
 
-    @BeforeClass
+    @BeforeClass(alwaysRun = true)
     public void initializeToTestCopying() throws Exception {
         applicationName = super.applicationName + "ReportCopyingTestCases";
         artifactName = super.artifactName + "ReportCopyingTestCases";
@@ -219,7 +219,7 @@ public class ReportCopyingTestCases extends ReportingTestCaseSuper {
         assertTrue(result.contains("Description"));
     }
 
-    @AfterClass
+    @AfterClass(alwaysRun = true)
     public void ClearResourcesAddedToTestCopying() throws Exception {
         removeLCArtifact();
         removeResourcesLCReport();

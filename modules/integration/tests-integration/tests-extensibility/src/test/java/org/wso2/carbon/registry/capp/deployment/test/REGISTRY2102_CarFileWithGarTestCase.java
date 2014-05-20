@@ -57,7 +57,7 @@ public class REGISTRY2102_CarFileWithGarTestCase extends GREGIntegrationBaseTest
     private ResourceAdminServiceClient resourceAdminServiceClient;
     private HandlerManagementServiceClient handlerManagementServiceClient;
 
-    private String cAppName = "GarTestCApp";
+    private String cAppName = "GarTestCApp_1.0.0";
     private final String wsdlPath = "/_system/governance/trunk/wsdls/org/wso2/carbon/service/Axis2Service.wsdl";
     private final String wsdlUploadedPath = "/_system/config/gar/Axis2Service.wsdl";
     private final String servicePath = "/_system/governance/trunk/services/org/wso2/carbon/service/Axis2Service";
@@ -71,7 +71,7 @@ public class REGISTRY2102_CarFileWithGarTestCase extends GREGIntegrationBaseTest
     private String userName;
     private String userNameWithoutDomain;
 
-    @BeforeClass
+    @BeforeClass(alwaysRun = true)
     public void init() throws Exception {
 
         super.init(TestUserMode.SUPER_TENANT_ADMIN);
@@ -167,7 +167,7 @@ public class REGISTRY2102_CarFileWithGarTestCase extends GREGIntegrationBaseTest
         assertTrue(handlerManagementServiceClient.deleteHandler(handlerName));
     }
 
-    @AfterClass
+    @AfterClass(alwaysRun = true)
     public void destroy()
             throws ApplicationAdminExceptionException, RemoteException, InterruptedException,
             ResourceAdminServiceExceptionException, RegistryException {

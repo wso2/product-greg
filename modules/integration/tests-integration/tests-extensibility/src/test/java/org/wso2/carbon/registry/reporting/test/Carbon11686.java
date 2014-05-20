@@ -164,6 +164,7 @@ public class Carbon11686 extends ReportingTestCaseSuper {
     @Test(groups = "wso2.greg", description = "get activities from the registry",
           dependsOnMethods = "testAddResourcesForActivityReportTesting")
     public void testGetActivities() throws Exception {
+        Thread.sleep(3000);
         activities = activityAdminServiceClient.getActivities
                 (sessionCookie, userNameRandom, "", "", "", "", 0).getActivity();
         long startTime = new Date().getTime();
