@@ -7,8 +7,8 @@
             <package name="org.wso2.carbon.registry.version.test"/>
         </packages>
 
-
-       <!-- <classes>
+<!--
+        <classes>
             <class name="org.wso2.carbon.registry.version.test.CollectionTestCase"/>
         </classes>-->
     </test>
@@ -35,9 +35,9 @@
             <package name="org.wso2.carbon.registry.mediatype.test"/>
         </packages>
 
-
-        <classes>
-        </classes>
+  <!--      <classes>
+            <class name="org.wso2.carbon.registry.mediatype.test.HumanReadableMediaTypeTest"/>
+        </classes>-->
     </test>
     <test name="Test5" parallel="false">
         <packages>

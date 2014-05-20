@@ -132,7 +132,7 @@ public class HumanReadableMediaTypeTest extends GREGIntegrationBaseTest {
                                              ExecutionEnvironment.STANDALONE})
     public void humanReadableMediaTypeForCApp() throws Exception {
 
-        assertTrue((CAppTestUtils.isCAppDeployed(sessionCookie, "MyApp", applicationAdminClient)));
+        assertTrue((CAppTestUtils.isCAppDeployed(sessionCookie, /*"MyApp"*/ "MyApp_1.0.0", applicationAdminClient)));
 
         startTime = System.currentTimeMillis();
 
@@ -184,6 +184,7 @@ public class HumanReadableMediaTypeTest extends GREGIntegrationBaseTest {
         assertTrue(verifyMediatype("myconfig/drool-drl", "config/drool"));
         addResources("odp", "test.odp", "application/vnd.oasis.opendocument.presentation");
         assertTrue(verifyMediatype("eva-odp", "application/vnd.oasis.opendocument.presentation"));
+        addResources("services", "defaultService.xml", "application/xml");
 
         deleteResources();
     }
@@ -191,7 +192,7 @@ public class HumanReadableMediaTypeTest extends GREGIntegrationBaseTest {
     public void deleteResources() throws ResourceAdminServiceExceptionException, RemoteException, RegistryException {
         delete("/_system/governance/trunk/test");
         delete("/_system/governance/trunk/schemas/org/epo");
-        delete("/_system/governance/trunk/endpoints/org/epo/ops");
+        //delete("/_system/governance/trunk/endpoints/org/epo/ops");
         delete("/_system/governance/trunk/wsdls/org/epo/ops");
         delete("/_system/governance/trunk/services/org/epo/ops");
         delete("/_system/governance/trunk/schemas/com/example/www/library/library.xsd");
@@ -202,7 +203,7 @@ public class HumanReadableMediaTypeTest extends GREGIntegrationBaseTest {
 
     public void deleteCarFile() throws ResourceAdminServiceExceptionException, RemoteException,
             ApplicationAdminExceptionException, RegistryException {
-        applicationAdminClient.deleteApplication("MyApp");
+        applicationAdminClient.deleteApplication("MyApp_1.0.0");
         delete("/_system/config/evanthika");
 
     }
@@ -283,7 +284,7 @@ public class HumanReadableMediaTypeTest extends GREGIntegrationBaseTest {
             throws ResourceAdminServiceExceptionException, RemoteException, RegistryException {
 
         delete("/_system/governance/trunk/test");
-        delete("/_system/governance/trunk/endpoints/com");
+        //delete("/_system/governance/trunk/endpoints/com");
         delete("/_system/governance/trunk/endpoints/org");
         delete("/_system/governance/trunk/schemas/org/w3/www/xml/_1998/namespace/xml.xsd");
         delete("/_system/governance/trunk/services/com/amazon/soap/AmazonSearchService");
