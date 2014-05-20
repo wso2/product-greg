@@ -72,25 +72,25 @@ public class UTFSupportForMetadataTestCase extends GREGIntegrationBaseTest {
     private String sessionCookie;
     private String backEndUrl;
     private String userName;
-    private String userNameWithoutDomain;
 
-    @BeforeClass
+    @BeforeClass(alwaysRun = true)
     public void init() throws Exception {
 
         super.init(TestUserMode.SUPER_TENANT_ADMIN);
         backEndUrl = getBackendURL();
         sessionCookie = getSessionCookie();
         userName = automationContext.getContextTenant().getContextUser().getUserName();
-        
+
+
         searchAdminServiceClient = new SearchAdminServiceClient(backEndUrl,
                                                                 sessionCookie);
 
         userManagementClient =
-                new UserManagementClient(backEndUrl, 
+                new UserManagementClient(backEndUrl,
                                          sessionCookie);
 
         infoServiceAdminClient =
-                new InfoServiceAdminClient(backEndUrl, 
+                new InfoServiceAdminClient(backEndUrl,
                                            sessionCookie);
         wsRegistryServiceClient =
                 registryProviderUtil.getWSRegistry(automationContext);
@@ -117,11 +117,11 @@ public class UTFSupportForMetadataTestCase extends GREGIntegrationBaseTest {
     public void testAddResource() throws ResourceAdminServiceExceptionException,
                                          IOException, RegistryException {
         String POLICY_URL = "https://svn.wso2.org/repos/wso2/carbon/platform/trunk/products/greg/modules/integration/" +
-                "registry/tests-new/src/test/resources/artifacts/GREG/policy/EncrOnlyAnonymous.xml";
+                            "registry/tests-new/src/test/resources/artifacts/GREG/policy/EncrOnlyAnonymous.xml";
         policyPath = addPolicy("policy" + utfString, "desc", POLICY_URL);
         wsdlPath = addWSDL();
         String WSDL_URL = "https://svn.wso2.org/repos/wso2/carbon/platform/trunk/products/greg/modules/integration/registry" +
-                "/tests-new/src/test/resources/artifacts/GREG/wsdl/Axis2ImportedWsdl.wsdl";
+                          "/tests-new/src/test/resources/artifacts/GREG/wsdl/Axis2ImportedWsdl.wsdl";
         associatePath = addWSDL("wsdl_" + utfString, "desc", WSDL_URL);
 
     }
@@ -236,37 +236,47 @@ public class UTFSupportForMetadataTestCase extends GREGIntegrationBaseTest {
     public void testBycreatedUser() throws Exception {
 
         String[] roles = {"testBycreatedUser"};
+        String[] permissions = {"/permission/admin/configure/",
+                                "/permission/admin/login",
+                                "/permission/admin/manage/",
+                                "/permission/admin/monitor",
+                                "/permission/protected"};
 
         if (!userManagementClient.userNameExists("testBycreatedUser", utfString)) {
-            userManagementClient.addRole(roles[0],null, null);
+            userManagementClient.addRole(roles[0], null, permissions);
+            resourceAdminServiceClient.addResourcePermission("/", roles[0], "3", "1");
+            resourceAdminServiceClient.addResourcePermission("/", roles[0], "2", "1");
+            resourceAdminServiceClient.addResourcePermission("/", roles[0], "4", "1");
+            resourceAdminServiceClient.addResourcePermission("/", roles[0], "5", "1");
             userManagementClient.addUser(utfString, "abcdef2", roles, utfString);
         }
 
         boolean userAdded = userManagementClient.userNameExists(roles[0], utfString);
 
         Assert.assertTrue(userAdded);
-        
+
         AuthenticatorClient authenticatorClient = new AuthenticatorClient(automationContext.getContextUrls().getBackEndUrl());
 
         String sessionCookieLocal = authenticatorClient.login(utfString, "abcdef2",
-                automationContext.getInstance().getHosts().get("default"));
+                                                              automationContext.getInstance().getHosts().get("default"));
 
         //new URL(backEndUrl).getHost();
 
         //create collection with new user
         resourceAdminServiceClient =
                 new ResourceAdminServiceClient(backEndUrl,
-                        sessionCookieLocal);
+                                               sessionCookieLocal);
 
         resourceAdminServiceClient.addCollection("/", "test_collection", "other", "desc");
 
         CustomSearchParameterBean searchQuery = new CustomSearchParameterBean();
         SearchParameterBean paramBean = new SearchParameterBean();
-        paramBean.setAuthor(userNameWithoutDomain);
+        paramBean.setAuthor(utfString);
 
         ArrayOfString[] paramList = paramBean.getParameterList();
 
         searchQuery.setParameterValues(paramList);
+        searchAdminServiceClient = new SearchAdminServiceClient(backEndUrl, sessionCookieLocal);
         AdvancedSearchResultsBean result = searchAdminServiceClient.getAdvancedSearchResults(searchQuery);
         Assert.assertNotNull(result.getResourceDataList(), "No Record Found");
         Assert.assertTrue((result.getResourceDataList().length > 0), "No Record Found. set valid property name");
@@ -286,7 +296,7 @@ public class UTFSupportForMetadataTestCase extends GREGIntegrationBaseTest {
 
         CustomSearchParameterBean searchQuery = new CustomSearchParameterBean();
         SearchParameterBean paramBean = new SearchParameterBean();
-        paramBean.setUpdater(userNameWithoutDomain);
+        paramBean.setUpdater(utfString);
 
         ArrayOfString[] paramList = paramBean.getParameterList();
 
@@ -497,7 +507,7 @@ public class UTFSupportForMetadataTestCase extends GREGIntegrationBaseTest {
 //            result = searchAdminServiceClient.getAdvancedSearchResults(searchQuery);
             result = CommonUtils.getSearchResult(searchAdminServiceClient, searchQuery);
         }
-        while ((result.getResourceDataList() == null) && ((System.currentTimeMillis() - startTime) <= 60*5 * 1000));
+        while ((result.getResourceDataList() == null) && ((System.currentTimeMillis() - startTime) <= 60 * 5 * 1000));
 
         Assert.assertNotNull(result.getResourceDataList(), "No Record Found");
         Assert.assertTrue((result.getResourceDataList().length > 0), "No Record Found. set valid property name");
@@ -622,7 +632,7 @@ public class UTFSupportForMetadataTestCase extends GREGIntegrationBaseTest {
         return path;
     }
 
-    @AfterClass
+    @AfterClass(alwaysRun = true)
     public void clean() throws Exception {
         delete(pathPrefix + policyPath);
         delete(pathPrefix + wsdlPath);
