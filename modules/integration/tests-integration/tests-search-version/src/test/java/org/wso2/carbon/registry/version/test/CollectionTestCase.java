@@ -70,7 +70,6 @@ public class CollectionTestCase extends GREGIntegrationBaseTest{
     private LifeCycleAdminServiceClient lifeCycleAdminServiceClient;
     private WSRegistryServiceClient wsRegistryServiceClient;
     private ResourceAdminServiceClient resourceAdminClient;
-    private ResourceAdminServiceClient resourceAdminClientAdmin;
     private org.wso2.carbon.governance.custom.lifecycles.checklist.stub.beans.xsd.LifecycleBean lifeCycle;
     private static UserManagementClient adminUserManagementClient;
     private static SearchAdminServiceClient searchAdminServiceClient;
@@ -107,9 +106,7 @@ public class CollectionTestCase extends GREGIntegrationBaseTest{
         resourceAdminClient =
                 new ResourceAdminServiceClient(backEndUrl,
                                                sessionCookie);
-        resourceAdminClientAdmin =
-                new ResourceAdminServiceClient(backEndUrl,
-                                               sessionCookie);
+
         relationAdminServiceClient =
                 new RelationAdminServiceClient(backEndUrl,
                                                sessionCookie);
@@ -659,26 +656,30 @@ public void testColRolesRestore() throws Exception {
         //create a role with limited permission and assign testuser1 to that role and associate it with a collection
         ROLE_1 = "collectionRole1";
 
-        if (adminUserManagementClient.roleNameExists(ROLE_1)) {
+        /*if (adminUserManagementClient.roleNameExists(ROLE_1)) {
             adminUserManagementClient.deleteRole(ROLE_1);
-        }
+        }*/
         adminUserManagementClient.addRole(ROLE_1, COLLECTION_USERS, COL_USER1_PERMISSION);
 
-
+        //Remove testRole from testuser1
+        adminUserManagementClient.updateUserListOfRole("testRole", new String[]{}, new String[]{"testuser1"});
         //allow authorize action to the role
-        resourceAdminClientAdmin.addResourcePermission(PATH, ROLE_1, PermissionTestConstants.AUTHORIZE_ACTION, PermissionTestConstants.PERMISSION_ENABLED);
+        resourceAdminClient.addResourcePermission(PATH, ROLE_1, PermissionTestConstants.AUTHORIZE_ACTION, PermissionTestConstants.PERMISSION_ENABLED);
         PermissionBean permissionBean = resourceAdminClient.getPermission(PATH);
         assertTrue(permissionBean.getAuthorizeAllowed());
         resourceAdminClient.createVersion(PATH);
         VersionPath[] vp1 = resourceAdminClient.getVersionPaths(PATH);
         String verPath = vp1[0].getCompleteVersionPath();
+
         //deny authorize action from the role and allow read and write access
         resourceAdminClient.addResourcePermission(PATH, ROLE_1, PermissionTestConstants.AUTHORIZE_ACTION, PermissionTestConstants.PERMISSION_DISABLED);
+        resourceAdminClient.addResourcePermission(PATH, ROLE_1, PermissionTestConstants.READ_ACTION, PermissionTestConstants.PERMISSION_ENABLED);
+        resourceAdminClient.addResourcePermission(PATH, ROLE_1, PermissionTestConstants.WRITE_ACTION, PermissionTestConstants.PERMISSION_ENABLED);
 
-        assertFalse(resourceAdminClient.getPermission(PATH).getAuthorizeAllowed());
+        //assertFalse(resourceAdminClient.getPermission(vp1[1].getCompleteVersionPath()).getAuthorizeAllowed());
         //restore to previous version and see whether the permissions are restored
-        resourceAdminClientAdmin.restoreVersion(verPath);
-        assertFalse(resourceAdminClient.getPermission(PATH).getAuthorizeAllowed());
+        resourceAdminClient.restoreVersion(verPath);
+        assertTrue(resourceAdminClient.getPermission(PATH).getAuthorizeAllowed());
         adminUserManagementClient.updateUserListOfRole(ROLE_1, new String[]{}, new String[]{userNameWithoutDomain});
         assertNull(deleteVersion(PATH));
     }
@@ -720,7 +721,6 @@ public void testColRolesRestore() throws Exception {
         }
         assertTrue(status);
 
-
     }
 
     public VersionPath[] deleteVersion(String path)
@@ -758,7 +758,6 @@ public void testColRolesRestore() throws Exception {
         propertiesAdminServiceClient = null;
         infoServiceAdminClient = null;
         wsRegistryServiceClient = null;
-        resourceAdminClientAdmin = null;
     }
 
     public void deleteResource(String path) throws RegistryException {

@@ -11,19 +11,11 @@
         <packages>
             <package name="org.wso2.carbon.registry.xpath.query.test"/>
         </packages>
-
-
-        <classes>
-        </classes>
     </test>
     <test name="Test3" preserve-order="true" parallel="false">
         <packages>
             <package name="org.wso2.carbon.registry.discovery.test"/>
         </packages>
-
-
-        <classes>
-        </classes>
     </test>
     <test name="Test4" preserve-order="true" parallel="false">
         <packages>
