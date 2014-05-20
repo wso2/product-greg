@@ -73,10 +73,8 @@ public class Carbon11686 extends ReportingTestCaseSuper {
 
     private String sessionCookie;
     private String backEndUrl;
-    private String userName;
-    private String userNameWithoutDomain;
 
-    @BeforeClass(groups = {"wso2.greg"})
+    @BeforeClass(alwaysRun = true)
     public void initializeForActivityReportTesting() throws Exception {
 
         applicationName = super.applicationName + "Carbon11686";
@@ -85,21 +83,30 @@ public class Carbon11686 extends ReportingTestCaseSuper {
         super.init(TestUserMode.SUPER_TENANT_ADMIN);
         backEndUrl = getBackendURL();
         sessionCookie = getSessionCookie();
-        userName = automationContext.getContextTenant().getContextUser().getUserName();
-        
-        if (userName.contains("@"))
-            userNameWithoutDomain = userName.substring(0, userName.indexOf('@'));
-        else
-            userNameWithoutDomain = userName;
 
         userManagementClient = new UserManagementClient(backEndUrl,
                                                         sessionCookie);
+        resourceAdminServiceClient =
+                new ResourceAdminServiceClient(backEndUrl,
+                                               sessionCookie);
 
         String[] roles = {"testRoleCarbon11686"};
 
+        String[] permissions = {"/permission/admin/configure/",
+                                "/permission/admin/login",
+                                "/permission/admin/manage/",
+                                "/permission/admin/monitor",
+                                "/permission/protected"};
+
         if (!userManagementClient.userNameExists(roles[0], userNameRandom)) {
-            userManagementClient.addRole(roles[0],null, null);
-            userManagementClient.addUser(userNameRandom, passwordRandom, roles, null);
+            if (!userManagementClient.roleNameExists(roles[0])) {
+                userManagementClient.addRole(roles[0], null, permissions);
+                resourceAdminServiceClient.addResourcePermission("/", roles[0], "3", "1");
+                resourceAdminServiceClient.addResourcePermission("/", roles[0], "2", "1");
+                resourceAdminServiceClient.addResourcePermission("/", roles[0], "4", "1");
+                resourceAdminServiceClient.addResourcePermission("/", roles[0], "5", "1");
+            }
+            userManagementClient.addUser(userNameRandom, passwordRandom, roles, userNameRandom);
         }
 
         String randomUserSession = new AuthenticatorClient(backEndUrl).
@@ -134,7 +141,7 @@ public class Carbon11686 extends ReportingTestCaseSuper {
 
         assertTrue(resourceAdminServiceClient
                            .getResource(testGovernanceLCtemplate)[0].getAuthorUserName()
-                           .contains(userNameWithoutDomain));
+                           .contains(userNameRandom));
 
         resourcePath = FrameworkPathUtil.getSystemResourceLocation()
                        + "artifacts" + File.separator + "GREG" + File.separator
@@ -146,7 +153,7 @@ public class Carbon11686 extends ReportingTestCaseSuper {
 
         String addUser = resourceAdminServiceClient.getResource(testGovernanceLCRXT)[0]
                 .getAuthorUserName();
-        assertTrue(userNameWithoutDomain.equals(addUser), "user name was " + addUser);
+        assertTrue(userNameRandom.equals(addUser), "user name was " + addUser);
     }
 
     /**
@@ -158,12 +165,12 @@ public class Carbon11686 extends ReportingTestCaseSuper {
           dependsOnMethods = "testAddResourcesForActivityReportTesting")
     public void testGetActivities() throws Exception {
         activities = activityAdminServiceClient.getActivities
-                (sessionCookie, userNameWithoutDomain, "", "", "", "", 0).getActivity();
+                (sessionCookie, userNameRandom, "", "", "", "", 0).getActivity();
         long startTime = new Date().getTime();
         long endTime = startTime + waitTime * 1000;
         while (activities == null) {
             activities = activityAdminServiceClient.getActivities
-                    (sessionCookie, userNameWithoutDomain, "", "", "", "", 0).getActivity();
+                    (sessionCookie, userNameRandom, "", "", "", "", 0).getActivity();
             if ((new Date().getTime()) >= endTime) {
                 break;
             }
@@ -244,7 +251,7 @@ public class Carbon11686 extends ReportingTestCaseSuper {
 
         parsedText = parsedText.replace("\n", "");
 
-        assertTrue(parsedText.contains(userNameWithoutDomain));
+        assertTrue(parsedText.contains(userNameRandom));
         assertTrue(parsedText.contains("hasadded the resource"));
         assertTrue(parsedText.contains(testGovernanceLCtemplate));
         assertTrue(parsedText.contains(testGovernanceLCRXT));
@@ -270,7 +277,7 @@ public class Carbon11686 extends ReportingTestCaseSuper {
 
         String reportString = report.toString();
 
-        assertTrue(reportString.contains(userNameWithoutDomain));
+        assertTrue(reportString.contains(userNameRandom));
         assertTrue(reportString.contains("has added the resource"));
         assertTrue(reportString.contains(testGovernanceLCtemplate));
         assertTrue(reportString.contains(testGovernanceLCRXT));
@@ -302,7 +309,7 @@ public class Carbon11686 extends ReportingTestCaseSuper {
 
             HSSFRow customRow = mySheet.getRow(4);
             HSSFCell customCell = customRow.getCell(2);
-            assertTrue(customCell.getStringCellValue().contains(userNameWithoutDomain));
+            assertTrue(customCell.getStringCellValue().contains(userNameRandom));
 
             customCell = customRow.getCell(2);
             assertTrue(customCell.getStringCellValue().contains("has added the resource"));
@@ -312,7 +319,7 @@ public class Carbon11686 extends ReportingTestCaseSuper {
 
             customRow = mySheet.getRow(6);
             customCell = customRow.getCell(2);
-            assertTrue(customCell.getStringCellValue().contains(userNameWithoutDomain));
+            assertTrue(customCell.getStringCellValue().contains(userNameRandom));
 
             customCell = customRow.getCell(2);
             assertTrue(customCell.getStringCellValue().contains("has added the resource"));
@@ -349,7 +356,7 @@ public class Carbon11686 extends ReportingTestCaseSuper {
 
         for (String stringBean : activities) {
             ActivityReportBean beanOne = new ActivityReportBean();
-            beanOne.setUserName(userNameWithoutDomain);
+            beanOne.setUserName(userNameRandom);
             beanOne.setActivity(stringBean);
             beanOne.setAccessedTime("");
             beanOne.setResourcePath("");
@@ -377,16 +384,16 @@ public class Carbon11686 extends ReportingTestCaseSuper {
         out.close();
     }
 
-    @AfterClass
+    @AfterClass(alwaysRun = true)
     public void ClearResourcesAddedForActivityReportTesting()
-            throws Exception, ResourceAdminServiceExceptionException {
+            throws Exception {
         resourceAdminServiceClient.deleteResource(testGovernanceLCtemplate);
         resourceAdminServiceClient.deleteResource(testGovernanceLCRXT);
         resourceAdminServiceClient.deleteResource(testTemplateCollection);
         deleteDestiationFile();
         userManagementClient = new UserManagementClient(backEndUrl,
                                                         sessionCookie);
-        userManagementClient.deleteUser(userNameWithoutDomain);
+        userManagementClient.deleteUser(userNameRandom);
 
         userManagementClient = null;
         reportResourceSupplierClient = null;
