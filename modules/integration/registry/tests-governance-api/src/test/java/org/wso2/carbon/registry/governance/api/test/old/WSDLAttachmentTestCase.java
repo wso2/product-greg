@@ -55,8 +55,7 @@ public class WSDLAttachmentTestCase {
 
         int userId = 1;
         RegistryProviderUtil provider = new RegistryProviderUtil();
-        wsRegistry = provider.getWSRegistry(userId,
-                ProductConstant.GREG_SERVER_NAME);
+        wsRegistry = provider.getWSRegistry(automationContext);
         Registry governanceRegistry = provider.getGovernanceRegistry(wsRegistry, userId);
 
         wsdlManager = new WsdlManager(governanceRegistry);

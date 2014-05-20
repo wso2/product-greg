@@ -52,8 +52,7 @@ public class PolicyManagerAPITestCase {
     @BeforeClass(alwaysRun = true)
     public void initializeAPIObject() throws RegistryException, AxisFault {
         registryProviderUtil = new RegistryProviderUtil();
-        wsRegistry = registryProviderUtil.getWSRegistry(userId,
-                ProductConstant.GREG_SERVER_NAME);
+        wsRegistry = registryProviderUtil.getWSRegistry(automationContext);
         governance = registryProviderUtil.getGovernanceRegistry(wsRegistry, userId);
         policyManager = new PolicyManager(governance);
     }

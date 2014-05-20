@@ -18,6 +18,7 @@
         <module>tests-resources</module>
         <module>tests-metadata</module>
         <module>tests-lifecycle</module>
+        <module>tests-permissions</module>
     </modules>
 
 </project>

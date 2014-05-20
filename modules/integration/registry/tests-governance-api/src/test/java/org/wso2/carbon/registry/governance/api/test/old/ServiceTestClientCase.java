@@ -82,8 +82,7 @@ public class ServiceTestClientCase {
         serverAdminClient = new ServerAdminClient(environment.getGreg().getProductVariables().getBackendUrl(),
                 environment.getGreg().getSessionCookie());
         registryProviderUtil = new RegistryProviderUtil();
-        wsRegistry = registryProviderUtil.getWSRegistry(userId,
-                ProductConstant.GREG_SERVER_NAME);
+        wsRegistry = registryProviderUtil.getWSRegistry(automationContext);
         governance = registryProviderUtil.getGovernanceRegistry(wsRegistry, userId);
         configPath = ProductConstant.SYSTEM_TEST_RESOURCE_LOCATION + "artifacts" +
                 File.separator + "GREG" + File.separator + "xml" + File.separator + "service.metadata.xml";

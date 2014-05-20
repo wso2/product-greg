@@ -198,12 +198,12 @@ public class ResourceAdminServiceClient {
                                                  description, content);
     }
 
-    public void addResourcePermission(String pathToAuthorize,
+    public boolean addResourcePermission(String pathToAuthorize,
                                       String roleToAuthorize,
                                       String actionToAuthorize, String permissionType)
             throws RemoteException, ResourceAdminServiceResourceServiceExceptionException {
 
-        resourceAdminServiceStub.addRolePermission(pathToAuthorize, roleToAuthorize,
+        return resourceAdminServiceStub.addRolePermission(pathToAuthorize, roleToAuthorize,
                                                    actionToAuthorize, permissionType);
 
     }

@@ -45,8 +45,7 @@ public class ServiceAndEndpointTestCase {
     public void initializeAPIObject() throws RegistryException, AxisFault {
         RegistryProviderUtil registryProviderUtil = new RegistryProviderUtil();
         int userId = 1;
-        WSRegistryServiceClient wsRegistry = registryProviderUtil.getWSRegistry(userId,
-                ProductConstant.GREG_SERVER_NAME);
+        WSRegistryServiceClient wsRegistry = registryProviderUtil.getWSRegistry(automationContext);
         Registry governance = registryProviderUtil.getGovernanceRegistry(wsRegistry, userId);
         serviceManager = new ServiceManager(governance);
     }

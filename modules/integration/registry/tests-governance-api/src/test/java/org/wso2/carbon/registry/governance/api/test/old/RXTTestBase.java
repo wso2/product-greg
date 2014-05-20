@@ -67,8 +67,7 @@ public abstract class RXTTestBase {
     @BeforeClass(groups = {"wso2.greg"})
     public void initTest() throws RegistryException, AxisFault {
         RegistryProviderUtil registryProviderUtil = new RegistryProviderUtil();
-        WSRegistryServiceClient wsRegistry = registryProviderUtil.getWSRegistry(userId,
-                ProductConstant.GREG_SERVER_NAME);
+        WSRegistryServiceClient wsRegistry = registryProviderUtil.getWSRegistry(automationContext);
         registry = registryProviderUtil.getGovernanceRegistry(wsRegistry, userId);
         configPath = ProductConstant.SYSTEM_TEST_RESOURCE_LOCATION + "artifacts" +
                 File.separator + "GREG" + File.separator + folder + File.separator + fileName;

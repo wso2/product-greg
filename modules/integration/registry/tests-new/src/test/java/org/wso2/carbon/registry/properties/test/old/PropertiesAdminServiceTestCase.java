@@ -59,8 +59,7 @@ public class PropertiesAdminServiceTestCase {
         EnvironmentBuilder builder = new EnvironmentBuilder().greg(userId);
         environment = builder.build();
         RegistryProviderUtil registryProviderUtil = new RegistryProviderUtil();
-        registry = registryProviderUtil.getWSRegistry(userId,
-                ProductConstant.GREG_SERVER_NAME);
+        registry = registryProviderUtil.getWSRegistry(automationContext);
         governance = registryProviderUtil.getGovernanceRegistry(registry,
                 userId);
         logViewerClient = new LogViewerClient(environment.getGreg()

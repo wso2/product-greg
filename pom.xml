@@ -38,6 +38,31 @@
             </dependency>
             <dependency>
                 <groupId>org.wso2.carbon</groupId>
+                <artifactId>org.wso2.carbon.application.mgt.stub</artifactId>
+                <version>${carbon.platform.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.wso2.carbon</groupId>
+                <artifactId>org.wso2.carbon.reporting.ui</artifactId>
+                <version>${carbon.platform.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.wso2.carbon</groupId>
+                <artifactId>org.wso2.carbon.reporting.stub</artifactId>
+                <version>${carbon.platform.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.wso2.carbon</groupId>
+                <artifactId>org.wso2.carbon.reporting.api</artifactId>
+                <version>${carbon.platform.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.wso2.carbon</groupId>
+                <artifactId>org.wso2.carbon.logging.view.stub</artifactId>
+                <version>${carbon.platform.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.wso2.carbon</groupId>
                 <artifactId>org.wso2.carbon.ui</artifactId>
                 <version>${carbon.platform.version}</version>
             </dependency>
@@ -235,7 +260,6 @@
                 <version>${stub.version}</version>
                 <scope>test</scope>
             </dependency>
-
             <dependency>
                 <groupId>org.wso2.carbon</groupId>
                 <artifactId>org.wso2.carbon.registry.profiles.stub</artifactId>
@@ -310,6 +334,12 @@
             </dependency>
             <dependency>
                 <groupId>org.wso2.carbon</groupId>
+                <artifactId>org.wso2.carbon.identity.user.profile.stub</artifactId>
+                <version>${stub.version}</version>
+                <scope>test</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.wso2.carbon</groupId>
                 <artifactId>org.wso2.carbon.governance.lcm.stub</artifactId>
                 <version>${stub.version}</version>
                 <scope>test</scope>
@@ -334,7 +364,7 @@
                 <groupId>org.wso2.governance</groupId>
                 <artifactId>org.wso2.greg.integration.common.clients</artifactId>
                 <version>${project.version}</version>
-                <scope>test</scope>
+                <scope>compile</scope>
             </dependency>
             <dependency>
                 <groupId>org.wso2.carbon</groupId>
@@ -342,6 +372,18 @@
                 <version>${carbon.platform.version}</version>
                 <scope>test</scope>
             </dependency>
+<dependency>
+            <groupId>org.wso2.carbon</groupId>
+            <artifactId>org.wso2.carbon.reporting.util</artifactId>
+<version>${carbon.platform.version}</version>
+                <scope>test</scope>
+        </dependency>
+<dependency>
+            <groupId>org.wso2.carbon</groupId>
+            <artifactId>org.wso2.carbon.governance.list.stub</artifactId>
+           <version>${carbon.platform.version}</version>
+                <scope>test</scope>
+        </dependency>
             <dependency>
                 <groupId>org.wso2.carbon</groupId>
                 <artifactId>org.wso2.carbon.integration.common.tests</artifactId>

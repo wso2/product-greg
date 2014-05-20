@@ -61,8 +61,7 @@ public class SchemaManagerAPITestCase {
     @BeforeClass(alwaysRun = true)
     public void initializeAPIObject() throws RegistryException, AxisFault, InterruptedException {
         registryProviderUtil = new RegistryProviderUtil();
-        wsRegistry = registryProviderUtil.getWSRegistry(userId,
-                ProductConstant.GREG_SERVER_NAME);
+        wsRegistry = registryProviderUtil.getWSRegistry(automationContext);
         governance = registryProviderUtil.getGovernanceRegistry(wsRegistry, userId);
         schemaManager = new SchemaManager(governance);
         resourcePath = ProductConstant.SYSTEM_TEST_RESOURCE_LOCATION + "artifacts" +
