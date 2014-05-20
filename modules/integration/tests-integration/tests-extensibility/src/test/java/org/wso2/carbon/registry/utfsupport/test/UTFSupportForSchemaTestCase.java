@@ -54,8 +54,6 @@ public class UTFSupportForSchemaTestCase extends GREGIntegrationBaseTest {
 
     private String sessionCookie;
     private String backEndUrl;
-    private String userName;
-    private String userNameWithoutDomain;
 
     @BeforeClass
     public void init() throws Exception {
@@ -63,12 +61,7 @@ public class UTFSupportForSchemaTestCase extends GREGIntegrationBaseTest {
         super.init(TestUserMode.SUPER_TENANT_ADMIN);
         backEndUrl = getBackendURL();
         sessionCookie = getSessionCookie();
-        userName = automationContext.getContextTenant().getContextUser().getUserName();
 
-        if (userName.contains("@"))
-            userNameWithoutDomain = userName.substring(0, userName.indexOf('@'));
-        else
-            userNameWithoutDomain = userName;
 
         userManagementClient =
                 new UserManagementClient(backEndUrl,
