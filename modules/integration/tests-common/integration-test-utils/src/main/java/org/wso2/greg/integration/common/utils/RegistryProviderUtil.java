@@ -21,6 +21,7 @@ import org.apache.axis2.context.ConfigurationContextFactory;
 import org.apache.axis2.transport.http.HTTPConstants;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.wso2.carbon.automation.engine.configurations.UrlGenerationUtil;
 import org.wso2.carbon.automation.engine.context.AutomationContext;
 import org.wso2.carbon.automation.engine.frameworkutils.FrameworkPathUtil;
 import org.wso2.carbon.automation.engine.frameworkutils.TestFrameworkUtils;
@@ -89,14 +90,14 @@ public class RegistryProviderUtil {
         return governance;
     }
 
-    public RemoteRegistry getRemoteRegistry (AutomationContext automationContext)
-            throws Exception {
+    public RemoteRegistry getRemoteRegistry (AutomationContext automationContext) throws Exception {
 
         RemoteRegistry registry = null;
+        TestFrameworkUtils.setKeyStoreProperties(automationContext);
         System.setProperty("carbon.repo.write.mode", "true");
         try {
             registry = new RemoteRegistry(new URL(
-                    automationContext.getContextUrls().getServiceUrl()),
+                    UrlGenerationUtil.getRemoteRegistryURL(automationContext.getDefaultInstance())),
                     automationContext.getContextTenant().getContextUser().getUserName(),
                     automationContext.getContextTenant().getContextUser().getPassword());
 
