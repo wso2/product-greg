@@ -8,10 +8,14 @@
         <listener class-name="org.wso2.carbon.automation.engine.testlisteners.TestManagerListener"/>
         <listener class-name="org.wso2.carbon.automation.engine.testlisteners.TestReportListener"/>
         <listener class-name="org.wso2.carbon.automation.engine.testlisteners.TestSuiteListener"/>
-        <listener
-                class-name="org.wso2.carbon.automation.engine.testlisteners.TestTransformerListener"/>
+        <listener class-name="org.wso2.carbon.automation.engine.testlisteners.TestTransformerListener"/>
     </listeners>
-
+    <test name="InitializedAndSetupServer" preserve-order="true" parallel="false">
+        <classes>
+            <!--<class name="org.wso2.carbon.registry.server.mgt.test.ServerStartupTestCase"/>-->
+            <class name="org.wso2.carbon.registry.server.mgt.test.RegistryConfiguratorTestCase"/>
+        </classes>
+    </test>
     <test name="UTF-Support" preserve-order="true" parallel="false">
         <packages>
             <package name="org.wso2.carbon.registry.utfsupport.test"/>
