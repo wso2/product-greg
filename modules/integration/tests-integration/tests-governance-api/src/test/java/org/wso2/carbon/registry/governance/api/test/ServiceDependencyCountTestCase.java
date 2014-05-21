@@ -20,6 +20,7 @@ package org.wso2.carbon.registry.governance.api.test;
 import org.testng.Assert;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.Test;
+import org.wso2.carbon.automation.engine.context.TestUserMode;
 import org.wso2.carbon.governance.api.common.dataobjects.GovernanceArtifact;
 import org.wso2.carbon.governance.api.generic.GenericArtifactManager;
 import org.wso2.carbon.governance.api.generic.dataobjects.GenericArtifact;
@@ -41,11 +42,12 @@ public class ServiceDependencyCountTestCase extends GREGIntegrationBaseTest {
 
     @Test(groups = {"wso2.greg"}, description = "Dependency Verification")
     public void testServiceDependencyCount() throws Exception {
-
+        super.init(TestUserMode.SUPER_TENANT_ADMIN);
         WSRegistryServiceClient wsRegistry =
                 new RegistryProviderUtil().getWSRegistry(automationContext);
 
-        Registry registry = GovernanceUtils.getGovernanceUserRegistry(wsRegistry, "admin");
+        Registry registry = GovernanceUtils.getGovernanceUserRegistry(wsRegistry
+                , automationContext.getContextTenant().getContextUser().getUserName());
         ServiceManager serviceManager = new ServiceManager(registry);
         GovernanceUtils.loadGovernanceArtifacts((UserRegistry) registry);
 
@@ -59,7 +61,7 @@ public class ServiceDependencyCountTestCase extends GREGIntegrationBaseTest {
 
         service2 =
                 artifactManager.newGovernanceArtifact(new QName("http://dp.com", "S2-REGISTRY-1595"));
-        service1.addAttribute("overview_version", "1.1.2");
+        service2.addAttribute("overview_version", "1.1.2");
         artifactManager.addGenericArtifact(service2);
 
         wsRegistry.addAssociation("/_system/governance/trunk/services/com/dp/S1-REGISTRY-1595",

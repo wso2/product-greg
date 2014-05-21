@@ -48,14 +48,14 @@ public class FilterServicesWithAdminTestCase extends GREGIntegrationBaseTest{
                     "src/test/resources/artifacts/GREG/wsdl/info.wsdl";
     private ServiceManager serviceManager;
 
-    Service serviceForSearching1;
-    Service serviceForSearching2;
-    Service serviceForSearching3;
-    Service serviceForSearching4;
-    Service serviceForSearching5;
-    Service serviceForPromoting;
-    Service searchResultPromoted;
-    Service serviceForSearching6;
+    private Service serviceForSearching1;
+    private Service serviceForSearching2;
+    private Service serviceForSearching3;
+    private Service serviceForSearching4;
+    private Service serviceForSearching5;
+    private Service serviceForPromoting;
+    private Service searchResultPromoted;
+    private Service serviceForSearching6;
     private LifeCycleAdminServiceClient lifeCycleAdminService;
     private Registry governance;
 
@@ -145,6 +145,7 @@ public class FilterServicesWithAdminTestCase extends GREGIntegrationBaseTest{
         serviceForSearching5.addAttribute("security_messageIntegrity", "WS-Security");
         serviceForSearching5.addAttribute("security_messageEncryption", "WS-Security");
         serviceManager.addService(serviceForSearching5);
+        lifeCycleAdminService = new LifeCycleAdminServiceClient(automationContext.getContextUrls().getBackEndUrl(), getSessionCookie());
     }
 
     /**
