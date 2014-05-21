@@ -280,7 +280,7 @@ public class PromoteDemoteDiffEnvironmentsTestCase extends GREGIntegrationBaseTe
                                                            LC_NAME, ACTION_PROMOTE, null,
                                                            parameters);
      //   service = listMetadataServiceClient.listServices(null);
-	Service[] services = serviceManager.getAllServices();
+	    Service[] services = serviceManager.getAllServices();
         for (Service service : services) {
 	    String path = service.getPath();
             if (path.contains("IntergalacticService12") && path.contains("/testing/")) {
