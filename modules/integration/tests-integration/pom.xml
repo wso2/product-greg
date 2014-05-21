@@ -19,8 +19,7 @@
         <module>tests-metadata</module>
         <module>tests-lifecycle</module>
         <module>tests-permissions</module>
-        <module>tests-jiras</module>
-        <module>cmis-tck</module>
+        <module>tests-extensibility</module>
     </modules>
 
 </project>

@@ -3,7 +3,8 @@
 <suite name="GregTestSuite">
     <parameter name="useDefaultListeners" value="false"/>
     <listeners>
-        <listener class-name="org.wso2.carbon.automation.engine.testlisteners.TestExecutionListener"/>
+        <listener
+                class-name="org.wso2.carbon.automation.engine.testlisteners.TestExecutionListener"/>
         <listener class-name="org.wso2.carbon.automation.engine.testlisteners.TestManagerListener"/>
         <listener class-name="org.wso2.carbon.automation.engine.testlisteners.TestReportListener"/>
         <listener class-name="org.wso2.carbon.automation.engine.testlisteners.TestSuiteListener"/>
@@ -15,25 +16,24 @@
             <class name="org.wso2.carbon.registry.server.mgt.test.RegistryConfiguratorTestCase"/>
         </classes>
     </test>
-    <test name="Test1" preserve-order="true" parallel="false">
+    <test name="UTF-Support" preserve-order="true" parallel="false">
         <packages>
             <package name="org.wso2.carbon.registry.utfsupport.test"/>
         </packages>
     </test>
-    <!--<test name="Test2" preserve-order="true" parallel="false">
+    <test name="XPATH-Query" preserve-order="true" parallel="false">
         <packages>
             <package name="org.wso2.carbon.registry.xpath.query.test"/>
         </packages>
     </test>
-    <test name="Test3" preserve-order="true" parallel="false">
+
+    <test name="Discovery-Test" preserve-order="true" parallel="false">
         <packages>
             <package name="org.wso2.carbon.registry.discovery.test"/>
         </packages>
     </test>
-    <test name="Test4" preserve-order="true" parallel="false">
-        <packages>
-        </packages>
 
+    <test name="Report-Test" preserve-order="true" parallel="false">
 
         <classes>
             <class name="org.wso2.carbon.registry.reporting.test.ReportNameAndTemplateTestCases"/>
@@ -43,5 +43,10 @@
             <class name="org.wso2.carbon.registry.reporting.test.ReportSchedulingTestCases"/>
             <class name="org.wso2.carbon.registry.reporting.test.ReportClassTestCases"/>
         </classes>
-    </test>-->
+    </test>
+    <test name="CAPP-Deployment" preserve-order="true" parallel="false">
+        <packages>
+            <package name="org.wso2.carbon.registry.capp.deployment.test"/>
+        </packages>
+    </test>
 </suite>
