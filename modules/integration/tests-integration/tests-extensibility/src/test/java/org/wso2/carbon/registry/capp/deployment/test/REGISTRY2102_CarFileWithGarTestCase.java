@@ -59,7 +59,6 @@ public class REGISTRY2102_CarFileWithGarTestCase extends GREGIntegrationBaseTest
 
     private String cAppName = "GarTestCApp_1.0.0";
     private final String wsdlPath = "/_system/governance/trunk/wsdls/org/wso2/carbon/service/Axis2Service.wsdl";
-    private final String wsdlUploadedPath = "/_system/config/gar/Axis2Service.wsdl";
     private final String servicePath = "/_system/governance/trunk/services/org/wso2/carbon/service/Axis2Service";
     private String newHandlerPath = FrameworkPathUtil.getSystemResourceLocation()
             + "artifacts" + File.separator + "GREG" + File.separator
@@ -123,7 +122,8 @@ public class REGISTRY2102_CarFileWithGarTestCase extends GREGIntegrationBaseTest
     @Test(description = "Search whether CApp is in /_system/config/repository/applications",
             dependsOnMethods = {"uploadCApplicationWithGar"})
     public void isCApplicationInRegistry() throws RegistryException {
-        wsRegistry.get("/_system/config/repository/applications/" + cAppName);
+        wsRegistry.get("/_system/config/repository/carbonapps/gar_mapping/Axis2Service");
+        wsRegistry.get("/_system/config/repository/carbonapps/path_mapping/" + cAppName);
     }
 
     @Test(description = "Verify Uploaded Resources", dependsOnMethods = {"uploadCApplicationWithGar"})
@@ -143,21 +143,23 @@ public class REGISTRY2102_CarFileWithGarTestCase extends GREGIntegrationBaseTest
 
         Assert.assertTrue(CAppTestUtils.isCAppDeleted(sessionCookie, cAppName, adminServiceApplicationAdmin)
                 , "Deployed CApplication still in CApp List");
+        try {
+            // Wait few second to delete the  GarTestCApp file
+            Thread.sleep(50000);
+        } catch (InterruptedException e) {
+            //ignore
+        }
     }
 
     @Test(description = "Verify Resource Deletion", dependsOnMethods = {"deleteCApplication"})
     public void isResourcesDeleted() throws RegistryException {
 
         Assert.assertFalse(wsRegistry.resourceExists(wsdlPath), "Resource not deleted");
-        Assert.assertFalse(wsRegistry.resourceExists(wsdlUploadedPath), "Resource not deleted");
         Assert.assertFalse(wsRegistry.resourceExists(servicePath), "Resource not deleted");
-        try {
-            // Wait few second to delete the  GarTestCApp file
-            Thread.sleep(50000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-        Assert.assertFalse(wsRegistry.resourceExists("/_system/config/repository/applications/" + cAppName),
+
+        Assert.assertFalse(wsRegistry.resourceExists("/_system/config/repository/carbonapps/path_mapping/" + cAppName)
+                , "CApp Resource not deleted");
+        Assert.assertFalse(wsRegistry.resourceExists("/_system/config/repository/carbonapps/gar_mapping/Axis2Service"),
                 "CApp Resource not deleted");
 
     }
