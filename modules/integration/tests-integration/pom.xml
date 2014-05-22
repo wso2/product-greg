@@ -20,6 +20,7 @@
         <module>tests-lifecycle</module>
         <module>tests-permissions</module>
         <module>tests-extensibility</module>
+        <module>tests-governance-api</module>
     </modules>
 
 </project>
