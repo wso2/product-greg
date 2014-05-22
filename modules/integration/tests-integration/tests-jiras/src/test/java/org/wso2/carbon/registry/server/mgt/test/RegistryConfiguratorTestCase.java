@@ -16,7 +16,7 @@
 *under the License.
 */
 
-package org.wso2.carbon.registry.lifecycle.test.server.mgt;
+package org.wso2.carbon.registry.server.mgt.test;
 
 import org.apache.axiom.om.OMAttribute;
 import org.apache.axiom.om.OMElement;
@@ -27,19 +27,10 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
-import org.wso2.carbon.automation.engine.annotations.ExecutionEnvironment;
-import org.wso2.carbon.automation.engine.annotations.SetEnvironment;
-import org.wso2.carbon.automation.engine.context.TestUserMode;
-import org.wso2.carbon.automation.test.utils.common.FileManager;
-import org.wso2.carbon.integration.common.utils.LoginLogoutClient;
-import org.wso2.carbon.integration.common.utils.mgt.ServerConfigurationManager;
 import org.wso2.carbon.registry.core.Resource;
 import org.wso2.carbon.registry.resource.stub.ResourceAdminServiceExceptionException;
 import org.wso2.carbon.registry.ws.client.registry.WSRegistryServiceClient;
 import org.wso2.carbon.utils.CarbonUtils;
-import org.wso2.greg.integration.common.clients.ResourceAdminServiceClient;
-import org.wso2.greg.integration.common.utils.GREGIntegrationBaseTest;
-import org.wso2.greg.integration.common.utils.RegistryProviderUtil;
 
 import javax.activation.DataHandler;
 import javax.xml.namespace.QName;
@@ -48,6 +39,18 @@ import java.io.*;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.rmi.RemoteException;
+
+
+import org.wso2.carbon.automation.engine.annotations.ExecutionEnvironment;
+import org.wso2.carbon.automation.engine.annotations.SetEnvironment;
+import org.wso2.carbon.automation.engine.context.TestUserMode;
+import org.wso2.carbon.automation.test.utils.common.FileManager;
+import org.wso2.carbon.integration.common.utils.LoginLogoutClient;
+import org.wso2.carbon.integration.common.utils.mgt.ServerConfigurationManager;
+import org.wso2.greg.integration.common.clients.ResourceAdminServiceClient;
+import org.wso2.greg.integration.common.utils.GREGIntegrationBaseTest;
+import org.wso2.greg.integration.common.utils.RegistryProviderUtil;
+
 
 public class RegistryConfiguratorTestCase extends GREGIntegrationBaseTest {
 
@@ -207,16 +210,16 @@ public class RegistryConfiguratorTestCase extends GREGIntegrationBaseTest {
         FileOutputStream fileOutputStream = null;
         XMLStreamWriter writer = null;
         String workList;
-            workList = "<workList serverURL=\"local://services/\" remote=\"false\">\n" +
-                    "        <username>" + automationContext.getContextTenant().getContextUser()
-                    .getUserName()
-                    +
-                    "</username>\n" +
-                    "        <password>" + automationContext.getContextTenant().getContextUser()
-                    .getPassword()
-                    +
-                    "</password>\n" +
-                    "    </workList>";
+        workList = "<workList serverURL=\"local://services/\" remote=\"false\">\n" +
+                "        <username>" + automationContext.getContextTenant().getContextUser()
+                .getUserName()
+                +
+                "</username>\n" +
+                "        <password>" + automationContext.getContextTenant().getContextUser()
+                .getPassword()
+                +
+                "</password>\n" +
+                "    </workList>";
 
         try {
             OMElement registryXML = getRegistryXmlOmElement();
@@ -255,4 +258,3 @@ public class RegistryConfiguratorTestCase extends GREGIntegrationBaseTest {
     }
 
 }
-
