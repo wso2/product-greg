@@ -159,10 +159,7 @@ public class AddCustomLCTestCase extends GREGIntegrationBaseTest {
      *
      */
     @Test (groups = "wso2.greg", description = "Add LifeCycle to a service", dependsOnMethods = "createNewLifeCycle")
-    public void addLifeCycleToService ()
-            throws RegistryException, InterruptedException,
-            CustomLifecyclesChecklistAdminServiceExceptionException, IOException,
-            RegistryExceptionException, ResourceAdminServiceExceptionException, LoginAuthenticationExceptionException, XPathExpressionException, URISyntaxException, SAXException, XMLStreamException {
+    public void addLifeCycleToService () throws Exception {
 
         wsRegistry.associateAspect(servicePathDev, ASPECT_NAME);
         Thread.sleep(500);

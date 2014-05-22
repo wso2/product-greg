@@ -58,8 +58,7 @@ public class StateIdMismatchLifeCycleTestCase extends GREGIntegrationBaseTest {
      * @throws RegistryException
      */
     @BeforeClass (enabled = false)
-    public void init () throws IOException, LoginAuthenticationExceptionException,
-            RegistryException, URISyntaxException, SAXException, XMLStreamException, XPathExpressionException {
+    public void init () throws Exception {
 
         super.init(TestUserMode.SUPER_TENANT_USER);
         String sessionCookie = getSessionCookie();

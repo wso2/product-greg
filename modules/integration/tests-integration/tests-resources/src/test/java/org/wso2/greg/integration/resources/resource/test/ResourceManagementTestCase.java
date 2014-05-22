@@ -26,6 +26,7 @@ import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 import org.wso2.carbon.authenticator.stub.LoginAuthenticationExceptionException;
+import org.wso2.carbon.automation.engine.configurations.UrlGenerationUtil;
 import org.wso2.carbon.automation.engine.context.TestUserMode;
 import org.wso2.carbon.automation.engine.frameworkutils.FrameworkPathUtil;
 import org.wso2.carbon.registry.core.exceptions.RegistryException;
@@ -69,9 +70,7 @@ public class ResourceManagementTestCase extends GREGIntegrationBaseTest{
     public static final String REGISTRY_NAMESPACE = "http://wso2.org/registry";
 
     @BeforeClass(alwaysRun = true)
-    public void initialize()
-            throws LoginAuthenticationExceptionException, IOException, RegistryException,
-            XPathExpressionException, URISyntaxException, SAXException, XMLStreamException {
+    public void initialize() throws Exception {
         super.init(TestUserMode.SUPER_TENANT_ADMIN);
         resourceAdminClient =
                 new ResourceAdminServiceClient(getBackendURL(),
@@ -289,11 +288,8 @@ public class ResourceManagementTestCase extends GREGIntegrationBaseTest{
 
     private String constructAtomUrl(String feedPath) throws XPathExpressionException {
 
-        String registryURL =
-                    getRemoteRegistryURLOfProducts(automationContext.
-                            getInstance().getPorts().get("https"), automationContext.getInstance().
-                            getHosts().get("default"),
-                            automationContext.getInstance());
+        String registryURL = UrlGenerationUtil.getRemoteRegistryURL(automationContext
+                .getDefaultInstance());
 
         return registryURL + "atom" + feedPath;
     }

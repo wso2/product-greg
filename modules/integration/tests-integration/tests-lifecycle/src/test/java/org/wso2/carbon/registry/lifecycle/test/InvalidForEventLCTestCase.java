@@ -50,8 +50,7 @@ public abstract class InvalidForEventLCTestCase extends GREGIntegrationBaseTest 
      *
      */
     @BeforeClass(enabled = false)
-    public void init() throws IOException, LoginAuthenticationExceptionException, XPathExpressionException,
-            URISyntaxException, SAXException, XMLStreamException {
+    public void init() throws Exception {
 
         super.init(TestUserMode.SUPER_TENANT_USER);
         String sessionCookie = new LoginLogoutClient(automationContext).login();
