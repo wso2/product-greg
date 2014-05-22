@@ -14,18 +14,13 @@
 *KIND, either express or implied.  See the License for the
 *specific language governing permissions and limitations
 *under the License.
-*//*
+*/
 
 package org.wso2.carbon.registry.server.mgt.test;
 
-import org.wso2.carbon.automation.core.ProductConstant;
-import org.wso2.carbon.automation.core.tests.ServerStartupBaseTest;
+import org.wso2.carbon.integration.common.tests.ServerStartupBaseTest;
 
 public class ServerStartupTestCase extends ServerStartupBaseTest {
 
-    @Override
-    public String getProductName() {
-        return ProductConstant.GREG_SERVER_NAME;
-    }
-}*/
+}
 
