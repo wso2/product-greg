@@ -33,7 +33,7 @@ import static org.testng.Assert.assertTrue;
 
 public class ReportNameAndTemplateTestCases extends ReportingTestCaseSuper {
 
-    @BeforeClass
+    @BeforeClass(alwaysRun = true)
     public void initializeForTesting() throws Exception {
         applicationName = super.applicationName + "RNAndTTestCases";
         artifactName = super.artifactName + "RNAndTTestCases";
@@ -413,7 +413,7 @@ public class ReportNameAndTemplateTestCases extends ReportingTestCaseSuper {
                               {"Test Governance Life Cycle Report"}};
     }
 
-    @AfterClass
+    @AfterClass(alwaysRun = true)
     public void ClearResourcesAddedForTesting() throws Exception {
         removeLCArtifact();
         removeResourcesLCReport();

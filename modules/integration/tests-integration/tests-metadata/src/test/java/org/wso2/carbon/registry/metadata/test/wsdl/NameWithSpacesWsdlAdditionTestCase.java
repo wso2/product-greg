@@ -31,10 +31,7 @@ public class NameWithSpacesWsdlAdditionTestCase extends GREGIntegrationBaseTest 
     private String sessionCookie;
 
     @BeforeClass (groups = "wso2.greg", alwaysRun = true)
-    public void initialize () throws IOException,
-            LoginAuthenticationExceptionException,
-            org.wso2.carbon.registry.api.RegistryException, XPathExpressionException,
-            URISyntaxException, SAXException, XMLStreamException {
+    public void initialize () throws Exception {
 
         super.init(TestUserMode.SUPER_TENANT_ADMIN);
         sessionCookie = new LoginLogoutClient(automationContext).login();

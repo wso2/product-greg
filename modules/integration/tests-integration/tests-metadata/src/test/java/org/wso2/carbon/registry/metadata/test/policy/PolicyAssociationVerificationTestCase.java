@@ -21,7 +21,6 @@ package org.wso2.carbon.registry.metadata.test.policy;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
-import org.wso2.carbon.authenticator.stub.LoginAuthenticationExceptionException;
 import org.wso2.carbon.automation.engine.context.TestUserMode;
 import org.wso2.carbon.automation.engine.frameworkutils.FrameworkPathUtil;
 import org.wso2.carbon.governance.api.exception.GovernanceException;
@@ -32,15 +31,11 @@ import org.wso2.carbon.registry.resource.stub.ResourceAdminServiceExceptionExcep
 import org.wso2.greg.integration.common.clients.RelationAdminServiceClient;
 import org.wso2.greg.integration.common.clients.ResourceAdminServiceClient;
 import org.wso2.greg.integration.common.utils.GREGIntegrationBaseTest;
-import org.xml.sax.SAXException;
 
 import javax.activation.DataHandler;
-import javax.xml.stream.XMLStreamException;
 import javax.xml.xpath.XPathExpressionException;
 import java.io.File;
-import java.io.IOException;
 import java.net.MalformedURLException;
-import java.net.URISyntaxException;
 import java.net.URL;
 import java.rmi.RemoteException;
 
@@ -54,67 +49,36 @@ public class PolicyAssociationVerificationTestCase extends GREGIntegrationBaseTe
     private ResourceAdminServiceClient resourceAdminServiceClient;
     private String session;
 
-    @BeforeClass (groups = "wso2.greg", alwaysRun = true)
-    public void initialize () throws LoginAuthenticationExceptionException,
-            IOException, XPathExpressionException, URISyntaxException, SAXException, XMLStreamException {
-
+    @BeforeClass(groups = "wso2.greg", alwaysRun = true)
+    public void initialize() throws Exception {
         super.init(TestUserMode.SUPER_TENANT_USER);
         session = new LoginLogoutClient(automationContext).login();
-        resourceAdminServiceClient = new ResourceAdminServiceClient(automationContext
-                .getContextUrls().getBackEndUrl(), session);
+        resourceAdminServiceClient = new ResourceAdminServiceClient(automationContext.getContextUrls().getBackEndUrl(), session);
     }
 
-    @Test (groups = "wso2.greg", description = "Policy addition for association Verification")
-    public void testAddResourcesToVerifyAssociation () throws RemoteException,
-            MalformedURLException,
-            ResourceAdminServiceExceptionException {
-
-        String resourcePath = FrameworkPathUtil.getSystemResourceLocation()
-                + "artifacts" + File.separator + "GREG" + File.separator
-                + "policy" + File.separator + "policy.xml"; // the path
-        String associationResourcePath = FrameworkPathUtil.getSystemResourceLocation()
-                + "artifacts" + File.separator + "GREG" + File.separator
-                + "policy" + File.separator + "UTPolicy.xml"; // the path
+    @Test(groups = "wso2.greg", description = "Policy addition for association Verification")
+    public void testAddResourcesToVerifyAssociation() throws RemoteException, MalformedURLException, ResourceAdminServiceExceptionException {
+        String resourcePath = FrameworkPathUtil.getSystemResourceLocation() + "artifacts" + File.separator + "GREG" + File.separator + "policy" + File.separator + "policy.xml"; // the path
+        String associationResourcePath = FrameworkPathUtil.getSystemResourceLocation() + "artifacts" + File.separator + "GREG" + File.separator + "policy" + File.separator + "UTPolicy.xml"; // the path
         DataHandler dhReso = new DataHandler(new URL("file:///" + resourcePath));
-        DataHandler dhAsso = new DataHandler(new URL("file:///"
-                + associationResourcePath));
-        resourceAdminServiceClient.addPolicy(
-                "Policy add from the the file system", dhReso);
-        resourceAdminServiceClient.addPolicy(
-                "Policy add from the the file system", dhAsso);
-
+        DataHandler dhAsso = new DataHandler(new URL("file:///" + associationResourcePath));
+        resourceAdminServiceClient.addPolicy("Policy add from the the file system", dhReso);
+        resourceAdminServiceClient.addPolicy("Policy add from the the file system", dhAsso);
     }
 
-    @Test (groups = "wso2.greg", description = "Association Verification",
+    @Test(groups = "wso2.greg", description = "Association Verification",
             dependsOnMethods = "testAddResourcesToVerifyAssociation")
-    public void testVerifyAssociation () throws RemoteException,
-            MalformedURLException,
-            ResourceAdminServiceExceptionException,
-            AddAssociationRegistryExceptionException, XPathExpressionException {
-
-        RelationAdminServiceClient relationAdminServiceClient = new RelationAdminServiceClient(
-                automationContext.getContextUrls().getBackEndUrl(), session);
-        relationAdminServiceClient.addAssociation(
-                "/_system/governance/trunk/policies/policy.xml", "usedBy",
-                "/_system/governance/trunk/policies/UTPolicy.xml", "add");
-        AssociationTreeBean associationTreeBean = relationAdminServiceClient
-                .getAssociationTree(
-                        "/_system/governance/trunk/policies/policy.xml",
-                        "association");
-        assertTrue(associationTreeBean.getAssociationTree().contains(
-                "/_system/governance/trunk/policies/UTPolicy.xml"));
-
+    public void testVerifyAssociation() throws RemoteException, MalformedURLException, ResourceAdminServiceExceptionException, AddAssociationRegistryExceptionException, XPathExpressionException {
+        RelationAdminServiceClient relationAdminServiceClient = new RelationAdminServiceClient(automationContext.getContextUrls().getBackEndUrl(), session);
+        relationAdminServiceClient.addAssociation("/_system/governance/trunk/policies/policy.xml", "usedBy", "/_system/governance/trunk/policies/UTPolicy.xml", "add");
+        AssociationTreeBean associationTreeBean = relationAdminServiceClient.getAssociationTree("/_system/governance/trunk/policies/policy.xml", "association");
+        assertTrue(associationTreeBean.getAssociationTree().contains("/_system/governance/trunk/policies/UTPolicy.xml"));
     }
 
-    @AfterClass (groups = "wso2.greg", alwaysRun = true, description = "cleaning up the artifacts added")
-    public void tearDown () throws GovernanceException, RemoteException,
-            ResourceAdminServiceExceptionException {
-
-        resourceAdminServiceClient
-                .deleteResource("/_system/governance/trunk/policies/UTPolicy.xml");
-        resourceAdminServiceClient
-                .deleteResource("/_system/governance/trunk/policies/policy.xml");
+    @AfterClass(groups = "wso2.greg", alwaysRun = true, description = "cleaning up the artifacts added")
+    public void tearDown() throws GovernanceException, RemoteException, ResourceAdminServiceExceptionException {
+        resourceAdminServiceClient.deleteResource("/_system/governance/trunk/policies/UTPolicy.xml");
+        resourceAdminServiceClient.deleteResource("/_system/governance/trunk/policies/policy.xml");
         resourceAdminServiceClient = null;
-
     }
 }

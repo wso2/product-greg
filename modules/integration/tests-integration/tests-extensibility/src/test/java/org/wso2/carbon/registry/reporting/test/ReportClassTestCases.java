@@ -25,10 +25,12 @@ import org.wso2.carbon.logging.view.stub.types.carbon.LogEvent;
 import org.wso2.carbon.registry.reporting.stub.beans.xsd.ReportConfigurationBean;
 
 import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertNotNull;
+import static org.testng.Assert.assertTrue;
 
 public class ReportClassTestCases extends ReportingTestCaseSuper {
 
-    @BeforeClass
+    @BeforeClass(alwaysRun = true)
     public void initializeForReportClassTesting() throws Exception {
         applicationName = super.applicationName + "ReportClassTestCases";
         artifactName = super.artifactName + "ReportClassTestCases";
@@ -108,13 +110,13 @@ public class ReportClassTestCases extends ReportingTestCaseSuper {
         LogEvent[] logEvents = logViewerClient.getLogs("ERROR", "net.sf.jasperreports.engine.JRException: " +
                                                                 "Error retrieving field value from bean : " +
                                                                 "details_govCycleName", "", "");
-
+        assertTrue((logEvents != null && logEvents.length > 0) , "No Error Log Found. net.sf.jasperreports.engine.JRException: Error retrieving field value from bean : details_govCycleName");
         assertEquals(
                 logEvents[0].getMessage(),
                 "net.sf.jasperreports.engine.JRException: Error retrieving field value from bean : details_govCycleName");
     }
 
-    @AfterClass
+    @AfterClass(alwaysRun = true)
     public void ClearResourcesAddedForReportClassTesting() throws Exception {
         removeResourcesLCReport();
         removeAppicationArtifact(1);

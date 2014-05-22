@@ -1,4 +1,6 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <groupId>org.wso2.governance</groupId>
     <artifactId>governance-parent</artifactId>
@@ -169,10 +171,10 @@
                 <version>${axiom.wso2.version}</version>
             </dependency>
             <dependency>
-              <groupId>org.codehaus.jettison.wso2</groupId>
-              <artifactId>jettison</artifactId>
-              <version>${orbit.version.jettison}</version>
-           </dependency>
+                <groupId>org.codehaus.jettison.wso2</groupId>
+                <artifactId>jettison</artifactId>
+                <version>${orbit.version.jettison}</version>
+            </dependency>
 
 
             <!--Integration test dependencies-->
@@ -348,6 +350,13 @@
                 <groupId>org.wso2.carbon</groupId>
                 <artifactId>org.wso2.carbon.registry.ws.client</artifactId>
                 <version>${carbon.platform.version}</version>
+                <scope>test</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.wso2.carbon</groupId>
+                <artifactId>org.wso2.carbon.governance.client</artifactId>
+                <version>${carbon.platform.version}</version>
+                <scope>test</scope>
             </dependency>
             <dependency>
                 <groupId>org.wso2.carbon</groupId>
@@ -372,18 +381,18 @@
                 <version>${carbon.platform.version}</version>
                 <scope>test</scope>
             </dependency>
-<dependency>
-            <groupId>org.wso2.carbon</groupId>
-            <artifactId>org.wso2.carbon.reporting.util</artifactId>
-<version>${carbon.platform.version}</version>
+            <dependency>
+                <groupId>org.wso2.carbon</groupId>
+                <artifactId>org.wso2.carbon.reporting.util</artifactId>
+                <version>${carbon.platform.version}</version>
                 <scope>test</scope>
-        </dependency>
-<dependency>
-            <groupId>org.wso2.carbon</groupId>
-            <artifactId>org.wso2.carbon.governance.list.stub</artifactId>
-           <version>${carbon.platform.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.wso2.carbon</groupId>
+                <artifactId>org.wso2.carbon.governance.list.stub</artifactId>
+                <version>${carbon.platform.version}</version>
                 <scope>test</scope>
-        </dependency>
+            </dependency>
             <dependency>
                 <groupId>org.wso2.carbon</groupId>
                 <artifactId>org.wso2.carbon.integration.common.tests</artifactId>
@@ -394,7 +403,8 @@
     </dependencyManagement>
     <scm>
         <connection>scm:svn:http://svn.wso2.org/repos/wso2/trunk/carbon/products/greg</connection>
-        <developerConnection>scm:svn:https://svn.wso2.org/repos/wso2/trunk/carbon/products/greg</developerConnection>
+        <developerConnection>scm:svn:https://svn.wso2.org/repos/wso2/trunk/carbon/products/greg
+        </developerConnection>
     </scm>
     <repositories>
         <repository>
@@ -551,7 +561,8 @@
         <registry.rampart.version>1.5.0-wso2v1</registry.rampart.version>
         <registry-component.version>${carbon.platform.version}</registry-component.version>
         <!--Apache Geronimo-->
-        <version.geronimo.specs.geronimo-jpa_2.0_spec>1.0</version.geronimo.specs.geronimo-jpa_2.0_spec>
+        <version.geronimo.specs.geronimo-jpa_2.0_spec>1.0
+        </version.geronimo.specs.geronimo-jpa_2.0_spec>
         <!--OpenJPA -->
         <openjpa.version>2.2.0-wso2v1</openjpa.version>
         <carbon.p2.plugin.version>1.5.3</carbon.p2.plugin.version>

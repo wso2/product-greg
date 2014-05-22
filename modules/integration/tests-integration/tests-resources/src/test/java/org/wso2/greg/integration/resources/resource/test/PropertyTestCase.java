@@ -46,52 +46,31 @@ public class PropertyTestCase extends GREGIntegrationBaseTest {
 
     private ResourceAdminServiceClient resourceAdminServiceClient;
 
-    @BeforeClass ()
-    public void initialize () throws LoginAuthenticationExceptionException, IOException,
-            XPathExpressionException, URISyntaxException, SAXException, XMLStreamException {
-
+    @BeforeClass()
+    public void initialize() throws Exception {
         super.init(TestUserMode.SUPER_TENANT_ADMIN);
         //org.wso2.carbon.automation.extensions.servers..carbonserver.CarbonServerExtension
     }
 
-    @Test (groups = "wso2.greg", description = "Add property to resource")
-    public void testAddResource ()
-            throws IOException, LoginAuthenticationExceptionException,
-            XPathExpressionException, ResourceAdminServiceExceptionException,
-            URISyntaxException, SAXException, XMLStreamException {
-
-        resourceAdminServiceClient =
-                new ResourceAdminServiceClient(getBackendURL(),
-                        getSessionCookie());
-        String resourcePath = FrameworkPathUtil.getSystemResourceLocation() + "artifacts" + File
-                .separator +  File.separator + "GREG" + File.separator + "txt" + File
-                .separator + "resource.txt";
+    @Test(groups = "wso2.greg", description = "Add property to resource")
+    public void testAddResource() throws Exception {
+        resourceAdminServiceClient = new ResourceAdminServiceClient(getBackendURL(), getSessionCookie());
+        String resourcePath = FrameworkPathUtil.getSystemResourceLocation() + "artifacts" + File.separator + File.separator + "GREG" + File.separator + "txt" + File.separator + "resource.txt";
         DataHandler dh = new DataHandler(new URL("file:///" + resourcePath));
         resourceAdminServiceClient.addResource("/_system/config/testResource", "test/plain", "testDesc", dh);
-        assertTrue(resourceAdminServiceClient.getResource("/_system/config/testResource")[0].getAuthorUserName()
-                .contains(automationContext.getContextTenant().getContextUser().getUserName()));
+        assertTrue(resourceAdminServiceClient.getResource("/_system/config/testResource")[0].getAuthorUserName().contains(automationContext.getContextTenant().getContextUser().getUserName()));
     }
 
-    @Test (groups = "wso2.greg", description = "add property", dependsOnMethods = "testAddResource")
-    public void testPropertyAddition ()
-            throws IOException, PropertiesAdminServiceRegistryExceptionException,
-            XPathExpressionException, LoginAuthenticationExceptionException,
-            URISyntaxException, SAXException, XMLStreamException {
-
-        PropertiesAdminServiceClient propertyPropertiesAdminServiceClient =
-                new PropertiesAdminServiceClient(getBackendURL(),
-                        getSessionCookie());
+    @Test(groups = "wso2.greg", description = "add property", dependsOnMethods = "testAddResource")
+    public void testPropertyAddition() throws Exception {
+        PropertiesAdminServiceClient propertyPropertiesAdminServiceClient = new PropertiesAdminServiceClient(getBackendURL(), getSessionCookie());
         propertyPropertiesAdminServiceClient.setProperty("/_system/config/testResource", "Author", "TestValue");
-        assertTrue(propertyPropertiesAdminServiceClient.getProperty("/_system/config/testResource",
-                "true").getProperties()[0].getKey().equals("Author"));
-        assertTrue(propertyPropertiesAdminServiceClient.getProperty("/_system/config/testResource",
-                "true").getProperties()[0].getValue().equals("TestValue"));
-
+        assertTrue(propertyPropertiesAdminServiceClient.getProperty("/_system/config/testResource", "true").getProperties()[0].getKey().equals("Author"));
+        assertTrue(propertyPropertiesAdminServiceClient.getProperty("/_system/config/testResource", "true").getProperties()[0].getValue().equals("TestValue"));
     }
 
     @AfterClass
-    public void testCleanup () throws ResourceAdminServiceExceptionException, RemoteException {
-
+    public void testCleanup() throws ResourceAdminServiceExceptionException, RemoteException {
         resourceAdminServiceClient.deleteResource("/_system/config/testResource");
         resourceAdminServiceClient = null;
     }

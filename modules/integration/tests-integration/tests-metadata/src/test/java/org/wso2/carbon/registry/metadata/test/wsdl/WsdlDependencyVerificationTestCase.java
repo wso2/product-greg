@@ -62,8 +62,7 @@ public class WsdlDependencyVerificationTestCase extends GREGIntegrationBaseTest 
     private String sessionCookie;
 
     @BeforeClass (groups = "wso2.greg", alwaysRun = true)
-    public void initialize () throws LoginAuthenticationExceptionException,
-            IOException, XPathExpressionException, URISyntaxException, SAXException, XMLStreamException {
+    public void initialize () throws Exception {
 
         super.init(TestUserMode.SUPER_TENANT_USER);
         sessionCookie = new LoginLogoutClient(automationContext).login();

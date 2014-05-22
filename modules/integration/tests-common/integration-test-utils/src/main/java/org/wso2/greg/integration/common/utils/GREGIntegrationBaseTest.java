@@ -18,19 +18,12 @@ package org.wso2.greg.integration.common.utils;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.wso2.carbon.authenticator.stub.LoginAuthenticationExceptionException;
 import org.wso2.carbon.automation.engine.context.AutomationContext;
-import org.wso2.carbon.automation.engine.context.ContextXpathConstants;
 import org.wso2.carbon.automation.engine.context.TestUserMode;
-import org.wso2.carbon.automation.engine.context.beans.Instance;
 import org.wso2.carbon.automation.engine.frameworkutils.FrameworkPathUtil;
 import org.wso2.carbon.integration.common.utils.LoginLogoutClient;
-import org.xml.sax.SAXException;
 
-import javax.xml.stream.XMLStreamException;
 import javax.xml.xpath.XPathExpressionException;
-import java.io.IOException;
-import java.net.URISyntaxException;
 
 /**
  * Base class of all integration tests
@@ -41,62 +34,33 @@ public class GREGIntegrationBaseTest {
     protected AutomationContext automationContext;
     protected String backendURL;
 
-    protected void init (TestUserMode userMode) throws XPathExpressionException,
-            IOException, URISyntaxException, SAXException, XMLStreamException, LoginAuthenticationExceptionException {
-
+    protected void init(TestUserMode userMode) throws Exception {
         automationContext = new AutomationContext("GREG", userMode);
         backendURL = automationContext.getContextUrls().getBackEndUrl();
     }
 
-    protected void initPublisher (String productGroupName, String instanceName,
-                                  TestUserMode userMode, String userKey) throws XPathExpressionException {
-
+    protected void initPublisher(String productGroupName, String instanceName, TestUserMode userMode, String userKey)
+            throws XPathExpressionException {
         automationContext = new AutomationContext(productGroupName, instanceName, userMode);
         backendURL = automationContext.getContextUrls().getBackEndUrl();
     }
 
-    protected String getBackendURL () throws XPathExpressionException {
-
+    protected String getBackendURL() throws XPathExpressionException {
         return automationContext.getContextUrls().getBackEndUrl();
     }
 
-    protected String getSessionCookie () throws XPathExpressionException, LoginAuthenticationExceptionException,
-            IOException, URISyntaxException, SAXException, XMLStreamException {
-
+    protected String getSessionCookie() throws Exception {
         LoginLogoutClient loginLogoutClient = new LoginLogoutClient(automationContext);
         return loginLogoutClient.login();
-
     }
 
-    protected String getServiceURL () throws XPathExpressionException {
-
+    protected String getServiceURL() throws XPathExpressionException {
         return automationContext.getContextUrls().getServiceUrl();
     }
 
-    protected String getTestArtifactLocation () {
+    protected String getTestArtifactLocation() {
         return FrameworkPathUtil.getSystemResourceLocation();
     }
-
-    protected String getRemoteRegistryURLOfProducts (String httpsPort, String hostName,
-                                                     Instance productInstance) {
-
-        String remoteRegistryURL = null;
-        boolean webContextEnabled =
-                productInstance.getProperties().containsKey(ContextXpathConstants.PRODUCT_GROUP_WEBCONTEXT);
-        if (webContextEnabled) {
-            if (productInstance != null && httpsPort != null) {
-                remoteRegistryURL = "https://" + hostName + ":" + httpsPort + "/" + productInstance + "/" + "registry/";
-            } else if (productInstance == null && httpsPort != null) {
-                remoteRegistryURL = "https://" + hostName + ":" + httpsPort + "/" + "registry/";
-            } else if (productInstance == null) {
-                remoteRegistryURL = "https://" + hostName + "/" + "services/";
-            } else {
-                remoteRegistryURL = "https://" + hostName + "/" + productInstance + "/" + "registry/";
-            }
-        } else {
-            remoteRegistryURL = "https://" + hostName + ":" + httpsPort + "/" + "registry/";
-        }
-        return remoteRegistryURL;
-    }
 }
+
 

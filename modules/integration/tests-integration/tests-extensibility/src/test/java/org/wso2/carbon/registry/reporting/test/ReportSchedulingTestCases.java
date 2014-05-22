@@ -39,7 +39,7 @@ public class ReportSchedulingTestCases extends ReportingTestCaseSuper {
     int checkInterval = 3;
     int waitTime = 30000;
 
-    @BeforeClass
+    @BeforeClass(alwaysRun = true)
     public void initializeToTestScheduling() throws Exception {
         applicationName = super.applicationName + "ReportSchedulingTestCases";
         artifactName = super.artifactName + "ReportSchedulingTestCases";
@@ -71,8 +71,8 @@ public class ReportSchedulingTestCases extends ReportingTestCaseSuper {
         String url = UrlGenerationUtil.getRemoteRegistryURL(automationContext.getInstance());
 
         configurationBean.setRegistryURL(url);
-        configurationBean.setUsername(automationContext.getContextTenant().getTenantUser("user2").getUserName());
-        configurationBean.setPassword(automationContext.getContextTenant().getTenantUser("user2").getPassword());
+        configurationBean.setUsername(automationContext.getContextTenant().getContextUser().getUserName());
+        configurationBean.setPassword(automationContext.getContextTenant().getContextUser().getPassword());
         configurationBean.setResourcePath(scheduleReportLocation + ".html");
 
         Resource benchMark = registry.get(testGovernanceLCtemplate);
