@@ -45,7 +45,7 @@ public class ConfigureServiceUITestCase extends GREGIntegrationBaseTest {
         WSRegistryServiceClient wsRegistry =
                 new RegistryProviderUtil().getWSRegistry(automationContext);
         governance = new RegistryProviderUtil().getGovernanceRegistry(wsRegistry, automationContext);
-        new ServiceManager(governance);
+        serviceManager = new ServiceManager(governance);
         governanceServiceClient =
                 new GenericServiceClient(getBackendURL(), getSessionCookie());
 

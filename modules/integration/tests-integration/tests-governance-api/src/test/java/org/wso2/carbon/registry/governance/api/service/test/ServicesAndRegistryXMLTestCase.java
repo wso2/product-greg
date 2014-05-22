@@ -24,7 +24,6 @@ import org.wso2.carbon.registry.resource.stub.beans.xsd.VersionPath;
 import org.wso2.carbon.registry.ws.client.registry.WSRegistryServiceClient;
 import org.wso2.carbon.utils.CarbonUtils;
 import org.wso2.greg.integration.common.clients.ResourceAdminServiceClient;
-import org.wso2.greg.integration.common.clients.ServerAdminClient;
 import org.wso2.greg.integration.common.utils.GREGIntegrationBaseTest;
 import org.wso2.greg.integration.common.utils.RegistryProviderUtil;
 
@@ -42,7 +41,6 @@ public class ServicesAndRegistryXMLTestCase extends GREGIntegrationBaseTest {
 
     private ServiceManager serviceManager;
     private Service service, serviceWithVersion;
-    private ServerAdminClient serverAdminClient;
     private ResourceAdminServiceClient resourceAdminServiceClient;
     private final static String ROOT = "/_system/governance";
     private final static String NEW_PATH = "/trunk/services/test/";
@@ -63,11 +61,11 @@ public class ServicesAndRegistryXMLTestCase extends GREGIntegrationBaseTest {
 
 
         new ServerConfigurationManager(automationContext).restartGracefully();
+        super.init(TestUserMode.SUPER_TENANT_ADMIN);
         sessionCookie = getSessionCookie();
         resourceAdminServiceClient =
                 new ResourceAdminServiceClient(getBackendURL(), sessionCookie);
 
-        serverAdminClient = new ServerAdminClient(getBackendURL(), sessionCookie);
     }
 
     /*
@@ -263,7 +261,6 @@ public class ServicesAndRegistryXMLTestCase extends GREGIntegrationBaseTest {
         serviceManager = null;
         service = null;
         serviceWithVersion = null;
-        serverAdminClient = null;
         resourceAdminServiceClient = null;
 
     }
