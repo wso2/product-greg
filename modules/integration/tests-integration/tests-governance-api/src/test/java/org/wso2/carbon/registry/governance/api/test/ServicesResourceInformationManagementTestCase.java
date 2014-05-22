@@ -56,7 +56,6 @@ import org.wso2.carbon.registry.properties.stub.beans.xsd.RetentionBean;
 import org.wso2.carbon.registry.relations.stub.AddAssociationRegistryExceptionException;
 import org.wso2.carbon.registry.resource.stub.ResourceAdminServiceExceptionException;
 import org.wso2.carbon.registry.resource.stub.beans.xsd.VersionPath;
-import org.wso2.carbon.registry.subscription.test.util.WorkItemClient;
 import org.wso2.carbon.registry.ws.client.registry.WSRegistryServiceClient;
 import org.wso2.greg.integration.common.clients.HumanTaskAdminClient;
 import org.wso2.greg.integration.common.clients.InfoServiceAdminClient;
@@ -67,6 +66,7 @@ import org.wso2.greg.integration.common.clients.ResourceAdminServiceClient;
 import org.wso2.greg.integration.common.clients.WorkItem;
 import org.wso2.greg.integration.common.utils.GREGIntegrationBaseTest;
 import org.wso2.greg.integration.common.utils.RegistryProviderUtil;
+import org.wso2.greg.integration.common.utils.subscription.WorkItemClient;
 
 import javax.activation.DataHandler;
 import javax.xml.namespace.QName;
