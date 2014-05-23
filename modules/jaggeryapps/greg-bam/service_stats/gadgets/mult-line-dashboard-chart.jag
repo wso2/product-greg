@@ -296,23 +296,52 @@
 	}
 
         function getSlaArtifact(service) {
-		var wsRegistryClient = Packages.org.wso2.carbon.registry.ws.client.jaggery.JaggeryWSRegistryClient;
-		var client = new wsRegistryClient();
-		var url = 'https://localhost:9443/services/';
-		var remoteRegistryClient = client.initialize(url);
+		//var wsRegistryClient = Packages.org.wso2.carbon.registry.ws.client.jaggery.JaggeryWSRegistryClient;
+		//var client = new wsRegistryClient();
+		//var url = 'https://localhost:9443/services/';
+		//var remoteRegistryClient = client.initialize(url);
+		var carbon = require('carbon');
+
+		var PrivilegedCarbonContext = Packages.org.wso2.carbon.context.PrivilegedCarbonContext,
+		context = PrivilegedCarbonContext.getThreadLocalCarbonContext();
+		context.setTenantDomain(carbon.server.tenantDomain({
+			   tenantId: '-1234', username: 'admin'
+		}));
+		//PrivilegedCarbonContext.startTenantFlow();		
+		context.setTenantId('-1234');
+		context.setUsername('admin');
+		
+		var host = "https://localhost:9443/admin";
+		var server = new carbon.server.Server(host);
+		var options = {username: 'admin',  domain: 'carbon.super' , tenantId: -1234};
+		var registry = new carbon.registry.Registry(server, options);
 		var path = '/_system/governance/slas/' + service;
-		if (remoteRegistryClient.resourceExists(path)) {
-			var remoteRegistry = Packages.org.wso2.carbon.governance.api.util.GovernanceUtils.getGovernanceUserRegistry(remoteRegistryClient, "admin");
-			Packages.org.wso2.carbon.governance.api.util.GovernanceUtils.loadGovernanceArtifacts(remoteRegistry);
-			var genericArtifactManager = new Packages.org.wso2.carbon.governance.api.generic.GenericArtifactManager(remoteRegistry, "sla");
-			var artifact = genericArtifactManager.getAllGenericArtifacts()[0];
+		//if (remoteRegistryClient.resourceExists(path)) {
+		if (registry.exists(path)) {
+			//var remoteRegistry = Packages.org.wso2.carbon.governance.api.util.GovernanceUtils.getGovernanceUserRegistry(remoteRegistryClient, "admin");
+			Packages.org.wso2.carbon.governance.api.util.GovernanceUtils.loadGovernanceArtifacts(registry.registry);
+			
+				
+			
+			//var genericArtifactManager = new Packages.org.wso2.carbon.governance.api.generic.GenericArtifactManager(remoteRegistry, "sla");
+			//var genericArtifactManager = new Packages.org.wso2.carbon.governance.api.generic.GenericArtifactManager(registry, "sla");
+			var artficatManager = new carbon.registry.ArtifactManager(registry, "sla");
+			//Packages.org.wso2.carbon.governance.api.util.GovernanceUtils.loadGovernanceArtifacts(registry.registry);			
+			//var artifact = genericArtifactManager.getAllGenericArtifacts()[0];
+			var artifact = artficatManager.search({'overview_name': service},{'start': 0, 'count': 1000, 'sortOrder': 'desc', 'sortBy': 'overview_name', 'paginationLimit': 1000})[0];
+			//PrivilegedCarbonContext.endTenantFlow();
 			return artifact;
 		}
 		return null;
 	}
 
 	function getAttributeValue(asset, key) {
-	    	var attributes = asset.getAttributes(key);
+		if (asset) {
+	    		return asset.attributes[key];
+		} else {
+			return null;
+		}
+		/*var attributes = asset.getAttributes(key);
 		if (!attributes || attributes.length == 0) {
 		    return "";
 		} else if (attributes.length == 1) {
@@ -322,26 +351,30 @@
 		for (i = 0; i < attributes.length; i++) {
 			output.push(attributes[i]);
 		}
-    	return output;
+    	return output;*/
 	}
 
 	function getSlaLevelMap(artifact, parameter){
 		var nameAttribute = parameter + "_name";
 		var minAttribute = parameter + "_min";
 		var maxAttribute = parameter + "_max";
-		var noOfReqCountLevels = getAttributeValue(artifact,nameAttribute).length;
-		var slaLevelMap = {};
-		var levelNames = getAttributeValue(artifact, nameAttribute);
-		var minValues = getAttributeValue(artifact, minAttribute);
-		var maxValues = getAttributeValue(artifact, maxAttribute);
-		for (i = 0; i < noOfReqCountLevels; i++) {
-			var minMax = [];
-			minMax.push(levelNames[i]);
-			minMax.push(minValues[i]);
-			minMax.push(maxValues[i]);
-			slaLevelMap[i] = minMax;
+		if (getAttributeValue(artifact,nameAttribute)) {
+			var noOfReqCountLevels = getAttributeValue(artifact,nameAttribute).length;
+			var slaLevelMap = {};
+			var levelNames = getAttributeValue(artifact, nameAttribute);
+			var minValues = getAttributeValue(artifact, minAttribute);
+			var maxValues = getAttributeValue(artifact, maxAttribute);
+			for (i = 0; i < noOfReqCountLevels; i++) {
+				var minMax = [];
+				minMax.push(levelNames[i]);
+				minMax.push(minValues[i]);
+				minMax.push(maxValues[i]);
+				slaLevelMap[i] = minMax;
+			}
+			return slaLevelMap;
+		} else {
+			return null;
 		}
-		return slaLevelMap;
 	}
 
 %>

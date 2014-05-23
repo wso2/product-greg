@@ -59,7 +59,7 @@ public class Client
         this.clientOptions = clientOptions;
     }
 
-    public void start(String[] arguments) {
+    public void start(String[] arguments) throws Exception {
         initializeLog4j();
         UserInteractor userInteractor = new DefaultUserInteractor();
         clientOptions.setUserInteractor(userInteractor);
@@ -74,7 +74,7 @@ public class Client
         }
     }
 
-    public void execute(String[] arguments) throws SynchronizationException {
+    public void execute(String[] arguments) throws Exception {
         int operation = -1;
         if (arguments.length == 0) {
             throw new SynchronizationException(MessageCode.NO_OPTIONS_PROVIDED);
@@ -255,7 +255,11 @@ public class Client
             throw new SynchronizationException(MessageCode.USERNAME_NOT_PROVIDED);
         }
 
-        ClientUtils.setSystemProperties();
+        try {
+        		ClientUtils.setSystemProperties();
+        } catch (Exception e) {
+        		throw new Exception("Faild to set system properties",e);
+        }
 
         if( null != clientOptions.getUserUrl() && clientOptions.getUserUrl().startsWith("/")) {
             // Enforce the initialization of the CarbonContextHolder if it's run from local registry. This
