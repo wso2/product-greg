@@ -10,19 +10,22 @@
     </parent>
 
     <modelVersion>4.0.0</modelVersion>
-    <name>Tests Integration TestNG Test Module</name>
+    <name>Registry Integration Test Module</name>
     <artifactId>org.wso2.greg.integration.tests</artifactId>
     <packaging>pom</packaging>
 
     <modules>
-        <module>tests-resources</module>
+        <module>tests-resources</module     >
         <module>tests-metadata</module>
         <module>tests-lifecycle</module>
         <module>tests-permissions</module>
         <module>tests-extensibility</module>
         <module>tests-governance-api</module>
         <module>tests-smoke</module>
+        <module>tests-jiras</module>
+        <module>tests-search-version</module>
         <!--<module>cmis-tck</module>-->
+        <module>reports</module>
     </modules>
 
 </project>

@@ -10,7 +10,7 @@
     </parent>
 
     <modelVersion>4.0.0</modelVersion>
-    <name>Backward association handler Sample</name>
+    <name>Registry Backward association handler Artifact</name>
     <artifactId>backwardAssociationHandler</artifactId>
 
     <packaging>bundle</packaging>

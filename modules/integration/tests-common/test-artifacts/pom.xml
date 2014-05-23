@@ -10,7 +10,7 @@
     </parent>
 
     <modelVersion>4.0.0</modelVersion>
-    <name>Registry TestNG Test Samples</name>
+    <name>Registry Test Artifact Module</name>
     <artifactId>registry-integration-test-artifacts</artifactId>
     <packaging>pom</packaging>
 

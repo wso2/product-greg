@@ -10,7 +10,7 @@
     </parent>
 
     <modelVersion>4.0.0</modelVersion>
-    <name>Registry Governance API TestNG Test Module</name>
+    <name>Registry Governance API Test Module</name>
     <artifactId>org.wso2.carbon.registry.test.governance.api.test</artifactId>
     <packaging>jar</packaging>
 

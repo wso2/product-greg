@@ -10,8 +10,8 @@
     </parent>
 
     <modelVersion>4.0.0</modelVersion>
-    <name>Tests Resources TestNG Test Module</name>
-    <artifactId>org.wso2.greg.integration.resources.test</artifactId>
+    <name>Registry Tests Resources Test Module</name>
+    <artifactId>org.wso2.carbon.registry.test.resource</artifactId>
     <packaging>jar</packaging>
 
     <build>

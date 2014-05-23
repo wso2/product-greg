@@ -10,8 +10,8 @@
     </parent>
 
     <modelVersion>4.0.0</modelVersion>
-    <name>Registry TestNG Test Module</name>
-    <artifactId>org.wso2.greg.smoke.test</artifactId>
+    <name>Registry Smoke Test Module</name>
+    <artifactId>org.wso2.carbon.registry.test.smoke</artifactId>
     <packaging>jar</packaging>
 
     <build>
