@@ -10,7 +10,7 @@
     </parent>
 
     <modelVersion>4.0.0</modelVersion>
-    <name>Integration Test Reporting</name>
+    <name>Registry Test Reporting Module</name>
     <artifactId>org.wso2.carbon.registry.integration.reports</artifactId>
     <packaging>pom</packaging>
 

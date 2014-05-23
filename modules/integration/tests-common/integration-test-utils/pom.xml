@@ -10,7 +10,7 @@
     </parent>
 
     <modelVersion>4.0.0</modelVersion>
-    <name>Test Utils TestNG Test Module</name>
+    <name>Registry Test Utility Module</name>
     <artifactId>org.wso2.greg.integration.common.utils</artifactId>
     <packaging>jar</packaging>
 

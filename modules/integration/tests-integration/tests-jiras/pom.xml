@@ -10,7 +10,7 @@
     </parent>
 
     <modelVersion>4.0.0</modelVersion>
-    <name>Registry JIRA TestNG Test Module</name>
+    <name>Registry Public JIRA Test Module</name>
     <artifactId>org.wso2.carbon.registry.test.jiras</artifactId>
     <packaging>jar</packaging>
 
