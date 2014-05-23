@@ -55,7 +55,7 @@ public class GregTestUtils {
     }
 
     public static String getResourcePath() {
-        return FrameworkSettings.getFrameworkPath() + File.separator + ".." + File.separator + ".." + File.separator + ".." +
+        return FrameworkPathUtil.getSystemResourceLocation()() + File.separator + ".." + File.separator + ".." + File.separator + ".." +
                File.separator + "src" + File.separator + "test" + File.separator + "java" + File.separator + "resources";
     }
 

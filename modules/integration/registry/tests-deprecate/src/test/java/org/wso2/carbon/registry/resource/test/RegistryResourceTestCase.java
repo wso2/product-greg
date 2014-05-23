@@ -50,7 +50,7 @@ public class RegistryResourceTestCase {
     @BeforeClass(groups = {"wso2.greg"})
     public void init() throws Exception {
         loggedInSessionCookie = util.login();
-        frameworkPath = FrameworkSettings.getFrameworkPath();
+        frameworkPath = FrameworkPathUtil.getSystemResourceLocation()();
     }
 
     @Test(groups = {"wso2.greg"})

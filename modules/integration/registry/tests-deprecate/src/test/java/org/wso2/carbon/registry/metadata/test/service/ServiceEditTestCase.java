@@ -56,7 +56,7 @@ public class ServiceEditTestCase {
         log.info("Initializing Edit Service Resource Tests");
         log.debug("Add Service Resource Initialised");
         loggedInSessionCookie = util.login();
-        frameworkPath = FrameworkSettings.getFrameworkPath();
+        frameworkPath = FrameworkPathUtil.getSystemResourceLocation()();
 
     }
 

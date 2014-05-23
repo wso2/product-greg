@@ -265,7 +265,7 @@ public class EndpointTestCase {
 
     @Test(groups = {"wso2.greg"})
     public void testServiceAddingEndpointsWithWsdl() throws Exception {
-        String path = FrameworkSettings.getFrameworkPath() + File.separator + ".." +
+        String path = FrameworkPathUtil.getSystemResourceLocation()() + File.separator + ".." +
                 File.separator + ".." + File.separator + ".." + File.separator + "src" +
                 File.separator + "test" + File.separator + "java" + File.separator + "resources";
         File file = new File(path + File.separator + "service.metadata.xml");

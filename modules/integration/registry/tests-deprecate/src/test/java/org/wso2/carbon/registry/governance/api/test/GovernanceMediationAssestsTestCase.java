@@ -76,7 +76,7 @@ public class GovernanceMediationAssestsTestCase {
             installRXT("proxy.rxt");
             installRXT("sequence.rxt");
 
-            synapsePath = FrameworkSettings.getFrameworkPath() + File.separator + ".." + File.separator + ".." + File.separator + ".." +
+            synapsePath = FrameworkPathUtil.getSystemResourceLocation()() + File.separator + ".." + File.separator + ".." + File.separator + ".." +
                     File.separator + "src" + File.separator + "test" + File.separator + "java" + File.separator +
                     "resources" + File.separator + "sample-synapse.xml";
             FileInputStream inputStream = new FileInputStream(new File(synapsePath));
@@ -98,7 +98,7 @@ public class GovernanceMediationAssestsTestCase {
         Resource resource = registry.newResource();
         String rxtLocation = "/_system/governance/repository/components/org.wso2.carbon.governance/types/";
 
-        String rxtFilePath = FrameworkSettings.getFrameworkPath() + File.separator + ".." + File.separator + ".." + File.separator + ".."
+        String rxtFilePath = FrameworkPathUtil.getSystemResourceLocation()() + File.separator + ".." + File.separator + ".." + File.separator + ".."
                 + File.separator + "src" + File.separator + "test" + File.separator + "java" + File.separator
                 + "resources" + File.separator + "rxt" + File.separator;
 

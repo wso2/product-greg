@@ -44,7 +44,7 @@ public class TestSetup {
     String frameworkPath = "";
 
     public void init() {
-        frameworkPath = FrameworkSettings.getFrameworkPath();
+        frameworkPath = FrameworkPathUtil.getSystemResourceLocation()();
 
         log.info("Initializing WS-API Tests");
         try {

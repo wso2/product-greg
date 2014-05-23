@@ -52,7 +52,7 @@ public class SchemaManagerAPITestCase {
     public void initializeAPIObject() throws RegistryException, AxisFault, InterruptedException {
         Registry governance = TestUtils.getRegistry();
         schemaManager = new SchemaManager(governance);
-        resourcePath = FrameworkSettings.getFrameworkPath() + File.separator + ".." + File.separator + ".." + File.separator + ".."
+        resourcePath = FrameworkPathUtil.getSystemResourceLocation()() + File.separator + ".." + File.separator + ".." + File.separator + ".."
                        + File.separator + "src" + File.separator + "test" + File.separator + "java" + File.separator
                        + "resources";
         System.out.println(resourcePath);

@@ -74,7 +74,7 @@ public class RegistryTestServerManager extends TestServerManager {
         if (!"true".equals(System.getProperty("uddi.mode"))) {
             return;
         }
-        String frameworkPath = FrameworkSettings.getFrameworkPath();
+        String frameworkPath = FrameworkPathUtil.getSystemResourceLocation()();
         assert carbonHome != null : "carbonHome cannot be null";
 
         for (String fileName : new String[]{"wso2server.sh", "wso2server.bat"}) {
@@ -132,7 +132,7 @@ public class RegistryTestServerManager extends TestServerManager {
 
 
     private void copyBackwardAssociationHandler(String carbonHome) throws IOException {
-        String frameworkPath = FrameworkSettings.getFrameworkPath();
+        String frameworkPath = FrameworkPathUtil.getSystemResourceLocation()();
         String handlerSampleBundle = getTestSamplesDir(frameworkPath) + File.separator +
                 "backwardAssociationHandler" + File.separator + "target" +
                 File.separator + "backwardAssociationHandler.jar";
@@ -157,7 +157,7 @@ public class RegistryTestServerManager extends TestServerManager {
         if (!"true".equals(System.getProperty("debug.mode"))) {
             return;
         }
-        String frameworkPath = FrameworkSettings.getFrameworkPath();
+        String frameworkPath = FrameworkPathUtil.getSystemResourceLocation()();
         assert carbonHome != null : "carbonHome cannot be null";
 
         for (String fileName : new String[]{"wso2server.sh", "wso2server.bat"}) {
@@ -186,7 +186,7 @@ public class RegistryTestServerManager extends TestServerManager {
         assert srcFile.exists() : srcFile.getAbsolutePath() + " does not exist";
 
         try {
-            OMElement handlerConfig = getHandlerOmElement(FrameworkSettings.getFrameworkPath());
+            OMElement handlerConfig = getHandlerOmElement(FrameworkPathUtil.getSystemResourceLocation()());
             OMElement registryXML = getRegistryXmlOmElement(carbonHome);
             registryXML.addChild(handlerConfig);
             log.debug("Registry xml content after modifications " + registryXML);

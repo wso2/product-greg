@@ -44,7 +44,7 @@ public class HandlerUpdateTestCase {
         log.info("Initializing Update Handler Test");
         log.debug("Update Handler Test Initialised");
         loggedInSessionCookie = util.login();
-        frameworkPath = FrameworkSettings.getFrameworkPath();
+        frameworkPath = FrameworkPathUtil.getSystemResourceLocation()();
 
     }
 

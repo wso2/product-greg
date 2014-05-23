@@ -309,7 +309,7 @@ public class MetaDataVolumeTestClient {
     public void testMultipleWsdl() throws GovernanceException, IOException {
         Wsdl wsdl;
         int wsdlCount = 10000;
-        String resourcePath = FrameworkSettings.getFrameworkPath() + File.separator + ".." + File.separator + ".." + File.separator + ".."
+        String resourcePath = FrameworkPathUtil.getSystemResourceLocation()() + File.separator + ".." + File.separator + ".." + File.separator + ".."
                               + File.separator + "src" + File.separator + "test" + File.separator + "java" + File.separator
                               + "resources";
 

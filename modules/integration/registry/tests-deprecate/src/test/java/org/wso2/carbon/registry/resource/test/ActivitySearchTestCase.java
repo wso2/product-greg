@@ -56,7 +56,7 @@ public class ActivitySearchTestCase {
         log.info("Initializing Tests for Activity Search");
         log.debug("Activity Search Tests Initialised");
         loggedInSessionCookie = util.login();
-        frameworkPath = FrameworkSettings.getFrameworkPath();
+        frameworkPath = FrameworkPathUtil.getSystemResourceLocation()();
         log.debug("Running SuccessCase");
         resourceAdminServiceStub = TestUtils.getResourceAdminServiceStub(loggedInSessionCookie);
         activityAdminServiceStub = TestUtils.getActivityAdminServiceStub(loggedInSessionCookie);

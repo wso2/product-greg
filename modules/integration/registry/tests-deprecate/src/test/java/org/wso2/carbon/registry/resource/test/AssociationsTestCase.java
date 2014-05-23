@@ -54,7 +54,7 @@ public class AssociationsTestCase {
     @BeforeClass(groups = {"wso2.greg"})
     public void init() throws Exception {
         loggedInSessionCookie = util.login();
-        frameworkPath = FrameworkSettings.getFrameworkPath();
+        frameworkPath = FrameworkPathUtil.getSystemResourceLocation()();
 
     }
 

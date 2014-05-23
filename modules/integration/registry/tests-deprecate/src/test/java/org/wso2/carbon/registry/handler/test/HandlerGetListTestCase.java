@@ -44,7 +44,7 @@ public class HandlerGetListTestCase {
         log.info("Initializing HandlerGetListTestCase");
         log.debug("HandlerGetListTestCase Initialised");
         loggedInSessionCookie = util.login();
-        frameworkPath = FrameworkSettings.getFrameworkPath();
+        frameworkPath = FrameworkPathUtil.getSystemResourceLocation()();
 
     }
 

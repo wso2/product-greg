@@ -47,7 +47,7 @@ public class NonXMLResourceAddTestCase {
         log.info("Initializing Add Non-XML Resource Tests");
         log.debug("Add Non-XML Resource Test Initialised");
         loggedInSessionCookie = util.login();
-        frameworkPath = FrameworkSettings.getFrameworkPath();
+        frameworkPath = FrameworkPathUtil.getSystemResourceLocation()();
     }
 
     @Test(groups = {"wso2.greg"})

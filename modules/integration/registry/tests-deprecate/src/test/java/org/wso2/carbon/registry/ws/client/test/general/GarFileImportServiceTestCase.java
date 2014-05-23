@@ -37,7 +37,7 @@ public class GarFileImportServiceTestCase extends TestSetup {
     @BeforeClass(groups = {"wso2.greg"})
     public void initialize() throws RegistryException {
         super.init();
-        resourcePath = FrameworkSettings.getFrameworkPath() + File.separator + ".." + File.separator + ".." + File.separator + ".."
+        resourcePath = FrameworkPathUtil.getSystemResourceLocation()() + File.separator + ".." + File.separator + ".." + File.separator + ".."
                        + File.separator + "src" + File.separator + "test" + File.separator + "java" + File.separator
                        + "resources" + File.separator;
     }

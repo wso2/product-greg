@@ -65,7 +65,7 @@ public class LifeCycleWithScriptTestCase extends TestSetup {
     private String servicePathDev;
     private final String ACTION_PROMOTE = "Promote";
     private final String ASS_TYPE_DEPENDS = "depends";
-    private String resourcePath = FrameworkSettings.getFrameworkPath() + File.separator + ".."
+    private String resourcePath = FrameworkPathUtil.getSystemResourceLocation()() + File.separator + ".."
                                   + File.separator + "src" + File.separator + "test" + File.separator + "java" + File.separator
                                   + "resources";
 

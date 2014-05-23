@@ -53,7 +53,7 @@ public class WSDLAPIContentTestCase {
         endpointManager = new EndpointManager(governance);
         schemaManager = new SchemaManager(governance);
 
-        resourcePath = FrameworkSettings.getFrameworkPath() + File.separator + ".." + File.separator + ".." +
+        resourcePath = FrameworkPathUtil.getSystemResourceLocation()() + File.separator + ".." + File.separator + ".." +
                 File.separator + ".." + File.separator + "src" + File.separator + "test" + File.separator +
                 "java" + File.separator + "resources";
     }

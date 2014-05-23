@@ -55,7 +55,7 @@ public class PolicyAddTestCase {
         log.info("Initializing Add/Update Policy Registry Tests");
         log.debug("Add/Update Policy Registry Test Initialised");
         loggedInSessionCookie = util.login();
-        frameworkPath = FrameworkSettings.getFrameworkPath();
+        frameworkPath = FrameworkPathUtil.getSystemResourceLocation()();
         log.debug("Running SuccessCase");
         resourceAdminServiceStub = TestUtils.getResourceAdminServiceStub(loggedInSessionCookie);
 

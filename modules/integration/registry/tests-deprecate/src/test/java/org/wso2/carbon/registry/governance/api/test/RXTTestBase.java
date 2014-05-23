@@ -62,7 +62,7 @@ public class RXTTestBase {
         registry = TestUtils.getRegistry();
         try {
             TestUtils.cleanupResources(registry);
-            configPath = FrameworkSettings.getFrameworkPath() + File.separator + ".." + File.separator + ".." + File.separator + ".." +
+            configPath = FrameworkPathUtil.getSystemResourceLocation()() + File.separator + ".." + File.separator + ".." + File.separator + ".." +
                     File.separator + "src" + File.separator + "test" + File.separator + "java" + File.separator +
                     "resources" + File.separator + fileName;
         } catch (RegistryException e) {
@@ -135,7 +135,7 @@ public class RXTTestBase {
 
     protected void loadRXTsForAssetModelSamples(String type) {
         try {
-            String path = FrameworkSettings.getFrameworkPath() + File.separator + ".." +
+            String path = FrameworkPathUtil.getSystemResourceLocation()() + File.separator + ".." +
                     File.separator + ".." + File.separator + ".." + File.separator + ".." +
                     File.separator + ".." + File.separator + ".." + File.separator + "samples" +
                     File.separator + "asset-models" + File.separator + type + File.separator +

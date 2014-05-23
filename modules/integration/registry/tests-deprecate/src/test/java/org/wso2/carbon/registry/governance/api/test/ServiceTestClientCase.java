@@ -63,7 +63,7 @@ public class ServiceTestClientCase {
             throws RegistryException, RemoteException, LoginAuthenticationExceptionException {
         governance = TestUtils.getRegistry();
         TestUtils.cleanupResources(governance);
-        configPath = FrameworkSettings.getFrameworkPath() + File.separator + ".." + File.separator + ".." + File.separator + ".." +
+        configPath = FrameworkPathUtil.getSystemResourceLocation()() + File.separator + ".." + File.separator + ".." + File.separator + ".." +
                      File.separator + "src" + File.separator + "test" + File.separator + "java" + File.separator +
                      "resources" + File.separator + "service.metadata.xml";
 

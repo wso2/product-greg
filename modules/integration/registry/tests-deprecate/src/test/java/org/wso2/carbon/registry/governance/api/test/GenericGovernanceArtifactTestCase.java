@@ -63,7 +63,7 @@ public class GenericGovernanceArtifactTestCase {
         Resource resource = governance.newResource();
         String rxtLocation = "/_system/governance/repository/components/org.wso2.carbon.governance/types/";
 
-        String rxtFilePath = FrameworkSettings.getFrameworkPath() + File.separator + ".." + File.separator + ".." + File.separator + ".."
+        String rxtFilePath = FrameworkPathUtil.getSystemResourceLocation()() + File.separator + ".." + File.separator + ".." + File.separator + ".."
                              + File.separator + "src" + File.separator + "test" + File.separator + "java" + File.separator
                              + "resources" + File.separator + "rxt" + File.separator;
 

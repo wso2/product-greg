@@ -39,7 +39,7 @@ import static org.testng.Assert.assertTrue;
 
 public class SampleDataPopulatorTestCase {
 
-    private String location = FrameworkSettings.getFrameworkPath() + File.separator + ".." + File.separator + ".." +
+    private String location = FrameworkPathUtil.getSystemResourceLocation()() + File.separator + ".." + File.separator + ".." +
                               File.separator + ".." + File.separator + "src" + File.separator + "test" + File.separator + "java" +
                               File.separator + "resources" + File.separator + "populator";
     private Registry registry;
@@ -48,13 +48,13 @@ public class SampleDataPopulatorTestCase {
     public void initTest() throws RegistryException, IOException, InterruptedException {
         registry = TestUtils.getRegistry();
         TestUtils.cleanupResources(registry);
-        FileManipulator.copyDir(new File(FrameworkSettings.getFrameworkPath() + File.separator + ".." + File.separator +
+        FileManipulator.copyDir(new File(FrameworkPathUtil.getSystemResourceLocation()() + File.separator + ".." + File.separator +
                                          ".." + File.separator + ".." + File.separator + "src" + File.separator + "test" + File.separator +
                                          "java" + File.separator + "resources" + File.separator + "populate" + File.separator + "FooModel"),
                                 new File(FrameworkSettings.CARBON_HOME + File.separator + "samples" + File.separator + "asset-models" +
                                          File.separator + "FooModel"));
 
-        FileManipulator.copyFileToDir(new File(FrameworkSettings.getFrameworkPath() + File.separator + ".." +
+        FileManipulator.copyFileToDir(new File(FrameworkPathUtil.getSystemResourceLocation()() + File.separator + ".." +
                                                File.separator + ".." + File.separator + ".." + File.separator + "src" + File.separator + "test" +
                                                File.separator + "java" + File.separator + "resources" + File.separator + "populate" + File.separator +
                                                "build.xml"), new File(FrameworkSettings.CARBON_HOME + File.separator + "samples" + File.separator +

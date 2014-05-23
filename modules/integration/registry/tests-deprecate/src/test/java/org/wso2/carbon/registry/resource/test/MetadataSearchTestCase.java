@@ -61,7 +61,7 @@ public class MetadataSearchTestCase {
         log.info("Initializing Tests for Meta-data Search");
         log.debug("Meta-data Search Test Initialised");
         loggedInSessionCookie = util.login();
-        frameworkPath = FrameworkSettings.getFrameworkPath();
+        frameworkPath = FrameworkPathUtil.getSystemResourceLocation()();
 
         log.debug("Running SuccessCase");
         searchAdminServiceStub = TestUtils.getSearchAdminServiceStub(loggedInSessionCookie);

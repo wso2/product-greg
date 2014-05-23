@@ -54,7 +54,7 @@ public class SchemaAddTestCase {
         log.info("Initializing Add Schema Resource Tests");
         log.debug("Add Add Schema Resource Initialised");
         loggedInSessionCookie = util.login();
-        frameworkPath = FrameworkSettings.getFrameworkPath();
+        frameworkPath = FrameworkPathUtil.getSystemResourceLocation()();
         log.debug("Running SuccessCase");
         resourceAdminServiceStub = TestUtils.getResourceAdminServiceStub(loggedInSessionCookie);
 

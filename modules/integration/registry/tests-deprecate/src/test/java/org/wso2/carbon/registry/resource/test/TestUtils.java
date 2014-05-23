@@ -182,7 +182,7 @@ public class TestUtils {
         LoginLogoutUtil util = new LoginLogoutUtil();
         try {
             String loggedInSessionCookie = util.login();
-            String frameworkPath = FrameworkSettings.getFrameworkPath();
+            String frameworkPath = FrameworkPathUtil.getSystemResourceLocation()();
 
             resourceAdminServiceStub = getResourceAdminServiceStub(loggedInSessionCookie);
 

@@ -55,7 +55,7 @@ public class ContentSearchTestCase {
         log.info("Initializing Tests for Community Feature in Registry Policy");
         log.debug("Community Feature in Registry Policy Test Initialised");
         loggedInSessionCookie = util.login();
-        frameworkPath = FrameworkSettings.getFrameworkPath();
+        frameworkPath = FrameworkPathUtil.getSystemResourceLocation()();
 
         log.debug("Running SuccessCase");
         resourceAdminServiceStub = TestUtils.getResourceAdminServiceStub(loggedInSessionCookie);

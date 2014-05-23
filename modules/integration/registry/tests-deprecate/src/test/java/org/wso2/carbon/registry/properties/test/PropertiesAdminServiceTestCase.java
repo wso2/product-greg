@@ -51,7 +51,7 @@ public class PropertiesAdminServiceTestCase {
     public void init() throws Exception {
         log.info("Initializing Properties Admin Service Tests");
         loggedInSessionCookie = util.login();
-        frameworkPath = FrameworkSettings.getFrameworkPath();
+        frameworkPath = FrameworkPathUtil.getSystemResourceLocation()();
         log.debug("Running SuccessCase");
         propertiesAdminServiceStub = TestUtils.getPropertiesAdminServiceStub(loggedInSessionCookie);
     }

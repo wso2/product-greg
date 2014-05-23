@@ -139,7 +139,7 @@
 //    @Test(groups = {"wso2.greg"}, description = "Update policy content")
 //    public void testUpdatePolicy() throws GovernanceException, IOException {
 //        PolicyManager policyManager = new PolicyManager(governance);
-//        String updatedPolicyPath = FrameworkSettings.getFrameworkPath() + File.separator + ".." + File.separator + ".." + File.separator + ".."
+//        String updatedPolicyPath = FrameworkPathUtil.getSystemResourceLocation()() + File.separator + ".." + File.separator + ".." + File.separator + ".."
 //                                   + File.separator + "src" + File.separator + "test" + File.separator + "java" + File.separator
 //                                   + "resources" + File.separator + "policy" + File.separator + "UTPolicy-updated.xml";
 //

@@ -48,7 +48,7 @@ public class SchemaImportServiceTestCase {
     public void init() throws RegistryException, AxisFault, MalformedURLException {
         registry = TestUtils.getWSRegistry();
         governance = TestUtils.getRegistry();
-        resourcePath = FrameworkSettings.getFrameworkPath() + File.separator + ".." + File.separator + ".." + File.separator + ".."
+        resourcePath = FrameworkPathUtil.getSystemResourceLocation()() + File.separator + ".." + File.separator + ".." + File.separator + ".."
                        + File.separator + "src" + File.separator + "test" + File.separator + "java" + File.separator
                        + "resources" + File.separator;
         deleteSchema();   //  Delete Schemas already existing

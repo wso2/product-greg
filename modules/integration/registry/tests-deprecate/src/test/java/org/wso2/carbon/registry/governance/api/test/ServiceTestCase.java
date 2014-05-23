@@ -49,7 +49,7 @@ public class ServiceTestCase {
         GovernanceUtils.loadGovernanceArtifacts((UserRegistry) governance);
         try {
             TestUtils.cleanupResources(governance);
-            configPath = FrameworkSettings.getFrameworkPath() + File.separator + ".." + File.separator + ".." + File.separator + ".." +
+            configPath = FrameworkPathUtil.getSystemResourceLocation()() + File.separator + ".." + File.separator + ".." + File.separator + ".." +
                     File.separator + "src" + File.separator + "test" + File.separator + "java" + File.separator +
                     "resources" + File.separator + "service.metadata.xml";
         } catch (RegistryException e) {

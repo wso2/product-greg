@@ -54,7 +54,7 @@ public class WSDLAddTestCase {
     @BeforeClass(groups = {"wso2.greg.wsdl.a"})
     public void init() throws Exception {
         loggedInSessionCookie = util.login();
-        frameworkPath = FrameworkSettings.getFrameworkPath();
+        frameworkPath = FrameworkPathUtil.getSystemResourceLocation()();
         Registry governance =
                 GregTestUtils.getGovernanceRegistry(GregTestUtils.getRegistry());
         org.wso2.carbon.registry.governance.api.test.TestUtils.cleanupResources(governance);
