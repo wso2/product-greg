@@ -11,7 +11,7 @@
 
 
     <modelVersion>4.0.0</modelVersion>
-    <name>Registry Lifecycle TestNG Test Module</name>
+    <name>Registry Lifecycle Test Module</name>
     <artifactId>org.wso2.carbon.registry.test.lifecycle</artifactId>
     <packaging>jar</packaging>
 

@@ -1,0 +1,26 @@
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
+
+<suite name="GregTestSuite">
+    <parameter name="useDefaultListeners" value="false"/>
+    <listeners>
+        <listener class-name="org.wso2.carbon.automation.engine.testlisteners.TestExecutionListener"/>
+        <listener class-name="org.wso2.carbon.automation.engine.testlisteners.TestManagerListener"/>
+        <listener class-name="org.wso2.carbon.automation.engine.testlisteners.TestReportListener"/>
+        <listener class-name="org.wso2.carbon.automation.engine.testlisteners.TestSuiteListener"/>
+        <listener class-name="org.wso2.carbon.automation.engine.testlisteners.TestTransformerListener"/>
+    </listeners>
+    <test name="ServerStartUpVerificationTest" preserve-order="true" parallel="false">
+       <classes>
+           <class name="org.wso2.carbon.registry.server.mgt.test.ServerStartupTestCase"/>
+       </classes>
+    </test>
+    <test name="Test - GREG" preserve-order="true" parallel="false">
+        <packages>
+            <package name="org.wso2.carbon.registry.governance.api.test"/>
+            <package name="org.wso2.carbon.registry.governance.api.metadata.test"/>
+            <package name="org.wso2.carbon.registry.governance.api.ui.test"/>
+            <package name="org.wso2.carbon.registry.governance.api.lifecycle.test"/>
+            <package name="org.wso2.carbon.registry.governance.api.service.test"/>
+        </packages>
+    </test>
+</suite>

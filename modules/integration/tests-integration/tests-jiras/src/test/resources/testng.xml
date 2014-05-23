@@ -1,0 +1,80 @@
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
+
+<suite name="public-jira-test-suite">
+    <parameter name="useDefaultListeners" value="false"/>
+
+    <test name="public-jira-tests" preserve-order="true" parallel="false">
+        <packages>
+            <package name="org.wso2.carbon.registry.jira2.issues.test2"/>
+            <package name="org.wso2.carbon.registry.jira.issues.test"/>
+        </packages>
+    </test>
+
+    <!--<test name="public-jira-tests" preserve-order="true" parallel="false">-->
+        <!--<classes>-->
+            <!--<class name="org.wso2.carbon.registry.jira.issues.test.Carbon2163TestCase"/>-->
+            <!--<class name="org.wso2.carbon.registry.jira.issues.test.Carbon8980TestCase"/>-->
+            <!--<class name="org.wso2.carbon.registry.jira.issues.test.Carbon8421TestCase"/>-->
+            <!--<class name="org.wso2.carbon.registry.jira.issues.test.Carbon8636TestCase"/>-->
+            <!--<class name="org.wso2.carbon.registry.jira.issues.test.Carbon8868TestCase"/>-->
+            <!--<class name="org.wso2.carbon.registry.jira.issues.test.Carbon8971TestCase"/>-->
+            <!--<class name="org.wso2.carbon.registry.jira.issues.test.Registry1166TestCase"/>-->
+
+
+            <!--<class name="org.wso2.carbon.registry.jira.issues.test.Carbon10714TestCase"/>-->
+            <!--<class name="org.wso2.carbon.registry.jira.issues.test.Carbon10907TestCase"/>-->
+            <!--<class name="org.wso2.carbon.registry.jira.issues.test.Carbon11120TestCase"/>-->
+            <!--<class name="org.wso2.carbon.registry.jira.issues.test.Carbon11408TestCase"/>-->
+            <!--<class name="org.wso2.carbon.registry.jira.issues.test.Carbon11572TestCase"/>-->
+            <!--<class name="org.wso2.carbon.registry.jira.issues.test.Carbon11689TestCase"/>-->
+            <!--<class name="org.wso2.carbon.registry.jira.issues.test.Carbon11839TestCase"/>-->
+            <!--<class name="org.wso2.carbon.registry.jira.issues.test.Carbon12131TestCase"/>-->
+            <!--<class name="org.wso2.carbon.registry.jira.issues.test.Carbon12699TestCase"/>-->
+
+
+            <!--<class name="org.wso2.carbon.registry.jira.issues.test.Carbon9096TestCase"/>-->
+            <!--<class name="org.wso2.carbon.registry.jira.issues.test.Carbon9147TestCase"/>-->
+            <!--<class name="org.wso2.carbon.registry.jira.issues.test.Carbon9160TestCase"/>-->
+            <!--<class name="org.wso2.carbon.registry.jira.issues.test.Carbon9190TestCase"/>-->
+
+
+            <!--<class name="org.wso2.carbon.registry.jira.issues.test.Registry1166TestCase"/>-->
+            <!--<class name="org.wso2.carbon.registry.jira.issues.test.Registry1245TestCase"/>-->
+            <!--<class name="org.wso2.carbon.registry.jira.issues.test.Registry579TestCase"/>-->
+            <!--<class name="org.wso2.carbon.registry.jira.issues.test.Registry595TestCase"/>-->
+            <!--<class name="org.wso2.carbon.registry.jira.issues.test.Registry916TestCase"/>-->
+            <!--<class name="org.wso2.carbon.registry.jira.issues.test.Registry954TestCase"/>-->
+            <!--<class name="org.wso2.carbon.registry.jira.issues.test.Registry931TestCase"/>-->
+
+
+            <!--<class name="org.wso2.carbon.registry.jira.issues.test.RemoteRegistryTestCase"/>-->
+            <!--<class name="org.wso2.carbon.registry.jira.issues.test.SaveSearchTestCase"/>-->
+            <!--<class name="org.wso2.carbon.registry.jira.issues.test.SearchServiceOfStatusChange"/>-->
+            <!--<class name="org.wso2.carbon.registry.jira.issues.test.SymlinkTestCase"/>-->
+            <!--<class name="org.wso2.carbon.registry.jira.issues.test.WSRegistryExecuteQueryTestCase"/>-->
+            <!--<class name="org.wso2.carbon.registry.jira.issues.test.JMXServiceOperationsTestCase"/>-->
+            <!--<class name="org.wso2.carbon.registry.jira.issues.test.FileSystemImportationSecurityHotFixTestCase"/>-->
+            <!--<class name="org.wso2.carbon.registry.jira.issues.test.Carbon13084TestCase"/>-->
+
+
+            <!--<class name="org.wso2.carbon.registry.jira.issues.test.Carbon10907TestCase"/>-->
+            <!--<class name="org.wso2.carbon.registry.jira.issues.test.Carbon10714TestCase"/>-->
+            <!--<class name="org.wso2.carbon.registry.jira.issues.test.Carbon12699TestCase"/>-->
+            <!--<class name="org.wso2.carbon.registry.jira.issues.test.Carbon12131TestCase"/>-->
+            <!--<class name="org.wso2.carbon.registry.jira.issues.test.Carbon12213TestCase"/>-->
+            <!--<class name="org.wso2.carbon.registry.jira.issues.test.Carbon12924TestCase"/>-->
+
+
+            <!--<class name="org.wso2.carbon.registry.jira2.issues.test2.Registry580TestCase"/>-->
+            <!--<class name="org.wso2.carbon.registry.jira2.issues.test2.Carbon10667TestCase"/>-->
+            <!--<class name="org.wso2.carbon.registry.jira2.issues.test2.Carbon11634TestCase"/>-->
+            <!--<class name="org.wso2.carbon.registry.jira2.issues.test2.Carbon11906TestCase"/>-->
+            <!--<class name="org.wso2.carbon.registry.jira2.issues.test2.Registry1170TestCase"/>-->
+            <!--<class name="org.wso2.carbon.registry.jira2.issues.test2.Carbon12259TestCase"/>-->
+            <!--<class name="org.wso2.carbon.registry.jira2.issues.test2.Carbon9161TestCase"/>-->
+            <!--<class name="org.wso2.carbon.registry.jira2.issues.test2.Registry633TestCase"/>-->
+
+
+        <!--</classes>-->
+    <!--</test>-->
+</suite>

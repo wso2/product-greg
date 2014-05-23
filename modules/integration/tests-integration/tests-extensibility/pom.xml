@@ -10,7 +10,7 @@
     </parent>
 
     <modelVersion>4.0.0</modelVersion>
-    <name>Registry Extensibility TestNG Test Module</name>
+    <name>Registry Extensibility Test Module</name>
     <artifactId>org.wso2.carbon.registry.test.extensibility</artifactId>
     <packaging>jar</packaging>
 
@@ -21,10 +21,13 @@
                 <inherited>false</inherited>
                 <version>2.12.4</version>
                 <configuration>
+                    <!--<argLine>-Xms512m -Xmx1024m -XX:MaxPermSize=128m -Xmx1024m -XX:PermSize=256m
+                    -XX:MaxPermSize=512m -Xdebug -Xnoagent -Djava.compiler=NONE
+                    -Xrunjdwp:transport=dt_socket,server=y,suspend=y,address=5006
+                    </argLine>-->
                     <argLine>-Xmx1024m -XX:PermSize=256m -XX:MaxPermSize=512m</argLine>
                     <parallel>false</parallel>
                     <suiteXmlFiles>
-                        <suiteXmlFile>src/test/resources/testng-server-mgt.xml</suiteXmlFile>
                         <suiteXmlFile>src/test/resources/testng.xml</suiteXmlFile>
                     </suiteXmlFiles>
 

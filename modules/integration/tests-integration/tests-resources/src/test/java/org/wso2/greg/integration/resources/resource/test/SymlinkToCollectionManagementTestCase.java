@@ -24,9 +24,8 @@ import org.apache.axis2.AxisFault;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
-import org.wso2.carbon.authenticator.stub.LoginAuthenticationExceptionException;
+import org.wso2.carbon.automation.engine.configurations.UrlGenerationUtil;
 import org.wso2.carbon.automation.engine.context.TestUserMode;
-import org.wso2.carbon.registry.core.exceptions.RegistryException;
 import org.wso2.carbon.registry.resource.stub.ResourceAdminServiceExceptionException;
 import org.wso2.carbon.registry.resource.stub.common.xsd.ResourceData;
 import org.wso2.carbon.registry.search.stub.SearchAdminServiceRegistryExceptionException;
@@ -37,7 +36,6 @@ import org.wso2.greg.integration.common.clients.ResourceAdminServiceClient;
 import org.wso2.greg.integration.common.clients.SearchAdminServiceClient;
 import org.wso2.greg.integration.common.utils.GREGIntegrationBaseTest;
 import org.wso2.greg.integration.resources.search.metadata.test.bean.SearchParameterBean;
-import org.xml.sax.SAXException;
 
 import javax.xml.namespace.QName;
 import javax.xml.stream.XMLStreamException;
@@ -47,7 +45,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
-import java.net.URISyntaxException;
 import java.net.URL;
 import java.nio.charset.Charset;
 import java.rmi.RemoteException;
@@ -55,7 +52,7 @@ import java.util.Date;
 
 import static org.testng.Assert.*;
 
-public class SymlinkToCollectionManagementTestCase extends GREGIntegrationBaseTest{
+public class SymlinkToCollectionManagementTestCase extends GREGIntegrationBaseTest {
 
     private ResourceAdminServiceClient resourceAdminClient;
     private SearchAdminServiceClient searchAdminServiceClient;
@@ -73,56 +70,35 @@ public class SymlinkToCollectionManagementTestCase extends GREGIntegrationBaseTe
     private static final String REGISTRY_NAMESPACE = "http://wso2.org/registry";
 
     @BeforeClass(alwaysRun = true)
-    public void initialize()
-            throws LoginAuthenticationExceptionException, IOException,
-            RegistryException, XPathExpressionException, URISyntaxException, SAXException, XMLStreamException {
+    public void initialize() throws Exception {
         super.init(TestUserMode.SUPER_TENANT_ADMIN);
-        resourceAdminClient =
-                new ResourceAdminServiceClient(getBackendURL(),
-                                               getSessionCookie());
-        searchAdminServiceClient = new SearchAdminServiceClient(getBackendURL(),
-                                                                getSessionCookie());
+        resourceAdminClient = new ResourceAdminServiceClient(getBackendURL(), getSessionCookie());
+        searchAdminServiceClient = new SearchAdminServiceClient(getBackendURL(), getSessionCookie());
     }
 
     @Test(groups = "wso2.greg")
-    public void testAddCollection()
-            throws ResourceAdminServiceExceptionException, RemoteException, XPathExpressionException {
-
+    public void testAddCollection() throws ResourceAdminServiceExceptionException, RemoteException, XPathExpressionException {
         String fileType = "other";
         resourceAdminClient.addCollection(PATH, COLL_NAME, fileType, COLL_DESC);
-
         String authorUserName = resourceAdminClient.getResource(PATH + COLL_NAME)[0].getAuthorUserName();
         assertTrue(automationContext.getContextTenant().getContextUser().getUserName().equalsIgnoreCase(authorUserName), "Root collection creation failure");
-
     }
 
     @Test(groups = "wso2.greg", dependsOnMethods = "testAddCollection")
-    public void testAddSymlinkToCollection()
-            throws ResourceAdminServiceExceptionException, RemoteException, XPathExpressionException {
-        resourceAdminClient.addSymbolicLink(
-                SYMLINK_LOC.substring(0, SYMLINK_LOC.length() - 1), SYMLINK_NAME, PATH + COLL_NAME);
-
+    public void testAddSymlinkToCollection() throws ResourceAdminServiceExceptionException, RemoteException, XPathExpressionException {
+        resourceAdminClient.addSymbolicLink(SYMLINK_LOC.substring(0, SYMLINK_LOC.length() - 1), SYMLINK_NAME, PATH + COLL_NAME);
         String authorUserName = resourceAdminClient.getResource(SYMLINK_LOC + SYMLINK_NAME)[0].getAuthorUserName();
         assertTrue(automationContext.getContextTenant().getContextUser().getUserName().equalsIgnoreCase(authorUserName), "Symlink creation failure");
     }
 
     @Test(groups = "wso2.greg", dependsOnMethods = "testAddSymlinkToCollection", enabled = true)
-    public void testFeed()
-            throws ResourceAdminServiceExceptionException, IOException, XMLStreamException, XPathExpressionException {
-
+    public void testFeed() throws ResourceAdminServiceExceptionException, IOException, XMLStreamException, XPathExpressionException {
         ResourceData[] rData = resourceAdminClient.getResource(SYMLINK_LOC + SYMLINK_NAME);
-
         OMElement atomFeedOMElement = getAtomFeedContent(constructAtomUrl(SYMLINK_LOC + SYMLINK_NAME));
-
         assertNotNull(atomFeedOMElement, "No feed data available");
-
         //checking whether the created time is correct
-        OMElement createdElement = atomFeedOMElement.getFirstChildWithName(
-                new QName(REGISTRY_NAMESPACE, "createdTime"));
-
-        assertTrue(createdElement.getText().equalsIgnoreCase(getAtomDateString(rData[0].getCreatedOn().getTime())),
-                   "Symlink - Created time is incorrect");
-
+        OMElement createdElement = atomFeedOMElement.getFirstChildWithName(new QName(REGISTRY_NAMESPACE, "createdTime"));
+        assertTrue(createdElement.getText().equalsIgnoreCase(getAtomDateString(rData[0].getCreatedOn().getTime())), "Symlink - Created time is incorrect");
     }
 
     @Test(groups = "wso2.greg", dependsOnMethods = "testFeed")
@@ -130,122 +106,72 @@ public class SymlinkToCollectionManagementTestCase extends GREGIntegrationBaseTe
         resourceAdminClient.renameResource(SYMLINK_LOC, SYMLINK_LOC + SYMLINK_NAME, SYMLINK_NAME_AFTER_RENAME);
         boolean found = false;
         ResourceData[] rData = resourceAdminClient.getResource(SYMLINK_LOC + SYMLINK_NAME_AFTER_RENAME);
-
-        for (ResourceData resource : rData) {
-            if (SYMLINK_NAME_AFTER_RENAME.equalsIgnoreCase(resource.getName())) {
+        for(ResourceData resource : rData) {
+            if(SYMLINK_NAME_AFTER_RENAME.equalsIgnoreCase(resource.getName())) {
                 found = true;
             }
         }
-
         assertTrue(found, "Rename Symlink error");
     }
 
     @Test(groups = "wso2.greg", dependsOnMethods = "testRenameSymlink", enabled = true)
-    public void testFeedAfterRename()
-            throws ResourceAdminServiceExceptionException, IOException, XMLStreamException, XPathExpressionException {
-
+    public void testFeedAfterRename() throws ResourceAdminServiceExceptionException, IOException, XMLStreamException, XPathExpressionException {
         ResourceData[] rData = resourceAdminClient.getResource(SYMLINK_LOC + SYMLINK_NAME_AFTER_RENAME);
-
         OMElement atomFeedOMElement = getAtomFeedContent(constructAtomUrl(SYMLINK_LOC + SYMLINK_NAME_AFTER_RENAME));
-
         assertNotNull(atomFeedOMElement, "No feed data available");
-
         //checking whether the created time is correct
-        OMElement createdElement = atomFeedOMElement.getFirstChildWithName(
-                new QName(REGISTRY_NAMESPACE, "createdTime"));
-
-        assertTrue(createdElement.getText().equalsIgnoreCase(getAtomDateString(rData[0].getCreatedOn().getTime())),
-                   "Symlink - Created time is incorrect");
-
+        OMElement createdElement = atomFeedOMElement.getFirstChildWithName(new QName(REGISTRY_NAMESPACE, "createdTime"));
+        assertTrue(createdElement.getText().equalsIgnoreCase(getAtomDateString(rData[0].getCreatedOn().getTime())), "Symlink - Created time is incorrect");
     }
 
     @Test(groups = "wso2.greg", dependsOnMethods = "testFeedAfterRename")
     public void testCopySymlink() throws ResourceAdminServiceExceptionException, RemoteException {
-        resourceAdminClient.copyResource(SYMLINK_LOC, SYMLINK_LOC + SYMLINK_NAME_AFTER_RENAME,
-                                         SYMLINK_COPIED_LOCATION.substring(0, SYMLINK_COPIED_LOCATION.length() - 1),
-                                         SYMLINK_NAME_AFTER_COPYING);
-
-        String pointsTo = resourceAdminClient.getResource(
-                SYMLINK_COPIED_LOCATION + SYMLINK_NAME_AFTER_COPYING)[0].getRealPath();
-
+        resourceAdminClient.copyResource(SYMLINK_LOC, SYMLINK_LOC + SYMLINK_NAME_AFTER_RENAME, SYMLINK_COPIED_LOCATION.substring(0, SYMLINK_COPIED_LOCATION.length() - 1), SYMLINK_NAME_AFTER_COPYING);
+        String pointsTo = resourceAdminClient.getResource(SYMLINK_COPIED_LOCATION + SYMLINK_NAME_AFTER_COPYING)[0].getRealPath();
         assertTrue((PATH + COLL_NAME).equalsIgnoreCase(pointsTo), "Symlink has not being moved properly");
     }
 
     @Test(groups = "wso2.greg", dependsOnMethods = "testCopySymlink", enabled = true)
-    public void testFeedAfterCopying()
-            throws ResourceAdminServiceExceptionException, IOException, XMLStreamException, XPathExpressionException {
-
+    public void testFeedAfterCopying() throws ResourceAdminServiceExceptionException, IOException, XMLStreamException, XPathExpressionException {
         ResourceData[] rData = resourceAdminClient.getResource(SYMLINK_COPIED_LOCATION + SYMLINK_NAME_AFTER_COPYING);
-
-        OMElement atomFeedOMElement =
-                getAtomFeedContent(constructAtomUrl(SYMLINK_COPIED_LOCATION + SYMLINK_NAME_AFTER_COPYING));
-
+        OMElement atomFeedOMElement = getAtomFeedContent(constructAtomUrl(SYMLINK_COPIED_LOCATION + SYMLINK_NAME_AFTER_COPYING));
         assertNotNull(atomFeedOMElement, "No feed data available");
-
         //checking whether the created time is correct
-        OMElement createdElement = atomFeedOMElement.getFirstChildWithName(
-                new QName(REGISTRY_NAMESPACE, "createdTime"));
-
-        assertTrue(createdElement.getText().equalsIgnoreCase(getAtomDateString(rData[0].getCreatedOn().getTime())),
-                   "Copied Symlink - Created time is incorrect");
-
+        OMElement createdElement = atomFeedOMElement.getFirstChildWithName(new QName(REGISTRY_NAMESPACE, "createdTime"));
+        assertTrue(createdElement.getText().equalsIgnoreCase(getAtomDateString(rData[0].getCreatedOn().getTime())), "Copied Symlink - Created time is incorrect");
     }
 
     @Test(groups = "wso2.greg", dependsOnMethods = "testFeedAfterCopying")
-    public void testMoveSymlink()
-            throws ResourceAdminServiceExceptionException, RemoteException, InterruptedException {
-        resourceAdminClient.moveResource(SYMLINK_LOC,
-                                         SYMLINK_LOC + SYMLINK_NAME_AFTER_RENAME,
-                                         SYMLINK_MOVED_LOCATION.substring(0, SYMLINK_MOVED_LOCATION.length() - 1), SYMLINK_NAME_AFTER_MOVING);
+    public void testMoveSymlink() throws ResourceAdminServiceExceptionException, RemoteException, InterruptedException {
+        resourceAdminClient.moveResource(SYMLINK_LOC, SYMLINK_LOC + SYMLINK_NAME_AFTER_RENAME, SYMLINK_MOVED_LOCATION.substring(0, SYMLINK_MOVED_LOCATION.length() - 1), SYMLINK_NAME_AFTER_MOVING);
         Thread.sleep(2000);
-
-
         //check that the collection has been moved
-        String desc =
-                resourceAdminClient.getResource(SYMLINK_MOVED_LOCATION + SYMLINK_NAME_AFTER_MOVING)[0].getDescription();
-
+        String desc = resourceAdminClient.getResource(SYMLINK_MOVED_LOCATION + SYMLINK_NAME_AFTER_MOVING)[0].getDescription();
         assertTrue(COLL_DESC.equalsIgnoreCase(desc), "Symlink has not being copied properly");
     }
 
     @Test(groups = "wso2.greg", dependsOnMethods = "testMoveSymlink", enabled = true)
-    public void testFeedAfterMoving()
-            throws ResourceAdminServiceExceptionException, IOException, XMLStreamException, XPathExpressionException {
-
+    public void testFeedAfterMoving() throws ResourceAdminServiceExceptionException, IOException, XMLStreamException, XPathExpressionException {
         ResourceData[] rData = resourceAdminClient.getResource(SYMLINK_MOVED_LOCATION + SYMLINK_NAME_AFTER_MOVING);
-
-        OMElement atomFeedOMElement =
-                getAtomFeedContent(constructAtomUrl(SYMLINK_MOVED_LOCATION + SYMLINK_NAME_AFTER_MOVING));
-
+        OMElement atomFeedOMElement = getAtomFeedContent(constructAtomUrl(SYMLINK_MOVED_LOCATION + SYMLINK_NAME_AFTER_MOVING));
         assertNotNull(atomFeedOMElement, "No feed data available");
-
         //checking whether the created time is correct
-        OMElement createdElement = atomFeedOMElement.getFirstChildWithName(
-                new QName(REGISTRY_NAMESPACE, "createdTime"));
-
-        assertTrue(createdElement.getText().equalsIgnoreCase(getAtomDateString(rData[0].getCreatedOn().getTime())),
-                   "Copied Symlink - Created time is incorrect");
-
+        OMElement createdElement = atomFeedOMElement.getFirstChildWithName(new QName(REGISTRY_NAMESPACE, "createdTime"));
+        assertTrue(createdElement.getText().equalsIgnoreCase(getAtomDateString(rData[0].getCreatedOn().getTime())), "Copied Symlink - Created time is incorrect");
     }
 
     @Test(groups = "wso2.greg", dependsOnMethods = "testFeedAfterMoving", expectedExceptions = AxisFault.class)
-    public void testDeleteSymlink()
-            throws ResourceAdminServiceExceptionException, RemoteException {
-
+    public void testDeleteSymlink() throws ResourceAdminServiceExceptionException, RemoteException {
         resourceAdminClient.deleteResource(SYMLINK_COPIED_LOCATION);
-
         resourceAdminClient.getResource(SYMLINK_MOVED_LOCATION + SYMLINK_NAME_AFTER_MOVING);
-
-
     }
 
     @Test(groups = "wso2.greg", dependsOnMethods = "testDeleteSymlink")
-    public void testSearchForDeletedSymlink()
-            throws SearchAdminServiceRegistryExceptionException, RemoteException {
+    public void testSearchForDeletedSymlink() throws SearchAdminServiceRegistryExceptionException, RemoteException {
         CustomSearchParameterBean searchQuery = new CustomSearchParameterBean();
         SearchParameterBean paramBean = new SearchParameterBean();
         paramBean.setResourceName(SYMLINK_NAME_AFTER_MOVING);
         ArrayOfString[] paramList = paramBean.getParameterList();
-
         searchQuery.setParameterValues(paramList);
         AdvancedSearchResultsBean result = searchAdminServiceClient.getAdvancedSearchResults(searchQuery);
         assertNull(result.getResourceDataList(), "Symlink Record Found even if it is deleted");
@@ -257,40 +183,28 @@ public class SymlinkToCollectionManagementTestCase extends GREGIntegrationBaseTe
     }
 
     private String constructAtomUrl(String feedPath) throws XPathExpressionException {
-
         String registryURL;
-
-        registryURL =
-                getRemoteRegistryURLOfProducts(automationContext.
-                        getInstance().getPorts().get("https"), automationContext.getInstance().
-                        getHosts().get("default"),
-                        automationContext.getInstance());
-
+        registryURL = UrlGenerationUtil.getRemoteRegistryURL(automationContext.getDefaultInstance());
         return registryURL + "atom" + feedPath;
     }
 
-    private OMElement getAtomFeedContent(String registryUrl) throws IOException,
-            XMLStreamException, XPathExpressionException {
+    private OMElement getAtomFeedContent(String registryUrl) throws IOException, XMLStreamException, XPathExpressionException {
         StringBuilder sb;
         InputStream inputStream = null;
         URL url = new URL(registryUrl);
-        BufferedReader reader=null;
+        BufferedReader reader = null;
         try {
             HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-
             connection.setRequestMethod("GET");
-            String userPassword = automationContext.getContextTenant().getContextUser().getUserName() + ":" +automationContext.getContextTenant().getContextUser().getPassword();
+            String userPassword = automationContext.getContextTenant().getContextUser().getUserName() + ":" + automationContext.getContextTenant().getContextUser().getPassword();
             String encodedAuthorization = Base64Utils.encode(userPassword.getBytes(Charset.forName("UTF-8")));
-            connection.setRequestProperty("Authorization", "Basic " +
-                                                           encodedAuthorization);
+            connection.setRequestProperty("Authorization", "Basic " + encodedAuthorization);
             connection.connect();
-
             inputStream = connection.getInputStream();
             sb = new StringBuilder();
             String line;
-
             reader = new BufferedReader(new InputStreamReader(inputStream, "UTF-8"));
-            while ((line = reader.readLine()) != null) {
+            while((line = reader.readLine()) != null) {
                 sb.append(line).append("\n");
             }
         } finally {
@@ -298,15 +212,13 @@ public class SymlinkToCollectionManagementTestCase extends GREGIntegrationBaseTe
             reader.close();
             inputStream.close();
         }
-
         return AXIOMUtil.stringToOM(sb.toString());
-
     }
 
     @AfterClass
     public void cleanup() throws ResourceAdminServiceExceptionException, RemoteException {
         resourceAdminClient.deleteResource(PATH);
         resourceAdminClient = null;
-        searchAdminServiceClient=null;
+        searchAdminServiceClient = null;
     }
 }

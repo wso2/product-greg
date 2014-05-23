@@ -35,7 +35,7 @@ public class UTFSupportForResourceTestCase extends GREGIntegrationBaseTest {
     private String userName;
     private String userNameWithoutDomain;
 
-    @BeforeClass
+    @BeforeClass(alwaysRun = true)
     public void init() throws Exception {
 
         super.init(TestUserMode.SUPER_TENANT_ADMIN);
@@ -75,7 +75,7 @@ public class UTFSupportForResourceTestCase extends GREGIntegrationBaseTest {
     }
 
 
-    @AfterClass
+    @AfterClass(alwaysRun = true)
     public void clean() throws ResourceAdminServiceExceptionException, RemoteException,
                                SearchAdminServiceRegistryExceptionException, RegistryException {
         delete("/collection" + utfString);

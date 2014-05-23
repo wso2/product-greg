@@ -63,14 +63,14 @@ public class UTFSupportForLogsTestCase extends GREGIntegrationBaseTest {
     @Test(groups = {"wso2.greg"}, description = "create user and test system logs", dependsOnMethods = "testReadFile")
     public void testSystemLogs() throws Exception {
 
-        String[] roles = {"testRole"};
+        String[] roles = {"testRole123"};
         String[] permissions = {"/permission/admin/configure/",
                                 "/permission/admin/login",
                                 "/permission/admin/manage/",
                                 "/permission/admin/monitor",
                                 "/permission/protected"};
 
-        if (!userManagementClient.userNameExists("testBycreatedUser", utfString)) {
+        if (!userManagementClient.userNameExists(roles[0], utfString)) {
             if (!userManagementClient.roleNameExists(roles[0])) {
                 userManagementClient.addRole(roles[0], null, permissions);
                 resourceAdminServiceClient.addResourcePermission("/", roles[0], "3", "1");
@@ -85,7 +85,7 @@ public class UTFSupportForLogsTestCase extends GREGIntegrationBaseTest {
         Assert.assertTrue(userAdded);
 
         AuthenticatorClient loginClient = new AuthenticatorClient(backEndUrl);
-        String sessionCookie = loginClient.login(userName, "abcdef2",
+        String sessionCookie = loginClient.login(utfString, "abcdef2",
                                                  automationContext.getInstance().getHosts().get("default"));
         //create collection with new user
         resourceAdminServiceClient =

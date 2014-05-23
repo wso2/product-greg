@@ -42,7 +42,7 @@ import static org.testng.Assert.assertTrue;
 
 public class ReportGenerationTestCases extends ReportingTestCaseSuper {
 
-    @BeforeClass
+    @BeforeClass(alwaysRun = true)
     public void initializeForReportGenerationTesting() throws Exception {
         applicationName = super.applicationName + "ReportGenerationTestCases";
         artifactName = super.artifactName + "ReportGenerationTestCases";
@@ -381,7 +381,7 @@ public class ReportGenerationTestCases extends ReportingTestCaseSuper {
         assertFalse(assertVal);
     }
 
-    @AfterClass
+    @AfterClass(alwaysRun = true)
     public void ClearResourcesAddedForReportGenerationTesting() throws Exception {
         removeLCArtifact();
         removeResourcesLCReport();

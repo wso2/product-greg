@@ -25,6 +25,7 @@ import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 import org.wso2.carbon.authenticator.stub.LoginAuthenticationExceptionException;
+import org.wso2.carbon.automation.engine.configurations.UrlGenerationUtil;
 import org.wso2.carbon.automation.engine.context.TestUserMode;
 import org.wso2.carbon.registry.resource.stub.ResourceAdminServiceExceptionException;
 import org.wso2.carbon.registry.resource.stub.common.xsd.ResourceData;
@@ -64,9 +65,7 @@ public class CollectionInCollectionFeedTestCase extends GREGIntegrationBaseTest 
     private static final String REGISTRY_NAMESPACE = "http://wso2.org/registry";
 
     @BeforeClass(alwaysRun = true)
-    public void initialize()
-            throws LoginAuthenticationExceptionException, IOException,
-            XPathExpressionException, URISyntaxException, SAXException, XMLStreamException {
+    public void initialize() throws Exception {
         super.init(TestUserMode.SUPER_TENANT_ADMIN);
         resourceAdminClient =
                 new ResourceAdminServiceClient(getBackendURL(),
@@ -233,11 +232,8 @@ public class CollectionInCollectionFeedTestCase extends GREGIntegrationBaseTest 
 
         String registryURL;
 
-            registryURL =
-                    getRemoteRegistryURLOfProducts(automationContext.
-                            getInstance().getPorts().get("https"), automationContext.getInstance().
-                            getHosts().get("default"),
-                            automationContext.getInstance());
+            registryURL = UrlGenerationUtil.getRemoteRegistryURL(automationContext
+                    .getDefaultInstance());
 
         return registryURL + "atom" + feedPath;
     }

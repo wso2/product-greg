@@ -196,9 +196,7 @@ public class CustomLifeCycleDemoteForWSDLLCTestCase extends GREGIntegrationBaseT
      *
      */
     @Test (groups = "wso2.greg", description = "Promote Service to Creation", dependsOnMethods = "clickCommencementCheckList")
-    public void promoteServiceToCreation ()
-            throws InterruptedException, CustomLifecyclesChecklistAdminServiceExceptionException,
-            IOException, RegistryException, RegistryExceptionException, LoginAuthenticationExceptionException, XPathExpressionException, URISyntaxException, SAXException, XMLStreamException {
+    public void promoteServiceToCreation () throws Exception {
 
         Thread.sleep(1000);
         ArrayOfString[] parameters = new ArrayOfString[8];

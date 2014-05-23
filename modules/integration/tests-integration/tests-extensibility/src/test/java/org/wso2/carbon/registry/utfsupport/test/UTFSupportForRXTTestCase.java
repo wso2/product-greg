@@ -28,23 +28,11 @@ public class UTFSupportForRXTTestCase extends GREGIntegrationBaseTest {
     private Registry governance;
     private RegistryProviderUtil registryProviderUtil = new RegistryProviderUtil();
 
-    private String sessionCookie;
-    private String backEndUrl;
-    private String userName;
-    private String userNameWithoutDomain;
 
-    @BeforeClass
+    @BeforeClass(alwaysRun = true)
     public void init() throws Exception {
 
         super.init(TestUserMode.SUPER_TENANT_ADMIN);
-        backEndUrl = getBackendURL();
-        sessionCookie = getSessionCookie();
-        userName = automationContext.getContextTenant().getContextUser().getUserName();
-
-        if (userName.contains("@"))
-            userNameWithoutDomain = userName.substring(0, userName.indexOf('@'));
-        else
-            userNameWithoutDomain = userName;
 
         WSRegistryServiceClient wsRegistryServiceClient = registryProviderUtil.getWSRegistry(automationContext);
 
@@ -93,7 +81,7 @@ public class UTFSupportForRXTTestCase extends GREGIntegrationBaseTest {
 
     }
 
-    @AfterClass
+    @AfterClass(alwaysRun = true)
     public void clean() throws RegistryException {
 
         governance.delete("repository/components/org.wso2.carbon.governance/types/utf.rxt");

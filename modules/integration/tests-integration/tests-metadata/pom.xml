@@ -10,7 +10,7 @@
     </parent>
 
     <modelVersion>4.0.0</modelVersion>
-    <name>Registry Metadata TestNG Test Module</name>
+    <name>Registry Metadata Test Module</name>
     <artifactId>org.wso2.carbon.registry.test.metadata</artifactId>
     <packaging>jar</packaging>
 

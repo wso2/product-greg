@@ -71,7 +71,6 @@ public class UTFSupportForMetadataTestCase extends GREGIntegrationBaseTest {
     private WSRegistryServiceClient wsRegistryServiceClient;
     private String sessionCookie;
     private String backEndUrl;
-    private String userName;
 
     @BeforeClass(alwaysRun = true)
     public void init() throws Exception {
@@ -79,7 +78,6 @@ public class UTFSupportForMetadataTestCase extends GREGIntegrationBaseTest {
         super.init(TestUserMode.SUPER_TENANT_ADMIN);
         backEndUrl = getBackendURL();
         sessionCookie = getSessionCookie();
-        userName = automationContext.getContextTenant().getContextUser().getUserName();
 
 
         searchAdminServiceClient = new SearchAdminServiceClient(backEndUrl,
@@ -242,7 +240,7 @@ public class UTFSupportForMetadataTestCase extends GREGIntegrationBaseTest {
                                 "/permission/admin/monitor",
                                 "/permission/protected"};
 
-        if (!userManagementClient.userNameExists("testBycreatedUser", utfString)) {
+        if (!userManagementClient.userNameExists(roles[0], utfString)) {
             userManagementClient.addRole(roles[0], null, permissions);
             resourceAdminServiceClient.addResourcePermission("/", roles[0], "3", "1");
             resourceAdminServiceClient.addResourcePermission("/", roles[0], "2", "1");
