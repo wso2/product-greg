@@ -23,6 +23,7 @@
         <module>tests-governance-api</module>
         <module>tests-smoke</module>
         <!--<module>cmis-tck</module>-->
+        <module>reports</module>
     </modules>
 
 </project>
