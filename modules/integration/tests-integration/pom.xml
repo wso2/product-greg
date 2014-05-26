@@ -18,7 +18,7 @@
         <module>tests-resources</module>
         <module>tests-metadata</module>
         <module>tests-lifecycle</module>
-        <module>tests-old</module>
+        <module>tests-samples</module>
         <module>tests-permissions</module>
         <module>tests-extensibility</module>
         <module>tests-governance-api</module>
