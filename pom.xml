@@ -575,6 +575,8 @@
         <axis2.wso2.version>1.6.1.wso2v11-SNAPSHOT</axis2.wso2.version>
         <!--Apache Axiom-->
         <axiom.wso2.version>1.2.11.wso2v5-SNAPSHOT</axiom.wso2.version>
+        <!--SCM-->
+        <orbit.version.maven-scm>1.7.0.wso2v1</orbit.version.maven-scm>
         <version.axiom>1.2.11-wso2v5-SNAPSHOT</version.axiom>
         <orbit.version.commons.beanutils>1.8.0.wso2v1</orbit.version.commons.beanutils>
         <orbit.version.commons.collection>3.2.0.wso2v1</orbit.version.commons.collection>
