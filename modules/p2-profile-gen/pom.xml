@@ -285,7 +285,7 @@
                                     org.wso2.carbon:org.wso2.carbon.identity.provider.server.feature:${carbon.platform.version}
                                 </featureArtifactDef>
                                 <featureArtifactDef>
-                                    org.wso2.carbon:org.wso2.carbon.identity.relying.party.server.feature.group:${carbon.platform.version}
+                                    org.wso2.carbon:org.wso2.carbon.identity.relying.party.server.feature:${carbon.platform.version}
                                 </featureArtifactDef>
                                 <featureArtifactDef>
                                     org.wso2.carbon:org.wso2.carbon.identity.application.authentication.framework.server.feature:${carbon.platform.version}
