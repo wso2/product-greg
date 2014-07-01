@@ -55,7 +55,7 @@ public class RestoreResourcesTestCase extends GREGIntegrationBaseTest {
 
     @BeforeClass(alwaysRun = true)
     public void initializeTests() throws LoginAuthenticationExceptionException, IOException,
-            XPathExpressionException, URISyntaxException, SAXException, XMLStreamException {
+            XPathExpressionException, URISyntaxException, SAXException, XMLStreamException, Exception{
 
         super.init(TestUserMode.SUPER_TENANT_ADMIN);
         backEndUrl = getBackendURL();

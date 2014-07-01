@@ -68,11 +68,11 @@ public class LastModifiedFieldsTestCase extends GREGIntegrationBaseTest {
     public void initializeTests()
             throws LoginAuthenticationExceptionException, IOException,
             ResourceAdminServiceExceptionException, XPathExpressionException,
-            URISyntaxException, SAXException, XMLStreamException {
+            URISyntaxException, SAXException, XMLStreamException , Exception{
 
         super.init(TestUserMode.SUPER_TENANT_ADMIN);
         backEndUrl = getBackendURL();
-        sessionCookie = getSessionCookie();
+
         userName = automationContext.getContextTenant().getContextUser().getUserName();
 
         if (userName.contains("@"))
