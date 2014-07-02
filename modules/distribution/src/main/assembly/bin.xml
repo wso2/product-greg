@@ -327,20 +327,6 @@
             </excludes>
         </fileSet>
 
-        <!-- ES store -->
-        <fileSet>
-            <directory>../p2-profile-gen/target/wso2carbon-core-${carbon.platform.version}/repository/deployment/server/jaggeryapps/es-publisher</directory>
-            <outputDirectory>${pom.artifactId}-${pom.version}/repository/deployment/server/jaggeryapps/publisher</outputDirectory>
-        </fileSet>
-        <fileSet>
-            <directory>../p2-profile-gen/target/wso2carbon-core-${carbon.platform.version}/repository/deployment/server/jaggeryapps/es-sso</directory>
-            <outputDirectory>${pom.artifactId}-${pom.version}/repository/deployment/server/jaggeryapps/sso</outputDirectory>
-        </fileSet>
-        <fileSet>
-            <directory>../p2-profile-gen/target/wso2carbon-core-${carbon.platform.version}/repository/deployment/server/jaggeryapps/es-store</directory>
-            <outputDirectory>${pom.artifactId}-${pom.version}/repository/deployment/server/jaggeryapps/store</outputDirectory>
-        </fileSet>
-
         <!-- Jaggery Apps used by Greg-->
         <fileSet>
             <directory>../p2-profile-gen/target/wso2carbon-core-${carbon.platform.version}/repository/deployment/server/jaggeryapps/greg-bam</directory>
@@ -384,9 +370,10 @@
         <fileSet>
             <directory>../p2-profile-gen/target/wso2carbon-core-${carbon.platform.version}/modules</directory>
             <outputDirectory>${pom.artifactId}-${pom.version}/modules/</outputDirectory>
-            <includes>
-                <include>*/**</include>
-            </includes>
+            <excludes>
+                <exclude>**/carbon/**</exclude>
+                <exclude>**/process/**</exclude>
+            </excludes>
         </fileSet>
         <!--<fileSet>-->
         <!--<directory>../p2-profile-gen/target/wso2carbon-core-${carbon.platform.version}/repository/conf</directory>-->
