@@ -261,21 +261,21 @@
                                 <featureArtifactDef>
                                     org.jaggeryjs.modules:uuid.feature:${uuid.feature.version}
                                 </featureArtifactDef>
-                                <featureArtifactDef>org.wso2.store.modules:event.feature:${event.feature.version}
+                                <featureArtifactDef>org.wso2.store.modules:event.feature:${es.feature.version}
                                 </featureArtifactDef>
-                                <featureArtifactDef>org.wso2.store.modules:login.feature:${login.feature.version}
+                                <featureArtifactDef>org.wso2.store.modules:login.feature:${es.feature.version}
                                 </featureArtifactDef>
-                                <featureArtifactDef>org.wso2.store.modules:permission.feature:${permission.feature.version}
+                                <featureArtifactDef>org.wso2.store.modules:permission.feature:${es.feature.version}
                                 </featureArtifactDef>
-                                <featureArtifactDef>org.wso2.store.modules:registration.feature:${registration.feature.version}
+                                <featureArtifactDef>org.wso2.store.modules:registration.feature:${es.feature.version}
                                 </featureArtifactDef>
-                                <featureArtifactDef>org.wso2.store.modules:sso.feature:${sso.feature.version}
+                                <featureArtifactDef>org.wso2.store.modules:sso.feature:${es.feature.version}
                                 </featureArtifactDef>
-                                <featureArtifactDef>org.wso2.store.modules:store.feature:${store.feature.version}
+                                <featureArtifactDef>org.wso2.store.modules:store.feature:${es.feature.version}
                                 </featureArtifactDef>
-                                <featureArtifactDef>org.wso2.store.modules:ues.feature:${ues.feature.version}
+                                <featureArtifactDef>org.wso2.store.modules:ues.feature:${es.feature.version}
                                 </featureArtifactDef>
-                                <featureArtifactDef>org.wso2.store.modules:claims.feature:${claims.feature.version}
+                                <featureArtifactDef>org.wso2.store.modules:claims.feature:${es.feature.version}
                                 </featureArtifactDef>
                                 <featureArtifactDef>
                                     org.wso2.store:org.wso2.es.feature:${es.feature.version}
@@ -822,35 +822,35 @@
                                 </feature>
                                 <feature>
                                     <id>org.wso2.store.modules.event.feature.group</id>
-                                    <version>${event.feature.version}</version>
+                                    <version>${es.feature.version}</version>
                                 </feature>
                                 <feature>
                                     <id>org.wso2.store.modules.login.feature.group</id>
-                                    <version>${login.feature.version}</version>
+                                    <version>${es.feature.version}</version>
                                 </feature>
                                 <feature>
                                     <id>org.wso2.store.modules.permission.feature.group</id>
-                                    <version>${permission.feature.version}</version>
+                                    <version>${es.feature.version}</version>
                                 </feature>
                                 <feature>
                                     <id>org.wso2.store.modules.registration.feature.group</id>
-                                    <version>${registration.feature.version}</version>
+                                    <version>${es.feature.version}</version>
                                 </feature>
                                 <feature>
                                     <id>org.wso2.store.modules.sso.feature.group</id>
-                                    <version>${sso.feature.version}</version>
+                                    <version>${es.feature.version}</version>
                                 </feature>
                                 <feature>
                                     <id>org.wso2.store.modules.store.feature.group</id>
-                                    <version>${store.feature.version}</version>
+                                    <version>${es.feature.version}</version>
                                 </feature>
                                 <feature>
                                     <id>org.wso2.store.modules.ues.feature.group</id>
-                                    <version>${ues.feature.version}</version>
+                                    <version>${es.feature.version}</version>
                                 </feature>
                                 <feature>
                                     <id>org.wso2.store.modules.claims.feature.group</id>
-                                    <version>${claims.feature.version}</version>
+                                    <version>${es.feature.version}</version>
                                 </feature>
                                 <feature>
                                     <id>org.wso2.es.feature.group</id>
@@ -1141,35 +1141,35 @@
                                 </feature>
                                 <feature>
                                     <id>org.wso2.store.modules.event.feature.group</id>
-                                    <version>${event.feature.version}</version>
+                                    <version>${es.feature.version}</version>
                                 </feature>
                                 <feature>
                                     <id>org.wso2.store.modules.login.feature.group</id>
-                                    <version>${login.feature.version}</version>
+                                    <version>${es.feature.version}</version>
                                 </feature>
                                 <feature>
                                     <id>org.wso2.store.modules.permission.feature.group</id>
-                                    <version>${permission.feature.version}</version>
+                                    <version>${es.feature.version}</version>
                                 </feature>
                                 <feature>
                                     <id>org.wso2.store.modules.registration.feature.group</id>
-                                    <version>${registration.feature.version}</version>
+                                    <version>${es.feature.version}</version>
                                 </feature>
                                 <feature>
                                     <id>org.wso2.store.modules.sso.feature.group</id>
-                                    <version>${sso.feature.version}</version>
+                                    <version>${es.feature.version}</version>
                                 </feature>
                                 <feature>
                                     <id>org.wso2.store.modules.store.feature.group</id>
-                                    <version>${store.feature.version}</version>
+                                    <version>${es.feature.version}</version>
                                 </feature>
                                 <feature>
                                     <id>org.wso2.store.modules.ues.feature.group</id>
-                                    <version>${ues.feature.version}</version>
+                                    <version>${es.feature.version}</version>
                                 </feature>
                                 <feature>
                                     <id>org.wso2.store.modules.claims.feature.group</id>
-                                    <version>${claims.feature.version}</version>
+                                    <version>${es.feature.version}</version>
                                 </feature>
                                 <feature>
                                     <id>org.wso2.es.feature.group</id>
@@ -1532,35 +1532,35 @@
                                 </feature>
                                 <feature>
                                     <id>org.wso2.store.modules.event.feature.group</id>
-                                    <version>${event.feature.version}</version>
+                                    <version>${es.feature.version}</version>
                                 </feature>
                                 <feature>
                                     <id>org.wso2.store.modules.login.feature.group</id>
-                                    <version>${login.feature.version}</version>
+                                    <version>${es.feature.version}</version>
                                 </feature>
                                 <feature>
                                     <id>org.wso2.store.modules.permission.feature.group</id>
-                                    <version>${permission.feature.version}</version>
+                                    <version>${es.feature.version}</version>
                                 </feature>
                                 <feature>
                                     <id>org.wso2.store.modules.registration.feature.group</id>
-                                    <version>${registration.feature.version}</version>
+                                    <version>${es.feature.version}</version>
                                 </feature>
                                 <feature>
                                     <id>org.wso2.store.modules.sso.feature.group</id>
-                                    <version>${sso.feature.version}</version>
+                                    <version>${es.feature.version}</version>
                                 </feature>
                                 <feature>
                                     <id>org.wso2.store.modules.store.feature.group</id>
-                                    <version>${store.feature.version}</version>
+                                    <version>${es.feature.version}</version>
                                 </feature>
                                 <feature>
                                     <id>org.wso2.store.modules.ues.feature.group</id>
-                                    <version>${ues.feature.version}</version>
+                                    <version>${es.feature.version}</version>
                                 </feature>
                                 <feature>
                                     <id>org.wso2.store.modules.claims.feature.group</id>
-                                    <version>${claims.feature.version}</version>
+                                    <version>${es.feature.version}</version>
                                 </feature>
                                 <feature>
                                     <id>org.wso2.es.feature.group</id>
