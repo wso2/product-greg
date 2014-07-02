@@ -277,9 +277,9 @@
                                 </featureArtifactDef>
                                 <featureArtifactDef>org.wso2.store.modules:claims.feature:${claims.feature.version}
                                 </featureArtifactDef>
-                                <!--featureArtifactDef>
+                                <featureArtifactDef>
                                     org.wso2.store:org.wso2.es.feature:${es.feature.version}
-                                </featureArtifactDef-->
+                                </featureArtifactDef>
 
                                 <!--Single Sign on Feature list -->
                                 <featureArtifactDef>
@@ -836,10 +836,10 @@
                                     <id>org.wso2.store.modules.claims.feature.group</id>
                                     <version>${claims.feature.version}</version>
                                 </feature>
-                                <!--feature>
+                                <feature>
                                     <id>org.wso2.es.feature.group</id>
                                     <version>${es.feature.version}</version>
-                                </feature-->
+                                </feature>
 
                                 <!-- Misc features -->
                                 <feature>
@@ -1145,10 +1145,10 @@
                                     <id>org.wso2.store.modules.claims.feature.group</id>
                                     <version>${claims.feature.version}</version>
                                 </feature>
-                                <!--feature>
+                                <feature>
                                     <id>org.wso2.es.feature.group</id>
                                     <version>${es.feature.version}</version>
-                                </feature-->
+                                </feature>
 
                                 <feature>
                                     <id>org.wso2.carbon.tenant.usage.agent.feature.group</id>
@@ -1526,10 +1526,10 @@
                                     <id>org.wso2.store.modules.claims.feature.group</id>
                                     <version>${claims.feature.version}</version>
                                 </feature>
-                                <!--feature>
+                                <feature>
                                     <id>org.wso2.es.feature.group</id>
                                     <version>${es.feature.version}</version>
-                                </feature-->
+                                </feature>
 
                                 <feature>
                                     <id>org.wso2.carbon.tenant.usage.agent.feature.group</id>
