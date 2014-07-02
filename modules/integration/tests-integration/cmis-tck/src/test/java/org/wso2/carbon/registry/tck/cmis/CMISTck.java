@@ -26,10 +26,9 @@ import org.wso2.carbon.registry.core.exceptions.RegistryException;
 import org.wso2.greg.integration.common.utils.GREGIntegrationBaseTest;
 import org.wso2.greg.integration.common.utils.RegistryProviderUtil;
 
-import java.io.IOException;
-
 import java.io.File;
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.PrintStream;
 
 
@@ -43,6 +42,7 @@ public class CMISTck extends GREGIntegrationBaseTest {
     public static final String LOG_PATH = "logging.jar.path";
 
     public RemoteRegistry registry;
+
 
     private String cmisJarPath = "";
     private String loggingJarPath = "";
