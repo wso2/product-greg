@@ -365,6 +365,7 @@
                                 <featureArtifactDef>
                                     org.wso2.carbon:org.wso2.carbon.identity.application.authenticator.basicauth.server.feature:${carbon.platform.version}
                                 </featureArtifactDef>
+                                <featureArtifactDef>org.wso2.carbon:org.wso2.carbon.identity.thrift.authentication.feature:${carbon.platform.version}</featureArtifactDef>
 
                                 <!--Reporting feature list -->
                                 <featureArtifactDef>
@@ -393,7 +394,7 @@
                                     org.wso2.carbon:org.wso2.carbon.datasource.server.feature:${carbon.platform.version}
                                 </featureArtifactDef>
 
-				<!-- as runtime features-->
+			                	<!-- as runtime features-->
                                 <featureArtifactDef>
 					            org.wso2.carbon:org.wso2.carbon.as.runtimes.cxf.feature:${carbon.platform.version}
 				                </featureArtifactDef>
@@ -651,6 +652,10 @@
                                     <id>
                                         org.wso2.carbon.identity.application.authenticator.basicauth.server.feature.group
                                     </id>
+                                    <version>${carbon.platform.version}</version>
+                                </feature>
+                                <feature>
+                                    <id>org.wso2.carbon.identity.thrift.authentication.feature.group</id>
                                     <version>${carbon.platform.version}</version>
                                 </feature>
 
@@ -998,6 +1003,10 @@
                                     <id>
                                         org.wso2.carbon.identity.application.authenticator.basicauth.server.feature.group
                                     </id>
+                                    <version>${carbon.platform.version}</version>
+                                </feature>
+                                <feature>
+                                    <id>org.wso2.carbon.identity.thrift.authentication.feature.group</id>
                                     <version>${carbon.platform.version}</version>
                                 </feature>
 
@@ -1388,6 +1397,10 @@
                                     <id>
                                         org.wso2.carbon.identity.application.authenticator.basicauth.server.feature.group
                                     </id>
+                                    <version>${carbon.platform.version}</version>
+                                </feature>
+                                <feature>
+                                    <id>org.wso2.carbon.identity.thrift.authentication.feature.group</id>
                                     <version>${carbon.platform.version}</version>
                                 </feature>
 

@@ -430,7 +430,7 @@
         <!--application-authentication framework related config-->
         <fileSet>
             <directory>../p2-profile-gen/target/wso2carbon-core-4.3.0-SNAPSHOT/repository/conf/identity</directory>
-            <outputDirectory>${pom.artifactId}-${build.version}/repository/conf/</outputDirectory>
+            <outputDirectory>${pom.artifactId}-${build.version}/repository/conf/identity</outputDirectory>
             <includes>
                 <include>*/**</include>
             </includes>
@@ -600,13 +600,32 @@
             <filtered>true</filtered>
             <fileMode>644</fileMode>
         </file>
-
+        <file>
+            <source>../p2-profile-gen/target/wso2carbon-core-${carbon.kernel.version}/repository/conf/etc/cassandra.yaml</source>
+            <outputDirectory>${pom.artifactId}-${build.version}/repository/conf/etc</outputDirectory>
+            <fileMode>644</fileMode>
+        </file>
         <file>
             <source>../p2-profile-gen/target/wso2carbon-core-${carbon.kernel.version}/repository/conf/tomcat/webapp-classloading.xml</source>
             <outputDirectory>${pom.artifactId}-${pom.version}/repository/conf/tomcat</outputDirectory>
             <filtered>true</filtered>
             <fileMode>644</fileMode>
         </file>
+        <file>
+            <source>
+                ../p2-profile-gen/target/wso2carbon-core-${carbon.kernel.version}/repository/conf/security/application-authentication.xml
+            </source>
+            <outputDirectory>${pom.artifactId}-${pom.version}/repository/conf/security</outputDirectory>
+            <fileMode>644</fileMode>
+        </file>
+
+        <!-- copy thrift-authentication.xml -->
+        <file>
+            <source>../p2-profile-gen/target/wso2carbon-core-${carbon.kernel.version}/repository/conf/thrift-authentication.xml</source>
+            <outputDirectory>${pom.artifactId}-${pom.version}/repository/conf</outputDirectory>
+            <fileMode>644</fileMode>
+        </file>
+
         <!--file>
             <source>
                 ../p2-profile-gen/target/wso2carbon-core-${carbon.platform.version}/repository/conf/security/idp-config.xml
