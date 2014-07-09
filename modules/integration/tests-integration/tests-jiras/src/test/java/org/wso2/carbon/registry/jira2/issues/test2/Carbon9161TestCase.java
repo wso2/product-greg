@@ -117,7 +117,6 @@ public class Carbon9161TestCase extends GREGIntegrationBaseTest {
     @AfterClass(alwaysRun = true)
     @SetEnvironment(executionEnvironments = {ExecutionEnvironment.STANDALONE})
     public void cleanup() throws Exception {
-        userManagementClient.deleteRole(ROLE_NAME);
         String userMgtPath = CarbonUtils.getCarbonHome() + File.separator + "repository" +
                              File.separator + "conf" + File.separator + "user-mgt.xml";
 
@@ -125,5 +124,12 @@ public class Carbon9161TestCase extends GREGIntegrationBaseTest {
         File oldFile = new File(userMgtPath + ".bak");
         oldFile.renameTo(new File(userMgtPath));
         restartServer();
+
+        super.init(TestUserMode.SUPER_TENANT_ADMIN);
+        String session = getSessionCookie();
+        userManagementClient = new UserManagementClient(backendURL, session);
+        serverAdminClient = new ServerAdminClient(backendURL, session);
+
+        userManagementClient.deleteRole(ROLE_NAME);
     }
 }
