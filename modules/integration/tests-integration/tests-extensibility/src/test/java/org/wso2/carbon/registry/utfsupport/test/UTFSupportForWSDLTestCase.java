@@ -204,9 +204,9 @@ public class UTFSupportForWSDLTestCase extends GREGIntegrationBaseTest {
         }
         Assert.assertTrue(wsdldeleted);
         delete(pathPrefix + wsdl2);
-        delete("/_system/governance/trunk/services/com/amazon/soap/AmazonSearchService");
-        delete("/_system/governance/trunk/services/com/foo/BizService");
-        delete("/_system/governance/trunk/schemas/org/bar/purchasing/purchasing.xsd");
+        delete("/_system/governance/trunk/services/com/amazon/soap/1.0.0-SNAPSHOT/AmazonSearchService");
+        delete("/_system/governance/trunk/services/com/foo/1.0.0-SNAPSHOT/BizService");
+        delete("/_system/governance/trunk/schemas/org/bar/purchasing/1.0.0/purchasing.xsd");
         userManagementClient.deleteRole(utfString);
         lifeCycleManagementClient.deleteLifeCycle(LC_NAME);
         delete("/_system/governance/trunk/endpoints/com");

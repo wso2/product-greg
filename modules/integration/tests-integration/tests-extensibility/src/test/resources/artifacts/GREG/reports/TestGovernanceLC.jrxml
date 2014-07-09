@@ -156,7 +156,7 @@
                     <textElement verticalAlignment="Middle">
                         <font size="10" isBold="false"/>
                     </textElement>
-                    <textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+                    <textFieldExpression class="java.util.Date"><![CDATA[new java.util.Date()]]></textFieldExpression>
                 </textField>
             </frame>
             <textField evaluationTime="Report">
@@ -171,7 +171,7 @@
                 <textElement textAlignment="Center">
                     <font size="8"/>
                 </textElement>
-                <textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+                <textFieldExpression class="java.util.Date"><![CDATA[new java.util.Date()]]></textFieldExpression>
             </textField>
             <staticText>
                 <reportElement x="15" y="135" width="204" height="18"/>
