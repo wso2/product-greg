@@ -49,7 +49,7 @@ public class ActivitySearchTestCase extends GREGIntegrationBaseTest {
 
     private static final Log log = LogFactory.getLog(ActivitySearchTestCase.class);
 
-    private static String WSDL_PATH = "/_system/governance/trunk/wsdls/eu/dataaccess/footballpool/";
+    private static String WSDL_PATH ="/_system/governance/trunk/wsdls/eu/dataaccess/footballpool/1.0.0/";
     private static String RESOURCE_NAME = "sample.wsdl";
     private ResourceAdminServiceClient resourceAdminServiceClient;
     private ActivityAdminServiceClient activityAdminServiceClient;
@@ -113,8 +113,8 @@ public class ActivitySearchTestCase extends GREGIntegrationBaseTest {
             throws Exception {
 
         resourceAdminServiceClient.deleteResource(WSDL_PATH + RESOURCE_NAME);
-        resourceAdminServiceClient.deleteResource("/_system/governance/trunk/services/eu/" +
-                "dataaccess/footballpool/Info");
+        resourceAdminServiceClient.deleteResource("/_system/governance/trunk/services/" +
+                                                                    "eu/dataaccess/footballpool/1.0.0-SNAPSHOT/Info");
         resourceAdminServiceClient = null;
         activityAdminServiceClient = null;
     }
