@@ -24,10 +24,13 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 import org.wso2.carbon.automation.engine.context.TestUserMode;
 import org.wso2.carbon.integration.common.utils.LoginLogoutClient;
+import org.wso2.carbon.registry.core.exceptions.RegistryException;
 import org.wso2.carbon.registry.info.stub.RegistryExceptionException;
 import org.wso2.carbon.registry.resource.stub.ResourceAdminServiceExceptionException;
+import org.wso2.carbon.registry.ws.client.registry.WSRegistryServiceClient;
 import org.wso2.greg.integration.common.clients.ResourceAdminServiceClient;
 import org.wso2.greg.integration.common.utils.GREGIntegrationBaseTest;
+import org.wso2.greg.integration.common.utils.RegistryProviderUtil;
 
 import javax.activation.DataHandler;
 import java.io.File;
@@ -44,6 +47,7 @@ public class SchemaAddTestCase extends GREGIntegrationBaseTest {
     private String schemaPath = "/_system/governance/trunk/schemas/";
     private ResourceAdminServiceClient resourceAdminServiceClient;
     private String sessionCookie;
+    private WSRegistryServiceClient wsRegistry;
 
     @BeforeClass(groups = {"wso2.greg"})
     public void init() throws Exception {
@@ -52,6 +56,8 @@ public class SchemaAddTestCase extends GREGIntegrationBaseTest {
         super.init(TestUserMode.SUPER_TENANT_ADMIN);
         sessionCookie = new LoginLogoutClient(automationContext).login();
 
+         wsRegistry =
+                new RegistryProviderUtil().getWSRegistry(automationContext);
         log.debug("Running SuccessCase");
         resourceAdminServiceClient =
                 new ResourceAdminServiceClient(backendURL, sessionCookie);
@@ -180,22 +186,28 @@ public class SchemaAddTestCase extends GREGIntegrationBaseTest {
     }
 
     @AfterClass(groups = {"wso2.greg"})
-    public void deleteResources() throws ResourceAdminServiceExceptionException, RemoteException {
+    public void deleteResources() throws ResourceAdminServiceExceptionException, RemoteException, RegistryException {
 
-        resourceAdminServiceClient.deleteResource(schemaPath +
-                                                  "org/charitha/company.xsd");
-        resourceAdminServiceClient.deleteResource("/_system/governance/trunk/schemas/org1899988/charitha/calculator.xsd");
-        resourceAdminServiceClient.deleteResource(schemaPath +
+        checkExistanceAndDelete(schemaPath +
+                "org/charitha/company.xsd");
+        checkExistanceAndDelete("/_system/governance/trunk/schemas/org1899988/charitha/calculator.xsd");
+        checkExistanceAndDelete(schemaPath +
                                                   "org1/charitha/person.xsd");
-        resourceAdminServiceClient.deleteResource(schemaPath +
+        checkExistanceAndDelete(schemaPath +
                                                   "/org/charitha/calculator.xsd");
-        resourceAdminServiceClient.deleteResource(schemaPath +
+        checkExistanceAndDelete(schemaPath +
                                                   "com/microsoft/schemas/_2003/_10/serialization/test2.xsd");
-        resourceAdminServiceClient.deleteResource(schemaPath +
+        checkExistanceAndDelete(schemaPath +
                                                   "com/microsoft/schemas/_2003/_10/serialization/test4.xsd");
-        resourceAdminServiceClient.deleteResource("/_system/governance/trunk/schemas/org/datacontract/schemas/_2004/_07/system/test1.xsd");
-        resourceAdminServiceClient.deleteResource("/_system/governance/trunk/schemas/org/tempuri/test3.xsd");
-        resourceAdminServiceClient.deleteResource("/_system/governance/trunk/schemas/org1/charitha/calculator-new.xsd");
-        resourceAdminServiceClient.deleteResource("/_system/governance/trunk/schemas/services/samples/xsd/simpleXsd1.xsd");
+        checkExistanceAndDelete("/_system/governance/trunk/schemas/org/datacontract/schemas/_2004/_07/system/test1.xsd");
+        checkExistanceAndDelete("/_system/governance/trunk/schemas/org/tempuri/test3.xsd");
+        checkExistanceAndDelete("/_system/governance/trunk/schemas/org1/charitha/calculator-new.xsd");
+        checkExistanceAndDelete("/_system/governance/trunk/schemas/services/samples/xsd/simpleXsd1.xsd");
+    }
+
+    private void checkExistanceAndDelete(String resourcePath) throws RegistryException, RemoteException, ResourceAdminServiceExceptionException {
+        if (wsRegistry.resourceExists(resourcePath)){
+            resourceAdminServiceClient.deleteResource(resourcePath);
+        }
     }
 }
