@@ -93,11 +93,15 @@ public class LastModifiedFieldsTestCase extends GREGIntegrationBaseTest {
         String path1 = FrameworkPathUtil.getSystemResourceLocation() + "artifacts" + File.separator
                        + "GREG" + File.separator + "testresource.txt";
         DataHandler dataHandler1 = new DataHandler(new URL("file:///" + path1));
-        resourceAdminClient.addResource(RESOURCE_NAME_ROOT, "text/plain", "desc", dataHandler1);
 
         assertTrue(resourceAdminClient.getResource(RESOURCE_NAME_ROOT)[0].getAuthorUserName().contains(userNameWithoutDomain));
+        resourceAdminClient.addResource(RESOURCE_NAME_ROOT, "text/plain", "desc", dataHandler1);
 
-        String path2 = FrameworkPathUtil.getSystemResourceLocation() + "artifacts" + File.separator
+
+     //   assertTrue(resourceAdminClient.getResource(RESOURCE_NAME_ROOT)[0].getAuthorUserName().contains(userNameWithoutDomain));
+
+        String path2 = FrameworkPathUtil.getSystemResourceLocation() + "arti" +
+                "facts" + File.separator
                        + "GREG" + File.separator + "testresource.txt";
         DataHandler dataHandler2 = new DataHandler(new URL("file:///" + path2));
         resourceAdminClient.addResource(RESOURCE_NAME_LEAF, "text/plain", "desc", dataHandler2);

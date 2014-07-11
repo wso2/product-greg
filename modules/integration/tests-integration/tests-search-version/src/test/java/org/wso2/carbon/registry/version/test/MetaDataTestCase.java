@@ -137,13 +137,13 @@ public class MetaDataTestCase extends GREGIntegrationBaseTest {
             }
         }
         assertTrue(nameExists);
-        deleteVersion("/_system/governance/trunk/wsdls/org/wso2/carbon/core/services/echo/echo.wsdl");
+        deleteVersion("/_system/governance/trunk/wsdls/org/wso2/carbon/core/services/echo/1.0.0/echo.wsdl");
         resourceAdminClient.createVersion("/_system/governance/trunk/wsdls/org/wso2/carbon/core/services" +
-                                          "/echo/echo.wsdl");
+                                          "/echo/1.0.0/echo.wsdl");
         VersionPath[] vp1 = resourceAdminClient.getVersionPaths("/_system/governance/trunk/wsdls/org/wso2/carbon" +
-                                                                "/core/services/echo/echo.wsdl");
+                                                                "/core/services/echo/1.0.0/echo.wsdl");
         assertEquals(1, vp1.length);
-        assertNull(deleteVersion("/_system/governance/trunk/wsdls/org/wso2/carbon/core/services/echo/echo.wsdl"));
+        assertNull(deleteVersion("/_system/governance/trunk/wsdls/org/wso2/carbon/core/services/echo/1.0.0/echo.wsdl"));
 
     }
 
@@ -166,12 +166,12 @@ public class MetaDataTestCase extends GREGIntegrationBaseTest {
             }
         }
         assertTrue(nameExists);
-        deleteVersion("/_system/governance/trunk/schemas/org/charitha/calculator.xsd");
-        resourceAdminClient.createVersion("/_system/governance/trunk/schemas/org/charitha/calculator.xsd");
+        deleteVersion("/_system/governance/trunk/schemas/org/charitha/1.0.0/calculator.xsd");
+        resourceAdminClient.createVersion("/_system/governance/trunk/schemas/org/charitha/1.0.0/calculator.xsd");
         VersionPath[] vp1 =
-                resourceAdminClient.getVersionPaths("/_system/governance/trunk/schemas/org/charitha/calculator.xsd");
+                resourceAdminClient.getVersionPaths("/_system/governance/trunk/schemas/org/charitha/1.0.0/calculator.xsd");
         assertEquals(1, vp1.length);
-        assertNull(deleteVersion("/_system/governance/trunk/schemas/org/charitha/calculator.xsd"));
+        assertNull(deleteVersion("/_system/governance/trunk/schemas/org/charitha/1.0.0/calculator.xsd"));
     }
 
 
@@ -190,15 +190,15 @@ public class MetaDataTestCase extends GREGIntegrationBaseTest {
         resourceAdminClient.addResource(
                 "/_system/governance/service", mediaType, description, dataHandler);
 
-        ResourceData[] data =  resourceAdminClient.getResource("/_system/governance/trunk/services/com/abb/abc");
+        ResourceData[] data =  resourceAdminClient.getResource("/_system/governance/trunk/services/com/abb/1.0.0-SNAPSHOT/abc");
         
         assertNotNull(data, "Service not found");
-        deleteVersion("/_system/governance/trunk/wsdls/com/foo/abc.wsdl");
-        resourceAdminClient.createVersion("/_system/governance/trunk/wsdls/com/foo/abc.wsdl");
-        VersionPath[] vp1 = resourceAdminClient.getVersionPaths("/_system/governance/trunk/wsdls/com/foo/abc.wsdl");
+        deleteVersion("/_system/governance/trunk/wsdls/com/foo/1.0.0-SNAPSHOT/abc.wsdl");
+        resourceAdminClient.createVersion("/_system/governance/trunk/wsdls/com/foo/1.0.0-SNAPSHOT/abc.wsdl");
+        VersionPath[] vp1 = resourceAdminClient.getVersionPaths("/_system/governance/trunk/wsdls/com/foo/1.0.0-SNAPSHOT/abc.wsdl");
 
         assertEquals(1, vp1.length);
-        assertNull(deleteVersion("/_system/governance/trunk/wsdls/com/foo/abc.wsdl"));
+        assertNull(deleteVersion("/_system/governance/trunk/wsdls/com/foo/1.0.0-SNAPSHOT/abc.wsdl"));
     }
 
 
@@ -224,13 +224,13 @@ public class MetaDataTestCase extends GREGIntegrationBaseTest {
     @AfterClass
     public void testCleanResources()
             throws ResourceAdminServiceExceptionException, RemoteException, RegistryException {
-        deleteResource("/_system/governance/trunk/services/com/abb/abc");
-        deleteResource("/_system/governance/trunk/services/org/wso2/carbon/core/services/echo/echoyuSer1");
-        deleteResource("/_system/governance/trunk/wsdls/com/foo/abc.wsdl");
-        deleteResource("/_system/governance/trunk/schemas/org/charitha/calculator.xsd");
+        deleteResource("/_system/governance/trunk/services/com/abb/1.0.0-SNAPSHOT/abc");
+        deleteResource("/_system/governance/trunk/services/org/wso2/carbon/core/services/echo/1.0.0-SNAPSHOT/echoyuSer1");
+        deleteResource("/_system/governance/trunk/wsdls/com/foo/1.0.0-SNAPSHOT/abc.wsdl");
+        deleteResource("/_system/governance/trunk/schemas/org/charitha/1.0.0/calculator.xsd");
         deleteResource("/_system/governance/trunk/policies/policy.xml");
         deleteResource("/_system/governance/trunk/wsdls/org/wso2/carbon/core/services/echo/echo.wsdl");
-        deleteResource("/_system/governance/trunk/schemas/org/bar/purchasing/purchasing.xsd");
+        deleteResource("/_system/governance/trunk/schemas/org/bar/purchasing/1.0.0-SNAPSHOT/purchasing.xsd");
         resourceAdminClient = null;
         governanceServiceClient = null;
         listMetaDataServiceClient = null;
