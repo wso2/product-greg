@@ -98,8 +98,14 @@ public class UTFSupportForLogsTestCase extends GREGIntegrationBaseTest {
         Thread.sleep(1000);
         logViewerClient = new LogViewerClient(backEndUrl,
                                               sessionCookie);
+
+
+
+
         boolean status = false;
-        LogEvent[] logEvents = logViewerClient.getLogs("INFO", utfString, "", "");
+
+      LogEvent[] logEvents = logViewerClient.getLogs("INFO", utfString, "", "");
+
         if (logEvents != null) {
             for (LogEvent event : logEvents) {
                 if (event.getMessage().contains(utfString)) {
@@ -109,6 +115,8 @@ public class UTFSupportForLogsTestCase extends GREGIntegrationBaseTest {
             }
         }
         Assert.assertTrue(status, "User name not found in the system logs");
+
+
 
     }
 
