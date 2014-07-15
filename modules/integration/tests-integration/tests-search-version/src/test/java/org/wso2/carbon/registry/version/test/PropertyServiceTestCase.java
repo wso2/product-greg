@@ -74,8 +74,8 @@ import static org.testng.Assert.assertNotNull;
 public class PropertyServiceTestCase extends GREGIntegrationBaseTest {
 
     private ResourceAdminServiceClient resourceAdminClient;
-    private static final String PATH1 = "/_system/governance/trunk/services/com/abb/abc";
-    private static final String PATH2 = "/_system/governance/trunk/services/com/def/def";
+    private static final String PATH1 = "/_system/governance/trunk/services/com/abb/1.0.0-SNAPSHOT/abc";
+    private static final String PATH2 = "/_system/governance/trunk/services/com/def/1.0.0-SNAPSHOT/def";
     private PropertiesAdminServiceClient propertiesAdminServiceClient;
     private RelationAdminServiceClient relationAdminServiceClient;
     private InfoServiceAdminClient infoServiceAdminClient;
@@ -163,7 +163,9 @@ public class PropertyServiceTestCase extends GREGIntegrationBaseTest {
         VersionUtils.deleteAllVersions(resourceAdminClient, PATH2);
         createdDate = resourceAdminClient.getResource(PATH1)[0].getCreatedOn().getTime();
 
-        ResourceData[] data =  resourceAdminClient.getResource("/_system/governance/trunk/services/com/abb/abc");
+
+        //ResourceData[] data =  resourceAdminClient.getResource("/_system/governance/trunk/services/com/abb/abc");
+        ResourceData[] data =  resourceAdminClient.getResource("/_system/governance/trunk/services/com/abb/1.0.0-SNAPSHOT/abc");
         
         assertNotNull(data, "Service not found");
         
@@ -499,9 +501,11 @@ public class PropertyServiceTestCase extends GREGIntegrationBaseTest {
                                          RegistryException {
         deleteResource(PATH1);
         deleteResource(PATH2);
-        deleteResource("/_system/governance/trunk/wsdls/com/foo/def.wsdl");
-        deleteResource("/_system/governance/trunk/wsdls/com/foo/abc.wsdl");
-        deleteResource("/_system/governance/trunk/schemas/org/bar/purchasing/purchasing.xsd");
+        deleteResource("/_system/governance/trunk/wsdls/com/foo/1.0.0-SNAPSHOT/def.wsdl");
+
+        deleteResource("/_system/governance/trunk/wsdls/com/foo/1.0.0-SNAPSHOT/abc.wsdl");
+        deleteResource("/_system/governance/trunk/schemas/org/bar/purchasing/1.0.0-SNAPSHOT/purchasing.xsd");
+
         lifeCycleManagementClient.deleteLifeCycle(LC_NAME);
         resourceAdminClient = null;
         propertiesAdminServiceClient = null;

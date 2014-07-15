@@ -63,8 +63,9 @@ public class PropertySchemaTestCase extends GREGIntegrationBaseTest {
     private Date createdDate;
 
     private ResourceAdminServiceClient resourceAdminClient;
-    private static final String PATH1 = "/_system/governance/trunk/schemas/org/charitha/calculator.xsd";
-    private static final String PATH2 = "/_system/governance/trunk/schemas/books/books.xsd";
+    private static final String PATH1 = "/_system/governance/trunk/schemas/org/charitha/1.0.0/calculator.xsd";
+    // "/_system/governance/trunk/schemas/org/charitha/calculator.xsd";
+    private static final String PATH2 = "/_system/governance/trunk/schemas/books/1.0.0/books.xsd";
 
     private PropertiesAdminServiceClient propertiesAdminServiceClient;
     private RelationAdminServiceClient relationAdminServiceClient;

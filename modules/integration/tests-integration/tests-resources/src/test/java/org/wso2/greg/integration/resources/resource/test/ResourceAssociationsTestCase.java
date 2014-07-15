@@ -75,9 +75,12 @@ public class ResourceAssociationsTestCase extends GREGIntegrationBaseTest{
             "/_system/governance/repository/components/org.wso2.carbon.governance/types/person.rxt";
     private static final String RXT_FILE_TYPE = "application/vnd.wso2.registry-ext-type+xml";
     private static final String RXT_RESOURCE_PATH = "/_system/governance/people/testPerson";
-    private static final String WSDL_PATH = "/_system/governance/trunk/wsdls/com/amazon/soap/AmazonWebServices.wsdl";
-    private static final String SCHEMA_PATH = "/_system/governance/trunk/schemas/books/books.xsd";
-    private static final String SERVICE_PATH = "/_system/governance/trunk/services/com/amazon/soap/AmazonSearchService";
+    private static final String WSDL_PATH =
+            "/_system/governance/trunk/wsdls/com/amazon/soap/1.0.0/AmazonWebServices.wsdl";
+    private static final String SCHEMA_PATH = "/_system/governance/trunk/schemas/books/1.0.0/books.xsd";
+    private static final String SERVICE_PATH =
+            "/_system/governance/trunk/services/com/amazon/soap/1.0.0-SNAPSHOT/AmazonSearchService";
+
 
     private String pathToPolicy = "";
 
