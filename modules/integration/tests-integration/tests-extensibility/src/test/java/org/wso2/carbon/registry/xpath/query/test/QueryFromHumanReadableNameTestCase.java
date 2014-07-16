@@ -62,7 +62,7 @@ import static org.testng.Assert.assertTrue;
 public class QueryFromHumanReadableNameTestCase extends GREGIntegrationBaseTest {
     public WSRegistryServiceClient registryAdmin;
 
-    private String wsdlPath = "/_system/governance/trunk/wsdls/eu/dataaccess/footballpool/sample.wsdl";
+    private String wsdlPath = "/_system/governance/trunk/wsdls/eu/dataaccess/footballpool/1.0.0/sample.wsdl";
     private String txtPath = "/_system/config/testResource";
     private ResourceAdminServiceClient resourceAdminServiceClient;
     private PropertiesAdminServiceClient propertiesAdminServiceClient;
@@ -449,7 +449,7 @@ public class QueryFromHumanReadableNameTestCase extends GREGIntegrationBaseTest 
             }
         }
         resourceAdminServiceClient.deleteResource(wsdlPath);
-        resourceAdminServiceClient.deleteResource("/_system/governance/trunk/schemas/eu/dataaccess/footballpool/sample.xsd");
+        resourceAdminServiceClient.deleteResource("/_system/governance/trunk/schemas/eu/dataaccess/footballpool/1.0.0/sample.xsd");
         assert endpoints != null;
         for (Endpoint path : endpoints) {
             resourceAdminServiceClient.deleteResource("_system/governance/" + path.getPath());

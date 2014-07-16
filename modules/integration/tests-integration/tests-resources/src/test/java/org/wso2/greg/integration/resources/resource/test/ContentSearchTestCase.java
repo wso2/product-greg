@@ -81,7 +81,7 @@ public class ContentSearchTestCase extends GREGIntegrationBaseTest{
                           File.separator + "GREG" + File.separator + "wsdl" + File.separator +
                 RESOURCE_NAME;
 
-        String WSDL_PATH = "/_system/governance/trunk/wsdls/eu/dataaccess/footballpool/";
+        String WSDL_PATH = "/_system/governance/trunk/wsdls/eu/dataaccess/footballpool/1.0.0/";
         resourceAdminServiceClient.addResource(WSDL_PATH + RESOURCE_NAME,
                                                "application/wsdl+xml", "test resource",
                                                new DataHandler(new URL("file:///" + resource)));
@@ -130,8 +130,8 @@ public class ContentSearchTestCase extends GREGIntegrationBaseTest{
     public void cleanup()
             throws Exception {
 
-        resourceAdminServiceClient.deleteResource("/_system/governance/trunk/services/eu/" +
-                                                  "dataaccess/footballpool/Info");
+       resourceAdminServiceClient.deleteResource( "/_system/governance/trunk/services/" +
+                                                            "eu/dataaccess/footballpool/1.0.0-SNAPSHOT/Info");
         resourceAdminServiceClient=null;
         contentSearchAdminClient=null;
     }
