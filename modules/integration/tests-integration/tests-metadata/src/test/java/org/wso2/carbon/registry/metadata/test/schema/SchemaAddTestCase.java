@@ -45,7 +45,7 @@ public class SchemaAddTestCase extends GREGIntegrationBaseTest {
     private ResourceAdminServiceClient resourceAdminServiceClient;
     private String sessionCookie;
 
-    @BeforeClass(groups = {"wso2.greg"})
+    @BeforeClass(groups = {"wso2.greg"}, alwaysRun = true)
     public void init() throws Exception {
         log.info("Initializing Add Schema Resource Tests");
         log.debug("Add Add Schema Resource Initialised");
@@ -74,10 +74,12 @@ public class SchemaAddTestCase extends GREGIntegrationBaseTest {
     }
 
 
+
+
     /**
      * Add schema file from URL
      */
-    @Test(groups = {"wso2.greg"}, description = "Add schema file from URL")
+    @Test(groups = {"wso2.greg"}, description = "Add schema file from URL", dependsOnMethods = "addSchema")
     public void addSchemafromURL() throws ResourceAdminServiceExceptionException, RemoteException {
         String resourceUrl =
 //                "http://ww2.wso2.org/~qa/greg/simpleXsd1.xsd";
@@ -89,55 +91,12 @@ public class SchemaAddTestCase extends GREGIntegrationBaseTest {
     }
 
     /**
-     * upload a governance archive file containing four xsds
-     */
-    @Test(groups = {"wso2.greg"}, description = " upload a governance archive file containing four xsds")
-    public void addSchemaFromGar()
-            throws ResourceAdminServiceExceptionException, RemoteException, MalformedURLException {
-        String resourceName = "xsdAll.gar";
-        String resource = getTestArtifactLocation() + "artifacts" + File.separator +
-                          "GREG" + File.separator + resourceName;
-        resourceAdminServiceClient.addResource(schemaPath + resourceName, "application/vnd.wso2.governance-archive", "adding gar File", new DataHandler(new URL("file:///" + resource)));
-        Assert.assertNotNull(resourceAdminServiceClient.getTextContent(schemaPath +
-                                                                       "com/microsoft/schemas/_2003/_10/serialization/test2.xsd"));
-        Assert.assertNotNull(resourceAdminServiceClient.getTextContent(schemaPath +
-                                                                       "com/microsoft/schemas/_2003/_10/serialization/test4.xsd"));
-
-
-    }
-
-    @Test(groups = {"wso2.greg"}, description = "update the schema")
-    public void updateSchemaTest()
-            throws ResourceAdminServiceExceptionException, RemoteException, MalformedURLException {
-        String resourceName = "calculator.xsd";
-        String updatedResourceName = "calculator-updated.xsd";
-        String resource = getTestArtifactLocation() + "artifacts" + File.separator +
-                          "GREG" + File.separator +
-                          "schema" + File.separator + resourceName;
-        resourceAdminServiceClient.addResource(schemaPath + resourceName,
-                                               "application/x-xsd+xml", "schemaFile",
-                                               new DataHandler(new URL("file:///" + resource)));
-        Assert.assertNotNull(resourceAdminServiceClient.getTextContent(schemaPath +
-                                                                       "org/charitha/calculator.xsd"));
-        String resourceUpdated = getTestArtifactLocation() + "artifacts" + File.separator +
-                                 "GREG" + File.separator +
-                                 "schema" + File.separator + updatedResourceName;
-        resourceAdminServiceClient.addResource(schemaPath + resourceName,
-                                               "application/x-xsd+xml", "schemaFile",
-                                               new DataHandler(new URL("file:///" + resourceUpdated)));
-        String textContentUpdated = resourceAdminServiceClient.getTextContent(schemaPath +
-                                                                              "/org/charitha/calculator.xsd");
-        Assert.assertEquals(textContentUpdated.indexOf("xmlns:tns=\"http://charitha.org.updated/\""), -1);
-
-    }
-
-    /**
      * Update schema file from URL
      */
     @Test(groups = {"wso2.greg"}, dependsOnMethods = "addSchemafromURL", description = "Update schema file from URL")
     public void updateSchemaFromURL()
             throws ResourceAdminServiceExceptionException, RemoteException,
-                   RegistryExceptionException {
+            RegistryExceptionException {
         String resourceUrl =
 //                "http://ww2.wso2.org/~qa/greg/calculator-new.xsd";
                 "https://svn.wso2.org/repos/wso2/trunk/commons/qa/qa-artifacts/greg/xsd/calculator-new.xsd";
@@ -149,18 +108,67 @@ public class SchemaAddTestCase extends GREGIntegrationBaseTest {
         resourceAdminServiceClient.addSchema(resourceName, "adding from URL", resourceUrl);
         Assert.assertNotNull(resourceAdminServiceClient.getTextContent(schemaPath + "org1/charitha/calculator-new.xsd"));
         resourceAdminServiceClient.importResource(schemaPath, resourceName, "application/x-xsd+xml",
-                                                  "Update Schema from URL", updatedResourceUrl, null);
+                "Update Schema from URL", updatedResourceUrl, null);
         String textContentUpdated = resourceAdminServiceClient.getTextContent(schemaPath +
-                                                                              "org1/charitha/" + resourceName);
+                "org1/charitha/" + resourceName);
         Assert.assertNotEquals(textContentUpdated.indexOf("xmlns:tns=\"http://charitha.org.updated/\""), -1);
 
     }
+
+
+
+
+    /**
+     * upload a governance archive file containing four xsds
+     */
+    @Test(groups = {"wso2.greg"}, description = " upload a governance archive file containing four xsds", dependsOnMethods = "updateSchemaFromURL")
+    public void addSchemaFromGar()
+            throws ResourceAdminServiceExceptionException, RemoteException, MalformedURLException {
+        String resourceName = "xsdAll.gar";
+        String resource = getTestArtifactLocation() + "artifacts" + File.separator +
+                          "GREG" + File.separator + resourceName;
+        resourceAdminServiceClient.addResource(schemaPath + resourceName, "application/vnd.wso2.governance-archive", "adding gar File", new DataHandler(new URL("file:///" + resource)));
+        Assert.assertNotNull(resourceAdminServiceClient.getTextContent(schemaPath +
+                "com/microsoft/schemas/_2003/_10/serialization/test2.xsd"));
+        Assert.assertNotNull(resourceAdminServiceClient.getTextContent(schemaPath +
+                                                                       "com/microsoft/schemas/_2003/_10/serialization/test4.xsd"));
+
+
+    }
+
+
+
+    @Test(groups = {"wso2.greg"}, description = "update the schema", dependsOnMethods = "addSchemaFromGar")
+    public void updateSchemaTest()
+            throws ResourceAdminServiceExceptionException, RemoteException, MalformedURLException {
+        String resourceName = "calculator.xsd";
+        String updatedResourceName = "calculator-updated.xsd";
+        String resource = getTestArtifactLocation() + "artifacts" + File.separator +
+                          "GREG" + File.separator +
+                          "schema" + File.separator + resourceName;
+        resourceAdminServiceClient.addResource(schemaPath + resourceName,
+                                               "application/x-xsd+xml", "schemaFile",
+                                               new DataHandler(new URL("file:///" + resource)));
+        Assert.assertNotNull(resourceAdminServiceClient.getTextContent(schemaPath +
+                "org/charitha/calculator.xsd"));
+        String resourceUpdated = getTestArtifactLocation() + "artifacts" + File.separator +
+                                 "GREG" + File.separator +
+                                 "schema" + File.separator + updatedResourceName;
+        resourceAdminServiceClient.addResource(schemaPath + resourceName,
+                "application/x-xsd+xml", "schemaFile",
+                new DataHandler(new URL("file:///" + resourceUpdated)));
+        String textContentUpdated = resourceAdminServiceClient.getTextContent(schemaPath +
+                                                                              "/org/charitha/calculator.xsd");
+        Assert.assertEquals(textContentUpdated.indexOf("xmlns:tns=\"http://charitha.org.updated/\""), -1);
+
+    }
+
 
     /**
      * Add a schema which imports another schema
      */
 
-    @Test(groups = {"wso2.greg"}, description = "Add a schema which imports another schema")
+    @Test(groups = {"wso2.greg"}, description = "Add a schema which imports another schema", dependsOnMethods = "updateSchemaTest")
     public void addSchemaMultipleImports() throws RegistryExceptionException, RemoteException,
                                                   ResourceAdminServiceExceptionException {
         String resourceUrl =
@@ -168,7 +176,7 @@ public class SchemaAddTestCase extends GREGIntegrationBaseTest {
         String resourceName = "company.xsd";
         String referenceSchemaFile = "person.xsd";
         resourceAdminServiceClient.importResource(schemaPath, resourceName,
-                                                  "application/x-xsd+xml", "schemaFile", resourceUrl, null);
+                "application/x-xsd+xml", "schemaFile", resourceUrl, null);
         String textContent = resourceAdminServiceClient.getTextContent(schemaPath +
                                                                        "org/charitha/" + resourceName);
         Assert.assertNotEquals(textContent.indexOf("xmlns:tns=\"http://charitha.org/\""), -1);
@@ -179,7 +187,7 @@ public class SchemaAddTestCase extends GREGIntegrationBaseTest {
 
     }
 
-    @AfterClass(groups = {"wso2.greg"})
+    @AfterClass(groups = {"wso2.greg"}, alwaysRun = true)
     public void deleteResources() throws ResourceAdminServiceExceptionException, RemoteException {
 
         resourceAdminServiceClient.deleteResource(schemaPath +
