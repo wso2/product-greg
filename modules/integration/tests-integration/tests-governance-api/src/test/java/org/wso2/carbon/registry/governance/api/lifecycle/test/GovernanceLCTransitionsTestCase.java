@@ -126,7 +126,7 @@ public class GovernanceLCTransitionsTestCase extends GREGIntegrationBaseTest {
         Service service = getAddedService();
 
         Map<String, String> map = new HashMap<String, String>();
-        map.put("/_system/governance/trunk/services/com/wso2/www/greg/store/StoreService", "2.3.5");
+        map.put("/_system/governance/trunk/services/com/wso2/www/greg/store/1.0.0/StoreService", "2.3.5");
         service.invokeAction("Promote", map);
 
 

@@ -63,8 +63,8 @@ public class GenericArtifactsByLifecycleTestCase extends GREGIntegrationBaseTest
         });
         Assert.assertEquals(filterByLCName.length, 1,
                 "Wrong number of artifacts associated with the lifecycle found");
-        Assert.assertEquals(filterByLCName[0].getPath(), "/trunk/services/com/wso2/www/greg/store/GenericArtifactStoreService",
-                "Different artifact path found");
+        Assert.assertEquals(filterByLCName[0].getPath(), "/trunk/services/com/wso2/www/greg/store/1.0.0-SNAPSHOT/GenericArtifactStoreService",
+                "Different artifact path found"); //new addition: version of artifacts are added to the path.
 
         GenericArtifact[] filterByLCNameAndStatus = genericArtifactManager.findGenericArtifacts(new GenericArtifactFilter() {
             @Override
@@ -75,7 +75,7 @@ public class GenericArtifactsByLifecycleTestCase extends GREGIntegrationBaseTest
         });
         Assert.assertEquals(filterByLCNameAndStatus.length, 1,
                 "Wrong number of artifacts associated with the lifecycle in the given lifecycle state found");
-        Assert.assertEquals(filterByLCNameAndStatus[0].getPath(), "/trunk/services/com/wso2/www/greg/store/GenericArtifactStoreService",
+        Assert.assertEquals(filterByLCNameAndStatus[0].getPath(), "/trunk/services/com/wso2/www/greg/store/1.0.0-SNAPSHOT/GenericArtifactStoreService",
                         "Different artifact path found");
     }
 
@@ -83,7 +83,7 @@ public class GenericArtifactsByLifecycleTestCase extends GREGIntegrationBaseTest
     public void testGetArtifactsAfterPromoting() throws RegistryException {
         GenericArtifact artifact = getAddedGenericArtifact();
         Map<String, String> map = new HashMap<String, String>();
-        map.put("/_system/governance/trunk/services/com/wso2/www/greg/store/GenericArtifactStoreService", "2.3.5");
+        map.put("/_system/governance/trunk/services/com/wso2/www/greg/store/1.0.0-SNAPSHOT/GenericArtifactStoreService", "2.3.5");
         artifact.invokeAction("Promote", map);
 
         GenericArtifact[] filterByLCName = genericArtifactManager.findGenericArtifacts(new GenericArtifactFilter() {
@@ -104,7 +104,7 @@ public class GenericArtifactsByLifecycleTestCase extends GREGIntegrationBaseTest
 
         Assert.assertEquals(filterByLCName.length, 2,
                 "Wrong number of artifacts associated with the lifecycle found");
-        Assert.assertEquals(artifactInTrunk.getPath(), "/trunk/services/com/wso2/www/greg/store/GenericArtifactStoreService",
+        Assert.assertEquals(artifactInTrunk.getPath(), "/trunk/services/com/wso2/www/greg/store/1.0.0-SNAPSHOT/GenericArtifactStoreService",
                 "Different artifact path found");
         Assert.assertEquals(artifactInBranch.getPath(), "/branches/testing/services/com/wso2/www/greg/store/2.3.5/GenericArtifactStoreService",
                         "Different artifact path found");
