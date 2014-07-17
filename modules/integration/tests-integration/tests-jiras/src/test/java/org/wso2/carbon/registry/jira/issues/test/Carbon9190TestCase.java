@@ -77,9 +77,9 @@ public class Carbon9190TestCase extends GREGIntegrationBaseTest {
                    IOException {
         addWSDLFromManager("echo.wsdl", "echo.wsdl");
         addWSDLAsResource("echo2.wsdl");
-        assertTrue(governance.resourceExists("trunk/wsdls/org/wso2/carbon/core/services/echo/echo.wsdl"),
+        assertTrue(governance.resourceExists("trunk/wsdls/org/wso2/carbon/core/services/echo/1.0.0/echo.wsdl"),
                    "echo.wsdl does not exist");
-        assertTrue(governance.resourceExists("trunk/wsdls/org/wso2/carbon/core/services/echo/echo2.wsdl"),
+        assertTrue(governance.resourceExists("trunk/wsdls/org/wso2/carbon/core/services/echo/1.0.0/echo2.wsdl"),
                    "echo2.wsdl does not exist");
 
         wsdlEchoAvailable = false;
@@ -123,9 +123,9 @@ public class Carbon9190TestCase extends GREGIntegrationBaseTest {
         addWSDLFromManager("echoNsChanged.wsdl", "echo.wsdl");
         addWSDLAsResource("echo.wsdl");
 
-        assertTrue(governance.resourceExists("trunk/wsdls/org/wso2/carbon/core/services/echo/echo.wsdl"),
+        assertTrue(governance.resourceExists("trunk/wsdls/org/wso2/carbon/core/services/echo/1.0.0/echo.wsdl"),
                    "echo.wsdl does not exist");
-        assertTrue(governance.resourceExists("trunk/wsdls/org/wso2/carbon/core/services/echo/new/echo.wsdl"),
+        assertTrue(governance.resourceExists("trunk/wsdls/org/wso2/carbon/core/services/echo/new/1.0.0/echo.wsdl"),
                    "echo.wsdl with Different NS does not exist");
 
         int noOfWsdls = 0;
@@ -167,7 +167,7 @@ public class Carbon9190TestCase extends GREGIntegrationBaseTest {
         addWSDLAsResource("echo.wsdl");
         addWSDLFromManager("echoWithNewTag.wsdl", "echo.wsdl");
 
-        assertTrue(governance.resourceExists("trunk/wsdls/org/wso2/carbon/core/services/echo/echo.wsdl"),
+        assertTrue(governance.resourceExists("trunk/wsdls/org/wso2/carbon/core/services/echo/1.0.0/echo.wsdl"),
                    "echo.wsdl does not exist");
         wsdlEchoAvailable = false;
         wsdlManager = new WsdlManager(governance);
@@ -183,7 +183,7 @@ public class Carbon9190TestCase extends GREGIntegrationBaseTest {
 
 
         ContentDownloadBean contentDownloadBean = resourceAdminServiceClient.getContentDownloadBean
-                ("/_system/governance/trunk/wsdls/org/wso2/carbon/core/services/echo/echo.wsdl");
+                ("/_system/governance/trunk/wsdls/org/wso2/carbon/core/services/echo/1.0.0/echo.wsdl");
         DataHandler dh = contentDownloadBean.getContent();
         BufferedReader br = new BufferedReader(new InputStreamReader(dh.getInputStream()));
         StringBuffer sb = new StringBuffer();
