@@ -96,6 +96,7 @@ public class Carbon11906TestCase extends GREGIntegrationBaseTest {
         rxt.setContentStream(new FileInputStream(new File(resourcePath)));
         rxt.setMediaType(mediaType);
         governance.put(rxtPath, rxt);
+        GovernanceUtils.loadGovernanceArtifacts((UserRegistry) governance);
         assertTrue(governance.resourceExists(rxtPath),
                    "rxt resource doesn't exists");
 
