@@ -48,7 +48,7 @@ public class Registry1170TestCase extends GREGIntegrationBaseTest {
     private String session;
 
     private static final String SERVICE_PATH =
-            "/_system/governance/trunk/services/com/abb/IntergalacticService";
+            "/_system/governance/trunk/services/com/abb/1.0.0-SNAPSHOT/IntergalacticService";
 
     @BeforeClass(alwaysRun = true)
     public void initialize() throws Exception {

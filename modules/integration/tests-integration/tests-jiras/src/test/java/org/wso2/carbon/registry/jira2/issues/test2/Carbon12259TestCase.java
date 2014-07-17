@@ -95,7 +95,7 @@ public class Carbon12259TestCase extends GREGIntegrationBaseTest {
         String description = "This is a test service";
         resourceAdminServiceClient.addResource("/_system/governance/service1", mediaType, description, dataHandler);
 
-        String servicePath = "/_system/governance/trunk/services/com/a b c/a b c";
+        String servicePath = "/_system/governance/trunk/services/com/a b c/1.0.0-SNAPSHOT/a b c";
 
         ResourceData[] resourceDataArray = resourceAdminServiceClient.getResource(servicePath);
         for (ResourceData resourceData : resourceDataArray) {
@@ -131,7 +131,7 @@ public class Carbon12259TestCase extends GREGIntegrationBaseTest {
 
     @AfterClass
     public void cleanUp() throws Exception {
-        userManagementClient.deleteRole("RoleSubscriptionTest");
+        userManagementClient.deleteRole("SubscriptionTestRole");
     }
 
 }
