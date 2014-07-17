@@ -52,9 +52,9 @@ public class GarFileImportServiceWSTestCase extends GREGIntegrationBaseTest {
     @Test(groups = {"wso2.greg"}, description = "GAR file uploader - Axis2Service")
     public void testAddAxis2ServiceGarFile() throws org.wso2.carbon.registry.api.RegistryException, IOException {
         String filePath = resourcePath + "Axis2Service.gar";
-        String service_path = "/_system/governance/trunk/services/org/wso2/carbon/service/Axis2Service";
-        String wsdl_path = "/_system/governance/trunk/wsdls/org/wso2/carbon/service/Axis2Service.wsdl";
-        String schema_path = "/_system/governance/trunk/schemas/org/wso2/carbon/service/axis2serviceschema.xsd";
+        String service_path = "/_system/governance/trunk/services/org/wso2/carbon/service/1.0.0-SNAPSHOT/Axis2Service";
+        String wsdl_path = "/_system/governance/trunk/wsdls/org/wso2/carbon/service/1.0.0/Axis2Service.wsdl";
+        String schema_path = "/_system/governance/trunk/schemas/org/wso2/carbon/service/1.0.0/axis2serviceschema.xsd";
         InputStream is = null;
         try {
             // Create Collection
@@ -100,8 +100,8 @@ public class GarFileImportServiceWSTestCase extends GREGIntegrationBaseTest {
             dependsOnMethods = "testAddAxis2ServiceGarFile")
     public void testAddSimpleStockQuoteServiceGarFile() throws Exception {
         String filePath = resourcePath + "SimpleStockQuoteService.gar";
-        String service_path = "/_system/governance/trunk/services/samples/services/SimpleStockQuoteService";
-        String wsdl_path = "/_system/governance/trunk/wsdls/samples/services/SimpleStockQuoteService.wsdl";
+        String service_path = "/_system/governance/trunk/services/samples/services/1.0.0-SNAPSHOT/SimpleStockQuoteService";
+        String wsdl_path = "/_system/governance/trunk/wsdls/samples/services/1.0.0/SimpleStockQuoteService.wsdl";
         try {
             //Create Resource
             Resource r2 = registry.newResource();
@@ -135,10 +135,10 @@ public class GarFileImportServiceWSTestCase extends GREGIntegrationBaseTest {
             dependsOnMethods = "testAddSimpleStockQuoteServiceGarFile")
     public void testAddXSDAllGarFile() throws FileNotFoundException, org.wso2.carbon.registry.api.RegistryException {
         String filePath = resourcePath + "xsdAll.gar";
-        String schema_path1 = "/_system/governance/trunk/schemas/org/datacontract/schemas/_2004/_07/system/test1.xsd";
-        String schema_path2 = "/_system/governance/trunk/schemas/com/microsoft/schemas/_2003/_10/serialization/test2.xsd";
-        String schema_path3 = "/_system/governance/trunk/schemas/org/tempuri/test3.xsd";
-        String schema_path4 = "/_system/governance/trunk/schemas/com/microsoft/schemas/_2003/_10/serialization/test4.xsd";
+        String schema_path1 = "/_system/governance/trunk/schemas/org/datacontract/schemas/_2004/_07/system/1.0.0/test1.xsd";
+        String schema_path2 = "/_system/governance/trunk/schemas/com/microsoft/schemas/_2003/_10/serialization/1.0.0/test2.xsd";
+        String schema_path3 = "/_system/governance/trunk/schemas/org/tempuri/1.0.0/test3.xsd";
+        String schema_path4 = "/_system/governance/trunk/schemas/com/microsoft/schemas/_2003/_10/serialization/1.0.0/test4.xsd";
         try {
             //Create Resource
             Resource r6 = registry.newResource();
@@ -177,9 +177,9 @@ public class GarFileImportServiceWSTestCase extends GREGIntegrationBaseTest {
             dependsOnMethods = "testAddXSDAllGarFile")
     public void testAddHeterogeneousNamespaceGarFile() throws FileNotFoundException, org.wso2.carbon.registry.api.RegistryException {
         String filePath = resourcePath + "Heterogeneous_Namespace.gar";
-        String schema_path1 = "/_system/governance/trunk/schemas/org/company/www/Company.xsd";
-        String schema_path2 = "/_system/governance/trunk/schemas/org/person/www/Person.xsd";
-        String schema_path3 = "/_system/governance/trunk/schemas/org/product/www/Product.xsd";
+        String schema_path1 = "/_system/governance/trunk/schemas/org/company/www/1.0.0/Company.xsd";
+        String schema_path2 = "/_system/governance/trunk/schemas/org/person/www/1.0.0/Person.xsd";
+        String schema_path3 = "/_system/governance/trunk/schemas/org/product/www/1.0.0/Product.xsd";
         try {
             //Create Resource
             Resource r7 = registry.newResource();
@@ -215,9 +215,9 @@ public class GarFileImportServiceWSTestCase extends GREGIntegrationBaseTest {
             dependsOnMethods = "testAddHeterogeneousNamespaceGarFile")
     public void testAddArtistRegistryGarFile() throws FileNotFoundException, org.wso2.carbon.registry.api.RegistryException {
         String filePath = resourcePath + "artistRegistry.gar";
-        String service_path = "/_system/governance/trunk/services/eu/yesso/soamoa/samples/ArtistRegistryService";
-        String wsdl_path = "/_system/governance/trunk/wsdls/eu/yesso/soamoa/samples/artistRegistry.wsdl";
-        String schema_path = "/_system/governance/trunk/schemas/eu/yesso/soamoa/samples/artistRegistry.xsd";
+        String service_path = "/_system/governance/trunk/services/eu/yesso/soamoa/samples/1.0.0-SNAPSHOT/ArtistRegistryService";
+        String wsdl_path = "/_system/governance/trunk/wsdls/eu/yesso/soamoa/samples/1.0.0/artistRegistry.wsdl";
+        String schema_path = "/_system/governance/trunk/schemas/eu/yesso/soamoa/samples/1.0.0/artistRegistry.xsd";
         try {
             //Create Resource
             Resource r8 = registry.newResource();
@@ -253,10 +253,10 @@ public class GarFileImportServiceWSTestCase extends GREGIntegrationBaseTest {
             dependsOnMethods = "testAddArtistRegistryGarFile")
     public void testAddOriginalWSDLGarFile() throws FileNotFoundException, org.wso2.carbon.registry.api.RegistryException {
         String filePath = resourcePath + "original-wsdl.gar";
-        String service_path1 = "/_system/governance/trunk/services/com/konakart/ws/KKWSEngIfService";
-        String service_path2 = "/_system/governance/trunk/services/net/ecubicle/www/YouTubeDownloader";
-        String wsdl_path1 = "/_system/governance/trunk/wsdls/com/konakart/ws/KKWebServiceEng.wsdl";
-        String wsdl_path2 = "/_system/governance/trunk/wsdls/net/ecubicle/www/youtubedownloader.asmx.wsdl";
+        String service_path1 = "/_system/governance/trunk/services/com/konakart/ws/1.0.0-SNAPSHOT/KKWSEngIfService";
+        String service_path2 = "/_system/governance/trunk/services/net/ecubicle/www/1.0.0-SNAPSHOT/YouTubeDownloader";
+        String wsdl_path1 = "/_system/governance/trunk/wsdls/com/konakart/ws/1.0.0/KKWebServiceEng.wsdl";
+        String wsdl_path2 = "/_system/governance/trunk/wsdls/net/ecubicle/www/1.0.0/youtubedownloader.asmx.wsdl";
         try {
             //Create Resource
             Resource r9 = registry.newResource();
@@ -295,9 +295,9 @@ public class GarFileImportServiceWSTestCase extends GREGIntegrationBaseTest {
             dependsOnMethods = "testAddOriginalWSDLGarFile")
     public void testAddHomogeneousNamespaceGarFile() throws FileNotFoundException, org.wso2.carbon.registry.api.RegistryException {
         String filePath = resourcePath + "Homogeneous-Namespace.gar";
-        String schema_path1 = "/_system/governance/trunk/schemas/org/company/www/Company.xsd";
-        String schema_path2 = "/_system/governance/trunk/schemas/org/company/www/Person.xsd";
-        String schema_path3 = "/_system/governance/trunk/schemas/org/company/www/Product.xsd";
+        String schema_path1 = "/_system/governance/trunk/schemas/org/company/www/1.0.0/Company.xsd";
+        String schema_path2 = "/_system/governance/trunk/schemas/org/company/www/1.0.0/Person.xsd";
+        String schema_path3 = "/_system/governance/trunk/schemas/org/company/www/1.0.0/Product.xsd";
         try {
             //Create Resource
             Resource r10 = registry.newResource();
