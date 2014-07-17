@@ -76,16 +76,16 @@ public class Registry633TestCase extends GREGIntegrationBaseTest {
         wsdlManager.updateWsdl(newWsdl);
 
         Assert.assertEquals(newWsdl.getPath(),
-                            "/trunk/wsdls/org/wso2/ww2/test/Imports_with_imports.wsdl");
+                            "/trunk/wsdls/org/wso2/ww2/test/1.0.0/Imports_with_imports.wsdl");
     }
 
     @AfterClass
     public void cleanup() throws RegistryException {
         wsdlManager.removeWsdl(newWsdl.getId());
-        wsRegistry.delete("/_system/governance/trunk/wsdls/org/wso2/carbon/service/Axis2ImportedWsdl.wsdl");
+        wsRegistry.delete("/_system/governance/trunk/wsdls/org/wso2/carbon/service/1.0.0/Axis2ImportedWsdl.wsdl");
         wsRegistry.delete("/_system/governance/trunk/wsdls/org/wso2/carbon/service/impl");
-        wsRegistry.delete("/_system/governance/trunk/services/org/wso2/carbon/service/impl/Axis2Service");
-        wsRegistry.delete("/_system/governance/trunk/services/org/wso2/ww2/test/Axis2Service");
+        wsRegistry.delete("/_system/governance/trunk/services/org/wso2/carbon/service/impl/1.0.0-SNAPSHOT/Axis2Service");
+        wsRegistry.delete("/_system/governance/trunk/services/org/wso2/ww2/test/1.0.0-SNAPSHOT/Axis2Service");
         wsdlManager = null;
     }
 }
