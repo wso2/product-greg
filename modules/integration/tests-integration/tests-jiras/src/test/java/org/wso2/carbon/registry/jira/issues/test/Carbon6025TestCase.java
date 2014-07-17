@@ -126,9 +126,9 @@ public class Carbon6025TestCase extends GREGIntegrationBaseTest {
     public void clean()
             throws RegistryException, ResourceAdminServiceExceptionException, RemoteException {
 
-        delete("/_system/governance/trunk/services/samples/services/SimpleStockQuoteService1M");
-        delete("/_system/governance/trunk/wsdls/samples/services/wsdl_with_EncrOnlyAnonymous.wsdl");
-        delete("/_system/governance/trunk/schemas/samples/services/xsd/SampleSchema.xsd");
+        delete("/_system/governance/trunk/services/samples/services/1.0.0-SNAPSHOT/SimpleStockQuoteService1M");
+        delete("/_system/governance/trunk/wsdls/samples/services/1.0.0/wsdl_with_EncrOnlyAnonymous.wsdl");
+        delete("/_system/governance/trunk/schemas/samples/services/xsd/1.0.0/SampleSchema.xsd");
         delete("/_system/governance/trunk/policies/EncrOnlyAnonymous.xml");
         delete("/_system/governance/trunk/endpoints/_109");
 

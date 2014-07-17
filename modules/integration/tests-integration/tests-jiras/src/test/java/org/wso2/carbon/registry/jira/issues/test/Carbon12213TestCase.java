@@ -137,7 +137,7 @@ public class Carbon12213TestCase extends GREGIntegrationBaseTest {
                           + "artifacts" + File.separator + "GREG" + File.separator + "gar" + File.separator
                           + "transcript.gar";
 
-        schemaPath = "/_system/governance/trunk/schemas/wifi/digitalcircuit/ops/schema/transcript/_2005/transcript-schema.xsd";
+        schemaPath = "/_system/governance/trunk/schemas/wifi/digitalcircuit/ops/schema/transcript/_2005/1.0.0/transcript-schema.xsd";
 
         transcriptFile = getTestArtifactLocation() + "artifacts" + File.separator +
                          "GREG" + File.separator +
