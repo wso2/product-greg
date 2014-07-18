@@ -72,7 +72,7 @@ public class LCInvalidMediaTypeTestCase extends GREGIntegrationBaseTest {
     private static final String LC_STATE = "Testing";
     private static final String ACTION_PROMOTE = "Promote";
     private static final String GOV_PATH = "/_system/governance";
-    private String serviceString = "/trunk/services/com/abb/IntergalacticService4";
+    private String serviceString = "/trunk/services/com/abb/1.0.0-SNAPSHOT/IntergalacticService4";
     private final String absPath = GOV_PATH + serviceString;
     private LifecycleBean lifeCycle;
     private ServiceBean service;
@@ -234,7 +234,7 @@ public class LCInvalidMediaTypeTestCase extends GREGIntegrationBaseTest {
         if (wsRegistryServiceClient.resourceExists(servicePathToDelete)) {
             resourceAdminServiceClient.deleteResource(servicePathToDelete);
         }
-        String schemaPathToDelete = "/_system/governance/trunk/schemas/org/bar/purchasing/purchasing.xsd";
+        String schemaPathToDelete = "/_system/governance/trunk/schemas/org/bar/purchasing/1.0.0/purchasing.xsd";
         if (wsRegistryServiceClient.resourceExists(schemaPathToDelete)) {
             resourceAdminServiceClient.deleteResource(schemaPathToDelete);
         }
