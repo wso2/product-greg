@@ -52,9 +52,10 @@ public class UploadWsdlByCarFileTestCase extends GREGIntegrationBaseTest {
     private String userNameWithoutDomain;
 
     private String cAppName = "wsdl_new_1.0.0";
-    private final String wsdlPath = "/_system/governance/trunk/wsdls/net/restfulwebservices/www/servicecontracts/_2008/_01/WeatherForecastService.svc.wsdl";
+    private final String wsdlPath = "/_system/governance/trunk/wsdls/net/restfulwebservices/www/servicecontracts/_2008/_01/1.0.0/WeatherForecastService.svc.wsdl";
     private final String wsdlUploadedPath = "/_system/wsdl_new/WeatherForecastService.svc.wsdl";
-    private final String servicePath = "/_system/governance/trunk/services/net/restfulwebservices/www/servicecontracts/_2008/_01/WeatherForecastService";
+    private final String servicePath = "/_system/governance/trunk/services/net/restfulwebservices/www/servicecontracts/_2008/_01/1.0.0-SNAPSHOT/WeatherForecastService";
+
 
     @BeforeClass
     public void init() throws Exception {
@@ -142,13 +143,13 @@ public class UploadWsdlByCarFileTestCase extends GREGIntegrationBaseTest {
         }
 
 
-        delete("/_system/governance/trunk/services/net/restfulwebservices/www/servicecontracts/_2008/_01/WeatherForecastService");
-        delete("/_system/governance/trunk/wsdls/net/restfulwebservices/www/servicecontracts/_2008/_01/WeatherForecastService.svc.wsdl");
-        delete("/_system/governance/trunk/schemas/com/microsoft/schemas/_2003/_10/serialization/arrays/WeatherForecastService.svc.xsd");
-        delete("/_system/governance/trunk/schemas/net/restfulwebservices/www/datacontracts/_2008/_01/WeatherForecastService1.xsd");
-        delete("/_system/governance/trunk/schemas/net/restfulwebservices/www/servicecontracts/_2008/_01/WeatherForecastService2.xsd");
-        delete("/_system/governance/trunk/schemas/com/microsoft/schemas/_2003/_10/serialization/WeatherForecastService3.xsd");
-        delete("/_system/governance/trunk/schemas/faultcontracts/gotlservices/_2008/_01/WeatherForecastService4.xsd");
+        delete("/_system/governance/trunk/services/net/restfulwebservices/www/servicecontracts/_2008/_01/1.0.0-SNAPSHOT/WeatherForecastService");
+        delete("/_system/governance/trunk/wsdls/net/restfulwebservices/www/servicecontracts/_2008/_01/1.0.0/WeatherForecastService.svc.wsdl");
+        delete("/_system/governance/trunk/schemas/com/microsoft/schemas/_2003/_10/serialization/arrays/1.0.0/WeatherForecastService.svc.xsd");
+        delete("/_system/governance/trunk/schemas/net/restfulwebservices/www/datacontracts/_2008/_01/1.0.0/WeatherForecastService1.xsd");
+        delete("/_system/governance/trunk/schemas/net/restfulwebservices/www/servicecontracts/_2008/_01/1.0.0/WeatherForecastService2.xsd");
+        delete("/_system/governance/trunk/schemas/com/microsoft/schemas/_2003/_10/serialization/1.0.0/WeatherForecastService3.xsd");
+        delete("/_system/governance/trunk/schemas/faultcontracts/gotlservices/_2008/_01/1.0.0/WeatherForecastService4.xsd");
         delete("/_system/governance/trunk/endpoints/net");
 
 

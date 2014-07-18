@@ -55,9 +55,9 @@ public class UploadCarFileWithGarTestCase extends GREGIntegrationBaseTest {
     private String userNameWithoutDomain;
 
     private String cAppName = "GarTestCApp_1.0.0";
-    private final String wsdlPath = "/_system/governance/trunk/wsdls/org/wso2/carbon/service/Axis2Service.wsdl";
+    private final String wsdlPath = "/_system/governance/trunk/wsdls/org/wso2/carbon/service/1.0.0/Axis2Service.wsdl";
     private final String wsdlUploadedPath = "/_system/config/gar/Axis2Service.wsdl";
-    private final String servicePath = "/_system/governance/trunk/services/org/wso2/carbon/service/Axis2Service";
+    private final String servicePath = "/_system/governance/trunk/services/org/wso2/carbon/service/1.0.0-SNAPSHOT/Axis2Service";
 
     @BeforeClass
     public void init() throws Exception {
@@ -152,9 +152,9 @@ public class UploadCarFileWithGarTestCase extends GREGIntegrationBaseTest {
             adminServiceApplicationAdmin.deleteApplication(cAppName);
         }
 
-        delete("/_system/governance/trunk/services/org/wso2/carbon/service/Axis2Service");
-        delete("/_system/governance/trunk/wsdls/org/wso2/carbon/service/Axis2Service.wsdl");
-        delete("/_system/governance/trunk/schemas/org/wso2/carbon/service/axis2serviceschema.xsd");
+        delete("/_system/governance/trunk/services/org/wso2/carbon/service/1.0.0-SNAPSHOT/Axis2Service");
+        delete("/_system/governance/trunk/wsdls/org/wso2/carbon/service/1.0.0/Axis2Service.wsdl");
+        delete("/_system/governance/trunk/schemas/org/wso2/carbon/service/1.0.0/axis2serviceschema.xsd");
         delete("/_system/governance/trunk/endpoints/_1");
 
         cAppUploader = null;

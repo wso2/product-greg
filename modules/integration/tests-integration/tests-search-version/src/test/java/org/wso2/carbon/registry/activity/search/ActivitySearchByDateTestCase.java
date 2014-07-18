@@ -25,12 +25,17 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 import org.wso2.carbon.automation.engine.context.TestUserMode;
 import org.wso2.carbon.automation.engine.frameworkutils.FrameworkPathUtil;
+import org.wso2.carbon.governance.api.common.dataobjects.GovernanceArtifact;
+import org.wso2.carbon.registry.core.session.UserRegistry;
+
 import org.wso2.carbon.governance.api.endpoints.dataobjects.Endpoint;
 import org.wso2.carbon.governance.api.exception.GovernanceException;
 import org.wso2.carbon.governance.api.services.ServiceManager;
 import org.wso2.carbon.governance.api.services.dataobjects.Service;
 import org.wso2.carbon.governance.api.wsdls.WsdlManager;
 import org.wso2.carbon.governance.api.wsdls.dataobjects.Wsdl;
+import org.wso2.carbon.governance.api.util.GovernanceUtils;
+
 import org.wso2.carbon.registry.activities.stub.RegistryExceptionException;
 import org.wso2.carbon.registry.core.Registry;
 import org.wso2.carbon.registry.resource.stub.ResourceAdminServiceExceptionException;
@@ -56,7 +61,7 @@ public class ActivitySearchByDateTestCase extends GREGIntegrationBaseTest{
     private static final Log log = LogFactory.getLog(ActivitySearchByDateTestCase.class);
     private ResourceAdminServiceClient resourceAdminServiceClient;
     private ActivityAdminServiceClient activityAdminServiceClient;
-    private String wsdlPath = "/_system/governance/trunk/wsdls/eu/dataaccess/footballpool/";
+    private String wsdlPath ="/_system/governance/trunk/wsdls/eu/dataaccess/footballpool/1.0.0/";
     private String resourceName = "sample.wsdl";
     private ServiceManager serviceManager;
     private WsdlManager wsdlManager;
@@ -93,6 +98,7 @@ public class ActivitySearchByDateTestCase extends GREGIntegrationBaseTest{
                 registryProviderUtil.getWSRegistry(automationContext);
 
         Registry governance = registryProviderUtil.getGovernanceRegistry(wsRegistry, automationContext);
+        GovernanceUtils.loadGovernanceArtifacts((UserRegistry) governance); 
         serviceManager = new ServiceManager(governance);
         wsdlManager = new WsdlManager(governance);
     }
@@ -182,16 +188,17 @@ public class ActivitySearchByDateTestCase extends GREGIntegrationBaseTest{
                 endpoints = wsdlManager.getWsdl(wsdl.getId()).getAttachedEndpoints();
             }
         }
-        resourceAdminServiceClient.deleteResource(wsdlPath + "sample.wsdl");
-        for (Endpoint path : endpoints) {
-            resourceAdminServiceClient.deleteResource("_system/governance/" + path.getPath());
-        }
 
         Service[] services = serviceManager.getAllServices();
         for (Service service : services) {
             if (service.getQName().getLocalPart().equals("Info")) {
                 serviceManager.removeService(service.getId());
             }
+        }
+
+        resourceAdminServiceClient.deleteResource(wsdlPath + "sample.wsdl");
+        for (Endpoint path : endpoints) {
+            resourceAdminServiceClient.deleteResource("_system/governance" + path.getPath());
         }
 
         resourceAdminServiceClient = null;
