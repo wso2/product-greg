@@ -80,7 +80,7 @@ public class PromoteDemoteByAdminNonAdminTestCase extends GREGIntegrationBaseTes
     private static final String TYPE = "transition";
     private static final String ACTION_NAME = "name";
     private static final String GOV_PATH = "/_system/governance";
-    private String serviceString = "/trunk/services/com/abb/IntergalacticService11";
+    private String serviceString = "/trunk/services/com/abb/1.0.0-SNAPSHOT/IntergalacticService11";
     private final String absPath = GOV_PATH + serviceString;
     private LifecycleBean lifeCycle;
     private ServiceBean service;
