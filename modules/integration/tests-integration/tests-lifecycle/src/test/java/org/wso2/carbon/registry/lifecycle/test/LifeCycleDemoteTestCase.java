@@ -78,7 +78,7 @@ public class LifeCycleDemoteTestCase extends GREGIntegrationBaseTest {
     private static final String LC_STATE1 = "Tested";
     private static final String TYPE = "transition";
     private static final String GOV_PATH = "/_system/governance";
-    private String serviceString = "/trunk/services/com/abb/IntergalacticService8";
+    private String serviceString = "/trunk/services/com/abb/1.0.0-SNAPSHOT/IntergalacticService8";
     private final String absPath = GOV_PATH + serviceString;
     private LifecycleBean lifeCycle;
     private RegistryProviderUtil registryProviderUtil = new RegistryProviderUtil();
