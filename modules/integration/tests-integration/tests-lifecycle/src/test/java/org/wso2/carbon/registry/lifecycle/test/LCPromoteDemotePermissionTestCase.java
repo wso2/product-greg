@@ -80,7 +80,7 @@ public class LCPromoteDemotePermissionTestCase extends GREGIntegrationBaseTest {
     private static final String LC_STATE1 = "Creation";
     private static final String ACTION_ITEM_CLICK = "itemClick";
     private static final String GOV_PATH = "/_system/governance";
-    private String servicePath = "/trunk/services/com/abb/IntergalacticService13";
+    private String servicePath = "/trunk/services/com/abb/1.0.0-SNAPSHOT/IntergalacticService13";
     private final String absPath = GOV_PATH + servicePath;
     private LifecycleBean lifeCycle;
     private RegistryProviderUtil registryProviderUtil = new RegistryProviderUtil();
