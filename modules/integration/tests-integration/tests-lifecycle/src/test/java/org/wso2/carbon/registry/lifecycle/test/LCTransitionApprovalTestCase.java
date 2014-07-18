@@ -58,7 +58,7 @@ public class LCTransitionApprovalTestCase extends GREGIntegrationBaseTest{
     private static final String LC_NAME = "TransitionApprovalLC";
     private static final String ACTION_PROMOTE = "Promote";
     private static final String GOV_PATH = "/_system/governance";
-    private String serviceString = "/trunk/services/com/abb/IntergalacticService";
+    private String serviceString = "/trunk/services/com/abb/1.0.0-SNAPSHOT/IntergalacticService";
     private final String absPath = GOV_PATH + serviceString;
 
 	
