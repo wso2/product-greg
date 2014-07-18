@@ -75,7 +75,7 @@ public class LCCheckListPermissionTestCase extends GREGIntegrationBaseTest {
     private static final String ITEM2 = "Document Requirements";
     private static final String ITEM3 = "Architecture Diagram Finalized";
     private static final String GOV_PATH = "/_system/governance";
-    private String serviceString = "/trunk/services/com/abb/IntergalacticService5";
+    private String serviceString = "/trunk/services/com/abb/1.0.0-SNAPSHOT/IntergalacticService5";
     private final String absPath = GOV_PATH + serviceString;
     private LifecycleBean lifeCycle;
     private RegistryProviderUtil registryProviderUtil = new RegistryProviderUtil();
