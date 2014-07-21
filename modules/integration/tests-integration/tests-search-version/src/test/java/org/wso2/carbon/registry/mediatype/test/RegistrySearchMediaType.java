@@ -99,8 +99,8 @@ public class RegistrySearchMediaType extends GREGIntegrationBaseTest {
                                                "application/wsdl+xml", "desc", dh);
 
 
-        assertTrue(resourceAdminServiceClient.getMetadata("/_system/governance/trunk/wsdls/com/amazon" +
-                                                          "/soap/AmazonWebServices.wsdl").getMediaType().equals("application/wsdl+xml"));
+        assertTrue(resourceAdminServiceClient.getMetadata(
+             "/_system/governance/trunk/wsdls/com/amazon/soap/1.0.0/AmazonWebServices.wsdl").getMediaType().equals("application/wsdl+xml"));
 
 
     }
@@ -110,7 +110,7 @@ public class RegistrySearchMediaType extends GREGIntegrationBaseTest {
             throws IOException, ResourceAdminServiceExceptionException, RegistryException {
 
         resourceAdminServiceClient.addSymbolicLink("/", "AmazonWebServices.wsdl",
-                                                   "/_system/governance/trunk/wsdls/com/amazon/soap/AmazonWebServices.wsdl");
+                "/_system/governance/trunk/wsdls/com/amazon/soap/1.0.0/AmazonWebServices.wsdl");
 
         assertTrue(resourceAdminServiceClient.
                 getMetadata("/AmazonWebServices.wsdl").getMediaType().equals("application/wsdl+xml"));
@@ -128,8 +128,7 @@ public class RegistrySearchMediaType extends GREGIntegrationBaseTest {
 
         DataHandler dh = new DataHandler(new URL("file:///" + resourcePath));
         resourceAdminServiceClient.addSchema("adding schema", dh);
-        assertTrue(resourceAdminServiceClient.getMetadata("/_system/governance/trunk/schemas/com/exam" +
-                                                          "ple/www/library/library.xsd").getMediaType().equals("application/x-xsd+xml"));
+        assertTrue(resourceAdminServiceClient.getMetadata("/_system/governance/trunk/schemas/com/example/" +
 
     }
 
@@ -137,7 +136,7 @@ public class RegistrySearchMediaType extends GREGIntegrationBaseTest {
     public void searchSchemaSymLinkMediaType()
             throws RemoteException, MalformedURLException, ResourceAdminServiceExceptionException {
         resourceAdminServiceClient.addSymbolicLink("/", "library.xsd",
-                                                   "/_system/governance/trunk/schemas/com/example/www/library/library.xsd");
+                                                     "/_system/governance/trunk/schemas/com/example/www/library/1.0.0/library.xsd");
         assertTrue(resourceAdminServiceClient.getMetadata("/library.xsd").getMediaType().equals("application/x-xsd+xml"));
 
     }
@@ -146,8 +145,8 @@ public class RegistrySearchMediaType extends GREGIntegrationBaseTest {
     public void searchServiceMediaType()
             throws RemoteException, MalformedURLException, ResourceAdminServiceExceptionException {
 
-        assertTrue(resourceAdminServiceClient.getMetadata("/_system/governance/trunk/services/com/amazon" +
-                                                          "/soap/AmazonSearchService").getMediaType().
+        assertTrue(resourceAdminServiceClient.getMetadata(
+                "/_system/governance/trunk/services/com/amazon/soap/1.0.0-SNAPSHOT/AmazonSearchService").getMediaType().
                 equals("application/vnd.wso2-service+xml"));
     }
 
@@ -184,9 +183,9 @@ public class RegistrySearchMediaType extends GREGIntegrationBaseTest {
         delete("/_system/governance/trunk/policies/policy.xml");
         delete("/_system/config/testResource");
         delete("/_system/governance/trunk/endpoints/automation");
-        delete("/_system/governance/trunk/services/com/amazon/soap/AmazonSearchService");
-        delete("/_system/governance/trunk/wsdls/com/amazon/soap/AmazonWebServices.wsdl");
-        delete("/_system/governance/trunk/schemas/com/example/www/library/library.xsd");
+        delete( "/_system/governance/trunk/services/com/amazon/soap/1.0.0-SNAPSHOT/AmazonSearchService");
+        delete("/_system/governance/trunk/wsdls/com/amazon/soap/1.0.0/AmazonWebServices.wsdl");
+        delete("/_system/governance/trunk/schemas/com/example/www/library/1.0.0/library.xsd");
 
         resourceAdminServiceClient = null;
         governance = null;

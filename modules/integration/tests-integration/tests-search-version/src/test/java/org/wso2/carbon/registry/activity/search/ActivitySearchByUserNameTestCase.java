@@ -58,7 +58,7 @@ import static org.testng.Assert.*;
 public class ActivitySearchByUserNameTestCase extends GREGIntegrationBaseTest {
     private static final Log log = LogFactory.getLog(ActivitySearchByUserNameTestCase.class);
 
-    private String wsdlPath = "/_system/governance/trunk/wsdls/eu/dataaccess/footballpool/";
+    private String wsdlPath = "/_system/governance/trunk/wsdls/eu/dataaccess/footballpool/1.0.0/";
     private String resourceName = "sample.wsdl";
     private ResourceAdminServiceClient resourceAdminServiceClient;
     private ActivityAdminServiceClient activityAdminServiceClient;
@@ -138,7 +138,7 @@ public class ActivitySearchByUserNameTestCase extends GREGIntegrationBaseTest {
                                                        ResourceAdminServiceExceptionException {
         assertNotNull(activityAdminServiceClient.getActivities(sessionCookie,
                                                                userNameWithoutDomain,
-                                                               "/_system/governance/trunk/wsdls/eu/dataaccess/footballpool/" +
+                                                                  "/_system/governance/trunk/wsdls/eu/dataaccess/footballpool/1.0.0/"+
                                                                resourceName, "", "", "", 0).getActivity());
 
     }

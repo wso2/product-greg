@@ -60,7 +60,7 @@ public class ActivitySearchByFilterTestCase extends GREGIntegrationBaseTest{
 
     private static final Log log = LogFactory.getLog(ActivitySearchByFilterTestCase.class);
 
-    private String wsdlPath = "/_system/governance/trunk/wsdls/eu/dataaccess/footballpool/";
+    private String wsdlPath = "/_system/governance/trunk/wsdls/eu/dataaccess/footballpool/1.0.0/";
     private String resourceName = "sample.wsdl";
     private ResourceAdminServiceClient resourceAdminServiceClient;
     private ActivityAdminServiceClient activityAdminServiceClient;
@@ -265,9 +265,11 @@ public class ActivitySearchByFilterTestCase extends GREGIntegrationBaseTest{
             ResourceAdminServiceExceptionException {
 
         resourceAdminServiceClient.addSymbolicLink("/_system/governance/trunk/wsdls/eu/dataaccess/",
-                "SymbolicName", "/_system/governance/trunk/wsdls/eu/dataaccess/footballpool/" +
+                "SymbolicName", "/_system/governance/trunk/wsdls/eu/dataaccess/footballpool/1.0.0/"+
                 resourceName);
     }
+
+
 
 
     @Test(groups = {"wso2.greg"}, dependsOnMethods = "createSymbolicLink")
