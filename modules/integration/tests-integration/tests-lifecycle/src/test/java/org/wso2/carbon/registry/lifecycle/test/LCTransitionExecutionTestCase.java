@@ -86,7 +86,7 @@ public class LCTransitionExecutionTestCase extends GREGIntegrationBaseTest {
     private static final String ACTION_PROMOTE = "Promote";
     private String serviceString;
     private static final String GOV_PATH = "/_system/governance";
-    private String servicePath = "/trunk/services/com/abb/IntergalacticService14";
+    private String servicePath = "/trunk/services/com/abb/1.0.0-SNAPSHOT/IntergalacticService14";
     private final String absPath = GOV_PATH + servicePath;
     private LifecycleBean lifeCycle;
     private ServiceBean service;

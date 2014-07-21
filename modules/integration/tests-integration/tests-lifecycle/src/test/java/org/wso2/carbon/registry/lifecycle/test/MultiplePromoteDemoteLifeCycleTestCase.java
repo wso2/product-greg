@@ -82,7 +82,7 @@ public class MultiplePromoteDemoteLifeCycleTestCase extends GREGIntegrationBaseT
     private static final String TYPE = "transition";
     private static final String ACTION_NAME = "name";
     private static final String GOV_PATH = "/_system/governance";
-    private String servicePath = "/trunk/services/com/abb/IntergalacticService16";
+    private String servicePath = "/trunk/services/com/abb/1.0.0-SNAPSHOT/IntergalacticService16";
     private final String absPath = GOV_PATH + servicePath;
     private LifecycleBean lifeCycle;
     private RegistryProviderUtil registryProviderUtil = new RegistryProviderUtil();
@@ -214,7 +214,7 @@ public class MultiplePromoteDemoteLifeCycleTestCase extends GREGIntegrationBaseT
     public void testVerifyAuditAdmin () throws Exception {
 
         String auditPath = "/_system/governance/repository/components/org.wso2.carbon.governance/lifecycles/history/" +
-                "__system_governance_trunk_services_com_abb_IntergalacticService16";
+                "__system_governance_trunk_services_com_abb_1.0.0-SNAPSHOT_IntergalacticService16";
         assertEquals(getAuditRecords(auditPath, 2, USER, false), userName1WithoutDomain, "User is not testuser1");
         assertEquals(getAuditRecords(auditPath, 2, STATE, false), LC_STATE0, "State before transition is not Commencement");
         assertEquals(getAuditRecords(auditPath, 2, TARGET_STATE, false), LC_STATE1, "State after transition is not Creation");

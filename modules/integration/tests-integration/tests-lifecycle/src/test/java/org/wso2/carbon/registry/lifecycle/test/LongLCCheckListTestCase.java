@@ -49,7 +49,7 @@ public class LongLCCheckListTestCase extends GREGIntegrationBaseTest {
     private static final String SERVICE_NAME = "IntergalacticService2";
     private static final String LC_NAME = "LongCheckListLC";
     private static final String GOV_PATH = "/_system/governance";
-    private String serviceString = "/trunk/services/com/abb/IntergalacticService2";
+    private String serviceString = "/trunk/services/com/abb/1.0.0-SNAPSHOT/IntergalacticService2";
     private final String absPath = GOV_PATH + serviceString;
     private static final String ACTION_ITEM_CLICK = "itemClick";
     private LifecycleBean lifeCycle;
@@ -237,7 +237,7 @@ public class LongLCCheckListTestCase extends GREGIntegrationBaseTest {
         if (wsRegistryServiceClient.resourceExists(servicePathToDelete)) {
             resourceAdminServiceClient.deleteResource(servicePathToDelete);
         }
-        String schemaPathToDelete = "/_system/governance/trunk/schemas/org/bar/purchasing/purchasing.xsd";
+        String schemaPathToDelete = "/_system/governance/trunk/schemas/org/bar/purchasing/1.0.0/purchasing.xsd";
         if (wsRegistryServiceClient.resourceExists(schemaPathToDelete)) {
             resourceAdminServiceClient.deleteResource(schemaPathToDelete);
         }

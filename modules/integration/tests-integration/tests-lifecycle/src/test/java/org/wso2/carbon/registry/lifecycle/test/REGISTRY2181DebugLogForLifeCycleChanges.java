@@ -161,7 +161,7 @@ public class REGISTRY2181DebugLogForLifeCycleChanges  extends GREGIntegrationBas
         String description = "This is a test service";
         resourceAdminServiceClient.addResource(
                 "/_system/governance/service2", mediaType, description, dataHandler);
-        ResourceData[] data = resourceAdminServiceClient.getResource("/_system/governance/trunk/services/com/abb/IntergalacticService1");
+        ResourceData[] data = resourceAdminServiceClient.getResource("/_system/governance/trunk/services/com/abb/1.0.0-SNAPSHOT/IntergalacticService1");
         assertNotNull(data, "Service not found");
 
     }
