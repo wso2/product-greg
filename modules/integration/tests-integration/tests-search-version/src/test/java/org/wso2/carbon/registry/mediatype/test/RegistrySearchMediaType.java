@@ -129,6 +129,7 @@ public class RegistrySearchMediaType extends GREGIntegrationBaseTest {
         DataHandler dh = new DataHandler(new URL("file:///" + resourcePath));
         resourceAdminServiceClient.addSchema("adding schema", dh);
         assertTrue(resourceAdminServiceClient.getMetadata("/_system/governance/trunk/schemas/com/example/" +
+                                       "/www/library/1.0.0/library.xsd").getMediaType().equals("application/x-xsd+xml"));
 
     }
 

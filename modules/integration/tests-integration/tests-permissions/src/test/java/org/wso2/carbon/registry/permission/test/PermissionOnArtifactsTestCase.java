@@ -47,7 +47,6 @@ import static org.testng.Assert.assertTrue;
 public class PermissionOnArtifactsTestCase extends GREGIntegrationBaseTest{
 
     private static final String WSDL_FILE_PATH ="/_system/governance/trunk/wsdls/org/wso2/carbon/core/services/echo/1.0.0/echo.wsdl";
-
     private static final String SCHEMA_FILE_PATH ="/_system/governance/trunk/schemas/org/charitha/1.0.0/calculator.xsd";
     private static final String SERVICE_FILE_PATH = "/_system/governance/trunk/services/org/wso2/carbon/core/services/echo/1.0.0-SNAPSHOT/echoyuSer1";
 
