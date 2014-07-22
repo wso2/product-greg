@@ -90,16 +90,16 @@ public class SchemaDependenciesVerificationTestCase extends GREGIntegrationBaseT
         RelationAdminServiceClient relationAdminServiceClient = new RelationAdminServiceClient(
                 automationContext.getContextUrls().getBackEndUrl(),
                 sessionCookie);
-        relationAdminServiceClient.addAssociation("/_system/governance/trunk/schemas/books/books.xsd",
-                "depends", "/_system/governance/trunk/schemas/org/charitha/calculator.xsd", "add");
+        relationAdminServiceClient.addAssociation("/_system/governance/trunk/schemas/books/1.0.0/books.xsd",
+                "depends", "/_system/governance/trunk/schemas/org/charitha/1.0.0/calculator.xsd", "add");
         DependenciesBean dependenciesBean = relationAdminServiceClient
-                .getDependencies("/_system/governance/trunk/schemas/books/books.xsd");
+                .getDependencies("/_system/governance/trunk/schemas/books/1.0.0/books.xsd");
         AssociationBean[] associationBean = dependenciesBean
                 .getAssociationBeans();
         boolean status = false;
         for (AssociationBean tmpAssociationBean : associationBean) {
             if (tmpAssociationBean.getDestinationPath().contentEquals(
-                    "/_system/governance/trunk/schemas/org/charitha/calculator.xsd")) {
+                    "/_system/governance/trunk/schemas/org/charitha/1.0.0/calculator.xsd")) {
                 status = true;
 
             }
@@ -113,9 +113,9 @@ public class SchemaDependenciesVerificationTestCase extends GREGIntegrationBaseT
             ResourceAdminServiceExceptionException {
 
         resourceAdminServiceClient
-                .deleteResource("/_system/governance/trunk/schemas/books/books.xsd");
+                .deleteResource("/_system/governance/trunk/schemas/books/1.0.0/books.xsd");
         resourceAdminServiceClient
-                .deleteResource("/_system/governance/trunk/schemas/org/charitha/calculator.xsd");
+                .deleteResource("/_system/governance/trunk/schemas/org/charitha/1.0.0/calculator.xsd");
         resourceAdminServiceClient = null;
 
     }
