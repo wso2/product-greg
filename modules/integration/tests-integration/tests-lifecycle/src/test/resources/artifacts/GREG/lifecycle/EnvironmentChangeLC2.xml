@@ -41,7 +41,7 @@
                         </data>
 			<data name="transitionExecution">
                             <execution forEvent="Promote" class="org.wso2.carbon.governance.registry.extensions.executors.ServiceVersionExecutor">
-                                <parameter name="currentEnvironment" value="/_system/governance/trunk/{@resourcePath}/{@resourceName}"/>
+                                <parameter name="currentEnvironment" value="/_system/governance/trunk/{@resourcePath}/{@version}/{@resourceName}"/>
                                 <parameter name="targetEnvironment" value="/_system/governance/branches/testing/{@resourcePath}/{@version}/{@resourceName}"/>
                                 <parameter name="service.mediatype" value="application/vnd.wso2-service+xml"/>
                                 <parameter name="wsdl.mediatype" value="application/wsdl+xml"/>

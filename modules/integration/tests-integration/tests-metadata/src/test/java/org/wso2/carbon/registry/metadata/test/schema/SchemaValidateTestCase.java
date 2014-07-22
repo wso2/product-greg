@@ -64,19 +64,19 @@ public class SchemaValidateTestCase extends GREGIntegrationBaseTest{
         resourceAdminServiceClient.importResource(schemaPath + resourceName, resourceName,
                                                   RegistryConstants.APPLICATION_X_XSD_XML,
                 "schemaFile", resourceUrl, null);
-        assertTrue(validateProperties(schemaPath + "org/ihc/xsd/" + resourceName, "Schema Validation",
+        assertTrue(validateProperties(schemaPath + "org/ihc/xsd/1.0.0/" + resourceName, "Schema Validation",
                                       "Valid"), "Schema validation status incorrect");
-        assertTrue(validateProperties(schemaPath + "org/ihc/xsd/" + resourceName, "targetNamespace",
+        assertTrue(validateProperties(schemaPath + "org/ihc/xsd/1.0.0/" + resourceName, "targetNamespace",
                                       "http://ihc.org/xsd?patient"), "Target namespace not found");
         String textContent = resourceAdminServiceClient.getTextContent(schemaPath +
-                                                                       "org/ihc/xsd/" + resourceName);
+                                                                       "org/ihc/xsd/1.0.0/" + resourceName);
         assertTrue(!textContent.equals(null));
         //delete the added resource
         resourceAdminServiceClient.deleteResource(schemaPath +
-                                                  "org/ihc/xsd/" + resourceName);
+                                                  "org/ihc/xsd/1.0.0/" + resourceName);
         //check if the deleted file exists in registry
         assertTrue(!isResourceExist(sessionCookie,
-                                    schemaPath + "org/ihc/xsd/", resourceName, resourceAdminServiceClient));
+                                    schemaPath + "org/ihc/xsd/1.0.0/", resourceName, resourceAdminServiceClient));
     }
 
     /**
@@ -92,21 +92,21 @@ public class SchemaValidateTestCase extends GREGIntegrationBaseTest{
         resourceAdminServiceClient.importResource(schemaPath + resourceName, resourceName,
                                                   RegistryConstants.APPLICATION_X_XSD_XML,
                 "schemaFile", resourceUrl, null);
-        assertTrue(validateProperties(schemaPath + "org/charitha/" +
+        assertTrue(validateProperties(schemaPath + "org/charitha/1.0.0/" +
                                       resourceName, "Schema Validation", "Invalid"), "Schema validation status incorrect");
-        assertTrue(validateProperties(schemaPath + "org/charitha/" +
+        assertTrue(validateProperties(schemaPath + "org/charitha/1.0.0/" +
                                       resourceName, "targetNamespace", "http://charitha.org/"), "Target namespace not found");
-        assertTrue(validateProperties(schemaPath + "org/charitha/" +
+        assertTrue(validateProperties(schemaPath + "org/charitha/1.0.0/" +
                                       resourceName, "Schema Validation Message 1", "Error: s4s-att-must-appear: Attribute 'name' must " +
                                                                                    "appear in element 'element'."), "Schema validation error not found");
         assertNotNull(resourceAdminServiceClient.getTextContent(schemaPath +
-                                                                "org/charitha/" + resourceName));
+                                                                "org/charitha/1.0.0/" + resourceName));
         //delete the added resource
         resourceAdminServiceClient.deleteResource(schemaPath +
-                                                  "org/charitha/" + resourceName);
+                                                  "org/charitha/1.0.0/" + resourceName);
         //check if the deleted file exists in registry
         assertTrue(!isResourceExist(sessionCookie, schemaPath +
-                                                                              "org/charitha/", resourceName, resourceAdminServiceClient));
+                                                                              "org/charitha/1.0.0/", resourceName, resourceAdminServiceClient));
 
     }
 
@@ -123,28 +123,28 @@ public class SchemaValidateTestCase extends GREGIntegrationBaseTest{
                                                org.wso2.carbon.registry.metadata.test.util.RegistryConstants.APPLICATION_WSO2_GOVERNANCE_ARCHIVE, "schemaFile",
                                                new DataHandler(new URL("file:///" + resource)));
         assertTrue(validateProperties(schemaPath +
-                                      "dk/dr/www/namespaces/schemas/application/mas/whatson/production/production.xsd",
+                                      "dk/dr/www/namespaces/schemas/application/mas/whatson/production/1.0.0/production.xsd",
                                       "Schema Validation", "Valid"), "Schema validation status incorrect");
         assertTrue(validateProperties(schemaPath +
-                                      "dk/dr/www/namespaces/schemas/application/mas/whatson/production/production.xsd",
+                                      "dk/dr/www/namespaces/schemas/application/mas/whatson/production/1.0.0/production.xsd",
                                       "targetNamespace", "http://www.dr.dk/namespaces/schemas/application/mas/whatson/production"),
                    "Target namespace not found");
         assertTrue(validateProperties(schemaPath +
-                                      "dk/dr/www/namespaces/schemas/common/types/types.xsd",
+                                      "dk/dr/www/namespaces/schemas/common/types/1.0.0/types.xsd",
                                       "targetNamespace", "http://www.dr.dk/namespaces/schemas/common/types"),
                    "Target namespace not found");
         assertNotNull(resourceAdminServiceClient.getTextContent(schemaPath +
-                                                                "dk/dr/www/namespaces/schemas/common/types/types.xsd"));
+                                                                "dk/dr/www/namespaces/schemas/common/types/1.0.0/types.xsd"));
         assertTrue(isResourceExist(sessionCookie, schemaPath +
-                                                                             "dk/dr/www/namespaces/schemas/common/types", "types.xsd", resourceAdminServiceClient));
+                                                                             "dk/dr/www/namespaces/schemas/common/types/1.0.0", "types.xsd", resourceAdminServiceClient));
         assertTrue(isResourceExist(sessionCookie, schemaPath +
-                                                                             "dk/dr/www/namespaces/schemas/application/mas/whatson/production", "production.xsd",
+                                                                             "dk/dr/www/namespaces/schemas/application/mas/whatson/production/1.0.0", "production.xsd",
                                    resourceAdminServiceClient));
         //check if the deleted file exists in registry
         assertTrue(!(isResourceExist(sessionCookie, schemaPath +
-                                                                               "dk/dr/www/namespaces/schemas/common/types", "types.xsd", resourceAdminServiceClient) &&
+                                                                               "dk/dr/www/namespaces/schemas/common/types/1.0.0", "types.xsd", resourceAdminServiceClient) &&
                      !isResourceExist(sessionCookie, schemaPath +
-                                                                                "dk/dr/www/namespaces/schemas/application/mas/whatson/production", "production.xsd",
+                                                                                "dk/dr/www/namespaces/schemas/application/mas/whatson/production/1.0.0", "production.xsd",
                                       resourceAdminServiceClient)));
     }
 
@@ -172,8 +172,8 @@ public class SchemaValidateTestCase extends GREGIntegrationBaseTest{
     public void deleteResources() throws ResourceAdminServiceExceptionException, RemoteException {
 
         resourceAdminServiceClient.deleteResource(schemaPath +
-                                                  "dk/dr/www/namespaces/schemas/common/types/types.xsd");
+                                                  "dk/dr/www/namespaces/schemas/common/types/1.0.0/types.xsd");
         resourceAdminServiceClient.deleteResource(schemaPath +
-                                                  "dk/dr/www/namespaces/schemas/application/mas/whatson/production/production.xsd");
+                                                  "dk/dr/www/namespaces/schemas/application/mas/whatson/production/1.0.0/production.xsd");
     }
 }
