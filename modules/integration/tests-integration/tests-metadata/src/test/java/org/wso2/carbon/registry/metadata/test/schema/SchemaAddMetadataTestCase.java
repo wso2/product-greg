@@ -100,10 +100,10 @@ public class SchemaAddMetadataTestCase extends GREGIntegrationBaseTest {
                                                   RegistryConstants.APPLICATION_X_XSD_XML,
                 "schemaFile", resourceUrl, null);
         String textContent = resourceAdminServiceClient.getTextContent(schemaPath +
-                                                                       "org/charitha/" + resourceName);
+                                                                       "org/charitha/1.0.0/" + resourceName);
         assertNotEquals(textContent.indexOf("xmlns:tns=\"http://charitha.org/\""), -1);
         String textContentImportedSchema = resourceAdminServiceClient.getTextContent(schemaPath +
-                                                                                     "org1/charitha/" + referenceSchemaFile);
+                                                                                     "org1/charitha/1.0.0/" + referenceSchemaFile);
         assertNotEquals(textContentImportedSchema.indexOf("xmlns:tns=\"http://charitha.org1/\""), -1);
     }
 
@@ -117,8 +117,8 @@ public class SchemaAddMetadataTestCase extends GREGIntegrationBaseTest {
 
         //check association is in position
         associationTreeBean = relationAdminServiceClient.getAssociationTree(schemaPath +
-                                                                            "org1/charitha/" + referenceSchemaFile, "association");
-        assertTrue(associationTreeBean.getAssociationTree().contains(schemaPath + "org/charitha/" + resourceName));
+                                                                            "org1/charitha/1.0.0/" + referenceSchemaFile, "association");
+        assertTrue(associationTreeBean.getAssociationTree().contains(schemaPath + "org/charitha/1.0.0/" + resourceName));
 
     }
 
@@ -128,9 +128,9 @@ public class SchemaAddMetadataTestCase extends GREGIntegrationBaseTest {
     @Test(groups = {"wso2.greg"}, dependsOnMethods = "addSchemaMultipleImports", description = "Check dependencies of uploaded schema")
     public void dependencyTest() throws AddAssociationRegistryExceptionException, RemoteException {
         AssociationTreeBean associationTreeBean = null;
-        associationTreeBean = relationAdminServiceClient.getAssociationTree(schemaPath + "org/charitha/", "depends");
+        associationTreeBean = relationAdminServiceClient.getAssociationTree(schemaPath + "org/charitha/1.0.0/", "depends");
         assertTrue(!associationTreeBean.getAssociationTree().contains(schemaPath +
-                                                                      "org1/charitha/" + referenceSchemaFile));
+                                                                      "org1/charitha/1.0.0/" + referenceSchemaFile));
 
 
     }
@@ -138,8 +138,8 @@ public class SchemaAddMetadataTestCase extends GREGIntegrationBaseTest {
     @Test(groups = {"wso2.greg"}, dependsOnMethods = "addSchemaMultipleImports")
     public void addCommentTest() throws RegistryException, AxisFault, RegistryExceptionException {
         infoAdminServiceclient.addComment("This is a sample comment for main " +
-                                          "schema file", schemaPath + "org/charitha/" + resourceName, sessionCookie);
-        CommentBean commentBean = infoAdminServiceclient.getComments(schemaPath + "org/charitha/" + resourceName, sessionCookie);
+                                          "schema file", schemaPath + "org/charitha/1.0.0/" + resourceName, sessionCookie);
+        CommentBean commentBean = infoAdminServiceclient.getComments(schemaPath + "org/charitha/1.0.0/" + resourceName, sessionCookie);
         Comment[] comment = commentBean.getComments();
         assertTrue(comment[0].getDescription().equalsIgnoreCase("This is a sample comment for main " +
                                                                 "schema file"));
@@ -149,8 +149,8 @@ public class SchemaAddMetadataTestCase extends GREGIntegrationBaseTest {
     @Test(groups = {"wso2.greg"}, dependsOnMethods = "addSchemaMultipleImports")
     public void tagTest() throws RegistryException, AxisFault, RegistryExceptionException {
         TagBean tagBean;
-        infoAdminServiceclient.addTag("TestTag", schemaPath + "org/charitha/", sessionCookie);
-        tagBean = infoAdminServiceclient.getTags(schemaPath + "org/charitha/", sessionCookie);
+        infoAdminServiceclient.addTag("TestTag", schemaPath + "org/charitha/1.0.0/", sessionCookie);
+        tagBean = infoAdminServiceclient.getTags(schemaPath + "org/charitha/1.0.0/", sessionCookie);
         Tag[] tag = tagBean.getTags();
         for (int i = 0; i <= tag.length - 1; i++) {
             assertTrue(tag[i].getTagName().equalsIgnoreCase("TestTag"));
@@ -162,8 +162,8 @@ public class SchemaAddMetadataTestCase extends GREGIntegrationBaseTest {
     public void rateTest() throws RegistryException, RegistryExceptionException {
         RatingBean ratingBean;
 
-        infoAdminServiceclient.rateResource("3", schemaPath + "org/charitha/", sessionCookie);
-        ratingBean = infoAdminServiceclient.getRatings(schemaPath + "org/charitha/", sessionCookie);
+        infoAdminServiceclient.rateResource("3", schemaPath + "org/charitha/1.0.0/", sessionCookie);
+        ratingBean = infoAdminServiceclient.getRatings(schemaPath + "org/charitha/1.0.0/", sessionCookie);
         int rateIntValue = Integer.parseInt("3");
         assertEquals(ratingBean.getUserRating(), rateIntValue);
     }
@@ -171,9 +171,9 @@ public class SchemaAddMetadataTestCase extends GREGIntegrationBaseTest {
     @Test(groups = {"wso2.greg"}, dependsOnMethods = "addSchemaMultipleImports")
     public void lifeCycleTest() throws Exception {
         String[] lifeCycleItem = {"Code Completed", "WSDL, Schema Created", "QoS Created"};
-        lifecyclesChecklistAdminServiceclient.addAspect(schemaPath + "org/charitha/", "ServiceLifeCycle");
-        lifecyclesChecklistAdminServiceclient.invokeAspect(schemaPath + "org/charitha/", "ServiceLifeCycle", "Promote", lifeCycleItem);
-        LifecycleBean lifecycleBean = lifecyclesChecklistAdminServiceclient.getLifecycleBean(schemaPath + "org/charitha/");
+        lifecyclesChecklistAdminServiceclient.addAspect(schemaPath + "org/charitha/1.0.0/", "ServiceLifeCycle");
+        lifecyclesChecklistAdminServiceclient.invokeAspect(schemaPath + "org/charitha/1.0.0/", "ServiceLifeCycle", "Promote", lifeCycleItem);
+        LifecycleBean lifecycleBean = lifecyclesChecklistAdminServiceclient.getLifecycleBean(schemaPath + "org/charitha/1.0.0/");
         Property[] lifecycleProperties = lifecycleBean.getLifecycleProperties();
         for (Property property : lifecycleProperties) {
             if (property.getKey().equals("registry.lifecycle.ServiceLifeCycle.state")) {
@@ -191,9 +191,9 @@ public class SchemaAddMetadataTestCase extends GREGIntegrationBaseTest {
         //add comement
         infoAdminServiceclient.addComment("This is a sample comment for main " +
                                           "schema file", schemaPath +
-                                                         "org1/charitha/" + referenceSchemaFile, sessionCookie);
+                                                         "org1/charitha/1.0.0/" + referenceSchemaFile, sessionCookie);
         CommentBean commentBean = infoAdminServiceclient.getComments(schemaPath +
-                                                                     "org1/charitha/" + referenceSchemaFile, sessionCookie);
+                                                                     "org1/charitha/1.0.0/" + referenceSchemaFile, sessionCookie);
         Comment[] comment = commentBean.getComments();
         assertTrue(comment[0].getDescription().equalsIgnoreCase("This is a sample comment for main " +
                                                                 "schema file"));
@@ -205,9 +205,9 @@ public class SchemaAddMetadataTestCase extends GREGIntegrationBaseTest {
             throws RegistryException, AxisFault, RegistryExceptionException {
         TagBean tagBean;
         infoAdminServiceclient.addTag("TestTag", schemaPath +
-                                                 "org1/charitha/", sessionCookie);
+                                                 "org1/charitha/1.0.0/", sessionCookie);
         tagBean = infoAdminServiceclient.getTags(schemaPath +
-                                                 "org1/charitha/", sessionCookie);
+                                                 "org1/charitha/1.0.0/", sessionCookie);
         Tag[] tag = tagBean.getTags();
         for (int i = 0; i <= tag.length - 1; i++) {
             assertTrue(tag[i].getTagName().equalsIgnoreCase("TestTag"));
@@ -220,9 +220,9 @@ public class SchemaAddMetadataTestCase extends GREGIntegrationBaseTest {
         RatingBean ratingBean;
 
         infoAdminServiceclient.rateResource("3", schemaPath +
-                                                 "org1/charitha/", sessionCookie);
+                                                 "org1/charitha/1.0.0/", sessionCookie);
         ratingBean = infoAdminServiceclient.getRatings(schemaPath +
-                                                       "org1/charitha/", sessionCookie);
+                                                       "org1/charitha/1.0.0/", sessionCookie);
         int rateIntValue = Integer.parseInt("3");
         assertEquals(ratingBean.getUserRating(), rateIntValue);
     }
@@ -231,11 +231,11 @@ public class SchemaAddMetadataTestCase extends GREGIntegrationBaseTest {
     public void lifeCycleReferenceFileTest() throws Exception {
         String[] lifeCycleItem = {"Code Completed", "WSDL, Schema Created", "QoS Created"};
         lifecyclesChecklistAdminServiceclient.addAspect(schemaPath +
-                                                        "org1/charitha/", "ServiceLifeCycle");
+                                                        "org1/charitha/1.0.0/", "ServiceLifeCycle");
         lifecyclesChecklistAdminServiceclient.invokeAspect(schemaPath +
-                                                           "org1/charitha/", "ServiceLifeCycle", "Promote", lifeCycleItem);
+                                                           "org1/charitha/1.0.0/", "ServiceLifeCycle", "Promote", lifeCycleItem);
         LifecycleBean lifecycleBean = lifecyclesChecklistAdminServiceclient.getLifecycleBean(schemaPath +
-                                                                                             "org1/charitha/");
+                                                                                             "org1/charitha/1.0.0/");
         Property[] lifecycleProperties = lifecycleBean.getLifecycleProperties();
         for (Property property : lifecycleProperties) {
             if (property.getKey().equals("registry.lifecycle.ServiceLifeCycle.state")) {
@@ -251,13 +251,13 @@ public class SchemaAddMetadataTestCase extends GREGIntegrationBaseTest {
     public void deleteResources() throws ResourceAdminServiceExceptionException, RemoteException,
                                          CustomLifecyclesChecklistAdminServiceExceptionException,
                                          RegistryException, RegistryExceptionException {
-        lifecyclesChecklistAdminServiceclient.removeAspect(schemaPath + "org/charitha/", "ServiceLifeCycle");
+        lifecyclesChecklistAdminServiceclient.removeAspect(schemaPath + "org/charitha/1.0.0/", "ServiceLifeCycle");
         lifecyclesChecklistAdminServiceclient.removeAspect(schemaPath +
                 "org1/charitha/", "ServiceLifeCycle");
         resourceAdminServiceClient.deleteResource(schemaPath +
-                                                  "org/charitha/" + resourceName);
+                                                  "org/charitha/1.0.0/" + resourceName);
         resourceAdminServiceClient.deleteResource(schemaPath +
-                                                  "org1/charitha/" + referenceSchemaFile);
+                                                  "org1/charitha/1.0.0/" + referenceSchemaFile);
         lifecyclesChecklistAdminServiceclient = null;
         resourceAdminServiceClient = null;
         resourceAdminServiceClient = null;

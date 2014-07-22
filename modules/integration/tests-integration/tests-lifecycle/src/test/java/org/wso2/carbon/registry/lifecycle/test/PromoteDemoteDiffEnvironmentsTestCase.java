@@ -102,10 +102,10 @@ public class PromoteDemoteDiffEnvironmentsTestCase extends GREGIntegrationBaseTe
     private static final String ACTION_NAME = "name";
     private static final String auditPath =
             "/_system/governance/repository/components/org.wso2.carbon.governance/lifecycles/history/"
-            + "__system_governance_trunk_services_com_abb_IntergalacticService12";
+            + "__system_governance_trunk_services_com_abb_1.0.0-SNAPSHOT_IntergalacticService12";
 
     private static final String GOV_PATH = "/_system/governance";
-    private String servicePath = "/trunk/services/com/abb/IntergalacticService12";
+    private String servicePath = "/trunk/services/com/abb/1.0.0-SNAPSHOT/IntergalacticService12";
     private final String absPath = GOV_PATH + servicePath;
 
     private LifecycleBean lifeCycle;
@@ -311,8 +311,8 @@ public class PromoteDemoteDiffEnvironmentsTestCase extends GREGIntegrationBaseTe
         String[] info =
                 {
                         "/_system/governance/branches/testing/schemas/org/bar/purchasing/1.0.0/purchasing.xsd created",
+                        "/_system/governance/branches/testing/endpoints/localhost/axis2/1.0.0/ep-BizService created",
                         "/_system/governance/branches/testing/wsdls/com/foo/1.0.0/IntergalacticService12.wsdl created",
-                        "/_system/governance/branches/testing/endpoints/localhost/axis2/services/1.0.0/ep-BizService created",
                         "/_system/governance/branches/testing/services/com/abb/1.0.0/IntergalacticService12 created"};
         String INFO = "info";
 
@@ -395,9 +395,9 @@ public class PromoteDemoteDiffEnvironmentsTestCase extends GREGIntegrationBaseTe
         String EXECUTOR =
                 "org.wso2.carbon.governance.registry.extensions.executors.ServiceVersionExecutor";
         String[] info =
-                {"/_system/governance/trunk/services/com/abb/1.0.0 created",
+                {"/_system/governance/trunk/endpoints/localhost/axis2/1.0.0 created",
                  "/_system/governance/trunk/wsdls/com/foo/1.0.0 created",
-                 "/_system/governance/trunk/endpoints/localhost/axis2/services/1.0.0 created"};
+                 "/_system/governance/trunk/services/com/abb/1.0.0 created"};
 
         String INFO = "info";
 
@@ -472,7 +472,7 @@ public class PromoteDemoteDiffEnvironmentsTestCase extends GREGIntegrationBaseTe
             resourceAdminServiceClient.deleteResource(absPath);
         }
 
-        String schemaPathToDelete = "/_system/governance/trunk/schemas/org/bar/purchasing/purchasing.xsd";
+        String schemaPathToDelete = "/_system/governance/trunk/schemas/org/bar/purchasing/1.0.0/purchasing.xsd";
         if (wsRegistryServiceClient.resourceExists(schemaPathToDelete)) {
             resourceAdminServiceClient.deleteResource(schemaPathToDelete);
         }
