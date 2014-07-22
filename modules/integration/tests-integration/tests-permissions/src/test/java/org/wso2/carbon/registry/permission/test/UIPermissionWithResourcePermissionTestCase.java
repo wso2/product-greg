@@ -89,7 +89,7 @@ public class UIPermissionWithResourcePermissionTestCase extends GREGIntegrationB
         log.info("***********Admin user logged********************");
         resourceAdminServiceClient.addWSDL(resourceName, "", fetchUrl);
         log.info("***********echo.wsdl file Added********************");
-        String adminWSDLPath = "/_system/governance/trunk/wsdls/org/wso2/carbon/core/services/echo/echo.wsdl";
+        String adminWSDLPath = "/_system/governance/trunk/wsdls/org/wso2/carbon/core/services/echo/1.0.0/echo.wsdl";
         Assert.assertTrue(registry.resourceExists(adminWSDLPath),
                 "echo.wsdl resource not found");
 
@@ -109,7 +109,7 @@ public class UIPermissionWithResourcePermissionTestCase extends GREGIntegrationB
 
         log.info("Newly Created User Loged in :" + userName);
 
-        String path = "/_system/governance/trunk/services/org/wso2/carbon/core/services/echo/";
+        String path = "/_system/governance/trunk/services/org/wso2/carbon/core/services/echo/1.0.0-SNAPSHOT/";
         resourceAdminServiceClient = new ResourceAdminServiceClient(backendURL, userName, userPassword);
         try {
             resourceAdminServiceClient.deleteResource(path);
@@ -128,7 +128,7 @@ public class UIPermissionWithResourcePermissionTestCase extends GREGIntegrationB
             ResourceAdminServiceResourceServiceExceptionException, RegistryException,
             LogoutAuthenticationExceptionException {
 
-        String path = "/_system/governance/trunk/services/org/wso2/carbon/core/services/echo/";
+        String path = "/_system/governance/trunk/services/org/wso2/carbon/core/services/echo/1.0.0-SNAPSHOT/";
         String path1ToAuth = "/_system/governance/trunk";
         String path2ToAuth = "/_system/governance/branches";
 
@@ -153,7 +153,7 @@ public class UIPermissionWithResourcePermissionTestCase extends GREGIntegrationB
             "and try to delete wsdl", dependsOnMethods = "testDeleteWithOutResourcePermission")
     public void testDeleteWithResourcePermission() throws Exception{
 
-        String path = "/_system/governance/trunk/services/org/wso2/carbon/core/services/echo/";
+        String path = "/_system/governance/trunk/services/org/wso2/carbon/core/services/echo/1.0.0-SNAPSHOT/";
         String path1ToAuth = "/_system/governance/trunk";
         String path2ToAuth = "/_system/governance/branches";
 
@@ -176,7 +176,7 @@ public class UIPermissionWithResourcePermissionTestCase extends GREGIntegrationB
         Assert.assertFalse(registry.resourceExists(path), "user can't delete wsdl having resource delete permissions ");
 
         deleteRoleAndUsers(roleName, userName);
-        deleteWsdl("/_system/governance/trunk/wsdls/org/wso2/carbon/core/services/echo/echo.wsdl");
+        deleteWsdl("/_system/governance/trunk/wsdls/org/wso2/carbon/core/services/echo/1.0.0/echo.wsdl");
     }
 
     @AfterClass

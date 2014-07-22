@@ -128,9 +128,10 @@ public class PermissionForSearchTestCase extends GREGIntegrationBaseTest{
     public void cleanup() throws Exception {
         userManagementClient.deleteRole(SEARCH_ENABLED_ROLE);
         userManagementClient.deleteRole(SEARCH_DISABLED_ROLE);
-        userManagementClient.updateUserListOfRole(PermissionTestConstants.NON_ADMIN_TEST_ROLE, SEARCH_ENABLED_USERS,
+
+        userManagementClient.updateUserListOfRole(FrameworkConstants.ADMIN_ROLE, SEARCH_ENABLED_USERS,
                                                   new String[]{});
-        userManagementClient.updateUserListOfRole(PermissionTestConstants.NON_ADMIN_TEST_ROLE, SEARCH_DISABLED_USERS,
+        userManagementClient.updateUserListOfRole(FrameworkConstants.ADMIN_ROLE, SEARCH_DISABLED_USERS,
                                                   new String[]{});
 
         searchEnabledAdminServiceClient = null;
