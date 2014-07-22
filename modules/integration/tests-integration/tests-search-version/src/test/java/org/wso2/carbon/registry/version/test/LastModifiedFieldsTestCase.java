@@ -71,6 +71,7 @@ public class LastModifiedFieldsTestCase extends GREGIntegrationBaseTest {
             URISyntaxException, SAXException, XMLStreamException , Exception{
 
         super.init(TestUserMode.SUPER_TENANT_ADMIN);
+        sessionCookie = getSessionCookie();
         backEndUrl = getBackendURL();
 
         userName = automationContext.getContextTenant().getContextUser().getUserName();
@@ -79,7 +80,6 @@ public class LastModifiedFieldsTestCase extends GREGIntegrationBaseTest {
             userNameWithoutDomain = userName.substring(0, userName.indexOf('@'));
         else
             userNameWithoutDomain = userName;
-
 
         resourceAdminClient =
                 new ResourceAdminServiceClient(backEndUrl, sessionCookie);
@@ -94,11 +94,9 @@ public class LastModifiedFieldsTestCase extends GREGIntegrationBaseTest {
                        + "GREG" + File.separator + "testresource.txt";
         DataHandler dataHandler1 = new DataHandler(new URL("file:///" + path1));
 
-        assertTrue(resourceAdminClient.getResource(RESOURCE_NAME_ROOT)[0].getAuthorUserName().contains(userNameWithoutDomain));
         resourceAdminClient.addResource(RESOURCE_NAME_ROOT, "text/plain", "desc", dataHandler1);
+        assertTrue(resourceAdminClient.getResource(RESOURCE_NAME_ROOT)[0].getAuthorUserName().contains(userNameWithoutDomain));
 
-
-     //   assertTrue(resourceAdminClient.getResource(RESOURCE_NAME_ROOT)[0].getAuthorUserName().contains(userNameWithoutDomain));
 
         String path2 = FrameworkPathUtil.getSystemResourceLocation() + "arti" +
                 "facts" + File.separator

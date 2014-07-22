@@ -92,12 +92,12 @@ public class SchemaAssociationVerificationTestCase extends GREGIntegrationBaseTe
         RelationAdminServiceClient relationAdminServiceClient = new RelationAdminServiceClient(
                 automationContext.getContextUrls().getBackEndUrl(),
                 sessionCookie);
-        relationAdminServiceClient.addAssociation("/_system/governance/trunk/schemas/books/books.xsd",
-                "usedBy", "/_system/governance/trunk/schemas/org/charitha/calculator.xsd", "add");
+        relationAdminServiceClient.addAssociation("/_system/governance/trunk/schemas/books/1.0.0/books.xsd",
+                "usedBy", "/_system/governance/trunk/schemas/org/charitha/1.0.0/calculator.xsd", "add");
         AssociationTreeBean associationTreeBean = relationAdminServiceClient
-                .getAssociationTree("/_system/governance/trunk/schemas/books/books.xsd", "association");
+                .getAssociationTree("/_system/governance/trunk/schemas/books/1.0.0/books.xsd", "association");
         assertTrue(associationTreeBean.getAssociationTree().contains("/_system/governance/trunk/schemas/org/" +
-                "charitha/calculator.xsd"));
+                "charitha/1.0.0/calculator.xsd"));
 
     }
 
@@ -106,9 +106,9 @@ public class SchemaAssociationVerificationTestCase extends GREGIntegrationBaseTe
             ResourceAdminServiceExceptionException {
 
         resourceAdminServiceClient
-                .deleteResource("/_system/governance/trunk/schemas/books/books.xsd");
+                .deleteResource("/_system/governance/trunk/schemas/books/1.0.0/books.xsd");
         resourceAdminServiceClient
-                .deleteResource("/_system/governance/trunk/schemas/org/charitha/calculator.xsd");
+                .deleteResource("/_system/governance/trunk/schemas/org/charitha/1.0.0/calculator.xsd");
         resourceAdminServiceClient = null;
 
     }

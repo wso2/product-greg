@@ -51,7 +51,7 @@ import static org.testng.Assert.*;
 
 public class ActivitySearchByPathTestCase extends GREGIntegrationBaseTest{
     private static final Log log = LogFactory.getLog(ActivitySearchByPathTestCase.class);
-    private String wsdlPath = "/_system/governance/trunk/wsdls/eu/dataaccess/footballpool/";
+    private String wsdlPath = "/_system/governance/trunk/wsdls/eu/dataaccess/footballpool/1.0.0/";
     private String resourceName = "sample.wsdl";
 
     private ResourceAdminServiceClient resourceAdminServiceClient;

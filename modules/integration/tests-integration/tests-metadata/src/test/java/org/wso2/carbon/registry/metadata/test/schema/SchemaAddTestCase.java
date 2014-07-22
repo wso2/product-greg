@@ -75,7 +75,7 @@ public class SchemaAddTestCase extends GREGIntegrationBaseTest {
         String resource = getTestArtifactLocation() + "artifacts" + File.separator +
                           "GREG" + File.separator + "schema" + File.separator + resourceName;
         resourceAdminServiceClient.addSchema("adding Schema", new DataHandler(new URL("file:///" + resource)));
-        Assert.assertNotNull(resourceAdminServiceClient.getTextContent(schemaPath + "org/charitha/calculator.xsd"));
+        Assert.assertNotNull(resourceAdminServiceClient.getTextContent(schemaPath + "org/charitha/1.0.0/calculator.xsd"));
 
     }
 
@@ -92,7 +92,7 @@ public class SchemaAddTestCase extends GREGIntegrationBaseTest {
                 "https://svn.wso2.org/repos/wso2/trunk/commons/qa/qa-artifacts/greg/xsd/simpleXsd1.xsd";
         String resourceName = "simpleXsd1.xsd";
         resourceAdminServiceClient.addSchema(resourceName, "adding Schema Via URL", resourceUrl);
-        Assert.assertNotNull(resourceAdminServiceClient.getTextContent(schemaPath + "/services/samples/xsd/simpleXsd1.xsd"));
+        Assert.assertNotNull(resourceAdminServiceClient.getTextContent(schemaPath + "/services/samples/xsd/1.0.0/simpleXsd1.xsd"));
 
     }
 
@@ -112,11 +112,11 @@ public class SchemaAddTestCase extends GREGIntegrationBaseTest {
                 "https://svn.wso2.org/repos/wso2/trunk/commons/qa/qa-artifacts/greg/xsd/calculator-new-updated.xsd";
         String updatedResourceName = "calculator-new-updated.xsd\"";
         resourceAdminServiceClient.addSchema(resourceName, "adding from URL", resourceUrl);
-        Assert.assertNotNull(resourceAdminServiceClient.getTextContent(schemaPath + "org1/charitha/calculator-new.xsd"));
+        Assert.assertNotNull(resourceAdminServiceClient.getTextContent(schemaPath + "org1/charitha/1.0.0/calculator-new.xsd"));
         resourceAdminServiceClient.importResource(schemaPath, resourceName, "application/x-xsd+xml",
                 "Update Schema from URL", updatedResourceUrl, null);
         String textContentUpdated = resourceAdminServiceClient.getTextContent(schemaPath +
-                "org1/charitha/" + resourceName);
+                "org1/charitha/1.0.0/" + resourceName);
         Assert.assertNotEquals(textContentUpdated.indexOf("xmlns:tns=\"http://charitha.org.updated/\""), -1);
 
     }
@@ -135,9 +135,9 @@ public class SchemaAddTestCase extends GREGIntegrationBaseTest {
                           "GREG" + File.separator + resourceName;
         resourceAdminServiceClient.addResource(schemaPath + resourceName, "application/vnd.wso2.governance-archive", "adding gar File", new DataHandler(new URL("file:///" + resource)));
         Assert.assertNotNull(resourceAdminServiceClient.getTextContent(schemaPath +
-                "com/microsoft/schemas/_2003/_10/serialization/test2.xsd"));
+                "com/microsoft/schemas/_2003/_10/serialization/1.0.0/test2.xsd"));
         Assert.assertNotNull(resourceAdminServiceClient.getTextContent(schemaPath +
-                                                                       "com/microsoft/schemas/_2003/_10/serialization/test4.xsd"));
+                                                                       "com/microsoft/schemas/_2003/_10/serialization/1.0.0/test4.xsd"));
 
 
     }
@@ -156,7 +156,7 @@ public class SchemaAddTestCase extends GREGIntegrationBaseTest {
                 "application/x-xsd+xml", "schemaFile",
                 new DataHandler(new URL("file:///" + resource)));
         Assert.assertNotNull(resourceAdminServiceClient.getTextContent(schemaPath +
-                "org/charitha/calculator.xsd"));
+                "org/charitha/1.0.0/calculator.xsd"));
         String resourceUpdated = getTestArtifactLocation() + "artifacts" + File.separator +
                                  "GREG" + File.separator +
                                  "schema" + File.separator + updatedResourceName;
@@ -164,7 +164,7 @@ public class SchemaAddTestCase extends GREGIntegrationBaseTest {
                 "application/x-xsd+xml", "schemaFile",
                 new DataHandler(new URL("file:///" + resourceUpdated)));
         String textContentUpdated = resourceAdminServiceClient.getTextContent(schemaPath +
-                                                                              "/org/charitha/calculator.xsd");
+                                                                              "/org/charitha/1.0.0/calculator.xsd");
         Assert.assertEquals(textContentUpdated.indexOf("xmlns:tns=\"http://charitha.org.updated/\""), -1);
 
     }
@@ -184,10 +184,10 @@ public class SchemaAddTestCase extends GREGIntegrationBaseTest {
         resourceAdminServiceClient.importResource(schemaPath, resourceName,
                 "application/x-xsd+xml", "schemaFile", resourceUrl, null);
         String textContent = resourceAdminServiceClient.getTextContent(schemaPath +
-                                                                       "org/charitha/" + resourceName);
+                                                                       "org/charitha/1.0.0/" + resourceName);
         Assert.assertNotEquals(textContent.indexOf("xmlns:tns=\"http://charitha.org/\""), -1);
         String textContentImportedSchema = resourceAdminServiceClient.getTextContent(schemaPath +
-                                                                                     "org1/charitha/" + referenceSchemaFile);
+                                                                                     "org1/charitha/1.0.0/" + referenceSchemaFile);
         Assert.assertNotEquals(textContentImportedSchema.indexOf("xmlns:tns=\"http://charitha.org1/\""), -1);
         //delete the added resource
 
@@ -199,15 +199,15 @@ public class SchemaAddTestCase extends GREGIntegrationBaseTest {
 
         checkExistanceAndDelete(schemaPath +
                 "org/charitha/company.xsd");
-        checkExistanceAndDelete("/_system/governance/trunk/schemas/org1899988/charitha/calculator.xsd");
+        checkExistanceAndDelete("/_system/governance/trunk/schemas/org1899988/charitha/1.0.0/calculator.xsd");
         checkExistanceAndDelete(schemaPath +
-                                                  "org1/charitha/person.xsd");
+                                                  "org1/charitha/1.0.0/person.xsd");
         checkExistanceAndDelete(schemaPath +
-                                                  "/org/charitha/calculator.xsd");
+                                                  "/org/charitha/1.0.0/calculator.xsd");
         checkExistanceAndDelete(schemaPath +
-                                                  "com/microsoft/schemas/_2003/_10/serialization/test2.xsd");
+                                                  "com/microsoft/schemas/_2003/_10/serialization/1.0.0/test2.xsd");
         checkExistanceAndDelete(schemaPath +
-                                                  "com/microsoft/schemas/_2003/_10/serialization/test4.xsd");
+                                                  "com/microsoft/schemas/_2003/_10/serialization/1.0.0/test4.xsd");
         checkExistanceAndDelete("/_system/governance/trunk/schemas/org/datacontract/schemas/_2004/_07/system/test1.xsd");
         checkExistanceAndDelete("/_system/governance/trunk/schemas/org/tempuri/test3.xsd");
         checkExistanceAndDelete("/_system/governance/trunk/schemas/org1/charitha/calculator-new.xsd");
