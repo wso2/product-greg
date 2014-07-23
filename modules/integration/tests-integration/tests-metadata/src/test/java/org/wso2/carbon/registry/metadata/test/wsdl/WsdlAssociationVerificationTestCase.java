@@ -52,15 +52,15 @@ public class WsdlAssociationVerificationTestCase extends GREGIntegrationBaseTest
 
     private ResourceAdminServiceClient resourceAdminServiceClient;
     private final String amazonWsdlPath =
-            "/_system/governance/trunk/wsdls/com/amazon/soap/AmazonWebServices.wsdl";
+            "/_system/governance/trunk/wsdls/com/amazon/soap/1.0.0/AmazonWebServices.wsdl";
     private final String automatedWsdlPath =
-            "/_system/governance/trunk/wsdls/com/strikeiron/www/Automated.wsdl";
+            "/_system/governance/trunk/wsdls/com/strikeiron/www/1.0.0/Automated.wsdl";
     private final String associatedServicePathAutomated =
-            "/_system/governance/trunk/services/com/strikeiron/www/DoNotCallRegistry";
+            "/_system/governance/trunk/services/com/strikeiron/www/1.0.0-SNAPSHOT/DoNotCallRegistry";
     private final String associatedEndpointPathAutomated =
             "/_system/governance/trunk/endpoints/com/strikeiron/ws/strikeiron/donotcall2_5/ep-DoNotCallRegistry";
     private final String associatedServicePathAmazon =
-            "/_system/governance/trunk/services/com/amazon/soap/AmazonSearchService";
+            "/_system/governance/trunk/services/com/amazon/soap/1.0.0-SNAPSHOT/AmazonSearchService";
     private final String associatedEndpointPathAmazon =
             "/_system/governance/trunk/endpoints/com/amazon/soap/onca/ep-soap2";
     private String sessionCookie;
@@ -107,22 +107,22 @@ public class WsdlAssociationVerificationTestCase extends GREGIntegrationBaseTest
                 backendURL, sessionCookie);
         relationAdminServiceClient
                 .addAssociation(
-                        "/_system/governance/trunk/wsdls/com/amazon/soap/AmazonWebServices.wsdl",
+                        "/_system/governance/trunk/wsdls/com/amazon/soap/1.0.0/AmazonWebServices.wsdl",
                         "usedBy",
-                        "/_system/governance/trunk/wsdls/com/strikeiron/www/Automated.wsdl",
+                        "/_system/governance/trunk/wsdls/com/strikeiron/www/1.0.0/Automated.wsdl",
                         "add");
         AssociationTreeBean associationTreeBean = relationAdminServiceClient
                 .getAssociationTree(
-                        "/_system/governance/trunk/wsdls/com/amazon/soap/AmazonWebServices.wsdl",
+                        "/_system/governance/trunk/wsdls/com/amazon/soap/1.0.0/AmazonWebServices.wsdl",
                         "association");
         assertTrue(associationTreeBean
                 .getAssociationTree()
                 .contains(
-                        "/_system/governance/trunk/services/com/amazon/soap/AmazonSearchService"));
+                        "/_system/governance/trunk/services/com/amazon/soap/1.0.0-SNAPSHOT/AmazonSearchService"));
         assertTrue(associationTreeBean
                 .getAssociationTree()
                 .contains(
-                        "/_system/governance/trunk/wsdls/com/strikeiron/www/Automated.wsdl"));
+                        "/_system/governance/trunk/wsdls/com/strikeiron/www/1.0.0/Automated.wsdl"));
 
     }
 
