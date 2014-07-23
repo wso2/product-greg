@@ -82,7 +82,6 @@ public class RegistryConfiguratorTestCase extends GREGIntegrationBaseTest {
    @Test(groups = "wso2.greg")
    @SetEnvironment(executionEnvironments = {ExecutionEnvironment.STANDALONE})
     public void testSetupServerEnvironment() throws Exception {
-        System.out.println("running the test***************************************************88");
         copyResources();
         copyJarFiles();
         editConfigurationFiles();
@@ -264,13 +263,13 @@ public class RegistryConfiguratorTestCase extends GREGIntegrationBaseTest {
 
     private void addResourceFileToRegistry()
             throws MalformedURLException, ResourceAdminServiceExceptionException, RemoteException {
-        System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+
         String resourcePath = FrameworkPathUtil.getSystemResourceLocation() + "artifacts" +
                               File.separator + "GREG" + File.separator + "utf8" + File.separator + "test.txt";
 
         DataHandler dh = new DataHandler(new URL("file:///" + resourcePath));
         resourceAdminServiceClient.addResource("/_system/config/test_utf8_Resource", "text/plain", "testDesc", dh);
-        System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+        
     }
 
 }
