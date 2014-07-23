@@ -25,8 +25,10 @@ import org.wso2.carbon.governance.api.schema.SchemaManager;
 import org.wso2.carbon.governance.api.schema.dataobjects.Schema;
 import org.wso2.carbon.governance.api.services.ServiceManager;
 import org.wso2.carbon.governance.api.services.dataobjects.Service;
+import org.wso2.carbon.governance.api.util.GovernanceUtils;
 import org.wso2.carbon.integration.common.utils.LoginLogoutClient;
 import org.wso2.carbon.registry.core.Registry;
+import org.wso2.carbon.registry.core.session.UserRegistry;
 import org.wso2.carbon.registry.resource.stub.beans.xsd.ContentBean;
 import org.wso2.carbon.registry.ws.client.registry.WSRegistryServiceClient;
 import org.wso2.greg.integration.common.clients.ResourceAdminServiceClient;
@@ -53,13 +55,15 @@ public class AddWADLTestCase extends GREGIntegrationBaseTest{
 
     @Test(groups = "wso2.greg", description = "wadl addition")
     public void addWADLFromURL() throws Exception{
-        String wadlPath = "/_system/governance/trunk/wadls/com/sun/research/wadl/_2006/_10/StorageService";
+        String wadlPath = "/_system/governance/trunk/wadls/com/sun/research/wadl/_2006/_10/1.0.0/StorageService";
 
         resourceAdminServiceClient.addWADL("StorageService", "Adding simple WADL",
                 "https://svn.wso2.org/repos/wso2/trunk/commons/qa/qa-artifacts/greg/wadl/StorageService.wadl");
 
         ContentBean wadlContentBean = resourceAdminServiceClient.getResourceContent(wadlPath);
         Assert.assertNotNull(wadlContentBean);
+
+        GovernanceUtils.loadGovernanceArtifacts((UserRegistry) governanceRegistry);
 
         ServiceManager serviceManager = new ServiceManager(governanceRegistry);
         Service[] services = serviceManager.getAllServices();
@@ -79,13 +83,15 @@ public class AddWADLTestCase extends GREGIntegrationBaseTest{
 
     @Test(groups = "wso2.greg", description = "adding wadl with schema import")
     public void addWADLWithSchemaImport() throws Exception {
-        String wadlPath = "/_system/governance/trunk/wadls/net/java/dev/wadl/_2009/_02/SearchSearvice";
+        String wadlPath = "/_system/governance/trunk/wadls/net/java/dev/wadl/_2009/_02/1.0.0/SearchSearvice";
 
         resourceAdminServiceClient.addWADL("SearchSearvice", "Adding simple WADL with schema import",
                         "https://svn.wso2.org/repos/wso2/trunk/commons/qa/qa-artifacts/greg/wadl/SearchSearvice.wadl");
 
         ContentBean wadlContentBean = resourceAdminServiceClient.getResourceContent(wadlPath);
         Assert.assertNotNull(wadlContentBean);
+
+        GovernanceUtils.loadGovernanceArtifacts((UserRegistry) governanceRegistry);
 
         ServiceManager serviceManager = new ServiceManager(governanceRegistry);
         Service[] services = serviceManager.getAllServices();
