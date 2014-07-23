@@ -23,10 +23,13 @@ import org.wso2.carbon.governance.api.endpoints.dataobjects.Endpoint;
 import org.wso2.carbon.governance.api.exception.GovernanceException;
 import org.wso2.carbon.governance.api.services.ServiceManager;
 import org.wso2.carbon.governance.api.services.dataobjects.Service;
+import org.wso2.carbon.governance.api.util.GovernanceUtils;
 import org.wso2.carbon.governance.api.wsdls.WsdlManager;
 import org.wso2.carbon.governance.api.wsdls.dataobjects.Wsdl;
 import org.wso2.carbon.integration.common.utils.LoginLogoutClient;
 import org.wso2.carbon.registry.core.Registry;
+import org.wso2.carbon.registry.core.exceptions.RegistryException;
+import org.wso2.carbon.registry.core.session.UserRegistry;
 import org.wso2.carbon.registry.metadata.test.util.RegistryConstants;
 import org.wso2.carbon.registry.properties.stub.PropertiesAdminServiceRegistryExceptionException;
 import org.wso2.carbon.registry.properties.stub.beans.xsd.PropertiesBean;
@@ -59,6 +62,7 @@ public class WSDLValidationTestCase extends GREGIntegrationBaseTest{
     private ServiceManager serviceManager;
     private WsdlManager wsdlManager;
     private String sessionCookie;
+    private Registry governance;
 
 
     @BeforeClass(groups = {"wso2.greg"})
@@ -77,7 +81,7 @@ public class WSDLValidationTestCase extends GREGIntegrationBaseTest{
         WSRegistryServiceClient wsRegistry =
                 new RegistryProviderUtil().getWSRegistry(automationContext);
 
-        Registry governance = new RegistryProviderUtil().getGovernanceRegistry(wsRegistry, automationContext);
+        governance = new RegistryProviderUtil().getGovernanceRegistry(wsRegistry, automationContext);
         serviceManager = new ServiceManager(governance);
         wsdlManager = new WsdlManager(governance);
     }
@@ -97,20 +101,20 @@ public class WSDLValidationTestCase extends GREGIntegrationBaseTest{
                 RegistryConstants.APPLICATION_WSDL_XML, "txtDesc",
                                                   "https://svn.wso2.org/repos/wso2/trunk/commons/qa/qa-artifacts/greg/wsdl/WeatherForecastService.wsdl", null);
         ResourceTreeEntryBean searchFileOne = resourceAdminServiceClient.getResourceTreeEntryBean
-                ("/_system/governance/trunk/wsdls/eu/dataaccess/footballpool");
+                ("/_system/governance/trunk/wsdls/eu/dataaccess/footballpool/1.0.0");
         ResourceTreeEntryBean searchFileTwo = resourceAdminServiceClient.getResourceTreeEntryBean
-                ("/_system/governance/trunk/wsdls/net/restfulwebservices/www/servicecontracts/_2008/_01");
+                ("/_system/governance/trunk/wsdls/net/restfulwebservices/www/servicecontracts/_2008/_01/1.0.0");
         String[] resourceChildOne = searchFileOne.getChildren();
         String[] resourceChildTwo = searchFileTwo.getChildren();
         for (int childCount = 0; childCount <= resourceChildOne.length; childCount++) {
-            if (resourceChildOne[childCount].equalsIgnoreCase("/_system/governance/trunk/wsdls/eu/dataaccess/footballpool/sample.wsdl")) {
+            if (resourceChildOne[childCount].equalsIgnoreCase("/_system/governance/trunk/wsdls/eu/dataaccess/footballpool/1.0.0/sample.wsdl")) {
                 isFound = true;
                 break;
             }
         }
         assertTrue(isFound);
         for (int childCount = 0; childCount <= resourceChildTwo.length; childCount++) {
-            if (resourceChildTwo[childCount].equalsIgnoreCase("/_system/governance/trunk/wsdls/net/restfulwebservices/www/servicecontracts/_2008/_01/WeatherForecastService.wsdl")) {
+            if (resourceChildTwo[childCount].equalsIgnoreCase("/_system/governance/trunk/wsdls/net/restfulwebservices/www/servicecontracts/_2008/_01/1.0.0/WeatherForecastService.wsdl")) {
                 isFound = true;
                 break;
             }
@@ -126,7 +130,7 @@ public class WSDLValidationTestCase extends GREGIntegrationBaseTest{
     @Test(groups = {"wso2.greg"}, dependsOnMethods = {"addWSDL"})
     public void wsdlValidationTestCase()
             throws PropertiesAdminServiceRegistryExceptionException, RemoteException {
-        PropertiesBean propertiesBean = propertiesAdminServiceClient.getProperty("/_system/governance/trunk/wsdls/net/restfulwebservices/www/servicecontracts/_2008/_01/WeatherForecastService.wsdl", "yes");
+        PropertiesBean propertiesBean = propertiesAdminServiceClient.getProperty("/_system/governance/trunk/wsdls/net/restfulwebservices/www/servicecontracts/_2008/_01/1.0.0/WeatherForecastService.wsdl", "yes");
         Property[] property = propertiesBean.getProperties();
         for (int i = 0; i <= property.length - 1; i++) {
             if (property[i].getKey().equalsIgnoreCase("WSDL Validation")) {
@@ -139,8 +143,8 @@ public class WSDLValidationTestCase extends GREGIntegrationBaseTest{
     @Test(groups = {"wso2.greg"}, dependsOnMethods = "wsdlValidationTestCase")
     public void addPropertyTest()
             throws PropertiesAdminServiceRegistryExceptionException, RemoteException {
-        propertiesAdminServiceClient.setProperty("/_system/governance/trunk/wsdls/net/restfulwebservices/www/servicecontracts/_2008/_01/WeatherForecastService.wsdl", "TestProperty", "sample-value");
-        PropertiesBean propertiesBean = propertiesAdminServiceClient.getProperty("/_system/governance/trunk/wsdls/net/restfulwebservices/www/servicecontracts/_2008/_01/WeatherForecastService.wsdl", "yes");
+        propertiesAdminServiceClient.setProperty("/_system/governance/trunk/wsdls/net/restfulwebservices/www/servicecontracts/_2008/_01/1.0.0/WeatherForecastService.wsdl", "TestProperty", "sample-value");
+        PropertiesBean propertiesBean = propertiesAdminServiceClient.getProperty("/_system/governance/trunk/wsdls/net/restfulwebservices/www/servicecontracts/_2008/_01/1.0.0/WeatherForecastService.wsdl", "yes");
         Property[] property = propertiesBean.getProperties();
         for (int i = 0; i <= property.length - 1; i++) {
             if (property[i].getKey().equalsIgnoreCase("TestProperty")) {
@@ -152,9 +156,12 @@ public class WSDLValidationTestCase extends GREGIntegrationBaseTest{
 
     @AfterClass(groups = {"wso2.greg"})
     public void deleteResources()
-            throws ResourceAdminServiceExceptionException, RemoteException, GovernanceException {
+            throws ResourceAdminServiceExceptionException, RemoteException, RegistryException {
         Endpoint[] endpoints = null;
         Endpoint[] endPointsOther = null;
+
+        GovernanceUtils.loadGovernanceArtifacts((UserRegistry) governance);
+
         Wsdl[] wsdls = wsdlManager.getAllWsdls();
         for (Wsdl wsdl : wsdls) {
             if (wsdl.getQName().getLocalPart().equals("sample.wsdl")) {
@@ -164,8 +171,8 @@ public class WSDLValidationTestCase extends GREGIntegrationBaseTest{
             }
         }
 
-        resourceAdminServiceClient.deleteResource("/_system/governance/trunk/wsdls/eu/dataaccess/footballpool/sample.wsdl");
-        resourceAdminServiceClient.deleteResource("/_system/governance/trunk/wsdls/net/restfulwebservices/www/servicecontracts/_2008/_01/WeatherForecastService.wsdl");
+        resourceAdminServiceClient.deleteResource("/_system/governance/trunk/wsdls/eu/dataaccess/footballpool/1.0.0/sample.wsdl");
+        resourceAdminServiceClient.deleteResource("/_system/governance/trunk/wsdls/net/restfulwebservices/www/servicecontracts/_2008/_01/1.0.0/WeatherForecastService.wsdl");
 
         for (Endpoint path : endpoints) {
             resourceAdminServiceClient.deleteResource("_system/governance/" + path.getPath());
@@ -182,11 +189,11 @@ public class WSDLValidationTestCase extends GREGIntegrationBaseTest{
             }
         }
 
-        resourceAdminServiceClient.deleteResource("/_system/governance/trunk/schemas/com/microsoft/schemas/_2003/_10/serialization/arrays/WeatherForecastService.svc.xsd");
-        resourceAdminServiceClient.deleteResource("/_system/governance/trunk/schemas/net/restfulwebservices/www/datacontracts/_2008/_01/WeatherForecastService1.xsd");
-        resourceAdminServiceClient.deleteResource("/_system/governance/trunk/schemas/net/restfulwebservices/www/servicecontracts/_2008/_01/WeatherForecastService2.xsd");
-        resourceAdminServiceClient.deleteResource("/_system/governance/trunk/schemas/com/microsoft/schemas/_2003/_10/serialization/WeatherForecastService3.xsd");
-        resourceAdminServiceClient.deleteResource("/_system/governance/trunk/schemas/faultcontracts/gotlservices/_2008/_01/WeatherForecastService4.xsd");
+        resourceAdminServiceClient.deleteResource("/_system/governance/trunk/schemas/com/microsoft/schemas/_2003/_10/serialization/arrays/1.0.0/WeatherForecastService.svc.xsd");
+        resourceAdminServiceClient.deleteResource("/_system/governance/trunk/schemas/net/restfulwebservices/www/datacontracts/_2008/_01/1.0.0/WeatherForecastService1.xsd");
+        resourceAdminServiceClient.deleteResource("/_system/governance/trunk/schemas/net/restfulwebservices/www/servicecontracts/_2008/_01/1.0.0/WeatherForecastService2.xsd");
+        resourceAdminServiceClient.deleteResource("/_system/governance/trunk/schemas/com/microsoft/schemas/_2003/_10/serialization/1.0.0/WeatherForecastService3.xsd");
+        resourceAdminServiceClient.deleteResource("/_system/governance/trunk/schemas/faultcontracts/gotlservices/_2008/_01/1.0.0/WeatherForecastService4.xsd");
 
 
     }
