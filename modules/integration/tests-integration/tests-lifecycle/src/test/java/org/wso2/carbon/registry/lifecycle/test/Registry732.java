@@ -77,7 +77,7 @@ public class Registry732 extends GREGIntegrationBaseTest {
     private static final String LC_STATE1 = "Planned";
     private static final String ACTION_PROMOTE = "Promote";
     private static final String ACTION_ITEM_CLICK = "itemClick";
-    private String serviceString = "/trunk/services/com/abb/IntergalacticService3";
+    private String serviceString = "/trunk/services/com/abb/1.0.0-SNAPSHOT/IntergalacticService3";
     private final String absPath = SERVICE_LOCATION + serviceString;
     private LifecycleBean lifeCycle;
     private String[] dependencyList;
