@@ -25,8 +25,7 @@ import org.apache.axiom.om.util.AXIOMUtil;
 import org.apache.axiom.om.xpath.AXIOMXPath;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.eclipse.osgi.framework.internal.core.FrameworkProperties;
-import org.testng.annotations.BeforeClass;
+import org.testng.annotations.BeforeSuite;
 import org.testng.annotations.Test;
 import org.wso2.carbon.automation.engine.annotations.ExecutionEnvironment;
 import org.wso2.carbon.automation.engine.annotations.SetEnvironment;
@@ -39,7 +38,6 @@ import org.wso2.carbon.registry.resource.stub.ResourceAdminServiceExceptionExcep
 import org.wso2.carbon.registry.ws.client.registry.WSRegistryServiceClient;
 import org.wso2.carbon.utils.CarbonUtils;
 import org.wso2.greg.integration.common.clients.ResourceAdminServiceClient;
-import org.wso2.greg.integration.common.clients.ServerAdminClient;
 import org.wso2.greg.integration.common.utils.GREGIntegrationBaseTest;
 import org.wso2.greg.integration.common.utils.RegistryProviderUtil;
 
@@ -61,7 +59,7 @@ public class RegistryConfiguratorTestCase extends GREGIntegrationBaseTest {
     private String userName;
     private String userNameWithoutDomain;
 
-    @BeforeClass(alwaysRun = true)
+    @BeforeSuite(alwaysRun = true)
     public void serverRestart() throws Exception {
 
         super.init(TestUserMode.SUPER_TENANT_ADMIN);
@@ -76,18 +74,21 @@ public class RegistryConfiguratorTestCase extends GREGIntegrationBaseTest {
         resourceAdminServiceClient =
                 new ResourceAdminServiceClient(backEndUrl,
                                                sessionCookie);
+       // testSetupServerEnvironment();
 
 
     }
 
-    @Test(groups = "wso2.greg")
-    @SetEnvironment(executionEnvironments = {ExecutionEnvironment.STANDALONE})
+   @Test(groups = "wso2.greg")
+   @SetEnvironment(executionEnvironments = {ExecutionEnvironment.STANDALONE})
     public void testSetupServerEnvironment() throws Exception {
         copyResources();
         copyJarFiles();
         editConfigurationFiles();
         updateRegistry();
-        addResourceFileToRegistry();
+       /*adding the resource from here fails the corresponding test case (UTFSupportForMetadataTestCase.testSearchByKeywords()),
+       so moved the resource to the class level.*/
+       // addResourceFileToRegistry();
         ServerConfigurationManager serverConfigurationManager =
                 new ServerConfigurationManager(automationContext);
         serverConfigurationManager.restartGracefully();
@@ -262,11 +263,13 @@ public class RegistryConfiguratorTestCase extends GREGIntegrationBaseTest {
 
     private void addResourceFileToRegistry()
             throws MalformedURLException, ResourceAdminServiceExceptionException, RemoteException {
+
         String resourcePath = FrameworkPathUtil.getSystemResourceLocation() + "artifacts" +
                               File.separator + "GREG" + File.separator + "utf8" + File.separator + "test.txt";
 
         DataHandler dh = new DataHandler(new URL("file:///" + resourcePath));
         resourceAdminServiceClient.addResource("/_system/config/test_utf8_Resource", "text/plain", "testDesc", dh);
+        
     }
 
 }
