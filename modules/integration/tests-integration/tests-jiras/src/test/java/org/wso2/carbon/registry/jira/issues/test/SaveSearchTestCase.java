@@ -16,6 +16,7 @@
 
 package org.wso2.carbon.registry.jira.issues.test;
 
+import org.apache.axiom.om.util.AXIOMUtil;
 import org.testng.Assert;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
@@ -171,8 +172,14 @@ public class SaveSearchTestCase extends GREGIntegrationBaseTest{
 
         ServiceManager serviceManager = new ServiceManager(governance);
         Service service;
-        service = serviceManager.newService(new QName("https://contoso.accesscontrol.windows.net",
-                                                      "testService"));
+
+        String content = "<serviceMetaData xmlns=\"http://www.wso2.org/governance/metadata\"><overview>" +
+                "<name>" + "testService" + "</name><namespace>" + "https://contoso.accesscontrol.windows.net" +
+                "</namespace><version>1.0.0-SNAPSHOT</version></overview>" +
+                "</serviceMetaData>";
+        org.apache.axiom.om.OMElement XMLContent = AXIOMUtil.stringToOM(content);
+
+        service = serviceManager.newService(XMLContent);
 
         serviceManager.addService(service);
         GovernanceUtils.loadGovernanceArtifacts((UserRegistry) governance);

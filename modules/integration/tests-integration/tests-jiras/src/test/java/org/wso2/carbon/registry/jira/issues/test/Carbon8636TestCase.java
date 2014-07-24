@@ -18,6 +18,7 @@
 
 package org.wso2.carbon.registry.jira.issues.test;
 
+import org.apache.axiom.om.util.AXIOMUtil;
 import org.testng.Assert;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
@@ -32,6 +33,7 @@ import org.wso2.greg.integration.common.utils.GREGIntegrationBaseTest;
 import org.wso2.greg.integration.common.utils.RegistryProviderUtil;
 
 import javax.xml.namespace.QName;
+import javax.xml.stream.XMLStreamException;
 
 public class Carbon8636TestCase extends GREGIntegrationBaseTest {
 
@@ -48,20 +50,30 @@ public class Carbon8636TestCase extends GREGIntegrationBaseTest {
         serviceManager = new ServiceManager(governance);
     }
     @Test(groups = {"wso2.greg"}, description = "description with having enter keys")
-    public void descriptionWithEnterKeysTestCase() throws GovernanceException {
+    public void descriptionWithEnterKeysTestCase() throws GovernanceException, XMLStreamException {
+        String content = "<serviceMetaData xmlns=\"http://www.wso2.org/governance/metadata\">" +
+                "<overview><name>" + "serviceDescriptionsWithEnterKeys" + "</name><namespace>" +
+                "http://service.with.EnterKeys/mnm/" + "</namespace><version>1.0.0-SNAPSHOT</version></overview>" +
+                "</serviceMetaData>";
+        org.apache.axiom.om.OMElement XMLContent = AXIOMUtil.stringToOM(content);
+
         serviceDescriptionsWithEnterKeys =
-                serviceManager.newService(new QName("http://service.with.EnterKeys/mnm/",
-                        "serviceDescriptionsWithEnterKeys"));
+                serviceManager.newService(XMLContent);
         serviceDescriptionsWithEnterKeys.addAttribute("description", "This is Description&#xd;");
         serviceManager.addService(serviceDescriptionsWithEnterKeys);
         Assert.assertNotNull(serviceManager.getService(serviceDescriptionsWithEnterKeys.getId()));
 
     }
     @Test(groups = {"wso2.greg"}, description = "description with out having enter keys")
-    public void descriptionWithoutEnterKeysTestCase() throws GovernanceException {
+    public void descriptionWithoutEnterKeysTestCase() throws GovernanceException, XMLStreamException {
+        String content = "<serviceMetaData xmlns=\"http://www.wso2.org/governance/metadata\">" +
+                "<overview><name>" + "serviceDescriptionsWithOutEnterKeys" + "</name><namespace>" +
+                "http://service.with.EnteroutKeys/mnm/" + "</namespace><version>1.0.0-SNAPSHOT</version></overview>" +
+                "</serviceMetaData>";
+        org.apache.axiom.om.OMElement XMLContent = AXIOMUtil.stringToOM(content);
+
         serviceDescriptionWithOutEnterKeys =
-                serviceManager.newService(new QName("http://service.with.EnteroutKeys/mnm/",
-                        "serviceDescriptionsWithOutEnterKeys"));
+                serviceManager.newService(XMLContent);
         serviceDescriptionWithOutEnterKeys.addAttribute("description", "This is Description");
         serviceManager.addService(serviceDescriptionWithOutEnterKeys);
         Assert.assertNotNull(serviceManager.getService(serviceDescriptionWithOutEnterKeys.getId()));

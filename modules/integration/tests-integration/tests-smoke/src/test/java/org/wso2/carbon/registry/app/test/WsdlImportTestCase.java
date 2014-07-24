@@ -58,17 +58,17 @@ public class WsdlImportTestCase extends GREGIntegrationBaseTest{
 
         registry.importResource(path, url, r1);
 
-        String wsdlPath = "/_system/governance/trunk/wsdls/com/foo/complextypedoclit.wsdl";
+        String wsdlPath = "/_system/governance/trunk/wsdls/com/foo/1.0.0/complextypedoclit.wsdl";
 
         assertTrue(resourceExists(registry, wsdlPath), "ComplexDataTypesRpcLit.svc.wsdl");
-        String servicePath = "/_system/governance/trunk/services/com/foo/BizService";
+        String servicePath = "/_system/governance/trunk/services/com/foo/1.0.0-SNAPSHOT/BizService";
         assertTrue(resourceExists(registry, servicePath), "ComplexDataTypesRpcLitService is not available");
 
 
-        String schemaLocation0 = "/_system/governance/trunk/schemas/org/datacontract/schemas/_2004/_07/system/test_a.xsd";
-        String schemaLocation1 = "/_system/governance/trunk/schemas/com/microsoft/schemas/_2003/_10/serialization/test_b.xsd";
-        String schemaLocation2 = "/_system/governance/trunk/schemas/org/tempuri/test_c.xsd";
-        String schemaLocation3 = "/_system/governance/trunk/schemas/com/microsoft/schemas/_2003/_12/serialization/test_d.xsd";
+        String schemaLocation0 = "/_system/governance/trunk/schemas/org/datacontract/schemas/_2004/_07/system/1.0.0/test_a.xsd";
+        String schemaLocation1 = "/_system/governance/trunk/schemas/com/microsoft/schemas/_2003/_10/serialization/1.0.0/test_b.xsd";
+        String schemaLocation2 = "/_system/governance/trunk/schemas/org/tempuri/1.0.0/test_c.xsd";
+        String schemaLocation3 = "/_system/governance/trunk/schemas/com/microsoft/schemas/_2003/_12/serialization/1.0.0/test_d.xsd";
 
         assertTrue(resourceExists(registry, schemaLocation0), "ComplexDataTypesRpcLit.xsd not found");
         assertTrue(resourceExists(registry, schemaLocation1), "ComplexDataTypesRpcLit1.xsd not found");

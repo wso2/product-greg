@@ -16,6 +16,7 @@
 
 package org.wso2.carbon.registry.pagination.test;
 
+import org.apache.axiom.om.util.AXIOMUtil;
 import org.apache.axis2.context.ConfigurationContext;
 import org.apache.axis2.context.ConfigurationContextFactory;
 import org.apache.axis2.transport.http.HTTPConstants;
@@ -37,6 +38,7 @@ import org.wso2.greg.integration.common.utils.GREGIntegrationBaseTest;
 import org.wso2.greg.integration.common.utils.RegistryProviderUtil;
 
 import javax.xml.namespace.QName;
+import javax.xml.stream.XMLStreamException;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -74,7 +76,7 @@ public class PaginationWSTest extends GREGIntegrationBaseTest {
             WSRegistrySearchClient wsRegistrySearchClient = new WSRegistrySearchClient();
             //This should be execute to initialize the AttributeSearchService.
             ConfigurationContext configContext;
-            String axis2Repo = FrameworkPathUtil.getSystemResourceLocation() + File.separator + "client";
+            String axis2Repo = FrameworkPathUtil.getSystemResourceLocation() + "client";
             String axis2Conf = FrameworkPathUtil.getSystemResourceLocation() + "axis2config" +
                     File.separator + "axis2_client.xml";
             TestFrameworkUtils.setKeyStoreProperties(automationContext);
@@ -108,10 +110,14 @@ public class PaginationWSTest extends GREGIntegrationBaseTest {
             PaginationContext.destroy();
         }
     }
-    private static void addServices(Registry govRegistry) throws RegistryException {
+    private static void addServices(Registry govRegistry) throws RegistryException, XMLStreamException {
         GenericArtifactManager artifactManager = new GenericArtifactManager(govRegistry, "service");
         for(int i = 1; i < 10; i++) {
-            GenericArtifact artifact = artifactManager.newGovernanceArtifact(new QName("ns", "FlightService" + i));
+            String content = "<serviceMetaData xmlns=\"http://www.wso2.org/governance/metadata\">" +
+                    "<overview><name>" + "FlightService" + i + "</name><namespace>" + "ns" + "</namespace><version>1.0.0-SNAPSHOT</version></overview>" +
+                    "</serviceMetaData>";
+            org.apache.axiom.om.OMElement XMLContent = AXIOMUtil.stringToOM(content);
+            GenericArtifact artifact = artifactManager.newGovernanceArtifact(XMLContent);
             artifactManager.addGenericArtifact(artifact);
         }
         //Services need to be index before search.
