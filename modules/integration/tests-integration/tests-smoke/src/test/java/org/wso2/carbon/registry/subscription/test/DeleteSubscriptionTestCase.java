@@ -48,8 +48,8 @@ public class DeleteSubscriptionTestCase extends GREGIntegrationBaseTest {
     private String sessionID;
 
     private static final String RESOURCE_PATH_NAME = "/";
-    private static final String WSDL_PATH = "/_system/governance/trunk/wsdls/com/amazon/soap/AmazonWebServices.wsdl";
-    private static final String SCHEMA_PATH = "/_system/governance/trunk/schemas/org/company/www/Person.xsd";
+    private static final String WSDL_PATH = "/_system/governance/trunk/wsdls/com/amazon/soap/1.0.0/AmazonWebServices.wsdl";
+    private static final String SCHEMA_PATH = "/_system/governance/trunk/schemas/org/company/www/1.0.0/Person.xsd";
     private static final String TAG = "testDeleteTag";
     private String userNameWithoutDomain;
 
@@ -251,6 +251,6 @@ public class DeleteSubscriptionTestCase extends GREGIntegrationBaseTest {
         resourceAdminServiceClient.deleteResource(SCHEMA_PATH);
         resourceAdminServiceClient.deleteResource(RESOURCE_PATH_NAME + "test.map");
         resourceAdminServiceClient.deleteResource(WSDL_PATH);
-        resourceAdminServiceClient.deleteResource("/_system/governance/trunk/services/com/amazon/soap/AmazonSearchService");
+        resourceAdminServiceClient.deleteResource("/_system/governance/trunk/services/com/amazon/soap/1.0.0-SNAPSHOT/AmazonSearchService");
     }
 }
