@@ -17,6 +17,8 @@
 */
 package org.wso2.carbon.registry.lifecycle.test.utils;
 
+import org.apache.axiom.om.OMElement;
+import org.apache.axiom.om.util.AXIOMUtil;
 import org.testng.Assert;
 import org.wso2.carbon.automation.engine.frameworkutils.FrameworkPathUtil;
 import org.wso2.carbon.automation.test.utils.common.FileManager;
@@ -59,7 +61,14 @@ public class LifeCycleUtils {
             throws Exception {
         ServiceManager serviceManager = new ServiceManager(governance);
         Service service;
-        service = serviceManager.newService(new QName(nameSpace, serviceName));
+
+        String content = "<serviceMetaData xmlns=\"http://www.wso2.org/governance/metadata\">" +
+                "<overview><name>" + serviceName + "</name><namespace>" + nameSpace +
+                "</namespace><version>1.0.0-SNAPSHOT</version></overview>" +
+                "</serviceMetaData>";
+        org.apache.axiom.om.OMElement XMLContent = AXIOMUtil.stringToOM(content);
+
+        service = serviceManager.newService(XMLContent);
         serviceManager.addService(service);
         GovernanceUtils.loadGovernanceArtifacts((UserRegistry) governance);
         for (String serviceId : serviceManager.getAllServiceIds()) {
