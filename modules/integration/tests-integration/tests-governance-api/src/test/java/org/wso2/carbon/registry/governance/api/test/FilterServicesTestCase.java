@@ -16,6 +16,7 @@
 
 package org.wso2.carbon.registry.governance.api.test;
 
+import org.apache.axiom.om.util.AXIOMUtil;
 import org.testng.Assert;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
@@ -35,13 +36,11 @@ import org.wso2.carbon.registry.core.session.UserRegistry;
 import org.wso2.carbon.registry.resource.stub.ResourceAdminServiceExceptionException;
 import org.wso2.carbon.registry.ws.client.registry.WSRegistryServiceClient;
 import org.wso2.greg.integration.common.clients.LifeCycleAdminServiceClient;
-import org.wso2.greg.integration.common.clients.LifeCycleManagementClient;
-import org.wso2.greg.integration.common.clients.ListMetaDataServiceClient;
-import org.wso2.greg.integration.common.clients.ResourceAdminServiceClient;
 import org.wso2.greg.integration.common.utils.GREGIntegrationBaseTest;
 import org.wso2.greg.integration.common.utils.RegistryProviderUtil;
 
 import javax.xml.namespace.QName;
+import javax.xml.stream.XMLStreamException;
 import java.rmi.RemoteException;
 
 public class FilterServicesTestCase extends GREGIntegrationBaseTest {
@@ -267,11 +266,17 @@ public class FilterServicesTestCase extends GREGIntegrationBaseTest {
      */
     @Test(groups = {"wso2.greg"}, description = "Filter Promoted Services", dependsOnMethods = "testFilterEditedServices")
     public void testFilterPromotedServices() throws GovernanceException, RemoteException,
-                                                    LifeCycleManagementServiceExceptionException,
-                                                    CustomLifecyclesChecklistAdminServiceExceptionException {
+            LifeCycleManagementServiceExceptionException,
+            CustomLifecyclesChecklistAdminServiceExceptionException, XMLStreamException {
+
+        String content = "<serviceMetaData xmlns=\"http://www.wso2.org/governance/metadata\">" +
+                "<overview><name>" + "serviceForPromotingNew" + "</name><namespace>" + "http://service.delete.branch/mnm/beep"
+                + "</namespace><version>1.0.0-SNAPSHOT</version></overview>" +
+                "</serviceMetaData>";
+        org.apache.axiom.om.OMElement XMLContent = AXIOMUtil.stringToOM(content);
         serviceForPromoting =
-                serviceManager.newService(new QName("http://service.delete.branch/mnm/beep",
-                                                    "serviceForPromotingNew"));
+                serviceManager.newService(XMLContent);
+
         serviceManager.addService(serviceForPromoting);
         String servicePathDev = "/_system/governance" + serviceForPromoting.getPath();
         ArrayOfString[] parameters = new ArrayOfString[2];
