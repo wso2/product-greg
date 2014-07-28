@@ -562,6 +562,7 @@
         <carbon.feature.version>1.0.0</carbon.feature.version>
         <uuid.feature.version>1.0.0</uuid.feature.version>
         <es.feature.version>1.2.0-SNAPSHOT</es.feature.version>
+        <carbon.social.version>1.1.0-SNAPSHOT</carbon.social.version>
         <!--<event.feature.version>1.0.0</event.feature.version>-->
         <!--<login.feature.version>1.0.0</login.feature.version>-->
         <!--<permission.feature.version>1.0.0</permission.feature.version>-->

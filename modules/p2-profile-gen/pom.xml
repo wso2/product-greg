@@ -277,8 +277,15 @@
                                 </featureArtifactDef>
                                 <featureArtifactDef>org.wso2.store.modules:claims.feature:${es.feature.version}
                                 </featureArtifactDef>
+				<featureArtifactDef>org.wso2.store.modules:rxt.feature:${es.feature.version}
+                                </featureArtifactDef>
+                                 <featureArtifactDef>org.wso2.store.modules:utils.feature:${es.feature.version}
+                                </featureArtifactDef>
                                 <featureArtifactDef>
                                     org.wso2.store:org.wso2.es.feature:${es.feature.version}
+                                </featureArtifactDef>
+                                <featureArtifactDef>
+                                    org.wso2.carbon:org.wso2.carbon.social.feature:${carbon.social.version}
                                 </featureArtifactDef>
 
                                 <!--Single Sign on Feature list -->
@@ -855,6 +862,14 @@
                                 </feature>
                                 <feature>
                                     <id>org.wso2.store.modules.claims.feature.group</id>
+                                    <version>${es.feature.version}</version>
+                                </feature>
+                                <feature>
+                                    <id>org.wso2.store.modules.rxt.feature.group</id>
+                                    <version>${es.feature.version}</version>
+                                </feature>
+                                <feature>
+                                    <id>org.wso2.store.modules.utils.feature.group</id>
                                     <version>${es.feature.version}</version>
                                 </feature>
                                 <feature>
@@ -1578,6 +1593,10 @@
                                 <feature>
                                     <id>org.wso2.es.feature.group</id>
                                     <version>${es.feature.version}</version>
+                                </feature>
+                                <feature>
+                                    <id>org.wso2.carbon.social.feature.group</id>
+                                    <version>${carbon.social.version}</version>
                                 </feature>
 
                                 <feature>
