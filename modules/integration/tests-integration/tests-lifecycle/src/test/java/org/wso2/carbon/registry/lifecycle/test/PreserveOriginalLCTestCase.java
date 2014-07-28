@@ -42,7 +42,7 @@ import static org.testng.Assert.assertTrue;
 public class PreserveOriginalLCTestCase extends GREGIntegrationBaseTest {
 
     private int userId = 2;
-    private String serviceStringTrunk = "/trunk/services/com/abb/IntergalacticService6";
+    private String serviceStringTrunk = "/trunk/services/com/abb/1.0.0-SNAPSHOT/IntergalacticService6";
     private String serviceStringTest = "/branches/testing/services/com/abb/1.0.0/IntergalacticService6";
     private WSRegistryServiceClient wsRegistryServiceClient;
     private LifeCycleAdminServiceClient lifeCycleAdminServiceClient;
