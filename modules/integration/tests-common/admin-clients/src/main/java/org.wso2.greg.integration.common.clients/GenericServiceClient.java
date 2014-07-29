@@ -70,15 +70,16 @@ public class GenericServiceClient {
      * @return - artifact saved or not
      * @throws Exception - artifact saving error
      */
-    public boolean saveConfiguration(String artifactContent, String path) throws Exception {
+    public boolean saveConfiguration(String artifactContent, String path) throws RemoteException,ManageGenericArtifactServiceRegistryExceptionException {
+        //changed the throwing exceptions to specfic exceptions rather than generic Exception.
         try {
             return manageGenericArtifactServiceStub.addRXTResource(artifactContent, path);
         } catch (RemoteException e) {
             log.info("Error on saving artifact configuration");
-            throw new Exception("Error on saving artifact configuration");
+            throw new RemoteException("Error on saving artifact configuration");
         } catch (ManageGenericArtifactServiceRegistryExceptionException e) {
             log.info("Error on saving artifact configuration");
-            throw new Exception("Error on saving artifact configuration");
+            throw new ManageGenericArtifactServiceRegistryExceptionException("Error on saving artifact configuration");
         }
     }
 
