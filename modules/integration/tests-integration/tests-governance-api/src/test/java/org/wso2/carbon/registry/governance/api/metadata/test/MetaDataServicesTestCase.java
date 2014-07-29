@@ -16,6 +16,7 @@
 
 package org.wso2.carbon.registry.governance.api.metadata.test;
 
+import org.apache.axiom.om.util.AXIOMUtil;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
@@ -42,6 +43,7 @@ import org.wso2.greg.integration.common.utils.GREGIntegrationBaseTest;
 import org.wso2.greg.integration.common.utils.RegistryProviderUtil;
 
 import javax.xml.namespace.QName;
+import javax.xml.stream.XMLStreamException;
 import java.rmi.RemoteException;
 
 import static org.testng.Assert.assertEquals;
@@ -98,8 +100,15 @@ public class MetaDataServicesTestCase extends GREGIntegrationBaseTest {
     @Test(groups = {"wso2.greg"}, description = "service without the defaultServiceVersion property")
     public void testAddServiceWithoutVersion() throws Exception {
 
+        /*service =
+                serviceManager.newService(new QName("http://bang.boom.com/mnm/beep", "MyService"));*/
+        String content = "<serviceMetaData xmlns=\"http://www.wso2.org/governance/metadata\">" +
+                "<overview><name>" + "MyService" + "</name><namespace>" + "http://bang.boom.com/mnm/beep"
+                + "</namespace><version>1.0.0-SNAPSHOT</version></overview>" +
+                "</serviceMetaData>";
+        org.apache.axiom.om.OMElement XMLContent = AXIOMUtil.stringToOM(content);
         service =
-                serviceManager.newService(new QName("http://bang.boom.com/mnm/beep", "MyService"));
+                serviceManager.newService(XMLContent);
         serviceManager.addService(service);
         String serviceId = service.getId();
         newService = serviceManager.getService(serviceId);
@@ -203,11 +212,14 @@ public class MetaDataServicesTestCase extends GREGIntegrationBaseTest {
      */
     @Test(groups = {"wso2.greg"}, description = "Create a service without a WSDL and verify dependencies",
           dependsOnMethods = "testChangesAtTrunk")
-    public void testVerifyDependencies() throws GovernanceException {
+    public void testVerifyDependencies() throws GovernanceException, XMLStreamException {
+        String content = "<serviceMetaData xmlns=\"http://www.wso2.org/governance/metadata\">" +
+                "<overview><name>" + "serviceForDependencyVarification" + "</name><namespace>" + "http://service.dependency.varification/mnm/beep"
+                + "</namespace><version>1.0.0-SNAPSHOT</version></overview>" +
+                "</serviceMetaData>";
+        org.apache.axiom.om.OMElement XMLContent = AXIOMUtil.stringToOM(content);
         serviceForDependencyVerification =
-                serviceManager.newService(new QName(
-                        "http://service.dependency.varification/mnm/beep",
-                        "serviceForDependencyVarification"));
+                serviceManager.newService(XMLContent);
         serviceManager.addService(serviceForDependencyVerification);
         wsdl = manager.newWsdl(WSDL_URL);
         manager.addWsdl(wsdl);
@@ -231,12 +243,16 @@ public class MetaDataServicesTestCase extends GREGIntegrationBaseTest {
     @Test(groups = {"wso2.greg"}, description = "delete a service at trunk level",
           dependsOnMethods = "testVerifyDependencies")
     public void testDeleteServiceAtTrunk() throws GovernanceException, RemoteException,
-                                                  CustomLifecyclesChecklistAdminServiceExceptionException,
-                                                  LifeCycleManagementServiceExceptionException {
+            CustomLifecyclesChecklistAdminServiceExceptionException,
+            LifeCycleManagementServiceExceptionException, XMLStreamException {
+
+        String content = "<serviceMetaData xmlns=\"http://www.wso2.org/governance/metadata\">" +
+                "<overview><name>" + "serviceForTrunkDeleteTest" + "</name><namespace>" + "http://service.delete.trunk/mnm/beep"
+                + "</namespace><version>1.0.0-SNAPSHOT</version></overview>" +
+                "</serviceMetaData>";
+        org.apache.axiom.om.OMElement XMLContent = AXIOMUtil.stringToOM(content);
         serviceForTrunkDeleteTest =
-                serviceManager.newService(new QName(
-                        "http://service.delete.trunk/mnm/beep",
-                        "serviceForTrunkDeleteTest"));
+                serviceManager.newService(XMLContent);
         serviceManager.addService(serviceForTrunkDeleteTest);
         String servicePathDev = "/_system/governance" + serviceForTrunkDeleteTest.getPath();
         ArrayOfString[] parameters = new ArrayOfString[2];
@@ -276,12 +292,16 @@ public class MetaDataServicesTestCase extends GREGIntegrationBaseTest {
     @Test(groups = {"wso2.greg"}, description = "delete a service at trunk level",
           dependsOnMethods = "testDeleteServiceAtTrunk")
     public void testDeleteServiceAtBranch() throws GovernanceException, RemoteException,
-                                                   CustomLifecyclesChecklistAdminServiceExceptionException,
-                                                   LifeCycleManagementServiceExceptionException {
+            CustomLifecyclesChecklistAdminServiceExceptionException,
+            LifeCycleManagementServiceExceptionException, XMLStreamException {
+
+        String content = "<serviceMetaData xmlns=\"http://www.wso2.org/governance/metadata\">" +
+                "<overview><name>" + "serviceForBranchDeleteTest" + "</name><namespace>" + "http://service.delete.branch/mnm/beep"
+                + "</namespace><version>1.0.0-SNAPSHOT</version></overview>" +
+                "</serviceMetaData>";
+        org.apache.axiom.om.OMElement XMLContent = AXIOMUtil.stringToOM(content);
         serviceForBranchDeleteTest =
-                serviceManager.newService(new QName(
-                        "http://service.delete.branch/mnm/beep",
-                        "serviceForBranchDeleteTest"));
+                serviceManager.newService(XMLContent);
         serviceManager.addService(serviceForBranchDeleteTest);
         String servicePathDev = "/_system/governance" + serviceForBranchDeleteTest.getPath();
         ArrayOfString[] parameters = new ArrayOfString[2];
@@ -301,7 +321,7 @@ public class MetaDataServicesTestCase extends GREGIntegrationBaseTest {
         })[0];
         serviceManager.removeService(serviceForBranchDeleteTestPromoted.getId());
         assertEquals(serviceForBranchDeleteTest.getPath(),
-                     "/trunk/services/branch/delete/service/mnm/beep/serviceForBranchDeleteTest",
+                     "/trunk/services/branch/delete/service/mnm/beep/1.0.0-SNAPSHOT/serviceForBranchDeleteTest",
                      "saved path is not equal to the expected");
     }
 
@@ -321,12 +341,15 @@ public class MetaDataServicesTestCase extends GREGIntegrationBaseTest {
     @Test(groups = {"wso2.greg"}, description = "Checking the persistance with ticked check list items",
           dependsOnMethods = "testDeleteServiceAtBranch")
     public void testTickedListItems() throws GovernanceException, RemoteException,
-                                             LifeCycleManagementServiceExceptionException,
-                                             CustomLifecyclesChecklistAdminServiceExceptionException {
+            LifeCycleManagementServiceExceptionException,
+            CustomLifecyclesChecklistAdminServiceExceptionException, XMLStreamException {
+        String content = "<serviceMetaData xmlns=\"http://www.wso2.org/governance/metadata\">" +
+                "<overview><name>" + "serviceForTickedListItemsTest" + "</name><namespace>" + "http://service.ticked.items/mnm/beep"
+                + "</namespace><version>1.0.0-SNAPSHOT</version></overview>" +
+                "</serviceMetaData>";
+        org.apache.axiom.om.OMElement XMLContent = AXIOMUtil.stringToOM(content);
         serviceForTickedListItemsTest =
-                serviceManager.newService(new QName(
-                        "http://service.ticked.items/mnm/beep",
-                        "serviceForTickedListItemsTest"));
+                serviceManager.newService(XMLContent);
         serviceManager.addService(serviceForTickedListItemsTest);
         serviceForTickedListItemsTest.attachLifecycle(SERVICE_LIFE_CYCLE);
         String servicePathDev = "/_system/governance" + serviceForTickedListItemsTest.getPath();
@@ -454,11 +477,14 @@ public class MetaDataServicesTestCase extends GREGIntegrationBaseTest {
      * @throws GovernanceException
      */
     @Test(groups = {"wso2.greg"}, description = "Deleting a service", dependsOnMethods = "testServiceDetailVerification")
-    public void testDeleteService() throws GovernanceException {
+    public void testDeleteService() throws GovernanceException, XMLStreamException {
+        String content = "<serviceMetaData xmlns=\"http://www.wso2.org/governance/metadata\">" +
+                "<overview><name>" + "serviceForDeleteServiceTestCase" + "</name><namespace>" + "http://service.delete.verification/mnm/beep"
+                + "</namespace><version>1.0.0-SNAPSHOT</version></overview>" +
+                "</serviceMetaData>";
+        org.apache.axiom.om.OMElement XMLContent = AXIOMUtil.stringToOM(content);
         serviceForDeleteServiceTestCase =
-                serviceManager.newService(new QName(
-                        "http://service.delete.verification/mnm/beep",
-                        "serviceForDeleteServiceTestCase"));
+                serviceManager.newService(XMLContent);
         serviceManager.addService(serviceForDeleteServiceTestCase);
         serviceManager.removeService(serviceForDeleteServiceTestCase.getId());
 
@@ -490,12 +516,15 @@ public class MetaDataServicesTestCase extends GREGIntegrationBaseTest {
      */
     @Test(groups = {"wso2.greg"}, description = "LC promote tests", dependsOnMethods = "testDeleteService")
     public void testLCPromoting() throws GovernanceException, RemoteException,
-                                         LifeCycleManagementServiceExceptionException,
-                                         CustomLifecyclesChecklistAdminServiceExceptionException {
+            LifeCycleManagementServiceExceptionException,
+            CustomLifecyclesChecklistAdminServiceExceptionException, XMLStreamException {
+        String content = "<serviceMetaData xmlns=\"http://www.wso2.org/governance/metadata\">" +
+                "<overview><name>" + "serviceForLCPromoteTests" + "</name><namespace>" + "http://service.for.lc/promote/test"
+                + "</namespace><version>1.0.0-SNAPSHOT</version></overview>" +
+                "</serviceMetaData>";
+        org.apache.axiom.om.OMElement XMLContent = AXIOMUtil.stringToOM(content);
         serviceForLCPromoteTests =
-                serviceManager.newService(new QName(
-                        "http://service.for.lc/promote/test",
-                        "serviceForLCPromoteTests"));
+                serviceManager.newService(XMLContent);
         serviceManager.addService(serviceForLCPromoteTests);
         serviceForLCPromoteTests.attachLifecycle(SERVICE_LIFE_CYCLE);
         String servicePathDev = "/_system/governance" + serviceForLCPromoteTests.getPath();

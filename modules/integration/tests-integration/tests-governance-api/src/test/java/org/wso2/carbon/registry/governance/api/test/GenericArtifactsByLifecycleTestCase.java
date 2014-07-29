@@ -1,5 +1,6 @@
 package org.wso2.carbon.registry.governance.api.test;
 
+import org.apache.axiom.om.util.AXIOMUtil;
 import org.testng.Assert;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
@@ -17,7 +18,6 @@ import org.wso2.carbon.registry.ws.client.registry.WSRegistryServiceClient;
 import org.wso2.greg.integration.common.utils.GREGIntegrationBaseTest;
 import org.wso2.greg.integration.common.utils.RegistryProviderUtil;
 
-import javax.xml.namespace.QName;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -25,7 +25,7 @@ public class GenericArtifactsByLifecycleTestCase extends GREGIntegrationBaseTest
     private String LIFE_CYCLE_NAME = "ServiceLifeCycle";
     private Registry governance;
     private GenericArtifactManager genericArtifactManager;
-
+    private GenericArtifact genericArtifact;
     @BeforeClass(alwaysRun = true)
     public void initialize() throws Exception {
         super.init(TestUserMode.SUPER_TENANT_ADMIN);
@@ -38,8 +38,15 @@ public class GenericArtifactsByLifecycleTestCase extends GREGIntegrationBaseTest
         //governance.delete("/trunk");
 
         genericArtifactManager = new GenericArtifactManager(governance, "service");
-        GenericArtifact genericArtifact = genericArtifactManager.
-                newGovernanceArtifact(new QName("https://www.wso2.com/greg/store", "GenericArtifactStoreService"));
+        /*GenericArtifact genericArtifact = genericArtifactManager.
+                newGovernanceArtifact(new QName("https://www.wso2.com/greg/store", "GenericArtifactStoreService"));*/
+        String content = "<serviceMetaData xmlns=\"http://www.wso2.org/governance/metadata\">" +
+                "<overview><name>" + "GenericArtifactStoreService" + "</name><namespace>" + "https://www.wso2.com/greg/store"
+                + "</namespace><version>1.0.0-SNAPSHOT</version></overview>" +
+                "</serviceMetaData>";
+        org.apache.axiom.om.OMElement XMLContent = AXIOMUtil.stringToOM(content);
+        genericArtifact =
+                genericArtifactManager.newGovernanceArtifact(XMLContent);
         genericArtifactManager.addGenericArtifact(genericArtifact);
     }
 
