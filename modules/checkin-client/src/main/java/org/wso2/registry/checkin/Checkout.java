@@ -44,6 +44,7 @@ public class Checkout {
         this.checkOutCommand = new CheckOutCommand(clientOptions.getOutputFile(),
                 clientOptions.getWorkingLocation(), clientOptions.getUserUrl(),
                 clientOptions.getUsername(), true);
+        this.checkOutCommand.setDumpLite(clientOptions.isDumpLite());
         this.clientOptions = clientOptions;
         String url = clientOptions.getUserUrl();
 

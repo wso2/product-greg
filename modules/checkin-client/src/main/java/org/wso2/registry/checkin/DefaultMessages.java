@@ -19,7 +19,7 @@ import org.wso2.carbon.registry.synchronization.SynchronizationConstants;
 import org.wso2.carbon.registry.synchronization.message.MessageCode;
 
 public class DefaultMessages {
-    
+
     // the information messages
     public static final String HELP_MSG =
             "usage: checkin-client COMMAND URL -u USERNAME -p PASSWORD [OPTION(S)]\n" +
@@ -86,7 +86,7 @@ public class DefaultMessages {
 
     public static final String TRANSMIT_SUCCESS_MSG = UserInteractor.PARAMETER_PLACE_HOLDER +
             " item(s) transmitted successfully.";
-    
+
     public static final String UPDATED_SUCCESS_MSG = UserInteractor.PARAMETER_PLACE_HOLDER +
             " file(s) updated successfully. (Marked as 'U')";
 
@@ -110,7 +110,7 @@ public class DefaultMessages {
     public static final String NO_FILES_UPDATED_MSG = "No files were updated";
 
     public static final String NO_FILES_CONFLICTED_MSG = "No files were conflicting";
-    
+
     public static final String NO_FILES_DELETED_MSG = "No files were deleted";
 
     public static final String ADDED_MSG =  "A" + "\t" + UserInteractor.PARAMETER_PLACE_HOLDER;
@@ -135,7 +135,7 @@ public class DefaultMessages {
 
     public static final String PASSWORD_MISSING_MSG = "The password of the registry login is missing, " +
             "Provide the password just after the --password or -p option\n" + HELP_MSG;
-    
+
     public static final String WORKING_DIR_MISSING_MSG = "The option value for the location is missing, " +
             "Provide the working directory or file to check-in, just after the --location or -l option. " +
             "If you don't specify a path it will be default to the current directory.\n" + HELP_MSG;
@@ -143,7 +143,7 @@ public class DefaultMessages {
     public static final String REGISTRY_TYPE_MISSING_MSG = "The option value for the type is missing, " +
             "Provide the registry type to be used, just after the --type or -t option. " +
             "If you don't specify a path it will be default to the atom.\n" + HELP_MSG;
-    
+
     public static final String WRONG_WORKING_DIR_MSG = "You should provide a directory as " +
             "the working directory. (You have given a file)" +
             "Aborting the operation.\n" + HELP_MSG;
@@ -159,7 +159,7 @@ public class DefaultMessages {
 
     public static final String RESTORE_URL_NOT_PROVIDED_MSG = "Provide a URL on where to restore the content";
 
-    public static final String ERROR_IN_RESTORING_MSG =  "Error in restoring the path. " + 
+    public static final String ERROR_IN_RESTORING_MSG =  "Error in restoring the path. " +
                             "Make sure the registry is up and running Or the username, password is correct! " +
                             "and check the user have the WRITE permission to the path.";
 
@@ -251,7 +251,7 @@ public class DefaultMessages {
     public static final String USER_REGISTRY_FAILED_MSG = "Error in getting the user registry.";
 
     public static final String ERROR_ENCODING_RESOURCE_NAME_MSG = "Error in encoding the resource path." ;
-    
+
     public static final String ERROR_DECODING_PATH_MSG = "Error in decoding the file path.";
 
     public static final String ERROR_IN_DELETING_MSG = "Failed to delete the file/directory " +
@@ -304,6 +304,8 @@ public class DefaultMessages {
 
     public static final String KEEP_DELETED_FILE_MSG = "The file '" + UserInteractor.PARAMETER_PLACE_HOLDER + "'" +
             " is deleted in your local file system. But still exists on the server. Do you want to keep it deleted?";
+
+    public static final String RESOURCE_ALREADY_UNDER_REGISTRY_CONTROL_MSG = "The resource/collection is already under version control.";
 
     public static String getMessageFromCode(MessageCode messageCode) {
         switch(messageCode) {
@@ -475,6 +477,8 @@ public class DefaultMessages {
                 return NON_OVERWRITTEN_FINAL_MSG;
             case KEEP_DELETED_FILE:
                 return KEEP_DELETED_FILE_MSG;
+            case RESOURCE_ALREADY_UNDER_REGISTRY_CONTROL:
+                return RESOURCE_ALREADY_UNDER_REGISTRY_CONTROL_MSG;
             default:
                 return null;
         }

@@ -165,20 +165,20 @@ public class BasicTest extends BaseTestCase {
         r1.setContent("r1 content");
         r1.setProperty("xxxx", "asdfjaksjdf");
         r1.setProperty("asdjf;k", "asdfjskfjsf");
-        registry.put(MYROOT + "/bingbingpeee", r1);
+        registry.put(MYROOT + "/bingbingpeee3", r1);
 
-        registry.addComment(MYROOT + "/bingbingpeee", new Comment("comasdfj asf;kajsdf asdf"));
-        registry.addComment(MYROOT + "/bingbingpeee", new Comment("aj;lfdkjaskf asjdf;kajsdf;k"));
+        registry.addComment(MYROOT + "/bingbingpeee3", new Comment("comasdfj asf;kajsdf asdf"));
+        registry.addComment(MYROOT + "/bingbingpeee3", new Comment("aj;lfdkjaskf asjdf;kajsdf;k"));
 
-        registry.rateResource(MYROOT + "/bingbingpeee", 3);
-        registry.applyTag(MYROOT + "/bingbingpeee", "abcdasfslapqdejf");
-        registry.applyTag(MYROOT + "/bingbingpeee", "pisfsdfosdfasdk");
+        registry.rateResource(MYROOT + "/bingbingpeee3", 3);
+        registry.applyTag(MYROOT + "/bingbingpeee3", "abcdasfslapqdejf");
+        registry.applyTag(MYROOT + "/bingbingpeee3", "pisfsdfosdfasdk");
 
         Resource r2 = registry.newResource();
         r2.setContent("tare;akjfs;dkfajklfj;akfd sj;lkajs fd;klajsk;dlfj a;dfj");
         registry.put(MYROOT + "/hohohooooo", r2);
 
-        registry.addAssociation(MYROOT + "/bingbingpeee", MYROOT + "/hohohooooo", "peek");
+        registry.addAssociation(MYROOT + "/bingbingpeee3", MYROOT + "/hohohooooo", "peek");
 
 
         // now we will get the checkout
@@ -192,7 +192,7 @@ public class BasicTest extends BaseTestCase {
 
         // update the r1
         r1.setContent("r1 content2");
-        registry.put(MYROOT + "/bingbingpeee", r1);
+        registry.put(MYROOT + "/bingbingpeee3", r1);
 
         clientOptions.setUserUrl((RR_URL == null ? "" : RR_URL) + MYROOT);
         Update update = new Update(clientOptions);
@@ -225,7 +225,7 @@ public class BasicTest extends BaseTestCase {
         assertEquals(0, update.getUpdatedCount());
 
         // we will do a put without doing any update, and check whether the update is on;
-        registry.put(MYROOT + "/bingbingpeee", r1);
+        registry.put(MYROOT + "/bingbingpeee3", r1);
         update = new Update(clientOptions);
         update.execute(registry);
         assertEquals(0, update.getAddedCount());
@@ -236,16 +236,16 @@ public class BasicTest extends BaseTestCase {
 
         // now we change comments, ratings, tags and associations
 
-        registry.addComment(MYROOT + "/bingbingpeee", new Comment("asdfj ;dsfj dalala dalaa lsuwersf"));
+        registry.addComment(MYROOT + "/bingbingpeee3", new Comment("asdfj ;dsfj dalala dalaa lsuwersf"));
 
-        registry.rateResource(MYROOT + "/bingbingpeee", 4);
-        registry.applyTag(MYROOT + "/bingbingpeee", "hmhmhmpee");
+        registry.rateResource(MYROOT + "/bingbingpeee3", 4);
+        registry.applyTag(MYROOT + "/bingbingpeee3", "hmhmhmpee");
 
         Resource r6 = registry.newResource();
         r2.setContent("much asfd; mudghaf ;jks;df");
         registry.put(MYROOT + "/kingkingkoo", r6);
 
-        registry.addAssociation(MYROOT + "/bingbingpeee", MYROOT + "/kingkingkoo", "asdfbough");
+        registry.addAssociation(MYROOT + "/bingbingpeee3", MYROOT + "/kingkingkoo", "asdfbough");
 
         update = new Update(clientOptions);
         update.execute(registry);
@@ -266,13 +266,13 @@ public class BasicTest extends BaseTestCase {
         new Checkin(clientOptions).execute(registry);
 
         // checking them back
-        Resource r3 = registry.get(MYROOT + "/bingbingpeee");
+        Resource r3 = registry.get(MYROOT + "/bingbingpeee3");
         assertEquals("asdfjaksjdf", r3.getProperty("xxxx"));
         assertEquals("asdfjskfjsf", r3.getProperty("asdjf;k"));
 
-        assertEquals(4, registry.getRating(MYROOT + "/bingbingpeee", "admin"));
+        assertEquals(4, registry.getRating(MYROOT + "/bingbingpeee3", "admin"));
 
-        Comment[] comments = registry.getComments(MYROOT + "/bingbingpeee");
+        Comment[] comments = registry.getComments(MYROOT + "/bingbingpeee3");
         assertTrue("The commments are not checkedin correctly",
                 (comments[0].getText().equals("comasdfj asf;kajsdf asdf") &&
                         comments[1].getText().equals("aj;lfdkjaskf asjdf;kajsdf;k") &&
@@ -285,7 +285,7 @@ public class BasicTest extends BaseTestCase {
                                 comments[0].getText().equals("asdfj ;dsfj dalala dalaa lsuwersf")));
 
         // tags
-        Tag[] tags = registry.getTags(MYROOT + "/bingbingpeee");
+        Tag[] tags = registry.getTags(MYROOT + "/bingbingpeee3");
         assertTrue("The tags has not ben checkedin correctly",
                 (tags[0].getTagName().equals("abcdasfslapqdejf") &&
                         tags[1].getTagName().equals("pisfsdfosdfasdk") &&
@@ -297,14 +297,14 @@ public class BasicTest extends BaseTestCase {
                                 tags[2].getTagName().equals("pisfsdfosdfasdk") &&
                                 tags[0].getTagName().equals("hmhmhmpee")));
 
-        Association[] assocs = registry.getAssociations(MYROOT + "/bingbingpeee", "peek");
+        Association[] assocs = registry.getAssociations(MYROOT + "/bingbingpeee3", "peek");
         assertEquals(assocs[0].getAssociationType(), "peek");
-        assertEquals(assocs[0].getSourcePath(), MYROOT + "/bingbingpeee");
+        assertEquals(assocs[0].getSourcePath(), MYROOT + "/bingbingpeee3");
         assertEquals(assocs[0].getDestinationPath(), MYROOT + "/hohohooooo");
 
-        assocs = registry.getAssociations(MYROOT + "/bingbingpeee", "asdfbough");
+        assocs = registry.getAssociations(MYROOT + "/bingbingpeee3", "asdfbough");
         assertEquals(assocs[0].getAssociationType(), "asdfbough");
-        assertEquals(assocs[0].getSourcePath(), MYROOT + "/bingbingpeee");
+        assertEquals(assocs[0].getSourcePath(), MYROOT + "/bingbingpeee3");
         assertEquals(assocs[0].getDestinationPath(), MYROOT + "/kingkingkoo");
 
         // so that has worked, now we gonna delete what we checkined extra
@@ -1447,6 +1447,54 @@ public class BasicTest extends BaseTestCase {
 
         file1 = new File(MYCO + "/mydir1/r1");
         assertTrue("checkouted file should be deleted", !file1.exists());
+
+        deleteDir(new File(MYCO));
+        cleanRegistry();
+    }
+
+    public void testAddSameArtifact() throws Exception {
+        ClientOptions clientOptions = new ClientOptions();
+        clientOptions.setUserInteractor(new DefaultUserInteractor());
+        clientOptions.setTesting(true);
+
+        Resource r1 = registry.newCollection();
+        registry.put(MYROOT + "/erandy", r1);
+
+        // now we will get the checkout
+        clientOptions.setUserUrl((RR_URL == null ? "" : RR_URL) + MYROOT);
+        clientOptions.setUsername(RegistryConstants.ADMIN_USER);
+        clientOptions.setPassword(RegistryConstants.ADMIN_PASSWORD);
+        clientOptions.setWorkingLocation(MYCO);
+        new File(MYCO).mkdirs();
+
+        // after setting the option we will get the checkout
+        new Checkout(clientOptions).execute(registry);
+
+        File f = new File(MYCO + "/erandy");
+        assertTrue("File does not exists", f.exists());
+
+        File textFile = new File(MYCO + "/erandy/resource12.txt");
+        textFile.createNewFile();
+        FileWriter fileWriter = new FileWriter(textFile);
+        fileWriter.append("This is the content");
+        fileWriter.flush();
+
+        clientOptions = new ClientOptions();
+        clientOptions.setUserInteractor(new DefaultUserInteractor());
+        clientOptions.setTesting(true);
+        clientOptions.setTargetResource(MYCO + "/erandy/resource12.txt");
+        Add add = new Add(clientOptions);
+        add.execute();
+
+        clientOptions = new ClientOptions();
+        clientOptions.setUserInteractor(new DefaultUserInteractor());
+        clientOptions.setTesting(true);
+        clientOptions.setTargetResource(MYCO + "/erandy/resource12.txt");
+        Add add2 = new Add(clientOptions);
+        try {
+            add2.execute();
+            fail("Expect an exception when adding a resource which already under version control");
+        }  catch (Exception e) {}
 
         deleteDir(new File(MYCO));
         cleanRegistry();
