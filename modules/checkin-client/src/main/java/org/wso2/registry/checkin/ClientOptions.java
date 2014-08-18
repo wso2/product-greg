@@ -42,6 +42,7 @@ public class ClientOptions {
     private String targetResource = null;
     private Map<String, String> properties = new HashMap<String, String>();
     private Set<String> deletedProperties = new HashSet<String>();
+    private boolean dumpLite = false;
 
     public boolean isInteractive() {
         return interactive;
@@ -153,5 +154,13 @@ public class ClientOptions {
 
     public void setTargetResource(String targetResource) {
         this.targetResource = targetResource;
+    }
+
+    public boolean isDumpLite() {
+        return dumpLite;
+    }
+
+    public void setDumpLite(boolean dumpLite) {
+        this.dumpLite = dumpLite;
     }
 }
