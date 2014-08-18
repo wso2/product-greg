@@ -55,6 +55,7 @@ public class Update {
         this.updateCommand = new UpdateCommand(clientOptions.getOutputFile(),
                 clientOptions.getWorkingLocation(), clientOptions.getUserUrl(),
                 false, clientOptions.getUsername(), true);
+        this.updateCommand.setDumpLite(clientOptions.isDumpLite());
         this.clientOptions = clientOptions;
         String url = clientOptions.getUserUrl();
         String startingDir =  clientOptions.getWorkingLocation();
