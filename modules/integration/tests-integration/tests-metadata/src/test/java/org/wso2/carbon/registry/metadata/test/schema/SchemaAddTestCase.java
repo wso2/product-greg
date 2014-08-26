@@ -193,7 +193,6 @@ public class SchemaAddTestCase extends GREGIntegrationBaseTest {
 
     }
 
-
     @AfterClass(groups = {"wso2.greg"}, alwaysRun = true)
     public void deleteResources() throws ResourceAdminServiceExceptionException, RemoteException, RegistryException {
 

@@ -287,6 +287,8 @@
                                 <featureArtifactDef>
                                     org.wso2.carbon:org.wso2.carbon.social.feature:${carbon.social.version}
                                 </featureArtifactDef>
+                                <featureArtifactDef>org.jaggeryjs:org.jaggeryjs.server.feature:${jaggery.version}
+                                </featureArtifactDef>
 
                                 <!--Single Sign on Feature list -->
                                 <featureArtifactDef>
@@ -298,6 +300,9 @@
                                 <feaureArtifactDef>
                                     org.wso2.carbon:org.wso2.carbon.identity.sso.saml.feature:${carbon.platform.version}
                                 </feaureArtifactDef>
+				<featureArtifactDef>
+                                    org.wso2.carbon:org.wso2.carbon.identity.application.mgt.feature:${carbon.platform.version}
+                                </featureArtifactDef>
 
                                 <!--Monitoring feature list -->
                                 <featureArtifactDef>
@@ -876,6 +881,10 @@
                                     <id>org.wso2.es.feature.group</id>
                                     <version>${es.feature.version}</version>
                                 </feature>
+                                <feature>
+                                    <id>org.jaggeryjs.server.feature.group</id>
+                                    <version>${jaggery.version}</version>
+                                </feature>
 
                                 <!-- Misc features -->
                                 <feature>
@@ -1111,6 +1120,10 @@
                                 </feature>
                                 <feature>
                                     <id>org.wso2.carbon.identity.sso.saml.feature.group</id>
+                                    <version>${carbon.platform.version}</version>
+                                </feature>
+				<feature>
+                                    <id>org.wso2.carbon.identity.application.mgt.feature.group</id>
                                     <version>${carbon.platform.version}</version>
                                 </feature>
 

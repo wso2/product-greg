@@ -57,7 +57,6 @@ public class Add {
         }
 
         String registryPath = parentRegistryPath + File.separator + file.getName();
-        System.out.println("A " + path);
         String metaFilePath;
         if(file.isDirectory()){
             metaFilePath = path + File.separator + SynchronizationConstants.META_DIRECTORY +
@@ -84,6 +83,7 @@ public class Add {
                             SynchronizationConstants.META_FILE_EXTENSION;
             addMetadata(metaFilePath, file.getName(), false, registryPath, root);
         }
+        System.out.println("A " + path);
     }
 
     private void addMetadata(String metaFilePath, String fileName, boolean isCollection, String registryPath, boolean root)
