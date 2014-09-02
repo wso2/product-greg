@@ -300,6 +300,9 @@
                                 <feaureArtifactDef>
                                     org.wso2.carbon:org.wso2.carbon.identity.sso.saml.feature:${carbon.platform.version}
                                 </feaureArtifactDef>
+				<featureArtifactDef>
+                                    org.wso2.carbon:org.wso2.carbon.identity.application.mgt.feature:${carbon.platform.version}
+                                </featureArtifactDef>
 
                                 <!--Monitoring feature list -->
                                 <featureArtifactDef>
@@ -1117,6 +1120,10 @@
                                 </feature>
                                 <feature>
                                     <id>org.wso2.carbon.identity.sso.saml.feature.group</id>
+                                    <version>${carbon.platform.version}</version>
+                                </feature>
+				<feature>
+                                    <id>org.wso2.carbon.identity.application.mgt.feature.group</id>
                                     <version>${carbon.platform.version}</version>
                                 </feature>
 
