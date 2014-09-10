@@ -17,9 +17,11 @@
 
     <modules>
         <module>tests-common/admin-clients</module>
+        <module>tests-common/ui-pages</module>
         <module>tests-common/integration-test-utils</module>
         <module>tests-common/test-artifacts</module>
         <module>tests-integration</module>
+        <module>tests-ui-integration</module>
     </modules>
 
   <build>
