@@ -264,7 +264,7 @@ public class Client
         if( null != clientOptions.getUserUrl() && clientOptions.getUserUrl().startsWith("/")) {
             // Enforce the initialization of the CarbonContextHolder if it's run from local registry. This
             // will make it possible to do required initializations for Multi-Tenant JNDI and caching.
-            CarbonContext.getCurrentContext();
+            CarbonContext.getThreadLocalCarbonContext();
 
         }
         // now call the checkout operation.
