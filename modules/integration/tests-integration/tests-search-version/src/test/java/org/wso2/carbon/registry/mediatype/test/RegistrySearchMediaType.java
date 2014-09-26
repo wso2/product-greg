@@ -99,8 +99,8 @@ public class RegistrySearchMediaType extends GREGIntegrationBaseTest {
                                                "application/wsdl+xml", "desc", dh);
 
 
-        assertTrue(resourceAdminServiceClient.getMetadata(
-             "/_system/governance/trunk/wsdls/com/amazon/soap/1.0.0/AmazonWebServices.wsdl").getMediaType().equals("application/wsdl+xml"));
+        assertTrue(resourceAdminServiceClient.getMetadata("/_system/governance/trunk/wsdls/com/amazon/soap/"
+                                        +"1.0.0/AmazonWebServices.wsdl").getMediaType().equals("application/wsdl+xml"));
 
 
     }
@@ -137,7 +137,7 @@ public class RegistrySearchMediaType extends GREGIntegrationBaseTest {
     public void searchSchemaSymLinkMediaType()
             throws RemoteException, MalformedURLException, ResourceAdminServiceExceptionException {
         resourceAdminServiceClient.addSymbolicLink("/", "library.xsd",
-                                                     "/_system/governance/trunk/schemas/com/example/www/library/1.0.0/library.xsd");
+                         "/_system/governance/trunk/schemas/com/example/www/library/1.0.0/library.xsd");
         assertTrue(resourceAdminServiceClient.getMetadata("/library.xsd").getMediaType().equals("application/x-xsd+xml"));
 
     }
