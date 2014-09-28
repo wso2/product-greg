@@ -261,12 +261,13 @@ public class Carbon10714TestCase extends GREGIntegrationBaseTest {
     public void testPromotedServices() throws RegistryException, RemoteException,
             LifeCycleManagementServiceExceptionException,
             CustomLifecyclesChecklistAdminServiceExceptionException, XMLStreamException {
-
-        String content = "<serviceMetaData xmlns=\"http://www.wso2.org/governance/metadata\">" +
-                "<overview><name>" + "serviceForPromotingNew1" + "</name><namespace>" +
-                "http://service.delete.branch/mnm/beep" + "</namespace><version>1.0.0-SNAPSHOT</version></overview>" +
-                "</serviceMetaData>";
-        org.apache.axiom.om.OMElement XMLContent = AXIOMUtil.stringToOM(content);
+        StringBuilder builder = new StringBuilder();
+        builder.append("<serviceMetaData xmlns=\"http://www.wso2.org/governance/metadata\">");
+        builder.append("<overview><name>serviceForPromotingNew1</name>");
+        builder.append("<namespace>http://service.delete.branch/mnm/beep</namespace>");
+        builder.append("<version>1.0.0-SNAPSHOT</version></overview>");
+        builder.append("</serviceMetaData>");
+        org.apache.axiom.om.OMElement XMLContent = AXIOMUtil.stringToOM(builder.toString());
         serviceForPromoting = serviceManager.newService(XMLContent);
         serviceManager.addService(serviceForPromoting);
         String servicePathDev = "/_system/governance" + serviceForPromoting.getPath();
