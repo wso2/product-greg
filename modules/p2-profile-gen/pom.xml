@@ -279,6 +279,9 @@
                                 </featureArtifactDef>
 				<featureArtifactDef>org.wso2.store.modules:rxt.feature:${es.feature.version}
                                 </featureArtifactDef>
+                                <featureArtifactDef>
+                                    org.wso2.store.modules:lifecycle.feature:${es.feature.version}
+                                </featureArtifactDef>
                                  <featureArtifactDef>org.wso2.store.modules:utils.feature:${es.feature.version}
                                 </featureArtifactDef>
                                 <featureArtifactDef>
