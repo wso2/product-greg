@@ -75,7 +75,7 @@ public class BaseTestCase extends TestCase  {
         }
 
         // The line below is responsible for initializing the cache.
-        CarbonContext.getCurrentContext();
+        CarbonContext.getThreadLocalCarbonContext();
         PrivilegedCarbonContext.getThreadLocalCarbonContext().setTenantDomain("foo.com");
         PrivilegedCarbonContext.getThreadLocalCarbonContext().setTenantId(1);
 
