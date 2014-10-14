@@ -82,10 +82,6 @@ public class AtomFeedPermissionTestCase extends GREGIntegrationBaseTest{
 
         userManagementClient = new UserManagementClient(backendURL, sessionCookie);
 
-      //  userManagementClient.updateUserListOfRole(FrameworkConstants.ADMIN_ROLE, null,
-      //          ROLE_USERS); //remote user from admin role
-
-
         userManagementClient.updateUserListOfRole(ROLE_NAME, null,
                 ROLE_USERS);
 
@@ -213,13 +209,6 @@ public class AtomFeedPermissionTestCase extends GREGIntegrationBaseTest{
     @AfterClass
     public void cleanup() throws Exception {
         userManagementClient.deleteRole(ROLE_NAME);
-
-        //
-//        if (!userManagementClient.roleNameExists(PermissionTestConstants.NON_ADMIN_TEST_ROLE)) {
-//            userManagementClient.addRole(PermissionTestConstants.NON_ADMIN_TEST_ROLE,null,PERMISSION_LIST);
-//        }
-
-        //userManagementClient.updateUserListOfRole(PermissionTestConstants.NON_ADMIN_TEST_ROLE, ROLE_USERS, new String[]{});
         registryAdmin.delete(resourcePath);
 
         registry = null;
