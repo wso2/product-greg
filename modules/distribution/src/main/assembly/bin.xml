@@ -357,14 +357,14 @@
             <directory>../p2-profile-gen/target/wso2carbon-core-${carbon.platform.version}/repository/deployment/server/jaggeryapps/greg-impact</directory>
             <outputDirectory>${pom.artifactId}-${pom.version}/repository/deployment/server/jaggeryapps/greg-impact</outputDirectory>
         </fileSet>
-        <fileSet>
+        <!--fileSet>
             <directory>../p2-profile-gen/target/wso2carbon-core-${carbon.platform.version}/repository/deployment/server/jaggeryapps/greg-publisher</directory>
             <outputDirectory>${pom.artifactId}-${pom.version}/repository/deployment/server/jaggeryapps/greg-publisher</outputDirectory>
         </fileSet>
         <fileSet>
             <directory>../p2-profile-gen/target/wso2carbon-core-${carbon.platform.version}/repository/deployment/server/jaggeryapps/greg-publisher/resource</directory>
             <outputDirectory>${pom.artifactId}-${pom.version}/repository/resources/rxts</outputDirectory>
-        </fileSet>
+        </fileSet-->
 
         <!-- Add APIM toolbox -->
         <fileSet>
@@ -696,9 +696,27 @@
             <fileMode>644</fileMode>
         </file>
         <file>
+            <source>../p2-profile-gen/target/wso2carbon-core-${carbon.platform.version}/repository/conf/datasources/bps-datasources.xml</source>
+            <outputDirectory>${pom.artifactId}-${build.version}/repository/conf/datasources/</outputDirectory>
+            <filtered>true</filtered>
+            <fileMode>644</fileMode>
+        </file>
+        <file>
+            <source>../p2-profile-gen/target/wso2carbon-core-${carbon.platform.version}/repository/conf/humantask.xml</source>
+            <outputDirectory>${pom.artifactId}-${build.version}/repository/conf/</outputDirectory>
+            <filtered>true</filtered>
+            <fileMode>644</fileMode>
+        </file>
+	<!--file>
+            <source>../p2-profile-gen/target/wso2carbon-core-${carbon.platform.version}/repository/conf/etc/cassandra-environments.xml</source>
+            <outputDirectory>${pom.artifactId}-${build.version}/repository/conf/etc/</outputDirectory>
+            <filtered>true</filtered>
+            <fileMode>644</fileMode>
+        </file-->
+        <!--file>
             <source>../p2-profile-gen/target/wso2carbon-core-${carbon.platform.version}/repository/conf/etc/logging-config.xml</source>
             <outputDirectory>${pom.artifactId}-${pom.version}/repository/conf/etc</outputDirectory>
-        </file>
+        </file-->
         <!--API Publisher Customization-->
         <file>
             <source>../p2-profile-gen/target/wso2carbon-core-${carbon.platform.version}/repository/deployment/server/jaggeryapps/publisher/publisherLogo/logo.png</source>
