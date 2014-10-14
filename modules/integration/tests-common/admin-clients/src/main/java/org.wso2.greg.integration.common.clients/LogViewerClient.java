@@ -82,12 +82,12 @@ public class LogViewerClient {
         }
     }
 
-    public LogEvent[] getAllSystemLogs() throws RemoteException {
+    public LogEvent[] getAllSystemLogs() throws RemoteException, LogViewerLogViewerException {
         try {
             return logViewerStub.getAllSystemLogs();
-        } catch (RemoteException e) {
+        } catch (LogViewerLogViewerException e) {
             log.error("Fail to get all logs ", e);
-            throw new RemoteException("Fail to get all system logs ", e);
+            throw new LogViewerLogViewerException("Fail to get all system logs ", e);
         }
     }
 
