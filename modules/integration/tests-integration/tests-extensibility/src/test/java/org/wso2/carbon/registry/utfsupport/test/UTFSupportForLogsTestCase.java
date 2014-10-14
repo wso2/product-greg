@@ -43,13 +43,13 @@ public class UTFSupportForLogsTestCase extends GREGIntegrationBaseTest {
         wsRegistryServiceClient = registryProviderUtil.getWSRegistry(automationContext);
         logViewerClient =
                 new LogViewerClient(backEndUrl,
-                                    sessionCookie);
+                        sessionCookie);
         userManagementClient =
                 new UserManagementClient(backEndUrl,
-                                         sessionCookie);
+                        sessionCookie);
         resourceAdminServiceClient =
                 new ResourceAdminServiceClient(backEndUrl,
-                                               sessionCookie);
+                        sessionCookie);
 
     }
 
@@ -65,10 +65,10 @@ public class UTFSupportForLogsTestCase extends GREGIntegrationBaseTest {
 
         String[] roles = {"testRole123"};
         String[] permissions = {"/permission/admin/configure/",
-                                "/permission/admin/login",
-                                "/permission/admin/manage/",
-                                "/permission/admin/monitor",
-                                "/permission/protected"};
+                "/permission/admin/login",
+                "/permission/admin/manage/",
+                "/permission/admin/monitor",
+                "/permission/protected"};
 
         if (!userManagementClient.userNameExists(roles[0], utfString)) {
             if (!userManagementClient.roleNameExists(roles[0])) {
@@ -86,26 +86,20 @@ public class UTFSupportForLogsTestCase extends GREGIntegrationBaseTest {
 
         AuthenticatorClient loginClient = new AuthenticatorClient(backEndUrl);
         String sessionCookie = loginClient.login(utfString, "abcdef2",
-                                                 automationContext.getInstance().getHosts().get("default"));
+                automationContext.getInstance().getHosts().get("default"));
         //create collection with new user
         resourceAdminServiceClient =
                 new ResourceAdminServiceClient(backEndUrl,
-                                               sessionCookie);
+                        sessionCookie);
 
         resourceAdminServiceClient.addCollection("/", "test_collection_2", "other", "desc");
 
         //search logs
         Thread.sleep(1000);
         logViewerClient = new LogViewerClient(backEndUrl,
-                                              sessionCookie);
-
-
-
-
+                sessionCookie);
         boolean status = false;
-
-      LogEvent[] logEvents = logViewerClient.getLogs("INFO", utfString, "", "");
-
+        LogEvent[] logEvents = logViewerClient.getLogs("INFO", utfString, "", "");
         if (logEvents != null) {
             for (LogEvent event : logEvents) {
                 if (event.getMessage().contains(utfString)) {
@@ -115,16 +109,13 @@ public class UTFSupportForLogsTestCase extends GREGIntegrationBaseTest {
             }
         }
         Assert.assertTrue(status, "User name not found in the system logs");
-
-
-
     }
 
     @AfterClass(alwaysRun = true)
     public void clean() throws Exception {
         delete("/test_collection_2");
         userManagementClient = new UserManagementClient(backEndUrl,
-                                                        sessionCookie);
+                sessionCookie);
         userManagementClient.deleteUser(utfString);
 
         utfString = null;

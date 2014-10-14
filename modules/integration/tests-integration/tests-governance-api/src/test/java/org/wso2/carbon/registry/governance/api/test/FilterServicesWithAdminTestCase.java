@@ -16,6 +16,7 @@
 
 package org.wso2.carbon.registry.governance.api.test;
 
+import org.apache.axiom.om.util.AXIOMUtil;
 import org.testng.Assert;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
@@ -39,9 +40,10 @@ import org.wso2.greg.integration.common.utils.GREGIntegrationBaseTest;
 import org.wso2.greg.integration.common.utils.RegistryProviderUtil;
 
 import javax.xml.namespace.QName;
+import javax.xml.stream.XMLStreamException;
 import java.rmi.RemoteException;
 
-public class FilterServicesWithAdminTestCase extends GREGIntegrationBaseTest{
+public class FilterServicesWithAdminTestCase extends GREGIntegrationBaseTest {
     private static final String SERVICE_LIFE_CYCLE = "ServiceLifeCycle";
     private final static String WSDL_URL =
             "https://svn.wso2.org/repos/wso2/carbon/platform/trunk/products/greg/modules/integration/registry/tests-new/" +
@@ -161,7 +163,7 @@ public class FilterServicesWithAdminTestCase extends GREGIntegrationBaseTest{
      */
     @Test(groups = {"wso2.greg"}, description = "Filter Services")
     public void testFilterServices() throws RegistryException {
-        GovernanceUtils.loadGovernanceArtifacts((UserRegistry)governance);
+        GovernanceUtils.loadGovernanceArtifacts((UserRegistry) governance);
         Service searchResult = serviceManager.findServices(new ServiceFilter() {
 
             public boolean matches(Service service) throws GovernanceException {
@@ -171,7 +173,7 @@ public class FilterServicesWithAdminTestCase extends GREGIntegrationBaseTest{
         })[0];
 
         Assert.assertEquals(searchResult.getAttribute("overview_name"), "serviceForSearching1",
-                            "overview_name should be serviceForSearching1");
+                "overview_name should be serviceForSearching1");
     }
 
     /**
@@ -184,7 +186,7 @@ public class FilterServicesWithAdminTestCase extends GREGIntegrationBaseTest{
      */
     @Test(groups = {"wso2.greg"}, description = "Filter Services", dependsOnMethods = "testFilterServices")
     public void testAdvFilterServices() throws RegistryException {
-        GovernanceUtils.loadGovernanceArtifacts((UserRegistry)governance);
+        GovernanceUtils.loadGovernanceArtifacts((UserRegistry) governance);
         Service searchResult = serviceManager.findServices(new ServiceFilter() {
 
             public boolean matches(Service service) throws GovernanceException {
@@ -200,16 +202,16 @@ public class FilterServicesWithAdminTestCase extends GREGIntegrationBaseTest{
                 String attributeVal10 = service.getAttribute("security_messageIntegrity");
                 String attributeVal11 = service.getAttribute("security_messageEncryption");
                 return attributeVal1 != null && attributeVal1.startsWith("serviceForSearching4") &&
-                       attributeVal2 != null && attributeVal2.startsWith("5.1.0") &&
-                       attributeVal3 != null && attributeVal3.startsWith("Test") &&
-                       attributeVal4 != null && attributeVal4.startsWith(WSDL_URL) &&
-                       attributeVal5 != null && attributeVal5.startsWith("test") &&
-                       attributeVal6 != null && attributeVal6.startsWith("SOAP 1.2") &&
-                       attributeVal7 != null && attributeVal7.startsWith("Request Response") &&
-                       attributeVal8 != null && attributeVal8.startsWith("XTS-WS TRUST") &&
-                       attributeVal9 != null && attributeVal9.startsWith("InfoCard") &&
-                       attributeVal10 != null && attributeVal10.startsWith("WS-Security") &&
-                       attributeVal11 != null && attributeVal11.startsWith("WS-Security");
+                        attributeVal2 != null && attributeVal2.startsWith("5.1.0") &&
+                        attributeVal3 != null && attributeVal3.startsWith("Test") &&
+                        attributeVal4 != null && attributeVal4.startsWith(WSDL_URL) &&
+                        attributeVal5 != null && attributeVal5.startsWith("test") &&
+                        attributeVal6 != null && attributeVal6.startsWith("SOAP 1.2") &&
+                        attributeVal7 != null && attributeVal7.startsWith("Request Response") &&
+                        attributeVal8 != null && attributeVal8.startsWith("XTS-WS TRUST") &&
+                        attributeVal9 != null && attributeVal9.startsWith("InfoCard") &&
+                        attributeVal10 != null && attributeVal10.startsWith("WS-Security") &&
+                        attributeVal11 != null && attributeVal11.startsWith("WS-Security");
             }
         })[0];
 
@@ -220,11 +222,11 @@ public class FilterServicesWithAdminTestCase extends GREGIntegrationBaseTest{
         Assert.assertEquals(searchResult.getAttribute("docLinks_documentType"), "test");
         Assert.assertEquals(searchResult.getAttribute("interface_messageFormats"), "SOAP 1.2");
         Assert.assertEquals(searchResult.getAttribute("interface_messageExchangePatterns"),
-                            "Request Response");
+                "Request Response");
         Assert.assertEquals(searchResult.getAttribute("security_authenticationPlatform"),
-                            "XTS-WS TRUST");
+                "XTS-WS TRUST");
         Assert.assertEquals(searchResult.getAttribute("security_authenticationMechanism"),
-                            "InfoCard");
+                "InfoCard");
         Assert.assertEquals(searchResult.getAttribute("security_messageIntegrity"), "WS-Security");
         Assert.assertEquals(searchResult.getAttribute("security_messageEncryption"), "WS-Security");
     }
@@ -235,7 +237,7 @@ public class FilterServicesWithAdminTestCase extends GREGIntegrationBaseTest{
      */
     @Test(groups = {"wso2.greg"}, description = "Filter Edited Services", dependsOnMethods = "testAdvFilterServices")
     public void testFilterEditedServices() throws RegistryException {
-        GovernanceUtils.loadGovernanceArtifacts((UserRegistry)governance);
+        GovernanceUtils.loadGovernanceArtifacts((UserRegistry) governance);
         serviceForSearching2.addAttribute("test-att", "test-val");
         serviceManager.updateService(serviceForSearching2);
         Service[] searchResult = serviceManager.findServices(new ServiceFilter() {
@@ -269,12 +271,20 @@ public class FilterServicesWithAdminTestCase extends GREGIntegrationBaseTest{
      */
     @Test(groups = {"wso2.greg"}, description = "Filter Promoted Services", dependsOnMethods = "testFilterEditedServices")
     public void testFilterPromotedServices() throws GovernanceException, RemoteException,
-                                                    LifeCycleManagementServiceExceptionException,
-                                                    CustomLifecyclesChecklistAdminServiceExceptionException {
+            LifeCycleManagementServiceExceptionException,
+            CustomLifecyclesChecklistAdminServiceExceptionException, XMLStreamException {
+        StringBuilder stringBuilder = new StringBuilder();
+        stringBuilder.append("<serviceMetaData xmlns=\"http://www.wso2.org/governance/metadata\">");
+        stringBuilder.append("<overview><name>");
+        stringBuilder.append("serviceForPromoting");
+        stringBuilder.append("</name><namespace>");
+        stringBuilder.append("http://service.delete.branch/mnm/beep");
+        stringBuilder.append("</namespace><version>1.0.0-SNAPSHOT</version></overview>");
+        stringBuilder.append("</serviceMetaData>");
+        String content = stringBuilder.toString();
+        org.apache.axiom.om.OMElement XMLContent = AXIOMUtil.stringToOM(content);
         serviceForPromoting =
-                serviceManager.newService(new QName(
-                        "http://service.delete.branch/mnm/beep",
-                        "serviceForPromoting"));
+                serviceManager.newService(XMLContent);
         serviceManager.addService(serviceForPromoting);
         String servicePathDev = "/_system/governance" + serviceForPromoting.getPath();
         ArrayOfString[] parameters = new ArrayOfString[2];
@@ -283,13 +293,13 @@ public class FilterServicesWithAdminTestCase extends GREGIntegrationBaseTest{
         serviceForPromoting.attachLifecycle(SERVICE_LIFE_CYCLE);
         String ACTION_PROMOTE = "Promote";
         lifeCycleAdminService.invokeAspectWithParams(servicePathDev, SERVICE_LIFE_CYCLE,
-                                                     ACTION_PROMOTE, null, parameters);
+                ACTION_PROMOTE, null, parameters);
         Service searchResult = serviceManager.findServices(new ServiceFilter() {
             public boolean matches(Service service) throws GovernanceException {
                 String attributeVal = service.getAttribute("overview_name");
                 String attributeVal2 = service.getAttribute("overview_version");
                 return attributeVal != null && attributeVal.startsWith("serviceForPromoting") &&
-                       attributeVal2.startsWith("1.0.0-SNAPSHOT");
+                        attributeVal2.startsWith("1.0.0-SNAPSHOT");
             }
         })[0];
 
@@ -298,7 +308,7 @@ public class FilterServicesWithAdminTestCase extends GREGIntegrationBaseTest{
                 String attributeVal = service.getAttribute("overview_name");
                 String attributeVal2 = service.getAttribute("overview_version");
                 return attributeVal != null && attributeVal.startsWith("serviceForPromoting") &&
-                       attributeVal2.startsWith("2.0.0");
+                        attributeVal2.startsWith("2.0.0");
             }
         })[0];
 
@@ -321,8 +331,8 @@ public class FilterServicesWithAdminTestCase extends GREGIntegrationBaseTest{
                 String attributeVal2 = service.getAttribute("overview_version");
                 String attributeVal3 = service.getAttribute("overview_name");
                 return attributeVal != null && attributeVal.startsWith("Test") &&
-                       attributeVal2.startsWith("5.0.0") &&
-                       attributeVal3 != null && attributeVal3.startsWith("serviceForSearching") ;
+                        attributeVal2.startsWith("5.0.0") &&
+                        attributeVal3 != null && attributeVal3.startsWith("serviceForSearching");
             }
         })[0];
         Assert.assertEquals(searchResult1.getAttribute("overview_name"), "serviceForSearching3", "overview name should be serviceForSearching3");
@@ -335,8 +345,8 @@ public class FilterServicesWithAdminTestCase extends GREGIntegrationBaseTest{
                 String attributeVal2 = service.getAttribute("overview_version");
                 String attributeVal3 = service.getAttribute("overview_name");
                 return attributeVal != null && attributeVal.startsWith("Test") &&
-                       attributeVal2.startsWith("5.0.0")&&
-                       attributeVal3 != null && attributeVal3.startsWith("serviceForSearching") ;
+                        attributeVal2.startsWith("5.0.0") &&
+                        attributeVal3 != null && attributeVal3.startsWith("serviceForSearching");
             }
         });
         Assert.assertEquals(searchResult2.length, 0, "Expecting 0 Search results");
@@ -392,7 +402,7 @@ public class FilterServicesWithAdminTestCase extends GREGIntegrationBaseTest{
     public void testAdvWildCardSearch() throws RemoteException,
             ResourceAdminServiceExceptionException, RegistryException {
 
-        GovernanceUtils.loadGovernanceArtifacts((UserRegistry)governance);
+        GovernanceUtils.loadGovernanceArtifacts((UserRegistry) governance);
         Service searchResult[] = serviceManager.findServices(new ServiceFilter() {
             public boolean matches(Service service) throws GovernanceException {
                 String attributeVal_name = service.getAttribute("overview_name");
