@@ -319,12 +319,12 @@
                                 <!-- End of SSO Fixes -->
 
                                 <!--Monitoring feature list -->
-                                <!--featureArtifactDef>
+                                <featureArtifactDef>
                                     org.wso2.carbon:org.wso2.carbon.logging.mgt.feature:${carbon.platform.version}
-                                </featureArtifactDef-->
-                                <!--featureArtifactDef>
+                                </featureArtifactDef>
+                                <featureArtifactDef>
                                     org.wso2.carbon:org.wso2.carbon.databridge.datapublisher.feature:${carbon.platform.version}
-                                </featureArtifactDef-->
+                                </featureArtifactDef>
                                 <featureArtifactDef>
                                     org.wso2.carbon:org.wso2.carbon.system.statistics.feature:${carbon.platform.version}
                                 </featureArtifactDef>
@@ -529,14 +529,14 @@
                                 </feature>
 
                                 <!--Monitoring Feature list -->
-                                <!--feature>
+                                <feature>
                                     <id>org.wso2.carbon.logging.mgt.feature.group</id>
                                     <version>${carbon.platform.version}</version>
-                                </feature-->
-                                <!--feature>
+                                </feature>
+                                <feature>
                                     <id>org.wso2.carbon.databridge.datapublisher.feature.group</id>
                                     <version>${carbon.platform.version}</version>
-                                </feature-->
+                                </feature>
                                 <feature>
                                     <id>org.wso2.carbon.system.statistics.feature.group</id>
                                     <version>${carbon.platform.version}</version>
@@ -985,14 +985,14 @@
                                 </feature>
 
                                 <!--Monitoring Feature list -->
-                                <!--feature>
+                                <feature>
                                     <id>org.wso2.carbon.logging.mgt.feature.group</id>
                                     <version>${carbon.platform.version}</version>
                                 </feature>
                                 <feature>
                                     <id>org.wso2.carbon.databridge.datapublisher.feature.group</id>
                                     <version>${carbon.platform.version}</version>
-                                </feature-->
+                                </feature>
                                 <feature>
                                     <id>org.wso2.carbon.system.statistics.feature.group</id>
                                     <version>${carbon.platform.version}</version>
@@ -1316,14 +1316,14 @@
                                 </feature>
 
                                 <!--Monitoring Feature list -->
-                                <!--feature>
+                                <feature>
                                     <id>org.wso2.carbon.logging.mgt.feature.group</id>
                                     <version>${carbon.platform.version}</version>
                                 </feature>
                                 <feature>
                                     <id>org.wso2.carbon.databridge.datapublisher.feature.group</id>
                                     <version>${carbon.platform.version}</version>
-                                </feature-->
+                                </feature>
                                 <feature>
                                     <id>org.wso2.carbon.system.statistics.feature.group</id>
                                     <version>${carbon.platform.version}</version>
