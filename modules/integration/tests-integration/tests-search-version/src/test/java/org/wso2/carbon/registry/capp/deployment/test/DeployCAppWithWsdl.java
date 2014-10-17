@@ -29,6 +29,7 @@ import org.wso2.carbon.automation.engine.frameworkutils.FrameworkPathUtil;
 import org.wso2.carbon.governance.api.generic.GenericArtifactManager;
 import org.wso2.carbon.governance.api.generic.dataobjects.GenericArtifact;
 import org.wso2.carbon.governance.api.util.GovernanceUtils; //
+import org.wso2.carbon.logging.view.stub.LogViewerLogViewerException;
 import org.wso2.carbon.logging.view.stub.types.carbon.LogEvent;
 import org.wso2.carbon.registry.capp.deployment.test.utils.CAppTestUtils;
 import org.wso2.carbon.registry.core.Registry;
@@ -42,9 +43,11 @@ import org.wso2.greg.integration.common.clients.LogViewerClient;
 import org.wso2.greg.integration.common.clients.ResourceAdminServiceClient;
 import org.wso2.greg.integration.common.utils.GREGIntegrationBaseTest;
 import org.wso2.greg.integration.common.utils.RegistryProviderUtil;
+
 import sun.rmi.runtime.Log;
 
 import javax.activation.DataHandler;
+
 import java.io.File;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -105,7 +108,7 @@ public class DeployCAppWithWsdl extends GREGIntegrationBaseTest {
     @Test(groups = "wso2.greg", description = "Upload CApp with wsdls")
     public void deployCAppWithWsdl()
             throws MalformedURLException, RemoteException, ApplicationAdminExceptionException,
-                   InterruptedException {
+                   InterruptedException, LogViewerLogViewerException {
 
         String resourcePath = FrameworkPathUtil.getSystemResourceLocation() + "artifacts" + File.separator +
                               "GREG" + File.separator + "car" + File.separator + "wsdl_1.0.0.car";
@@ -132,7 +135,7 @@ public class DeployCAppWithWsdl extends GREGIntegrationBaseTest {
           dependsOnMethods = "deployCAppWithWsdl")
     public void cAppWithIncorrectServerRole() throws MalformedURLException, RemoteException,
                                                      ApplicationAdminExceptionException,
-                                                     InterruptedException {
+                                                     InterruptedException, LogViewerLogViewerException {
 
         String resourcePath = FrameworkPathUtil.getSystemResourceLocation() + "artifacts" + File.separator +
                               "GREG" + File.separator + "car" + File.separator + "serverRole-incorrect_1.0.0.car";
@@ -163,7 +166,7 @@ public class DeployCAppWithWsdl extends GREGIntegrationBaseTest {
     public void deployNewCApplication() throws MalformedURLException, RemoteException,
             ApplicationAdminExceptionException,
             InterruptedException, RegistryException,
-            ResourceAdminServiceExceptionException {
+            ResourceAdminServiceExceptionException, LogViewerLogViewerException {
 
         String resourcePath = FrameworkPathUtil.getSystemResourceLocation() + "artifacts" + File.separator +
                               "GREG" + File.separator + "car" + File.separator + "wsdl-t_1.0.0.car";
