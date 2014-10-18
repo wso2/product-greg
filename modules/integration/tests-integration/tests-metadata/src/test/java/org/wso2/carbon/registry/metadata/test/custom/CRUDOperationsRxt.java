@@ -34,6 +34,7 @@ import org.wso2.carbon.authenticator.stub.LogoutAuthenticationExceptionException
 import org.wso2.carbon.automation.engine.context.TestUserMode;
 import org.wso2.carbon.automation.engine.frameworkutils.FrameworkPathUtil;
 import org.wso2.carbon.governance.api.generic.GenericArtifactManager;
+import org.wso2.carbon.governance.api.generic.dataobjects.GenericArtifact;
 import org.wso2.carbon.governance.api.util.GovernanceUtils;
 import org.wso2.carbon.integration.common.admin.client.AuthenticatorClient;
 import org.wso2.carbon.registry.core.Registry;
@@ -121,15 +122,17 @@ public class CRUDOperationsRxt extends GREGIntegrationBaseTest {
 
         OMElement omElement = client.sendReceive(AXIOMUtil.stringToOM("<ser:addPerson " +
                 "xmlns:ser=\"http://services.add.person.governance.carbon.wso2.org\"><ser:info>&lt;metadata " +
-                "xmlns=\"http://www.wso2.org/governance/metadata\">&lt;overview>" +
-                "&lt;id>person_id&lt;/id>&lt;title>Mr.&lt;/title>&lt;name>person_name&lt;/name>" +
-                "&lt;/overview>&lt;/metadata></ser:info></ser:addPerson>"));
+                "xmlns=\"http://www.wso2.org/governance/metadata\">&lt;overview>&lt;title>Mr." +
+                "&lt;/title>&lt;id>1&lt;/id>&lt;name>eranda&lt;/name>&lt;/overview>&lt;contactDetails/>" +
+                "&lt;externalLinks/>&lt;comments/>&lt;/metadata></ser:info></ser:addPerson>"));
         AXIOMXPath expression = new AXIOMXPath("//ns:return");
 
         expression.addNamespace("ns", omElement.getNamespace().getNamespaceURI());
         String artifactId = ((OMElement) expression.selectSingleNode(omElement)).getText();
         GovernanceUtils.loadGovernanceArtifacts((UserRegistry) governance);
         GenericArtifactManager artifactManager = new GenericArtifactManager(governance, "person");
+        GenericArtifact[] artifacts = artifactManager.getAllGenericArtifacts();
+        assertEquals(artifacts.length, 1);
         String[] allPersonGenericArtifacts = artifactManager.getAllGenericArtifactIds();
         assertEquals(isGenericArtifactExists(allPersonGenericArtifacts, artifactId), true);
         options.setAction("urn:getPerson");

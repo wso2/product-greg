@@ -131,7 +131,7 @@ public class ContentSearchTestCase extends GREGIntegrationBaseTest{
             throws Exception {
 
        resourceAdminServiceClient.deleteResource( "/_system/governance/trunk/services/" +
-                                                            "eu/dataaccess/footballpool/1.0.0-SNAPSHOT/Info");
+                                                            "eu/dataaccess/footballpool/1.0.0/Info");
         resourceAdminServiceClient=null;
         contentSearchAdminClient=null;
     }

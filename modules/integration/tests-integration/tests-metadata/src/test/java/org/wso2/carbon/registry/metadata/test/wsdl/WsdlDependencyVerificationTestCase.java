@@ -52,12 +52,12 @@ public class WsdlDependencyVerificationTestCase extends GREGIntegrationBaseTest 
     private final String amazonWsdlPath = "/_system/governance/trunk/wsdls/com/amazon/soap/1.0.0/AmazonWebServices.wsdl";
     private final String automatedWsdlPath = "/_system/governance/trunk/wsdls/com/strikeiron/www/1.0.0/Automated.wsdl";
     private final String bizWsdlPath = "/_system/governance/trunk/wsdls/com/foo/1.0.0/BizService.wsdl";
-    private final String associatedServicePathBiz = "/_system/governance/trunk/services/com/foo/1.0.0-SNAPSHOT/BizService";
+    private final String associatedServicePathBiz = "/_system/governance/trunk/services/com/foo/1.0.0/BizService";
     private final String associatedEndPointPathBiz = "/_system/governance/trunk/endpoints/localhost/axis2/services/ep-BizService";
     private final String associatedSchemaPathBiz = "/_system/governance/trunk/schemas/org/bar/purchasing/1.0.0/purchasing.xsd";
-    private final String associatedServicePathAutomated = "/_system/governance/trunk/services/com/strikeiron/www/1.0.0-SNAPSHOT/DoNotCallRegistry";
+    private final String associatedServicePathAutomated = "/_system/governance/trunk/services/com/strikeiron/www/1.0.0/DoNotCallRegistry";
     private final String associatedEndpointPathAutomated = "/_system/governance/trunk/endpoints/com/strikeiron/ws/strikeiron/donotcall2_5/ep-DoNotCallRegistry";
-    private final String associatedServicePathAmazon = "/_system/governance/trunk/services/com/amazon/soap/1.0.0-SNAPSHOT/AmazonSearchService";
+    private final String associatedServicePathAmazon = "/_system/governance/trunk/services/com/amazon/soap/1.0.0/AmazonSearchService";
     private final String associatedEndpointPathAmazon = "/_system/governance/trunk/endpoints/com/amazon/soap/onca/ep-soap2";
     private String sessionCookie;
 
