@@ -280,6 +280,7 @@ public  class LifeCyclePermissionTestCase extends GREGIntegrationBaseTest{
         }
         userManagementClient.updateUserListOfRole(PermissionTestConstants.NON_ADMIN_TEST_ROLE, DISABLED_USERS, new String[]{});
         userManagementClient.updateUserListOfRole(PermissionTestConstants.NON_ADMIN_TEST_ROLE, ENABLED_USERS, new String[]{});
+        userManagementClient.deleteRole(PermissionTestConstants.NON_ADMIN_TEST_ROLE);
         userManagementClient.deleteRole(ENABLED_ROLE);
         userManagementClient.deleteRole(DISABLED_ROLE);
 

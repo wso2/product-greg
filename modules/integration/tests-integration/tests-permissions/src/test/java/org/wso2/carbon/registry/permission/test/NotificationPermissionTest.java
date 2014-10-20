@@ -35,6 +35,7 @@ import org.wso2.greg.integration.common.utils.GREGTestConstants;
 import org.wso2.greg.integration.common.utils.subscription.JMXSubscription;
 
 import javax.activation.DataHandler;
+
 import java.io.File;
 import java.net.URL;
 import java.rmi.RemoteException;
@@ -77,6 +78,8 @@ public class NotificationPermissionTest extends GREGIntegrationBaseTest {
 
         userManagementClient.updateUserListOfRole(PermissionTestConstants.NON_ADMIN_TEST_ROLE,
                                                   new String[]{}, ROLE_USERS);
+        
+        userManagementClient.addRole(PermissionTestConstants.NON_ADMIN_TEST_ROLE, ROLE_USERS, null);
 
         adminResourceAdminClient =
                 new ResourceAdminServiceClient(backendURL, sessionCookie);
@@ -141,9 +144,14 @@ public class NotificationPermissionTest extends GREGIntegrationBaseTest {
     @AfterClass(alwaysRun = true)
     @SetEnvironment(executionEnvironments = {ExecutionEnvironment.STANDALONE})
     public void cleanUp() throws Exception {
-        userManagementClient.deleteRole(ROLE_NAME);
-        userManagementClient.updateUserListOfRole(PermissionTestConstants.NON_ADMIN_TEST_ROLE,
-                                                  ROLE_USERS, new String[]{});
+    	
+    	   	
+    	userManagementClient.updateUserListOfRole(PermissionTestConstants.NON_ADMIN_TEST_ROLE,
+                    ROLE_USERS, new String[]{});
+    	
+    		
+    	userManagementClient.deleteRole(ROLE_NAME);
+       
         adminResourceAdminClient.deleteResource(NEW_RESOURCE_PATH);
 
         //Re-set permission created at testDenyNotifications().
@@ -153,7 +161,8 @@ public class NotificationPermissionTest extends GREGIntegrationBaseTest {
                 ,PermissionTestConstants.READ_ACTION,PermissionTestConstants.PERMISSION_ENABLED);
         jmxSubscription.disconnect();
 
-        userManagementClient.deleteRole(PermissionTestConstants.NON_ADMIN_TEST_ROLE);
+        userManagementClient.deleteRole(PermissionTestConstants.NON_ADMIN_TEST_ROLE);       
+        
 
         adminResourceAdminClient = null;
         userManagementClient = null;
