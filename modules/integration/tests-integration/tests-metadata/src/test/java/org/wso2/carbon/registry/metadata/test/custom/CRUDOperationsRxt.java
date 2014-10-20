@@ -18,6 +18,7 @@
 
 package org.wso2.carbon.registry.metadata.test.custom;
 
+import com.sun.tools.internal.xjc.reader.xmlschema.bindinfo.BIConversion;
 import org.apache.axiom.om.OMElement;
 import org.apache.axiom.om.util.AXIOMUtil;
 import org.apache.axiom.om.xpath.AXIOMXPath;
@@ -35,6 +36,7 @@ import org.wso2.carbon.automation.engine.context.TestUserMode;
 import org.wso2.carbon.automation.engine.frameworkutils.FrameworkPathUtil;
 import org.wso2.carbon.governance.api.generic.GenericArtifactManager;
 import org.wso2.carbon.governance.api.generic.dataobjects.GenericArtifact;
+import org.wso2.carbon.governance.api.util.GovernanceArtifactConfiguration;
 import org.wso2.carbon.governance.api.util.GovernanceUtils;
 import org.wso2.carbon.integration.common.admin.client.AuthenticatorClient;
 import org.wso2.carbon.registry.core.Registry;
@@ -53,6 +55,7 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.rmi.RemoteException;
+import java.util.List;
 
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertTrue;
@@ -129,11 +132,14 @@ public class CRUDOperationsRxt extends GREGIntegrationBaseTest {
 
         expression.addNamespace("ns", omElement.getNamespace().getNamespaceURI());
         String artifactId = ((OMElement) expression.selectSingleNode(omElement)).getText();
-        GovernanceUtils.loadGovernanceArtifacts((UserRegistry) governance);
+        List<GovernanceArtifactConfiguration> artifactConfiguration = GovernanceUtils.findGovernanceArtifactConfigurations(governance);
+        GovernanceUtils.loadGovernanceArtifacts((UserRegistry) governance, artifactConfiguration);
+
         GenericArtifactManager artifactManager = new GenericArtifactManager(governance, "person");
         GenericArtifact[] artifacts = artifactManager.getAllGenericArtifacts();
         assertEquals(artifacts.length, 1);
         String[] allPersonGenericArtifacts = artifactManager.getAllGenericArtifactIds();
+
         assertEquals(isGenericArtifactExists(allPersonGenericArtifacts, artifactId), true);
         options.setAction("urn:getPerson");
 

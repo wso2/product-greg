@@ -29,6 +29,7 @@ import org.wso2.carbon.automation.engine.frameworkutils.FrameworkPathUtil;
 import org.wso2.carbon.governance.api.exception.GovernanceException;
 import org.wso2.carbon.governance.api.generic.GenericArtifactManager;
 import org.wso2.carbon.governance.api.generic.dataobjects.GenericArtifact;
+import org.wso2.carbon.governance.api.util.GovernanceArtifactConfiguration;
 import org.wso2.carbon.governance.api.util.GovernanceUtils;
 import org.wso2.carbon.registry.core.Registry;
 import org.wso2.carbon.registry.core.Resource;
@@ -46,6 +47,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.rmi.RemoteException;
+import java.util.List;
 
 import static org.testng.Assert.assertTrue;
 
@@ -105,10 +107,15 @@ public class AddRxtTest extends GREGIntegrationBaseTest {
         removeGenericArtifactByQName(artifactManager, "newPerson");
         GenericArtifact artifact = artifactManager.newGovernanceArtifact(new QName
                 ("newPerson"));
+        List<GovernanceArtifactConfiguration> artifactConfiguration = GovernanceUtils.findGovernanceArtifactConfigurations(governance);
+        GovernanceUtils.loadGovernanceArtifacts((UserRegistry) governance, artifactConfiguration);
+
         artifact.setAttribute("overview_name", "Lasindu");
         artifactManager.addGenericArtifact(artifact);
         assertTrue(artifact.getAttribute("overview_id").equals("newPerson"), "artifact Id not found");
         assertTrue(artifact.getAttribute("overview_name").equals("Lasindu"), "artifact Name not found");
+        //removing the generic artifact created above
+        removeGenericArtifactByQName(artifactManager, "newPerson");
 
     }
 
@@ -151,12 +158,17 @@ public class AddRxtTest extends GREGIntegrationBaseTest {
         removeGenericArtifactByQName(artifactManager, "newPerson2");
         GenericArtifact artifact = artifactManager.newGovernanceArtifact(new QName
                 ("newPerson2"));
+        List<GovernanceArtifactConfiguration> artifactConfiguration = GovernanceUtils.findGovernanceArtifactConfigurations(governance);
+        GovernanceUtils.loadGovernanceArtifacts((UserRegistry) governance, artifactConfiguration);
+
         artifact.setAttribute("overview_name", "Charith");
         artifact.setAttribute("overview_age", "22");
         artifactManager.addGenericArtifact(artifact);
         assertTrue(artifact.getAttribute("overview_id").equals("newPerson2"), "artifact Id not found");
         assertTrue(artifact.getAttribute("overview_name").equals("Charith"), "artifact Name not found");
         assertTrue(artifact.getAttribute("overview_age").equals("22"), "artifact Age not found");
+        //removing the generic artifact created above
+        removeGenericArtifactByQName(artifactManager, "newPerson2");
 
     }
 
@@ -205,12 +217,18 @@ public class AddRxtTest extends GREGIntegrationBaseTest {
         removeGenericArtifactByQName(artifactManager, "newPerson3");
         GenericArtifact artifact = artifactManager.newGovernanceArtifact(new QName
                 ("newPerson3"));
+        List<GovernanceArtifactConfiguration> artifactConfiguration = GovernanceUtils.findGovernanceArtifactConfigurations(governance);
+        GovernanceUtils.loadGovernanceArtifacts((UserRegistry) governance, artifactConfiguration);
+
         artifact.setAttribute("overview_name", "abc");
         artifact.setAttribute("overview_age", "10");
         artifactManager.addGenericArtifact(artifact);
         assertTrue(artifact.getAttribute("overview_id").equals("newPerson3"), "artifact Id not found");
         assertTrue(artifact.getAttribute("overview_name").equals("abc"), "artifact Name not found");
         assertTrue(artifact.getAttribute("overview_age").equals("10"), "artifact Age not found");
+        //removing the generic artifact created above
+        removeGenericArtifactByQName(artifactManager, "newPerson3");
+
     }
 
     @Test (groups = "wso2.greg", description = "Delete and Re upload the artifact name changed file",
@@ -304,11 +322,16 @@ public class AddRxtTest extends GREGIntegrationBaseTest {
         GenericArtifactManager artifactManager = new GenericArtifactManager(governance, "person");
         removeGenericArtifactByQName(artifactManager, "newPerson4");
         GenericArtifact artifact = artifactManager.newGovernanceArtifact(new QName("newPerson4"));
+        List<GovernanceArtifactConfiguration> artifactConfiguration = GovernanceUtils.findGovernanceArtifactConfigurations(governance);
+        GovernanceUtils.loadGovernanceArtifacts((UserRegistry) governance, artifactConfiguration);
+
         artifact.setAttribute("overview_name", "def");
         artifactManager.addGenericArtifact(artifact);
         assertTrue(artifact.getAttribute("overview_id").equals("newPerson4"), "artifact Id not found");
         assertTrue(artifact.getAttribute("overview_name").equals("def"), "artifact Name not found");
         assertTrue(governance.resourceExists("people/newPerson4"), "newPerson4 doesn't exists");
+        //removing the generic artifact created above
+        removeGenericArtifactByQName(artifactManager, "newPerson4");
 
     }
 
@@ -333,16 +356,18 @@ public class AddRxtTest extends GREGIntegrationBaseTest {
         GenericArtifactManager artifactManager = new GenericArtifactManager(governance, "groups");
         removeGenericArtifactByQName(artifactManager, "projectGroupName");
         GenericArtifact artifact = artifactManager.newGovernanceArtifact(new QName("projectGroupName"));
+
         artifact.setAttribute("overview_group Owner", "groupOwner");
         artifact.setAttributes("groupMembers_member", new String[]{"Junior:path1", "Senior:path2"});
         artifactManager.addGenericArtifact(artifact);
         assertTrue(artifact.getAttribute("overview_group Owner").equals("groupOwner"), "artifact Group Owner not found");
         assertTrue(artifact.getAttributes("groupMembers_member")[0].equals("Junior:path1"), "artifact Group Member1 not found");
         assertTrue(artifact.getAttributes("groupMembers_member")[1].equals("Senior:path2"), "artifact Group Member2 not found");
+        //removing the generic artifact created above
+        removeGenericArtifactByQName(artifactManager, "projectGroupName");
         if (governance.resourceExists("repository/components/org.wso2.carbon.governance/types/groups.rxt")) {
             governance.delete("repository/components/org.wso2.carbon.governance/types/groups.rxt");
         }
-
     }
 
     @AfterClass
@@ -350,10 +375,11 @@ public class AddRxtTest extends GREGIntegrationBaseTest {
 
         if (governance.resourceExists("repository/components/org.wso2.carbon.governance/types/person.rxt")) {
             governance.delete("repository/components/org.wso2.carbon.governance/types/person.rxt");
-            if (governance.resourceExists("repository/components/org.wso2.carbon.governance/types/groups.rxt")) {
-                governance.delete("repository/components/org.wso2.carbon.governance/types/groups.rxt");
-            }
         }
+        if (governance.resourceExists("repository/components/org.wso2.carbon.governance/types/groups.rxt")) {
+            governance.delete("repository/components/org.wso2.carbon.governance/types/groups.rxt");
+        }
+
         governance = null;
     }
 
