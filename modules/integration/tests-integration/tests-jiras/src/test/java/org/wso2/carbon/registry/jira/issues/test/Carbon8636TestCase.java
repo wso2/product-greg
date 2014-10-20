@@ -51,11 +51,13 @@ public class Carbon8636TestCase extends GREGIntegrationBaseTest {
     }
     @Test(groups = {"wso2.greg"}, description = "description with having enter keys")
     public void descriptionWithEnterKeysTestCase() throws GovernanceException, XMLStreamException {
-        String content = "<serviceMetaData xmlns=\"http://www.wso2.org/governance/metadata\">" +
-                "<overview><name>" + "serviceDescriptionsWithEnterKeys" + "</name><namespace>" +
-                "http://service.with.EnterKeys/mnm/" + "</namespace><version>1.0.0-SNAPSHOT</version></overview>" +
-                "</serviceMetaData>";
-        org.apache.axiom.om.OMElement XMLContent = AXIOMUtil.stringToOM(content);
+        StringBuilder builder = new StringBuilder();
+        builder.append("<serviceMetaData xmlns=\"http://www.wso2.org/governance/metadata\">");
+        builder.append("<overview><name>serviceDescriptionsWithEnterKeys</name>");
+        builder.append("<namespace>http://service.with.EnterKeys/mnm/</namespace>");
+        builder.append("<version>1.0.0-SNAPSHOT</version></overview>");
+        builder.append("</serviceMetaData>");
+        org.apache.axiom.om.OMElement XMLContent = AXIOMUtil.stringToOM(builder.toString());
 
         serviceDescriptionsWithEnterKeys =
                 serviceManager.newService(XMLContent);
@@ -66,11 +68,13 @@ public class Carbon8636TestCase extends GREGIntegrationBaseTest {
     }
     @Test(groups = {"wso2.greg"}, description = "description with out having enter keys")
     public void descriptionWithoutEnterKeysTestCase() throws GovernanceException, XMLStreamException {
-        String content = "<serviceMetaData xmlns=\"http://www.wso2.org/governance/metadata\">" +
-                "<overview><name>" + "serviceDescriptionsWithOutEnterKeys" + "</name><namespace>" +
-                "http://service.with.EnteroutKeys/mnm/" + "</namespace><version>1.0.0-SNAPSHOT</version></overview>" +
-                "</serviceMetaData>";
-        org.apache.axiom.om.OMElement XMLContent = AXIOMUtil.stringToOM(content);
+        StringBuilder builder = new StringBuilder();
+        builder.append("<serviceMetaData xmlns=\"http://www.wso2.org/governance/metadata\">");
+        builder.append("<overview><name>serviceDescriptionsWithOutEnterKeys</name>");
+        builder.append("<namespace>http://service.with.EnteroutKeys/mnm/</namespace>");
+        builder.append("<version>1.0.0-SNAPSHOT</version></overview>");
+        builder.append("</serviceMetaData>");
+        org.apache.axiom.om.OMElement XMLContent = AXIOMUtil.stringToOM(builder.toString());
 
         serviceDescriptionWithOutEnterKeys =
                 serviceManager.newService(XMLContent);

@@ -61,12 +61,13 @@ public class LifeCycleUtils {
             throws Exception {
         ServiceManager serviceManager = new ServiceManager(governance);
         Service service;
-
-        String content = "<serviceMetaData xmlns=\"http://www.wso2.org/governance/metadata\">" +
-                "<overview><name>" + serviceName + "</name><namespace>" + nameSpace +
-                "</namespace><version>1.0.0-SNAPSHOT</version></overview>" +
-                "</serviceMetaData>";
-        org.apache.axiom.om.OMElement XMLContent = AXIOMUtil.stringToOM(content);
+        StringBuilder builder = new StringBuilder();
+        builder.append("<serviceMetaData xmlns=\"http://www.wso2.org/governance/metadata\">");
+        builder.append("<overview><name>" + serviceName + "</name>");
+        builder.append("<namespace>" + nameSpace + "</namespace>");
+        builder.append("<version>1.0.0-SNAPSHOT</version></overview>");
+        builder.append("</serviceMetaData>");
+        org.apache.axiom.om.OMElement XMLContent = AXIOMUtil.stringToOM(builder.toString());
 
         service = serviceManager.newService(XMLContent);
         serviceManager.addService(service);
