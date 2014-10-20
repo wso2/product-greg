@@ -227,7 +227,7 @@ public class DeployCAppWithWsdl extends GREGIntegrationBaseTest {
 
         resourceAdminServiceClient.deleteResource
                 ("/_system/governance/trunk/services/net/restfulwebservices/www/servicecontracts/_2008/_01" +
-                 "/1.0.0-SNAPSHOT/WeatherForecastService");
+                 "/1.0.0/WeatherForecastService");
         resourceAdminServiceClient.deleteResource
                 ("/_system/governance/trunk/endpoints/net/restfulwebservices/www/wcf/ep-WeatherForecastService-svc");
         resourceAdminServiceClient.deleteResource
