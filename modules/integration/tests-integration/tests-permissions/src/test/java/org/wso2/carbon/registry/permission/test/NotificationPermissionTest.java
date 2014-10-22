@@ -159,10 +159,9 @@ public class NotificationPermissionTest extends GREGIntegrationBaseTest {
                 ,PermissionTestConstants.WRITE_ACTION,PermissionTestConstants.PERMISSION_ENABLED);
         adminResourceAdminClient.addResourcePermission(NEW_RESOURCE_PATH ,PermissionTestConstants.NON_ADMIN_TEST_ROLE
                 ,PermissionTestConstants.READ_ACTION,PermissionTestConstants.PERMISSION_ENABLED);
+        userManagementClient.deleteRole(PermissionTestConstants.NON_ADMIN_TEST_ROLE);
         jmxSubscription.disconnect();
 
-        userManagementClient.deleteRole(PermissionTestConstants.NON_ADMIN_TEST_ROLE);       
-        
 
         adminResourceAdminClient = null;
         userManagementClient = null;
