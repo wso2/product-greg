@@ -100,11 +100,11 @@ public class PolicyDependenciesVerificationTestCase extends GREGIntegrationBaseT
                 sessionCookie);
 
         relationAdminServiceClient.addAssociation(
-                "/_system/governance/trunk/policies/policy.xml", "depends",
-                "/_system/governance/trunk/policies/UTPolicy.xml", "add");
+                "/_system/governance/trunk/policies/1.0.0/policy.xml", "depends",
+                "/_system/governance/trunk/policies/1.0.0/UTPolicy.xml", "add");
 
         DependenciesBean dependenciesBean = relationAdminServiceClient
-                .getDependencies("/_system/governance/trunk/policies/policy.xml");
+                .getDependencies("/_system/governance/trunk/policies/1.0.0/policy.xml");
 
         AssociationBean[] associationBean = dependenciesBean
                 .getAssociationBeans();
@@ -113,7 +113,7 @@ public class PolicyDependenciesVerificationTestCase extends GREGIntegrationBaseT
 
         for (AssociationBean tmpAssociationBean : associationBean) {
             if (tmpAssociationBean.getDestinationPath().contentEquals(
-                    "/_system/governance/trunk/policies/UTPolicy.xml")) {
+                    "/_system/governance/trunk/policies/1.0.0/UTPolicy.xml")) {
                 status = true;
 
             }
@@ -128,10 +128,10 @@ public class PolicyDependenciesVerificationTestCase extends GREGIntegrationBaseT
             ResourceAdminServiceExceptionException {
 
         resourceAdminServiceClient
-                .deleteResource("/_system/governance/trunk/policies/UTPolicy.xml");
+                .deleteResource("/_system/governance/trunk/policies/1.0.0/UTPolicy.xml");
 
         resourceAdminServiceClient
-                .deleteResource("/_system/governance/trunk/policies/policy.xml");
+                .deleteResource("/_system/governance/trunk/policies/1.0.0/policy.xml");
         resourceAdminServiceClient = null;
     }
 }

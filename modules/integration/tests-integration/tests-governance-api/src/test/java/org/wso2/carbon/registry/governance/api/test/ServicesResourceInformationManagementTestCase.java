@@ -230,6 +230,7 @@ public class ServicesResourceInformationManagementTestCase extends GREGIntegrati
                 serviceManager.newService(new QName(
                         "http://service.for.commentverification2/mnm/",
                         "serviceForCommentVerification"));
+        serviceForCommentVerification.setAttribute("overview_version", "1.0.0");
         serviceManager.addService(serviceForCommentVerification);
         String comment = "Test Comment";
         String path = ROOT + serviceForCommentVerification.getPath();
@@ -259,6 +260,7 @@ public class ServicesResourceInformationManagementTestCase extends GREGIntegrati
                         "http://service.for.checkpointverification/mnm/",
                         "serviceForCheckpointVerification"));
         serviceForCheckpointVerification.addAttribute("test-att", "test-val");
+        serviceForCheckpointVerification.addAttribute("overview_version", "1.0.0");
         serviceManager.addService(serviceForCheckpointVerification);
         String destinationPath = ROOT + serviceForCheckpointVerification.getPath();
         resourceAdminServiceClient.createVersion(destinationPath);
