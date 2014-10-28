@@ -69,9 +69,9 @@ public class PolicyAddTestCase extends GREGIntegrationBaseTest{
         String resource = FrameworkPathUtil.getSystemResourceLocation() + "artifacts" + File.separator +
                 "GREG" + File.separator
                 + "policy" + File.separator + resourceName;
-        resourceAdminServiceClient.addResource(policyPath + resourceName,
+        resourceAdminServiceClient.addResource(policyPath + "1.0.0/" + resourceName,
                 "application/policy+xml", "testPolicy", new DataHandler(new URL("file:///" + resource)));
-        Assert.assertNotNull(resourceAdminServiceClient.getTextContent(policyPath + resourceName));
+        Assert.assertNotNull(resourceAdminServiceClient.getTextContent(policyPath + "1.0.0/" + resourceName));
     }
 
     /**
@@ -82,7 +82,7 @@ public class PolicyAddTestCase extends GREGIntegrationBaseTest{
         String resourceUrl = "https://svn.wso2.org/repos/wso2/trunk/commons/qa/qa-artifacts/greg/policies/policy.xml";
         String resourceName = "RMpolicy3.xml";
         resourceAdminServiceClient.addPolicy(resourceName, "adding From URL", resourceUrl);
-        Assert.assertNotNull(resourceAdminServiceClient.getResourceContent(policyPath + resourceName));
+        Assert.assertNotNull(resourceAdminServiceClient.getResourceContent(policyPath + "1.0.0/" + resourceName));
     }
 
     @Test(groups = "wso2.greg", dependsOnMethods = "addPolicyFromFile")
@@ -99,8 +99,8 @@ public class PolicyAddTestCase extends GREGIntegrationBaseTest{
                 "        </wsrmp:DeliveryAssurance>\n" +
                 "    </wsrmp:RMAssertion>\n" +
                 "</wsp:Policy>"; //to update
-        resourceAdminServiceClient.updateTextContent(policyPath + "policy.xml", resContent);
-        Assert.assertEquals(resContent, resourceAdminServiceClient.getTextContent(policyPath + "policy.xml"));
+        resourceAdminServiceClient.updateTextContent(policyPath + "1.0.0/" + "policy.xml", resContent);
+        Assert.assertEquals(resContent, resourceAdminServiceClient.getTextContent(policyPath + "1.0.0/" + "policy.xml"));
     }
 
     @Test(groups = "wso2.greg", dependsOnMethods = "addPolicyFromURL")
@@ -118,14 +118,14 @@ public class PolicyAddTestCase extends GREGIntegrationBaseTest{
                 "    </wsrmp:DeliveryAssurance> \n" +
                 "  </wsrmp:RMAssertion> \n" +
                 "</wsp:Policy>";
-        resourceAdminServiceClient.updateTextContent(policyPath + "RMpolicy3.xml", resContent);
-        Assert.assertEquals(resContent, resourceAdminServiceClient.getTextContent(policyPath + "RMpolicy3.xml"));
+        resourceAdminServiceClient.updateTextContent(policyPath + "1.0.0/" + "RMpolicy3.xml", resContent);
+        Assert.assertEquals(resContent, resourceAdminServiceClient.getTextContent(policyPath + "1.0.0/" + "RMpolicy3.xml"));
     }
 
     @AfterClass(groups = {"wso2.greg"})
     public void deleteResources() throws ResourceAdminServiceExceptionException, RemoteException {
-        resourceAdminServiceClient.deleteResource(policyPath + "policy.xml");
-        resourceAdminServiceClient.deleteResource(policyPath + "RMpolicy3.xml");
+        resourceAdminServiceClient.deleteResource(policyPath + "1.0.0/" + "policy.xml");
+        resourceAdminServiceClient.deleteResource(policyPath + "1.0.0/" + "RMpolicy3.xml");
         resourceAdminServiceClient = null;
         policyPath = null;
     }

@@ -99,8 +99,8 @@ public class RegistrySearchMediaType extends GREGIntegrationBaseTest {
                                                "application/wsdl+xml", "desc", dh);
 
 
-        assertTrue(resourceAdminServiceClient.getMetadata(
-             "/_system/governance/trunk/wsdls/com/amazon/soap/1.0.0/AmazonWebServices.wsdl").getMediaType().equals("application/wsdl+xml"));
+        assertTrue(resourceAdminServiceClient.getMetadata("/_system/governance/trunk/wsdls/com/amazon/soap/"
+                                        +"1.0.0/AmazonWebServices.wsdl").getMediaType().equals("application/wsdl+xml"));
 
 
     }
@@ -137,7 +137,7 @@ public class RegistrySearchMediaType extends GREGIntegrationBaseTest {
     public void searchSchemaSymLinkMediaType()
             throws RemoteException, MalformedURLException, ResourceAdminServiceExceptionException {
         resourceAdminServiceClient.addSymbolicLink("/", "library.xsd",
-                                                     "/_system/governance/trunk/schemas/com/example/www/library/1.0.0/library.xsd");
+                         "/_system/governance/trunk/schemas/com/example/www/library/1.0.0/library.xsd");
         assertTrue(resourceAdminServiceClient.getMetadata("/library.xsd").getMediaType().equals("application/x-xsd+xml"));
 
     }
@@ -147,7 +147,7 @@ public class RegistrySearchMediaType extends GREGIntegrationBaseTest {
             throws RemoteException, MalformedURLException, ResourceAdminServiceExceptionException {
 
         assertTrue(resourceAdminServiceClient.getMetadata(
-                "/_system/governance/trunk/services/com/amazon/soap/1.0.0-SNAPSHOT/AmazonSearchService").getMediaType().
+                "/_system/governance/trunk/services/com/amazon/soap/1.0.0/AmazonSearchService").getMediaType().
                 equals("application/vnd.wso2-service+xml"));
     }
 
@@ -158,7 +158,7 @@ public class RegistrySearchMediaType extends GREGIntegrationBaseTest {
                               File.separator + "GREG" + File.separator + "policy" + File.separator + "policy.xml";
         DataHandler dh = new DataHandler(new URL("file:///" + resourcePath));
         resourceAdminServiceClient.addPolicy("desc", dh);
-        assertTrue(resourceAdminServiceClient.getMetadata("/_system/governance/trunk/policies/policy.xml").
+        assertTrue(resourceAdminServiceClient.getMetadata("/_system/governance/trunk/policies/1.0.0/policy.xml").
                 getMediaType().equals("application/policy+xml"));
     }
 
@@ -181,10 +181,10 @@ public class RegistrySearchMediaType extends GREGIntegrationBaseTest {
     public void clean()
             throws ResourceAdminServiceExceptionException, RemoteException, RegistryException {
 
-        delete("/_system/governance/trunk/policies/policy.xml");
+        delete("/_system/governance/trunk/policies/1.0.0/policy.xml");
         delete("/_system/config/testResource");
         delete("/_system/governance/trunk/endpoints/automation");
-        delete( "/_system/governance/trunk/services/com/amazon/soap/1.0.0-SNAPSHOT/AmazonSearchService");
+        delete( "/_system/governance/trunk/services/com/amazon/soap/1.0.0/AmazonSearchService");
         delete("/_system/governance/trunk/wsdls/com/amazon/soap/1.0.0/AmazonWebServices.wsdl");
         delete("/_system/governance/trunk/schemas/com/example/www/library/1.0.0/library.xsd");
 

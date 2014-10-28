@@ -399,6 +399,28 @@
                 <version>${carbon.platform.version}</version>
                 <scope>test</scope>
             </dependency>
+            <dependency>
+                <groupId>org.seleniumhq.selenium</groupId>
+                <artifactId>selenium-java</artifactId>
+                <version>${selenium.version}</version>
+                <exclusions>
+                    <exclusion>
+                        <groupId>org.seleniumhq.selenium</groupId>
+                        <artifactId>selenium-android-driver</artifactId>
+                    </exclusion>
+                </exclusions>
+            </dependency>
+            <dependency>
+                <groupId>com.opera</groupId>
+                <artifactId>operadriver</artifactId>
+                <version>${operadriver.version}</version>
+                <exclusions>
+                    <exclusion>
+                        <groupId>org.seleniumhq.selenium</groupId>
+                        <artifactId>selenium-remote-driver</artifactId>
+                    </exclusion>
+                </exclusions>
+            </dependency>
         </dependencies>
     </dependencyManagement>
     <scm>
@@ -561,7 +583,7 @@
         <process.feature.version>1.0.0</process.feature.version>
         <carbon.feature.version>1.0.0</carbon.feature.version>
         <uuid.feature.version>1.0.0</uuid.feature.version>
-        <es.feature.version>1.2.0-SNAPSHOT</es.feature.version>
+        <es.feature.version>2.0.0-SNAPSHOT</es.feature.version>
         <carbon.social.version>1.1.0-SNAPSHOT</carbon.social.version>
         <!--<event.feature.version>1.0.0</event.feature.version>-->
         <!--<login.feature.version>1.0.0</login.feature.version>-->
@@ -615,5 +637,8 @@
         <test.framwork.version>4.3.1-SNAPSHOT</test.framwork.version>
         <platform.integration.utils.version>4.3.0-SNAPSHOT</platform.integration.utils.version>
         <stub.version>4.3.0-SNAPSHOT</stub.version>
+
+        <operadriver.version>0.8.1</operadriver.version>
+        <selenium.version>2.40.0</selenium.version>
     </properties>
 </project>

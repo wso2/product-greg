@@ -114,7 +114,7 @@ public class ActivitySearchTestCase extends GREGIntegrationBaseTest {
 
         resourceAdminServiceClient.deleteResource(WSDL_PATH + RESOURCE_NAME);
         resourceAdminServiceClient.deleteResource("/_system/governance/trunk/services/" +
-                                                                    "eu/dataaccess/footballpool/1.0.0-SNAPSHOT/Info");
+                                                                    "eu/dataaccess/footballpool/1.0.0/Info");
         resourceAdminServiceClient = null;
         activityAdminServiceClient = null;
     }

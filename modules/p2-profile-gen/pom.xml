@@ -279,6 +279,9 @@
                                 </featureArtifactDef>
 				<featureArtifactDef>org.wso2.store.modules:rxt.feature:${es.feature.version}
                                 </featureArtifactDef>
+                                <featureArtifactDef>
+                                    org.wso2.store.modules:lifecycle.feature:${es.feature.version}
+                                </featureArtifactDef>
                                  <featureArtifactDef>org.wso2.store.modules:utils.feature:${es.feature.version}
                                 </featureArtifactDef>
                                 <featureArtifactDef>
@@ -303,6 +306,17 @@
 				<featureArtifactDef>
                                     org.wso2.carbon:org.wso2.carbon.identity.application.mgt.feature:${carbon.platform.version}
                                 </featureArtifactDef>
+				<!-- SSO Fix-->
+                                <featureArtifactDef>
+                                    org.wso2.carbon:org.wso2.carbon.identity.user.profile.feature:${carbon.platform.version}
+                                </featureArtifactDef>
+                                <featureArtifactDef>
+                                    org.wso2.carbon:org.wso2.carbon.identity.application.mgt.feature:${carbon.platform.version}
+                                </featureArtifactDef>
+                                <featureArtifactDef>
+                                    org.wso2.carbon:org.wso2.carbon.idp.mgt.feature:${carbon.platform.version}
+                                </featureArtifactDef>
+                                <!-- End of SSO Fixes -->
 
                                 <!--Monitoring feature list -->
                                 <featureArtifactDef>
@@ -319,7 +333,7 @@
                                 <!--<featureArtifactDef>-->
                                     <!--org.wso2.carbon:org.wso2.carbon.cassandra.explorer.feature:4.2.2-->
                                 <!--</featureArtifactDef>-->
-                                <featureArtifactDef>
+                                <!--<featureArtifactDef>
                                     org.wso2.carbon:org.wso2.carbon.cassandra.server.feature:${carbon.platform.version}
                                 </featureArtifactDef>
                                 <featureArtifactDef>
@@ -333,7 +347,7 @@
                                 </featureArtifactDef>
                                 <featureArtifactDef>
                                     org.wso2.carbon:org.wso2.carbon.cassandra-jdbc-1.2.5.server.feature:${carbon.platform.version}
-                                </featureArtifactDef>
+                                </featureArtifactDef>-->
 
                                 <!--User management feature list -->
                                 <featureArtifactDef>
@@ -652,10 +666,10 @@
                                     <id>org.wso2.carbon.identity.application.authentication.framework.server.feature.group</id>
                                     <version>${carbon.platform.version}</version>
                                 </feature>
-                                <feature>
+                                <!--feature>
                                     <id>org.wso2.carbon.identity.user.profile.server.feature.group</id>
                                     <version>${carbon.platform.version}</version>
-                                </feature>
+                                </feature-->
                                 <feature>
                                     <id>org.wso2.carbon.claim.mgt.feature.group</id>
                                     <version>${carbon.platform.version}</version>
@@ -753,7 +767,7 @@
                                 <!--<id>org.wso2.carbon.cassandra.explorer.feature.group</id>-->
                                 <!--<version>4.2.2</version>-->
                                 <!--</feature>-->
-                                <feature>
+                                <!--feature>
                                     <id>org.wso2.carbon.cassandra.server.feature.group</id>
                                     <version>${carbon.platform.version}</version>
                                 </feature>
@@ -772,7 +786,7 @@
                                 <feature>
                                     <id>org.wso2.carbon.cassandra-jdbc-1.2.5.server.feature.group</id>
                                     <version>${carbon.platform.version}</version>
-                                </feature>
+                                </feature-->
 
                                 <!-- Single Sign on features -->
                                 <feature>
@@ -783,10 +797,24 @@
                                     <id>org.wso2.carbon.identity.authenticator.saml2.sso.ui.feature.group</id>
                                     <version>${carbon.platform.version}</version>
                                 </feature>
-                                <feature>
+                                <!--feature>
                                     <id>org.wso2.carbon.identity.sso.saml.feature.group</id>
                                     <version>${carbon.platform.version}</version>
+                                </feature-->
+				<!-- SSO Fix-->
+                                <feature>
+                                    <id>org.wso2.carbon.identity.user.profile.feature.group</id>
+                                    <version>${carbon.platform.version}</version>
                                 </feature>
+                                <feature>
+                                    <id>org.wso2.carbon.identity.application.mgt.feature.group</id>
+                                    <version>${carbon.platform.version}</version>
+                                </feature>
+                                <feature>
+                                    <id>org.wso2.carbon.idp.mgt.feature.group</id>
+                                    <version>${carbon.platform.version}</version>
+                                </feature>
+                                <!-- End of SSO Fix -->
 
                                 <!-- Features related to Asset Store -->
                                 <feature>
@@ -1015,10 +1043,10 @@
                                     <id>org.wso2.carbon.identity.application.authentication.framework.server.feature.group</id>
                                     <version>${carbon.platform.version}</version>
                                 </feature>
-                                <feature>
+                                <!--feature>
                                     <id>org.wso2.carbon.identity.user.profile.server.feature.group</id>
                                     <version>${carbon.platform.version}</version>
-                                </feature>
+                                </feature-->
                                 <feature>
                                     <id>org.wso2.carbon.claim.mgt.feature.group</id>
                                     <version>${carbon.platform.version}</version>
@@ -1088,7 +1116,7 @@
                                 <!--<id>org.wso2.carbon.cassandra.explorer.feature.group</id>-->
                                 <!--<version>4.2.2</version>-->
                                 <!--</feature>-->
-                                <feature>
+                                <!--feature>
                                     <id>org.wso2.carbon.cassandra.server.feature.group</id>
                                     <version>${carbon.platform.version}</version>
                                 </feature>
@@ -1107,7 +1135,7 @@
                                 <feature>
                                     <id>org.wso2.carbon.cassandra-jdbc-1.2.5.server.feature.group</id>
                                     <version>${carbon.platform.version}</version>
-                                </feature>
+                                </feature-->
 
                                 <!-- Single Sign on features -->
                                 <feature>
@@ -1118,14 +1146,24 @@
                                     <id>org.wso2.carbon.identity.authenticator.saml2.sso.ui.feature.group</id>
                                     <version>${carbon.platform.version}</version>
                                 </feature>
-                                <feature>
+                                <!--feature>
                                     <id>org.wso2.carbon.identity.sso.saml.feature.group</id>
                                     <version>${carbon.platform.version}</version>
+                                </feature-->
+				<!-- SSO Fix-->
+                                <feature>
+                                    <id>org.wso2.carbon.identity.user.profile.feature.group</id>
+                                    <version>${carbon.platform.version}</version>
                                 </feature>
-				<feature>
+                                <feature>
                                     <id>org.wso2.carbon.identity.application.mgt.feature.group</id>
                                     <version>${carbon.platform.version}</version>
                                 </feature>
+                                <feature>
+                                    <id>org.wso2.carbon.idp.mgt.feature.group</id>
+                                    <version>${carbon.platform.version}</version>
+                                </feature>
+                                <!-- End of SSO Fix -->
 
                                 <!-- Features related to Asset Store -->
                                 <feature>
@@ -1413,10 +1451,10 @@
                                     <id>org.wso2.carbon.identity.application.authentication.framework.server.feature.group</id>
                                     <version>${carbon.platform.version}</version>
                                 </feature>
-                                <feature>
+                                <!--feature>
                                     <id>org.wso2.carbon.identity.user.profile.server.feature.group</id>
                                     <version>${carbon.platform.version}</version>
-                                </feature>
+                                </feature-->
                                 <feature>
                                     <id>org.wso2.carbon.claim.mgt.feature.group</id>
                                     <version>${carbon.platform.version}</version>
@@ -1487,7 +1525,7 @@
                                     <!--<id>org.wso2.carbon.cassandra.explorer.feature.group</id>-->
                                     <!--<version>4.2.2</version>-->
                                 <!--</feature>-->
-                                <feature>
+                                <!--feature>
                                     <id>org.wso2.carbon.cassandra.server.feature.group</id>
                                     <version>${carbon.platform.version}</version>
                                 </feature>
@@ -1506,7 +1544,7 @@
                                 <feature>
                                     <id>org.wso2.carbon.cassandra-jdbc-1.2.5.server.feature.group</id>
                                     <version>${carbon.platform.version}</version>
-                                </feature>
+                                </feature-->
 
                                 <!-- Single Sign on features -->
                                 <feature>
@@ -1517,11 +1555,25 @@
                                     <id>org.wso2.carbon.identity.authenticator.saml2.sso.ui.feature.group</id>
                                     <version>${carbon.platform.version}</version>
                                 </feature>
-                                <feature>
+                                <!--feature>
                                     <id>org.wso2.carbon.identity.sso.saml.feature.group</id>
                                     <version>${carbon.platform.version}</version>
-                                </feature>
+                                </feature-->
 
+                               <!-- SSO Fix-->
+                                <feature>
+                                    <id>org.wso2.carbon.identity.user.profile.feature.group</id>
+                                    <version>${carbon.platform.version}</version>
+                                </feature>
+                                <feature>
+                                    <id>org.wso2.carbon.identity.application.mgt.feature.group</id>
+                                    <version>${carbon.platform.version}</version>
+                                </feature>
+                                <feature>
+                                    <id>org.wso2.carbon.idp.mgt.feature.group</id>
+                                    <version>${carbon.platform.version}</version>
+                                </feature>
+                                <!-- End of SSO Fix -->
                                 <!-- Features related to Asset Store -->
                                 <feature>
                                     <id>org.jaggeryjs.feature.group</id>

@@ -106,15 +106,15 @@ public class PolicyMetaDataTestCase extends GREGIntegrationBaseTest {
         String userName = automationContext.getContextTenant().getContextUser().getUserName();
         String userNameWithoutDomain = userName.substring(0, userName.indexOf('@'));
 
-        assertTrue(resourceAdminServiceClient.getResource(policyPath + resourceName)[0].getAuthorUserName().
+        assertTrue(resourceAdminServiceClient.getResource(policyPath + "1.0.0/"+ resourceName)[0].getAuthorUserName().
                 contains(userNameWithoutDomain));
     }
 
 
     @Test(groups = {"wso2.greg"}, dependsOnMethods = "addResource")
     public void addTag() throws RegistryException, AxisFault, RegistryExceptionException {
-        infoServiceAdminClient.addTag("test tag added", policyPath + resourceName, session);
-        TagBean tagBean = infoServiceAdminClient.getTags(policyPath + resourceName, session);
+        infoServiceAdminClient.addTag("test tag added", policyPath + "1.0.0/"+ resourceName, session);
+        TagBean tagBean = infoServiceAdminClient.getTags(policyPath + "1.0.0/"+ resourceName, session);
         Tag[] tag = tagBean.getTags();
         for (int i = 0; i <= tag.length - 1; i++) {
             if (!tag[i].getTagName().equalsIgnoreCase("test tag added")) {
@@ -127,9 +127,9 @@ public class PolicyMetaDataTestCase extends GREGIntegrationBaseTest {
     @Test(groups = {"wso2.greg"}, dependsOnMethods = {"addTag"})
     public void addComment() throws RegistryException, AxisFault, RegistryExceptionException {
         //adding comment to a resource
-        infoServiceAdminClient.addComment("added a test comment", policyPath + resourceName,
+        infoServiceAdminClient.addComment("added a test comment", policyPath + "1.0.0/" + resourceName,
                 session);
-        CommentBean commentBean = infoServiceAdminClient.getComments(policyPath + resourceName,
+        CommentBean commentBean = infoServiceAdminClient.getComments(policyPath + "1.0.0/" + resourceName,
                 session);
         Comment[] comment = commentBean.getComments();
         assertTrue(comment[0].getDescription().equalsIgnoreCase("added a test comment"));
@@ -141,8 +141,8 @@ public class PolicyMetaDataTestCase extends GREGIntegrationBaseTest {
     @Test(groups = {"wso2.greg"}, dependsOnMethods = {"addComment"})
     public void addRate() throws RegistryException, RegistryExceptionException {
         String rateValue = "2";
-        infoServiceAdminClient.rateResource(rateValue, policyPath + resourceName, session);
-        RatingBean ratingBean = infoServiceAdminClient.getRatings(policyPath + resourceName,
+        infoServiceAdminClient.rateResource(rateValue, policyPath + "1.0.0/" + resourceName, session);
+        RatingBean ratingBean = infoServiceAdminClient.getRatings(policyPath + "1.0.0/" + resourceName,
                 session);
         assertEquals(ratingBean.getUserRating(), Integer.parseInt(rateValue));
     }
@@ -150,9 +150,9 @@ public class PolicyMetaDataTestCase extends GREGIntegrationBaseTest {
     @Test(groups = {"wso2.greg"}, dependsOnMethods = {"addRate"})
     public void addLifeCycle() throws Exception {
         String[] lifeCycleItem = {"Code Completed", "WSDL, Schema Created", "QoS Created"};
-        lifeCycleAdminServiceClient.addAspect(policyPath + resourceName, "ServiceLifeCycle");
-        lifeCycleAdminServiceClient.invokeAspect(policyPath + resourceName, "ServiceLifeCycle", "Promote", lifeCycleItem);
-        LifecycleBean lifecycleBean = lifeCycleAdminServiceClient.getLifecycleBean(policyPath + resourceName);
+        lifeCycleAdminServiceClient.addAspect(policyPath + "1.0.0/" + resourceName, "ServiceLifeCycle");
+        lifeCycleAdminServiceClient.invokeAspect(policyPath + "1.0.0/" + resourceName, "ServiceLifeCycle", "Promote", lifeCycleItem);
+        LifecycleBean lifecycleBean = lifeCycleAdminServiceClient.getLifecycleBean(policyPath + "1.0.0/" + resourceName);
         Property[] lifecycleProperties = lifecycleBean.getLifecycleProperties();
         for (Property property : lifecycleProperties) {
             if (property.getKey().equals("registry.lifecycle.ServiceLifeCycle.state")) {
@@ -166,7 +166,7 @@ public class PolicyMetaDataTestCase extends GREGIntegrationBaseTest {
     @Test(groups = {"wso2.greg"}, dependsOnMethods = {"addLifeCycle"})
     public void addAssociation() throws AddAssociationRegistryExceptionException, RemoteException {
         AssociationTreeBean associationTreeBean = null;
-        relationAdminServiceClient.addAssociation(policyPath + resourceName, "asso", "/_system/governance/trunk/policies/", "add");
+        relationAdminServiceClient.addAssociation(policyPath + "1.0.0/" + resourceName, "asso", "/_system/governance/trunk/policies/", "add");
         //check for added association
         associationTreeBean = relationAdminServiceClient.getAssociationTree("/_system/governance/trunk/policies/", "asso");
         assertTrue(associationTreeBean.getAssoType().equals("asso"));
@@ -175,7 +175,7 @@ public class PolicyMetaDataTestCase extends GREGIntegrationBaseTest {
     @Test(groups = {"wso2.greg"}, dependsOnMethods = {"addAssociation"})
     public void addDependency() throws AddAssociationRegistryExceptionException, RemoteException {
         AssociationTreeBean associationTreeBean = null;
-        relationAdminServiceClient.addAssociation(policyPath + resourceName, "depends", "/_system/governance/trunk/policies/", "add");
+        relationAdminServiceClient.addAssociation(policyPath + "1.0.0/" + resourceName, "depends", "/_system/governance/trunk/policies/", "add");
         //check for added dependencies
         associationTreeBean = relationAdminServiceClient.getAssociationTree("/_system/governance/trunk/policies/", "depends");
         assertTrue(associationTreeBean.getAssoType().equals("depends"));
@@ -187,14 +187,14 @@ public class PolicyMetaDataTestCase extends GREGIntegrationBaseTest {
         VersionPath[] versionPath = null;
         long versionNoBefore = 0L;
         long versionNoAfter = 0L;
-        resourceAdminServiceClient.createVersion(policyPath + resourceName);
-        versionPath = resourceAdminServiceClient.getVersionsBean(policyPath + resourceName).getVersionPaths();
+        resourceAdminServiceClient.createVersion(policyPath + "1.0.0/" + resourceName);
+        versionPath = resourceAdminServiceClient.getVersionsBean(policyPath + "1.0.0/" + resourceName).getVersionPaths();
         versionNoBefore = versionPath[0].getVersionNumber();
         /**
          * update resource content and checking the version number update
          */
         updatePolicyFromFile();
-        versionPath = resourceAdminServiceClient.getVersionsBean(policyPath + resourceName).getVersionPaths();
+        versionPath = resourceAdminServiceClient.getVersionsBean(policyPath + "1.0.0/" + resourceName).getVersionPaths();
         versionNoAfter = versionPath[0].getVersionNumber();
         assertEquals(versionNoAfter, versionNoBefore);
     }
@@ -234,19 +234,19 @@ public class PolicyMetaDataTestCase extends GREGIntegrationBaseTest {
         /**
          *  update policy and check the content
          */
-        resourceAdminServiceClient.updateTextContent(policyPath + resourceName, resContent);
-        Assert.assertTrue(resourceAdminServiceClient.getTextContent(policyPath + resourceName).contains("InactivityTimeout"));
+        resourceAdminServiceClient.updateTextContent(policyPath + "1.0.0/" + resourceName, resContent);
+        Assert.assertTrue(resourceAdminServiceClient.getTextContent(policyPath + "1.0.0/" + resourceName).contains("InactivityTimeout"));
     }
 
 
     @AfterClass(groups = "wso2.greg")
     public void deleteResources() throws ResourceAdminServiceExceptionException, RemoteException, RegistryException, RegistryExceptionException, AddAssociationRegistryExceptionException, CustomLifecyclesChecklistAdminServiceExceptionException {
-        infoServiceAdminClient.removeTag("test tag added", policyPath + resourceName, session);
-        relationAdminServiceClient.addAssociation(policyPath + resourceName, "asso", "/_system/governance/trunk/policies/", "remove");
-        lifeCycleAdminServiceClient.removeAspect(policyPath + resourceName, "ServiceLifeCycle");
+        infoServiceAdminClient.removeTag("test tag added", policyPath + "1.0.0/" + resourceName, session);
+        relationAdminServiceClient.addAssociation(policyPath + "1.0.0/" + resourceName, "asso", "/_system/governance/trunk/policies/", "remove");
+        lifeCycleAdminServiceClient.removeAspect(policyPath + "1.0.0/" + resourceName, "ServiceLifeCycle");
 
 //        relationAdminServiceClient.cleanUp();
-        resourceAdminServiceClient.deleteResource(policyPath + resourceName);
+        resourceAdminServiceClient.deleteResource(policyPath + "1.0.0/" + resourceName);
         resourceAdminServiceClient = null;
         relationAdminServiceClient = null;
         policyPath = null;

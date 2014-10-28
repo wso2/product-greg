@@ -109,11 +109,11 @@ public class MetaDataTestCase extends GREGIntegrationBaseTest {
         }
 
         assertTrue(nameExists);
-        deleteVersion("/_system/governance/trunk/policies/policy.xml");
-        resourceAdminClient.createVersion("/_system/governance/trunk/policies/policy.xml");
-        VersionPath[] vp1 = resourceAdminClient.getVersionPaths("/_system/governance/trunk/policies/policy.xml");
+        deleteVersion("/_system/governance/trunk/policies/1.0.0/policy.xml");
+        resourceAdminClient.createVersion("/_system/governance/trunk/policies/1.0.0/policy.xml");
+        VersionPath[] vp1 = resourceAdminClient.getVersionPaths("/_system/governance/trunk/policies/1.0.0/policy.xml");
         assertEquals(1, vp1.length);
-        assertNull(deleteVersion("/_system/governance/trunk/policies/policy.xml"));
+        assertNull(deleteVersion("/_system/governance/trunk/policies/1.0.0/policy.xml"));
 
 
     }
@@ -228,7 +228,7 @@ public class MetaDataTestCase extends GREGIntegrationBaseTest {
         deleteResource("/_system/governance/trunk/services/org/wso2/carbon/core/services/echo/1.0.0-SNAPSHOT/echoyuSer1");
         deleteResource("/_system/governance/trunk/wsdls/com/foo/1.0.0-SNAPSHOT/abc.wsdl");
         deleteResource("/_system/governance/trunk/schemas/org/charitha/1.0.0/calculator.xsd");
-        deleteResource("/_system/governance/trunk/policies/policy.xml");
+        deleteResource("/_system/governance/trunk/policies/1.0.0/policy.xml");
         deleteResource("/_system/governance/trunk/wsdls/org/wso2/carbon/core/services/echo/echo.wsdl");
         deleteResource("/_system/governance/trunk/schemas/org/bar/purchasing/1.0.0-SNAPSHOT/purchasing.xsd");
         resourceAdminClient = null;

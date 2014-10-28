@@ -262,7 +262,7 @@ public class Registry732 extends GREGIntegrationBaseTest {
                 ACTION_ITEM_CLICK, new String[]{"true"});
         lifeCycleAdminServiceClient.invokeAspect(absPath,
                 LC_NAME, ACTION_PROMOTE, null);
-        verServiceString = "/_system/governance/branches/testing/services/com/abb/IntergalacticService3/1.0.0-SNAPSHOT/service";
+        verServiceString = "/_system/governance/branches/testing/services/com/abb/1.0.0-SNAPSHOT/IntergalacticService3";
         lifeCycle =
                 lifeCycleAdminServiceClient.getLifecycleBean(verServiceString);
         Property[] properties = lifeCycle.getLifecycleProperties();

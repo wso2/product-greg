@@ -79,7 +79,7 @@ public class ResourceAssociationsTestCase extends GREGIntegrationBaseTest{
             "/_system/governance/trunk/wsdls/com/amazon/soap/1.0.0/AmazonWebServices.wsdl";
     private static final String SCHEMA_PATH = "/_system/governance/trunk/schemas/books/1.0.0/books.xsd";
     private static final String SERVICE_PATH =
-            "/_system/governance/trunk/services/com/amazon/soap/1.0.0-SNAPSHOT/AmazonSearchService";
+            "/_system/governance/trunk/services/com/amazon/soap/1.0.0/AmazonSearchService";
 
 
     private String pathToPolicy = "";

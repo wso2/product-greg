@@ -107,7 +107,7 @@ public class GregLifeCycleTestWithServicePathLCTestCase extends GREGIntegrationB
     public void promoteToTesting()
             throws CustomLifecyclesChecklistAdminServiceExceptionException, RemoteException,
                    RegistryException, InterruptedException {
-        servicePathTest = "/_system/governance/branches/testing/services/org/wso2/carbon/core/services/echo/1.0.0-SNAPSHOT/echoyuSer1";
+        servicePathTest = "/_system/governance/branches/testing/services/org/wso2/carbon/core/services/echo/1.0.0/echoyuSer1";
 
         lifeCycleAdminServiceClient.invokeAspect(servicePathTrunk, ASPECT_NAME,
                                                  ACTION_PROMOTE, null);
@@ -132,10 +132,10 @@ public class GregLifeCycleTestWithServicePathLCTestCase extends GREGIntegrationB
                    RegistryException, InterruptedException {
         ArrayOfString[] parameters = new ArrayOfString[1];
         parameters[0] = new ArrayOfString();
-        parameters[0].setArray(new String[]{"/_system/governance/branches/testing/services/org/wso2/carbon/core/services/echo/1.0.0-SNAPSHOT/echoyuSer1", "1.0.0"});
+        parameters[0].setArray(new String[]{"/_system/governance/branches/testing/services/org/wso2/carbon/core/services/echo/1.0.0/echoyuSer1", "1.0.0"});
 
         servicePathProd = "/_system/governance/branches/production/services/org/wso2/carbon/core/services/echo/1.0.0/echoyuSer1";
-        lifeCycleAdminServiceClient.invokeAspectWithParams("/_system/governance/branches/testing/services/org/wso2/carbon/core/services/echo/1.0.0-SNAPSHOT/echoyuSer1", ASPECT_NAME,
+        lifeCycleAdminServiceClient.invokeAspectWithParams("/_system/governance/branches/testing/services/org/wso2/carbon/core/services/echo/1.0.0/echoyuSer1", ASPECT_NAME,
                                                            ACTION_PROMOTE, null, parameters);
         Thread.sleep(2000);
 

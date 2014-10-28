@@ -82,6 +82,7 @@ public class ServicesAndRegistryXMLTestCase extends GREGIntegrationBaseTest {
         serviceManager = new ServiceManager(governance);
         service =
                 serviceManager.newService(new QName("http://bang.boom.com/mnm/beep/test", "RegistryXMLService"));
+        service.addAttribute("overview_version", "3.0.0");
         serviceManager.addService(service);
         String serviceId = service.getId();
         GovernanceUtils.loadGovernanceArtifacts((UserRegistry) governance);

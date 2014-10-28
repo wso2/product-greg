@@ -347,7 +347,7 @@ public class RegistrySearchByPropertyValueTestCase extends GREGIntegrationBaseTe
     @AfterClass
     public void clean() throws ResourceAdminServiceExceptionException, RemoteException {
         resourceAdminServiceClient.deleteResource("/_system/governance/trunk/wsdls/com/amazon/soap/1.0.0/AmazonWebServices.wsdl");
-        resourceAdminServiceClient.deleteResource("/_system/governance/trunk/services/com/amazon/soap/1.0.0-SNAPSHOT/AmazonSearchService");
+        resourceAdminServiceClient.deleteResource("/_system/governance/trunk/services/com/amazon/soap/1.0.0/AmazonSearchService");
         resourceAdminServiceClient.deleteResource("/_system/governance/trunk/schemas/com/example/www/library/1.0.0/library.xsd");
         resourceAdminServiceClient.deleteResource("/_system/governance/trunk/endpoints/com");
 

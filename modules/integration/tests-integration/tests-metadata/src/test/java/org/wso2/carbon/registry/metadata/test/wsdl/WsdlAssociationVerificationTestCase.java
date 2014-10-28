@@ -56,11 +56,11 @@ public class WsdlAssociationVerificationTestCase extends GREGIntegrationBaseTest
     private final String automatedWsdlPath =
             "/_system/governance/trunk/wsdls/com/strikeiron/www/1.0.0/Automated.wsdl";
     private final String associatedServicePathAutomated =
-            "/_system/governance/trunk/services/com/strikeiron/www/1.0.0-SNAPSHOT/DoNotCallRegistry";
+            "/_system/governance/trunk/services/com/strikeiron/www/1.0.0/DoNotCallRegistry";
     private final String associatedEndpointPathAutomated =
             "/_system/governance/trunk/endpoints/com/strikeiron/ws/strikeiron/donotcall2_5/ep-DoNotCallRegistry";
     private final String associatedServicePathAmazon =
-            "/_system/governance/trunk/services/com/amazon/soap/1.0.0-SNAPSHOT/AmazonSearchService";
+            "/_system/governance/trunk/services/com/amazon/soap/1.0.0/AmazonSearchService";
     private final String associatedEndpointPathAmazon =
             "/_system/governance/trunk/endpoints/com/amazon/soap/onca/ep-soap2";
     private String sessionCookie;
@@ -118,7 +118,7 @@ public class WsdlAssociationVerificationTestCase extends GREGIntegrationBaseTest
         assertTrue(associationTreeBean
                 .getAssociationTree()
                 .contains(
-                        "/_system/governance/trunk/services/com/amazon/soap/1.0.0-SNAPSHOT/AmazonSearchService"));
+                        "/_system/governance/trunk/services/com/amazon/soap/1.0.0/AmazonSearchService"));
         assertTrue(associationTreeBean
                 .getAssociationTree()
                 .contains(

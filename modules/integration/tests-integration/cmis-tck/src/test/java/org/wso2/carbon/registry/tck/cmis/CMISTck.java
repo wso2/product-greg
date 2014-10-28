@@ -40,10 +40,7 @@ public class CMISTck extends GREGIntegrationBaseTest {
    
     public static final String CMIS_PATH = "cmis.jar.path";
     public static final String LOG_PATH = "logging.jar.path";
-
     public RemoteRegistry registry;
-
-
     private String cmisJarPath = "";
     private String loggingJarPath = "";
 
