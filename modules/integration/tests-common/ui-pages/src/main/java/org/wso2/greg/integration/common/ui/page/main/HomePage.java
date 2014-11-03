@@ -18,17 +18,15 @@
 
 package org.wso2.greg.integration.common.ui.page.main;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import java.io.IOException;
+import java.util.Arrays;
+import java.util.List;
+
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.wso2.greg.integration.common.ui.page.LoginPage;
 import org.wso2.greg.integration.common.ui.page.util.UIElementMapper;
-
-import java.io.IOException;
-import java.util.Arrays;
-import java.util.List;
 
 /**
  * Home page class holds the information of product page you got once login
@@ -38,7 +36,6 @@ import java.util.List;
 public class HomePage {
 
 
-    private static final Log log = LogFactory.getLog(HomePage.class);
     private WebDriver driver;
     private boolean isCloudEnvironment = false;
     private boolean isTenant = false;
