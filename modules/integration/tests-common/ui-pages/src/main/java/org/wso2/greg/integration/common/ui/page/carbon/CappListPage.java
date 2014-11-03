@@ -20,29 +20,22 @@ package org.wso2.greg.integration.common.ui.page.carbon;
 
 import java.io.IOException;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
-import org.wso2.greg.integration.common.ui.page.LoginPage;
 import org.wso2.greg.integration.common.ui.page.util.UIElementMapper;
 
 public class CappListPage {
-    private static final Log log = LogFactory.getLog(LoginPage.class);
     private WebDriver driver;
     private UIElementMapper uiElementMapper;
 
     public CappListPage(WebDriver driver) throws IOException {
         this.driver = driver;
         this.uiElementMapper = UIElementMapper.getInstance();
-          if (!driver.findElement(By.id(uiElementMapper.getElement("carbon.dashboard.middle.text"))).
+          if (!this.driver.findElement(By.id(uiElementMapper.getElement("carbon.dashboard.middle.text"))).
                 getText().contains("Carbon Applications List")) {
 
             throw new IllegalStateException("This is not the carbon List page######################");
         }
     }
-
-
-
 }
 
