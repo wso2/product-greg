@@ -52,7 +52,7 @@ public class GarFileImportServiceWSTestCase extends GREGIntegrationBaseTest {
     @Test(groups = {"wso2.greg"}, description = "GAR file uploader - Axis2Service")
     public void testAddAxis2ServiceGarFile() throws org.wso2.carbon.registry.api.RegistryException, IOException {
         String filePath = resourcePath + "Axis2Service.gar";
-        String service_path = "/_system/governance/trunk/services/org/wso2/carbon/service/1.0.0-SNAPSHOT/Axis2Service";
+        String service_path = "/_system/governance/trunk/services/org/wso2/carbon/service/1.0.0/Axis2Service";
         String wsdl_path = "/_system/governance/trunk/wsdls/org/wso2/carbon/service/1.0.0/Axis2Service.wsdl";
         String schema_path = "/_system/governance/trunk/schemas/org/wso2/carbon/service/1.0.0/axis2serviceschema.xsd";
         InputStream is = null;
@@ -100,7 +100,7 @@ public class GarFileImportServiceWSTestCase extends GREGIntegrationBaseTest {
             dependsOnMethods = "testAddAxis2ServiceGarFile")
     public void testAddSimpleStockQuoteServiceGarFile() throws Exception {
         String filePath = resourcePath + "SimpleStockQuoteService.gar";
-        String service_path = "/_system/governance/trunk/services/samples/services/1.0.0-SNAPSHOT/SimpleStockQuoteService";
+        String service_path = "/_system/governance/trunk/services/samples/services/1.0.0/SimpleStockQuoteService";
         String wsdl_path = "/_system/governance/trunk/wsdls/samples/services/1.0.0/SimpleStockQuoteService.wsdl";
         try {
             //Create Resource
@@ -215,7 +215,7 @@ public class GarFileImportServiceWSTestCase extends GREGIntegrationBaseTest {
             dependsOnMethods = "testAddHeterogeneousNamespaceGarFile")
     public void testAddArtistRegistryGarFile() throws FileNotFoundException, org.wso2.carbon.registry.api.RegistryException {
         String filePath = resourcePath + "artistRegistry.gar";
-        String service_path = "/_system/governance/trunk/services/eu/yesso/soamoa/samples/1.0.0-SNAPSHOT/ArtistRegistryService";
+        String service_path = "/_system/governance/trunk/services/eu/yesso/soamoa/samples/1.0.0/ArtistRegistryService";
         String wsdl_path = "/_system/governance/trunk/wsdls/eu/yesso/soamoa/samples/1.0.0/artistRegistry.wsdl";
         String schema_path = "/_system/governance/trunk/schemas/eu/yesso/soamoa/samples/1.0.0/artistRegistry.xsd";
         try {
@@ -253,8 +253,8 @@ public class GarFileImportServiceWSTestCase extends GREGIntegrationBaseTest {
             dependsOnMethods = "testAddArtistRegistryGarFile")
     public void testAddOriginalWSDLGarFile() throws FileNotFoundException, org.wso2.carbon.registry.api.RegistryException {
         String filePath = resourcePath + "original-wsdl.gar";
-        String service_path1 = "/_system/governance/trunk/services/com/konakart/ws/1.0.0-SNAPSHOT/KKWSEngIfService";
-        String service_path2 = "/_system/governance/trunk/services/net/ecubicle/www/1.0.0-SNAPSHOT/YouTubeDownloader";
+        String service_path1 = "/_system/governance/trunk/services/com/konakart/ws/1.0.0/KKWSEngIfService";
+        String service_path2 = "/_system/governance/trunk/services/net/ecubicle/www/1.0.0/YouTubeDownloader";
         String wsdl_path1 = "/_system/governance/trunk/wsdls/com/konakart/ws/1.0.0/KKWebServiceEng.wsdl";
         String wsdl_path2 = "/_system/governance/trunk/wsdls/net/ecubicle/www/1.0.0/youtubedownloader.asmx.wsdl";
         try {
