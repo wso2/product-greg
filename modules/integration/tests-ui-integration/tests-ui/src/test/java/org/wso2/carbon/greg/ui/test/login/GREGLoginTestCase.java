@@ -1,5 +1,5 @@
 /*
-*Copyright (c) 2005-2010, WSO2 Inc. (http://www.wso2.org) All Rights Reserved.
+*Copyright (c) 2005-2014, WSO2 Inc. (http://www.wso2.org) All Rights Reserved.
 *
 *WSO2 Inc. licenses this file to you under the Apache License,
 *Version 2.0 (the "License"); you may not use this file except
@@ -23,13 +23,13 @@ import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 import org.wso2.carbon.automation.engine.context.TestUserMode;
+import org.wso2.carbon.automation.engine.context.beans.User;
 import org.wso2.carbon.automation.extensions.selenium.BrowserManager;
 import org.wso2.greg.integration.common.ui.page.LoginPage;
 import org.wso2.greg.integration.common.ui.page.main.HomePage;
 import org.wso2.greg.integration.common.utils.GREGIntegrationUIBaseTest;
-import org.wso2.carbon.automation.engine.context.beans.User;
 
-public class ESBLoginTestCase extends GREGIntegrationUIBaseTest {
+public class GREGLoginTestCase extends GREGIntegrationUIBaseTest {
     private WebDriver driver;
     private User userInfo;
 
@@ -41,7 +41,7 @@ public class ESBLoginTestCase extends GREGIntegrationUIBaseTest {
         driver.get(getLoginURL());
     }
 
-    @Test(groups = "wso2.am", description = "verify login to ESB Server")
+    @Test(groups = "wso2.am", description = "verify login to G-Reg Server")
     public void testLogin() throws Exception {
 //        boolean isCloud = isRunningOnCloud();
         LoginPage test = new LoginPage(driver);
