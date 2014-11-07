@@ -637,7 +637,9 @@ public class ReportingTestCaseSuper extends GREGIntegrationBaseTest {
 
         GenericArtifactManager artifactManager = new GenericArtifactManager(
                 governance, "applications");
-        artifactManager.removeGenericArtifact(artifactIDs[i]);
+        if(artifactIDs[i] != null ){
+        	artifactManager.removeGenericArtifact(artifactIDs[i]);
+        }        
     }
 
     /**

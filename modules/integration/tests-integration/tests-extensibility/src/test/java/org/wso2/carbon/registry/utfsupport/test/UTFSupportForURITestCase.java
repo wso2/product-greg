@@ -202,9 +202,10 @@ public class UTFSupportForURITestCase extends GREGIntegrationBaseTest {
         delete(pathPrefix + uriWsdlPath);
         delete(pathPrefix + uriGenericPath);
         delete(pathPrefix + uriPolicyPath);
-        delete("/_system/governance/trunk/services/com/amazon/soap/AmazonSearchService");
+        delete("/_system/governance/trunk/services/com/amazon/soap/1.0.0/AmazonSearchService");
         userManagementClient.deleteRole(utfString);
         lifeCycleManagementClient.deleteLifeCycle(LC_NAME);
+        delete("/_system/governance/trunk/endpoints/com/amazon/soap/onca/ep-soap2");
         delete("/_system/governance/trunk/endpoints/com");
 
         utfString = null;

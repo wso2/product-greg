@@ -646,9 +646,10 @@ public class UTFSupportForMetadataTestCase extends GREGIntegrationBaseTest {
         delete(pathPrefix + wsdlPath);
         delete(pathPrefix + associatePath);
         delete("/_system/config/test_utf8_Resource");
-        delete("/_system/governance/trunk/services/com/amazon/soap/1.0.0-SNAPSHOT/AmazonSearchService");
+        delete("/_system/governance/trunk/services/com/amazon/soap/1.0.0/AmazonSearchService");
         delete("/test_collection");
         delete("/_system/governance/trunk/test1/testresource.txt");
+        delete("/_system/governance/trunk/endpoints/com/amazon/soap/onca/ep-soap2");
         delete("/_system/governance/trunk/endpoints/com");
         /*delete("/_system/config/testResource");*/
 
