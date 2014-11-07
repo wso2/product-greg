@@ -61,7 +61,7 @@ public class WsdlImportTestCase extends GREGIntegrationBaseTest{
         String wsdlPath = "/_system/governance/trunk/wsdls/com/foo/1.0.0/complextypedoclit.wsdl";
 
         assertTrue(resourceExists(registry, wsdlPath), "ComplexDataTypesRpcLit.svc.wsdl");
-        String servicePath = "/_system/governance/trunk/services/com/foo/1.0.0-SNAPSHOT/BizService";
+        String servicePath = "/_system/governance/trunk/services/com/foo/1.0.0/BizService";
         assertTrue(resourceExists(registry, servicePath), "ComplexDataTypesRpcLitService is not available");
 
 
