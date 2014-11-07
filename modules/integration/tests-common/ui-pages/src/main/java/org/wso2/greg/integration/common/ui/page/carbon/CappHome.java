@@ -58,7 +58,7 @@ public class CappHome {
 
         driver.findElement(By.name(uiElementMapper.getElement("carbon.upload.button"))).click();
         Thread.sleep(5000);
-
+        driver.navigate().refresh();
         if (!driver.findElement(By.id(uiElementMapper.getElement("carbon.upload.successful.message"))).
                 getText().contains("successfully")) {
 

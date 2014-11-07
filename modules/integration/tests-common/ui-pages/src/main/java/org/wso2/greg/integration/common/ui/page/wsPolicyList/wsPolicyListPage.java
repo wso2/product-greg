@@ -61,7 +61,7 @@ public class wsPolicyListPage {
             String resourceXpath2 = "]/td/a";
 
 
-            for (int i = 2; i < 10; i++) {
+            for (int i = 1; i < 10; i++) {
                 String serviceNameOnAppServer = resourceXpath + i + resourceXpath2;
                 String actualResourceName = driver.findElement(By.xpath(serviceNameOnAppServer)).getText();
                 log.info("val on app is -------> " + actualResourceName);

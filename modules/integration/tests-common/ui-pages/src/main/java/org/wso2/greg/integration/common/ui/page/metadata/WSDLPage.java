@@ -47,7 +47,7 @@ public class WSDLPage {
         }
     }
 
-    public WsdlListPage uploadWsdlFromUrl(String wsdlUrl, String WsdlName)
+    public WsdlListPage uploadWsdlFromUrl(String wsdlUrl, String WsdlName, String version)
             throws InterruptedException, IOException {
         // Check that we're on the right page.
         driver.findElement(By.linkText(uiElementMapper.getElement("wsdl.add.link"))).click();
@@ -59,17 +59,21 @@ public class WSDLPage {
         WebElement serviceUploadNamespace = driver.findElement(By.id(uiElementMapper.getElement("wsdl.add.name")));
         serviceUploadNamespace.clear();
         serviceUploadNamespace.sendKeys(WsdlName);
+        WebElement versionField = driver.findElement(By.xpath("//input[@id='irversion']"));
+        versionField.clear();
+        versionField.sendKeys(version);
         String wsdlName = serviceUploadField.getText();
-        log.info("Printing the wsdl name" + wsdlName);
+        log.info("Printing the wsdl name " + wsdlName);
         JavascriptExecutor js = (JavascriptExecutor) driver;
         js.executeScript("addFile()");
         log.info("successfully Saved");
         Thread.sleep(15000);
+        driver.navigate().refresh();
         return new WsdlListPage(driver);
 
     }
 
-    public WsdlListPage uploadWsdlFromFile(String wsdlPath, String WsdlName)
+    public WsdlListPage uploadWsdlFromFile(String wsdlPath, String WsdlName, String version)
             throws InterruptedException, IOException {
 
         driver.findElement(By.linkText(uiElementMapper.getElement("wsdl.add.link"))).click();
@@ -79,9 +83,14 @@ public class WSDLPage {
         WebElement serviceUploadNamespace = driver.findElement(By.id(uiElementMapper.getElement("wsdl.add.file.name.id")));
         serviceUploadNamespace.clear();
         serviceUploadNamespace.sendKeys(WsdlName);
+        WebElement versionField = driver.findElement(By.xpath("//input[@id='uversion']"));
+        versionField.clear();
+        versionField.sendKeys(version);
         JavascriptExecutor js2 = (JavascriptExecutor) driver;
         js2.executeScript("addFile()");
         log.info("successfully Saved");
+        Thread.sleep(15000);
+        driver.navigate().refresh();
         return new WsdlListPage(driver);
 
     }

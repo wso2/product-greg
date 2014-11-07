@@ -48,16 +48,21 @@ public class ServicePage {
         }
     }
 
-    public ServiceListPage uploadService(String name, String nameSpace) throws InterruptedException
+    public ServiceListPage uploadService(String name, String nameSpace, String version) throws InterruptedException
             , IOException {
         WebElement serviceUploadField = driver.findElement(By.id(uiElementMapper.getElement("service.add.name.id")));
         serviceUploadField.sendKeys(name);
         WebElement serviceUploadNamespace = driver.findElement(By.id(uiElementMapper.getElement("service.add.namespace.id")));
         serviceUploadNamespace.sendKeys(nameSpace);
+        WebElement versionField = driver.findElement(By.xpath("//input[@id='id_Overview_Version']"));
+        versionField.clear();
+        versionField.sendKeys(version);
         JavascriptExecutor js = (JavascriptExecutor) driver;
         js.executeScript("addEditArtifact()");
         log.info("successfully Saved");
         driver.findElement(By.linkText(uiElementMapper.getElement("service.check.save.service"))).click();
+        Thread.sleep(15000);
+        driver.navigate().refresh();
         return new ServiceListPage(driver);
 
     }

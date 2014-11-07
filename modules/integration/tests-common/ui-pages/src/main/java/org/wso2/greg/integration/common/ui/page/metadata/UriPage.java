@@ -61,6 +61,8 @@ public class UriPage {
         JavascriptExecutor js = (JavascriptExecutor) driver;
         js.executeScript("addEditArtifact()");
         log.info("successfully Saved");
+        Thread.sleep(15000);
+        driver.navigate().refresh();
         return new ResourceBrowsePage(driver);
 
     }
@@ -77,6 +79,8 @@ public class UriPage {
         JavascriptExecutor js = (JavascriptExecutor) driver;
         js.executeScript("addEditArtifact()");
         log.info("successfully Saved");
+        Thread.sleep(10000);
+        driver.navigate().refresh();
         return new ResourceBrowsePage(driver);
 
     }
@@ -94,6 +98,8 @@ public class UriPage {
         JavascriptExecutor js = (JavascriptExecutor) driver;
         js.executeScript("addEditArtifact()");
         log.info("successfully Saved");
+        Thread.sleep(15000);
+        driver.navigate().refresh();
         return new ResourceBrowsePage(driver);
 
     }
@@ -110,6 +116,8 @@ public class UriPage {
         JavascriptExecutor js = (JavascriptExecutor) driver;
         js.executeScript("addEditArtifact()");
         log.info("successfully Saved");
+        Thread.sleep(10000);
+        driver.navigate().refresh();
         return new ResourceBrowsePage(driver);
 
     }

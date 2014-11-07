@@ -50,7 +50,7 @@ public class SchemaPage {
         }
     }
 
-    public SchemaListPage uploadSchemaFromUrl(String SchemaUrl, String SchemaName)
+    public SchemaListPage uploadSchemaFromUrl(String SchemaUrl, String SchemaName, String version)
             throws InterruptedException, IOException {
 
         WebElement serviceUploadField = driver.findElement(By.id(uiElementMapper.getElement("schema.add.url")));
@@ -58,17 +58,21 @@ public class SchemaPage {
         WebElement serviceUploadNamespace = driver.findElement(By.id(uiElementMapper.getElement("schema.add.name")));
         serviceUploadNamespace.clear();
         serviceUploadNamespace.sendKeys(SchemaName);
+        WebElement versionField = driver.findElement(By.xpath("//input[@id='irversion']"));
+        versionField.clear();
+        versionField.sendKeys(version);
         String schemaName = serviceUploadField.getText();
         log.info("Printing the Schema name" + schemaName);
         JavascriptExecutor js = (JavascriptExecutor) driver;
         js.executeScript("addFile()");
         log.info("successfully Saved");
-        Thread.sleep(10000);
+        Thread.sleep(15000);
+        driver.navigate().refresh();
         return new SchemaListPage(driver);
 
     }
 
-    public SchemaListPage uploadSchemaFromFile(String schemaPath, String schemaName)
+    public SchemaListPage uploadSchemaFromFile(String schemaPath, String schemaName, String version)
             throws InterruptedException, IOException {
 
         driver.findElement(By.linkText(uiElementMapper.getElement("schema.add.link"))).click();
@@ -78,9 +82,14 @@ public class SchemaPage {
         WebElement serviceUploadNamespace = driver.findElement(By.id(uiElementMapper.getElement("schema.add.schema.name.id")));
         serviceUploadNamespace.clear();
         serviceUploadNamespace.sendKeys(schemaName);
+        WebElement versionField = driver.findElement(By.xpath("//input[@id='uversion']"));
+        versionField.clear();
+        versionField.sendKeys(version);
         JavascriptExecutor js2 = (JavascriptExecutor) driver;
         js2.executeScript("addFile()");
         log.info("successfully Saved");
+        Thread.sleep(15000);
+        driver.navigate().refresh();
         return new SchemaListPage(driver);
 
     }

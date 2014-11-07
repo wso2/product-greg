@@ -51,7 +51,7 @@ public class WsPolicyPage {
         }
     }
 
-    public wsPolicyListPage uploadWsPolicyFromUrl(String wsPolicyUrl, String wsPolicyName)
+    public wsPolicyListPage uploadWsPolicyFromUrl(String wsPolicyUrl, String wsPolicyName, String version)
             throws InterruptedException, IOException {
 
         WebElement policyUploadField = driver.findElement(By.id(uiElementMapper.getElement("wsPolicy.add.url")));
@@ -59,17 +59,21 @@ public class WsPolicyPage {
         WebElement wsPolicyNameField = driver.findElement(By.id(uiElementMapper.getElement("wsPolicy.add.name")));
         wsPolicyNameField.clear();
         wsPolicyNameField.sendKeys(wsPolicyName);
+        WebElement versionField = driver.findElement(By.xpath("//input[@id='irversion']"));
+        versionField.clear();
+        versionField.sendKeys(version);
         String schemaName = wsPolicyNameField.getText();
         log.info("Printing the Schema name" + schemaName);
         JavascriptExecutor js = (JavascriptExecutor) driver;
         js.executeScript("addFile();");
         log.info("successfully Saved");
-        Thread.sleep(10000);
+        Thread.sleep(15000);
+        driver.navigate().refresh();
         return new wsPolicyListPage(driver);
 
     }
 
-    public wsPolicyListPage uploadWsPolicyFromFile(String wsFilePath, String wsPolicyName)
+    public wsPolicyListPage uploadWsPolicyFromFile(String wsFilePath, String wsPolicyName, String version)
             throws InterruptedException, IOException {
         driver.findElement(By.linkText(uiElementMapper.getElement("wsPolicy.add.link"))).click();
 
@@ -79,9 +83,14 @@ public class WsPolicyPage {
         WebElement serviceUploadNamespace = driver.findElement(By.id(uiElementMapper.getElement("wsPolicy.add.schema.name.id")));
         serviceUploadNamespace.clear();
         serviceUploadNamespace.sendKeys(wsPolicyName);
+        WebElement versionField = driver.findElement(By.xpath("//input[@id='uversion']"));
+        versionField.clear();
+        versionField.sendKeys(version);
         JavascriptExecutor js2 = (JavascriptExecutor) driver;
         js2.executeScript("addFile();");
         log.info("successfully Saved");
+        Thread.sleep(15000);
+        driver.navigate().refresh();
         return new wsPolicyListPage(driver);
 
     }
