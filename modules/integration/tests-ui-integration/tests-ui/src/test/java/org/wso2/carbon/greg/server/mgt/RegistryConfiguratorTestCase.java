@@ -18,6 +18,19 @@
 
 package org.wso2.carbon.greg.server.mgt;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+
+import javax.xml.namespace.QName;
+import javax.xml.stream.XMLInputFactory;
+import javax.xml.stream.XMLOutputFactory;
+import javax.xml.stream.XMLStreamException;
+import javax.xml.stream.XMLStreamReader;
+import javax.xml.stream.XMLStreamWriter;
+
 import org.apache.axiom.om.OMAttribute;
 import org.apache.axiom.om.OMElement;
 import org.apache.axiom.om.impl.builder.StAXOMBuilder;
@@ -34,20 +47,11 @@ import org.wso2.carbon.automation.engine.frameworkutils.FrameworkPathUtil;
 import org.wso2.carbon.automation.test.utils.common.FileManager;
 import org.wso2.carbon.integration.common.utils.mgt.ServerConfigurationManager;
 import org.wso2.carbon.registry.core.Resource;
-import org.wso2.carbon.registry.resource.stub.ResourceAdminServiceExceptionException;
 import org.wso2.carbon.registry.ws.client.registry.WSRegistryServiceClient;
 import org.wso2.carbon.utils.CarbonUtils;
 import org.wso2.greg.integration.common.clients.ResourceAdminServiceClient;
 import org.wso2.greg.integration.common.utils.GREGIntegrationBaseTest;
 import org.wso2.greg.integration.common.utils.RegistryProviderUtil;
-
-import javax.activation.DataHandler;
-import javax.xml.namespace.QName;
-import javax.xml.stream.*;
-import java.io.*;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.rmi.RemoteException;
 
 public class RegistryConfiguratorTestCase extends GREGIntegrationBaseTest {
 
@@ -259,17 +263,6 @@ public class RegistryConfiguratorTestCase extends GREGIntegrationBaseTest {
     private String getRegistryXMLPath() {
         return CarbonUtils.getCarbonHome() + File.separator + "repository" + File.separator
                 + "conf" + File.separator + "registry.xml";
-    }
-
-    private void addResourceFileToRegistry()
-            throws MalformedURLException, ResourceAdminServiceExceptionException, RemoteException {
-
-        String resourcePath = FrameworkPathUtil.getSystemResourceLocation() + "artifacts" +
-                File.separator + "GREG" + File.separator + "utf8" + File.separator + "test.txt";
-
-        DataHandler dh = new DataHandler(new URL("file:///" + resourcePath));
-        resourceAdminServiceClient.addResource("/_system/config/test_utf8_Resource", "text/plain", "testDesc", dh);
-
     }
 
 }
