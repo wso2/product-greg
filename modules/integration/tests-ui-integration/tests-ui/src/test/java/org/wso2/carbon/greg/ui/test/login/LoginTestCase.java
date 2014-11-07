@@ -47,7 +47,6 @@ public class LoginTestCase extends GREGIntegrationUIBaseTest{
         HomePage home = test.loginAs(userInfo.getUserName(), userInfo.getPassword());
         home.logout();
         driver.close();
-        System.out.println("Login test case is completed ");
     }
 
     @AfterClass(alwaysRun = true)

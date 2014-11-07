@@ -62,8 +62,7 @@ public class ResourceTestCase extends GREGIntegrationUIBaseTest{
         String UrlPath = "http://svn.wso2.org/repos/wso2/carbon/platform/branches/4.0.0/platform-integration/clarity-tests/" +
                          "1.0.8/org.wso2.carbon.automation.test.repo/src/main/resources/artifacts/GREG/txt/sampleText.txt";
         resourceHome.uploadResourceFromUrl(UrlPath);
-        System.out.println("Im here");
-       //checking whether the uploaded resource exists in the table
+        //checking whether the uploaded resource exists in the table
         resourceHome.checkOnUploadSuccess("sampleText.txt");
        //uploading a collection Item to the Greg
         String folderName = "My Document";

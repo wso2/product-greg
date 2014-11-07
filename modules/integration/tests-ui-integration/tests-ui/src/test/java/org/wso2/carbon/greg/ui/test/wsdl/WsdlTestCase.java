@@ -65,14 +65,10 @@ public class WsdlTestCase extends GREGIntegrationUIBaseTest{
         WsdlListPage wsdlListPage = new WsdlListPage(driver);
         wsdlListPage.checkOnUploadWsdl(wsdlUrlNameWithExtension);
         //uploading a wsdl from a file
-        System.out.println(ProductConstant.SYSTEM_TEST_RESOURCE_LOCATION);
-        System.out.println(ProductConstant.SYSTEM_TEST_RESOURCE_LOCATION);
         String WsdlFilePath = ProductConstant.SYSTEM_TEST_RESOURCE_LOCATION + File.separator + "artifacts" + File.separator +
                               "GREG" + File.separator + "wsdl" + File.separator + "AmazonWebServices.wsdl";
         String WsdlFileName = "Amazon";
         String WsdlFileNameWithExtension = WsdlFileName + ".wsdl";
-        System.out.println(WsdlFilePath);
-        System.out.println(WsdlFileNameWithExtension);
         addWSDL.uploadWsdlFromFile(WsdlFilePath, WsdlFileNameWithExtension, wsdlVersion);
         wsdlListPage.checkOnUploadWsdl(WsdlFileNameWithExtension);
         driver.close();

@@ -72,8 +72,6 @@ public class SchemaTestCase extends GREGIntegrationUIBaseTest{
                                 "GREG" + File.separator + "schema" + File.separator + "Person.xsd";
         String SchemaFileName = "Personone";
         String SchemaNameWithExtension = SchemaFileName + ".xsd";
-        System.out.println(SchemaFilePath);
-        System.out.println(SchemaNameWithExtension);
         schemaPage.uploadSchemaFromFile(SchemaFilePath, SchemaNameWithExtension, version);
         Thread.sleep(6000);
         driver.navigate().refresh();

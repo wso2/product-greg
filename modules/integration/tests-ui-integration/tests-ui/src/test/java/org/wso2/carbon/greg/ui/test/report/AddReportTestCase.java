@@ -61,7 +61,6 @@ public class AddReportTestCase extends GREGIntegrationUIBaseTest{
         addReportPage.addNewReport(reportName, reportPath, reporttype, reportClass);
 
         //Thread.sleep(5000);
-        System.out.println("working after the sleep");
         mangeReportPage.checkOnUploadedReport(reportName);
         //Closing the web driver
         driver.close();

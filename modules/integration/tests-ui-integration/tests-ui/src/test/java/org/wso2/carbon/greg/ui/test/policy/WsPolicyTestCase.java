@@ -64,20 +64,14 @@ public class WsPolicyTestCase extends GREGIntegrationUIBaseTest{
         String schemaUrlNameWithExtension = wsPolicyUrlName + ".xml";
         addWsPolicy.uploadWsPolicyFromUrl(wsPolicyUrl, wsPolicyUrlName, version);
         wsPolicyListPage wsPolicyListPage = new wsPolicyListPage(driver);
-        System.out.println(schemaUrlNameWithExtension);
         wsPolicyListPage.checkOnUploadedPolicy(schemaUrlNameWithExtension);
         //uploading a wsPolicy from a file
-        System.out.println(ProductConstant.SYSTEM_TEST_RESOURCE_LOCATION);
-        System.out.println(ProductConstant.SYSTEM_TEST_RESOURCE_LOCATION);
         String wsPolicyFilePath = ProductConstant.SYSTEM_TEST_RESOURCE_LOCATION + File.separator + "artifacts" + File.separator +
                                   "GREG" + File.separator + "policy" + File.separator + "UTPolicy.xml";
 
         String wsPolicyFileName = "TestWsPolciy";
         String wsPolicyNameWithExtension = wsPolicyFileName + ".xml";
-        System.out.println(wsPolicyFilePath);
-        System.out.println(wsPolicyNameWithExtension);
         addWsPolicy.uploadWsPolicyFromFile(wsPolicyFilePath, wsPolicyNameWithExtension, version);
-        System.out.println(wsPolicyNameWithExtension);
         wsPolicyListPage.checkOnUploadedPolicy(wsPolicyNameWithExtension);
         driver.close();
 

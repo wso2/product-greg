@@ -52,8 +52,6 @@ public class AddNewExtensionTestCase extends GREGIntegrationUIBaseTest {
         LoginPage test = new LoginPage(driver);
         test.loginAs(userInfo.getUserName(), userInfo.getPassword());
         ExtensionPage addNewExtension = new ExtensionPage(driver);
-        System.out.println(ProductConstant.SYSTEM_TEST_RESOURCE_LOCATION);
-        System.out.println(ProductConstant.SYSTEM_TEST_RESOURCE_LOCATION);
         String extensionFilePath = ProductConstant.SYSTEM_TEST_RESOURCE_LOCATION + File.separator + "artifacts" + File.separator +
                                    "GREG" + File.separator + "extensions" + File.separator + "HelloWorld.jar";
         String extensionName = "HelloWorld.jar";

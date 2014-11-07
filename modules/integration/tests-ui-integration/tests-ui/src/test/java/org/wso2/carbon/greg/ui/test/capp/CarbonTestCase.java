@@ -49,8 +49,6 @@ public class CarbonTestCase extends GREGIntegrationUIBaseTest {
     public void testUploadCarbonItem() throws Exception {
         LoginPage test = new LoginPage(driver);
         test.loginAs(userInfo.getUserName(), userInfo.getPassword()) ;
-        System.out.println(ProductConstant.SYSTEM_TEST_RESOURCE_LOCATION);
-        System.out.println(ProductConstant.SYSTEM_TEST_RESOURCE_LOCATION);
         String ItemPath = ProductConstant.SYSTEM_TEST_RESOURCE_LOCATION + File.separator + "artifacts" + File.separator +
                 "GREG" + File.separator + "car" + File.separator + "Capp_1.0.0LT.car";
 
