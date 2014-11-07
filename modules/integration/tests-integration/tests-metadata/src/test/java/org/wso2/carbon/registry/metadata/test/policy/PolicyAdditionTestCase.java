@@ -73,9 +73,9 @@ public class PolicyAdditionTestCase extends GREGIntegrationBaseTest {
 
         policy = policyManager.newPolicy(FileManager.readFile(policyPath)
                                                  .getBytes());
+        policy.addAttribute("version", "2.0.0");
         policyManager.addPolicy(policy);
         policy.addAttribute("author", "Kana");
-        policy.addAttribute("version", "1.0.0");
         policy.addAttribute("description",
                             "Policy addtion via file system verification");
 
@@ -83,7 +83,7 @@ public class PolicyAdditionTestCase extends GREGIntegrationBaseTest {
 
         assertNotNull(policy);
         assertTrue(policy.getAttribute("author").contentEquals("Kana"));
-        assertEquals(policy.getAttribute("version"), "1.0.0");
+        assertEquals(policy.getAttribute("version"), "2.0.0");
         assertEquals(policy.getAttribute("description"),
                      "Policy addtion via file system verification");
 
@@ -101,21 +101,22 @@ public class PolicyAdditionTestCase extends GREGIntegrationBaseTest {
                            + "trunk/platform-integration/platform-automated-test-suite/"
                            + "org.wso2.carbon.automation.test.repo/"
                            + "src/main/resources/artifacts/GREG/policy/UTPolicy.xml");
+        policyViaUrl.addAttribute("version", "2.0.0");
         policyManager.addPolicy(policyViaUrl);
         policyViaUrl.addAttribute("author", "KanaURL");
-        policyViaUrl.addAttribute("version", "1.0.0");
+        
         policyViaUrl.addAttribute("description", "Policy addition via url");
 
         policyManager.updatePolicy(policyViaUrl);
 
         assertNotNull(policyViaUrl);
         assertTrue(policyViaUrl.getAttribute("author").contentEquals("KanaURL"));
-        assertEquals(policyViaUrl.getAttribute("version"), "1.0.0");
+        assertEquals(policyViaUrl.getAttribute("version"), "2.0.0");
         assertEquals(policyViaUrl.getAttribute("description"),
                      "Policy addition via url");
 
         assertTrue(policyViaUrl.getPath().contains(
-                "/trunk/policies/1.0.0/UTPolicy.xml"));
+                "/trunk/policies/2.0.0/UTPolicy.xml"));
         assertTrue(policyViaUrl.getQName().toString().contains("UTPolicy.xml"));
 
     }
