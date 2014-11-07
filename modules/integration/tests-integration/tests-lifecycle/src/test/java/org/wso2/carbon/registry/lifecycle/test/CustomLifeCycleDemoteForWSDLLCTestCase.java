@@ -23,6 +23,7 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 import org.wso2.carbon.authenticator.stub.LoginAuthenticationExceptionException;
 import org.wso2.carbon.automation.engine.context.TestUserMode;
+import org.wso2.carbon.governance.api.util.GovernanceUtils;
 import org.wso2.carbon.governance.custom.lifecycles.checklist.stub.CustomLifecyclesChecklistAdminServiceExceptionException;
 import org.wso2.carbon.governance.custom.lifecycles.checklist.stub.beans.xsd.LifecycleBean;
 import org.wso2.carbon.governance.custom.lifecycles.checklist.stub.services.ArrayOfString;
@@ -47,6 +48,7 @@ import org.xml.sax.SAXException;
 
 import javax.xml.stream.XMLStreamException;
 import javax.xml.xpath.XPathExpressionException;
+
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.rmi.RemoteException;
@@ -102,6 +104,7 @@ public class CustomLifeCycleDemoteForWSDLLCTestCase extends GREGIntegrationBaseT
         Thread.sleep(1000);
         LifeCycleUtils.createNewLifeCycle(ASPECT_NAME, lifeCycleManagementClient);
         assertNotNull(servicePathTrunk, "Service Not Found associate with WSDL");
+        GovernanceUtils.removeAspect(servicePathTrunk, "ServiceLifeCycle", wsRegistry);
         Thread.sleep(1000);
         String ASS_TYPE_DEPENDS = "depends";
         Association[] dependency = wsRegistry.getAssociations(servicePathTrunk, ASS_TYPE_DEPENDS);
@@ -127,7 +130,7 @@ public class CustomLifeCycleDemoteForWSDLLCTestCase extends GREGIntegrationBaseT
             throws RegistryException, CustomLifecyclesChecklistAdminServiceExceptionException,
             RemoteException, InterruptedException {
 
-        wsRegistry.associateAspect(servicePathTrunk, ASPECT_NAME);
+    	wsRegistry.associateAspect(servicePathTrunk, ASPECT_NAME);
         Thread.sleep(500);
         LifecycleBean lifeCycle = lifeCycleAdminService.getLifecycleBean(servicePathTrunk);
         Resource service = wsRegistry.get(servicePathTrunk);
@@ -555,7 +558,7 @@ public class CustomLifeCycleDemoteForWSDLLCTestCase extends GREGIntegrationBaseT
         parameters[7].setArray(new String[]{"preserveOriginal", "true"});
         lifeCycleAdminService.invokeAspectWithParams(servicePathBranchDev, ASPECT_NAME,
                 ACTION_DEMOTE, null, parameters);
-        servicePathTrunkDemote = "/_system/governance/trunk/services/org/wso2/carbon/core/services/echo/1.0.0/" + serviceName;
+        servicePathTrunkDemote = "/_system/governance/trunk/wso2/services/org/wso2/carbon/core/services/echo/1.0.0/" + serviceName;
         lifeCycle = lifeCycleAdminService.getLifecycleBean(servicePathTrunkDemote);
         Resource service = wsRegistry.get(servicePathTrunkDemote);
         assertNotNull(service, "Service Not found on registry path " + servicePathTrunkDemote);
@@ -652,13 +655,13 @@ public class CustomLifeCycleDemoteForWSDLLCTestCase extends GREGIntegrationBaseT
         String wsdlPathTrunk1 = "/_system/governance/trunk/wsdls/org/wso2/carbon/core/services/echo/echoServiceWsdl.wsdl";
         String wsdlPathTrunk2 = "/_system/governance/trunk/wsdls/org/wso2/carbon/core/services/echo/1.0.0/echoServiceWsdl.wsdl";
         String wsdlPathDev = "/_system/governance/branches/development/wsdls/org/wso2/carbon/core/services/echo/1.0.0/echoServiceWsdl.wsdl";
-        if (wsRegistry.resourceExists(servicePathTrunk)) {
+        if (servicePathTrunk != null && wsRegistry.resourceExists(servicePathTrunk)) {
             wsRegistry.delete(servicePathTrunk);
         }
-        if (wsRegistry.resourceExists(servicePathBranchDev)) {
+        if (servicePathBranchDev != null && wsRegistry.resourceExists(servicePathBranchDev)) {
             wsRegistry.delete(servicePathBranchDev);
         }
-        if (wsRegistry.resourceExists(servicePathTrunkDemote)) {
+        if (servicePathTrunkDemote != null && wsRegistry.resourceExists(servicePathTrunkDemote)) {
             wsRegistry.delete(servicePathTrunkDemote);
         }
         if (wsRegistry.resourceExists(wsdlPathTrunk1)) {
