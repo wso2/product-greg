@@ -1,3 +1,21 @@
+/*
+*Copyright (c) 2005-2014, WSO2 Inc. (http://www.wso2.org) All Rights Reserved.
+*
+*WSO2 Inc. licenses this file to you under the Apache License,
+*Version 2.0 (the "License"); you may not use this file except
+*in compliance with the License.
+*You may obtain a copy of the License at
+*
+*http://www.apache.org/licenses/LICENSE-2.0
+*
+*Unless required by applicable law or agreed to in writing,
+*software distributed under the License is distributed on an
+*"AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+*KIND, either express or implied.  See the License for the
+*specific language governing permissions and limitations
+*under the License.
+*/
+
 package org.wso2.carbon.registry.lifecycle.test;
 
 import org.testng.annotations.AfterClass;
@@ -36,12 +54,11 @@ import static org.testng.Assert.assertTrue;
  * Promote services with "Preserve Original" true/false and see whether the
  * service gets preserved or not once promoted
  * <p/>
- * Enter values with typos: prserveOrginial="fal" and check whether Original is
+ * Enter values with typos: prserveOrginial="false" and check whether Original is
  * preserved
  */
 public class PreserveOriginalLCTestCase extends GREGIntegrationBaseTest {
 
-    private int userId = 2;
     private String serviceStringTrunk = "/trunk/services/com/abb/1.0.0-SNAPSHOT/IntergalacticService6";
     private String serviceStringTest = "/branches/testing/services/com/abb/1.0.0/IntergalacticService6";
     private WSRegistryServiceClient wsRegistryServiceClient;
