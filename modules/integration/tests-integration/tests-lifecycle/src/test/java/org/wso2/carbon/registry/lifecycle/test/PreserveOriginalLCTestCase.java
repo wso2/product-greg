@@ -183,10 +183,10 @@ public class PreserveOriginalLCTestCase extends GREGIntegrationBaseTest {
         parameters[1].setArray(new String[]{dependencyList[1], "1.0.0"});
         parameters[2] = new ArrayOfString();
         parameters[2].setArray(new String[]{dependencyList[2], "1.0.0"});
-        //  parameters[3] = new ArrayOfString();
-        //  parameters[3].setArray(new String[]{dependencyList[3], "1.0.0"});
         parameters[3] = new ArrayOfString();
-        parameters[3].setArray(new String[]{"preserveOriginal", "false"});
+        parameters[3].setArray(new String[]{dependencyList[3], "1.0.0"});
+        parameters[4] = new ArrayOfString();
+        parameters[4].setArray(new String[]{"preserveOriginal", "false"});
         lifeCycleAdminServiceClient.invokeAspectWithParams("/_system/governance" + serviceStringTrunk,
                 LC_NAME, ACTION_PROMOTE, null,
                 parameters);
@@ -194,7 +194,7 @@ public class PreserveOriginalLCTestCase extends GREGIntegrationBaseTest {
             resourceAdminServiceClient.getResource("/_system/governance" + serviceStringTrunk);
         } catch (Exception e) {
             assertTrue(e.getMessage().equals
-                    ("Resource does not exist at path /_system/governance/trunk/services/com/abb/IntergalacticService6"), "Resource preserved");
+                    ("Resource does not exist at path /_system/governance/trunk/services/com/abb/1.0.0-SNAPSHOT/IntergalacticService6"), "Resource preserved");
         }
         assertNotNull(resourceAdminServiceClient.getResource("/_system/governance/branches"), "New version not created");
     }
@@ -309,15 +309,15 @@ public class PreserveOriginalLCTestCase extends GREGIntegrationBaseTest {
         parameters[1].setArray(new String[]{dependencyList[1], "1.0.0"});
         parameters[2] = new ArrayOfString();
         parameters[2].setArray(new String[]{dependencyList[2], "1.0.0"});
-        //parameters[3] = new ArrayOfString();
-        //parameters[3].setArray(new String[]{dependencyList[3], "1.0.0"});
         parameters[3] = new ArrayOfString();
-        parameters[3].setArray(new String[]{"preserveOriginal", "true"});
+        parameters[3].setArray(new String[]{dependencyList[3], "1.0.0"});
+        parameters[4] = new ArrayOfString();
+        parameters[4].setArray(new String[]{"preserveOriginal", "true"});
         lifeCycleAdminServiceClient.invokeAspectWithParams("/_system/governance" + serviceStringTrunk,
                 LC_NAME, ACTION_PROMOTE, null,
                 parameters);
         assertNotNull(resourceAdminServiceClient.getResource(
-                "/_system/governance/trunk/services/com/abb/IntergalacticService6"), "Original not preserved");
+                "/_system/governance/trunk/services/com/abb/1.0.0-SNAPSHOT/IntergalacticService6"), "Original not preserved");
         assertNotNull(resourceAdminServiceClient.getResource(
                 "/_system/governance/branches/testing/services/com/abb/1.0.0/IntergalacticService6"), "New version not created");
     }
@@ -436,10 +436,10 @@ public class PreserveOriginalLCTestCase extends GREGIntegrationBaseTest {
         parameters[1].setArray(new String[]{dependencyList[1], "1.0.0"});
         parameters[2] = new ArrayOfString();
         parameters[2].setArray(new String[]{dependencyList[2], "1.0.0"});
-        //parameters[3] = new ArrayOfString();
-        //parameters[3].setArray(new String[]{dependencyList[3], "1.0.0"});
         parameters[3] = new ArrayOfString();
-        parameters[3].setArray(new String[]{"preserveOriginal", "false"});
+        parameters[3].setArray(new String[]{dependencyList[3], "1.0.0"});
+        parameters[4] = new ArrayOfString();
+        parameters[4].setArray(new String[]{"preserveOriginal", "false"});
         lifeCycleAdminServiceClient.invokeAspectWithParams("/_system/governance" + serviceStringTrunk,
                 LC_NAME, ACTION_PROMOTE, null,
                 parameters);
