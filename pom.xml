@@ -421,6 +421,36 @@
                     </exclusion>
                 </exclusions>
             </dependency>
+            <dependency>
+                <groupId>org.apache.chemistry.opencmis</groupId>
+                <artifactId>chemistry-opencmis-test-tck</artifactId>
+                <version>${opencmis.version}</version>	
+            </dependency>
+            <dependency>
+                <groupId>org.apache.chemistry.opencmis</groupId>
+                <artifactId>chemistry-opencmis-client-bindings</artifactId>
+                <version>${opencmis.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.chemistry.opencmis</groupId>
+                <artifactId>chemistry-opencmis-client-api</artifactId>
+                <version>${opencmis.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.chemistry.opencmis</groupId>
+                <artifactId>chemistry-opencmis-client-impl</artifactId>
+                <version>${opencmis.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.chemistry.opencmis</groupId>
+                <artifactId>chemistry-opencmis-commons-api</artifactId>
+                <version>${opencmis.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.chemistry.opencmis</groupId>
+                <artifactId>chemistry-opencmis-server-support</artifactId>
+                <version>${opencmis.version}</version>
+            </dependency>
         </dependencies>
     </dependencyManagement>
     <scm>
@@ -640,5 +670,6 @@
 
         <operadriver.version>0.8.1</operadriver.version>
         <selenium.version>2.40.0</selenium.version>
+        <opencmis.version>0.7.0</opencmis.version>
     </properties>
 </project>
