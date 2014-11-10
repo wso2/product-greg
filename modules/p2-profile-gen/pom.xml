@@ -415,6 +415,11 @@
                                     org.wso2.governance:org.wso2.governance.jaggeryapps.feature:${pom.version}
                                 </featureArtifactDef>
 
+                                <featureArtifactDef>
+                                    org.wso2.governance:org.wso2.governance.es.extensions.feature:${pom.version}
+                                </featureArtifactDef>
+
+
                                 <!--Misc feature list -->
                                 <featureArtifactDef>
                                     org.wso2.carbon:org.wso2.carbon.datasource.server.feature:${carbon.platform.version}
@@ -743,6 +748,12 @@
                                     <id>org.wso2.governance.jaggeryapps.feature.group</id>
                                     <version>${pom.version}</version>
                                 </feature>
+
+                                <feature>
+                                    <id>org.wso2.governance.es.extensions.feature.group</id>
+                                    <version>${pom.version}</version>
+                                </feature>
+
                                 <!--<feature>-->
                                     <!--<id>org.wso2.stratos.governance.ui.feature.group</id>-->
                                     <!--<version>${project.version}</version>-->
@@ -1085,11 +1096,15 @@
                                     <id>org.wso2.governance.styles.feature.group</id>
                                     <version>${pom.version}</version>
                                 </feature>
-                                 <feature>
+                                <feature>
                                     <id>org.wso2.governance.jaggeryapps.feature.group</id>
                                     <version>${pom.version}</version>
                                 </feature>
 
+                                <feature>
+                                    <id>org.wso2.governance.es.extensions.feature.group</id>
+                                    <version>${pom.version}</version>
+                                </feature>
 
                                 <!--<feature>-->
                                     <!--<id>org.wso2.stratos.governance.ui.feature.group</id>-->
@@ -1495,11 +1510,15 @@
                                     <id>org.wso2.governance.styles.feature.group</id>
                                     <version>${pom.version}</version>
                                 </feature>
-                                 <feature>
+                                <feature>
                                     <id>org.wso2.governance.jaggeryapps.feature.group</id>
                                     <version>${pom.version}</version>
                                 </feature>
 
+                                <feature>
+                                    <id>org.wso2.governance.es.extensions.feature.group</id>
+                                    <version>${pom.version}</version>
+                                </feature>
 
                                 <!--<feature>-->
                                     <!--<id>org.wso2.stratos.governance.ui.feature.group</id>-->
