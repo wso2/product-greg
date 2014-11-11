@@ -79,7 +79,8 @@ public class Carbon11120TestCase extends GREGIntegrationBaseTest {
                 new LogViewerClient(backendURL, session);
         serviceManager = new ServiceManager(governance);
 
-        GovernanceUtils.loadGovernanceArtifacts((UserRegistry)governance, GovernanceUtils.findGovernanceArtifactConfigurations(governance));
+        GovernanceUtils.loadGovernanceArtifacts((UserRegistry)governance,
+                GovernanceUtils.findGovernanceArtifactConfigurations(governance));
     }
 
     /**
@@ -111,7 +112,8 @@ public class Carbon11120TestCase extends GREGIntegrationBaseTest {
 
         boolean serviceStatus = false;
 
-        GovernanceUtils.loadGovernanceArtifacts((UserRegistry)governance, GovernanceUtils.findGovernanceArtifactConfigurations(governance));
+        GovernanceUtils.loadGovernanceArtifacts((UserRegistry)governance,
+                GovernanceUtils.findGovernanceArtifactConfigurations(governance));
 
         for (Service service : serviceManager.getAllServices()) {
             String name = service.getQName().getLocalPart();
@@ -141,7 +143,8 @@ public class Carbon11120TestCase extends GREGIntegrationBaseTest {
                 "Failed to get service details. Exception occurred while trying to invoke service method addService";
         String LIST_LOG = "Exception occurred while trying to invoke service method listservices";
 
-        GovernanceUtils.loadGovernanceArtifacts((UserRegistry)governance, GovernanceUtils.findGovernanceArtifactConfigurations(governance));
+        GovernanceUtils.loadGovernanceArtifacts((UserRegistry)governance,
+                GovernanceUtils.findGovernanceArtifactConfigurations(governance));
         addWSDL();
 
         ServiceManager serviceManager = new ServiceManager(governance);

@@ -72,7 +72,8 @@ public class Carbon9147TestCase extends GREGIntegrationBaseTest {
             }
         }
 
-        GovernanceUtils.loadGovernanceArtifacts((UserRegistry) governance, GovernanceUtils.findGovernanceArtifactConfigurations(governance));
+        GovernanceUtils.loadGovernanceArtifacts((UserRegistry) governance,
+                GovernanceUtils.findGovernanceArtifactConfigurations(governance));
         addWSDL();
     }
 
