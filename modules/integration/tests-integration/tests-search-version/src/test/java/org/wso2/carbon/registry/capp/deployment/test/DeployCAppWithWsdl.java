@@ -18,6 +18,7 @@
 package org.wso2.carbon.registry.capp.deployment.test;
 
 
+import org.apache.poi.util.SystemOutLogger;
 import org.testng.Assert;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
@@ -27,10 +28,13 @@ import org.wso2.carbon.automation.engine.context.TestUserMode;
 import org.wso2.carbon.automation.engine.frameworkutils.FrameworkPathUtil;
 import org.wso2.carbon.governance.api.generic.GenericArtifactManager;
 import org.wso2.carbon.governance.api.generic.dataobjects.GenericArtifact;
+import org.wso2.carbon.governance.api.util.GovernanceUtils; //
+import org.wso2.carbon.logging.view.stub.LogViewerLogViewerException;
 import org.wso2.carbon.logging.view.stub.types.carbon.LogEvent;
 import org.wso2.carbon.registry.capp.deployment.test.utils.CAppTestUtils;
 import org.wso2.carbon.registry.core.Registry;
 import org.wso2.carbon.registry.core.exceptions.RegistryException;
+import org.wso2.carbon.registry.core.session.UserRegistry;
 import org.wso2.carbon.registry.resource.stub.ResourceAdminServiceExceptionException;
 import org.wso2.carbon.registry.ws.client.registry.WSRegistryServiceClient;
 import org.wso2.greg.integration.common.clients.ApplicationAdminClient;
@@ -40,7 +44,10 @@ import org.wso2.greg.integration.common.clients.ResourceAdminServiceClient;
 import org.wso2.greg.integration.common.utils.GREGIntegrationBaseTest;
 import org.wso2.greg.integration.common.utils.RegistryProviderUtil;
 
+import sun.rmi.runtime.Log;
+
 import javax.activation.DataHandler;
+
 import java.io.File;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -101,7 +108,7 @@ public class DeployCAppWithWsdl extends GREGIntegrationBaseTest {
     @Test(groups = "wso2.greg", description = "Upload CApp with wsdls")
     public void deployCAppWithWsdl()
             throws MalformedURLException, RemoteException, ApplicationAdminExceptionException,
-                   InterruptedException {
+                   InterruptedException, LogViewerLogViewerException {
 
         String resourcePath = FrameworkPathUtil.getSystemResourceLocation() + "artifacts" + File.separator +
                               "GREG" + File.separator + "car" + File.separator + "wsdl_1.0.0.car";
@@ -112,6 +119,7 @@ public class DeployCAppWithWsdl extends GREGIntegrationBaseTest {
         assertTrue(CAppTestUtils.isCAppDeployed(sessionCookie, wsdl_new_1Capp, adminServiceApplicationAdmin), "Deployed wsdl_1.0.0.car not in CApp List");
 
         LogEvent[] logEvents = logViewerClient.getLogs("INFO", "Successfully Deployed Carbon Application : wsdl_new", "", "");
+
         boolean status = false;
         for (LogEvent event : logEvents) {
             if (event.getMessage().contains("Successfully Deployed Carbon Application : wsdl_new")) {
@@ -127,7 +135,7 @@ public class DeployCAppWithWsdl extends GREGIntegrationBaseTest {
           dependsOnMethods = "deployCAppWithWsdl")
     public void cAppWithIncorrectServerRole() throws MalformedURLException, RemoteException,
                                                      ApplicationAdminExceptionException,
-                                                     InterruptedException {
+                                                     InterruptedException, LogViewerLogViewerException {
 
         String resourcePath = FrameworkPathUtil.getSystemResourceLocation() + "artifacts" + File.separator +
                               "GREG" + File.separator + "car" + File.separator + "serverRole-incorrect_1.0.0.car";
@@ -158,7 +166,7 @@ public class DeployCAppWithWsdl extends GREGIntegrationBaseTest {
     public void deployNewCApplication() throws MalformedURLException, RemoteException,
             ApplicationAdminExceptionException,
             InterruptedException, RegistryException,
-            ResourceAdminServiceExceptionException {
+            ResourceAdminServiceExceptionException, LogViewerLogViewerException {
 
         String resourcePath = FrameworkPathUtil.getSystemResourceLocation() + "artifacts" + File.separator +
                               "GREG" + File.separator + "car" + File.separator + "wsdl-t_1.0.0.car";
@@ -181,6 +189,8 @@ public class DeployCAppWithWsdl extends GREGIntegrationBaseTest {
 
         boolean isService = false;
 
+        //
+        GovernanceUtils.loadGovernanceArtifacts((UserRegistry)governance);
         GenericArtifactManager manager = new GenericArtifactManager(governance, "service");
 
         GenericArtifact[] serviceArtifacts = manager.getAllGenericArtifacts();
@@ -217,7 +227,7 @@ public class DeployCAppWithWsdl extends GREGIntegrationBaseTest {
 
         resourceAdminServiceClient.deleteResource
                 ("/_system/governance/trunk/services/net/restfulwebservices/www/servicecontracts/_2008/_01" +
-                 "/WeatherForecastService");
+                 "/1.0.0/WeatherForecastService");
         resourceAdminServiceClient.deleteResource
                 ("/_system/governance/trunk/endpoints/net/restfulwebservices/www/wcf/ep-WeatherForecastService-svc");
         resourceAdminServiceClient.deleteResource

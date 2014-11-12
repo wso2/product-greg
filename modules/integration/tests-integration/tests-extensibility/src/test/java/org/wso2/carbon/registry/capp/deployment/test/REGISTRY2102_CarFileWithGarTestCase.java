@@ -58,8 +58,8 @@ public class REGISTRY2102_CarFileWithGarTestCase extends GREGIntegrationBaseTest
     private HandlerManagementServiceClient handlerManagementServiceClient;
 
     private String cAppName = "GarTestCApp_1.0.0";
-    private final String wsdlPath = "/_system/governance/trunk/wsdls/org/wso2/carbon/service/Axis2Service.wsdl";
-    private final String servicePath = "/_system/governance/trunk/services/org/wso2/carbon/service/Axis2Service";
+    private final String wsdlPath = "/_system/governance/trunk/wsdls/org/wso2/carbon/service/1.0.0/Axis2Service.wsdl";
+    private final String servicePath = "/_system/governance/trunk/services/org/wso2/carbon/service/1.0.0/Axis2Service";
     private String newHandlerPath = FrameworkPathUtil.getSystemResourceLocation()
             + "artifacts" + File.separator + "GREG" + File.separator
             + "handler" + File.separator + "cleanup-handler.xml";
@@ -178,6 +178,8 @@ public class REGISTRY2102_CarFileWithGarTestCase extends GREGIntegrationBaseTest
             adminServiceApplicationAdmin.deleteApplication(cAppName);
         }
 
+        delete(wsdlPath);
+        delete(servicePath);
         delete("/_system/governance/trunk/services/org/wso2/carbon/service/Axis2Service");
         delete("/_system/governance/trunk/wsdls/org/wso2/carbon/service/Axis2Service.wsdl");
         delete("/_system/governance/trunk/schemas/org/wso2/carbon/service/axis2serviceschema.xsd");

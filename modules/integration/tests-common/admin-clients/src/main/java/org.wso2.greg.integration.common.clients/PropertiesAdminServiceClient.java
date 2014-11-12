@@ -50,7 +50,7 @@ public class PropertiesAdminServiceClient {
         AuthenticateStub.authenticateStub(userName, password, propertiesAdminServiceStub);
     }
 
-    public void setRetentionProperties(String path, String mode, String fromDate, String toDate)
+    public boolean setRetentionProperties(String path, String mode, String fromDate, String toDate)
             throws RemoteException, PropertiesAdminServiceRegistryExceptionException {
         RetentionBean retentionBean = new RetentionBean();
         retentionBean.setWriteLocked(mode.contains("write"));
@@ -59,7 +59,7 @@ public class PropertiesAdminServiceClient {
         retentionBean.setToDate(toDate);
 
         try {
-            propertiesAdminServiceStub.setRetentionProperties(path, retentionBean);
+            return propertiesAdminServiceStub.setRetentionProperties(path, retentionBean);
         } catch (RemoteException e) {
             log.error("Set retention properties failed ", e);
             throw new RemoteException("Set retention properties failed ", e);

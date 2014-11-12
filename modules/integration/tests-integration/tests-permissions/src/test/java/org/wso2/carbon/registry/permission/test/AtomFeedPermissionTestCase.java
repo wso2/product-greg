@@ -66,8 +66,10 @@ public class AtomFeedPermissionTestCase extends GREGIntegrationBaseTest{
 
     private static final String ROLE_NAME = "atomtestrole";
     private static String[] ROLE_USERS = {"atomtestuser"};
+    private static String[] ROLE_LIST = {"atomtestrole"};
 
     public static final String resourcePath = "/rrr1";
+
     public RemoteRegistry registry;
     public RemoteRegistry registryAdmin;
     private UserManagementClient userManagementClient;
@@ -80,11 +82,11 @@ public class AtomFeedPermissionTestCase extends GREGIntegrationBaseTest{
 
         userManagementClient = new UserManagementClient(backendURL, sessionCookie);
 
-        userManagementClient.updateUserListOfRole(FrameworkConstants.ADMIN_ROLE, null,
-                ROLE_USERS); //remote user from admin role
+        userManagementClient.updateUserListOfRole(ROLE_NAME, null,
+                ROLE_USERS);
 
         if(!userManagementClient.userNameExists(ROLE_NAME, ROLE_USERS[0])){
-            userManagementClient.addUser(ROLE_USERS[0],ROLE_USERS[0], null,
+            userManagementClient.addUser(ROLE_USERS[0],ROLE_USERS[0],ROLE_LIST ,
                     null);//add the server to new role
         }
 
@@ -120,8 +122,8 @@ public class AtomFeedPermissionTestCase extends GREGIntegrationBaseTest{
             Resource resource = registryAdmin.newResource();
             resource.setContent("This is a test resource".getBytes());
             resource.setDescription("This is a test description");
-
             registryAdmin.put(resourcePath, resource);
+
         } catch (RegistryException e) {
             fail("Could not populate data. Failed to add resource to the registry");
         }
@@ -130,7 +132,8 @@ public class AtomFeedPermissionTestCase extends GREGIntegrationBaseTest{
     @Test(groups = {"wso2.greg"})
     public void atomFeedTest() throws Exception {
 
-        Resource resource = registry.get(resourcePath);
+        Resource resource = registryAdmin.get(resourcePath);
+        //Resource resource = registry.get(resourcePath);
         OMElement atomFeedOMElement = getAtomFeedContent(constructAtomURL(automationContext,
                 resourcePath));
 
@@ -206,7 +209,6 @@ public class AtomFeedPermissionTestCase extends GREGIntegrationBaseTest{
     @AfterClass
     public void cleanup() throws Exception {
         userManagementClient.deleteRole(ROLE_NAME);
-        userManagementClient.updateUserListOfRole(PermissionTestConstants.NON_ADMIN_TEST_ROLE, ROLE_USERS, new String[]{});
         registryAdmin.delete(resourcePath);
 
         registry = null;

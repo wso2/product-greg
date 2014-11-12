@@ -58,7 +58,7 @@ public class LCTransitionNotificationTestCase extends GREGIntegrationBaseTest {
     private static final String ACTION_PROMOTE = "Promote";
     private static final String ACTION_VOTE_CLICK = "voteClick";
     private static final String GOV_PATH = "/_system/governance";
-    private String serviceString = "/trunk/services/com/abb/IntergalacticService9";
+    private String serviceString = "/trunk/services/com/abb/1.0.0-SNAPSHOT/IntergalacticService9";
     private final String absPath = GOV_PATH + serviceString;
     private LifecycleBean lifeCycle;
     private RegistryProviderUtil registryProviderUtil = new RegistryProviderUtil();

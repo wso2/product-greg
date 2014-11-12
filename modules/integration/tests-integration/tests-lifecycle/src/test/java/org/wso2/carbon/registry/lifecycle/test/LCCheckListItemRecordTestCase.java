@@ -63,7 +63,7 @@ public class LCCheckListItemRecordTestCase extends GREGIntegrationBaseTest {
 
     private WSRegistryServiceClient wsRegistryServiceClient;
     private String auditPath = "/_system/governance/repository/components/org.wso2.carbon.governance/" +
-            "lifecycles/history/__system_governance_trunk_services_com_abb_IntergalacticService7";
+            "lifecycles/history/__system_governance_trunk_services_com_abb_1.0.0-SNAPSHOT_IntergalacticService7";
     private LifeCycleAdminServiceClient lifeCycleAdminServiceClient;
     private LifeCycleManagementClient lifeCycleManagementClient;
     private GovernanceServiceClient governanceServiceClient;
@@ -90,7 +90,7 @@ public class LCCheckListItemRecordTestCase extends GREGIntegrationBaseTest {
     private static final String Q_ITEM2 = "Test Cases Passed";
     private static final String Q_ITEM3 = "Smoke Test Passed";
     private static final String GOV_PATH = "/_system/governance";
-    private String serviceString = "/trunk/services/com/abb/IntergalacticService7";
+    private String serviceString = "/trunk/services/com/abb/1.0.0-SNAPSHOT/IntergalacticService7";
     private final String absPath = GOV_PATH + serviceString;
     private LifecycleBean lifeCycle;
     private RegistryProviderUtil registryProviderUtil = new RegistryProviderUtil();

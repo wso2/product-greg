@@ -368,7 +368,7 @@ public class ReportingTestCaseSuper extends GREGIntegrationBaseTest {
      * @throws RegistryException
      */
     protected void testAddApplicationArtifact1() throws RegistryException {
-        GovernanceUtils.loadGovernanceArtifacts((UserRegistry) governance);
+        GovernanceUtils.loadGovernanceArtifacts((UserRegistry)governance, GovernanceUtils.findGovernanceArtifactConfigurations(governance));
         GenericArtifactManager artifactManager = new GenericArtifactManager(
                 governance, "applications");
         GenericArtifact artifact = artifactManager
@@ -485,12 +485,15 @@ public class ReportingTestCaseSuper extends GREGIntegrationBaseTest {
      *
      * @throws RemoteException
      * @throws ResourceAdminServiceExceptionException
+     * @throws RegistryException 
      *
      */
     protected void removeEditedLCtemplate() throws RemoteException,
-                                                   ResourceAdminServiceExceptionException {
-        resourceAdminServiceClient
-                .deleteResource(testGovernanceLCEditedTemplate);
+                                                   ResourceAdminServiceExceptionException, RegistryException {
+    	if (registry.resourceExists(testGovernanceLCEditedTemplate)) {
+    		resourceAdminServiceClient.deleteResource(testGovernanceLCEditedTemplate);
+    	}
+        
     }
 
     /**
@@ -637,7 +640,9 @@ public class ReportingTestCaseSuper extends GREGIntegrationBaseTest {
 
         GenericArtifactManager artifactManager = new GenericArtifactManager(
                 governance, "applications");
-        artifactManager.removeGenericArtifact(artifactIDs[i]);
+        if(artifactIDs[i] != null ){
+        	artifactManager.removeGenericArtifact(artifactIDs[i]);
+        }        
     }
 
     /**

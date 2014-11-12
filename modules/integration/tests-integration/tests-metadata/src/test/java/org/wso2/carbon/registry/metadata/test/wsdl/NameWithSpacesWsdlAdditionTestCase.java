@@ -23,11 +23,11 @@ import static org.testng.Assert.assertTrue;
 
 public class NameWithSpacesWsdlAdditionTestCase extends GREGIntegrationBaseTest {
 
-    private final String associatedSchemaPath = "/_system/governance/trunk/schemas/org/bar/purchasing/purchasing.xsd";
-    private final String associatedServicePath = "/_system/governance/trunk/services/com/foo/BizService";
+    private final String associatedSchemaPath = "/_system/governance/trunk/schemas/org/bar/purchasing/1.0.0/purchasing.xsd";
+    private final String associatedServicePath = "/_system/governance/trunk/services/com/foo/1.0.0/BizService";
     private final String associatedEndpointPath = "/_system/governance/trunk/endpoints/com/wso2/people/services/ep-BizService";
     private ResourceAdminServiceClient resourceAdminServiceClient;
-    private final String wsdlPath = "/_system/governance/trunk/wsdls/com/foo/Wsdl with spaces in the name.wsdl";
+    private final String wsdlPath = "/_system/governance/trunk/wsdls/com/foo/1.0.0/Wsdl with spaces in the name.wsdl";
     private String sessionCookie;
 
     @BeforeClass (groups = "wso2.greg", alwaysRun = true)

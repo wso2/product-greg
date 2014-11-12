@@ -1,18 +1,20 @@
 /*
- * Copyright 2004,2005 The Apache Software Foundation.
- * 
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- * 
- * http://www.apache.org/licenses/LICENSE-2.0
- * 
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
+*Copyright (c) 2005-2010, WSO2 Inc. (http://www.wso2.org) All Rights Reserved.
+*
+*WSO2 Inc. licenses this file to you under the Apache License,
+*Version 2.0 (the "License"); you may not use this file except
+*in compliance with the License.
+*You may obtain a copy of the License at
+*
+*http://www.apache.org/licenses/LICENSE-2.0
+*
+*Unless required by applicable law or agreed to in writing,
+*software distributed under the License is distributed on an
+*"AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+*KIND, either express or implied.  See the License for the
+*specific language governing permissions and limitations
+*under the License.
+*/
 
 package org.wso2.carbon.registry.governance.api.test;
 
@@ -230,6 +232,7 @@ public class ServicesResourceInformationManagementTestCase extends GREGIntegrati
                 serviceManager.newService(new QName(
                         "http://service.for.commentverification2/mnm/",
                         "serviceForCommentVerification"));
+        serviceForCommentVerification.setAttribute("overview_version", "1.0.0");
         serviceManager.addService(serviceForCommentVerification);
         String comment = "Test Comment";
         String path = ROOT + serviceForCommentVerification.getPath();
@@ -259,6 +262,7 @@ public class ServicesResourceInformationManagementTestCase extends GREGIntegrati
                         "http://service.for.checkpointverification/mnm/",
                         "serviceForCheckpointVerification"));
         serviceForCheckpointVerification.addAttribute("test-att", "test-val");
+        serviceForCheckpointVerification.addAttribute("overview_version", "1.0.0");
         serviceManager.addService(serviceForCheckpointVerification);
         String destinationPath = ROOT + serviceForCheckpointVerification.getPath();
         resourceAdminServiceClient.createVersion(destinationPath);
@@ -293,6 +297,7 @@ public class ServicesResourceInformationManagementTestCase extends GREGIntegrati
         Endpoint endpoint;
         endpoint = endpointManager.newEndpoint("http://service.for.EndPointDeleting");
         endpointManager.addEndpoint(endpoint);
+        serviceForEndPointDeleting.addAttribute("overview_version", "1.0.0");
         serviceManager.addService(serviceForEndPointDeleting);
         serviceForEndPointDeleting.attachEndpoint(endpoint);
         Endpoint endpoints[] = serviceForEndPointDeleting.getAttachedEndpoints();
@@ -318,6 +323,7 @@ public class ServicesResourceInformationManagementTestCase extends GREGIntegrati
                 serviceManager.newService(new QName(
                         "http://service.for.dependencyverification2/mnm/",
                         "serviceForDependencyVerification2"));
+        serviceForDependencyVerification2.addAttribute("overview_version", "1.0.0");
         serviceManager.addService(serviceForDependencyVerification2);
 
         String path =
@@ -353,6 +359,7 @@ public class ServicesResourceInformationManagementTestCase extends GREGIntegrati
                 serviceManager.newService(new QName(
                         "http://service.for.saving/mnm/",
                         "serviceForSavingServiceTestCase"));
+        serviceForSavingServiceTestCase.addAttribute("overview_version", "1.0.0");
         serviceManager.addService(serviceForSavingServiceTestCase);
         serviceForSavingServiceTestCase.getDependencies();
         serviceForSavingServiceTestCase.attachPolicy(policy);
@@ -395,6 +402,7 @@ public class ServicesResourceInformationManagementTestCase extends GREGIntegrati
                 serviceManager.newService(new QName(
                         "http://service.for.retentionverification/mnm/",
                         "serviceForRetentionVerification"));
+        serviceForRetentionVerification.addAttribute("overview_version", "1.0.0");
         serviceManager.addService(serviceForRetentionVerification);
         propertiesAdminServiceClient.setRetentionProperties(ROOT +
                                                             serviceForRetentionVerification.getPath(),
@@ -447,6 +455,7 @@ public class ServicesResourceInformationManagementTestCase extends GREGIntegrati
                 serviceManager.newService(new QName(
                         "http://service.for.notificationverification/mnm/",
                         "serviceForNotificationVerification"));
+        serviceForNotificationVerification.addAttribute("overview_version", "1.0.0");
         serviceManager.addService(serviceForNotificationVerification);
         serviceForNotificationVerification.attachLifecycle(SERVICE_LIFE_CYCLE);
         String path = ROOT + serviceForNotificationVerification.getPath();
@@ -515,6 +524,7 @@ public class ServicesResourceInformationManagementTestCase extends GREGIntegrati
                 serviceManager.newService(new QName(
                         "http://service.for.notificationverification2/mnm/",
                         "serviceForNotificationVerification2"));
+        serviceForNotificationVerification2.addAttribute("overview_version", "1.0.0");
         serviceManager.addService(serviceForNotificationVerification2);
         serviceForNotificationVerification2.attachLifecycle(SERVICE_LIFE_CYCLE);
         String path = ROOT + serviceForNotificationVerification2.getPath();
@@ -554,6 +564,7 @@ public class ServicesResourceInformationManagementTestCase extends GREGIntegrati
                 serviceManager.newService(new QName(
                         "http://service.for.dependencyverification/mnm/",
                         "serviceForDependencyVerification"));
+        serviceForDependencyVerification.addAttribute("overview_version", "1.0.0");
         endpoint = endpointManager.newEndpoint("http://endpoint.for.EndPointDeleting");
         endpointManager.addEndpoint(endpoint);
         serviceManager.addService(serviceForDependencyVerification);

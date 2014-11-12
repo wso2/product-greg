@@ -41,7 +41,7 @@
                         </data>
 			<data name="transitionExecution">
                             <execution forEvent="Promote" class="org.wso2.carbon.governance.registry.extensions.executors.ServiceVersionExecutor">
-                                <parameter name="currentEnvironment" value="/_system/governance/trunk/{@resourcePath}/{@resourceName}"/>
+                                <parameter name="currentEnvironment" value="/_system/governance/trunk/{@resourcePath}/{@version}/{@resourceName}"/>
                                 <parameter name="targetEnvironment" value="/_system/governance/branches/testing/{@resourcePath}/{@version}/{@resourceName}"/>
                                 <parameter name="service.mediatype" value="application/vnd.wso2-service+xml"/>
                                 <parameter name="wsdl.mediatype" value="application/wsdl+xml"/>
@@ -93,15 +93,15 @@
                             </execution>
 							<execution forEvent="Demote" class="org.wso2.carbon.governance.registry.extensions.executors.ServiceVersionExecutor">
                                 <parameter name="currentEnvironment" value="/_system/governance/branches/testing/{@resourcePath}/{@version}/{@resourceName}"/>
-                                <parameter name="targetEnvironment" value="/_system/governance/trunk/{@resourcePath}/{@version}"/>
+                                <parameter name="targetEnvironment" value="/_system/governance/trunk/{@resourcePath}/{@version}/{@resourceName}"/>
                                 <parameter name="service.mediatype" value="application/vnd.wso2-service+xml"/>
                                 <parameter name="wsdl.mediatype" value="application/wsdl+xml"/>
                                 <parameter name="endpoint.mediatype" value="application/vnd.wso2.endpoint"/>
                             </execution>                            
                         </data>
 			<data name="transitionUI">
-                            <ui forEvent="Promote" href="../lifecycles/pre_invoke_aspect_ajaxprocessor.jsp?viewVersion=fal%26currentEnvironment=/_system/governance/branches/testing/"/>
-                       		<ui forEvent="Demote" href="../lifecycles/pre_invoke_aspect_ajaxprocessor.jsp?preserveOriginal=false%26viewVersion=false%26currentEnvironment=/_system/governance/wso2/carbon/branches/testing/"/>
+                            <ui forEvent="Promote" href="../lifecycles/pre_invoke_aspect_ajaxprocessor.jsp?viewVersion=false%26currentEnvironment=/_system/governance/branches/testing/"/>
+                       		<ui forEvent="Demote" href="../lifecycles/pre_invoke_aspect_ajaxprocessor.jsp?preserveOriginal=true%26viewVersion=false%26currentEnvironment=/_system/governance/wso2/carbon/branches/testing/"/>
                         </data>
                     </datamodel>
                     <transition event="Promote" target="Production"/>

@@ -158,6 +158,13 @@
             </excludes>
         </fileSet>
         <fileSet>
+            <directory>../p2-profile-gen/target/wso2carbon-core-${carbon.platform.version}/dbscripts/storage</directory>
+            <outputDirectory>${pom.artifactId}-${build.version}/dbscripts/storage</outputDirectory>
+            <includes>
+                <include>**/*</include>
+            </includes>
+        </fileSet>
+        <fileSet>
             <directory>src/main/resources/carbon-home/conf/node</directory>
             <outputDirectory>${pom.artifactId}-${build.version}/repository/conf</outputDirectory>
             <includes>
@@ -327,6 +334,20 @@
             </excludes>
         </fileSet>
 
+        <!-- ES store -->
+        <fileSet>
+            <directory>../p2-profile-gen/target/wso2carbon-core-${carbon.platform.version}/repository/deployment/server/jaggeryapps/es-publisher</directory>
+            <outputDirectory>${pom.artifactId}-${pom.version}/repository/deployment/server/jaggeryapps/publisher</outputDirectory>
+        </fileSet>
+        <fileSet>
+            <directory>../p2-profile-gen/target/wso2carbon-core-${carbon.platform.version}/repository/deployment/server/jaggeryapps/es-sso</directory>
+            <outputDirectory>${pom.artifactId}-${pom.version}/repository/deployment/server/jaggeryapps/sso</outputDirectory>
+        </fileSet>
+        <fileSet>
+            <directory>../p2-profile-gen/target/wso2carbon-core-${carbon.platform.version}/repository/deployment/server/jaggeryapps/es-store</directory>
+            <outputDirectory>${pom.artifactId}-${pom.version}/repository/deployment/server/jaggeryapps/store</outputDirectory>
+        </fileSet>
+
         <!-- Jaggery Apps used by Greg-->
         <fileSet>
             <directory>../p2-profile-gen/target/wso2carbon-core-${carbon.platform.version}/repository/deployment/server/jaggeryapps/greg-bam</directory>
@@ -336,14 +357,32 @@
             <directory>../p2-profile-gen/target/wso2carbon-core-${carbon.platform.version}/repository/deployment/server/jaggeryapps/greg-impact</directory>
             <outputDirectory>${pom.artifactId}-${pom.version}/repository/deployment/server/jaggeryapps/greg-impact</outputDirectory>
         </fileSet>
-        <fileSet>
+        <!--fileSet>
             <directory>../p2-profile-gen/target/wso2carbon-core-${carbon.platform.version}/repository/deployment/server/jaggeryapps/greg-publisher</directory>
             <outputDirectory>${pom.artifactId}-${pom.version}/repository/deployment/server/jaggeryapps/greg-publisher</outputDirectory>
         </fileSet>
         <fileSet>
             <directory>../p2-profile-gen/target/wso2carbon-core-${carbon.platform.version}/repository/deployment/server/jaggeryapps/greg-publisher/resource</directory>
             <outputDirectory>${pom.artifactId}-${pom.version}/repository/resources/rxts</outputDirectory>
+        </fileSet-->
+
+	<!-- ES Extensions for service UI-->
+        <fileSet>
+            <directory>../p2-profile-gen/target/wso2carbon-core-${carbon.platform.version}/repository/resources/publisher/asset/service</directory>
+            <outputDirectory>${pom.artifactId}-${pom.version}/repository/deployment/server/jaggeryapps/publisher/extensions/assets/service</outputDirectory>
         </fileSet>
+
+	<!--
+        <fileSet>
+            <directory>../p2-profile-gen/target/wso2carbon-core-${carbon.platform.version}/repository/resources/publisher/configs</directory>
+            <outputDirectory>${pom.artifactId}-${pom.version}/repository/deployment/server/jaggeryapps/publisher/config</outputDirectory>
+        </fileSet>
+
+        <fileSet>
+            <directory>../p2-profile-gen/target/wso2carbon-core-${carbon.platform.version}/repository/resources/store/configs</directory>
+            <outputDirectory>${pom.artifactId}-${pom.version}/repository/deployment/server/jaggeryapps/store/config</outputDirectory>
+        </fileSet>
+	-->
 
         <!-- Add APIM toolbox -->
         <fileSet>
@@ -370,10 +409,9 @@
         <fileSet>
             <directory>../p2-profile-gen/target/wso2carbon-core-${carbon.platform.version}/modules</directory>
             <outputDirectory>${pom.artifactId}-${pom.version}/modules/</outputDirectory>
-            <excludes>
-                <exclude>**/carbon/**</exclude>
-                <exclude>**/process/**</exclude>
-            </excludes>
+            <includes>
+                <include>*/**</include>
+            </includes>
         </fileSet>
         <!--<fileSet>-->
         <!--<directory>../p2-profile-gen/target/wso2carbon-core-${carbon.platform.version}/repository/conf</directory>-->
@@ -410,6 +448,32 @@
             <outputDirectory>${pom.artifactId}-${build.version}/repository/components/patches/</outputDirectory>
             <includes>
                 <include>**/patch0001/*.*</include>
+            </includes>
+        </fileSet>
+
+
+        <!--application-authentication framework related config-->
+        <fileSet>
+            <directory>../p2-profile-gen/target/wso2carbon-core-4.3.0-SNAPSHOT/repository/conf/identity</directory>
+            <outputDirectory>${pom.artifactId}-${build.version}/repository/conf/identity</outputDirectory>
+            <includes>
+                <include>*/**</include>
+            </includes>
+        </fileSet>
+	<fileSet>
+            <directory>src/main/resources/carbon-home/conf</directory>
+            <outputDirectory>${project.artifactId}-${project.version}/repository/conf/security/</outputDirectory>
+            <includes>
+                <include>**/sso-idp-config.xml</include>
+            </includes>
+        </fileSet>
+	<fileSet>
+            <directory>
+                ../p2-profile-gen/target/wso2carbon-core-${carbon.kernel.version}/repository/resources/security/
+            </directory>
+            <outputDirectory>${project.artifactId}-${project.version}/repository/resources/security/</outputDirectory>
+            <includes>
+                <include>**/sso_redirect.html</include>
             </includes>
         </fileSet>
     </fileSets>
@@ -577,7 +641,11 @@
             <filtered>true</filtered>
             <fileMode>644</fileMode>
         </file>
-
+        <!--file>
+            <source>../p2-profile-gen/target/wso2carbon-core-${carbon.kernel.version}/repository/conf/etc/cassandra.yaml</source>
+            <outputDirectory>${pom.artifactId}-${build.version}/repository/conf/etc</outputDirectory>
+            <fileMode>644</fileMode>
+        </file-->
         <file>
             <source>../p2-profile-gen/target/wso2carbon-core-${carbon.kernel.version}/repository/conf/tomcat/webapp-classloading.xml</source>
             <outputDirectory>${pom.artifactId}-${pom.version}/repository/conf/tomcat</outputDirectory>
@@ -586,11 +654,27 @@
         </file>
         <file>
             <source>
-                ../p2-profile-gen/target/wso2carbon-core-${carbon.platform.version}/repository/conf/security/idp-config.xml
+                ../p2-profile-gen/target/wso2carbon-core-${carbon.kernel.version}/repository/conf/security/application-authentication.xml
             </source>
             <outputDirectory>${pom.artifactId}-${pom.version}/repository/conf/security</outputDirectory>
             <fileMode>644</fileMode>
         </file>
+
+
+        <!-- copy thrift-authentication.xml -->
+        <file>
+            <source>../p2-profile-gen/target/wso2carbon-core-${carbon.kernel.version}/repository/conf/thrift-authentication.xml</source>
+            <outputDirectory>${pom.artifactId}-${pom.version}/repository/conf</outputDirectory>
+            <fileMode>644</fileMode>
+        </file>
+
+        <!--file>
+            <source>
+                ../p2-profile-gen/target/wso2carbon-core-${carbon.platform.version}/repository/conf/security/idp-config.xml
+            </source>
+            <outputDirectory>${pom.artifactId}-${pom.version}/repository/conf/security</outputDirectory>
+            <fileMode>644</fileMode>
+        </file-->
         <file>
             <source>../p2-profile-gen/target/wso2carbon-core-${carbon.kernel.version}/repository/conf/tomcat/webapp-classloading-environments.xml</source>
             <outputDirectory>${pom.artifactId}-${pom.version}/repository/conf/tomcat</outputDirectory>
@@ -646,6 +730,24 @@
             <filtered>true</filtered>
             <fileMode>644</fileMode>
         </file>
+        <file>
+            <source>../p2-profile-gen/target/wso2carbon-core-${carbon.platform.version}/repository/conf/datasources/bps-datasources.xml</source>
+            <outputDirectory>${pom.artifactId}-${build.version}/repository/conf/datasources/</outputDirectory>
+            <filtered>true</filtered>
+            <fileMode>644</fileMode>
+        </file>
+        <file>
+            <source>../p2-profile-gen/target/wso2carbon-core-${carbon.platform.version}/repository/conf/humantask.xml</source>
+            <outputDirectory>${pom.artifactId}-${build.version}/repository/conf/</outputDirectory>
+            <filtered>true</filtered>
+            <fileMode>644</fileMode>
+        </file>
+	<!--file>
+            <source>../p2-profile-gen/target/wso2carbon-core-${carbon.platform.version}/repository/conf/etc/cassandra-environments.xml</source>
+            <outputDirectory>${pom.artifactId}-${build.version}/repository/conf/etc/</outputDirectory>
+            <filtered>true</filtered>
+            <fileMode>644</fileMode>
+        </file-->
         <file>
             <source>../p2-profile-gen/target/wso2carbon-core-${carbon.platform.version}/repository/conf/etc/logging-config.xml</source>
             <outputDirectory>${pom.artifactId}-${pom.version}/repository/conf/etc</outputDirectory>
@@ -757,5 +859,20 @@
             <filtered>true</filtered>
             <fileMode>644</fileMode>
         </file>
-    </files>
+
+	<!-- ES Store extensions -->
+	<file>
+            <source>../p2-profile-gen/target/wso2carbon-core-${carbon.platform.version}/repository/resources/publisher/configs/publisher-tenant.json</source>
+            <outputDirectory>${pom.artifactId}-${build.version}/repository/deployment/server/jaggeryapps/publisher/config</outputDirectory>
+            <filtered>true</filtered>
+            <fileMode>644</fileMode>
+        </file>
+
+        <file>
+            <source>../p2-profile-gen/target/wso2carbon-core-${carbon.platform.version}/repository/resources/store/configs/store-tenant.json</source>
+            <outputDirectory>${pom.artifactId}-${build.version}/repository/deployment/server/jaggeryapps/store/config</outputDirectory>
+            <filtered>true</filtered>
+            <fileMode>644</fileMode>
+        </file>
+      </files>
 </assembly>

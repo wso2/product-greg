@@ -68,18 +68,18 @@ public class LastModifiedFieldsTestCase extends GREGIntegrationBaseTest {
     public void initializeTests()
             throws LoginAuthenticationExceptionException, IOException,
             ResourceAdminServiceExceptionException, XPathExpressionException,
-            URISyntaxException, SAXException, XMLStreamException {
+            URISyntaxException, SAXException, XMLStreamException , Exception{
 
         super.init(TestUserMode.SUPER_TENANT_ADMIN);
-        backEndUrl = getBackendURL();
         sessionCookie = getSessionCookie();
+        backEndUrl = getBackendURL();
+
         userName = automationContext.getContextTenant().getContextUser().getUserName();
 
         if (userName.contains("@"))
             userNameWithoutDomain = userName.substring(0, userName.indexOf('@'));
         else
             userNameWithoutDomain = userName;
-
 
         resourceAdminClient =
                 new ResourceAdminServiceClient(backEndUrl, sessionCookie);
@@ -93,11 +93,13 @@ public class LastModifiedFieldsTestCase extends GREGIntegrationBaseTest {
         String path1 = FrameworkPathUtil.getSystemResourceLocation() + "artifacts" + File.separator
                        + "GREG" + File.separator + "testresource.txt";
         DataHandler dataHandler1 = new DataHandler(new URL("file:///" + path1));
-        resourceAdminClient.addResource(RESOURCE_NAME_ROOT, "text/plain", "desc", dataHandler1);
 
+        resourceAdminClient.addResource(RESOURCE_NAME_ROOT, "text/plain", "desc", dataHandler1);
         assertTrue(resourceAdminClient.getResource(RESOURCE_NAME_ROOT)[0].getAuthorUserName().contains(userNameWithoutDomain));
 
-        String path2 = FrameworkPathUtil.getSystemResourceLocation() + "artifacts" + File.separator
+
+        String path2 = FrameworkPathUtil.getSystemResourceLocation() + "arti" +
+                "facts" + File.separator
                        + "GREG" + File.separator + "testresource.txt";
         DataHandler dataHandler2 = new DataHandler(new URL("file:///" + path2));
         resourceAdminClient.addResource(RESOURCE_NAME_LEAF, "text/plain", "desc", dataHandler2);

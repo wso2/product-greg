@@ -124,7 +124,7 @@ public class SchemaAdditionTestCase extends GREGIntegrationBaseTest {
         assertEquals(schema.getAttribute("description"),
                 "schema addtion via file system verification");
 
-        assertTrue(schema.getPath().contains("/trunk/schemas/books"));
+        assertTrue(schema.getPath().contains("/trunk/schemas/books/1.0.0"));
         assertTrue(schema.getQName().toString().contains("urn:books"));
         resourceAdminServiceClient.deleteResource(prefixPath + schema.getPath()); //deleted here for convenience
 
@@ -153,7 +153,7 @@ public class SchemaAdditionTestCase extends GREGIntegrationBaseTest {
         assertEquals(schemaViaUrl.getAttribute("description"),
                 "schema addtion via url");
 
-        assertTrue(schemaViaUrl.getPath().contains("/trunk/schemas/org/charitha/calculator.xsd"));
+        assertTrue(schemaViaUrl.getPath().contains("/trunk/schemas/org/charitha/1.0.0/calculator.xsd"));
         assertTrue(schemaViaUrl.getQName().toString().contains("http://charitha.org/"));
 
         resourceAdminServiceClient.deleteResource(prefixPath + schemaViaUrl.getPath()); //deleted here for convenience
@@ -165,13 +165,13 @@ public class SchemaAdditionTestCase extends GREGIntegrationBaseTest {
             ResourceAdminServiceExceptionException {
 
         resourceAdminServiceClient
-                .deleteResource("/_system/governance/trunk/schemas/com/microsoft/schemas/_2003/_10/serialization/test4.xsd");
+                .deleteResource("/_system/governance/trunk/schemas/com/microsoft/schemas/_2003/_10/serialization/1.0.0/test4.xsd");
         resourceAdminServiceClient
-                .deleteResource("/_system/governance/trunk/schemas/org/tempuri/test3.xsd");
+                .deleteResource("/_system/governance/trunk/schemas/org/tempuri/1.0.0/test3.xsd");
         resourceAdminServiceClient
-                .deleteResource("/_system/governance/trunk/schemas/com/microsoft/schemas/_2003/_10/serialization/test2.xsd");
+                .deleteResource("/_system/governance/trunk/schemas/com/microsoft/schemas/_2003/_10/serialization/1.0.0/test2.xsd");
         resourceAdminServiceClient
-                .deleteResource("/_system/governance/trunk/schemas/org/datacontract/schemas/_2004/_07/system/test1.xsd");
+                .deleteResource("/_system/governance/trunk/schemas/org/datacontract/schemas/_2004/_07/system/1.0.0/test1.xsd");
         governanceRegistry = null;
         schema = null;
         schemaManager = null;

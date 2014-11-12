@@ -64,8 +64,13 @@ public class LogViewerClient {
      * @throws RemoteException Exception
      */
     public LogEvent[] getLogs(String logType, String searchKey, String domain, String serverKey)
-            throws RemoteException {
-        return logViewerStub.getLogs(logType, searchKey, domain, serverKey);
+            throws RemoteException, LogViewerLogViewerException {
+        try {
+            return logViewerStub.getLogs(logType, searchKey, domain, serverKey);
+        } catch (LogViewerLogViewerException e) {
+            log.error("Unable to get system logs", e);
+            throw new LogViewerLogViewerException("Unable to get system logs", e);
+        }
     }
 
     public String[] getServiceNames() throws RemoteException, LogViewerLogViewerException {
@@ -77,12 +82,12 @@ public class LogViewerClient {
         }
     }
 
-    public LogEvent[] getAllSystemLogs() throws RemoteException {
+    public LogEvent[] getAllSystemLogs() throws RemoteException, LogViewerLogViewerException {
         try {
             return logViewerStub.getAllSystemLogs();
-        } catch (RemoteException e) {
+        } catch (LogViewerLogViewerException e) {
             log.error("Fail to get all logs ", e);
-            throw new RemoteException("Fail to get all system logs ", e);
+            throw new LogViewerLogViewerException("Fail to get all system logs ", e);
         }
     }
 

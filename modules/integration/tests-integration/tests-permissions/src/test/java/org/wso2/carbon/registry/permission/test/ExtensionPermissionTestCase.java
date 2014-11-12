@@ -50,6 +50,7 @@ public class ExtensionPermissionTestCase extends GREGIntegrationBaseTest{
     public void initialize() throws Exception {
         super.init(TestUserMode.SUPER_TENANT_ADMIN);
 
+      //  PermissionTestUtil.resetTestRoles(automationContext);
         PermissionTestUtil.setUpTestRoles(automationContext);
 
         AutomationContext automationContextUser = new AutomationContext("GREG", "greg001",

@@ -64,14 +64,14 @@
                                 </permissions>
                             </item>
                         </data>
-                        <data name="transitionPermission">
+  						<data name="transitionPermission">
                             <permission forEvent="Promote" roles="managerrole"/>
                             <permission forEvent="Demote" roles="archrole"/>
                             <permission forEvent="Abort" roles="archrole"/>
                         </data>
-			<data name="transitionExecution">
+						<data name="transitionExecution">
                             <execution forEvent="Promote" class="org.wso2.carbon.governance.registry.extensions.executors.ServiceVersionExecutor">
-                                <parameter name="currentEnvironment" value="/_system/governance/wso2/carbon/trunk/{@resourcePath}/{@resourceName}"/>
+                                <parameter name="currentEnvironment" value="/_system/governance/wso2/carbon/trunk/{@resourcePath}/{@version}/{@resourceName}"/>
                                 <parameter name="targetEnvironment" value="/_system/governance/wso2/carbon/branches/development/{@resourcePath}/{@version}/{@resourceName}"/>
                                 <parameter name="service.mediatype" value="application/vnd.wso2-service+xml"/>
                                 <parameter name="wsdl.mediatype" value="application/wsdl+xml"/>

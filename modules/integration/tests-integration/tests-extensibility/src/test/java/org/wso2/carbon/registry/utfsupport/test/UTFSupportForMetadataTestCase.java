@@ -103,6 +103,14 @@ public class UTFSupportForMetadataTestCase extends GREGIntegrationBaseTest {
         RegistryProviderUtil registryProviderUtil = new RegistryProviderUtil();
         governance = registryProviderUtil.getGovernanceRegistry(wsRegistryServiceClient, automationContext);
 
+        //adding the resource which was earlier added from 'RegistryConfiguratorTestCase'
+        String resourcePath = FrameworkPathUtil.getSystemResourceLocation() + "artifacts" +
+                File.separator + "GREG" + File.separator + "utf8" + File.separator + "test.txt";
+
+        DataHandler dh = new DataHandler(new URL("file:///" + resourcePath));
+        resourceAdminServiceClient.addResource("/_system/config/test_utf8_Resource", "text/plain", "testDesc", dh);
+        wsRegistryServiceClient.resourceExists("/_system/config/test_utf8_Resource");
+
     }
 
     @Test(groups = {"wso2.greg"}, description = "read UTF characters from file")
@@ -121,6 +129,8 @@ public class UTFSupportForMetadataTestCase extends GREGIntegrationBaseTest {
         String WSDL_URL = "https://svn.wso2.org/repos/wso2/carbon/platform/trunk/products/greg/modules/integration/registry" +
                           "/tests-new/src/test/resources/artifacts/GREG/wsdl/Axis2ImportedWsdl.wsdl";
         associatePath = addWSDL("wsdl_" + utfString, "desc", WSDL_URL);
+
+
 
     }
 
@@ -492,6 +502,7 @@ public class UTFSupportForMetadataTestCase extends GREGIntegrationBaseTest {
                    SearchAdminServiceRegistryExceptionException, InterruptedException {
 
         //resource added in @BeforeSuite to minimize indexing delay
+        // update:since @BeforeSuite was not found, add the resource in @BeforeClass method.
         CustomSearchParameterBean searchQuery = new CustomSearchParameterBean();
         SearchParameterBean paramBean = new SearchParameterBean();
         paramBean.setContent(utfString);
@@ -502,18 +513,17 @@ public class UTFSupportForMetadataTestCase extends GREGIntegrationBaseTest {
         AdvancedSearchResultsBean result;
         long startTime = System.currentTimeMillis();
         do {
-//            result = searchAdminServiceClient.getAdvancedSearchResults(searchQuery);
-            result = CommonUtils.getSearchResult(searchAdminServiceClient, searchQuery);
+          result = CommonUtils.getSearchResult(searchAdminServiceClient, searchQuery);
         }
-        while ((result.getResourceDataList() == null) && ((System.currentTimeMillis() - startTime) <= 60 * 5 * 1000));
-
+        while ((result.getResourceDataList() == null) && ((System.currentTimeMillis() - startTime) <= 60 * 10 * 1000));
         Assert.assertNotNull(result.getResourceDataList(), "No Record Found");
-        Assert.assertTrue((result.getResourceDataList().length > 0), "No Record Found. set valid property name");
+        Assert.assertTrue((result.getResourceDataList().length > 0), "No Record Found. set valid content");
 
 //        boolean resourceFound = false;
 //        for (ResourceData resource : result.getResourceDataList()) {
 //
-//            if (resource.getName().equals("AmazonSearchService") || resource.getName().equals("test_utf8_Resource")) {
+//            if (resource.getName().equals("AmazonSe
+// archService") || resource.getName().equals("test_utf8_Resource")) {
 //                resourceFound = true;
 //            }
 //        }
@@ -636,10 +646,12 @@ public class UTFSupportForMetadataTestCase extends GREGIntegrationBaseTest {
         delete(pathPrefix + wsdlPath);
         delete(pathPrefix + associatePath);
         delete("/_system/config/test_utf8_Resource");
-        delete("/_system/governance/trunk/services/com/amazon/soap/AmazonSearchService");
+        delete("/_system/governance/trunk/services/com/amazon/soap/1.0.0/AmazonSearchService");
         delete("/test_collection");
         delete("/_system/governance/trunk/test1/testresource.txt");
+        delete("/_system/governance/trunk/endpoints/com/amazon/soap/onca/ep-soap2");
         delete("/_system/governance/trunk/endpoints/com");
+        /*delete("/_system/config/testResource");*/
 
         userManagementClient = new UserManagementClient(backEndUrl,
                                                         sessionCookie);

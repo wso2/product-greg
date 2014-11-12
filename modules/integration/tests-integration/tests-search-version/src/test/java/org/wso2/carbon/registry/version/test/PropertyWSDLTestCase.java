@@ -60,8 +60,10 @@ import static junit.framework.Assert.*;
 public class PropertyWSDLTestCase extends GREGIntegrationBaseTest {
 
     private ResourceAdminServiceClient resourceAdminClient;
-    private static final String PATH1 = "/_system/governance/trunk/wsdls/org/wso2/carbon/core/services/echo/echo.wsdl";
-    private static final String PATH2 = "/_system/governance/trunk/wsdls/org/wso2/carbon/core/services/echo/echo_empty.wsdl";
+    private static final String PATH1 = "/_system/governance/trunk/wsdls/org/wso2/carbon/core/services/echo/1.0.0/echo.wsdl";
+    private static final String PATH2 = "/_system/governance/trunk/wsdls/org/wso2/carbon/core/services/echo/1.0.0/echo_empty.wsdl";
+
+
     private Date createdDate;
     private PropertiesAdminServiceClient propertiesAdminServiceClient;
     private RelationAdminServiceClient relationAdminServiceClient;
@@ -459,7 +461,7 @@ public class PropertyWSDLTestCase extends GREGIntegrationBaseTest {
                                          LifeCycleManagementServiceExceptionException,
                                          RegistryException {
 
-        deleteResource("/_system/governance/trunk/services/org/wso2/carbon/core/services/echo/echoyuSer1");
+        deleteResource("/_system/governance/trunk/services/org/wso2/carbon/core/services/echo/1.0.0-SNAPSHOT/echoyuSer1");
         deleteResource(PATH1);
         deleteResource(PATH2);
         lifeCycleManagementClient.deleteLifeCycle(LC_NAME);

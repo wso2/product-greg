@@ -38,7 +38,7 @@
         <!--
          Change this to true if you want to generate coverage statistics
         -->
-        <coverage>false</coverage>
+        <coverage>true</coverage>
         <!--
          Change this to true if you want to enable framework dashboard
         -->
@@ -263,11 +263,17 @@
 
         <!--<className>org.wso2.carbon.automation.extentions.servers.wso2server.Wso2ServerExtention</className>-->
         <platformExecutionManager>
-            <extentionClasses>
-                <className>org.wso2.carbon.integration.common.extensions.carbonserver.CarbonServerExtension</className>
-                <className>org.wso2.carbon.integration.common.extensions.usermgt.UserPopulateExtension</className>
-            </extentionClasses>
-        </platformExecutionManager>
+           <extentionClasses>
+               <class>
+                   <name>org.wso2.carbon.integration.common.extensions.carbonserver.CarbonServerExtension</name>
+                   <!--<parameter name="DportOffset" value="0" />-->
+                   <!--<parameter name="cmdArg" value="debug 5005" />-->
+               </class>
+               <class>
+                   <name>org.wso2.carbon.integration.common.extensions.usermgt.UserPopulateExtension</name>
+               </class>
+           </extentionClasses>
+       </platformExecutionManager>
 
 
         <PlatformSuiteManager>

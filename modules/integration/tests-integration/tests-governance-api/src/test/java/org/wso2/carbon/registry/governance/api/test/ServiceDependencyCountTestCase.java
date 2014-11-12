@@ -64,11 +64,11 @@ public class ServiceDependencyCountTestCase extends GREGIntegrationBaseTest {
         service2.addAttribute("overview_version", "1.1.2");
         artifactManager.addGenericArtifact(service2);
 
-        wsRegistry.addAssociation("/_system/governance/trunk/services/com/dp/S1-REGISTRY-1595",
-                "/_system/governance/trunk/services/com/dp/S2-REGISTRY-1595", "depends");
+        wsRegistry.addAssociation("/_system/governance/trunk/services/com/dp/1.1.1/S1-REGISTRY-1595",
+                "/_system/governance/trunk/services/com/dp/1.1.2/S2-REGISTRY-1595", "depends");
 
-        wsRegistry.addAssociation("/_system/governance/trunk/services/com/dp/S2-REGISTRY-1595",
-                "/_system/governance/trunk/services/com/dp/S1-REGISTRY-1595", "depends");
+        wsRegistry.addAssociation("/_system/governance/trunk/services/com/dp/1.1.2/S2-REGISTRY-1595",
+                "/_system/governance/trunk/services/com/dp/1.1.1/S1-REGISTRY-1595", "depends");
 
         boolean isCorrectCount = false;
         GenericArtifact[] artifacts = artifactManager.getAllGenericArtifacts();

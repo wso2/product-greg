@@ -15,7 +15,7 @@
     <packaging>pom</packaging>
 
     <modules>
-        <module>tests-resources</module     >
+        <module>tests-resources</module>
         <module>tests-metadata</module>
         <module>tests-lifecycle</module>
         <module>tests-permissions</module>
@@ -24,7 +24,7 @@
         <module>tests-smoke</module>
         <module>tests-jiras</module>
         <module>tests-search-version</module>
-        <!--<module>cmis-tck</module>-->
+        <module>cmis-tck</module>
         <module>reports</module>
     </modules>
 

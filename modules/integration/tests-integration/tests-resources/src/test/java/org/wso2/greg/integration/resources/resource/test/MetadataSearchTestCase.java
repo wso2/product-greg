@@ -55,7 +55,7 @@ public class MetadataSearchTestCase extends GREGIntegrationBaseTest {
     private ResourceAdminServiceClient resourceAdminServiceClient;
     private SearchAdminServiceClient searchAdminServiceClient;
 
-    private String WSDL_PATH = "/_system/governance/trunk/wsdls/eu/dataaccess/footballpool/";
+    private String WSDL_PATH ="/_system/governance/trunk/wsdls/eu/dataaccess/footballpool/1.0.0/";
     private String RESOURCE_NAME = "sample.wsdl";
 
     public static final int RERTY_CYCLES = 30;
@@ -150,9 +150,8 @@ public class MetadataSearchTestCase extends GREGIntegrationBaseTest {
 
         resourceAdminServiceClient.deleteResource(WSDL_PATH + RESOURCE_NAME);
 
-        resourceAdminServiceClient.deleteResource("/_system/governance/trunk/services/eu/" +
-                "dataaccess/footballpool/Info");
-
+        resourceAdminServiceClient.deleteResource("/_system/governance/trunk/services/" +
+                                                        "eu/dataaccess/footballpool/1.0.0/Info");
         resourceAdminServiceClient = null;
         searchAdminServiceClient = null;
     }

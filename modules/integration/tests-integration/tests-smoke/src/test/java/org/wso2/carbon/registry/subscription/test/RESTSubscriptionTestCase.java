@@ -57,21 +57,25 @@ public class RESTSubscriptionTestCase extends GREGIntegrationBaseTest {
     public void validateSubscribeREST() throws RegistryExceptionException, RegistryException {
         String path1 = "/_system/governance/repository/#";
         String path2 = "/_system/governance/repository/*";
-        String endpoint = "http://localhost:9764";
+        String path3 = "/registry/notifications/CollectionUpdated/_system/governance/repository";
+        String endpoint1 = "http://localhost:9764";
+        String endpoint2 = "http://localhost:9765";
         String eventName = "CollectionUpdated";
+
         //Hierarchical Subscription Method:  Collection , Children and Grand Children
-        infoServiceAdminClient.subscribeREST(path1, endpoint, eventName, sessionID);
+        infoServiceAdminClient.subscribeREST(path1, endpoint1, eventName, sessionID);
         //Hierarchical Subscription Method:  Collection , Children.
-        infoServiceAdminClient.subscribeREST(path2, endpoint, eventName, sessionID);
+        infoServiceAdminClient.subscribeREST(path2, endpoint2, eventName, sessionID);
+
         Resource resource = registry.get("/_system/governance/event/topicIndex");
         Collection<Object> values = resource.getProperties().values();
         boolean foundTopicsForPath1 = false;
         boolean foundTopicsForPath2 = false;
         for(Object value1 : values) {
-            if(value1.toString().contains("[/registry/notifications/CollectionUpdated/_system/governance/repository" + "/#]")) {
+            if(value1.toString().contains(path3 + "/#")) {
                 foundTopicsForPath1 = true;
             }
-            if(value1.toString().contains("/registry/notifications/CollectionUpdated/_system/governance/repository/*")) {
+            if(value1.toString().contains(path3 + "/*")) {
                 foundTopicsForPath2 = true;
             }
         }

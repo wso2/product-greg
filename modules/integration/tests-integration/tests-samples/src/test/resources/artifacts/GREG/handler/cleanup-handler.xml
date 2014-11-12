@@ -1,0 +1,5 @@
+<handler class="org.wso2.carbon.registry.extensions.handlers.ArtifactCleanUpHandler">
+	<filter class="org.wso2.carbon.registry.core.jdbc.handlers.filters.MediaTypeMatcher">
+		<property name="mediaType">application/wsdl+xml</property>
+	</filter>
+</handler>

@@ -129,7 +129,7 @@ public class NotificationEventTypeChangingTestCase extends GREGIntegrationBaseTe
         DataHandler dh = new DataHandler(new URL("file:///" + resourcePath));
         resourceAdminServiceClient.addResource(ROOT + "AmazonWebServices.wsdl", "application/wsdl+xml", "testDesc", dh);
         assertTrue(resourceAdminServiceClient.getResource("/_system/governance/trunk/wsdls/com/amazon/" +
-                "soap/AmazonWebServices.wsdl")[0].getAuthorUserName().contains(userNameWithoutDomain));
+                "soap/1.0.0/AmazonWebServices.wsdl")[0].getAuthorUserName().contains(userNameWithoutDomain));
     }
 
     /**
@@ -142,7 +142,7 @@ public class NotificationEventTypeChangingTestCase extends GREGIntegrationBaseTe
             dependsOnMethods = "testAddWsdl")
     public void testSubscriptionEventTypeChangeWsdl() throws Exception {
         assertTrue(new LifecycleUtil().init
-                ("/_system/governance/trunk/wsdls/com/amazon/soap/AmazonWebServices.wsdl",
+                ("/_system/governance/trunk/wsdls/com/amazon/soap/1.0.0/AmazonWebServices.wsdl",
                         automationContext, "Resource"));
     }
 
@@ -221,9 +221,9 @@ public class NotificationEventTypeChangingTestCase extends GREGIntegrationBaseTe
                 (backendURL, session);
 
         if(wsRegistryServiceClient.resourceExists("/_system/governance/trunk/services/com/amazon/soap" +
-                "/AmazonSearchService")) {
+                "/1.0.0-SNAPSHOT/AmazonSearchService")) {
             resourceAdminServiceClient.deleteResource("/_system/governance/trunk/services/com/amazon/soap/" +
-                    "AmazonSearchService");
+                    "1.0.0-SNAPSHOT/AmazonSearchService");
         }
         PropertiesAdminServiceClient propertiesAdminServiceClient = new
                 PropertiesAdminServiceClient(backendURL, session);

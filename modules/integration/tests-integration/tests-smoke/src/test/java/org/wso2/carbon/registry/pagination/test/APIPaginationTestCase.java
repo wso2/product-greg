@@ -81,13 +81,14 @@ public class APIPaginationTestCase extends GREGIntegrationBaseTest {
         for (int i = 0; i < 20; i++) {
             registry.addComment(path, new Comment(Integer.toString(i)));
         }
+        //comments are returend as pages of 5 items by default
         Comment[] comments = registry.getComments(path);
-        assertEquals((comments.length), 20, "Comment count is should be 20");
+        assertEquals((comments.length), 5, "Comment count is should be 5");
         try {
 
-            PaginationContext.init(0, 5, "", "", 100);
+            PaginationContext.init(0, 10, "", "", 100);
             Comment[] commentPaginated = registry.getComments(path);
-            assertEquals((commentPaginated.length), 5, "Paginated comment count is should be 5");
+            assertEquals((commentPaginated.length), 10, "Paginated comment count is should be 10");
 
         } finally {
             PaginationContext.destroy();
@@ -96,16 +97,18 @@ public class APIPaginationTestCase extends GREGIntegrationBaseTest {
 
     @Test(groups = {"wso2.greg"}, dependsOnMethods = {"resourceComment", "resourceTag"})
     public void resourceLog() throws Exception {
-
-        LogEntry[] logEntries = registry.getLogs("", 1, "admin", null, null, false);
-        assertTrue((logEntries.length) > 40, "Log entries   should be more than 40 records ");
-
         try {
+            PaginationContext.init(0, 60, "", "", 100);
+
+            LogEntry[] logEntries = registry.getLogs(null, -1, "admin", null, null, false);
+            assertTrue((logEntries.length) > 40, "Log entries   should be more than 40 records ");
+
             PaginationContext.init(0, 5, "", "", 100);
-            LogEntry[] paginatedLogEntries = registry.getLogs("", 1, "admin", null, null, false);
+            LogEntry[] paginatedLogEntries = registry.getLogs(null, -1, "admin", null, null, false);
             assertEquals((paginatedLogEntries.length), 5, "Log entries   should 5");
 
-        } finally {
+        }
+        finally {
             PaginationContext.destroy();
         }
     }

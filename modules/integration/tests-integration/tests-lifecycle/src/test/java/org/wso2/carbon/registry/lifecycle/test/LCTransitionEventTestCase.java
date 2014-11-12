@@ -86,7 +86,7 @@ public class LCTransitionEventTestCase extends GREGIntegrationBaseTest {
     private static final String LC_STATE2 = "Development";
     private static final String LC_STATE5 = "Halted";
     private static final String GOV_PATH = "/_system/governance";
-    private String servicePath = "/trunk/services/com/abb/IntergalacticService15";
+    private String servicePath = "/trunk/services/com/abb/1.0.0-SNAPSHOT/IntergalacticService15";
     private final String absPath = GOV_PATH + servicePath;
     private LifecycleBean lifeCycle;
     private RegistryProviderUtil registryProviderUtil = new RegistryProviderUtil();

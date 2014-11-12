@@ -16,6 +16,7 @@
 
 package org.wso2.carbon.registry.jira.issues.test;
 
+import org.apache.axiom.om.util.AXIOMUtil;
 import org.testng.Assert;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
@@ -42,6 +43,7 @@ import org.wso2.greg.integration.common.utils.GREGIntegrationBaseTest;
 import org.wso2.greg.integration.common.utils.RegistryProviderUtil;
 
 import javax.xml.namespace.QName;
+import javax.xml.stream.XMLStreamException;
 import java.rmi.RemoteException;
 
 public class Carbon10714TestCase extends GREGIntegrationBaseTest {
@@ -258,11 +260,15 @@ public class Carbon10714TestCase extends GREGIntegrationBaseTest {
     @Test(groups = {"wso2.greg"}, description = "Promoted Services")
     public void testPromotedServices() throws RegistryException, RemoteException,
             LifeCycleManagementServiceExceptionException,
-            CustomLifecyclesChecklistAdminServiceExceptionException {
-        serviceForPromoting =
-                serviceManager.newService(new QName(
-                        "http://service.delete.branch/mnm/beep",
-                        "serviceForPromotingNew1"));
+            CustomLifecyclesChecklistAdminServiceExceptionException, XMLStreamException {
+        StringBuilder builder = new StringBuilder();
+        builder.append("<serviceMetaData xmlns=\"http://www.wso2.org/governance/metadata\">");
+        builder.append("<overview><name>serviceForPromotingNew1</name>");
+        builder.append("<namespace>http://service.delete.branch/mnm/beep</namespace>");
+        builder.append("<version>1.0.0-SNAPSHOT</version></overview>");
+        builder.append("</serviceMetaData>");
+        org.apache.axiom.om.OMElement XMLContent = AXIOMUtil.stringToOM(builder.toString());
+        serviceForPromoting = serviceManager.newService(XMLContent);
         serviceManager.addService(serviceForPromoting);
         String servicePathDev = "/_system/governance" + serviceForPromoting.getPath();
         ArrayOfString[] parameters = new ArrayOfString[2];

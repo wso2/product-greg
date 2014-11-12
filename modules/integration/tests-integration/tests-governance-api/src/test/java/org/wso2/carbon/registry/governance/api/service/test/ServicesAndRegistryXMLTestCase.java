@@ -1,3 +1,20 @@
+/*
+*Copyright (c) 2005-2010, WSO2 Inc. (http://www.wso2.org) All Rights Reserved.
+*
+*WSO2 Inc. licenses this file to you under the Apache License,
+*Version 2.0 (the "License"); you may not use this file except
+*in compliance with the License.
+*You may obtain a copy of the License at
+*
+*http://www.apache.org/licenses/LICENSE-2.0
+*
+*Unless required by applicable law or agreed to in writing,
+*software distributed under the License is distributed on an
+*"AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+*KIND, either express or implied.  See the License for the
+*specific language governing permissions and limitations
+*under the License.
+*/
 package org.wso2.carbon.registry.governance.api.service.test;
 
 import org.apache.xerces.dom.DeferredElementImpl;
@@ -69,9 +86,9 @@ public class ServicesAndRegistryXMLTestCase extends GREGIntegrationBaseTest {
     }
 
     /*
-     * Add a service without the Version property so that the
+     * Add a service without the Version is not valid anymore, since version is mandatory 
      * service is saved with defaultServiceVersion
-     * 1.0.0-SNAPSHOT
+     * 1.0.0
      */
     @Test(groups = {"wso2.greg"}, description = "service without the defaultServiceVersion property")
     @SetEnvironment(executionEnvironments = {ExecutionEnvironment.STANDALONE})
@@ -82,12 +99,13 @@ public class ServicesAndRegistryXMLTestCase extends GREGIntegrationBaseTest {
         serviceManager = new ServiceManager(governance);
         service =
                 serviceManager.newService(new QName("http://bang.boom.com/mnm/beep/test", "RegistryXMLService"));
+        service.addAttribute("overview_version", "3.0.0");
         serviceManager.addService(service);
         String serviceId = service.getId();
         GovernanceUtils.loadGovernanceArtifacts((UserRegistry) governance);
         service = serviceManager.getService(serviceId);
 
-        Assert.assertEquals(service.getAttribute("overview_version"), "5.0.0-SNAPSHOT", "overview_version should be 5.0.0-SNAPSHOT");
+        Assert.assertEquals(service.getAttribute("overview_version"), "3.0.0", "overview_version should be 3.0.0-SNAPSHOT");
     }
 
     /*

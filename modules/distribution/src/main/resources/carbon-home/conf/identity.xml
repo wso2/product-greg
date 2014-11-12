@@ -165,6 +165,8 @@
 		<ClaimsRetrieverImplClass>org.wso2.carbon.identity.sso.saml.builders.claims.DefaultClaimsRetriever</ClaimsRetrieverImplClass>
 		<!-- SAML Token validity period in minutes -->
                 <SAMLResponseValidityPeriod>5</SAMLResponseValidityPeriod>
+		<SAMLSSOSigner>org.wso2.carbon.identity.sso.saml.builders.signature.DefaultSSOSigner</SAMLSSOSigner>
+            	<UseAuthenticatedUserDomainCrypto>true</UseAuthenticatedUserDomainCrypto>
 	</SSOService>
 
 	<EntitlementSettings>

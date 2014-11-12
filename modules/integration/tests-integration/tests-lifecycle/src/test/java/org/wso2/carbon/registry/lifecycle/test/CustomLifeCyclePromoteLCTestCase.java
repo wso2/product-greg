@@ -680,16 +680,16 @@ public class CustomLifeCyclePromoteLCTestCase extends GREGIntegrationBaseTest {
     @AfterClass ()
     public void cleanup () throws Exception {
 
-        if (wsRegistry.resourceExists(servicePathTrunk)) {
+        if (servicePathTrunk != null && wsRegistry.resourceExists(servicePathTrunk)) {
             wsRegistry.delete(servicePathTrunk);
         }
-        if (wsRegistry.resourceExists(servicePathBranchDev)) {
+        if (servicePathBranchDev != null && wsRegistry.resourceExists(servicePathBranchDev)) {
             wsRegistry.delete(servicePathBranchDev);
         }
-        if (wsRegistry.resourceExists(servicePathBranchQA)) {
+        if (servicePathBranchQA != null && wsRegistry.resourceExists(servicePathBranchQA)) {
             wsRegistry.delete(servicePathBranchQA);
         }
-        if (wsRegistry.resourceExists(servicePathBranchProd)) {
+        if (servicePathBranchProd !=  null && wsRegistry.resourceExists(servicePathBranchProd)) {
             wsRegistry.delete(servicePathBranchProd);
         }
         LifeCycleUtils.deleteLifeCycleIfExist(ASPECT_NAME, lifeCycleManagementClient);

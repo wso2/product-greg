@@ -80,7 +80,7 @@ public class Carbon11906TestCase extends GREGIntegrationBaseTest {
                 new LifeCycleManagementClient(backendURL, session);
         resourceAdminServiceClient =
                 new ResourceAdminServiceClient(backendURL, session);
-        GovernanceUtils.loadGovernanceArtifacts((UserRegistry) governance);
+        GovernanceUtils.loadGovernanceArtifacts((UserRegistry)governance, GovernanceUtils.findGovernanceArtifactConfigurations(governance));
 
     }
 
@@ -96,6 +96,7 @@ public class Carbon11906TestCase extends GREGIntegrationBaseTest {
         rxt.setContentStream(new FileInputStream(new File(resourcePath)));
         rxt.setMediaType(mediaType);
         governance.put(rxtPath, rxt);
+        GovernanceUtils.loadGovernanceArtifacts((UserRegistry)governance, GovernanceUtils.findGovernanceArtifactConfigurations(governance));
         assertTrue(governance.resourceExists(rxtPath),
                    "rxt resource doesn't exists");
 

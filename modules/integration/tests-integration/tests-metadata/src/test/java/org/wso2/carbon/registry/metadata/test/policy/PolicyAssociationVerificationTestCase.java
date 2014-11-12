@@ -70,15 +70,15 @@ public class PolicyAssociationVerificationTestCase extends GREGIntegrationBaseTe
             dependsOnMethods = "testAddResourcesToVerifyAssociation")
     public void testVerifyAssociation() throws RemoteException, MalformedURLException, ResourceAdminServiceExceptionException, AddAssociationRegistryExceptionException, XPathExpressionException {
         RelationAdminServiceClient relationAdminServiceClient = new RelationAdminServiceClient(automationContext.getContextUrls().getBackEndUrl(), session);
-        relationAdminServiceClient.addAssociation("/_system/governance/trunk/policies/policy.xml", "usedBy", "/_system/governance/trunk/policies/UTPolicy.xml", "add");
-        AssociationTreeBean associationTreeBean = relationAdminServiceClient.getAssociationTree("/_system/governance/trunk/policies/policy.xml", "association");
-        assertTrue(associationTreeBean.getAssociationTree().contains("/_system/governance/trunk/policies/UTPolicy.xml"));
+        relationAdminServiceClient.addAssociation("/_system/governance/trunk/policies/1.0.0/policy.xml", "usedBy", "/_system/governance/trunk/policies/1.0.0/UTPolicy.xml", "add");
+        AssociationTreeBean associationTreeBean = relationAdminServiceClient.getAssociationTree("/_system/governance/trunk/policies/1.0.0/policy.xml", "association");
+        assertTrue(associationTreeBean.getAssociationTree().contains("/_system/governance/trunk/policies/1.0.0/UTPolicy.xml"));
     }
 
     @AfterClass(groups = "wso2.greg", alwaysRun = true, description = "cleaning up the artifacts added")
     public void tearDown() throws GovernanceException, RemoteException, ResourceAdminServiceExceptionException {
-        resourceAdminServiceClient.deleteResource("/_system/governance/trunk/policies/UTPolicy.xml");
-        resourceAdminServiceClient.deleteResource("/_system/governance/trunk/policies/policy.xml");
+        resourceAdminServiceClient.deleteResource("/_system/governance/trunk/policies/1.0.0/UTPolicy.xml");
+        resourceAdminServiceClient.deleteResource("/_system/governance/trunk/policies/1.0.0/policy.xml");
         resourceAdminServiceClient = null;
     }
 }

@@ -146,7 +146,7 @@ public class UTFSupportForCAPPTestCase extends GREGIntegrationBaseTest {
         boolean resourceExists = false;
         for (ResourceData resource : result.getResourceDataList()) {
 
-            if (resource.getResourcePath().equals("/_system/governance/trunk/wsdls/listing5/listing5.wsdl")) {
+            if (resource.getResourcePath().equals("/_system/governance/trunk/wsdls/listing5/1.0.0/listing5.wsdl")) {
                 resourceExists = true;
                 break;
             }
@@ -169,7 +169,7 @@ public class UTFSupportForCAPPTestCase extends GREGIntegrationBaseTest {
         boolean resourceExists = false;
         for (ResourceData resource : result.getResourceDataList()) {
 
-            if (resource.getResourcePath().equals("/_system/governance/trunk/schemas/listing3/listing3.xsd")) {
+            if (resource.getResourcePath().equals("/_system/governance/trunk/schemas/listing3/1.0.0/listing3.xsd")) {
                 resourceExists = true;
                 break;
             }
@@ -185,12 +185,12 @@ public class UTFSupportForCAPPTestCase extends GREGIntegrationBaseTest {
         delete("/_system/capps");
         deleteApplication("text_resources");
         deleteApplication("Capp");
-        delete("/_system/governance/trunk/services/com/strikeiron/www/DoNotCallRegistry");
-        delete("/_system/governance/trunk/services/com/example/stockquote_wsdl/StockQuoteService");
-        delete("/_system/governance/trunk/wsdls/com/strikeiron/www/Automated Name With Spaces.wsdl");
-        delete("/_system/governance/trunk/wsdls/com/example/stockquote_wsdl/encodedURL_artifactGiven.wsdl");
-        delete("/_system/governance/trunk/wsdls/listing5/listing5.wsdl");
-        delete("/_system/governance/trunk/schemas/listing3/listing3.xsd");
+        delete("/_system/governance/trunk/services/com/strikeiron/www/1.0.0/DoNotCallRegistry");
+        delete("/_system/governance/trunk/services/com/example/stockquote_wsdl/1.0.0/StockQuoteService");
+        delete("/_system/governance/trunk/wsdls/com/strikeiron/www/1.0.0/Automated Name With Spaces.wsdl");
+        delete("/_system/governance/trunk/wsdls/com/example/stockquote_wsdl/1.0.0/encodedURL_artifactGiven.wsdl");
+        delete("/_system/governance/trunk/wsdls/listing5/1.0.0/listing5.wsdl");
+        delete("/_system/governance/trunk/schemas/listing3/1.0.0/listing3.xsd");
         delete("/_system/governance/trunk/endpoints/com");
 
         resourceAdminServiceClient = null;

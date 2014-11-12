@@ -241,9 +241,9 @@ public class RegistryFilterSearchTestCase extends GREGIntegrationBaseTest {
 
     @AfterClass
     public void clean() throws ResourceAdminServiceExceptionException, RemoteException, RegistryException {
-        delete("/_system/governance/trunk/wsdls/com/amazon/soap/AmazonWebServices.wsdl");
-        delete("/_system/governance/trunk/services/com/amazon/soap/AmazonSearchService");
-        delete("/_system/governance/trunk/schemas/com/example/www/library/library.xsd");
+        delete("/_system/governance/trunk/wsdls/com/amazon/soap/1.0.0/AmazonWebServices.wsdl");
+        delete("/_system/governance/trunk/services/com/amazon/soap/1.0.0/AmazonSearchService");
+        delete("/_system/governance/trunk/schemas/com/example/www/library/1.0.0/library.xsd");
         delete("/_system/governance/trunk/endpoints/com");
 
         searchAdminServiceClient = null;

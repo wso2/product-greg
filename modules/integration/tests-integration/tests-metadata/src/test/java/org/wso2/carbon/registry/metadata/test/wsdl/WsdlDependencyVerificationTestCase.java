@@ -49,15 +49,15 @@ import static org.testng.Assert.assertTrue;
 public class WsdlDependencyVerificationTestCase extends GREGIntegrationBaseTest {
 
     private ResourceAdminServiceClient resourceAdminServiceClient;
-    private final String amazonWsdlPath = "/_system/governance/trunk/wsdls/com/amazon/soap/AmazonWebServices.wsdl";
-    private final String automatedWsdlPath = "/_system/governance/trunk/wsdls/com/strikeiron/www/Automated.wsdl";
-    private final String bizWsdlPath = "/_system/governance/trunk/wsdls/com/foo/BizService.wsdl";
-    private final String associatedServicePathBiz = "/_system/governance/trunk/services/com/foo/BizService";
+    private final String amazonWsdlPath = "/_system/governance/trunk/wsdls/com/amazon/soap/1.0.0/AmazonWebServices.wsdl";
+    private final String automatedWsdlPath = "/_system/governance/trunk/wsdls/com/strikeiron/www/1.0.0/Automated.wsdl";
+    private final String bizWsdlPath = "/_system/governance/trunk/wsdls/com/foo/1.0.0/BizService.wsdl";
+    private final String associatedServicePathBiz = "/_system/governance/trunk/services/com/foo/1.0.0/BizService";
     private final String associatedEndPointPathBiz = "/_system/governance/trunk/endpoints/localhost/axis2/services/ep-BizService";
-    private final String associatedSchemaPathBiz = "/_system/governance/trunk/schemas/org/bar/purchasing/purchasing.xsd";
-    private final String associatedServicePathAutomated = "/_system/governance/trunk/services/com/strikeiron/www/DoNotCallRegistry";
+    private final String associatedSchemaPathBiz = "/_system/governance/trunk/schemas/org/bar/purchasing/1.0.0/purchasing.xsd";
+    private final String associatedServicePathAutomated = "/_system/governance/trunk/services/com/strikeiron/www/1.0.0/DoNotCallRegistry";
     private final String associatedEndpointPathAutomated = "/_system/governance/trunk/endpoints/com/strikeiron/ws/strikeiron/donotcall2_5/ep-DoNotCallRegistry";
-    private final String associatedServicePathAmazon = "/_system/governance/trunk/services/com/amazon/soap/AmazonSearchService";
+    private final String associatedServicePathAmazon = "/_system/governance/trunk/services/com/amazon/soap/1.0.0/AmazonSearchService";
     private final String associatedEndpointPathAmazon = "/_system/governance/trunk/endpoints/com/amazon/soap/onca/ep-soap2";
     private String sessionCookie;
 
@@ -112,18 +112,18 @@ public class WsdlDependencyVerificationTestCase extends GREGIntegrationBaseTest 
                 backendURL, sessionCookie);
         relationAdminServiceClient
                 .addAssociation(
-                        "/_system/governance/trunk/wsdls/com/amazon/soap/AmazonWebServices.wsdl",
+                        "/_system/governance/trunk/wsdls/com/amazon/soap/1.0.0/AmazonWebServices.wsdl",
                         "depends",
-                        "/_system/governance/trunk/wsdls/com/strikeiron/www/Automated.wsdl",
+                        "/_system/governance/trunk/wsdls/com/strikeiron/www/1.0.0/Automated.wsdl",
                         "add");
         relationAdminServiceClient
                 .addAssociation(
-                        "/_system/governance/trunk/wsdls/com/amazon/soap/AmazonWebServices.wsdl",
+                        "/_system/governance/trunk/wsdls/com/amazon/soap/1.0.0/AmazonWebServices.wsdl",
                         "depends",
-                        "/_system/governance/trunk/wsdls/com/foo/BizService.wsdl",
+                        "/_system/governance/trunk/wsdls/com/foo/1.0.0/BizService.wsdl",
                         "add");
         DependenciesBean dependenciesBean = relationAdminServiceClient
-                .getDependencies("/_system/governance/trunk/wsdls/com/amazon/soap/AmazonWebServices.wsdl");
+                .getDependencies("/_system/governance/trunk/wsdls/com/amazon/soap/1.0.0/AmazonWebServices.wsdl");
         AssociationBean[] associationBean = dependenciesBean
                 .getAssociationBeans();
         boolean dependency1 = false;
@@ -133,12 +133,12 @@ public class WsdlDependencyVerificationTestCase extends GREGIntegrationBaseTest 
             if (tmpAssociationBean
                     .getDestinationPath()
                     .contentEquals(
-                            "/_system/governance/trunk/wsdls/com/strikeiron/www/Automated.wsdl")) {
+                            "/_system/governance/trunk/wsdls/com/strikeiron/www/1.0.0/Automated.wsdl")) {
                 dependency1 = true;
 
             }
             if (tmpAssociationBean.getDestinationPath().contentEquals(
-                    "/_system/governance/trunk/wsdls/com/foo/BizService.wsdl")) {
+                    "/_system/governance/trunk/wsdls/com/foo/1.0.0/BizService.wsdl")) {
                 dependency2 = true;
 
             }

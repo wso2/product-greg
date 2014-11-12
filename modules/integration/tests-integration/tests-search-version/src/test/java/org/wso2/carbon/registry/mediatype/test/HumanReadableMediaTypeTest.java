@@ -95,8 +95,8 @@ public class HumanReadableMediaTypeTest extends GREGIntegrationBaseTest {
         wsRegistry = registryProviderUtil.getWSRegistry(automationContext);
         governance = registryProviderUtil.getGovernanceRegistry(wsRegistry, automationContext);
 
-        uploadCApplication();
 
+        uploadCApplication();
     }
 
     @Test(groups = {"wso2.greg"}, description = "Human Readable Media type search")
@@ -109,8 +109,9 @@ public class HumanReadableMediaTypeTest extends GREGIntegrationBaseTest {
         DataHandler dh = new DataHandler(new URL("file:///" + resourcePath));
         resourceAdminServiceClient.addResource("/_system/governance/trunk/wsdl/AmazonWebServices.wsdl",
                                                "application/wsdl+xml", "desc", dh);
-        assertTrue(resourceAdminServiceClient.getHumanReadableMediaTypes().contains("wsdl"));
+
         assertTrue(resourceAdminServiceClient.getMimeTypeFromHuman("wsdl").contains("application/wsdl+xml"));
+        assertTrue(resourceAdminServiceClient.getHumanReadableMediaTypes().contains("wsdl"));
     }
 
     @Test(groups = {"wso2.greg"}, description = "Human Readable Mediatype search")
@@ -136,19 +137,19 @@ public class HumanReadableMediaTypeTest extends GREGIntegrationBaseTest {
 
         startTime = System.currentTimeMillis();
 
-        assertTrue(searchMediaTypeForCApp("direct.properties", "text/properties"));
+        assertTrue(searchMediaTypeForCApp("direct.properties", "text/properties")); //
         assertTrue(searchMediaTypeForCApp("ESBAddAddressEndpointTest.java", "text/x-java"));
-        assertTrue(searchMediaTypeForCApp("fix-synapse.cfg", "text/config"));
+        assertTrue(searchMediaTypeForCApp("fix-synapse.cfg", "text/config"));      //
         assertTrue(searchMediaTypeForCApp("mywaves.txt", "plain/text"));
         assertTrue(searchMediaTypeForCApp("release-notes.html", "text/html"));
         assertTrue(searchMediaTypeForCApp("stockquoteTransform.js", "application/x-javascript"));
-        assertTrue(searchMediaTypeForCApp("stockquoteTransform.rb", "text/ruby"));
+        assertTrue(searchMediaTypeForCApp("stockquoteTransform.rb", "text/ruby"));        //
         assertTrue(searchMediaTypeForCApp("synapse_all.xml", "application/xml"));
-        assertTrue(searchMediaTypeForCApp("tranform_back_rule.drl", "xml/drool"));
+        assertTrue(searchMediaTypeForCApp("tranform_back_rule.drl", "xml/drool"));       //
         assertTrue(searchMediaTypeForCApp("transform.xslt", "application/xml"));
         assertTrue(searchMediaTypeForCApp("UTPolicy.xml", "application/xml"));
         assertTrue(searchMediaTypeForCApp("validate.xsd", "application/x-xsd+xml"));
-        assertTrue(searchMediaTypeForCApp("xquery_req.xq", "xml/xquery"));
+        assertTrue(searchMediaTypeForCApp("xquery_req.xq", "xml/xquery"));             //
 
         deleteCarFile();
 
@@ -191,13 +192,14 @@ public class HumanReadableMediaTypeTest extends GREGIntegrationBaseTest {
 
     public void deleteResources() throws ResourceAdminServiceExceptionException, RemoteException, RegistryException {
         delete("/_system/governance/trunk/test");
+        //delete("/_system/governance/trunk/schemas/org/epo/ops/1.0.0/ops.xsd")  //
         delete("/_system/governance/trunk/schemas/org/epo");
         //delete("/_system/governance/trunk/endpoints/org/epo/ops");
-        delete("/_system/governance/trunk/wsdls/org/epo/ops");
-        delete("/_system/governance/trunk/services/org/epo/ops");
-        delete("/_system/governance/trunk/schemas/com/example/www/library/library.xsd");
-        delete("/_system/governance/trunk/wsdls/com/amazon/soap/AmazonWebServices.wsdl");
-        delete("/_system/governance/trunk/services/com/amazon/soap/AmazonSearchService");
+        delete("/_system/governance/trunk/wsdls/org/epo/1.0.0/ops");
+        delete("/_system/governance/trunk/services/org/epo/1.0.0-SNAPSHOT/ops");
+        delete("/_system/governance/trunk/schemas/com/example/www/library/1.0.0/library.xsd");
+        delete("/_system/governance/trunk/wsdls/com/amazon/soap/1.0.0/AmazonWebServices.wsdl");
+        delete("/_system/governance/trunk/services/com/amazon/soap/1.0.0-SNAPSHOT/AmazonSearchService");
 
     }
 
@@ -284,11 +286,13 @@ public class HumanReadableMediaTypeTest extends GREGIntegrationBaseTest {
             throws ResourceAdminServiceExceptionException, RemoteException, RegistryException {
 
         delete("/_system/governance/trunk/test");
-        //delete("/_system/governance/trunk/endpoints/com");
-        delete("/_system/governance/trunk/endpoints/org");
-        delete("/_system/governance/trunk/schemas/org/w3/www/xml/_1998/namespace/xml.xsd");
-        delete("/_system/governance/trunk/services/com/amazon/soap/AmazonSearchService");
-        delete("/_system/governance/trunk/wsdls/com/amazon/soap/AmazonWebServices.wsdl");
+//        delete("/_system/governance/trunk/endpoints/com");
+//        delete("/_system/governance/trunk/endpoints/org");
+        delete("/_system/governance/trunk/schemas/org/w3/www/xml/_1998/namespace/1.0.0/xml.xsd");
+        delete("/_system/governance/trunk/services/com/amazon/soap/1.0.0-SNAPSHOT/AmazonSearchService");
+        delete("/_system/governance/trunk/wsdls/com/amazon/soap/1.0.0/AmazonWebServices.wsdl");
+        delete("/_system/governance/trunk/wsdls/org/epo/ops/wsdl/1.0.0/ops.wsdl"); //
+
 
         resourceAdminServiceClient = null;
         cAppUploader = null;

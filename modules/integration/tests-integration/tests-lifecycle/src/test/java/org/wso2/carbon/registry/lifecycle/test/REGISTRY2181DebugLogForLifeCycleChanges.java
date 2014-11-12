@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2005-2010, WSO2 Inc. (http://www.wso2.org) All Rights Reserved.
+ * Copyright (c) 2005-2014, WSO2 Inc. (http://www.wso2.org) All Rights Reserved.
  * 
  * WSO2 Inc. licenses this file to you under the Apache License,
  * Version 2.0 (the "License"); you may not use this file except
@@ -100,10 +100,6 @@ public class REGISTRY2181DebugLogForLifeCycleChanges  extends GREGIntegrationBas
         serverConfigurationManager = new ServerConfigurationManager(automationContext);
         
         String resourcePath = getTestArtifactLocation() + "artifacts" + File.separator + "GREG" + File.separator + "log4j" + File.separator + "log4j.properties";
-        System.out.println(resourcePath);
-        System.out.println(resourcePath);
-        System.out.println(resourcePath);
-        System.out.println(resourcePath);
         serverConfigurationManager.applyConfiguration(new File(resourcePath));
         
         String sessionCookie = new LoginLogoutClient(automationContext).login();
@@ -161,7 +157,7 @@ public class REGISTRY2181DebugLogForLifeCycleChanges  extends GREGIntegrationBas
         String description = "This is a test service";
         resourceAdminServiceClient.addResource(
                 "/_system/governance/service2", mediaType, description, dataHandler);
-        ResourceData[] data = resourceAdminServiceClient.getResource("/_system/governance/trunk/services/com/abb/IntergalacticService1");
+        ResourceData[] data = resourceAdminServiceClient.getResource("/_system/governance/trunk/services/com/abb/1.0.0-SNAPSHOT/IntergalacticService1");
         assertNotNull(data, "Service not found");
 
     }
@@ -311,7 +307,6 @@ public class REGISTRY2181DebugLogForLifeCycleChanges  extends GREGIntegrationBas
         wsRegistryServiceClient = null;
         lifeCycleAdminServiceClient = null;
         lifeCycleManagementClient = null;
-        governanceServiceClient = null;
         listMetadataServiceClient = null;
         resourceAdminServiceClient = null;
         resourceAdminServiceClient = null;
