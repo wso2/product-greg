@@ -155,7 +155,7 @@ public class RegistryConfiguratorTestCase extends GREGIntegrationBaseTest {
             indexConfigNode.setText("60");
             AXIOMXPath xpathExpression1 = new AXIOMXPath("/wso2registry/indexingConfiguration/indexingFrequencyInSeconds");
             OMElement indexConfigNode1 = (OMElement) xpathExpression1.selectSingleNode(documentElement);
-            indexConfigNode1.setText("30");
+            indexConfigNode1.setText("5");
             fileOutputStream = new FileOutputStream(getRegistryXMLPath());
             writer = XMLOutputFactory.newInstance().createXMLStreamWriter(fileOutputStream);
             documentElement.serialize(writer);
