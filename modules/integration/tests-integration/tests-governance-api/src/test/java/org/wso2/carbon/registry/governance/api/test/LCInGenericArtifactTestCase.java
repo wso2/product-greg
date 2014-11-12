@@ -109,7 +109,8 @@ public class LCInGenericArtifactTestCase extends GREGIntegrationBaseTest{
 
     @Test(groups = {"wso2.greg"}, description = "add an artefact with multiple longer lines", enabled = true, dependsOnMethods = "testAddNewRxtFile")
     public void testAddNewGenericArtifactWithLC() throws Exception {
-        GovernanceUtils.loadGovernanceArtifacts((UserRegistry) governance);
+    	GovernanceUtils.loadGovernanceArtifacts((UserRegistry)governance,
+    	                GovernanceUtils.findGovernanceArtifactConfigurations(governance));
         GenericArtifactManager artifactManager = new GenericArtifactManager(governance, "evlc");
         GenericArtifact artifact = artifactManager.newGovernanceArtifact(new QName
                 ("EventWithLC"));
