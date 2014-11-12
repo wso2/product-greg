@@ -39,7 +39,6 @@ public class CappHome {
         this.driver = driver;
         this.uiElementMapper = UIElementMapper.getInstance();
         // Check that we're on the right page.
-        //driver.findElement(By.xpath(uiElementMapper.getElement("endpoints.tab.id")));
         driver.findElement(By.xpath(uiElementMapper.getElement("carbon.Main.tab"))).click();
         driver.findElement(By.xpath(uiElementMapper.getElement("carbon.Region1.tab"))).click();
         driver.findElement(By.xpath(uiElementMapper.getElement("carbon.add.href"))).click();
@@ -48,7 +47,7 @@ public class CappHome {
         if (!driver.findElement(By.id(uiElementMapper.getElement("carbon.dashboard.middle.text"))).
                 getText().contains("Add Carbon Applications")) {
 
-            throw new IllegalStateException("This is not the carbon Element adding page######################");
+            throw new IllegalStateException("## This is not the carbon Element adding page ##");
         }
     }
 
