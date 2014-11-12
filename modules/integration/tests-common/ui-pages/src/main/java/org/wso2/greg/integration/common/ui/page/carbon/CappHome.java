@@ -38,13 +38,11 @@ public class CappHome {
     public CappHome(WebDriver driver) throws IOException {
         this.driver = driver;
         this.uiElementMapper = UIElementMapper.getInstance();
-        /*
-        *Check that we're on the right page.
-        *findElement paths were reset using "Element Locator for WebDriver" in firefox
-        */
-        driver.findElement(By.xpath("//span[contains(.,'Main')]")).click();
-        driver.findElement(By.xpath("//img[contains(@id,'region1_manage_menu')]")).click();
-        driver.findElement(By.xpath("//a[contains(@href,'../carbonapps/app_upload.jsp?region=region1&item=apps_add_menu')]")).click();
+        // Check that we're on the right page.
+        //driver.findElement(By.xpath(uiElementMapper.getElement("endpoints.tab.id")));
+        driver.findElement(By.xpath(uiElementMapper.getElement("carbon.Main.tab"))).click();
+        driver.findElement(By.xpath(uiElementMapper.getElement("carbon.Region1.tab"))).click();
+        driver.findElement(By.xpath(uiElementMapper.getElement("carbon.add.href"))).click();
 
         log.info("in the carbon element Add Page");
         if (!driver.findElement(By.id(uiElementMapper.getElement("carbon.dashboard.middle.text"))).
@@ -62,14 +60,15 @@ public class CappHome {
         driver.findElement(By.name(uiElementMapper.getElement("carbon.upload.button"))).click();
         Thread.sleep(5000);
 
-        if (!driver.findElement(By.xpath("//div[@id='messagebox-info']")).getText().contains("successfully")) {
+        if (!driver.findElement(By.xpath(uiElementMapper.getElement("carbon.upload.successful.message"))).
+                getText().contains("successfully")) {
 
             throw new NoSuchElementException();
         }
 
         log.info("Successfully Uploaded");
 
-        driver.findElement(By.xpath("//button[@type='button']")).click();
+        driver.findElement(By.xpath(uiElementMapper.getElement("carbon.upload.successful.button"))).click();
         log.info("Ready to sign out");
 
         driver.navigate().refresh();
@@ -77,7 +76,7 @@ public class CappHome {
     }
 
     public LoginPage logout() throws IOException {
-        driver.findElement(By.xpath("//a[@href='../admin/logout_action.jsp']")).click();
+        driver.findElement(By.xpath(uiElementMapper.getElement("home.greg.sign.out.xpath"))).click();
         return new LoginPage(driver);
     }
 
