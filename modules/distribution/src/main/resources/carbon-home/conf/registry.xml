@@ -252,6 +252,7 @@
     <!-- This defines index cofiguration which is used in meta data search feature of the registry -->
 		
     <indexingConfiguration>
+	<solrServerUrl>http://localhost:9763/solr/greg-core</solrServerUrl>
         <startingDelayInSeconds>60</startingDelayInSeconds>
         <indexingFrequencyInSeconds>5</indexingFrequencyInSeconds>
         <!--number of resources submit for given indexing thread -->

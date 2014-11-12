@@ -476,6 +476,24 @@
                 <include>**/sso_redirect.html</include>
             </includes>
         </fileSet>
+
+        <!--copy web app for solr feature-->
+        <fileSet>
+            <directory>../p2-profile-gen/target/wso2carbon-core-${carbon.platform.version}/repository/deployment/server/webapps</directory>
+            <outputDirectory>${pom.artifactId}-${build.version}/repository/deployment/server/webapps</outputDirectory>
+            <includes>
+                <include>solr.war</include>
+            </includes>
+        </fileSet>
+
+        <!--copy configuration files for solr feature-->
+        <fileSet>
+            <directory>../p2-profile-gen/target/wso2carbon-core-${carbon.platform.version}/repository/conf</directory>
+            <outputDirectory>${pom.artifactId}-${build.version}/repository/conf</outputDirectory>
+            <includes>
+                <include>solr/</include>
+            </includes>
+        </fileSet>
     </fileSets>
 
     <dependencySets>
