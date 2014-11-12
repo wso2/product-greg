@@ -75,7 +75,8 @@ public class Carbon11689TestCase extends GREGIntegrationBaseTest {
 
     @Test(groups = {"wso2.greg"}, description = "modify service", dependsOnMethods = {"testAddService"})
     public void testModifyService() throws RegistryException {
-        GovernanceUtils.loadGovernanceArtifacts((UserRegistry) governance);
+        GovernanceUtils.loadGovernanceArtifacts((UserRegistry)governance,
+                GovernanceUtils.findGovernanceArtifactConfigurations(governance));
         Service service = serviceManager.getService(serviceId);
         service.setAttribute("overview_description", "modified");
         serviceManager.updateService(service);
@@ -103,7 +104,14 @@ public class Carbon11689TestCase extends GREGIntegrationBaseTest {
     @AfterClass(alwaysRun = true)
     public void clean() throws Exception {
 
-        delete("/_system/governance/trunk/services/test_namespace1/test_name1");
+        Service[] services = serviceManager.getAllServices();
+
+        for(Service service: services){
+            if(service.getQName().getLocalPart().contains("test_name1")) {
+                serviceManager.removeService(service.getId());
+            }
+        }
+
         governance = null;
         registryProviderUtil = null;
         resourceAdminServiceClient = null;
