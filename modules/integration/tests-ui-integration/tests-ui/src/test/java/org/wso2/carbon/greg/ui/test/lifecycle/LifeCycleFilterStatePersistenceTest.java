@@ -69,7 +69,7 @@ public class LifeCycleFilterStatePersistenceTest extends GREGIntegrationUIBaseTe
             ResourceBrowsePage resourceBrowsePage = new ResourceBrowsePage(driver);
             resourceBrowsePage.addLifeCycle(lifeCycle);
         }
-        Thread.sleep(1000*10);
+        Thread.sleep(10000);
         ApiListPage apiListPage = new ApiListPage(driver);
         apiListPage.checkOnUploadApi(provider + 1);
         apiListPage.checkFilterStatePersistence(lifeCycle, lifeCycleState);
