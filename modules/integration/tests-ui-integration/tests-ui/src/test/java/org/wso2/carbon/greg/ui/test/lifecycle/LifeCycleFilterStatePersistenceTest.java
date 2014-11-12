@@ -18,7 +18,9 @@
 
 package org.wso2.carbon.greg.ui.test.lifecycle;
 
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
@@ -34,7 +36,7 @@ import org.wso2.greg.integration.common.utils.GREGIntegrationUIBaseTest;
 /**
  * This test class tests the functionality of the lifecycle filter
  */
-public class LifeCycleFilterStatePresistanceTest extends GREGIntegrationUIBaseTest {
+public class LifeCycleFilterStatePersistenceTest extends GREGIntegrationUIBaseTest {
 
     private WebDriver driver;
     private User userInfo;
@@ -58,8 +60,8 @@ public class LifeCycleFilterStatePresistanceTest extends GREGIntegrationUIBaseTe
         String name = "Test Api";
         String context = "Test Context";
         String versionApi = "1.2.3";
-        String lifeCycle = "ServiceLifeCycle";
-        String lifeCycleState = "Development";
+        String lifeCycle = "MobileAppLifeCycle";
+        String lifeCycleState = "Initial";
         ApiPage addApi;
         for (int i = 0; i < 17; i++) {
             addApi = new ApiPage(driver);
@@ -67,7 +69,7 @@ public class LifeCycleFilterStatePresistanceTest extends GREGIntegrationUIBaseTe
             ResourceBrowsePage resourceBrowsePage = new ResourceBrowsePage(driver);
             resourceBrowsePage.addLifeCycle(lifeCycle);
         }
-        Thread.sleep(5000);
+        Thread.sleep(10000);
         ApiListPage apiListPage = new ApiListPage(driver);
         apiListPage.checkOnUploadApi(provider + 1);
         apiListPage.checkFilterStatePersistence(lifeCycle, lifeCycleState);
