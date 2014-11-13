@@ -90,7 +90,7 @@ public class ServicesAndRegistryXMLTestCase extends GREGIntegrationBaseTest {
      * service is saved with defaultServiceVersion
      * 1.0.0
      */
-    @Test(groups = {"wso2.greg"}, description = "service without the defaultServiceVersion property")
+    @Test(groups = {"wso2.greg"}, description = "service without the defaultServiceVersion property", enabled=false)
     @SetEnvironment(executionEnvironments = {ExecutionEnvironment.STANDALONE})
     public void testAddServiceWithoutVersion() throws Exception {
         WSRegistryServiceClient wsRegistry =
@@ -113,7 +113,7 @@ public class ServicesAndRegistryXMLTestCase extends GREGIntegrationBaseTest {
      * whether the service gets created at the correct location
      */
     @Test(groups = {"wso2.greg"}, description = "service location change",
-          dependsOnMethods = "testAddServiceWithoutVersion")
+          dependsOnMethods = "testAddServiceWithoutVersion", enabled=false)
     @SetEnvironment(executionEnvironments = {ExecutionEnvironment.STANDALONE})
     public void testDefaultLocationChange() throws GovernanceException {
         Assert.assertEquals(service.getPath(),
@@ -129,7 +129,7 @@ public class ServicesAndRegistryXMLTestCase extends GREGIntegrationBaseTest {
      *
      *
      */
-    @Test(groups = {"wso2.greg"}, description = "versioning", dependsOnMethods = "testDefaultLocationChange")
+    @Test(groups = {"wso2.greg"}, description = "versioning", dependsOnMethods = "testDefaultLocationChange", enabled=false)
     @SetEnvironment(executionEnvironments = {ExecutionEnvironment.STANDALONE})
     public void testAutomaticVersioning() throws GovernanceException, RemoteException,
                                                  ResourceAdminServiceExceptionException {
@@ -156,7 +156,7 @@ public class ServicesAndRegistryXMLTestCase extends GREGIntegrationBaseTest {
      * 1.0.0-SNAPSHOT
      */
     @Test(groups = {"wso2.greg"}, description = "service without the defaultServiceVersion property",
-          dependsOnMethods = "testAddServiceWithoutVersion")
+          dependsOnMethods = "testAddServiceWithoutVersion", enabled=false)
     @SetEnvironment(executionEnvironments = {ExecutionEnvironment.STANDALONE})
     public void testAddServiceWithVersion() throws Exception {
 
