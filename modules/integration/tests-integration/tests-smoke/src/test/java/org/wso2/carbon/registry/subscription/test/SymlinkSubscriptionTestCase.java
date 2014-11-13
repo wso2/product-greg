@@ -117,7 +117,8 @@ public class SymlinkSubscriptionTestCase extends GREGIntegrationBaseTest {
      *
      * @throws Exception
      */
-    @Test(groups = "wso2.greg", description = "Get notifications", dependsOnMethods = "testSymlinkConsoleSubscription")
+    @Test(groups = "wso2.greg", description = "Get notifications",
+            dependsOnMethods = "testSymlinkConsoleSubscription", enabled = false)
     public void testGetNotifications() throws Exception {
         this.restartServer();
         this.addTag();
@@ -142,7 +143,7 @@ public class SymlinkSubscriptionTestCase extends GREGIntegrationBaseTest {
      * @throws Exception
      */
     @Test(groups = "wso2.greg", description = "Unsubscribe Management Console Notification",
-            dependsOnMethods = "testGetNotifications")
+            dependsOnMethods = "testGetNotifications", enabled = false)
     public void testConsoleUnsubscription() throws Exception {
         infoServiceAdminClient = new InfoServiceAdminClient(backendURL,sessionID);
         SubscriptionBean sBean = infoServiceAdminClient.getSubscriptions(ROOT + SYMLINK_NAME, sessionID);

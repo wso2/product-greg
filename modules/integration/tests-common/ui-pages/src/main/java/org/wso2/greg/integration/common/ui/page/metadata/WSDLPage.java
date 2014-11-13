@@ -59,7 +59,7 @@ public class WSDLPage {
         WebElement serviceUploadNamespace = driver.findElement(By.id(uiElementMapper.getElement("wsdl.add.name")));
         serviceUploadNamespace.clear();
         serviceUploadNamespace.sendKeys(WsdlName);
-        WebElement versionField = driver.findElement(By.xpath("//input[@id='irversion']"));
+        WebElement versionField = driver.findElement(By.xpath(uiElementMapper.getElement("wsdl.irversion")));
         versionField.clear();
         versionField.sendKeys(version);
         String wsdlName = serviceUploadField.getText();
@@ -83,7 +83,7 @@ public class WSDLPage {
         WebElement serviceUploadNamespace = driver.findElement(By.id(uiElementMapper.getElement("wsdl.add.file.name.id")));
         serviceUploadNamespace.clear();
         serviceUploadNamespace.sendKeys(WsdlName);
-        WebElement versionField = driver.findElement(By.xpath("//input[@id='uversion']"));
+        WebElement versionField = driver.findElement(By.xpath(uiElementMapper.getElement("wsdl.uversion")));
         versionField.clear();
         versionField.sendKeys(version);
         JavascriptExecutor js2 = (JavascriptExecutor) driver;
