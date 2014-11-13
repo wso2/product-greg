@@ -12,6 +12,7 @@
     <test name="ServerStartUpVerificationTest" preserve-order="true" parallel="false">
        <classes>
            <class name="org.wso2.carbon.registry.server.mgt.test.ServerStartupTestCase"/>
+           <class name="org.wso2.carbon.registry.server.mgt.test.RegistryConfiguratorTestCase"/>
        </classes>
     </test>
     <test name="Test - GREG" preserve-order="true" parallel="false">
