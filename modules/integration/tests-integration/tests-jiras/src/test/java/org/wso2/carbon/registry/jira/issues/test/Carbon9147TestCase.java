@@ -63,7 +63,8 @@ public class Carbon9147TestCase extends GREGIntegrationBaseTest {
         governance = registryProviderUtil.getGovernanceRegistry(registry, automationContext);
         searchAdminServiceClient =
                 new SearchAdminServiceClient(backendURL, getSessionCookie());
-
+        GovernanceUtils.loadGovernanceArtifacts((UserRegistry) governance,
+                            GovernanceUtils.findGovernanceArtifactConfigurations(governance));
         WsdlManager wsdlManager = new WsdlManager(governance);
         Wsdl[] wsdls = wsdlManager.getAllWsdls();
         for (Wsdl wsdl : wsdls) {
@@ -72,8 +73,7 @@ public class Carbon9147TestCase extends GREGIntegrationBaseTest {
             }
         }
 
-        GovernanceUtils.loadGovernanceArtifacts((UserRegistry) governance,
-                GovernanceUtils.findGovernanceArtifactConfigurations(governance));
+        
         addWSDL();
     }
 
@@ -100,6 +100,7 @@ public class Carbon9147TestCase extends GREGIntegrationBaseTest {
 
     @AfterClass
     public void RemoveWSDL() throws RegistryException {
+    	GovernanceUtils.loadGovernanceArtifacts((UserRegistry) governance);
         WsdlManager wsdlManager = new WsdlManager(governance);
         Wsdl[] wsdls = wsdlManager.getAllWsdls();
         for (Wsdl wsdl : wsdls) {

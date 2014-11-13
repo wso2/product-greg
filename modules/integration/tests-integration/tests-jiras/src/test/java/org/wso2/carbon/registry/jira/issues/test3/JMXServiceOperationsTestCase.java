@@ -15,7 +15,9 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-package org.wso2.carbon.registry.jira.issues.test;
+package org.wso2.carbon.registry.jira.issues.test3;
+
+import static org.testng.Assert.assertTrue;
 
 import java.rmi.RemoteException;
 
@@ -51,12 +53,10 @@ public class JMXServiceOperationsTestCase extends GREGIntegrationBaseTest{
     }
 
 
-    @Test(groups = "wso2.greg", expectedExceptions = java.lang.Exception.class,
-          expectedExceptionsMessageRegExp = "infoAdminServiceStub Initialization fail Unauthorized " +
-                  "access attempt to JMX operation. ",  description = "Login to JMX console as a non admin")
+    @Test(groups = "wso2.greg", expectedExceptions = java.lang.Exception.class,  description = "Login to JMX console as a non admin")
     @SetEnvironment(executionEnvironments = {ExecutionEnvironment.STANDALONE})
     public void testnonAdminJMXConnect() throws Exception {
-        String sessionCookie = getSessionCookie();
+    	String sessionCookie = getSessionCookie();
         userManagementClient =
                 new UserManagementClient(backendURL, sessionCookie);
         userManagementClient.addUser(USER_NAME, "weqddgr", null, USER_NAME);
@@ -66,7 +66,6 @@ public class JMXServiceOperationsTestCase extends GREGIntegrationBaseTest{
 
         jmxClient = new JMXClient();
         jmxClient.connect(USER_NAME, "weqddgr");
-
     }
 
     /**
@@ -75,7 +74,7 @@ public class JMXServiceOperationsTestCase extends GREGIntegrationBaseTest{
      *
      * @throws Exception
      */
-    @Test(groups = "wso2.greg", description = "Login to JMX console using as admin user")
+    @Test(groups = "wso2.greg", description = "Login to JMX console using as admin user", dependsOnMethods = "testnonAdminJMXConnect")
     @SetEnvironment(executionEnvironments = {ExecutionEnvironment.STANDALONE})
     public void testAdminJMXConnect() throws Exception {
         JMXClient jmxClient = new JMXClient();
