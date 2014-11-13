@@ -54,7 +54,7 @@ public class ReportSchedulingTestCases extends ReportingTestCaseSuper {
      *
      * @throws Exception
      */
-    @Test(groups = "wso2.greg", description = "Schedule a report and verify")
+    @Test(groups = "wso2.greg", description = "Schedule a report and verify", enabled = false)
     public void testScheduleReport() throws Exception {
 
         ReportConfigurationBean configurationBean = new ReportConfigurationBean();
@@ -132,7 +132,8 @@ public class ReportSchedulingTestCases extends ReportingTestCaseSuper {
      *
      * @throws Exception
      */
-    @Test(groups = "wso2.greg", description = "Schedule a report with non-existing user details", dependsOnMethods = "testScheduleReport")
+    @Test(groups = "wso2.greg", description = "Schedule a report with non-existing user details",
+            dependsOnMethods = "testScheduleReport", enabled = false)
     public void testScheduleReportNonExistingUser() throws Exception {
         ReportConfigurationBean configurationBean = reportAdminServiceClient
                 .getSavedReport("schedule");
@@ -187,7 +188,8 @@ public class ReportSchedulingTestCases extends ReportingTestCaseSuper {
      *
      * @throws Exception
      */
-    @Test(groups = "wso2.greg", description = "schedule a report with an invalid registry URL", dependsOnMethods = "testScheduleReport")
+    @Test(groups = "wso2.greg", description = "schedule a report with an invalid registry URL",
+            dependsOnMethods = "testScheduleReport", enabled = false)
     public void testScheduleReportInvalidRegistryURL() throws Exception {
         ReportConfigurationBean configurationBean = reportAdminServiceClient
                 .getSavedReport("schedule");
@@ -236,7 +238,8 @@ public class ReportSchedulingTestCases extends ReportingTestCaseSuper {
      *
      * @throws Exception
      */
-    @Test(groups = "wso2.greg", description = "Schedule a reort with an invalid registry path", dependsOnMethods = "testScheduleReport")
+    @Test(groups = "wso2.greg", description = "Schedule a reort with an invalid registry path",
+            dependsOnMethods = "testScheduleReport", enabled = false)
     public void testScheduleReportInvalidPath() throws Exception {
         ReportConfigurationBean configurationBean = reportAdminServiceClient
                 .getSavedReport("schedule");
