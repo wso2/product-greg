@@ -62,6 +62,7 @@
                         <emma.output>${basedir}/target/emma</emma.output>
                     </systemProperties>
                     <workingDirectory>${basedir}/target</workingDirectory>
+                    <testFailureIgnore>true</testFailureIgnore>
                 </configuration>
             </plugin>
             <plugin>
