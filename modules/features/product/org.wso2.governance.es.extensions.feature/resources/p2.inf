@@ -1,0 +1,2 @@
+instructions.configure = \
+org.eclipse.equinox.p2.touchpoint.natives.copy(source:${installFolder}/../features/org.wso2.governance.es.extensions_${feature.version}/es-extensions/,target:${installFolder}/../../resources/,overwrite:true);\

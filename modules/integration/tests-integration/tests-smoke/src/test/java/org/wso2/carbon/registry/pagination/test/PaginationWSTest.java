@@ -113,10 +113,12 @@ public class PaginationWSTest extends GREGIntegrationBaseTest {
     private static void addServices(Registry govRegistry) throws RegistryException, XMLStreamException {
         GenericArtifactManager artifactManager = new GenericArtifactManager(govRegistry, "service");
         for(int i = 1; i < 10; i++) {
-            String content = "<serviceMetaData xmlns=\"http://www.wso2.org/governance/metadata\">" +
-                    "<overview><name>" + "FlightService" + i + "</name><namespace>" + "ns" + "</namespace><version>1.0.0-SNAPSHOT</version></overview>" +
-                    "</serviceMetaData>";
-            org.apache.axiom.om.OMElement XMLContent = AXIOMUtil.stringToOM(content);
+            StringBuilder builder = new StringBuilder();
+            builder.append("<serviceMetaData xmlns=\"http://www.wso2.org/governance/metadata\">");
+            builder.append("<overview><name>FlightService" + i + "</name><namespace>ns</namespace>");
+            builder.append("<version>1.0.0-SNAPSHOT</version></overview>");
+            builder.append("</serviceMetaData>");
+            org.apache.axiom.om.OMElement XMLContent = AXIOMUtil.stringToOM(builder.toString());
             GenericArtifact artifact = artifactManager.newGovernanceArtifact(XMLContent);
             artifactManager.addGenericArtifact(artifact);
         }

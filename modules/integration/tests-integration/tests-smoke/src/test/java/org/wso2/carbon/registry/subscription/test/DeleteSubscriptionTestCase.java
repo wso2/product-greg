@@ -251,6 +251,6 @@ public class DeleteSubscriptionTestCase extends GREGIntegrationBaseTest {
         resourceAdminServiceClient.deleteResource(SCHEMA_PATH);
         resourceAdminServiceClient.deleteResource(RESOURCE_PATH_NAME + "test.map");
         resourceAdminServiceClient.deleteResource(WSDL_PATH);
-        resourceAdminServiceClient.deleteResource("/_system/governance/trunk/services/com/amazon/soap/1.0.0-SNAPSHOT/AmazonSearchService");
+        resourceAdminServiceClient.deleteResource("/_system/governance/trunk/services/com/amazon/soap/1.0.0/AmazonSearchService");
     }
 }

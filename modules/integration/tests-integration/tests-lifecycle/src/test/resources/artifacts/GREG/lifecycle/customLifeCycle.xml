@@ -106,7 +106,7 @@
                             <execution forEvent="Promote"
                                        class="org.wso2.carbon.governance.registry.extensions.executors.ServiceVersionExecutor">
                                 <parameter name="currentEnvironment"
-                                           value="/_system/governance/trunk/{@resourcePath}/{@resourceName}"/>
+                                           value="/_system/governance/trunk/{@resourcePath}/{@version}/{@resourceName}"/>
                                 <parameter name="targetEnvironment"
                                            value="/_system/governance/branches/development/{@resourcePath}/{@version}/{@resourceName}"/>
                                 <parameter name="service.mediatype"
@@ -126,7 +126,7 @@
                                     <script type="text/javascript">
                                         doPromote = function() {
                                         window.location =
-                                        unescape("../list/service.jsp?region=region3%26item=governance_list_services_menu");
+                                        unescape("../generic/list.jsp?region=region3%26item=governance_list_services_menu3%26key=service");
                                         alert("Promoted Resource to Creation State!");
                                         }
                                     </script>
@@ -176,7 +176,7 @@
                                 <parameter name="currentEnvironment"
                                            value="/_system/governance/branches/development/{@resourcePath}/{@version}/{@resourceName}"/>
                                 <parameter name="targetEnvironment"
-                                           value="/_system/governance/trunk/{@resourcePath}/{@version}/{@resourceName}"/>
+                                           value="/_system/governance/trunk/wso2/{@resourcePath}/{@version}/{@resourceName}"/>
                                 <parameter name="service.mediatype"
                                            value="application/vnd.wso2-service+xml"/>
                                 <parameter name="wsdl.mediatype" value="application/wsdl+xml"/>
@@ -196,7 +196,7 @@
                                     <script type="text/javascript">
                                         doPromote = function() {
                                         window.location =
-                                        unescape("../list/service.jsp?region=region3%26item=governance_list_services_menu");
+                                        unescape("../generic/list.jsp?region=region3%26item=governance_list_services_menu3%26key=service");
                                         alert("Promoted Resource to Development State!");
 
                                         }
@@ -209,7 +209,7 @@
                                     <script type="text/javascript">
                                         doDemote = function() {
                                         window.location =
-                                        unescape("../list/service.jsp?region=region3%26item=governance_list_services_menu");
+                                        unescape("../generic/list.jsp?region=region3%26item=governance_list_services_menu3%26key=service");
                                         alert("Demoted Service to Commencement State!");
 
                                         }
@@ -275,7 +275,7 @@
                                     <script type="text/javascript">
                                         doPromote = function() {
                                         window.location =
-                                        unescape("../list/service.jsp?region=region3%26item=governance_list_services_menu");
+                                        unescape("../generic/list.jsp?region=region3%26item=governance_list_services_menu3%26key=service");
                                         alert("Promoted Resource to Development State!");
 
                                         }
@@ -287,7 +287,7 @@
                                     <script type="text/javascript">
                                         doDemote = function() {
                                         window.location =
-                                        unescape("../list/service.jsp?region=region3%26item=governance_list_services_menu");
+                                        unescape("../generic/list.jsp?region=region3%26item=governance_list_services_menu3%26key=service");
                                         alert("Demoted Service to Development State!");
 
                                         }
@@ -338,7 +338,7 @@
                                     <script type="text/javascript">
                                         doDemote = function() {
                                         window.location =
-                                        unescape("../list/service.jsp?region=region3%26item=governance_list_services_menu");
+                                        unescape("../generic/list.jsp?region=region3%26item=governance_list_services_menu3%26key=service"");
                                         alert("Demoted Service to Development State!");
 
                                         }

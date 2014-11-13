@@ -180,6 +180,7 @@ public class UTFSupportForServiceTestCase extends GREGIntegrationBaseTest {
         GovernanceUtils.loadGovernanceArtifacts((UserRegistry) governance);
         Service service;
         service = serviceManager.newService(new QName(nameSpace, serviceName));
+        service.setAttribute("overview_version", "1.0.0");
 
         serviceManager.addService(service);
 

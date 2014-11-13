@@ -107,7 +107,8 @@ public class GenericArtifactTestCase extends GREGIntegrationBaseTest {
 
     @Test(groups = {"wso2.greg"}, description = "add an artefact with multiple longer lines", enabled = true, dependsOnMethods = "testAddNewRxtFile")
     public void testAddNewGenericArtifactWithMultilineTextForTextField() throws Exception {
-        GovernanceUtils.loadGovernanceArtifacts((UserRegistry) governance);
+    	GovernanceUtils.loadGovernanceArtifacts((UserRegistry)governance,
+    	                GovernanceUtils.findGovernanceArtifactConfigurations(governance));
         GenericArtifactManager artifactManager = new GenericArtifactManager(governance, "events");
         GenericArtifact artifact = artifactManager.newGovernanceArtifact(new QName
                 ("multiLineEvent1"));

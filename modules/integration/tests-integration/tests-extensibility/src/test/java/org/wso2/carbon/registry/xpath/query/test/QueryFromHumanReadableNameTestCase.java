@@ -462,7 +462,7 @@ public class QueryFromHumanReadableNameTestCase extends GREGIntegrationBaseTest 
             }
         }
         resourceAdminServiceClient.deleteResource(txtPath);
-        resourceAdminServiceClient.deleteResource("/_system/governance/trunk/policies/policy.xml");
+        resourceAdminServiceClient.deleteResource("/_system/governance/trunk/policies/1.0.0/policy.xml");
         registryAdmin = null;
         resourceAdminServiceClient = null;
         propertiesAdminServiceClient = null;

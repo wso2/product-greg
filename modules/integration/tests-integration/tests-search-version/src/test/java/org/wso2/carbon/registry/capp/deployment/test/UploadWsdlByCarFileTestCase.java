@@ -54,7 +54,7 @@ public class UploadWsdlByCarFileTestCase extends GREGIntegrationBaseTest {
     private String cAppName = "wsdl_new_1.0.0";
     private final String wsdlPath = "/_system/governance/trunk/wsdls/net/restfulwebservices/www/servicecontracts/_2008/_01/1.0.0/WeatherForecastService.svc.wsdl";
     private final String wsdlUploadedPath = "/_system/wsdl_new/WeatherForecastService.svc.wsdl";
-    private final String servicePath = "/_system/governance/trunk/services/net/restfulwebservices/www/servicecontracts/_2008/_01/1.0.0-SNAPSHOT/WeatherForecastService";
+    private final String servicePath = "/_system/governance/trunk/services/net/restfulwebservices/www/servicecontracts/_2008/_01/1.0.0/WeatherForecastService";
 
 
     @BeforeClass
@@ -143,7 +143,7 @@ public class UploadWsdlByCarFileTestCase extends GREGIntegrationBaseTest {
         }
 
 
-        delete("/_system/governance/trunk/services/net/restfulwebservices/www/servicecontracts/_2008/_01/1.0.0-SNAPSHOT/WeatherForecastService");
+        delete("/_system/governance/trunk/services/net/restfulwebservices/www/servicecontracts/_2008/_01/1.0.0/WeatherForecastService");
         delete("/_system/governance/trunk/wsdls/net/restfulwebservices/www/servicecontracts/_2008/_01/1.0.0/WeatherForecastService.svc.wsdl");
         delete("/_system/governance/trunk/schemas/com/microsoft/schemas/_2003/_10/serialization/arrays/1.0.0/WeatherForecastService.svc.xsd");
         delete("/_system/governance/trunk/schemas/net/restfulwebservices/www/datacontracts/_2008/_01/1.0.0/WeatherForecastService1.xsd");

@@ -26,6 +26,7 @@ import org.wso2.carbon.governance.api.util.GovernanceUtils;
 import org.wso2.carbon.governance.list.stub.beans.xsd.ServiceBean;
 import org.wso2.carbon.governance.list.stub.beans.xsd.WSDLBean;
 import org.wso2.carbon.integration.common.admin.client.LogViewerClient;
+import org.wso2.carbon.logging.view.stub.LogViewerLogViewerException;
 import org.wso2.carbon.logging.view.stub.types.carbon.LogEvent;
 import org.wso2.carbon.registry.core.Registry;
 import org.wso2.carbon.registry.core.exceptions.RegistryException;
@@ -77,6 +78,9 @@ public class Carbon11120TestCase extends GREGIntegrationBaseTest {
         logViewerClient =
                 new LogViewerClient(backendURL, session);
         serviceManager = new ServiceManager(governance);
+
+        GovernanceUtils.loadGovernanceArtifacts((UserRegistry)governance,
+                GovernanceUtils.findGovernanceArtifactConfigurations(governance));
     }
 
     /**
@@ -108,7 +112,8 @@ public class Carbon11120TestCase extends GREGIntegrationBaseTest {
 
         boolean serviceStatus = false;
 
-        GovernanceUtils.loadGovernanceArtifacts((UserRegistry) governance);
+        GovernanceUtils.loadGovernanceArtifacts((UserRegistry)governance,
+                GovernanceUtils.findGovernanceArtifactConfigurations(governance));
 
         for (Service service : serviceManager.getAllServices()) {
             String name = service.getQName().getLocalPart();
@@ -131,12 +136,15 @@ public class Carbon11120TestCase extends GREGIntegrationBaseTest {
     @Test(groups = "wso2.greg", description = "Save the existing service without modifying and list services ")
     public void testSaveListService() throws RemoteException, MalformedURLException,
             ResourceAdminServiceExceptionException,
-            RegistryException {
+            RegistryException,
+            LogViewerLogViewerException {
 
         String ADD_LOG =
                 "Failed to get service details. Exception occurred while trying to invoke service method addService";
         String LIST_LOG = "Exception occurred while trying to invoke service method listservices";
 
+        GovernanceUtils.loadGovernanceArtifacts((UserRegistry)governance,
+                GovernanceUtils.findGovernanceArtifactConfigurations(governance));
         addWSDL();
 
         ServiceManager serviceManager = new ServiceManager(governance);
@@ -154,9 +162,9 @@ public class Carbon11120TestCase extends GREGIntegrationBaseTest {
      * @param errorMessage Error message that needs to be checked
      * @throws RemoteException
      */
-    public void readLogs(String errorMessage) throws RemoteException {
-        LogEvent[] logEvents = logViewerClient.getLogs("ERROR", errorMessage, "", "");
-        assertNull(logEvents[0], "Exception thrown");
+    public void readLogs(String errorMessage) throws RemoteException, LogViewerLogViewerException {
+        LogEvent[] logEvents = logViewerClient.getRemoteLogs("ERROR", errorMessage, "", "");
+        assertNull(logEvents, "Exception thrown");
     }
 
     /**

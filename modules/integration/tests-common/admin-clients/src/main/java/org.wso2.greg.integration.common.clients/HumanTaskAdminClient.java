@@ -79,10 +79,16 @@ public class HumanTaskAdminClient {
 	        }
 	        List<WorkItem> workItems = new LinkedList<WorkItem>();
 	        for (TTaskSimpleQueryResultRow row : resultSet.getRow()) {
-	            URI id = row.getId();
+	        	URI id = row.getId();
+	        	String taskUser = "";
+	        	//Ready state notification doesn't have taskUser
+	        	if (htStub.loadTask(id) != null && htStub.loadTask(id).getActualOwner() != null) {
+	        		taskUser = htStub.loadTask(id).getActualOwner().getTUser();
+	        	}
+	            
 	            workItems.add(new WorkItem(id, row.getPresentationSubject(),
 	                    row.getPresentationName(), row.getPriority(), row.getStatus(),
-	                    row.getCreatedTime(), htStub.loadTask(id).getActualOwner().getTUser()));
+	                    row.getCreatedTime(), taskUser));
 	        }
 	        return workItems.toArray(new WorkItem[workItems.size()]);
 	    }

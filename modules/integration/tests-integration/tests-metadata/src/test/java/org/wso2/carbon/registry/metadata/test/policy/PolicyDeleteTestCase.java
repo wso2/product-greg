@@ -69,7 +69,7 @@ public class PolicyDeleteTestCase extends GREGIntegrationBaseTest{
                 + "policy" + File.separator + resourceName;
         resourceAdminServiceClient.addResource(policyPath + resourceName,
                 "application/policy+xml", "testPolicy", new DataHandler(new URL("file:///" + resource)));
-        Assert.assertNotNull(resourceAdminServiceClient.getTextContent(policyPath + resourceName));
+        Assert.assertNotNull(resourceAdminServiceClient.getTextContent(policyPath + "1.0.0/" + resourceName));
     }
 
     /**
@@ -80,7 +80,7 @@ public class PolicyDeleteTestCase extends GREGIntegrationBaseTest{
         String resourceUrl = "https://svn.wso2.org/repos/wso2/trunk/commons/qa/qa-artifacts/greg/policies/policy.xml";
         String resourceName = "RMpolicy3.xml";
         resourceAdminServiceClient.addPolicy(resourceName, "adding From URL", resourceUrl);
-        Assert.assertNotNull(resourceAdminServiceClient.getResourceContent(policyPath + resourceName));
+        Assert.assertNotNull(resourceAdminServiceClient.getResourceContent(policyPath+ "1.0.0/" + resourceName));
     }
 
     @Test(groups = {"wso2.greg"}, dependsOnMethods = {"addPolicyFromFile", "addPolicyFromURL"})
@@ -89,8 +89,8 @@ public class PolicyDeleteTestCase extends GREGIntegrationBaseTest{
         /**
          * delete the added resource
          */
-        resourceAdminServiceClient.deleteResource(policyPath + testRes1);
-        resourceAdminServiceClient.deleteResource(policyPath + testRes2);
+        resourceAdminServiceClient.deleteResource(policyPath + "1.0.0/" + testRes1);
+        resourceAdminServiceClient.deleteResource(policyPath + "1.0.0/" + testRes2);
 
         /**
          * check if the deleted file exists in registry

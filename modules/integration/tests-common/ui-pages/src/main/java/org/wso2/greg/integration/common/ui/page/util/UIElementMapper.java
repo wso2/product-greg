@@ -18,9 +18,6 @@
 
 package org.wso2.greg.integration.common.ui.page.util;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Properties;
@@ -30,7 +27,6 @@ import java.util.Properties;
  */
 public class UIElementMapper {
     public static final Properties uiProperties = new Properties();
-    private static final Log log = LogFactory.getLog(UIElementMapper.class);
     private static UIElementMapper instance = new UIElementMapper();
 
     private UIElementMapper() {

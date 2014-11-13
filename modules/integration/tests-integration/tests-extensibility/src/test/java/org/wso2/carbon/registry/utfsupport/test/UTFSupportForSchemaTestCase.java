@@ -217,10 +217,12 @@ public class UTFSupportForSchemaTestCase extends GREGIntegrationBaseTest {
         }
         Assert.assertTrue(schemaDeleted);
         delete(pathPrefix + wsdlPath);
-        delete("/_system/governance/trunk/services/com/amazon/soap/1.0.0-SNAPSHOT/AmazonSearchService");
+        delete("/_system/governance/trunk/services/com/amazon/soap/1.0.0/AmazonSearchService");
         userManagementClient.deleteRole(utfString);
         lifeCycleManagementClient.deleteLifeCycle(LC_NAME);
+        delete("/_system/governance/trunk/endpoints/com/amazon/soap/onca/ep-soap2");
         delete("/_system/governance/trunk/endpoints/com");
+        
 
         governance = null;
         resourceAdminServiceClient = null;

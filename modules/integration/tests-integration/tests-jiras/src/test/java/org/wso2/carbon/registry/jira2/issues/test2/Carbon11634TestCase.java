@@ -86,7 +86,8 @@ public class Carbon11634TestCase extends GREGIntegrationBaseTest {
 
         RegistryProviderUtil registryProviderUtil = new RegistryProviderUtil();
         governance = registryProviderUtil.getGovernanceRegistry(wsRegistryServiceClient, automationContext);
-        GovernanceUtils.loadGovernanceArtifacts((UserRegistry) governance);
+        GovernanceUtils.loadGovernanceArtifacts((UserRegistry)governance,
+                GovernanceUtils.findGovernanceArtifactConfigurations(governance));
 
         serviceManager = new ServiceManager(governance);
 

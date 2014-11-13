@@ -319,12 +319,12 @@
                                 <!-- End of SSO Fixes -->
 
                                 <!--Monitoring feature list -->
-                                <!--featureArtifactDef>
+                                <featureArtifactDef>
                                     org.wso2.carbon:org.wso2.carbon.logging.mgt.feature:${carbon.platform.version}
-                                </featureArtifactDef-->
-                                <!--featureArtifactDef>
+                                </featureArtifactDef>
+                                <featureArtifactDef>
                                     org.wso2.carbon:org.wso2.carbon.databridge.datapublisher.feature:${carbon.platform.version}
-                                </featureArtifactDef-->
+                                </featureArtifactDef>
                                 <featureArtifactDef>
                                     org.wso2.carbon:org.wso2.carbon.system.statistics.feature:${carbon.platform.version}
                                 </featureArtifactDef>
@@ -414,6 +414,11 @@
                                 <featureArtifactDef>
                                     org.wso2.governance:org.wso2.governance.jaggeryapps.feature:${pom.version}
                                 </featureArtifactDef>
+
+                                <featureArtifactDef>
+                                    org.wso2.governance:org.wso2.governance.es.extensions.feature:${pom.version}
+                                </featureArtifactDef>
+
 
                                 <!--Misc feature list -->
                                 <featureArtifactDef>
@@ -529,14 +534,14 @@
                                 </feature>
 
                                 <!--Monitoring Feature list -->
-                                <!--feature>
+                                <feature>
                                     <id>org.wso2.carbon.logging.mgt.feature.group</id>
                                     <version>${carbon.platform.version}</version>
-                                </feature-->
-                                <!--feature>
+                                </feature>
+                                <feature>
                                     <id>org.wso2.carbon.databridge.datapublisher.feature.group</id>
                                     <version>${carbon.platform.version}</version>
-                                </feature-->
+                                </feature>
                                 <feature>
                                     <id>org.wso2.carbon.system.statistics.feature.group</id>
                                     <version>${carbon.platform.version}</version>
@@ -743,6 +748,12 @@
                                     <id>org.wso2.governance.jaggeryapps.feature.group</id>
                                     <version>${pom.version}</version>
                                 </feature>
+
+                                <feature>
+                                    <id>org.wso2.governance.es.extensions.feature.group</id>
+                                    <version>${pom.version}</version>
+                                </feature>
+
                                 <!--<feature>-->
                                     <!--<id>org.wso2.stratos.governance.ui.feature.group</id>-->
                                     <!--<version>${project.version}</version>-->
@@ -985,14 +996,14 @@
                                 </feature>
 
                                 <!--Monitoring Feature list -->
-                                <!--feature>
+                                <feature>
                                     <id>org.wso2.carbon.logging.mgt.feature.group</id>
                                     <version>${carbon.platform.version}</version>
                                 </feature>
                                 <feature>
                                     <id>org.wso2.carbon.databridge.datapublisher.feature.group</id>
                                     <version>${carbon.platform.version}</version>
-                                </feature-->
+                                </feature>
                                 <feature>
                                     <id>org.wso2.carbon.system.statistics.feature.group</id>
                                     <version>${carbon.platform.version}</version>
@@ -1085,11 +1096,15 @@
                                     <id>org.wso2.governance.styles.feature.group</id>
                                     <version>${pom.version}</version>
                                 </feature>
-                                 <feature>
+                                <feature>
                                     <id>org.wso2.governance.jaggeryapps.feature.group</id>
                                     <version>${pom.version}</version>
                                 </feature>
 
+                                <feature>
+                                    <id>org.wso2.governance.es.extensions.feature.group</id>
+                                    <version>${pom.version}</version>
+                                </feature>
 
                                 <!--<feature>-->
                                     <!--<id>org.wso2.stratos.governance.ui.feature.group</id>-->
@@ -1316,14 +1331,14 @@
                                 </feature>
 
                                 <!--Monitoring Feature list -->
-                                <!--feature>
+                                <feature>
                                     <id>org.wso2.carbon.logging.mgt.feature.group</id>
                                     <version>${carbon.platform.version}</version>
                                 </feature>
                                 <feature>
                                     <id>org.wso2.carbon.databridge.datapublisher.feature.group</id>
                                     <version>${carbon.platform.version}</version>
-                                </feature-->
+                                </feature>
                                 <feature>
                                     <id>org.wso2.carbon.system.statistics.feature.group</id>
                                     <version>${carbon.platform.version}</version>
@@ -1495,11 +1510,15 @@
                                     <id>org.wso2.governance.styles.feature.group</id>
                                     <version>${pom.version}</version>
                                 </feature>
-                                 <feature>
+                                <feature>
                                     <id>org.wso2.governance.jaggeryapps.feature.group</id>
                                     <version>${pom.version}</version>
                                 </feature>
 
+                                <feature>
+                                    <id>org.wso2.governance.es.extensions.feature.group</id>
+                                    <version>${pom.version}</version>
+                                </feature>
 
                                 <!--<feature>-->
                                     <!--<id>org.wso2.stratos.governance.ui.feature.group</id>-->

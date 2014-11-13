@@ -50,7 +50,7 @@ public class PermissionOnArtifactsTestCase extends GREGIntegrationBaseTest{
                                                 + "carbon/core/services/echo/1.0.0/echo.wsdl";
     private static final String SCHEMA_FILE_PATH ="/_system/governance/trunk/schemas/org/charitha/1.0.0/calculator.xsd";
     private static final String SERVICE_FILE_PATH = "/_system/governance/trunk/services/org/wso2/"
-                                                + "carbon/core/services/echo/1.0.0-SNAPSHOT/echoyuSer1";
+                                                + "carbon/core/services/echo/1.0.0/echoyuSer1";
 
     private static final String[] PERMISSION_LIST_ENABLED = {
             "/permission/admin/login",

@@ -366,6 +366,24 @@
             <outputDirectory>${pom.artifactId}-${pom.version}/repository/resources/rxts</outputDirectory>
         </fileSet-->
 
+	<!-- ES Extensions for service UI-->
+        <fileSet>
+            <directory>../p2-profile-gen/target/wso2carbon-core-${carbon.platform.version}/repository/resources/publisher/asset/service</directory>
+            <outputDirectory>${pom.artifactId}-${pom.version}/repository/deployment/server/jaggeryapps/publisher/extensions/assets/service</outputDirectory>
+        </fileSet>
+
+	<!--
+        <fileSet>
+            <directory>../p2-profile-gen/target/wso2carbon-core-${carbon.platform.version}/repository/resources/publisher/configs</directory>
+            <outputDirectory>${pom.artifactId}-${pom.version}/repository/deployment/server/jaggeryapps/publisher/config</outputDirectory>
+        </fileSet>
+
+        <fileSet>
+            <directory>../p2-profile-gen/target/wso2carbon-core-${carbon.platform.version}/repository/resources/store/configs</directory>
+            <outputDirectory>${pom.artifactId}-${pom.version}/repository/deployment/server/jaggeryapps/store/config</outputDirectory>
+        </fileSet>
+	-->
+
         <!-- Add APIM toolbox -->
         <fileSet>
             <directory>src/main/resources/statistics/target</directory>
@@ -730,10 +748,10 @@
             <filtered>true</filtered>
             <fileMode>644</fileMode>
         </file-->
-        <!--file>
+        <file>
             <source>../p2-profile-gen/target/wso2carbon-core-${carbon.platform.version}/repository/conf/etc/logging-config.xml</source>
             <outputDirectory>${pom.artifactId}-${pom.version}/repository/conf/etc</outputDirectory>
-        </file-->
+        </file>
         <!--API Publisher Customization-->
         <file>
             <source>../p2-profile-gen/target/wso2carbon-core-${carbon.platform.version}/repository/deployment/server/jaggeryapps/publisher/publisherLogo/logo.png</source>
@@ -841,5 +859,20 @@
             <filtered>true</filtered>
             <fileMode>644</fileMode>
         </file>
-    </files>
+
+	<!-- ES Store extensions -->
+	<file>
+            <source>../p2-profile-gen/target/wso2carbon-core-${carbon.platform.version}/repository/resources/publisher/configs/publisher-tenant.json</source>
+            <outputDirectory>${pom.artifactId}-${build.version}/repository/deployment/server/jaggeryapps/publisher/config</outputDirectory>
+            <filtered>true</filtered>
+            <fileMode>644</fileMode>
+        </file>
+
+        <file>
+            <source>../p2-profile-gen/target/wso2carbon-core-${carbon.platform.version}/repository/resources/store/configs/store-tenant.json</source>
+            <outputDirectory>${pom.artifactId}-${build.version}/repository/deployment/server/jaggeryapps/store/config</outputDirectory>
+            <filtered>true</filtered>
+            <fileMode>644</fileMode>
+        </file>
+      </files>
 </assembly>
