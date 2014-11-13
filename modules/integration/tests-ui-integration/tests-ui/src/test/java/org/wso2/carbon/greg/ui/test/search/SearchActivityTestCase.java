@@ -26,7 +26,6 @@ import org.wso2.carbon.automation.engine.context.beans.User;
 import org.wso2.carbon.automation.extensions.selenium.BrowserManager;
 import org.wso2.carbon.greg.ui.test.util.ProductConstant;
 import org.wso2.greg.integration.common.ui.page.LoginPage;
-import org.wso2.greg.integration.common.ui.page.carbon.CappHome;
 import org.wso2.greg.integration.common.ui.page.metadata.WSDLPage;
 import org.wso2.greg.integration.common.ui.page.searchactivity.SearchActivityPage;
 import org.wso2.greg.integration.common.ui.page.wsdllist.WsdlListPage;
