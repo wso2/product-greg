@@ -33,7 +33,7 @@ public class WsdlListPage {
     private static final Log log = LogFactory.getLog(WsdlListPage.class);
     private WebDriver driver;
     private UIElementMapper uiElementMapper;
-    private String serviceNameOnServer=null;
+    private String serviceNameOnServer = null;
 
     public WsdlListPage(WebDriver driver) throws IOException {
         this.driver = driver;
