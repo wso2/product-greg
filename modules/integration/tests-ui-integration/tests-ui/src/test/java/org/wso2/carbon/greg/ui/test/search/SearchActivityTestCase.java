@@ -37,7 +37,8 @@ public class SearchActivityTestCase extends GREGIntegrationUIBaseTest{
 
     private WebDriver driver;
     private User userInfo;
-
+    private String wsdlVersion = "1.0.0";
+    private String wsdlLocation = "/_system/governance/trunk/wsdls/com/amazon/soap/1.0.0/Amazon.wsdl";
 
 
     @BeforeClass(alwaysRun = true)
@@ -55,7 +56,6 @@ public class SearchActivityTestCase extends GREGIntegrationUIBaseTest{
         test.loginAs(userInfo.getUserName(), userInfo.getPassword());
 
         WSDLPage addWSDL = new WSDLPage(driver);
-        String wsdlVersion = "1.0.0";
 
         //uploading a wsdl from a file
         String WsdlFilePath = ProductConstant.SYSTEM_TEST_RESOURCE_LOCATION + "artifacts" + File.separator +
@@ -70,7 +70,7 @@ public class SearchActivityTestCase extends GREGIntegrationUIBaseTest{
         //searching an element
         searchActivityPage.searchElement();
         //Search element verify
-        searchActivityPage.verifySearchElement("/_system/governance/trunk/wsdls/com/amazon/soap/1.0.0/Amazon.wsdl");
+        searchActivityPage.verifySearchElement(wsdlLocation);
         driver.close();
 
     }
