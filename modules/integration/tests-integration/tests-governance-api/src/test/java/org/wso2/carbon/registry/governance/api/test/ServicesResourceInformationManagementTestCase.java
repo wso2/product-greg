@@ -445,11 +445,11 @@ public class ServicesResourceInformationManagementTestCase extends GREGIntegrati
                                              InterruptedException {
         String checkListItem1 = "[ServiceLifeCycle] The CheckList item 'QoS Created' of LifeCycle State " +
                                 "'Development' was Checked for resource at /_system/governance/trunk/services" +
-                                "/notificationverification/for/service/mnm/serviceForNotificationVerification.";
+                                "/notificationverification/for/service/mnm/1.0.0/serviceForNotificationVerification.";
 
         String checkListItem2 = "[ServiceLifeCycle] The CheckList item 'WSDL, Schema Created' of LifeCycle State " +
                                 "'Development' was Checked for resource at /_system/governance/trunk/services/" +
-                                "notificationverification/for/service/mnm/serviceForNotificationVerification.";
+                                "notificationverification/for/service/mnm/1.0.0/serviceForNotificationVerification.";
 
         serviceForNotificationVerification =
                 serviceManager.newService(new QName(
