@@ -37,6 +37,7 @@ public class SearchActivityTestCase extends GREGIntegrationUIBaseTest{
 
     private WebDriver driver;
     private User userInfo;
+    private String wsdlVersion = "1.0.0";
 
 
 
@@ -55,7 +56,6 @@ public class SearchActivityTestCase extends GREGIntegrationUIBaseTest{
         test.loginAs(userInfo.getUserName(), userInfo.getPassword());
 
         WSDLPage addWSDL = new WSDLPage(driver);
-        String wsdlVersion = "1.0.0";
 
         //uploading a wsdl from a file
         String WsdlFilePath = ProductConstant.SYSTEM_TEST_RESOURCE_LOCATION + "artifacts" + File.separator +
