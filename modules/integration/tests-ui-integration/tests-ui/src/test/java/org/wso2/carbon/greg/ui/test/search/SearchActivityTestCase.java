@@ -24,9 +24,15 @@ import org.testng.annotations.Test;
 import org.wso2.carbon.automation.engine.context.TestUserMode;
 import org.wso2.carbon.automation.engine.context.beans.User;
 import org.wso2.carbon.automation.extensions.selenium.BrowserManager;
+import org.wso2.carbon.greg.ui.test.util.ProductConstant;
 import org.wso2.greg.integration.common.ui.page.LoginPage;
+import org.wso2.greg.integration.common.ui.page.carbon.CappHome;
+import org.wso2.greg.integration.common.ui.page.metadata.WSDLPage;
 import org.wso2.greg.integration.common.ui.page.searchactivity.SearchActivityPage;
+import org.wso2.greg.integration.common.ui.page.wsdllist.WsdlListPage;
 import org.wso2.greg.integration.common.utils.GREGIntegrationUIBaseTest;
+
+import java.io.File;
 
 public class SearchActivityTestCase extends GREGIntegrationUIBaseTest{
 
@@ -38,7 +44,8 @@ public class SearchActivityTestCase extends GREGIntegrationUIBaseTest{
     @BeforeClass(alwaysRun = true)
     public void setUp() throws Exception {
     	super.init(TestUserMode.SUPER_TENANT_ADMIN);
-    	userInfo = automationContext.getContextTenant().getContextUser();
+        ProductConstant.init();
+        userInfo = automationContext.getContextTenant().getContextUser();
         driver = BrowserManager.getWebDriver();
         driver.get(getLoginURL());
     }
@@ -47,11 +54,24 @@ public class SearchActivityTestCase extends GREGIntegrationUIBaseTest{
     public void testSearchActivity() throws Exception {
         LoginPage test = new LoginPage(driver);
         test.loginAs(userInfo.getUserName(), userInfo.getPassword());
+
+        WSDLPage addWSDL = new WSDLPage(driver);
+        String wsdlVersion = "1.0.0";
+
+        //uploading a wsdl from a file
+        String WsdlFilePath = ProductConstant.SYSTEM_TEST_RESOURCE_LOCATION + "artifacts" + File.separator +
+                "GREG" + File.separator + "wsdl" + File.separator + "AmazonWebServices.wsdl";
+        String WsdlFileName = "Amazon";
+        String WsdlFileNameWithExtension = WsdlFileName + ".wsdl";
+        addWSDL.uploadWsdlFromFile(WsdlFilePath, WsdlFileNameWithExtension, wsdlVersion);
+        WsdlListPage wsdlListPage = new WsdlListPage(driver);
+        wsdlListPage.checkOnUploadWsdl(WsdlFileNameWithExtension);
+
         SearchActivityPage searchActivityPage = new SearchActivityPage(driver);
         //searching an element
         searchActivityPage.searchElement();
         //Search element verify
-        searchActivityPage.verifySearchElement("/Capp_1.0.0.carTestFile");
+        searchActivityPage.verifySearchElement("/_system/governance/trunk/wsdls/com/amazon/soap/1.0.0/Amazon.wsdl");
         driver.close();
 
     }
