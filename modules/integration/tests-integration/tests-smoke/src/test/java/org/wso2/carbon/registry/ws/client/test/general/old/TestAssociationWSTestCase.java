@@ -46,7 +46,7 @@ public class TestAssociationWSTestCase extends GREGIntegrationBaseTest {
         registry = registryProviderUtil.getWSRegistry(automationContext);
     }
 
-    @Test(groups = {"wso2.greg"})
+    @Test(groups = {"wso2.greg"}, dependsOnMethods = {"removeCollectionAssociation"})
     public void addAssociationToResource() throws Exception {
         Resource r2 = registry.newResource();
         String path = "/testk12/testa/testbsp/test.txt";
@@ -91,7 +91,7 @@ public class TestAssociationWSTestCase extends GREGIntegrationBaseTest {
         assertTrue(associationSourcepathExists(path, path), "association Source path not exist");
     }
 
-    @Test(groups = {"wso2.greg"})
+    @Test(groups = {"wso2.greg"}, dependsOnMethods = {"removeResourceAssociation"})
     public void addAssociationToRoot() throws Exception {
         String path = "/";
         registry.addAssociation(path, "/vtr2121/test", "testasstype1");
@@ -337,11 +337,22 @@ public class TestAssociationWSTestCase extends GREGIntegrationBaseTest {
     }
 
     @AfterClass(alwaysRun = true)
-    public void cleanup() throws RegistryException {
-        registry.delete("/testk12");
-        registry.delete("/assocol1");
-        registry.delete("/assoColremove1");
-        registry.delete("/getcol1");
-        registry.delete("/testk123456");
+    public void cleanup() throws Exception {
+        checkExistanceAndDelete("/testk12");
+        checkExistanceAndDelete("/assocol1");
+        checkExistanceAndDelete("/assoColremove1");
+        checkExistanceAndDelete("/getcol1");
+        checkExistanceAndDelete("/testk123456");
     }
+
+    private void checkExistanceAndDelete(String resourcePath) throws RegistryException {
+        try{
+        if (registry.resourceExists(resourcePath)){
+            registry.delete(resourcePath);
+        }
+        } catch (Exception e){
+            System.out.println("message = " + e.getMessage());
+        }
+    }
+
 }
