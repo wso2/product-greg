@@ -51,6 +51,7 @@ public class WsdlListPage {
         log.info(wsdlName);
         driver.navigate().refresh();
 
+        //Waiting maximum 30secs to show updated wsdl list.
         for (int i = 0; i <= 6; i++) {
             Thread.sleep(5000);
             driver.navigate().refresh();

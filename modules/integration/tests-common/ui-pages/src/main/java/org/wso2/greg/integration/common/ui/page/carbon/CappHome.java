@@ -39,9 +39,9 @@ public class CappHome {
         this.driver = driver;
         this.uiElementMapper = UIElementMapper.getInstance();
         // Check that we're on the right page.
-        driver.findElement(By.xpath(uiElementMapper.getElement("carbon.Main.tab"))).click();
-        driver.findElement(By.xpath(uiElementMapper.getElement("carbon.Region1.tab"))).click();
-        driver.findElement(By.xpath(uiElementMapper.getElement("carbon.add.href"))).click();
+        driver.findElement(By.xpath(uiElementMapper.getElement("carbon.Main.tab.xpath"))).click();
+        driver.findElement(By.xpath(uiElementMapper.getElement("carbon.Region1.tab.xpath"))).click();
+        driver.findElement(By.xpath(uiElementMapper.getElement("carbon.add.href.xpath"))).click();
 
         log.info("in the carbon element Add Page");
         if (!driver.findElement(By.id(uiElementMapper.getElement("carbon.dashboard.middle.text"))).
@@ -59,7 +59,7 @@ public class CappHome {
         driver.findElement(By.name(uiElementMapper.getElement("carbon.upload.button"))).click();
         Thread.sleep(5000);
 
-        if (!driver.findElement(By.xpath(uiElementMapper.getElement("carbon.upload.successful.message"))).
+        if (!driver.findElement(By.xpath(uiElementMapper.getElement("carbon.upload.successful.message.xpath"))).
                 getText().contains("successfully")) {
 
             throw new NoSuchElementException();
@@ -67,7 +67,7 @@ public class CappHome {
 
         log.info("Successfully Uploaded");
 
-        driver.findElement(By.xpath(uiElementMapper.getElement("carbon.upload.successful.button"))).click();
+        driver.findElement(By.xpath(uiElementMapper.getElement("carbon.upload.successful.button.xpath"))).click();
         log.info("Ready to sign out");
 
         driver.navigate().refresh();
