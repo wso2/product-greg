@@ -58,7 +58,7 @@ public class WsdlTestCase extends GREGIntegrationUIBaseTest{
                 //Add the service name and the namespace here
         String wsdlUrl = "http://www.webservicex.net/geoipservice.asmx?WSDL";
         String wsdlUrlName = "My Test";
-        String wsdlVersion = "1.0.0";
+        String wsdlVersion = "2.0.0";
         //adding .wsdl extension to the wsdl name
         String wsdlUrlNameWithExtension = wsdlUrlName + ".wsdl";
         addWSDL.uploadWsdlFromUrl(wsdlUrl, wsdlUrlName, wsdlVersion);
