@@ -80,6 +80,7 @@ public class CARBON15083Testcase extends GREGIntegrationUIBaseTest {
         addService.uploadService(serviceName, serviceNameSpace, version);
         ServiceListPage serviceListPage = new ServiceListPage(driver);
 
+        //Waiting maximum 18secs to show updated service list.
         for (int i = 0; i <= 6; i++) {
             Thread.sleep(3000);
             driver.navigate().refresh();
