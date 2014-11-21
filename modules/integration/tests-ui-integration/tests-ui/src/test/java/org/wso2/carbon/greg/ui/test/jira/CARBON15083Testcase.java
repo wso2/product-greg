@@ -49,7 +49,8 @@ public class CARBON15083Testcase extends GREGIntegrationUIBaseTest {
 
         //Add Extension JAR
         ExtensionPage addNewExtension = new ExtensionPage(driver);
-        String extensionFilePath = ProductConstant.SYSTEM_TEST_RESOURCE_LOCATION + File.separator + "artifacts" + File.separator +
+        String extensionFilePath = ProductConstant.SYSTEM_TEST_RESOURCE_LOCATION + File.separator + "artifacts" +
+                File.separator +
                 "GREG" + File.separator + "extensions" + File.separator + "org.wso2.governance.handler.test-1.0.0.jar";
         String extensionName = "org.wso2.governance.handler.test-1.0.0.jar";
         addNewExtension.addNewExtension(extensionFilePath);
@@ -92,7 +93,9 @@ public class CARBON15083Testcase extends GREGIntegrationUIBaseTest {
             }
         }
 
-        driver.findElement(By.xpath("//div[@id='workArea']//table//td[contains(.,'" + serviceName + "')]/..//a[@title='Delete']")).click();
+        driver.findElement(By.xpath("//div[@id='workArea']//table//td[contains(.,'" +
+                serviceName +
+                "')]/..//a[@title='Delete']")).click();
         driver.findElement(By.xpath(uiElementMapper.getElement("error.button.yes.xpath"))).click();
         Thread.sleep(3000);
         Assert.assertTrue(driver.getPageSource().contains(ERROR_MESSAGE));
