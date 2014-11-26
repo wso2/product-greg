@@ -14,7 +14,7 @@
     "application": {
         "landingPage": "/asts/gadget/list"
     },
-    "assets":["gadget","site","service"],
+    "assets":["gadget","site","service","wsdl],
     "authentication": {
         "activeMethod": "sso",
         "methods": {

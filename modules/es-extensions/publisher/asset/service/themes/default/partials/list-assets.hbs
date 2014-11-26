@@ -1,3 +1,18 @@
+<!-- Copyright (c) 2014, WSO2 Inc. (http://www.wso2.org) All Rights Reserved.
+*
+* Licensed under the Apache License, Version 2.0 (the "License");
+* you may not use this file except in compliance with the License.
+* You may obtain a copy of the License at
+*
+* http://www.apache.org/licenses/LICENSE-2.0
+*
+* Unless required by applicable law or agreed to in writing, software
+* distributed under the License is distributed on an "AS IS" BASIS,
+* WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+* See the License for the specific language governing permissions and
+* limitations under the License. 
+-->
+
 <!-- {{dump .}} -->
 <div class="asset-being-added">
 </div>
@@ -9,9 +24,7 @@
                 <th colspan="2"><a href="?sortby=name&sort=asc">Name <i class="icon-caret-down"></i></a></th>
                 <th><a href="?sortby=version&sort=asc">Version <i class="icon-caret-down"></i></a></th>
                 <th><a href="?sortby=namespace&sort=asc">Namespace <i class="icon-caret-down"></i></a></th>
-                <!--<th><a href="?sortby=owner&sort=asc">Owner <i class="icon-caret-down"></i></a></th>-->
                 <th><a href="#">Status</i></a></th>
-                <!--<th><a href="?sortby=createdtime&sort=desc">Created <i class="icon-caret-down"></i></a></th>-->
                 <th></th>
                 </thead>
                 <tbody>
@@ -19,7 +32,7 @@
                     <!--{{dump .}}-->
                     <tr>
                         <td>
-                        <img src="{{this.attributes.images_thumbnail}}" class="" />
+                        <img src='{{url ""}}/extensions/assets/service/themes/default/imgs/thumbnail.jpg' class="" />
                         </td>
                         <td class="asset-listing-name">
                             <a href='{{url ""}}/asts/{{../rxt/shortName}}/details/{{this.id}}'>
