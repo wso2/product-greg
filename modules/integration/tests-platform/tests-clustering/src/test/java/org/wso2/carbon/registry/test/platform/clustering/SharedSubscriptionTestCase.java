@@ -126,7 +126,8 @@ public class SharedSubscriptionTestCase extends GREGPlatformBaseTest {
 	@Test(groups = "wso2.greg", description = "Add resource")
 	public void testAddResource() throws MalformedURLException,
 			RemoteException, ResourceAdminServiceExceptionException {
-		String resourcePath = getTestArtifactLocation() + RESOURCE_NAME;
+        String resourcePath = getTestArtifactLocation() + "artifacts" +
+                File.separator + "GREG" + File.separator + RESOURCE_NAME;
 		DataHandler dh = new DataHandler(new URL("file:///" + resourcePath));
 		resourceAdminServiceClient1.addResource(GOV_COLLECTION_PATH
 				+ RESOURCE_NAME, "test/plain", "testDesc", dh);
