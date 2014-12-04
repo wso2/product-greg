@@ -20,10 +20,12 @@ package org.wso2.greg.integration.common.clients;
 
 import org.apache.axis2.AxisFault;
 import org.apache.axis2.databinding.types.URI;
+import org.apache.axis2.databinding.types.URI.MalformedURIException;
 import org.wso2.carbon.governance.notifications.worklist.stub.WorkListServiceStub;
 import org.wso2.carbon.humantask.stub.ui.task.client.api.HumanTaskClientAPIAdminStub;
 import org.wso2.carbon.humantask.stub.ui.task.client.api.IllegalAccessFault;
 import org.wso2.carbon.humantask.stub.ui.task.client.api.IllegalArgumentFault;
+import org.wso2.carbon.humantask.stub.ui.task.client.api.IllegalOperationFault;
 import org.wso2.carbon.humantask.stub.ui.task.client.api.IllegalStateFault;
 import org.wso2.carbon.humantask.stub.ui.task.client.api.types.TSimpleQueryCategory;
 import org.wso2.carbon.humantask.stub.ui.task.client.api.types.TSimpleQueryInput;
@@ -85,5 +87,20 @@ public class HumanTaskAdminClient {
 	                    row.getCreatedTime(), htStub.loadTask(id).getActualOwner().getTUser()));
 	        }
 	        return workItems.toArray(new WorkItem[workItems.size()]);
-	    }
+		}
+	
+	  	/**
+	  	 * change the workItem status to Complete. it will hide from the management console
+	  	 * @param id
+	  	 * @throws RemoteException
+	  	 * @throws IllegalStateFault
+	  	 * @throws IllegalOperationFault
+	  	 * @throws IllegalArgumentFault
+	  	 * @throws IllegalAccessFault
+	  	 */
+		public void completeTask(URI id) throws RemoteException, IllegalStateFault,
+				IllegalOperationFault, IllegalArgumentFault, IllegalAccessFault {
+			htStub.start(id);
+			htStub.complete(id, "<WorkResponse>true</WorkResponse>");
+		}
 }
