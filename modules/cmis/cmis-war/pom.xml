@@ -34,12 +34,12 @@
        <groupId>org.apache.chemistry.opencmis</groupId>
        <artifactId>chemistry-opencmis-server-bindings</artifactId>
        <type>war</type>
-       <version>0.7.0</version>
+       <version>${opencmis.version}</version>
      </dependency>
      <dependency> 
        <groupId>org.wso2.carbon</groupId>
        <artifactId>org.wso2.carbon.registry.cmis</artifactId>       
-       <version>4.2.1</version>
+       <version>${carbon.platform.version}</version>
        <exclusions>
            <exclusion>
               <groupId>*</groupId>

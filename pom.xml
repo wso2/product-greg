@@ -643,12 +643,12 @@
         <!--Apache Derby-->
         <version.wso2.derby>10.3.2.1wso2v1</version.wso2.derby>
         <!--Apache Axis2-->
-        <axis2.wso2.version>1.6.1.wso2v11-SNAPSHOT</axis2.wso2.version>
+        <axis2.wso2.version>1.6.1.wso2v11</axis2.wso2.version>
         <!--Apache Axiom-->
-        <axiom.wso2.version>1.2.11.wso2v5-SNAPSHOT</axiom.wso2.version>
+        <axiom.wso2.version>1.2.11.wso2v5</axiom.wso2.version>
         <!--SCM-->
         <orbit.version.maven-scm>1.7.0.wso2v1</orbit.version.maven-scm>
-        <version.axiom>1.2.11-wso2v5-SNAPSHOT</version.axiom>
+        <version.axiom>1.2.11-wso2v5</version.axiom>
         <orbit.version.commons.beanutils>1.8.0.wso2v1</orbit.version.commons.beanutils>
         <orbit.version.commons.collection>3.2.0.wso2v1</orbit.version.commons.collection>
         <orbit.version.commons.dbcp>1.4.0.wso2v1</orbit.version.commons.dbcp>

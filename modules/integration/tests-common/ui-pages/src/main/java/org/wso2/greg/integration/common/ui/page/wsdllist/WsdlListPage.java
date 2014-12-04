@@ -33,6 +33,7 @@ public class WsdlListPage {
     private static final Log log = LogFactory.getLog(WsdlListPage.class);
     private WebDriver driver;
     private UIElementMapper uiElementMapper;
+    private String serviceNameOnServer = null;
 
     public WsdlListPage(WebDriver driver) throws IOException {
         this.driver = driver;
@@ -48,12 +49,23 @@ public class WsdlListPage {
     public boolean checkOnUploadWsdl(String wsdlName) throws InterruptedException {
 
         log.info(wsdlName);
-        Thread.sleep(6000);
         driver.navigate().refresh();
-        // driver.findElement(By.xpath(uiElementMapper.getElement("service.check.save.service"))).click();
-        String ServiceNameOnServer = driver.findElement(By.xpath("/html/body/table/tbody/tr[2]/td[3]/table/tbody/tr[2]/td/div/div/form[4]/table/tbody/tr/td/a")).getText();
-        log.info(ServiceNameOnServer);
-        if (wsdlName.equals(ServiceNameOnServer)) {
+
+        //Waiting maximum 30secs to show updated wsdl list.
+        for (int i = 0; i <= 6; i++) {
+            Thread.sleep(5000);
+            driver.navigate().refresh();
+
+            if (!driver.findElement(By.xpath(uiElementMapper.getElement("wsdl.list.workarea"))).
+                    getText().contains("There are no WSDLs added")) {
+                serviceNameOnServer = driver.
+                        findElement(By.xpath(uiElementMapper.getElement("wsdl.table.first.element"))).getText();
+                break;
+            }
+        }
+
+        log.info(serviceNameOnServer);
+        if (wsdlName.equals(serviceNameOnServer)) {
             log.info("Uploaded Wsdl exists");
             return true;
 
