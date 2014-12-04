@@ -288,7 +288,7 @@
 
 
 	<properties>
-		<skipPlatformTests>false</skipPlatformTests>
+		<skipPlatformTests>true</skipPlatformTests>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 	</properties>
 </project>
