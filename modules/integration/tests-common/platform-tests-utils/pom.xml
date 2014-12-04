@@ -28,7 +28,7 @@
 	</parent>
 	<artifactId>org.wso2.greg.platform.common.utils</artifactId>
 	<name>platform-tests-utils</name>
-	<url>http://maven.apache.org</url>
+	<url>http://wso2.org</url>
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 	</properties>

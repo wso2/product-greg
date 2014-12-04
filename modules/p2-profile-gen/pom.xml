@@ -441,7 +441,7 @@
                                 <featureArtifactDef>
                                     org.wso2.carbon:org.wso2.carbon.tenant.deployment.feature:${carbon.platform.version}
                                 </featureArtifactDef>
-                              
+                                
                             </featureArtifacts>
                         </configuration>
                     </execution>
