@@ -441,9 +441,7 @@
                                 <featureArtifactDef>
                                     org.wso2.carbon:org.wso2.carbon.tenant.deployment.feature:${carbon.platform.version}
                                 </featureArtifactDef>
-                                <featureArtifactDef>
-                                    org.wso2.carbon:org.wso2.carbon.registry.solr.server.feature:${carbon.platform.version}
-                                </featureArtifactDef>                              
+                              
                             </featureArtifacts>
                         </configuration>
                     </execution>
@@ -954,10 +952,6 @@
                                     <id>org.wso2.carbon.tenant.deployment.feature.group</id>
                                     <version>${carbon.platform.version}</version>
                                 </feature>
-                                <feature>
-                                    <id>org.wso2.carbon.registry.solr.server.feature.group</id>
-                                    <version>${carbon.platform.version}</version>
-                                </feature>
                             </features>
                         </configuration>
                     </execution>
@@ -1292,10 +1286,6 @@
                                 </feature>
                                 <feature>
                                     <id>org.wso2.carbon.ntask.feature.group</id>
-                                    <version>${carbon.platform.version}</version>
-                                </feature>
-                                <feature>
-                                    <id>org.wso2.carbon.registry.solr.server.feature.group</id>
                                     <version>${carbon.platform.version}</version>
                                 </feature>
                             </features>
@@ -1709,10 +1699,6 @@
                                 <!-- Misc features -->
                                 <feature>
                                     <id>org.wso2.carbon.datasource.server.feature.group</id>
-                                    <version>${carbon.platform.version}</version>
-                                </feature>
-                                <feature>
-                                    <id>org.wso2.carbon.registry.solr.server.feature.group</id>
                                     <version>${carbon.platform.version}</version>
                                 </feature>
                             </features>
