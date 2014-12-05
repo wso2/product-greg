@@ -142,11 +142,11 @@ public class SharedSubscriptionTestCase extends GREGPlatformBaseTest {
 	 */
 	@Test(groups = "wso2.greg", description = "Add role", dependsOnMethods = "testAddResource")
 	public void testAddRole() throws Exception {
-        if(userManagementClient1.roleNameExists("RoleSubscriptionTest")) {
+        if(userManagementClient1.roleNameExists("RoleSubscriptionTest1")) {
             return;
         }
-        userManagementClient1.addRole("RoleSubscriptionTest", new String[]{userNameWithoutDomain}, new String[]{""});
-        assertTrue(userManagementClient1.roleNameExists("RoleSubscriptionTest"));
+        userManagementClient1.addRole("RoleSubscriptionTest1", new String[]{userNameWithoutDomain}, new String[]{""});
+        assertTrue(userManagementClient1.roleNameExists("RoleSubscriptionTest1"));
 	}
 
 	/**
@@ -250,22 +250,19 @@ public class SharedSubscriptionTestCase extends GREGPlatformBaseTest {
 			if (workItem
 					.getPresentationSubject()
 					.toString()
-					.contains(
-							"The tag " + TAG + " was applied on resource "
+					.contains("The tag " + TAG + " was applied on resource "
 									+ path)) {
 				notiTag = true;
 			} else if (workItem
 					.getPresentationSubject()
 					.toString()
-					.contains(
-							"A rating of 1 was given to the resource at "
+					.contains("A rating of 1 was given to the resource at "
 									+ path)) {
 				notiRate = true;
 			} else if (workItem
 					.getPresentationSubject()
 					.toString()
-					.contains(
-							"A comment was added to the resource at " + path
+					.contains("A comment was added to the resource at " + path
 									+ ". Comment: This is a comment")) {
 				notiComment = true;
 			}
@@ -343,8 +340,7 @@ public class SharedSubscriptionTestCase extends GREGPlatformBaseTest {
 			if (workItem
 					.getPresentationSubject()
 					.toString()
-					.contains(
-							"The tag " + TAG + " was applied on resource "
+					.contains("The tag " + TAG + " was applied on resource "
 									+ path)) {
 				notiTag = true;
 			}
