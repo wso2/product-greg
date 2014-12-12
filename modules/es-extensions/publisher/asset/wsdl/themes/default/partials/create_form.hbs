@@ -16,21 +16,23 @@
 <form  method='post' action='{{url ""}}/apis/assets?type={{rxt.shortName}}' class="form-horizontal" id="form-asset-create" data-redirect-url='{{url ""}}/asts/{{rxt.shortName}}/list' >   
     <div class="control-group">
         <label class="control-label" for="overview_url">WSDL Url</label>
-    <div class="controls">
-            <input type='text' name='overview_url' id='overview_url' /> 
-    </div>
+        <div class="controls">
+                <input type='text' name='overview_url' id='overview_url' /> 
+        </div>
     </div> 
+
     <div class="control-group">
         <label class="control-label" for="overview_name">Name</label>
-    <div class="controls">
-        <input type='text' name='overview_name' id='overview_name' />
+        <div class="controls">
+            <input type='text' name='overview_name' id='overview_name' />
+        </div>
     </div>
-    </div>
+    
     <div class="control-group">
         <label class="control-label" for="overview_version">Version</label>
-    <div class="controls">
-        <input type='text' name='overview_version' id='overview_version' />
-    </div>
+        <div class="controls">
+            <input type='text' name='overview_version' id='overview_version' />
+        </div>
     </div> 
 
     <div id="saveButtons" class="form-actions">
