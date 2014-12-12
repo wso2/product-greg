@@ -16,12 +16,11 @@
  *  under the License.
  *
  */
-
-asset.manager = function(ctx){
-     /**
+asset.manager = function(ctx) {
+    /**
      * The function augments the provided query to include published state information
      * @param  {[type]} query [description]
-     * @return {[type]}       The provided query object 
+     * @return {[type]}       The provided query object
      */
     var buildPublishedQuery = function(query) {
         //Get all of the published assets
@@ -35,30 +34,31 @@ asset.manager = function(ctx){
             query = {};
         }
         //TODO: Even though an array is sent in only the first search value is accepted
-        query.lcState=[publishedStates[0]];
+        query.lcState = [publishedStates[0]];
         return query;
     };
-
     return {
         //due to a bug needed to replicate the 'search' method. JIRA:https://wso2.org/jira/browse/STORE-561
         search: function(query, paging) {
-            query=buildPublishedQuery(query);
+            query = buildPublishedQuery(query);
             var assets = this._super.search.call(this, query, paging);
             return assets;
         },
-        get:function(id){
-            var asset = this._super.get.call(this,id);
+        get: function(id) {
+            //TODO: support services added through WSDL, once multiple lifecycle is supported.
+            var asset = this._super.get.call(this, id);
             //check for the wsdl url in the asset json object
-            if(asset.attributes.interface_wsdlURL != null){
-            var subPaths = asset.attributes.interface_wsdlURL.split('/');  
-            var userMod = require('store').user;
-            var userRegistry = userMod.userRegistry(ctx.session);
-            var ByteArrayInputStream = Packages.java.io.ByteArrayInputStream;
-            var resource = userRegistry.registry.get(asset.attributes.interface_wsdlURL);
-            var content = resource.getContent();
-            var value = '' + new Stream(new ByteArrayInputStream(content));
-            asset.content = value;
-           }
+            if (asset.attributes.interface_wsdlURL != null) {
+                var subPaths = asset.attributes.interface_wsdlURL.split('/');
+                var userMod = require('store').user;
+                var userRegistry = userMod.userRegistry(ctx.session);
+                var ByteArrayInputStream = Packages.java.io.ByteArrayInputStream;
+                var resource = userRegistry.registry.get(asset.attributes.interface_wsdlURL);
+                var content = resource.getContent();
+                var value = '' + new Stream(new ByteArrayInputStream(content));
+                //since this is wsdlcontent.
+                asset.wsdlContent = value;
+            }
             return asset;
         }
     };
