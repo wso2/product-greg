@@ -81,8 +81,10 @@ public class WSDLPage {
         WebElement serviceUploadField = driver.findElement(By.id(uiElementMapper.getElement("wsdl.add.file.id")));
         serviceUploadField.sendKeys(wsdlPath);
         WebElement serviceUploadNamespace = driver.findElement(By.id(uiElementMapper.getElement("wsdl.add.file.name.id")));
-        serviceUploadNamespace.clear();
-        serviceUploadNamespace.sendKeys(WsdlName);
+        if (!wsdlPath.contains(".zip")) {
+            serviceUploadNamespace.clear();
+            serviceUploadNamespace.sendKeys(WsdlName);
+        }
         WebElement versionField = driver.findElement(By.xpath(uiElementMapper.getElement("wsdl.uversion")));
         versionField.clear();
         versionField.sendKeys(version);
