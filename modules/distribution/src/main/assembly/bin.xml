@@ -366,6 +366,11 @@
             <outputDirectory>${pom.artifactId}-${pom.version}/repository/deployment/server/jaggeryapps/publisher/extensions/assets/wsdl</outputDirectory>
         </fileSet>
 
+        <fileSet>
+            <directory>../p2-profile-gen/target/wso2carbon-core-${carbon.platform.version}/repository/resources/store/asset/service</directory>
+            <outputDirectory>${pom.artifactId}-${pom.version}/repository/deployment/server/jaggeryapps/store/extensions/assets/service</outputDirectory>
+        </fileSet>
+    <!--End of ES Extensions for service UI-->
 	<!--
         <fileSet>
             <directory>../p2-profile-gen/target/wso2carbon-core-${carbon.platform.version}/repository/resources/publisher/configs</directory>
