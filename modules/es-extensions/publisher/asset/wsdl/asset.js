@@ -35,8 +35,7 @@ asset.manager = function(ctx){
 			var name = options.overview_name;
 			var version = options.overview_version;
 
-			var userMod = require('store').user;
-			var userRegistry = userMod.userRegistry(ctx.session);
+			var userRegistry = getRegistry(ctx.session);
 
 			var utils = Packages.org.wso2.carbon.registry.resource.services.utils.ImportResourceUtil;
 
@@ -58,8 +57,7 @@ asset.manager = function(ctx){
 			item.name = subPaths[subPaths.length - 1];
 			item.version = subPaths[subPaths.length - 2];
 
-			var userMod = require('store').user;
-			var userRegistry = userMod.userRegistry(ctx.session);
+			var userRegistry = getRegistry(ctx.session);
 
 			var ByteArrayInputStream = Packages.java.io.ByteArrayInputStream;
 			var resource = userRegistry.registry.get(item.path);

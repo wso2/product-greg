@@ -139,6 +139,6 @@
         </dependency>
     </dependencies>
     <properties>
-        <wso2carbon.version>${carbon.platform.version}</wso2carbon.version>
+        <wso2carbon.version>${carbon.kernel.version}</wso2carbon.version>
     </properties>
 </project>
