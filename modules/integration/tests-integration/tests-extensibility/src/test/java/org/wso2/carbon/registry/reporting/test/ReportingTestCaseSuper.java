@@ -332,7 +332,8 @@ public class ReportingTestCaseSuper extends GREGIntegrationBaseTest {
      * @throws RegistryException
      */
     protected void testAddLCArtifact() throws RegistryException {
-        GovernanceUtils.loadGovernanceArtifacts((UserRegistry) governance);
+		GovernanceUtils.loadGovernanceArtifacts((UserRegistry) governance,
+		                    GovernanceUtils.findGovernanceArtifactConfigurations(governance));
         GenericArtifactManager artifactManager = new GenericArtifactManager(
                 governance, "testGovernance");
         GenericArtifact artifact = artifactManager
@@ -368,7 +369,8 @@ public class ReportingTestCaseSuper extends GREGIntegrationBaseTest {
      * @throws RegistryException
      */
     protected void testAddApplicationArtifact1() throws RegistryException {
-        GovernanceUtils.loadGovernanceArtifacts((UserRegistry)governance, GovernanceUtils.findGovernanceArtifactConfigurations(governance));
+        GovernanceUtils.loadGovernanceArtifacts((UserRegistry)governance,
+                            GovernanceUtils.findGovernanceArtifactConfigurations(governance));
         GenericArtifactManager artifactManager = new GenericArtifactManager(
                 governance, "applications");
         GenericArtifact artifact = artifactManager
@@ -396,7 +398,8 @@ public class ReportingTestCaseSuper extends GREGIntegrationBaseTest {
      * @throws RegistryException
      */
     protected void testAddApplicationArtifact2() throws RegistryException {
-        GovernanceUtils.loadGovernanceArtifacts((UserRegistry) governance);
+        GovernanceUtils.loadGovernanceArtifacts((UserRegistry)governance,
+                            GovernanceUtils.findGovernanceArtifactConfigurations(governance));
         GenericArtifactManager artifactManager = new GenericArtifactManager(
                 governance, "applications");
         GenericArtifact artifact = artifactManager
@@ -424,7 +427,8 @@ public class ReportingTestCaseSuper extends GREGIntegrationBaseTest {
      * @throws RegistryException
      */
     protected void testAddApplicationArtifacts() throws RegistryException {
-        GovernanceUtils.loadGovernanceArtifacts((UserRegistry) governance);
+        GovernanceUtils.loadGovernanceArtifacts((UserRegistry)governance,
+                            GovernanceUtils.findGovernanceArtifactConfigurations(governance));
         GenericArtifactManager artifactManager = new GenericArtifactManager(
                 governance, "applications");
         GenericArtifact artifact = artifactManager

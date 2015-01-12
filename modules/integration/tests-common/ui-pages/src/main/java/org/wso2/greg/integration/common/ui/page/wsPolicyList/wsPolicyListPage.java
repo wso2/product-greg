@@ -33,6 +33,7 @@ public class wsPolicyListPage {
     private static final Log log = LogFactory.getLog(wsPolicyListPage.class);
     private WebDriver driver;
     private UIElementMapper uiElementMapper;
+    private String serviceNameOnServer = null;
 
     public wsPolicyListPage(WebDriver driver) throws IOException {
         this.driver = driver;
@@ -49,10 +50,23 @@ public class wsPolicyListPage {
 
     public boolean checkOnUploadedPolicy(String policyName) throws InterruptedException {
         log.info(policyName);
-        Thread.sleep(5000);
-        String ServiceNameOnServer = driver.findElement(By.xpath("/html/body/table/tbody/tr[2]/td[3]/table/tbody/tr[2]/td/div/div/form[4]/table/tbody/tr/td/a")).getText();
-        log.info(ServiceNameOnServer);
-        if (policyName.equals(ServiceNameOnServer)) {
+        driver.navigate().refresh();
+
+        //Waiting maximum 30secs to show updated policy list.
+        for (int i = 0; i <= 6; i++) {
+            Thread.sleep(5000);
+            driver.navigate().refresh();
+
+            if (!driver.findElement(By.xpath(uiElementMapper.getElement("wsdl.list.workarea"))).
+                    getText().contains("There are no Policies added")) {
+                serviceNameOnServer = driver.
+                        findElement(By.xpath(uiElementMapper.getElement("wsdl.table.first.element"))).getText();
+                break;
+            }
+        }
+
+        log.info(serviceNameOnServer);
+        if (policyName.equals(serviceNameOnServer)) {
             log.info("Uploaded Ws Policy exists");
             return true;
 

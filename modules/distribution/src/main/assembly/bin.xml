@@ -46,8 +46,6 @@
                 <exclude>**/resources/clientRepository/modules/rampart*</exclude>
                 <exclude>**/log4j.properties</exclude>
                 <exclude>**/master-datasources.xml</exclude>
-                <exclude>**/dbscripts/mysql.sql</exclude>
-                <exclude>**/dbscripts/db2.sql</exclude>
                 <exclude>**/identity.xml</exclude>
                 <!--<exclude>**/lib/org.wso2.carbon.server-${carbon.platform.version}.jar</exclude>-->
 
@@ -84,15 +82,6 @@
         <fileSet>
             <directory>../p2-profile-gen/target/wso2carbon-core-${carbon.platform.version}/dbscripts/apimgt</directory>
             <outputDirectory>${pom.artifactId}-${build.version}/dbscripts/apimgt</outputDirectory>
-        </fileSet>
-        <!-- Copy mysql and db2 scripts from  patch0001-->
-        <fileSet>
-            <directory>../p2-profile-gen/target/WSO2-CARBON-PATCH-${carbon.platform.version}-0001/dbscripts</directory>
-            <outputDirectory>${pom.artifactId}-${build.version}/dbscripts</outputDirectory>
-        </fileSet>
-        <fileSet>
-            <directory>../p2-profile-gen/target/WSO2-CARBON-PATCH-${carbon.platform.version}-0001/lib</directory>
-            <outputDirectory>${pom.artifactId}-${build.version}/lib</outputDirectory>
         </fileSet>
 
         <!--copy web app for OAuth feature-->
@@ -372,6 +361,16 @@
             <outputDirectory>${pom.artifactId}-${pom.version}/repository/deployment/server/jaggeryapps/publisher/extensions/assets/service</outputDirectory>
         </fileSet>
 
+        <fileSet>
+            <directory>../p2-profile-gen/target/wso2carbon-core-${carbon.platform.version}/repository/resources/publisher/asset/wsdl</directory>
+            <outputDirectory>${pom.artifactId}-${pom.version}/repository/deployment/server/jaggeryapps/publisher/extensions/assets/wsdl</outputDirectory>
+        </fileSet>
+
+        <fileSet>
+            <directory>../p2-profile-gen/target/wso2carbon-core-${carbon.platform.version}/repository/resources/store/asset/service</directory>
+            <outputDirectory>${pom.artifactId}-${pom.version}/repository/deployment/server/jaggeryapps/store/extensions/assets/service</outputDirectory>
+        </fileSet>
+    <!--End of ES Extensions for service UI-->
 	<!--
         <fileSet>
             <directory>../p2-profile-gen/target/wso2carbon-core-${carbon.platform.version}/repository/resources/publisher/configs</directory>
@@ -442,15 +441,6 @@
                 <include>*/**</include>
             </includes>
         </fileSet>
-
-        <fileSet>
-            <directory>../p2-profile-gen/target/WSO2-CARBON-PATCH-4.2.0-0001</directory>
-            <outputDirectory>${pom.artifactId}-${build.version}/repository/components/patches/</outputDirectory>
-            <includes>
-                <include>**/patch0001/*.*</include>
-            </includes>
-        </fileSet>
-
 
         <!--application-authentication framework related config-->
         <fileSet>

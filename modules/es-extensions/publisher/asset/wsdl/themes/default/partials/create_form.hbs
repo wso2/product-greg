@@ -1,0 +1,43 @@
+<!-- Copyright (c) 2014, WSO2 Inc. (http://www.wso2.org) All Rights Reserved.
+*
+* Licensed under the Apache License, Version 2.0 (the "License");
+* you may not use this file except in compliance with the License.
+* You may obtain a copy of the License at
+*
+* http://www.apache.org/licenses/LICENSE-2.0
+*
+* Unless required by applicable law or agreed to in writing, software
+* distributed under the License is distributed on an "AS IS" BASIS,
+* WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+* See the License for the specific language governing permissions and
+* limitations under the License. 
+-->
+
+<form  method='post' action='{{url ""}}/apis/assets?type={{rxt.shortName}}' class="form-horizontal" id="form-asset-create" data-redirect-url='{{url ""}}/asts/{{rxt.shortName}}/list' >   
+    <div class="control-group">
+        <label class="control-label" for="overview_url">WSDL Url</label>
+        <div class="controls">
+                <input type='text' name='overview_url' id='overview_url' /> 
+        </div>
+    </div> 
+
+    <div class="control-group">
+        <label class="control-label" for="overview_name">Name</label>
+        <div class="controls">
+            <input type='text' name='overview_name' id='overview_name' />
+        </div>
+    </div>
+    
+    <div class="control-group">
+        <label class="control-label" for="overview_version">Version</label>
+        <div class="controls">
+            <input type='text' name='overview_version' id='overview_version' />
+        </div>
+    </div> 
+
+    <div id="saveButtons" class="form-actions">
+        <input type='submit' id="btn-create-asset" class="btn btn-primary" name="addNewAssetButton" value='{{t "Create"}}'>
+        <button class="btn" type="reset">{{t "Reset"}}</button>
+        <input type="hidden" value="{{rxt.shortName}}" name="{{rxt.shortName}}" id="meta-asset-type">
+    </div>   
+</form>

@@ -48,13 +48,13 @@
         <dependency>
             <groupId>org.wso2.carbon</groupId>
             <artifactId>wso2carbon-core</artifactId>
-            <version>${carbon.platform.version}</version>
+            <version>${carbon.kernel.version}</version>
             <type>zip</type>
         </dependency>
         <dependency>
             <groupId>org.wso2.carbon</groupId>
             <artifactId>org.wso2.carbon.registry.core</artifactId>
-            <version>${carbon.platform.version}</version>
+            <version>${carbon.kernel.version}</version>
             <classifier>docs</classifier>
             <type>zip</type>
         </dependency>
@@ -382,7 +382,7 @@
                                 <artifactItem>
                                     <groupId>org.wso2.carbon</groupId>
                                     <artifactId>wso2carbon-core</artifactId>
-                                    <version>${carbon.platform.version}</version>
+                                    <version>${carbon.kernel.version}</version>
                                     <type>zip</type>
                                     <overWrite>true</overWrite>
                                     <outputDirectory>target</outputDirectory>
@@ -391,7 +391,7 @@
                                     <groupId>org.wso2.carbon</groupId>
                                     <artifactId>org.wso2.carbon.registry.core</artifactId>
                                     <classifier>docs</classifier>
-                                    <version>${carbon.platform.version}</version>
+                                    <version>${carbon.kernel.version}</version>
                                     <type>zip</type>
                                     <overWrite>true</overWrite>
                                     <outputDirectory>target</outputDirectory>
@@ -582,7 +582,7 @@
                                         <include name="${project.artifactId}-${build.version}.zip"/>
                                     </fileset>
                                 </unzip>
-                                <copy todir="target/wso2carbon-core-${carbon.platform.version}/repository/components/" overwrite="false">
+                                <copy todir="target/wso2carbon-core-${carbon.kernel.version}/repository/components/" overwrite="false">
                                     <fileset dir="${tempdir}/${project.artifactId}-${build.version}/repository/components/">
                                     </fileset>
                                 </copy>
@@ -590,7 +590,7 @@
                                 <delete dir="${tempdir}"/>
                                 <mkdir dir="${tempdir}"/>
                                 <unzip dest="${tempdir}">
-                                    <fileset dir="target/wso2carbon-core-${carbon.platform.version}/repository/components/plugins/">
+                                    <fileset dir="target/wso2carbon-core-${carbon.kernel.version}/repository/components/plugins/">
                                         <include name="*.ui*.jar"/>
                                     </fileset>
                                 </unzip>
@@ -636,7 +636,7 @@
                                     </fileset>
                                 </copy>
                                 <copy todir="target/site/apidocs/kernel/" overwrite="false" includeemptydirs="false">
-                                    <fileset dir="target/org.wso2.carbon.registry.core-${carbon.platform.version}-docs/" />
+                                    <fileset dir="target/org.wso2.carbon.registry.core-${carbon.kernel.version}-docs/" />
                                 </copy>
                                 <copy todir="target/site/apidocs/governance/" overwrite="false" includeemptydirs="false">
                                     <fileset dir="target/org.wso2.carbon.governance.api-${carbon.platform.version}-docs/" />
@@ -674,8 +674,8 @@
                                 <delete dir="target/database"/>
                                 <delete dir="target/dependency-maven-plugin-markers"/>
                                 <delete dir="target/maven-archiver"/>
-                                <delete dir="target/wso2carbon-core-${carbon.platform.version}"/>
-                                <delete dir="target/org.wso2.carbon.registry.core-${carbon.platform.version}-docs"/>
+                                <delete dir="target/wso2carbon-core-${carbon.kernel.version}"/>
+                                <delete dir="target/org.wso2.carbon.registry.core-${carbon.kernel.version}-docs"/>
                                 <delete dir="target/org.wso2.carbon.governance.api-${carbon.platform.version}-docs"/>
                                 <delete dir="target/org.wso2.carbon.registry.admin.api-${carbon.platform.version}-docs"/>
                                 <delete dir="target/org.wso2.carbon.registry.ws.api-${carbon.platform.version}-docs"/>
@@ -861,7 +861,7 @@
 
                                 def sep = System.getProperty('file.separator')
                                 def targetPath = project.build['directory']
-                                targetPath += sep + 'wso2carbon-core-' + project.properties['carbon.platform.version']
+                                targetPath += sep + 'wso2carbon-core-' + project.properties['carbon.kernel.version']
 
 
 

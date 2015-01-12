@@ -46,8 +46,9 @@ public class SearchActivityPage {
     public void searchElement() throws InterruptedException {
 
         driver.findElement(By.id(uiElementMapper.getElement("search.activity.id"))).clear();
-        driver.findElement(By.id(uiElementMapper.getElement("search.activity.id"))).sendKeys("testuser2");
-        driver.findElement(By.id(uiElementMapper.getElement("search.activity.name.id"))).sendKeys("/Capp_1.0.0.carTestFile");
+        driver.findElement(By.id(uiElementMapper.getElement("search.activity.id"))).sendKeys("admin");
+        driver.findElement(By.id(uiElementMapper.getElement("search.activity.name.id"))).
+                sendKeys("/_system/governance/trunk/wsdls/com/amazon/soap/1.0.0/Amazon.wsdl");
         JavascriptExecutor js = (JavascriptExecutor) driver;
         js.executeScript("submitActivityForm(1) ");
 

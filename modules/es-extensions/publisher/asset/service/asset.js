@@ -1,25 +1,27 @@
+/*
+* Copyright (c) 2014, WSO2 Inc. (http://www.wso2.org) All Rights Reserved.
+*
+* Licensed under the Apache License, Version 2.0 (the "License");
+* you may not use this file except in compliance with the License.
+* You may obtain a copy of the License at
+*
+* http://www.apache.org/licenses/LICENSE-2.0
+*
+* Unless required by applicable law or agreed to in writing, software
+* distributed under the License is distributed on an "AS IS" BASIS,
+* WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+* See the License for the specific language governing permissions and
+* limitations under the License.
+*/
+
 asset.manager=function(ctx){
+    var getRegistry = function(cSession){
+            var userMod = require('store').user;
+            var userRegistry = userMod.userRegistry(cSession);
 
-   var createArtifact = function (manager, options) {
-
-        var QName = Packages.javax.xml.namespace.QName;
-        var IOUtils = Packages.org.apache.commons.io.IOUtils;
-
-        var qName=new QName(options.attributes.overview_namespace, options.name);
-        log.info('After creating qName');
-        log.info('options: ' + stringify(options));
-        log.info('namespace: ' + stringify(options.attributes.overview_namespace));
-        var name, attribute, i, length, lc;
-
-        for(var key in manager){
-            log.info('Keys: '+key)
-        }
-
-        var artifact = manager.newGovernanceArtifact(qName);
-        var attributes = options.attributes;
-
-        log.info('Finished creating Governance Artifact');
-        
+            return userRegistry;
+    };
+    var setAttributes = function(artifact, attributes) {
         for (name in attributes) {
             if (attributes.hasOwnProperty(name)) {
                 attribute = attributes[name];
@@ -30,125 +32,235 @@ asset.manager=function(ctx){
                 }
             }
         }
-        if (options.id) {
-            artifact.id = options.id;
-        }
-        if (options.content) {
-            if (options.content instanceof Stream) {
-                artifact.setContent(IOUtils.toByteArray(options.content.getStream()));
+    }
+
+    var setId = function(artifact, id) {
+        if (id) {
+            artifact.id = id;
+        }    
+    }
+
+    var setContent = function(artifact, content) {
+        if (content) {
+            if (content instanceof Stream) {
+                artifact.setContent(IOUtils.toByteArray(content.getStream()));
             } else {
-                artifact.setContent(new java.lang.String(options.content).getBytes());
+                artifact.setContent(new java.lang.String(content).getBytes());
             }
+        }  
+    }
+
+    var createOMContent = function(attributes) {
+        var omContent = "<metadata xmlns=\"http://www.wso2.org/governance/metadata\"><overview><name>";
+        omContent += attributes.overview_name;
+        omContent += "</name><namespace>";
+
+        omContent += attributes.overview_namespace;
+
+        omContent += "</namespace><version>";
+        omContent += attributes.overview_version;
+        omContent += "</version></overview><interface>";
+
+        if(attributes.interface_wsdlURL || attributes.interface_wsdlUrl) {
+            omContent += "<wsdlURL>";
+            if(attributes.interface_wsdlUrl) {
+                omContent += attributes.interface_wsdlUrl;
+            } else {
+                omContent += attributes.interface_wsdlURL;   
+            }
+            omContent += "</wsdlURL>";
         }
-        lc = options.lifecycles;
+
+        if(attributes.interface_transportProtocols) {
+            omContent += "<transportProtocols>";
+            omContent += attributes.interface_transportProtocols;
+            omContent += "</transportProtocols>";
+        }
+
+        if(attributes.interface_messageFormats) {
+            omContent += "<messageFormats>";
+            omContent += attributes.interface_messageFormats;
+            omContent += "</messageFormats>";
+        }
+
+        if(attributes.interface_messageExchangePatterns) {
+            omContent += "<messageExchangePatterns>";
+            omContent += attributes.interface_messageExchangePatterns;
+            omContent += "</messageExchangePatterns>";
+        }
+
+        omContent += "</interface>";
+
+        if(attributes.docLinks_documentType) {
+            omContent += "<docLinks>";
+
+            omContent += "<documentType>";
+            omContent += attributes.docLinks_documentType;
+            omContent += "</documentType>";
+
+            if(attributes.docLinks_url) {
+                omContent += "<url>";
+                omContent += attributes.docLinks_url;
+                omContent += "</url>";
+            }
+
+            if(attributes.docLinks_documentComment) {
+                omContent += "<documentComment>";
+                omContent += attributes.docLinks_documentComment;
+                omContent += "</documentComment>";
+            }
+
+            if(attributes.docLinks_documentType1) {
+                omContent += "<documentType1>";
+                omContent += attributes.docLinks_documentType1;
+                omContent += "</documentType1>";
+
+                if(attributes.docLinks_url1) {
+                    omContent += "<url1>";
+                    omContent += attributes.docLinks_url1;
+                    omContent += "</url1>";
+                }
+
+                if(attributes.docLinks_documentComment1) {
+                    omContent += "<documentComment1>";
+                    omContent += attributes.docLinks_documentComment1;
+                    omContent += "</documentComment1>";
+                }
+            }
+
+            if(attributes.docLinks_documentType2) {
+                omContent += "<documentType2>";
+                omContent += attributes.docLinks_documentType2;
+                omContent += "</documentType2>";
+
+                if(attributes.docLinks_url2) {
+                    omContent += "<url2>";
+                    omContent += attributes.docLinks_url2;
+                    omContent += "</url2>";
+                }
+
+                if(attributes.docLinks_documentComment2) {
+                    omContent += "<documentComment2>";
+                    omContent += attributes.docLinks_documentComment2;
+                    omContent += "</documentComment2>";
+                }
+            }
+
+            omContent += "</docLinks>";
+        }
+
+        omContent += "</metadata>";
+
+        return omContent;
+    }
+
+    var createArtifact = function (manager, options) {
+        var attributes = options.attributes;
+        var omContent = createOMContent(attributes);
+
+        var artifact = manager.newGovernanceArtifact(omContent);
+
+        log.info('Finished creating Governance Artifact');
+        
+        setAttributes(artifact, attributes);
+        setId(artifact, options.id);
+        setContent(artifact, options.content);
+
+        var lc = options.lifecycles;
+
         if (lc) {
             length = lc.length;
-            for (i = 0; i < length; i++) {
+            for (var i = 0; i < length; i++) {
                 artifact.attachLifeCycle(lc[i]);
             }
         }
+
+        log.info('lifecycle is attached');
+
         return artifact;
     };
 
 
 	return{
+        get:function(id){
+            var asset = this._super.get.call(this,id);
+            if(asset.attributes.interface_wsdlURL) {
+                var wsdlUUID = getRegistry(ctx.session).registry.get(asset.attributes.interface_wsdlURL).getUUID();
+                asset.wsdl_uuid = wsdlUUID;
+                asset.wsdl_url = asset.attributes.interface_wsdlURL;
+            }
+
+            return asset;
+        },
+        combineWithRxt:function(asset) {
+            var modAsset = this._super.combineWithRxt.call(this,asset);
+
+            if(asset.wsdl_uuid) {
+                var wsdlUUID = asset.wsdl_uuid;
+                modAsset.wsdl_uuid = wsdlUUID;
+            }
+
+            if(asset.wsdl_url) {
+                var wsdlURL = asset.wsdl_url;
+                modAsset.wsdl_url = wsdlURL;
+
+                modAsset.tables[2].fields.wsdlUrl.value = modAsset.wsdl_url ;
+            }
+
+            return modAsset;
+        },
 		create:function(options){
-			var log=new Log();
-			log.info('Service create method called!');
-			var manager=this.am.manager;
-            log.info('Calling addGenericArtifact');
-            log.info('Options: '+ stringify(options));
-            var artifact=createArtifact(manager, options);
-			manager.addGenericArtifact(artifact);		
-            // createArtifact(manager, options);       
-			log.info('Service create method ended!');
-            options.id=artifact.getId();
+			var log = new Log();
+			var manager = this.am.manager;
+
+            var artifact = createArtifact(manager, options);
+			manager.addGenericArtifact(artifact);
+
+			log.info('Service successfully created');
+            options.id = artifact.getId();
 		},
         update:function(options){
-            var log=new Log();
-            log.info('Service update method called!');
-            var manager=this.am.manager;
-            log.info('Calling updateGenericArtifact');
-            log.info('Options: '+ stringify(options));
-            var artifact=createArtifact(manager, options);
-            manager.updateGenericArtifact(artifact);            
-            log.info('Service update method ended!');
-            options.id=artifact.getId();
+            var log = new Log();
+            var manager = this.am.manager;
+
+            var asset = this.get(options.id);
+
+            var artifact = createArtifact(manager, options);
+            manager.updateGenericArtifact(artifact);    
+
+            log.info('Service successfully updated');
+            options.id = artifact.getId();
+
+            wsdlUUID = getRegistry(ctx.session).registry.get(options.attributes.interface_wsdlURL).getUUID();
+
+            log.info(wsdlUUID);
         }
 	}
 };
 
 asset.renderer = function(ctx) {
-    var buildListLeftNav = function(page, util) {
-        var log = new Log();
-        return [{
-            name: 'Add ',
-            iconClass: 'icon-plus-sign-alt',
-            url: util.buildUrl('create')
-        }, {
-            name: 'Statistics',
-            iconClass: 'icon-dashboard',
-            url: util.buildUrl('stats')
-        }];
-    };
-    var buildDefaultLeftNav = function(page, util) {
-        var id=page.assets.id;
-        return [{
-            name: 'Overview',
-            iconClass: 'icon-list-alt',
-            url: util.buildUrl('details')+'/'+id
-        }, {
-            name: 'Edit',
-            iconClass: 'icon-edit',
-            url: util.buildUrl('update')+'/'+id
-        }, {
-            name: 'Life Cycle',
-            iconClass: 'icon-retweet',
-            url: util.buildUrl('lifecycle')+'/'+id
-        }];
-    };
-    var isActivatedAsset = function(assetType) {
-        var activatedAssets = ctx.tenantConfigs.assets;
-        return true;
-        if (!activatedAssets) {
-            throw 'Unable to load all activated assets for current tenant: ' + ctx.tenatId + '.Make sure that the assets property is present in the tenant config';
-        }
-        for (var index in activatedAssets) {
-            if (activatedAssets[index] == assetType) {
-                return true;
-            }
-        }
-        return false;
-    };
 
-    var hideTables=function(page){
-        log.info('The service create page was called');
-        var tables=[];
+    var hideTables = function(page){
+        var tables = [];
+
         for(var index in page.assets.tables){
-            if(page.assets.tables[index].name=='overview'){
+            if(page.assets.tables[index].name == 'overview'){
                 delete page.assets.tables[index].fields.scopes;
                 delete page.assets.tables[index].fields.types;
                 tables.push(page.assets.tables[index]);
             }
-            else if(page.assets.tables[index].name=='contacts'){
+            else if(page.assets.tables[index].name == 'contacts'){
                 tables.push(page.assets.tables[index]);
             }
-            else if(page.assets.tables[index].name=='interface'){
+            else if(page.assets.tables[index].name == 'interface'){
                 tables.push(page.assets.tables[index]);
             }
-            /*
-            else if(page.assets.tables[index].name=='security'){
-                tables.push(page.assets.tables[index]);
-            }
-            else if(page.assets.tables[index].name=='endpoints'){
-                tables.push(page.assets.tables[index]);
-            }*/
-            else if(page.assets.tables[index].name=='docLinks'){
+            else if(page.assets.tables[index].name == 'docLinks'){
                 tables.push(page.assets.tables[index]);
             }
         }
 
-        page.assets.tables=tables;
+        page.assets.tables = tables;
 
         return page;
     };
@@ -168,43 +280,6 @@ asset.renderer = function(ctx) {
 
         details: function(page) {
             return hideTables(page);
-        },
-
-        lifecycle: function(page) {},
-        leftNav: function(page) {
-            switch (page.meta.pageName) {
-                case 'list':
-                    page.leftNav = buildListLeftNav(page, this);
-                    break;
-                default:
-                    page.leftNav = buildDefaultLeftNav(page, this);
-                    break;
-            }
-            return page;
-        },
-        ribbon: function(page) {
-            var ribbon = page.ribbon = {};
-            var DEFAULT_ICON = 'icon-cog';
-            var assetTypes = [];
-            var assetType;
-            var assetList = ctx.rxtManager.listRxtTypeDetails();
-            for (var index in assetList) {
-                assetType = assetList[index];
-                if (isActivatedAsset(assetType.shortName)) {
-                    assetTypes.push({
-                        url: this.buildBaseUrl(assetType.shortName) + '/list',
-                        assetIcon: assetType.ui.icon || DEFAULT_ICON,
-                        assetTitle: assetType.singularLabel
-                    });
-                }
-            }
-            ribbon.currentType = page.rxt.singularLabel;
-            ribbon.currentTitle = page.rxt.singularLabel;
-            ribbon.currentUrl = page.meta.currentPage;
-            ribbon.shortName = page.rxt.singularLabel;
-            ribbon.query = 'Query';
-            ribbon.breadcrumb = assetTypes;
-            return page;
         }
     };
 };
