@@ -275,7 +275,7 @@
                                 </featureArtifactDef>
                                 <featureArtifactDef>org.wso2.store.modules:ues.feature:${es.feature.version}
                                 </featureArtifactDef>
-                                <featureArtifactDef>org.wso2.store.modules:claims.feature:${es.feature.version}
+                                <featureArtifactDef>org.wso2.store.modules:account-management.feature:${es.feature.version}
                                 </featureArtifactDef>
 				<featureArtifactDef>org.wso2.store.modules:rxt.feature:${es.feature.version}
                                 </featureArtifactDef>
@@ -504,7 +504,7 @@
                             <profile>default</profile>
                             <metadataRepository>file:${basedir}/target/p2-repo</metadataRepository>
                             <artifactRepository>file:${basedir}/target/p2-repo</artifactRepository>
-                            <destination>${basedir}/target/wso2carbon-core-${carbon.platform.version}/repository/components
+                            <destination>${basedir}/target/wso2carbon-core-${carbon.kernel.version}/repository/components
                             </destination>
                             <deleteOldProfileFiles>true</deleteOldProfileFiles>
                             <features>
@@ -905,7 +905,7 @@
                                     <version>${es.feature.version}</version>
                                 </feature>
                                 <feature>
-                                    <id>org.wso2.store.modules.claims.feature.group</id>
+                                    <id>org.wso2.store.modules.account-management.feature.group</id>
                                     <version>${es.feature.version}</version>
                                 </feature>
                                 <feature>
@@ -966,7 +966,7 @@
                             <profile>repository</profile>
                             <metadataRepository>file:${basedir}/target/p2-repo</metadataRepository>
                             <artifactRepository>file:${basedir}/target/p2-repo</artifactRepository>
-                            <destination>${basedir}/target/wso2carbon-core-${carbon.platform.version}/repository/components
+                            <destination>${basedir}/target/wso2carbon-core-${carbon.kernel.version}/repository/components
                             </destination>
                             <deleteOldProfileFiles>true</deleteOldProfileFiles>
                             <features>
@@ -1258,7 +1258,7 @@
                                     <version>${es.feature.version}</version>
                                 </feature>
                                 <feature>
-                                    <id>org.wso2.store.modules.claims.feature.group</id>
+                                    <id>org.wso2.store.modules.account-management.feature.group</id>
                                     <version>${es.feature.version}</version>
                                 </feature>
                                 <feature>
@@ -1302,7 +1302,7 @@
                             <profile>uddi-registry</profile>
                             <metadataRepository>file:${basedir}/target/p2-repo</metadataRepository>
                             <artifactRepository>file:${basedir}/target/p2-repo</artifactRepository>
-                            <destination>${basedir}/target/wso2carbon-core-${carbon.platform.version}/repository/components
+                            <destination>${basedir}/target/wso2carbon-core-${carbon.kernel.version}/repository/components
                             </destination>
                             <deleteOldProfileFiles>true</deleteOldProfileFiles>
                             <features>
@@ -1671,7 +1671,7 @@
                                     <version>${es.feature.version}</version>
                                 </feature>
                                 <feature>
-                                    <id>org.wso2.store.modules.claims.feature.group</id>
+                                    <id>org.wso2.store.modules.account-management.feature.group</id>
                                     <version>${es.feature.version}</version>
                                 </feature>
                                 <feature>
@@ -1717,7 +1717,7 @@
                         <configuration>
                             <tasks>
                                 <replace token="false" value="true"
-                                         dir="target/wso2carbon-core-${carbon.platform.version}/repository/components">
+                                         dir="target/wso2carbon-core-${carbon.kernel.version}/repository/components">
                                     <include name="**/bundles.info"/>
                                 </replace>
                             </tasks>
