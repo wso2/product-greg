@@ -681,7 +681,7 @@
         <commons.logging.version>1.1</commons.logging.version>
         <emma.version>2.1.5320</emma.version>
 
-        <test.framwork.version>4.3.1-SNAPSHOT</test.framwork.version>
+        <test.framwork.version>4.3.1</test.framwork.version>
         <platform.integration.utils.version>4.3.0-SNAPSHOT</platform.integration.utils.version>
         <stub.version>4.3.0-SNAPSHOT</stub.version>
 
