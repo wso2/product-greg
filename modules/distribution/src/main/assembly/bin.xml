@@ -444,7 +444,7 @@
 
         <!--application-authentication framework related config-->
         <fileSet>
-            <directory>../p2-profile-gen/target/wso2carbon-core-4.3.0-SNAPSHOT/repository/conf/identity</directory>
+            <directory>../p2-profile-gen/target/wso2carbon-core-${carbon.kernel.version}/repository/conf/identity</directory>
             <outputDirectory>${pom.artifactId}-${build.version}/repository/conf/identity</outputDirectory>
             <includes>
                 <include>*/**</include>
