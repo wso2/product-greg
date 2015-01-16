@@ -380,6 +380,13 @@
             <directory>../p2-profile-gen/target/wso2carbon-core-${carbon.kernel.version}/repository/resources/store/asset/service</directory>
             <outputDirectory>${pom.artifactId}-${pom.version}/repository/deployment/server/jaggeryapps/store/extensions/assets/service</outputDirectory>
         </fileSet>
+
+	<!-- ES Extensions for G-Reg impact analysis UI-->
+        <fileSet>
+            <directory>../p2-profile-gen/target/wso2carbon-core-${carbon.kernel.version}/repository/resources/publisher/extensions/app/greg_impact</directory>
+            <outputDirectory>${pom.artifactId}-${pom.version}/repository/deployment/server/jaggeryapps/publisher/extensions/app/greg_impact</outputDirectory>
+        </fileSet>
+
     <!--End of ES Extensions for service UI-->
 	<!--
         <fileSet>
