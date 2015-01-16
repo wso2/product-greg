@@ -140,8 +140,15 @@
             </includes>
         </fileSet>
         <fileSet>
-            <directory>src/main/resources/humantask/sql</directory>
-            <outputDirectory>${pom.artifactId}-${build.version}/dbscripts/bps</outputDirectory>
+            <directory>../p2-profile-gen/target/wso2carbon-core-${carbon.kernel.version}/dbscripts/bps/bpel/create</directory>
+            <outputDirectory>${pom.artifactId}-${build.version}/dbscripts/bps/bpel/create</outputDirectory>
+            <excludes>
+                <exclude>**/.svn</exclude>
+            </excludes>
+        </fileSet>
+        <fileSet>
+            <directory>../p2-profile-gen/target/wso2carbon-core-${carbon.kernel.version}/dbscripts/social</directory>
+            <outputDirectory>${pom.artifactId}-${build.version}/dbscripts/social</outputDirectory>
             <excludes>
                 <exclude>**/.svn</exclude>
             </excludes>
@@ -327,6 +334,9 @@
         <fileSet>
             <directory>../p2-profile-gen/target/wso2carbon-core-${carbon.kernel.version}/repository/deployment/server/jaggeryapps/es-publisher</directory>
             <outputDirectory>${pom.artifactId}-${pom.version}/repository/deployment/server/jaggeryapps/publisher</outputDirectory>
+	    <excludes>
+                <exclude>**/config/publisher-tenant.json</exclude>
+            </excludes>
         </fileSet>
         <fileSet>
             <directory>../p2-profile-gen/target/wso2carbon-core-${carbon.kernel.version}/repository/deployment/server/jaggeryapps/es-sso</directory>
@@ -444,7 +454,7 @@
 
         <!--application-authentication framework related config-->
         <fileSet>
-            <directory>../p2-profile-gen/target/wso2carbon-core-4.3.0-SNAPSHOT/repository/conf/identity</directory>
+            <directory>../p2-profile-gen/target/wso2carbon-core-${carbon.kernel.version}/repository/conf/identity</directory>
             <outputDirectory>${pom.artifactId}-${build.version}/repository/conf/identity</outputDirectory>
             <includes>
                 <include>*/**</include>
