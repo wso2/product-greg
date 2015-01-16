@@ -140,8 +140,15 @@
             </includes>
         </fileSet>
         <fileSet>
-            <directory>src/main/resources/humantask/sql</directory>
-            <outputDirectory>${pom.artifactId}-${build.version}/dbscripts/bps</outputDirectory>
+            <directory>../p2-profile-gen/target/wso2carbon-core-${carbon.kernel.version}/dbscripts/bps/bpel/create</directory>
+            <outputDirectory>${pom.artifactId}-${build.version}/dbscripts/bps/bpel/create</outputDirectory>
+            <excludes>
+                <exclude>**/.svn</exclude>
+            </excludes>
+        </fileSet>
+        <fileSet>
+            <directory>../p2-profile-gen/target/wso2carbon-core-${carbon.kernel.version}/dbscripts/social</directory>
+            <outputDirectory>${pom.artifactId}-${build.version}/dbscripts/social</outputDirectory>
             <excludes>
                 <exclude>**/.svn</exclude>
             </excludes>
