@@ -41,14 +41,6 @@ function getNodesAndEdges(registry,resourcePath, graph){
 
             graph.index++;
 
-            /*
-            Alert icons based on properties set on resources
-            are moved to phase 2 implementation
-            */
-            // if (registry.registry.get(resourcePath).getProperty("invalidity")){
-            //     graphDataObject.alertimage = "warning.png";
-            // }
-
             graph.nodes[artifact.path] = graphDataObject;
             graph.nodes.push(graphDataObject);
 

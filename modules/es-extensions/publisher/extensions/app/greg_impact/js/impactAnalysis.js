@@ -330,16 +330,16 @@ var isSame = null,
 /*
 on double click expand and retract node's children
  */
-function doubleclick(d) {
+function showHideChildren(d) {
 
-    /*if (d.children) {
+    if (d.children) {
         d._children = d.children;
         d.children = null;
     } else {
         d.children = d._children;
         d._children = null;
     }
-    update();*/
+    update();
 }
 
 function closeSidebar() {
@@ -416,32 +416,6 @@ function click(d) {
 
     displayInfo(d);
     return false;
-
-
-    //if (d.relations.length > 0){
-    //    var notify = [];
-    //    for (i = 0; i < d.relations.length; i++){
-    //        notify.push(root.relations[d.relations[i]])
-    //    }
-    //    //alert(JSON.stringify(notify));
-    //    console.log("node " + d.name + " = " + JSON.stringify(notify));
-    //}
-}
-
-// Returns a list of all nodes under the root.
-function flatten(root) {
-    var nodes = [], i = 0;
-
-    function recurse(node) {
-        if (node.children)
-            node.children.forEach(recurse);
-        if (!node.id)
-            node.id = ++i;
-        nodes.push(node);
-    }
-
-    recurse(root);
-    return nodes;
 }
 
 function imageZoom(img, scale) {
@@ -459,7 +433,7 @@ function imageZoom(img, scale) {
 function displayInfo(resource){
     $('#name span').text(resource.name);
     $('#mediaType span').text(resource.mediaType);
-    var linkString = '<a href = "../carbon/resources/resource.jsp?region=region3&item=resource_browser_menu&path=' +
+    var linkString = '<a href = "../../carbon/resources/resource.jsp?region=region3&item=resource_browser_menu&path=' +
         encodeURIComponent(resource.path) + '">' + resource.path + '</a>';
     $('#path span').html(linkString);
     if(resource.lcState==null){
@@ -520,16 +494,6 @@ function clearSearchedNode() {
     d3.selectAll("g").select("circle").classed("active", false);
     node.attr("class", "");
     linkg.attr("class", "");
-
-    //if (searchedNode){
-
-        //searchedNode.select("circle").attr("class", nodeType);
-
-        //var rootNode = root.nodes[searchedNode[0][0].__data__.id];
-        //rootNode.fixed = false;
-        //tick();
-        //force.resume();
-    //}
 }
 
 function searchNode() {
@@ -538,7 +502,6 @@ function searchNode() {
 
     var selectedVal = $('#search').select2('data').name;
 
-    //document.getElementById('search').value;
     var node = svg.selectAll("g");
 
     if (selectedVal == "none") {
@@ -550,46 +513,15 @@ function searchNode() {
         });
 
         var rootNode = root.nodes[searchedNode[0][0].__data__.id];
-        // root.nodes.detect(function(d) {
-        //     return d.name == selectedVal;
-        // });
 
         searchedNode.select("circle").classed("active", true);
         displayInfo(searchedNode[0][0].__data__);
-
-        //searchedNode.select("circle")
-            //.attr("class", "active");
-            //.attr('transform', 'translate('+ $(window).width()/2 +','+ $(window).height()/2 +')');
-
-        //d3.select("#mainG").attr("transform", "translate(200,0)");
-
-        if (rootNode) {
-            // rootNode.x = rootNode.px = getCenter().x;
-            // rootNode.y = rootNode.py = getCenter().y;
-            //rootNode.fixed = true;
-            //some other stuff...
-        }
-        // svg.attr("transform", "translate(" + "0,0" + ")" + " scale(" + "1" + ")");
 
         zoom.scale(1);
         var coor = zoom.translate();
 
         zoom.translate( [/*coor[0] + */getCenter().x - rootNode.x, /*coor [1] + */getCenter().y - rootNode.y] );
         zoom.event(svg);
-
-        //tick();
-        //force.resume();
-
-        //transform="translate(152.47678677550027,93.15541752921163) scale(0.6434946236506358)
-        /*var selected = node.filter(function (d, i) {
-            return d.name == selectedVal;
-        });
-        selected.style("fill", "#000");*/
-        //var link = svg.selectAll(".link")
-        //link.style("opacity", "0");
-        /*d3.selectAll(".node, .link").transition()
-            .duration(5000)
-            .style("opacity", 1);*/
     }
 }
 
@@ -630,16 +562,6 @@ function showRelations(d){
     var id = '#' + getLinkID(d);
     console.log("link " + $(id).parent().get(0));
     $(id).css({ opacity: 1 });
-    //var tooltip = $('#tooltipG');
-    //tooltip.attr("type", "hidden");
-    //var input = '<text x="10" y="20" style="fill:red;">' + "edge1";
-    //tooltip.append('<ul>');
-    /*for (i = 0; i < d.relations.length; i++){
-        input = input + '<tspan x="10" y="45">' + JSON.stringify(root.relations[d.relations[i]]) + '</tspan>';
-    }*/
-    //input = input + '</text>';
-    //tooltip.append(input);
-    //console.log("link " + $('#search').parent().get(0).tagName);
 }
 
 function alertLinkRelations(d){
@@ -690,7 +612,6 @@ function setClickableTooltip(target, content){
                 },
                 function () {
                     $(this).fadeOut(500, function(){
-                        //$(this).remove();
                     })
                 }
             );
