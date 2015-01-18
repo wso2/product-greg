@@ -230,10 +230,6 @@ asset.manager=function(ctx){
 
             log.info('Service successfully updated');
             options.id = artifact.getId();
-
-            wsdlUUID = getRegistry(ctx.session).registry.get(options.attributes.interface_wsdlURL).getUUID();
-
-            log.info(wsdlUUID);
         }
 	}
 };
