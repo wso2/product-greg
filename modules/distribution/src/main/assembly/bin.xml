@@ -334,9 +334,6 @@
         <fileSet>
             <directory>../p2-profile-gen/target/wso2carbon-core-${carbon.kernel.version}/repository/deployment/server/jaggeryapps/es-publisher</directory>
             <outputDirectory>${pom.artifactId}-${pom.version}/repository/deployment/server/jaggeryapps/publisher</outputDirectory>
-	    <excludes>
-                <exclude>**/config/publisher-tenant.json</exclude>
-            </excludes>
         </fileSet>
         <fileSet>
             <directory>../p2-profile-gen/target/wso2carbon-core-${carbon.kernel.version}/repository/deployment/server/jaggeryapps/es-sso</directory>
@@ -868,13 +865,6 @@
         </file>
 
 	<!-- ES Store extensions -->
-	<file>
-            <source>../p2-profile-gen/target/wso2carbon-core-${carbon.kernel.version}/repository/resources/publisher/configs/publisher-tenant.json</source>
-            <outputDirectory>${pom.artifactId}-${build.version}/repository/deployment/server/jaggeryapps/publisher/config</outputDirectory>
-            <filtered>true</filtered>
-            <fileMode>644</fileMode>
-        </file>
-
         <file>
             <source>../p2-profile-gen/target/wso2carbon-core-${carbon.kernel.version}/repository/resources/store/configs/store-tenant.json</source>
             <outputDirectory>${pom.artifactId}-${build.version}/repository/deployment/server/jaggeryapps/store/config</outputDirectory>
