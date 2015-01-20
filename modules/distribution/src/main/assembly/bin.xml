@@ -384,6 +384,12 @@
             <outputDirectory>${pom.artifactId}-${pom.version}/repository/deployment/server/jaggeryapps/publisher/extensions/app/greg_publisher</outputDirectory>
         </fileSet>
 
+        <!-- ES App Extension for G-Reg Store-->
+        <fileSet>
+            <directory>../p2-profile-gen/target/wso2carbon-core-${carbon.kernel.version}/repository/resources/publisher/extensions/app/greg_store</directory>
+            <outputDirectory>${pom.artifactId}-${pom.version}/repository/deployment/server/jaggeryapps/publisher/extensions/app/greg_store</outputDirectory>
+        </fileSet>
+
         <!-- ES Extensions for G-Reg impact analysis UI-->
         <fileSet>
             <directory>../p2-profile-gen/target/wso2carbon-core-${carbon.kernel.version}/repository/resources/publisher/extensions/app/greg_impact</directory>
@@ -866,14 +872,6 @@
         <file>
             <source>../p2-profile-gen/target/wso2carbon-core-${carbon.kernel.version}/repository/conf/tomcat/context.xml</source>
             <outputDirectory>${pom.artifactId}-${build.version}/repository/conf/tomcat</outputDirectory>
-            <filtered>true</filtered>
-            <fileMode>644</fileMode>
-        </file>
-
-	<!-- ES Store extensions -->
-        <file>
-            <source>../p2-profile-gen/target/wso2carbon-core-${carbon.kernel.version}/repository/resources/store/configs/store-tenant.json</source>
-            <outputDirectory>${pom.artifactId}-${build.version}/repository/deployment/server/jaggeryapps/store/config</outputDirectory>
             <filtered>true</filtered>
             <fileMode>644</fileMode>
         </file>
