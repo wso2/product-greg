@@ -49,7 +49,7 @@ asset.manager = function(ctx) {
             var asset = this._super.get.call(this, id);
             //check for the wsdl url in the asset json object
             if (asset.attributes.interface_wsdlURL != null) {
-                var userMod = require('store').user;
+                var userMod = require('store').user;//Obtain the configurations for the tenant.
                 var userRegistry = userMod.userRegistry(ctx.session);
                 var ByteArrayInputStream = Packages.java.io.ByteArrayInputStream;
                 var resource = userRegistry.registry.get(asset.attributes.interface_wsdlURL);
