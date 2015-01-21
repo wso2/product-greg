@@ -49,7 +49,6 @@ asset.manager = function(ctx) {
             var asset = this._super.get.call(this, id);
             //check for the wsdl url in the asset json object
             if (asset.attributes.interface_wsdlURL != null) {
-                var subPaths = asset.attributes.interface_wsdlURL.split('/');
                 var userMod = require('store').user;
                 var userRegistry = userMod.userRegistry(ctx.session);
                 var ByteArrayInputStream = Packages.java.io.ByteArrayInputStream;
