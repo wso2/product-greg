@@ -67,7 +67,7 @@ public class GovernanceLCTransitionsTestCase extends GREGIntegrationBaseTest {
     @Test(groups = {"wso2.greg"}, description = "LC Transition", dependsOnMethods = "testAttachLifecycle")
     public void testGetCheckListItems() throws RegistryException {
         Service service = getAddedService();
-        String[] checklistItems = service.getAllCheckListItemNames();
+        String[] checklistItems = service.getAllCheckListItemNames(LIFE_CYCLE_NAME);
 
         Assert.assertEquals(checklistItems[0], "Code Completed", "Expected checklist item not found");
         Assert.assertEquals(checklistItems[1], "WSDL, Schema Created", "Expected checklist item not found");
@@ -78,17 +78,17 @@ public class GovernanceLCTransitionsTestCase extends GREGIntegrationBaseTest {
     public void testCheckLCItem() throws RegistryException {
         Service service = getAddedService();
 
-        service.checkLCItem(0);
-        service.checkLCItem(1);
-        service.checkLCItem(2);
+        service.checkLCItem(0,LIFE_CYCLE_NAME);
+        service.checkLCItem(1,LIFE_CYCLE_NAME);
+        service.checkLCItem(2,LIFE_CYCLE_NAME);
 
-        Assert.assertTrue(service.isLCItemChecked(0), "Lifecycle item not checked");
-        Assert.assertTrue(service.isLCItemChecked(1), "Lifecycle item not checked");
-        Assert.assertTrue(service.isLCItemChecked(2), "Lifecycle item not checked");
+        Assert.assertTrue(service.isLCItemChecked(0,LIFE_CYCLE_NAME), "Lifecycle item not checked");
+        Assert.assertTrue(service.isLCItemChecked(1,LIFE_CYCLE_NAME), "Lifecycle item not checked");
+        Assert.assertTrue(service.isLCItemChecked(2,LIFE_CYCLE_NAME), "Lifecycle item not checked");
 
-        service.uncheckLCItem(0);
+        service.uncheckLCItem(0,LIFE_CYCLE_NAME);
 
-        Assert.assertFalse(service.isLCItemChecked(0), "Lifecycle item unchecked");
+        Assert.assertFalse(service.isLCItemChecked(0,LIFE_CYCLE_NAME), "Lifecycle item unchecked");
     }
 
     @Test(groups = {"wso2.greg"}, description = "LC Transition", dependsOnMethods = "testCheckLCItem")
@@ -116,7 +116,7 @@ public class GovernanceLCTransitionsTestCase extends GREGIntegrationBaseTest {
     public void testGetAllActions() throws RegistryException {
         Service service = getAddedService();
 
-        String[] actions = service.getAllLifecycleActions();
+        String[] actions = service.getAllLifecycleActions(LIFE_CYCLE_NAME);
         Assert.assertEquals(actions[0], "Promote", "Unexpected action found");
     }
 
@@ -127,7 +127,7 @@ public class GovernanceLCTransitionsTestCase extends GREGIntegrationBaseTest {
 
         Map<String, String> map = new HashMap<String, String>();
         map.put("/_system/governance/trunk/services/com/wso2/www/greg/store/1.0.0/StoreService", "2.3.5");
-        service.invokeAction("Promote", map);
+        service.invokeAction("Promote", map, LIFE_CYCLE_NAME);
 
 
         services = serviceManager.findServices(new ServiceFilter() {

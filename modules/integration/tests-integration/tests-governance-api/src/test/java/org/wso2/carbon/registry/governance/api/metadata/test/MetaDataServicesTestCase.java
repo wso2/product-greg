@@ -343,26 +343,26 @@ public class MetaDataServicesTestCase extends GREGIntegrationBaseTest {
         LifecycleBean lifeCycle = lifeCycleAdminService.getLifecycleBean(servicePathDev);
         String optionOneValueBefore =
                 LifeCycleUtils.getLifeCycleProperty(lifeCycle.getLifecycleProperties(),
-                        "registry.custom_lifecycle.checklist.option.0.item")[2];
+                        "registry.custom_lifecycle.checklist.option." + SERVICE_LIFE_CYCLE + ".0.item")[2];
         String optionTwoValueBefore =
                 LifeCycleUtils.getLifeCycleProperty(lifeCycle.getLifecycleProperties(),
-                        "registry.custom_lifecycle.checklist.option.1.item")[3];
+                        "registry.custom_lifecycle.checklist.option." + SERVICE_LIFE_CYCLE + ".1.item")[3];
         String optionThreeValueBefore =
                 LifeCycleUtils.getLifeCycleProperty(lifeCycle.getLifecycleProperties(),
-                        "registry.custom_lifecycle.checklist.option.2.item")[3];
+                        "registry.custom_lifecycle.checklist.option." + SERVICE_LIFE_CYCLE + ".2.item")[3];
         serviceForTickedListItemsTest.addAttribute("test-att", "test-val");
 
         assertEquals(optionOneValueBefore,
                 LifeCycleUtils.getLifeCycleProperty(lifeCycle.getLifecycleProperties(),
-                        "registry.custom_lifecycle.checklist.option.0.item")[2],
+                        "registry.custom_lifecycle.checklist.option." + SERVICE_LIFE_CYCLE + ".0.item")[2],
                 "checkbox 1 contain the incorrect value");
         assertEquals(optionTwoValueBefore,
                 LifeCycleUtils.getLifeCycleProperty(lifeCycle.getLifecycleProperties(),
-                        "registry.custom_lifecycle.checklist.option.1.item")[3],
+                        "registry.custom_lifecycle.checklist.option." + SERVICE_LIFE_CYCLE + ".1.item")[3],
                 "checkbox 2 contain the incorrect value");
         assertEquals(optionThreeValueBefore,
                 LifeCycleUtils.getLifeCycleProperty(lifeCycle.getLifecycleProperties(),
-                        "registry.custom_lifecycle.checklist.option.2.item")[3],
+                        "registry.custom_lifecycle.checklist.option." + SERVICE_LIFE_CYCLE + ".2.item")[3],
                 "checkbox 3 contain the incorrect value");
 
         ArrayOfString[] parameters = new ArrayOfString[2];
@@ -394,26 +394,26 @@ public class MetaDataServicesTestCase extends GREGIntegrationBaseTest {
                 lifeCycleAdminService.getLifecycleBean(promotedServicePathDev);
         optionOneValueBefore =
                 LifeCycleUtils.getLifeCycleProperty(lifeCyclePromoted.getLifecycleProperties(),
-                        "registry.custom_lifecycle.checklist.option.0.item")[2];
+                        "registry.custom_lifecycle.checklist.option." + SERVICE_LIFE_CYCLE + ".0.item")[2];
         optionTwoValueBefore =
                 LifeCycleUtils.getLifeCycleProperty(lifeCyclePromoted.getLifecycleProperties(),
-                        "registry.custom_lifecycle.checklist.option.1.item")[3];
+                        "registry.custom_lifecycle.checklist.option." + SERVICE_LIFE_CYCLE + ".1.item")[3];
         optionThreeValueBefore =
                 LifeCycleUtils.getLifeCycleProperty(lifeCyclePromoted.getLifecycleProperties(),
-                        "registry.custom_lifecycle.checklist.option.2.item")[3];
+                        "registry.custom_lifecycle.checklist.option." + SERVICE_LIFE_CYCLE + ".2.item")[3];
         serviceForTickedListItemsTest.addAttribute("test-att", "test-val");
 
         assertEquals(optionOneValueBefore,
                 LifeCycleUtils.getLifeCycleProperty(lifeCyclePromoted.getLifecycleProperties(),
-                        "registry.custom_lifecycle.checklist.option.0.item")[2],
+                        "registry.custom_lifecycle.checklist.option." + SERVICE_LIFE_CYCLE + ".0.item")[2],
                 "checkbox 1 contain the incorrect value");
         assertEquals(optionTwoValueBefore,
                 LifeCycleUtils.getLifeCycleProperty(lifeCyclePromoted.getLifecycleProperties(),
-                        "registry.custom_lifecycle.checklist.option.1.item")[3],
+                        "registry.custom_lifecycle.checklist.option." + SERVICE_LIFE_CYCLE + ".1.item")[3],
                 "checkbox 2 contain the incorrect value");
         assertEquals(optionThreeValueBefore,
                 LifeCycleUtils.getLifeCycleProperty(lifeCyclePromoted.getLifecycleProperties(),
-                        "registry.custom_lifecycle.checklist.option.2.item")[3],
+                        "registry.custom_lifecycle.checklist.option." + SERVICE_LIFE_CYCLE + ".2.item")[3],
                 "checkbox 3 contain the incorrect value");
 
     }
