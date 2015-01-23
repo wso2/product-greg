@@ -73,17 +73,30 @@ public class CustomTagServiceHandler extends Handler {
                 throw new RegistryException(msg, e);
             }
             // Get the first OMElement child with name 'overview'
-            OMElement elementOverview = resourceElement
-                    .getFirstChildWithName(new QName(CommonConstants.SERVICE_ELEMENT_NAMESPACE, "overview"));
+            OMElement elementOverview = getFirstChild(resourceElement, "overview");
             // Get the first OMElement child with name 'namespace'
-            String namespace = elementOverview
-                    .getFirstChildWithName(new QName(CommonConstants.SERVICE_ELEMENT_NAMESPACE, "namespace")).getText();
+            String namespace = getFirstChild(resourceElement, "namespace").getText();
+
             Registry registry = requestContext.getRegistry();
             // Add the resource namespace as the tag
             registry.applyTag(resourcePath, namespace);
+
+        } catch (RegistryException e) {
+            String msg = "Error occurred in TaggingHandle sample when applying namespace tag to the service";
         } finally {
             CommonUtil.releaseUpdateLock();
         }
+    }
+
+    /**
+     *
+     * @param element resource OMElement
+     * @param elementName name of the element
+     * @return OMElement
+     */
+    private OMElement getFirstChild(OMElement element, String elementName) {
+        return element
+                .getFirstChildWithName(new QName(CommonConstants.SERVICE_ELEMENT_NAMESPACE, elementName));
     }
 
 }
