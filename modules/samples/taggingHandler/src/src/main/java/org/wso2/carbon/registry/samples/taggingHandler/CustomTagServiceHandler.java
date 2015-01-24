@@ -35,12 +35,17 @@ import javax.xml.stream.XMLStreamReader;
 
 import java.io.StringReader;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
 /**
  * This class will apply namespace as a Tag while creating the service.
  * At the time of service creation this Handler class will get hit and will apply the
  * namespace as a Tag into the service.
  */
 public class CustomTagServiceHandler extends Handler {
+
+    private static final Log log = LogFactory.getLog(CustomTagServiceHandler.class);
 
     public void put(RequestContext requestContext) throws RegistryException {
 
@@ -75,14 +80,13 @@ public class CustomTagServiceHandler extends Handler {
             // Get the first OMElement child with name 'overview'
             OMElement elementOverview = getFirstChild(resourceElement, "overview");
             // Get the first OMElement child with name 'namespace'
-            String namespace = getFirstChild(resourceElement, "namespace").getText();
-
+            String namespace = getFirstChild(elementOverview, "namespace").getText();
             Registry registry = requestContext.getRegistry();
             // Add the resource namespace as the tag
             registry.applyTag(resourcePath, namespace);
-
         } catch (RegistryException e) {
-            String msg = "Error occurred in TaggingHandle sample when applying namespace tag to the service";
+            String msg = "Error occurred in TaggingHandler sample when applying namespace tag to the service";
+            log.error(msg, e);
         } finally {
             CommonUtil.releaseUpdateLock();
         }
