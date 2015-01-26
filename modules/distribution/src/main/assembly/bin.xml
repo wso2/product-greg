@@ -47,6 +47,8 @@
                 <exclude>**/log4j.properties</exclude>
                 <exclude>**/master-datasources.xml</exclude>
                 <exclude>**/identity.xml</exclude>
+                <exclude>**/claim-config.xml</exclude>
+                <exclude>**/email/email-admin-config.xml</exclude>
                 <!--<exclude>**/lib/org.wso2.carbon.server-${carbon.kernel.version}.jar</exclude>-->
 
             </excludes>
@@ -684,6 +686,33 @@
             <fileMode>644</fileMode>
         </file>
 
+        <!-- copy claim-config.xml -->
+        <file>
+            <source>
+                ../p2-profile-gen/target/wso2carbon-core-${carbon.kernel.version}/repository/conf/claim-config.xml
+            </source>
+            <outputDirectory>${pom.artifactId}-${pom.version}/repository/conf</outputDirectory>
+            <filtered>true</filtered>
+            <fileMode>644</fileMode>
+        </file>
+        <!-- copy email-admin-config.xml-->
+        <file>
+            <source>
+                ../p2-profile-gen/target/wso2carbon-core-${carbon.kernel.version}/repository/conf/email/email-admin-config.xml
+            </source>
+            <outputDirectory>${pom.artifactId}-${pom.version}/repository/conf/email</outputDirectory>
+            <filtered>true</filtered>
+            <fileMode>644</fileMode>
+        </file>
+        <!-- copy identity-mgt.properties-->
+        <file>
+            <source>
+                ../p2-profile-gen/target/wso2carbon-core-${carbon.kernel.version}/repository/conf/security/identity-mgt.properties
+            </source>
+            <outputDirectory>${pom.artifactId}-${pom.version}/repository/conf/security</outputDirectory>
+            <filtered>true</filtered>
+            <fileMode>644</fileMode>
+        </file>
         <!--file>
             <source>
                 ../p2-profile-gen/target/wso2carbon-core-${carbon.kernel.version}/repository/conf/security/idp-config.xml

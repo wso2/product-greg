@@ -101,7 +101,7 @@ public class SchemaDefaultLCTestCase extends GREGIntegrationBaseTest {
         assertNotNull(activityObj, "Activity object null for Associate Aspect");
         assertNotNull(activityObj.getActivity(), "Activity list object null for Associate Aspect");
         assertTrue((activityObj.getActivity().length > 0), "Activity list object null");
-        String activity = activityObj.getActivity()[0];
+        String activity = activityObj.getActivity()[1];
         assertTrue(activity.contains(userNameWithoutDomain), "User name not found on activity last activity. " + activity);
         assertTrue(activity.contains("associated the aspect ServiceLifeCycle"),
                 "associated the aspect ServiceLifeCycle not contain in last activity. " + activity);

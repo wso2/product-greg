@@ -221,17 +221,23 @@ public class CustomLifeCycleDemoteForWSDLLCTestCase extends GREGIntegrationBaseT
                 , "Creation", "LifeCycle State Mismatched");
         assertEquals(wsRegistry.get(servicePathTrunk).getPath(), servicePathTrunk, "Preserve original failed");
         //life cycle check list
-        assertEquals(LifeCycleUtils.getLifeCycleProperty(lifeCycle.getLifecycleProperties(), "registry.custom_lifecycle.checklist.option.0.item")[1],
+        assertEquals(LifeCycleUtils.getLifeCycleProperty(lifeCycle.getLifecycleProperties(), 
+        		"registry.custom_lifecycle.checklist.option."+ ASPECT_NAME +".0.item")[1],
                 "name:Code Completed", "Code Completed Check List Item Not Found");
-        assertEquals(LifeCycleUtils.getLifeCycleProperty(lifeCycle.getLifecycleProperties(), "registry.custom_lifecycle.checklist.option.1.item")[1],
+        assertEquals(LifeCycleUtils.getLifeCycleProperty(lifeCycle.getLifecycleProperties(), 
+        		"registry.custom_lifecycle.checklist.option."+ ASPECT_NAME +".1.item")[1],
                 "name:WSDL Created", "WSDL Created Check List Item Not Found");
-        assertEquals(LifeCycleUtils.getLifeCycleProperty(lifeCycle.getLifecycleProperties(), "registry.custom_lifecycle.checklist.option.2.item")[1],
+        assertEquals(LifeCycleUtils.getLifeCycleProperty(lifeCycle.getLifecycleProperties(), 
+        		"registry.custom_lifecycle.checklist.option."+ ASPECT_NAME +".2.item")[1],
                 "name:QoS Created", "QoS Created Check List Item Not Found");
-        assertEquals(LifeCycleUtils.getLifeCycleProperty(lifeCycle.getLifecycleProperties(), "registry.custom_lifecycle.checklist.option.3.item")[1],
+        assertEquals(LifeCycleUtils.getLifeCycleProperty(lifeCycle.getLifecycleProperties(), 
+        		"registry.custom_lifecycle.checklist.option."+ ASPECT_NAME +".3.item")[1],
                 "name:Schema Created", "Schema Created Check List Item Not Found");
-        assertEquals(LifeCycleUtils.getLifeCycleProperty(lifeCycle.getLifecycleProperties(), "registry.custom_lifecycle.checklist.option.4.item")[1],
+        assertEquals(LifeCycleUtils.getLifeCycleProperty(lifeCycle.getLifecycleProperties(), 
+        		"registry.custom_lifecycle.checklist.option."+ ASPECT_NAME +".4.item")[1],
                 "name:Services Created", "Services Created Check List Item Not Found");
-        assertEquals(LifeCycleUtils.getLifeCycleProperty(lifeCycle.getLifecycleProperties(), "registry.custom_lifecycle.checklist.option.5.item")[1],
+        assertEquals(LifeCycleUtils.getLifeCycleProperty(lifeCycle.getLifecycleProperties(), 
+        		"registry.custom_lifecycle.checklist.option."+ ASPECT_NAME +".5.item")[1],
                 "name:Completion of Creation", "Completion of Creation  Check List Item Not Found");
         //activity search for trunk
         Thread.sleep(1000 * 10);
@@ -314,29 +320,41 @@ public class CustomLifeCycleDemoteForWSDLLCTestCase extends GREGIntegrationBaseT
         assertNotNull(dependencyList, "Dependency List Not Found");
         assertEquals(dependencyList.length, 8, "Dependency Count mismatched");
         //life cycle check list
-        assertEquals(LifeCycleUtils.getLifeCycleProperty(lifeCycle.getLifecycleProperties(), "registry.custom_lifecycle.checklist.option.0.item")[1],
+        assertEquals(LifeCycleUtils.getLifeCycleProperty(lifeCycle.getLifecycleProperties(), 
+        		"registry.custom_lifecycle.checklist.option."+ ASPECT_NAME +".0.item")[1],
                 "name:Requirements Gathered", "Requirements Gathered Check List Item Not Found");
-        assertEquals(LifeCycleUtils.getLifeCycleProperty(lifeCycle.getLifecycleProperties(), "registry.custom_lifecycle.checklist.option.0.item")[2],
+        assertEquals(LifeCycleUtils.getLifeCycleProperty(lifeCycle.getLifecycleProperties(), 
+        		"registry.custom_lifecycle.checklist.option."+ ASPECT_NAME +".0.item")[2],
                 "value:false", "Requirements Gathered Check List checked");
-        assertEquals(LifeCycleUtils.getLifeCycleProperty(lifeCycle.getLifecycleProperties(), "registry.custom_lifecycle.checklist.option.1.item")[1],
+        assertEquals(LifeCycleUtils.getLifeCycleProperty(lifeCycle.getLifecycleProperties(), 
+        		"registry.custom_lifecycle.checklist.option."+ ASPECT_NAME +".1.item")[1],
                 "name:Document Requirements", "Document Requirements Check List Item Not Found");
-        assertEquals(LifeCycleUtils.getLifeCycleProperty(lifeCycle.getLifecycleProperties(), "registry.custom_lifecycle.checklist.option.1.item")[2],
+        assertEquals(LifeCycleUtils.getLifeCycleProperty(lifeCycle.getLifecycleProperties(), 
+        		"registry.custom_lifecycle.checklist.option."+ ASPECT_NAME +".1.item")[2],
                 "value:false", "Document Requirements Check List checked");
-        assertEquals(LifeCycleUtils.getLifeCycleProperty(lifeCycle.getLifecycleProperties(), "registry.custom_lifecycle.checklist.option.2.item")[1],
+        assertEquals(LifeCycleUtils.getLifeCycleProperty(lifeCycle.getLifecycleProperties(), 
+        		"registry.custom_lifecycle.checklist.option."+ ASPECT_NAME +".2.item")[1],
                 "name:Architecture Diagram Finalized", "Architecture Diagram Finalize Check List Item Not Found");
-        assertEquals(LifeCycleUtils.getLifeCycleProperty(lifeCycle.getLifecycleProperties(), "registry.custom_lifecycle.checklist.option.2.item")[2],
+        assertEquals(LifeCycleUtils.getLifeCycleProperty(lifeCycle.getLifecycleProperties(), 
+        		"registry.custom_lifecycle.checklist.option."+ ASPECT_NAME +".2.item")[2],
                 "value:false", "Architecture Diagram Finalize Check List checked");
-        assertEquals(LifeCycleUtils.getLifeCycleProperty(lifeCycle.getLifecycleProperties(), "registry.custom_lifecycle.checklist.option.3.item")[1],
+        assertEquals(LifeCycleUtils.getLifeCycleProperty(lifeCycle.getLifecycleProperties(), 
+        		"registry.custom_lifecycle.checklist.option."+ ASPECT_NAME +".3.item")[1],
                 "name:Design UML Diagrams", "Design UML Diagrams Check List Item Not Found");
-        assertEquals(LifeCycleUtils.getLifeCycleProperty(lifeCycle.getLifecycleProperties(), "registry.custom_lifecycle.checklist.option.3.item")[2],
+        assertEquals(LifeCycleUtils.getLifeCycleProperty(lifeCycle.getLifecycleProperties(), 
+        		"registry.custom_lifecycle.checklist.option."+ ASPECT_NAME +".3.item")[2],
                 "value:false", "Design UML Diagrams Check List checked");
-        assertEquals(LifeCycleUtils.getLifeCycleProperty(lifeCycle.getLifecycleProperties(), "registry.custom_lifecycle.checklist.option.4.item")[1]
+        assertEquals(LifeCycleUtils.getLifeCycleProperty(lifeCycle.getLifecycleProperties(), 
+        		"registry.custom_lifecycle.checklist.option."+ ASPECT_NAME +".4.item")[1]
                 , "name:High Level Design Completed", "High Level Design Completed Check List Item Not Found");
-        assertEquals(LifeCycleUtils.getLifeCycleProperty(lifeCycle.getLifecycleProperties(), "registry.custom_lifecycle.checklist.option.4.item")[2]
+        assertEquals(LifeCycleUtils.getLifeCycleProperty(lifeCycle.getLifecycleProperties(), 
+        		"registry.custom_lifecycle.checklist.option."+ ASPECT_NAME +".4.item")[2]
                 , "value:false", "High Level Design Completed Check List checked");
-        assertEquals(LifeCycleUtils.getLifeCycleProperty(lifeCycle.getLifecycleProperties(), "registry.custom_lifecycle.checklist.option.5.item")[1]
+        assertEquals(LifeCycleUtils.getLifeCycleProperty(lifeCycle.getLifecycleProperties(), 
+        		"registry.custom_lifecycle.checklist.option."+ ASPECT_NAME +".5.item")[1]
                 , "name:Completion of Commencement", "Completion of Commencement  Check List Item Not Found");
-        assertEquals(LifeCycleUtils.getLifeCycleProperty(lifeCycle.getLifecycleProperties(), "registry.custom_lifecycle.checklist.option.5.item")[2]
+        assertEquals(LifeCycleUtils.getLifeCycleProperty(lifeCycle.getLifecycleProperties(), 
+        		"registry.custom_lifecycle.checklist.option."+ ASPECT_NAME +".5.item")[2]
                 , "value:false", "Completion of Commencement  Check List checked");
         //Activity search
         Thread.sleep(1000 * 10);
@@ -386,17 +404,23 @@ public class CustomLifeCycleDemoteForWSDLLCTestCase extends GREGIntegrationBaseT
         assertEquals(dependencyList.length, 8, "Dependency Count mismatched");
         assertEquals(wsRegistry.get(servicePathTrunk).getPath(), servicePathTrunk, "Preserve original failed");
         //life cycle check list
-        assertEquals(LifeCycleUtils.getLifeCycleProperty(lifeCycle.getLifecycleProperties(), "registry.custom_lifecycle.checklist.option.0.item")[1],
+        assertEquals(LifeCycleUtils.getLifeCycleProperty(lifeCycle.getLifecycleProperties(), 
+        		"registry.custom_lifecycle.checklist.option."+ ASPECT_NAME +".0.item")[1],
                 "name:Code Completed", "Code Completed Check List Item Not Found");
-        assertEquals(LifeCycleUtils.getLifeCycleProperty(lifeCycle.getLifecycleProperties(), "registry.custom_lifecycle.checklist.option.1.item")[1],
+        assertEquals(LifeCycleUtils.getLifeCycleProperty(lifeCycle.getLifecycleProperties(), 
+        		"registry.custom_lifecycle.checklist.option."+ ASPECT_NAME +".1.item")[1],
                 "name:WSDL Created", "WSDL Created Check List Item Not Found");
-        assertEquals(LifeCycleUtils.getLifeCycleProperty(lifeCycle.getLifecycleProperties(), "registry.custom_lifecycle.checklist.option.2.item")[1],
+        assertEquals(LifeCycleUtils.getLifeCycleProperty(lifeCycle.getLifecycleProperties(), 
+        		"registry.custom_lifecycle.checklist.option."+ ASPECT_NAME +".2.item")[1],
                 "name:QoS Created", "QoS Created Check List Item Not Found");
-        assertEquals(LifeCycleUtils.getLifeCycleProperty(lifeCycle.getLifecycleProperties(), "registry.custom_lifecycle.checklist.option.3.item")[1],
+        assertEquals(LifeCycleUtils.getLifeCycleProperty(lifeCycle.getLifecycleProperties(), 
+        		"registry.custom_lifecycle.checklist.option."+ ASPECT_NAME +".3.item")[1],
                 "name:Schema Created", "Schema Created Check List Item Not Found");
-        assertEquals(LifeCycleUtils.getLifeCycleProperty(lifeCycle.getLifecycleProperties(), "registry.custom_lifecycle.checklist.option.4.item")[1],
+        assertEquals(LifeCycleUtils.getLifeCycleProperty(lifeCycle.getLifecycleProperties(), 
+        		"registry.custom_lifecycle.checklist.option."+ ASPECT_NAME +".4.item")[1],
                 "name:Services Created", "Services Created Check List Item Not Found");
-        assertEquals(LifeCycleUtils.getLifeCycleProperty(lifeCycle.getLifecycleProperties(), "registry.custom_lifecycle.checklist.option.5.item")[1],
+        assertEquals(LifeCycleUtils.getLifeCycleProperty(lifeCycle.getLifecycleProperties(), 
+        		"registry.custom_lifecycle.checklist.option."+ ASPECT_NAME +".5.item")[1],
                 "name:Completion of Creation", "Completion of Creation  Check List Item Not Found");
         //activity search for trunk
         Thread.sleep(1000 * 10);
@@ -491,11 +515,14 @@ public class CustomLifeCycleDemoteForWSDLLCTestCase extends GREGIntegrationBaseT
         }
         assertEquals(wsRegistry.get(servicePathTrunk).getPath(), servicePathTrunk, "Preserve original failed");
         //life cycle check list
-        assertEquals(LifeCycleUtils.getLifeCycleProperty(lifeCycle.getLifecycleProperties(), "registry.custom_lifecycle.checklist.option.0.item")[1],
+        assertEquals(LifeCycleUtils.getLifeCycleProperty(lifeCycle.getLifecycleProperties(), 
+        		"registry.custom_lifecycle.checklist.option."+ ASPECT_NAME +".0.item")[1],
                 "name:Effective Inspection Completed", "Effective Inspection Completed Check List Item Not Found");
-        assertEquals(LifeCycleUtils.getLifeCycleProperty(lifeCycle.getLifecycleProperties(), "registry.custom_lifecycle.checklist.option.1.item")[1],
+        assertEquals(LifeCycleUtils.getLifeCycleProperty(lifeCycle.getLifecycleProperties(), 
+        		"registry.custom_lifecycle.checklist.option."+ ASPECT_NAME +".1.item")[1],
                 "name:Test Cases Passed", "Test Cases Passed Check List Item Not Found");
-        assertEquals(LifeCycleUtils.getLifeCycleProperty(lifeCycle.getLifecycleProperties(), "registry.custom_lifecycle.checklist.option.2.item")[1],
+        assertEquals(LifeCycleUtils.getLifeCycleProperty(lifeCycle.getLifecycleProperties(), 
+        		"registry.custom_lifecycle.checklist.option."+ ASPECT_NAME +".2.item")[1],
                 "name:Smoke Test Passed", "Smoke Test Passed Check List Item Not Found");
         //activity search for trunk
         Thread.sleep(1000 * 10);
@@ -573,29 +600,41 @@ public class CustomLifeCycleDemoteForWSDLLCTestCase extends GREGIntegrationBaseT
             assertTrue(dependencyPath.contains("/trunk/"), " Dependency not created on trunk");
         }
         //life cycle check list
-        assertEquals(LifeCycleUtils.getLifeCycleProperty(lifeCycle.getLifecycleProperties(), "registry.custom_lifecycle.checklist.option.0.item")[1],
+        assertEquals(LifeCycleUtils.getLifeCycleProperty(lifeCycle.getLifecycleProperties(), 
+        		"registry.custom_lifecycle.checklist.option."+ ASPECT_NAME +".0.item")[1],
                 "name:Requirements Gathered", "Requirements Gathered Check List Item Not Found");
-        assertEquals(LifeCycleUtils.getLifeCycleProperty(lifeCycle.getLifecycleProperties(), "registry.custom_lifecycle.checklist.option.0.item")[2],
+        assertEquals(LifeCycleUtils.getLifeCycleProperty(lifeCycle.getLifecycleProperties(), 
+        		"registry.custom_lifecycle.checklist.option."+ ASPECT_NAME +".0.item")[2],
                 "value:false", "Requirements Gathered Check List checked");
-        assertEquals(LifeCycleUtils.getLifeCycleProperty(lifeCycle.getLifecycleProperties(), "registry.custom_lifecycle.checklist.option.1.item")[1],
+        assertEquals(LifeCycleUtils.getLifeCycleProperty(lifeCycle.getLifecycleProperties(), 
+        		"registry.custom_lifecycle.checklist.option."+ ASPECT_NAME +".1.item")[1],
                 "name:Document Requirements", "Document Requirements Check List Item Not Found");
-        assertEquals(LifeCycleUtils.getLifeCycleProperty(lifeCycle.getLifecycleProperties(), "registry.custom_lifecycle.checklist.option.1.item")[2],
+        assertEquals(LifeCycleUtils.getLifeCycleProperty(lifeCycle.getLifecycleProperties(), 
+        		"registry.custom_lifecycle.checklist.option."+ ASPECT_NAME +".1.item")[2],
                 "value:false", "Document Requirements Check List checked");
-        assertEquals(LifeCycleUtils.getLifeCycleProperty(lifeCycle.getLifecycleProperties(), "registry.custom_lifecycle.checklist.option.2.item")[1],
+        assertEquals(LifeCycleUtils.getLifeCycleProperty(lifeCycle.getLifecycleProperties(), 
+        		"registry.custom_lifecycle.checklist.option."+ ASPECT_NAME +".2.item")[1],
                 "name:Architecture Diagram Finalized", "Architecture Diagram Finalize Check List Item Not Found");
-        assertEquals(LifeCycleUtils.getLifeCycleProperty(lifeCycle.getLifecycleProperties(), "registry.custom_lifecycle.checklist.option.2.item")[2],
+        assertEquals(LifeCycleUtils.getLifeCycleProperty(lifeCycle.getLifecycleProperties(), 
+        		"registry.custom_lifecycle.checklist.option."+ ASPECT_NAME +".2.item")[2],
                 "value:false", "Architecture Diagram Finalize Check List checked");
-        assertEquals(LifeCycleUtils.getLifeCycleProperty(lifeCycle.getLifecycleProperties(), "registry.custom_lifecycle.checklist.option.3.item")[1],
+        assertEquals(LifeCycleUtils.getLifeCycleProperty(lifeCycle.getLifecycleProperties(), 
+        		"registry.custom_lifecycle.checklist.option."+ ASPECT_NAME +".3.item")[1],
                 "name:Design UML Diagrams", "Design UML Diagrams Check List Item Not Found");
-        assertEquals(LifeCycleUtils.getLifeCycleProperty(lifeCycle.getLifecycleProperties(), "registry.custom_lifecycle.checklist.option.3.item")[2],
+        assertEquals(LifeCycleUtils.getLifeCycleProperty(lifeCycle.getLifecycleProperties(), 
+        		"registry.custom_lifecycle.checklist.option."+ ASPECT_NAME +".3.item")[2],
                 "value:false", "Design UML Diagrams Check List checked");
-        assertEquals(LifeCycleUtils.getLifeCycleProperty(lifeCycle.getLifecycleProperties(), "registry.custom_lifecycle.checklist.option.4.item")[1]
+        assertEquals(LifeCycleUtils.getLifeCycleProperty(lifeCycle.getLifecycleProperties(), 
+        		"registry.custom_lifecycle.checklist.option."+ ASPECT_NAME +".4.item")[1]
                 , "name:High Level Design Completed", "High Level Design Completed Check List Item Not Found");
-        assertEquals(LifeCycleUtils.getLifeCycleProperty(lifeCycle.getLifecycleProperties(), "registry.custom_lifecycle.checklist.option.4.item")[2]
+        assertEquals(LifeCycleUtils.getLifeCycleProperty(lifeCycle.getLifecycleProperties(), 
+        		"registry.custom_lifecycle.checklist.option."+ ASPECT_NAME +".4.item")[2]
                 , "value:false", "High Level Design Completed Check List checked");
-        assertEquals(LifeCycleUtils.getLifeCycleProperty(lifeCycle.getLifecycleProperties(), "registry.custom_lifecycle.checklist.option.5.item")[1]
+        assertEquals(LifeCycleUtils.getLifeCycleProperty(lifeCycle.getLifecycleProperties(), 
+        		"registry.custom_lifecycle.checklist.option."+ ASPECT_NAME +".5.item")[1]
                 , "name:Completion of Commencement", "Completion of Commencement  Check List Item Not Found");
-        assertEquals(LifeCycleUtils.getLifeCycleProperty(lifeCycle.getLifecycleProperties(), "registry.custom_lifecycle.checklist.option.5.item")[2]
+        assertEquals(LifeCycleUtils.getLifeCycleProperty(lifeCycle.getLifecycleProperties(), 
+        		"registry.custom_lifecycle.checklist.option."+ ASPECT_NAME +".5.item")[2]
                 , "value:false", "Completion of Commencement  Check List checked");
         //Activity search
         Thread.sleep(1000 * 10);

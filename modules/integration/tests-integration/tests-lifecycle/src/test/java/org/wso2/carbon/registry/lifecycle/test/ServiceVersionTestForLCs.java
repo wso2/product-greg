@@ -152,22 +152,22 @@ public class ServiceVersionTestForLCs extends GREGIntegrationBaseTest{
 
         //life cycle check list
         Assert.assertEquals(LifeCycleUtils.getLifeCycleProperty(lifeCycle.getLifecycleProperties(),
-                                                                "registry.custom_lifecycle.checklist.option.0.item")[1],
+                            "registry.custom_lifecycle.checklist.option."+ ASPECT_NAME +".0.item")[1],
                             "name:Requirements Gathered", "Requirements Gathered Check List Item Not Found");
         Assert.assertEquals(LifeCycleUtils.getLifeCycleProperty(lifeCycle.getLifecycleProperties(),
-                                                                "registry.custom_lifecycle.checklist.option.1.item")[1],
+                            "registry.custom_lifecycle.checklist.option."+ ASPECT_NAME +".1.item")[1],
                             "name:Document Requirements", "Document Requirements Check List Item Not Found");
         Assert.assertEquals(LifeCycleUtils.getLifeCycleProperty(lifeCycle.getLifecycleProperties(),
-                                                                "registry.custom_lifecycle.checklist.option.2.item")[1],
+                            "registry.custom_lifecycle.checklist.option."+ ASPECT_NAME +".2.item")[1],
                             "name:Architecture Diagram Finalized", "Architecture Diagram Finalize Check List Item Not Found");
         Assert.assertEquals(LifeCycleUtils.getLifeCycleProperty(lifeCycle.getLifecycleProperties(),
-                                                                "registry.custom_lifecycle.checklist.option.3.item")[1],
+                            "registry.custom_lifecycle.checklist.option."+ ASPECT_NAME +".3.item")[1],
                             "name:Design UML Diagrams", "Design UML Diagrams Check List Item Not Found");
         Assert.assertEquals(LifeCycleUtils.getLifeCycleProperty(lifeCycle.getLifecycleProperties(),
-                                                                "registry.custom_lifecycle.checklist.option.4.item")[1]
+                             "registry.custom_lifecycle.checklist.option."+ ASPECT_NAME +".4.item")[1]
                 , "name:High Level Design Completed", "High Level Design Completed Check List Item Not Found");
         Assert.assertEquals(LifeCycleUtils.getLifeCycleProperty(lifeCycle.getLifecycleProperties(),
-                                                                "registry.custom_lifecycle.checklist.option.5.item")[1]
+                             "registry.custom_lifecycle.checklist.option."+ ASPECT_NAME +".5.item")[1]
                 , "name:Completion of Commencement", "Completion of Commencement  Check List Item Not Found");
 
     }
@@ -239,22 +239,22 @@ public class ServiceVersionTestForLCs extends GREGIntegrationBaseTest{
 
         //life cycle check list
         Assert.assertEquals(LifeCycleUtils.getLifeCycleProperty(lifeCycle.getLifecycleProperties(),
-                                                                "registry.custom_lifecycle.checklist.option.0.item")[1],
+                            "registry.custom_lifecycle.checklist.option."+ ASPECT_NAME +".0.item")[1],
                             "name:Code Completed", "Code Completed Check List Item Not Found");
         Assert.assertEquals(LifeCycleUtils.getLifeCycleProperty(lifeCycle.getLifecycleProperties(),
-                                                                "registry.custom_lifecycle.checklist.option.1.item")[1],
+                            "registry.custom_lifecycle.checklist.option."+ ASPECT_NAME +".1.item")[1],
                             "name:WSDL Created", "WSDL Created Check List Item Not Found");
         Assert.assertEquals(LifeCycleUtils.getLifeCycleProperty(lifeCycle.getLifecycleProperties(),
-                                                                "registry.custom_lifecycle.checklist.option.2.item")[1],
+                            "registry.custom_lifecycle.checklist.option."+ ASPECT_NAME +".2.item")[1],
                             "name:QoS Created", "QoS Created Check List Item Not Found");
         Assert.assertEquals(LifeCycleUtils.getLifeCycleProperty(lifeCycle.getLifecycleProperties(),
-                                                                "registry.custom_lifecycle.checklist.option.3.item")[1],
+                            "registry.custom_lifecycle.checklist.option."+ ASPECT_NAME +".3.item")[1],
                             "name:Schema Created", "Schema Created Check List Item Not Found");
         Assert.assertEquals(LifeCycleUtils.getLifeCycleProperty(lifeCycle.getLifecycleProperties(),
-                                                                "registry.custom_lifecycle.checklist.option.4.item")[1],
+                            "registry.custom_lifecycle.checklist.option."+ ASPECT_NAME +".4.item")[1],
                             "name:Services Created", "Services Created Check List Item Not Found");
         Assert.assertEquals(LifeCycleUtils.getLifeCycleProperty(lifeCycle.getLifecycleProperties(),
-                                                                "registry.custom_lifecycle.checklist.option.5.item")[1],
+                            "registry.custom_lifecycle.checklist.option."+ ASPECT_NAME +".5.item")[1],
                             "name:Completion of Creation", "Completion of Creation  Check List Item Not Found");
     }
 
