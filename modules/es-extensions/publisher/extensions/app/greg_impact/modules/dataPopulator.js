@@ -32,8 +32,8 @@ function getNodesAndEdges(registry,resourcePath, graph){
     if (artifact){
         var graphDataObject = new Object();
 
-        if (graph.nodes[artifact.path]){
-            graphDataObject = graph.nodes[artifact.path]
+        if (graph.nodes[resourcePath]){
+            graphDataObject = graph.nodes[resourcePath]
         }
         else{
 
@@ -41,7 +41,7 @@ function getNodesAndEdges(registry,resourcePath, graph){
 
             graph.index++;
 
-            graph.nodes[artifact.path] = graphDataObject;
+            graph.nodes[resourcePath] = graphDataObject;
             graph.nodes.push(graphDataObject);
 
 
@@ -169,7 +169,7 @@ function createNode(resourcePath, artifact, nodeID){
 
     graphDataObject.nodeType = (graph.index == 0) ? 'parent' : 'child';
     graphDataObject.mediaType = mediaType;
-    graphDataObject.path = artifact.path;
+    graphDataObject.path = resourcePath;
     graphDataObject.relations = [];
     graphDataObject.id = nodeID;
 
