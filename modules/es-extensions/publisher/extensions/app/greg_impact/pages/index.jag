@@ -125,7 +125,7 @@ else {
         var force = d3.layout.force()
             .linkDistance(200)
             .linkStrength(0.5)
-            .charge(-1000)
+            .charge(root.index * -100)
             .gravity(0)
             .friction(0.9)
             .theta(0.8)
@@ -144,8 +144,7 @@ else {
             .append('g')
             .attr('id', 'mainG');
 
-        var graph = d3.select("#mainG").selectAll("*:not(circle)")
-            .on("click", outClick);
+        var graph = d3.select("*:not(#mainG)").on("click", outClick);
 
         var node = svg.selectAll(".node"),
             linkg = svg.selectAll(".linkg"),
