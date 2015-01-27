@@ -24,11 +24,17 @@ param registry : user-registry instance create on the logged in user's session
 param resourcePath : Source path to start data structure
 param graph : is an json object having to attributes nodes and edges
  */
-function getNodesAndEdges(registry,resourcePath, graph){
+function getNodesAndEdges(registry, userName, resourcePath, graph){
     var util = require('/extensions/app/greg_impact/modules/utility.js');
     var governanceUtils = Packages.org.wso2.carbon.governance.api.util.GovernanceUtils;
+
+    var govRegistry = governanceUtils.getGovernanceUserRegistry(registry.registry, userName);
+
+    var artifactPath = resourcePath.replace("/_system/governance", "");
+
     var artifact = governanceUtils.retrieveGovernanceArtifactByPath(
-        registry.registry,resourcePath);
+        govRegistry, artifactPath);
+
     if (artifact){
         var graphDataObject = new Object();
 
@@ -51,7 +57,7 @@ function getNodesAndEdges(registry,resourcePath, graph){
                     if (associations[i].src == resourcePath){
                         var resourceDest = associations[i].dest;
 
-                        if(getNodesAndEdges(registry, resourceDest, graph)){
+                        if(getNodesAndEdges(registry, userName, resourceDest, graph)){
                             
                             var relation = createRelation(graphDataObject.id, graph.nodes[resourceDest].id, associations[i].type, graph.relationIndex);
 
