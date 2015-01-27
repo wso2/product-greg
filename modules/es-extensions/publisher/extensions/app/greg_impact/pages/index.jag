@@ -92,7 +92,7 @@ else {
                 graph.index = 0;
                 graph.relationIndex = 0;
 
-                dataPopulator.getNodesAndEdges(registry, inputParameters.path, graph);
+                dataPopulator.getNodesAndEdges(registry, user.username, inputParameters.path, graph);
                 //log.info(graph);
                 obj = graph;
             }
