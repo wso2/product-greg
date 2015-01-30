@@ -35,7 +35,7 @@ body {
     color: #333;
 }
 button, input, optgroup, select, textarea {
-    margin: 0px;
+    margin: 0;
     font: inherit;
     color: inherit;
 }
@@ -62,13 +62,21 @@ button { overflow: visible; }
     margin-left: -250px;
     overflow-y: auto;
     overflow-x: hidden;
-    background: #fff;
     -webkit-transition: all 0.5s ease;
     -moz-transition: all 0.5s ease;
     -o-transition: all 0.5s ease;
     transition: all 0.5s ease;
-    background: #696969;
     color: #ffffff;
+    /*background: #696969;*/
+
+    background: rgb(105,105,105); /* Old browsers */
+    background: -moz-linear-gradient(left,  rgba(105,105,105,1) 0%, rgba(94,94,94,1) 98%, rgba(85,85,85,1) 100%); /* FF3.6+ */
+    background: -webkit-gradient(linear, left top, right top, color-stop(0%,rgba(105,105,105,1)), color-stop(98%,rgba(94,94,94,1)), color-stop(100%,rgba(85,85,85,1))); /* Chrome,Safari4+ */
+    background: -webkit-linear-gradient(left,  rgba(105,105,105,1) 0%,rgba(94,94,94,1) 98%,rgba(85,85,85,1) 100%); /* Chrome10+,Safari5.1+ */
+    background: -o-linear-gradient(left,  rgba(105,105,105,1) 0%,rgba(94,94,94,1) 98%,rgba(85,85,85,1) 100%); /* Opera 11.10+ */
+    background: -ms-linear-gradient(left,  rgba(105,105,105,1) 0%,rgba(94,94,94,1) 98%,rgba(85,85,85,1) 100%); /* IE10+ */
+    background: linear-gradient(to right,  rgba(105,105,105,1) 0%,rgba(94,94,94,1) 98%,rgba(85,85,85,1) 100%); /* W3C */
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#696969', endColorstr='#555555',GradientType=1 ); /* IE6-9 */
 }
 #sidebar-wrapper .slidewindow {
     position: static;
@@ -141,6 +149,7 @@ svg span.fa {
     color: #3f93ff;
     cursor: pointer;
     display: block;
+    transform-origin: center center;
 }
 svg [nodetype=parent] span.fa {
     font-size: 55px;
@@ -170,14 +179,8 @@ svg line {
     right: 30px;
     position: fixed;
 }
-.footer {
-    top: inherit;
-    bottom: 30px;
-    font-size: 12px;
-}
 
 .btn, .btn:focus {
-    border-radius: 0;
     border: medium none;
     background: #696969;
     color: #ffffff;
@@ -190,11 +193,23 @@ svg line {
     white-space: nowrap;
     vertical-align: middle;
     text-decoration: none;
+    border-radius: 2px;
+    box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
 }
 
 .btn:hover {
     color: #333;
     background-color: #e6e6e6;
+}
+
+.btn.controls {
+    width: 40px;
+    height: 40px;
+    outline: medium none;
+    margin-bottom: 2px;
+}
+.btn.controls.zooomfit {
+    margin-top: 6px;
 }
 
 .searchfield { visibility: hidden; }
@@ -207,18 +222,18 @@ svg line {
 }
 
 .select2-drop {
-    border-radius: 0;
+    border-radius: 2px;
+    box-shadow: 1px 2px 2px rgba(0, 0, 0, 0.3);
     border: none;
-    box-shadow: none;
     background: #cccccc;
     color: #333333;
 }
 .select2-results .select2-highlighted { background-color: #3f93ff; }
 .select2-container.searchbox { min-width: 300px; }
 .select2-container .select2-choice {
-    border-radius: 0;
+    border-radius: 2px;
+    box-shadow: 1px 2px 2px rgba(0, 0, 0, 0.3);
     border: none;
-    box-shadow: none;
     background-image: none;
     background-color: #cccccc;
     color: #696969;

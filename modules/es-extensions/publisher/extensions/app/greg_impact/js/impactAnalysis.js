@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2005-2014, WSO2 Inc. (http://www.wso2.org) All Rights Reserved.
+ * Copyright (c) 2015, WSO2 Inc. (http://www.wso2.org) All Rights Reserved.
  *
  * WSO2 Inc. licenses this file to you under the Apache License,
  * Version 2.0 (the "License"); you may not use this file except
@@ -50,7 +50,9 @@ $(document).ready(function() {
 });
 
 $(window).resize(function() {
-    $("svg").height($(window).height());
+    d3.select("svg").attr("width", $(window).width());
+    d3.select("svg").attr("height", $(window).height());
+    d3.select("svg").attr("viewBox", "0 0 " + $(window).width() + " " + $(window).height());
 });
 
 $(window).load(function() {
@@ -60,7 +62,6 @@ $(window).load(function() {
 
 function redraw() {
     svg.attr("transform", "translate(" + d3.event.translate + ")" + " scale(" + d3.event.scale + ")");
-
 }
 
 function getCenter() {
@@ -72,7 +73,6 @@ function getCenter() {
 }
 
 function update() {
-
 
     var nodes = root.nodes,
         links = root.edges;
@@ -100,7 +100,7 @@ function update() {
         .attr("class", "linkNode")
         .attr("title", '<p>&nbsp;</p>')
         .on("click", showRelations)
-        .attr("r", 3);
+        .attr("r", 5);
 
     // Update nodes.
     node = node.data(nodes, function(d) {
@@ -348,8 +348,7 @@ function closeSidebar() {
 }
 
 function outClick() {
-    $("#wrapper").removeClass("toggled");
-    $("#sidebar-wrapper").removeClass("toggled");
+    closeSidebar();
     d3.selectAll("g").select("circle").classed("active", false);
 
     node.attr("class", "");
@@ -408,6 +407,13 @@ function click(d) {
                 return (d.index == o.target.index) || (d.index == o.source.index) ? "active" : "inactive";
             });
 
+            //var order = {red: -1, green: 0, orange: 1};
+            //
+            //node.sort(function(a, b) {
+            //    return order[a.d3.selectAll('.active')] < order[b.d3.selectAll('.inactive')] ? -1 :
+            // order[b.d3.selectAll('.inactive')] < order[a.d3.selectAll('.active')] ? 1 : 0;
+            //});
+
             selectedNode = d.index;
         }
         else{
@@ -426,7 +432,6 @@ function click(d) {
 }
 
 function imageZoom(img, scale) {
-
     d3.select(img)
         .transition()
         .attr("width", function (d) {
@@ -555,14 +560,19 @@ function zoomOut(){
 }
 
 function zoomFit(){
-    //var coor = zoom.translate();
-    //var x = (coor[0] - getCenter().x) * 1.1 + getCenter().x;
-    //var y = (coor[1] - getCenter().y) * 1.1 + getCenter().y;
-    //
-    //zoom.scale(zoom.scale(1));
-    //zoom.translate([x, y]);
-    //
-    //zoom.event(svg);
+    var graphBBox = d3.select("svg g#mainG").node().getBBox(),
+        graphScreen = $("svg");
+
+    var scaleAmount = Math.min(graphScreen.width()/(graphBBox.width+100), graphScreen.height()/(graphBBox.height+100));
+
+    var xOffSet = graphBBox.x > 0 ? -Math.abs(graphBBox.x) : Math.abs(graphBBox.x),
+        yOffSet = graphBBox.y > 0 ? -Math.abs(graphBBox.y) : Math.abs(graphBBox.y);
+
+    var tx = (xOffSet*scaleAmount + (graphScreen.width()/scaleAmount - graphBBox.width) * scaleAmount/2),
+        ty = (yOffSet*scaleAmount + (graphScreen.height()/scaleAmount - graphBBox.height) * scaleAmount/2);
+
+    zoom.translate([tx, ty]).scale(scaleAmount);
+    zoom.event(svg);
 }
 
 function showRelations(d){
@@ -570,6 +580,30 @@ function showRelations(d){
     console.log("link " + $(id).parent().get(0));
     $(id).css({ opacity: 1 });
 }
+
+//function svgDownload(){
+//
+//    var svgString = new XMLSerializer().serializeToString(document.querySelector('svg'));
+//
+//    var canvas = document.getElementById("canvas");
+//    var ctx = canvas.getContext("2d");
+//    var DOMURL = self.URL || self.webkitURL || self;
+//    var img = new Image();
+//    var svg = new Blob([svgString], {type: "image/svg+xml;charset=utf-8"});
+//    var url = DOMURL.createObjectURL(svg);
+//    img.onload = function() {
+//        ctx.drawImage(img, 0, 0);
+//        var png = canvas.toDataURL("image/png");
+//        document.querySelector('#png-container').innerHTML = '<img src="'+png+'"/>';
+//        DOMURL.revokeObjectURL(png);
+//    };
+//    img.src = url;
+//
+//    //var elem = document.getElementById("graphFrame");
+//    //var theCSSprop = window.getComputedStyle(elem,null).getPropertyValue("height");
+//    //document.getElementById("output").innerHTML = theCSSprop;
+//
+//}
 
 function alertLinkRelations(d){
 

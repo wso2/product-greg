@@ -40,8 +40,6 @@ else {
 
     <div id="wrapper">
 
-        <div id="ff"></div>
-
        <!-- Sidebar Left -->
        <div id="sidebar-wrapper" class="sidebar left">
            <button type="button" class="btn btn-default sidebar-close-btn" onclick="closeSidebar()"><span class="fa fa-close" aria-hidden="true"></span> Close Window</button>
@@ -60,18 +58,17 @@ else {
                 <input id="search" class="searchbox" title="Locate Resource"><button type="button" class="btn btn-default btn-locate" onclick="searchNode()">Locate</button>
                 <button type="button" class="btn btn-default reset-locate" onclick="clearSearchOperation()">Reset</button>
             </div>
+            <button type="button" class="btn btn-default download" onclick="svgDownload()" style="position:absolute; bottom:20px; left:20px; display: none;"><span class="fa" aria-hidden="true">Download</span></button>
 
             <div class="ui-widget right">
-                <button type="button" class="btn btn-default" onclick="zoomIn()"><span class="fa fa-plus" aria-hidden="true"></span></button><br />
-                <button type="button" class="btn btn-default" onclick="zoomOut()"><span class="fa fa-minus" aria-hidden="true"></span></button><br />
-                <button type="button" class="btn btn-default" onclick="zoomFit()" style="display: none;"><span class="fa fa-arrows-alt" aria-hidden="true"></span></button>
+                <button type="button" class="btn btn-default controls" onclick="zoomIn()"><span class="fa fa-plus" aria-hidden="true"></span></button><br />
+                <button type="button" class="btn btn-default controls" onclick="zoomOut()"><span class="fa fa-minus" aria-hidden="true"></span></button><br />
+                <button type="button" class="btn btn-default controls zooomfit" onclick="zoomFit()"><span class="fa fa-arrows-alt" aria-hidden="true"></span></button>
             </div>
 
             <div id="graphFrame">
                 <div id="graph" style="overflow:hidden;"><!-- dynamic svg graph --></div>
             </div>
-
-            <div class="ui-widget left footer">© 2015 WSO2 Inc. Dependency Graph</div>
 
             <%
             var util = require('../modules/utility.js');
@@ -127,9 +124,7 @@ else {
             .linkStrength(0.5)
             .charge(root.index * -100)
             .gravity(0)
-            .friction(0.9)
-            .theta(0.8)
-            .alpha(0.1)
+            .alpha(0)
             .size([width, height])
             .on("tick", tick)
             .start();
