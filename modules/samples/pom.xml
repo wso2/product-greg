@@ -19,7 +19,7 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <parent>
-        <groupId>org.wso2.governance</groupId>
+        <groupId>org.wso2.greg</groupId>
         <artifactId>governance-parent</artifactId>
         <version>5.0.0-SNAPSHOT</version>
         <relativePath>../../pom.xml</relativePath>
@@ -76,9 +76,9 @@
 
             </dependency>
             <dependency>
-                <groupId>org.wso2.carbon</groupId>
+                <groupId>org.wso2.carbon.registry</groupId>
                 <artifactId>org.wso2.carbon.registry.extensions</artifactId>
-                <version>${carbon.kernel.version}</version>
+                <version>${carbon.registry.version}</version>
 
             </dependency>
             <dependency>
@@ -89,13 +89,13 @@
             <dependency>
                 <groupId>org.wso2.carbon</groupId>
                 <artifactId>org.wso2.carbon.mashup.utils</artifactId>
-                <version>${carbon.platform.version}</version>
+                <version>${mashup.version}</version>
 
             </dependency>
             <dependency>
                 <groupId>org.wso2.carbon</groupId>
                 <artifactId>org.wso2.carbon.mashup.javascript.hostobjects.registry</artifactId>
-                <version>4.2.1</version>
+                <version>${mashup.version}</version>
 
             </dependency>
             <dependency>
@@ -114,9 +114,9 @@
                 <version>${commons.digester.version}</version>
             </dependency>
             <dependency>
-                <groupId>org.wso2.carbon</groupId>
+                <groupId>org.wso2.carbon.registry</groupId>
                 <artifactId>org.wso2.carbon.registry.samples.custom.topics.stub</artifactId>
-                <version>${carbon.platform.version}</version>
+                <version>${carbon.registry.version}</version>
             </dependency>
             <dependency>
                 <groupId>junit</groupId>

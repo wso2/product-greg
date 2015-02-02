@@ -20,7 +20,7 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 
     <parent>
-        <groupId>org.wso2.governance</groupId>
+        <groupId>org.wso2.greg</groupId>
         <artifactId>cloud-governance-features</artifactId>
         <version>5.0.0-SNAPSHOT</version>
     </parent>
@@ -36,17 +36,17 @@
 
     <dependencies>
             <dependency>
-                <groupId>org.wso2.governance</groupId>
+                <groupId>org.wso2.greg</groupId>
                 <artifactId>org.wso2.stratos.governance.dashboard.ui</artifactId>
-                <version>${project.version}</version>
+                <version>${product.greg.version}</version>
                 </dependency>
             <dependency>
-                <groupId>org.wso2.governance</groupId>
+                <groupId>org.wso2.greg</groupId>
                 <artifactId>org.wso2.stratos.governance.login.ui</artifactId>
-                <version>${project.version}</version>
+                <version>${product.greg.version}</version>
             </dependency>
             <dependency>
-                <groupId>org.wso2.governance</groupId>
+                <groupId>org.wso2.greg</groupId>
                 <artifactId>org.wso2.stratos.governance.styles</artifactId>
             </dependency>
             <dependency>
@@ -80,14 +80,14 @@
                                 </properties>
                             </adviceFile>
                             <bundles>
-                                <bundleDef>org.wso2.governance:org.wso2.stratos.governance.dashboard.ui:${project.version}
+                                <bundleDef>org.wso2.greg:org.wso2.stratos.governance.dashboard.ui:${product.greg.version}
                                 </bundleDef>
-                                <bundleDef>org.wso2.governance:org.wso2.stratos.governance.login.ui:${project.version}
+                                <bundleDef>org.wso2.greg:org.wso2.stratos.governance.login.ui:${product.greg.version}
                                 </bundleDef>
-                                <bundleDef>org.wso2.governance:org.wso2.stratos.governance.styles:${project.version}
+                                <bundleDef>org.wso2.greg:org.wso2.stratos.governance.styles:${product.greg.version}
                                 </bundleDef>
-				<bundleDef>org.wso2.carbon:org.wso2.carbon.ui.menu.stratos
-				</bundleDef>
+				                <bundleDef>org.wso2.carbon:org.wso2.carbon.ui.menu.stratos
+				                </bundleDef>
                             </bundles>
                             <importFeatures>
                                 <importFeatureDef>org.wso2.carbon.core.ui:${carbon.kernel.version}

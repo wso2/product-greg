@@ -11,7 +11,7 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <parent>
-        <groupId>org.wso2.governance</groupId>
+        <groupId>org.wso2.greg</groupId>
         <artifactId>governance-parent</artifactId>
         <version>5.0.0-SNAPSHOT</version>
         <relativePath>../../../pom.xml</relativePath>
@@ -241,8 +241,7 @@
             <dependencies>
                 <dependency>
                     <artifactId>juddi-listener</artifactId>
-                    <groupId>org.wso2.governance</groupId>
-                    <version>5.0.0-SNAPSHOT</version>
+                    <groupId>org.wso2.greg</groupId>
                     <exclusions>
                         <exclusion>
                             <groupId>*</groupId>
@@ -338,8 +337,7 @@
 
                 <dependency>
                     <artifactId>juddi-listener</artifactId>
-                    <groupId>org.wso2.governance</groupId>
-                    <version>5.0.0-SNAPSHOT</version>
+                    <groupId>org.wso2.greg</groupId>
                     <exclusions>
                         <exclusion>
                             <groupId>*</groupId>

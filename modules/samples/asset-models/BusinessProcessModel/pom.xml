@@ -92,31 +92,31 @@
         </dependency>
 
         <dependency>
-            <groupId>org.wso2.carbon</groupId>
+            <groupId>org.wso2.carbon.registry</groupId>
             <artifactId>org.wso2.carbon.registry.reporting</artifactId>
-            <version>${parent.version}</version>
+            <version>${carbon.registry.version}</version>
         </dependency>
 
         <dependency>
-            <groupId>org.wso2.carbon</groupId>
+            <groupId>org.wso2.carbon.commons</groupId>
             <artifactId>org.wso2.carbon.reporting.api</artifactId>
-            <version>${parent.version}</version>
+            <version>${carbon.commons.version}</version>
         </dependency>
 
         <dependency>
-            <groupId>org.wso2.carbon</groupId>
+            <groupId>org.wso2.carbon.commons</groupId>
             <artifactId>org.wso2.carbon.reporting.util</artifactId>
-            <version>${parent.version}</version>
+            <version>${carbon.commons.version}</version>
         </dependency>
 
         <dependency>
-            <groupId>org.wso2.carbon</groupId>
+            <groupId>org.wso2.carbon.registry</groupId>
             <artifactId>org.wso2.carbon.registry.handler</artifactId>
-	        <version>${parent.version}</version>
+	        <version>${carbon.registry.version}</version>
         </dependency>
 
         <dependency>
-            <groupId>org.wso2.carbon</groupId>
+            <groupId>org.wso2.carbon.governance</groupId>
             <artifactId>org.wso2.carbon.governance.api</artifactId>
         </dependency>
 
