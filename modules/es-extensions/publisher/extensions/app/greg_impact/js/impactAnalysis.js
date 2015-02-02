@@ -323,7 +323,7 @@ function neighboring(a, b) {
 }
 
 var isSame = null,
-    delay = 250,
+    delay = 200,
     clicks = 0,
     timer = null;
 
@@ -348,12 +348,19 @@ function closeSidebar() {
 }
 
 function outClick() {
-    //if($(this).parents('svg').length > 0) {
-    //d3.event.stopPropagation();
-    //}
+    $("#wrapper").removeClass("toggled");
+    $("#sidebar-wrapper").removeClass("toggled");
+    d3.selectAll("g").select("circle").classed("active", false);
+
+    node.attr("class", "");
+    linkg.attr("class", "");
+    isSame = self;
+    selectedNode = -1
 }
 
 function click(d) {
+
+    d3.event.stopPropagation();
 
     var self = this;
 

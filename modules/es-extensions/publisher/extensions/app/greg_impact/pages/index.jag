@@ -92,7 +92,7 @@ else {
                 graph.index = 0;
                 graph.relationIndex = 0;
 
-                dataPopulator.getNodesAndEdges(registry, inputParameters.path, graph);
+                dataPopulator.getNodesAndEdges(registry, user.username, inputParameters.path, graph);
                 //log.info(graph);
                 obj = graph;
             }
@@ -125,7 +125,7 @@ else {
         var force = d3.layout.force()
             .linkDistance(200)
             .linkStrength(0.5)
-            .charge(-1000)
+            .charge(root.index * -100)
             .gravity(0)
             .friction(0.9)
             .theta(0.8)
@@ -144,8 +144,7 @@ else {
             .append('g')
             .attr('id', 'mainG');
 
-        var graph = d3.select("#mainG").selectAll("*:not(circle)")
-            .on("click", outClick);
+        var graph = d3.select("*:not(#mainG)").on("click", outClick);
 
         var node = svg.selectAll(".node"),
             linkg = svg.selectAll(".linkg"),
