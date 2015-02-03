@@ -407,16 +407,16 @@
 
                                 <!--Greg Styles feature list -->
                                 <featureArtifactDef>
-                                    org.wso2.greg:org.wso2.governance.styles.feature:${pom.version}
+                                    org.wso2.greg:org.wso2.governance.styles.feature:${product.greg.version}
                                 </featureArtifactDef>
 
                                 <!--Greg apps-->
                                 <featureArtifactDef>
-                                    org.wso2.greg:org.wso2.governance.jaggeryapps.feature:${pom.version}
+                                    org.wso2.greg:org.wso2.governance.jaggeryapps.feature:${product.greg.version}
                                 </featureArtifactDef>
 
                                 <featureArtifactDef>
-                                    org.wso2.greg:org.wso2.governance.es.extensions.feature:${pom.version}
+                                    org.wso2.greg:org.wso2.governance.es.extensions.feature:${product.greg.version}
                                 </featureArtifactDef>
 
 
@@ -746,16 +746,16 @@
                                 <!--Governance Style features -->
                                 <feature>
                                     <id>org.wso2.governance.styles.feature.group</id>
-                                    <version>${pom.version}</version>
+                                    <version>${product.greg.version}</version>
                                 </feature>
                                 <feature>
                                     <id>org.wso2.governance.jaggeryapps.feature.group</id>
-                                    <version>${pom.version}</version>
+                                    <version>${product.greg.version}</version>
                                 </feature>
 
                                 <feature>
                                     <id>org.wso2.governance.es.extensions.feature.group</id>
-                                    <version>${pom.version}</version>
+                                    <version>${product.greg.version}</version>
                                 </feature>
 
                                 <!--<feature>-->
@@ -1102,16 +1102,16 @@
                                 <!--Governance Style features -->
                                 <feature>
                                     <id>org.wso2.governance.styles.feature.group</id>
-                                    <version>${pom.version}</version>
+                                    <version>${product.greg.version}</version>
                                 </feature>
                                 <feature>
                                     <id>org.wso2.governance.jaggeryapps.feature.group</id>
-                                    <version>${pom.version}</version>
+                                    <version>${product.greg.version}</version>
                                 </feature>
 
                                 <feature>
                                     <id>org.wso2.governance.es.extensions.feature.group</id>
-                                    <version>${pom.version}</version>
+                                    <version>${product.greg.version}</version>
                                 </feature>
 
                                 <!--<feature>-->
@@ -1516,16 +1516,16 @@
                                 <!--Governance Style features -->
                                 <feature>
                                     <id>org.wso2.governance.styles.feature.group</id>
-                                    <version>${pom.version}</version>
+                                    <version>${product.greg.version}</version>
                                 </feature>
                                 <feature>
                                     <id>org.wso2.governance.jaggeryapps.feature.group</id>
-                                    <version>${pom.version}</version>
+                                    <version>${product.greg.version}</version>
                                 </feature>
 
                                 <feature>
                                     <id>org.wso2.governance.es.extensions.feature.group</id>
-                                    <version>${pom.version}</version>
+                                    <version>${product.greg.version}</version>
                                 </feature>
 
                                 <!--<feature>-->
