@@ -30,7 +30,7 @@
     <packaging>pom</packaging>
     <name>WSO2 Carbon - Cloud Governance UI Feature</name>
     <url>http://wso2.org</url>
-    <description>This feature contains the bundles required for Cloud Governace login UI,
+    <description>This feature contains the bundles required for Cloud Governance login UI,
         notifications and dashboard
     </description>
 
