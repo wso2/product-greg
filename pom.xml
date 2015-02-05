@@ -549,7 +549,17 @@
             <dependency>
                 <groupId>net.sf.ehcache.wso2</groupId>
                 <artifactId>ehcache</artifactId>
-                <version>${net.sf.ehcache.wso2}</version>
+                <version>${net.sf.ehcache.wso2.version}</version>
+            </dependency>
+            <dependency>
+                <artifactId>uddi-ws</artifactId>
+                <groupId>org.apache.juddi</groupId>
+                <version>${uddi.ws.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>commons-configuration</groupId>
+                <artifactId>commons-configuration</artifactId>
+                <version>${commons.configuration.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>
@@ -877,7 +887,10 @@
         <abdera.version>1.0.0.wso2v3</abdera.version>
 
         <apache.juddi.version>3.1.5.wso2v1</apache.juddi.version>
-        <net.sf.ehcache.wso2>1.5.0.wso2v1</net.sf.ehcache.wso2>
+        <net.sf.ehcache.wso2.version>1.5.0.wso2v1</net.sf.ehcache.wso2.version>
+
+        <uddi.ws.version>3.1.5.wso2v1</uddi.ws.version>
+        <commons.configuration.version>1.6</commons.configuration.version>
         <!-- Product G-Reg -->
         <product.greg.version>5.0.0-SNAPSHOT</product.greg.version>
 
