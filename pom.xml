@@ -474,6 +474,51 @@
                 <artifactId>chemistry-opencmis-server-support</artifactId>
                 <version>${opencmis.version}</version>
             </dependency>
+            <dependency>
+                <groupId>junit</groupId>
+                <artifactId>junit</artifactId>
+                <version>${junit.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.wso2.carbon.commons</groupId>
+                <artifactId>org.wso2.carbon.user.mgt</artifactId>
+                <version>${carbon.commons.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.wso2.carbon</groupId>
+                <artifactId>org.wso2.carbon.logging</artifactId>
+                <version>${carbon.kernel.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.wso2.carbon</groupId>
+                <artifactId>org.wso2.carbon.utils</artifactId>
+                <version>${carbon.kernel.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.h2database.wso2</groupId>
+                <artifactId>h2-database-engine</artifactId>
+                <version>${h2database.wso2.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>commons-pool.wso2</groupId>
+                <artifactId>commons-pool</artifactId>
+                <version>${commons.pool.wso2.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>commons-dbcp.wso2</groupId>
+                <artifactId>commons-dbcp</artifactId>
+                <version>${commons.dbcp.wso2.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.abdera.wso2</groupId>
+                <artifactId>abdera</artifactId>
+                <version>${abdera.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.maven.scm.wso2</groupId>
+                <artifactId>maven-scm</artifactId>
+                <version>${orbit.version.maven-scm}</version>
+            </dependency>
         </dependencies>
     </dependencyManagement>
 
@@ -792,6 +837,12 @@
         <eclipse.equinox.jsp.jasper.version>1.0.1.R33x_v20070816</eclipse.equinox.jsp.jasper.version>
         <javax.servlet.jsp.version>2.0.0.v200706191603</javax.servlet.jsp.version>
 
+        <junit.version>3.8.1</junit.version>
+
+        <h2database.wso2.version>1.2.140.wso2v3</h2database.wso2.version>
+        <commons.pool.wso2.version>1.5.6.wso2v1</commons.pool.wso2.version>
+        <commons.dbcp.wso2.version>1.4.0.wso2v1</commons.dbcp.wso2.version>
+        <abdera.version>1.0.0.wso2v3</abdera.version>
         <!-- Product G-Reg -->
         <product.greg.version>5.0.0-SNAPSHOT</product.greg.version>
 
