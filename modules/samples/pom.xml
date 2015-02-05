@@ -59,85 +59,10 @@
     <dependencyManagement>
         <dependencies>
             <dependency>
-                <groupId>org.wso2.carbon</groupId>
-                <artifactId>org.wso2.carbon.registry.core</artifactId>
-                <version>${carbon.kernel.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.wso2.carbon</groupId>
-                <artifactId>org.wso2.carbon.user.core</artifactId>
-                <version>${carbon.kernel.version}</version>
-
-            </dependency>
-            <dependency>
-                <groupId>org.wso2.carbon</groupId>
-                <artifactId>org.wso2.carbon.logging</artifactId>
-                <version>${carbon.kernel.version}</version>
-
-            </dependency>
-            <dependency>
-                <groupId>org.wso2.carbon.registry</groupId>
-                <artifactId>org.wso2.carbon.registry.extensions</artifactId>
-                <version>${carbon.registry.version}</version>
-
-            </dependency>
-            <dependency>
-                <groupId>rhino.wso2</groupId>
-                <artifactId>js</artifactId>
-                <version>${rhino.js.wso2.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.wso2.carbon</groupId>
-                <artifactId>org.wso2.carbon.mashup.utils</artifactId>
-                <version>${mashup.version}</version>
-
-            </dependency>
-            <dependency>
-                <groupId>org.wso2.carbon</groupId>
-                <artifactId>org.wso2.carbon.mashup.javascript.hostobjects.registry</artifactId>
-                <version>${mashup.version}</version>
-
-            </dependency>
-            <dependency>
-                <groupId>commons-beanutils.wso2</groupId>
-                <artifactId>commons-beanutils</artifactId>
-                <version>${orbit.version.commons.beanutils}</version>
-            </dependency>
-            <dependency>
-                <groupId>commons-collections.wso2</groupId>
-                <artifactId>commons-collections</artifactId>
-                <version>${orbit.version.commons.collection}</version>
-            </dependency>
-            <dependency>
-                <groupId>commons-digester</groupId>
-                <artifactId>commons-digester</artifactId>
-                <version>${commons.digester.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.wso2.carbon.registry</groupId>
-                <artifactId>org.wso2.carbon.registry.samples.custom.topics.stub</artifactId>
-                <version>${carbon.registry.version}</version>
-            </dependency>
-            <dependency>
                 <groupId>junit</groupId>
                 <artifactId>junit</artifactId>
                 <version>${junit.version}</version>
                 <scope>test</scope>
-            </dependency>
-            <dependency>
-                <groupId>commons-dbcp.wso2</groupId>
-                <artifactId>commons-dbcp</artifactId>
-                <version>${orbit.version.commons.dbcp}</version>
-            </dependency>
-            <dependency>
-                <groupId>javax.mail</groupId>
-                <artifactId>mail</artifactId>
-                <version>${javax.mail.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>javax.activation</groupId>
-                <artifactId>activation</artifactId>
-                <version>${javax.activation.version}</version>
             </dependency>
             <dependency>
                 <groupId>commons-fileupload.wso2</groupId>

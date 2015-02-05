@@ -578,6 +578,61 @@
                     </exclusion>
                 </exclusions>
             </dependency>
+            <dependency>
+                <groupId>org.wso2.carbon</groupId>
+                <artifactId>org.wso2.carbon.user.core</artifactId>
+                <version>${carbon.kernel.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.wso2.carbon.registry</groupId>
+                <artifactId>org.wso2.carbon.registry.extensions</artifactId>
+                <version>${carbon.registry.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>rhino.wso2</groupId>
+                <artifactId>js</artifactId>
+                <version>${rhino.js.wso2.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.wso2.carbon</groupId>
+                <artifactId>org.wso2.carbon.mashup.utils</artifactId>
+                <version>${mashup.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.wso2.carbon</groupId>
+                <artifactId>org.wso2.carbon.mashup.javascript.hostobjects.registry</artifactId>
+                <version>${mashup.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>commons-beanutils.wso2</groupId>
+                <artifactId>commons-beanutils</artifactId>
+                <version>${orbit.version.commons.beanutils}</version>
+            </dependency>
+            <dependency>
+                <groupId>commons-collections.wso2</groupId>
+                <artifactId>commons-collections</artifactId>
+                <version>${orbit.version.commons.collection}</version>
+            </dependency>
+            <dependency>
+                <groupId>commons-digester</groupId>
+                <artifactId>commons-digester</artifactId>
+                <version>${commons.digester.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.wso2.carbon.registry</groupId>
+                <artifactId>org.wso2.carbon.registry.samples.custom.topics.stub</artifactId>
+                <version>${carbon.registry.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>javax.mail</groupId>
+                <artifactId>mail</artifactId>
+                <version>${javax.mail.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>javax.activation</groupId>
+                <artifactId>activation</artifactId>
+                <version>${javax.activation.version}</version>
+            </dependency>
         </dependencies>
     </dependencyManagement>
 
@@ -908,6 +963,12 @@
 
         <uddi.ws.version>3.1.5.wso2v1</uddi.ws.version>
         <commons.configuration.version>1.6</commons.configuration.version>
+
+        <rhino.js.wso2.version>1.7.0.R1-wso2v2</rhino.js.wso2.version>
+        <commons.digester.version>1.8.1</commons.digester.version>
+        <javax.mail.version>1.4.4</javax.mail.version>
+        <javax.activation.version>1.1.1</javax.activation.version>
+
         <!-- Product G-Reg -->
         <product.greg.version>5.0.0-SNAPSHOT</product.greg.version>
 
