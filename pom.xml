@@ -561,6 +561,23 @@
                 <artifactId>commons-configuration</artifactId>
                 <version>${commons.configuration.version}</version>
             </dependency>
+            <dependency>
+                <groupId>org.apache.chemistry.opencmis</groupId>
+                <artifactId>chemistry-opencmis-server-bindings</artifactId>
+                <type>war</type>
+                <version>${opencmis.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.wso2.carbon.registry</groupId>
+                <artifactId>org.wso2.carbon.registry.cmis</artifactId>
+                <version>${carbon.registry.version}</version>
+                <exclusions>
+                    <exclusion>
+                        <groupId>*</groupId>
+                        <artifactId>*</artifactId>
+                    </exclusion>
+                </exclusions>
+            </dependency>
         </dependencies>
     </dependencyManagement>
 
