@@ -32,12 +32,10 @@
         <dependency>
             <groupId>org.apache.geronimo.specs</groupId>
             <artifactId>geronimo-jpa_2.0_spec</artifactId>
-            <version>${version.geronimo.specs.geronimo-jpa_2.0_spec}</version>
         </dependency>
         <dependency>
             <groupId>org.apache.openjpa</groupId>
             <artifactId>openjpa</artifactId>
-            <version>${openjpa.version}</version>
             <exclusions>
                 <exclusion>
                     <groupId>org.apache.geronimo.specs</groupId>
@@ -49,53 +47,43 @@
         <dependency>
             <groupId>org.wso2.carbon.governance</groupId>
             <artifactId>org.wso2.carbon.governance.api</artifactId>
-            <version>${carbon.governance.version}</version>
         </dependency>
         <dependency>
             <groupId>org.wso2.carbon.registry</groupId>
             <artifactId>org.wso2.carbon.registry.common</artifactId>
-            <version>${carbon.registry.version}</version>
         </dependency>
         <dependency>
             <groupId>org.wso2.carbon.registry</groupId>
             <artifactId>org.wso2.carbon.registry.uddi</artifactId>
-            <version>${carbon.registry.version}</version>
         </dependency>
 
         <dependency>
             <groupId>org.apache.juddi</groupId>
             <artifactId>juddi-core-openjpa</artifactId>
-            <version>3.1.5.wso2v1</version>
         </dependency>
         <dependency>
             <groupId>org.wso2.carbon</groupId>
             <artifactId>org.wso2.carbon.registry.core</artifactId>
-            <version>${carbon.kernel.version}</version>
         </dependency>
         <dependency>
             <groupId>org.wso2.carbon</groupId>
             <artifactId>org.wso2.carbon.logging</artifactId>
-            <version>${carbon.kernel.version}</version>
         </dependency>
         <dependency>
             <groupId>org.wso2.carbon</groupId>
             <artifactId>org.wso2.carbon.utils</artifactId>
-            <version>${carbon.kernel.version}</version>
         </dependency>
         <dependency>
             <groupId>commons-pool.wso2</groupId>
             <artifactId>commons-pool</artifactId>
-            <version>1.5.0.wso2v1</version>
         </dependency>
         <dependency>
             <groupId>commons-dbcp.wso2</groupId>
             <artifactId>commons-dbcp</artifactId>
-            <version>${orbit.version.commons.dbcp}</version>
         </dependency>
         <dependency>
             <groupId>net.sf.ehcache.wso2</groupId>
             <artifactId>ehcache</artifactId>
-            <version>1.5.0.wso2v1</version>
         </dependency>
     </dependencies>
     <build>

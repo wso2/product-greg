@@ -519,6 +519,38 @@
                 <artifactId>maven-scm</artifactId>
                 <version>${orbit.version.maven-scm}</version>
             </dependency>
+            <dependency>
+                <groupId>org.apache.geronimo.specs</groupId>
+                <artifactId>geronimo-jpa_2.0_spec</artifactId>
+                <version>${version.geronimo.specs.geronimo-jpa_2.0_spec}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.openjpa</groupId>
+                <artifactId>openjpa</artifactId>
+                <version>${openjpa.version}</version>
+                <exclusions>
+                    <exclusion>
+                        <groupId>org.apache.geronimo.specs</groupId>
+                        <artifactId>geronimo-jpa_2.0_spec</artifactId>
+                    </exclusion>
+                </exclusions>
+                <!-- We don't need an orbit bundle, since this is a bundle -->
+            </dependency>
+            <dependency>
+                <groupId>org.wso2.carbon.registry</groupId>
+                <artifactId>org.wso2.carbon.registry.uddi</artifactId>
+                <version>${carbon.registry.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.juddi</groupId>
+                <artifactId>juddi-core-openjpa</artifactId>
+                <version>${apache.juddi.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>net.sf.ehcache.wso2</groupId>
+                <artifactId>ehcache</artifactId>
+                <version>${net.sf.ehcache.wso2}</version>
+            </dependency>
         </dependencies>
     </dependencyManagement>
 
@@ -843,6 +875,9 @@
         <commons.pool.wso2.version>1.5.6.wso2v1</commons.pool.wso2.version>
         <commons.dbcp.wso2.version>1.4.0.wso2v1</commons.dbcp.wso2.version>
         <abdera.version>1.0.0.wso2v3</abdera.version>
+
+        <apache.juddi.version>3.1.5.wso2v1</apache.juddi.version>
+        <net.sf.ehcache.wso2>1.5.0.wso2v1</net.sf.ehcache.wso2>
         <!-- Product G-Reg -->
         <product.greg.version>5.0.0-SNAPSHOT</product.greg.version>
 
