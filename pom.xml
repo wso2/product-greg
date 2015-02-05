@@ -111,7 +111,7 @@
             <dependency>
                 <groupId>org.apache.felix</groupId>
                 <artifactId>org.apache.felix.framework</artifactId>
-                <version>1.0.3</version>
+                <version>${apache.felix.framework.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.apache.felix</groupId>
@@ -121,17 +121,17 @@
             <dependency>
                 <groupId>org.apache.felix</groupId>
                 <artifactId>org.apache.felix.main</artifactId>
-                <version>1.0.3</version>
+                <version>${apache.felix.main.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.apache.felix</groupId>
                 <artifactId>org.osgi.compendium</artifactId>
-                <version>1.0.0</version>
+                <version>${osgi.compendium.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.eclipse.equinox</groupId>
                 <artifactId>org.eclipse.equinox.http.servlet</artifactId>
-                <version>2.2.2</version>
+                <version>${eclipse.equinox.http.servlet.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.eclipse.equinox</groupId>
@@ -141,12 +141,12 @@
             <dependency>
                 <groupId>org.eclipse.equinox</groupId>
                 <artifactId>org.eclipse.equinox.jsp.jasper</artifactId>
-                <version>1.0.1.R33x_v20070816</version>
+                <version>${eclipse.equinox.jsp.jasper.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.eclipse.equinox</groupId>
                 <artifactId>javax.servlet.jsp</artifactId>
-                <version>2.0.0.v200706191603</version>
+                <version>${javax.servlet.jsp.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.eclipse.equinox</groupId>
@@ -783,6 +783,14 @@
         <!-- Carbon APIMgt -->
         <carbon.apimgt.feature.version>1.3.1-SNAPSHOT</carbon.apimgt.feature.version>
         <carbon.apimgt.version>1.3.1-SNAPSHOT</carbon.apimgt.version>
+
+        <apache.felix.framework.version>1.0.3</apache.felix.framework.version>
+        <apache.felix.main.version>1.0.3</apache.felix.main.version>
+
+        <osgi.compendium.version>1.0.0</osgi.compendium.version>
+        <eclipse.equinox.http.servlet.version>2.2.2</eclipse.equinox.http.servlet.version>
+        <eclipse.equinox.jsp.jasper.version>1.0.1.R33x_v20070816</eclipse.equinox.jsp.jasper.version>
+        <javax.servlet.jsp.version>2.0.0.v200706191603</javax.servlet.jsp.version>
 
         <!-- Product G-Reg -->
         <product.greg.version>5.0.0-SNAPSHOT</product.greg.version>
