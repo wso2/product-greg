@@ -253,7 +253,6 @@
         <dependency>
             <groupId>org.wso2.greg</groupId>
             <artifactId>org.wso2.greg.integration.common.utils</artifactId>
-            <version>${product.greg.version}</version>
             <exclusions>
                 <exclusion>
                     <groupId>org.wso2.carbon</groupId>
@@ -264,7 +263,6 @@
         <dependency>
             <groupId>org.wso2.greg</groupId>
             <artifactId>ui-pages</artifactId>
-            <version>${product.greg.version}</version>
         </dependency>
         <dependency>
             <groupId>org.seleniumhq.selenium</groupId>
