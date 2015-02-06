@@ -684,6 +684,11 @@
                 <artifactId>org.wso2.stratos.governance.dashboard.ui</artifactId>
                 <version>${product.greg.version}</version>
             </dependency>
+            <dependency>
+                <groupId>org.wso2.greg</groupId>
+                <artifactId>ui-pages</artifactId>
+                <version>${product.greg.version}</version>
+            </dependency>
         </dependencies>
     </dependencyManagement>
 
