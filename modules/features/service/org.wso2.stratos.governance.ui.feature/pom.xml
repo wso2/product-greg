@@ -38,20 +38,14 @@
             <dependency>
                 <groupId>org.wso2.greg</groupId>
                 <artifactId>org.wso2.stratos.governance.dashboard.ui</artifactId>
-                <version>${product.greg.version}</version>
                 </dependency>
             <dependency>
                 <groupId>org.wso2.greg</groupId>
                 <artifactId>org.wso2.stratos.governance.login.ui</artifactId>
-                <version>${product.greg.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.wso2.greg</groupId>
                 <artifactId>org.wso2.stratos.governance.styles</artifactId>
-            </dependency>
-            <dependency>
-                <groupId>org.wso2.carbon</groupId>
-                <artifactId>org.wso2.carbon.ui.menu.stratos</artifactId>
             </dependency>
         </dependencies>
 
@@ -86,9 +80,7 @@
                                 </bundleDef>
                                 <bundleDef>org.wso2.greg:org.wso2.stratos.governance.styles:${product.greg.version}
                                 </bundleDef>
-				                <bundleDef>org.wso2.carbon:org.wso2.carbon.ui.menu.stratos
-				                </bundleDef>
-                            </bundles>
+				            </bundles>
                             <importFeatures>
                                 <importFeatureDef>org.wso2.carbon.core.ui:${carbon.kernel.version}
                                 </importFeatureDef>

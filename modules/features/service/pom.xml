@@ -33,32 +33,7 @@
     <url>http://wso2.org</url>
 
     <modules>
-        <!--module>org.wso2.stratos.governance.ui.feature</module-->
+        <module>org.wso2.stratos.governance.ui.feature</module>
     </modules>
-
-    <dependencyManagement>
-        <dependencies>
-            <dependency>
-                <groupId>org.wso2.greg</groupId>
-                <artifactId>org.wso2.stratos.governance.dashboard.ui</artifactId>
-                <version>${product.greg.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.wso2.greg</groupId>
-                <artifactId>org.wso2.stratos.governance.login.ui</artifactId>
-                <version>${product.greg.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.wso2.greg</groupId>
-                <artifactId>org.wso2.stratos.governance.styles</artifactId>
-                <version>${product.greg.version}</version>
-            </dependency>
-	    <dependency>
-            	<groupId>org.wso2.carbon</groupId>
-            	<artifactId>org.wso2.carbon.ui.menu.stratos</artifactId>
-            	<version>${product.greg.version}</version>
-            </dependency>
-        </dependencies>
-    </dependencyManagement>
 </project>
 

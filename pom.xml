@@ -47,6 +47,7 @@
 
     <modules>
         <module>modules/styles</module>
+        <module>modules/dashboard</module>
         <module>modules/checkin-client</module>
         <module>modules/juddi/juddi-listener</module>
         <module>modules/juddi/juddiv3-war</module>
@@ -55,7 +56,7 @@
         <module>modules/features</module>
         <module>modules/p2-profile-gen</module>
         <!--module>modules/source</module-->
-        <!--<module>modules/dashboard</module>-->
+
         <module>modules/login</module>
         <module>modules/distribution/src/main/resources/statistics</module>
         <module>modules/distribution</module>
@@ -632,6 +633,56 @@
                 <groupId>javax.activation</groupId>
                 <artifactId>activation</artifactId>
                 <version>${javax.activation.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.wso2.greg</groupId>
+                <artifactId>org.wso2.stratos.governance.login.ui</artifactId>
+                <version>${product.greg.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.wso2.greg</groupId>
+                <artifactId>org.wso2.stratos.governance.styles</artifactId>
+                <version>${product.greg.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.wso2.greg</groupId>
+                <artifactId>org.wso2.carbon.governance.styles</artifactId>
+                <version>${product.greg.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.wso2.greg</groupId>
+                <artifactId>checkin-client</artifactId>
+                <version>${product.greg.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.wso2.greg</groupId>
+                <artifactId>org.wso2.carbon.governance.samples.shutterbug</artifactId>
+                <version>${product.greg.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.wso2.greg</groupId>
+                <artifactId>org.wso2.carbon.governance.samples.shutterbug.ui</artifactId>
+                <version>${product.greg.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.wso2.greg</groupId>
+                <artifactId>org.wso2.carbon.registry.samples.custom.topics</artifactId>
+                <version>${product.greg.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.wso2.greg</groupId>
+                <artifactId>org.wso2.carbon.registry.samples.custom.topics.ui</artifactId>
+                <version>${product.greg.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.wso2.greg</groupId>
+                <artifactId>org.wso2.carbon.registry.samples.handler</artifactId>
+                <version>${product.greg.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.wso2.greg</groupId>
+                <artifactId>org.wso2.stratos.governance.dashboard.ui</artifactId>
+                <version>${product.greg.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>
