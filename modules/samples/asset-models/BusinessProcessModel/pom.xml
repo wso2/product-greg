@@ -31,7 +31,7 @@
     <name>WSO2 Carbon - Registry - Process Sample</name>
 
     <build>
-        <sourceDirectory>src</sourceDirectory>
+        <sourceDirectory>src/main/java</sourceDirectory>
         <resources>
             <resource>
                 <directory>resources</directory>
