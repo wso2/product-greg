@@ -93,17 +93,14 @@
         <dependency>
             <groupId>org.wso2.greg</groupId>
             <artifactId>checkin-client</artifactId>
-            <version>${product.greg.version}</version>
         </dependency>
         <dependency>
             <groupId>org.wso2.greg</groupId>
             <artifactId>org.wso2.carbon.governance.samples.shutterbug</artifactId>
-            <version>${product.greg.version}</version>
         </dependency>
         <dependency>
             <groupId>org.wso2.greg</groupId>
             <artifactId>org.wso2.carbon.governance.samples.shutterbug.ui</artifactId>
-            <version>${product.greg.version}</version>
         </dependency>
         <!--<dependency>-->
             <!--<groupId>org.wso2.greg</groupId>-->
@@ -118,17 +115,14 @@
         <dependency>
             <groupId>org.wso2.greg</groupId>
             <artifactId>org.wso2.carbon.registry.samples.custom.topics</artifactId>
-            <version>${product.greg.version}</version>
         </dependency>
         <dependency>
             <groupId>org.wso2.greg</groupId>
             <artifactId>org.wso2.carbon.registry.samples.custom.topics.ui</artifactId>
-            <version>${product.greg.version}</version>
         </dependency>
         <dependency>
             <groupId>org.wso2.greg</groupId>
             <artifactId>org.wso2.carbon.registry.samples.handler</artifactId>
-            <version>${product.greg.version}</version>
         </dependency>
         <dependency>
             <groupId>org.wso2.carbon.registry</groupId>
