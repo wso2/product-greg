@@ -27,7 +27,7 @@
     </parent>
 
     <modelVersion>4.0.0</modelVersion>
-    <artifactId>org.wso2.governance.styles</artifactId>
+    <artifactId>org.wso2.carbon.governance.styles</artifactId>
     <packaging>bundle</packaging>
     <name>WSO2 Governance Registry - UI Styles</name>
     <url>http://wso2.org</url>
@@ -60,7 +60,7 @@
                         <Private-Package>org.wso2.registry.styles.internal</Private-Package>
                         <Bundle-Activator>org.wso2.registry.styles.internal.Activator</Bundle-Activator>
                         <!--<Export-Package>-->
-                            <!--org.wso2.governance.styles.*-->
+                            <!--org.wso2.carbon.governance.styles.*-->
                         <!--</Export-Package>-->
                         <!--<Import-Package>-->
                             <!--org.osgi.framework,-->

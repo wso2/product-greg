@@ -33,16 +33,16 @@
     <url>http://wso2.org</url>
 
     <modules>
-        <module>org.wso2.governance.styles.feature</module>
-        <module>org.wso2.governance.jaggeryapps.feature</module>
-        <module>org.wso2.governance.es.extensions.feature</module>
+        <module>org.wso2.carbon.governance.styles.feature</module>
+        <module>org.wso2.carbon.governance.jaggeryapps.feature</module>
+        <module>org.wso2.carbon.governance.es.extensions.feature</module>
     </modules>
 
     <dependencyManagement>
         <dependencies>
             <dependency>
             	<groupId>org.wso2.greg</groupId>
-            	<artifactId>org.wso2.governance.styles</artifactId>
+            	<artifactId>org.wso2.carbon.governance.styles</artifactId>
             	<version>${product.greg.version}</version>
             </dependency>
         </dependencies>

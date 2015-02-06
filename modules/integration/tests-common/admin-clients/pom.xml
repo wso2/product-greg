@@ -151,6 +151,4 @@
             <scope>compile</scope>
         </dependency>
     </dependencies>
-    <properties>
-    </properties>
 </project>

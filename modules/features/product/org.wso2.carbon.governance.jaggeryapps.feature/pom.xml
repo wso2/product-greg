@@ -6,11 +6,11 @@
     </parent>
 
 	<modelVersion>4.0.0</modelVersion>
-	<artifactId>org.wso2.governance.es.extensions.feature</artifactId>
+	<artifactId>org.wso2.carbon.governance.jaggeryapps.feature</artifactId>
 	<packaging>pom</packaging>
-	<name>WSO2 Governance - ES Extensions Feature</name>
+	<name>WSO2 Governance Jaggery Apps - Apps Feature</name>
 	<url>http://wso2.org</url>
-	<description>This contains the ES Extensions used by the Governance Registry
+	<description>This contains the Jaggery Applications used by the Registry
     </description>
 	<build>
 		<plugins>
@@ -27,7 +27,7 @@
                             <goal>p2-feature-gen</goal>
                         </goals>
                         <configuration>
-                            <id>org.wso2.governance.es.extensions</id>
+                            <id>org.wso2.carbon.governance.jaggeryapps</id>
                             <propertiesFile>../etc/feature.properties</propertiesFile>
                         </configuration>
                     </execution>
@@ -55,7 +55,7 @@
 								<resource>
 									<directory>../../../</directory>
 									<includes>
-										<include>es-extensions/**</include>
+										<include>jaggeryapps/**</include>
 									</includes>
 								</resource>
 							</resources>

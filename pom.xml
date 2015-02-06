@@ -765,7 +765,7 @@
                     </execution>
                 </executions>
                 <configuration>
-                    <attach>true</attach>
+                    <attach>false</attach>
                 </configuration>
             </plugin>
             <plugin>

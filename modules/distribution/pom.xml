@@ -97,12 +97,12 @@
         </dependency>
         <dependency>
             <groupId>org.wso2.greg</groupId>
-            <artifactId>org.wso2.governance.samples.shutterbug</artifactId>
+            <artifactId>org.wso2.carbon.governance.samples.shutterbug</artifactId>
             <version>${product.greg.version}</version>
         </dependency>
         <dependency>
             <groupId>org.wso2.greg</groupId>
-            <artifactId>org.wso2.governance.samples.shutterbug.ui</artifactId>
+            <artifactId>org.wso2.carbon.governance.samples.shutterbug.ui</artifactId>
             <version>${product.greg.version}</version>
         </dependency>
         <!--<dependency>-->
@@ -909,6 +909,7 @@
                             <goal>attached</goal>
                         </goals>
                         <configuration>
+                            <appendAssemblyId>false</appendAssemblyId>
                             <filters>
                                 <filter>${basedir}/src/main/assembly/filter.properties</filter>
                             </filters>
@@ -924,12 +925,27 @@
                             <goal>attached</goal>
                         </goals>
                         <configuration>
+                            <appendAssemblyId>false</appendAssemblyId>
                             <filters>
                                 <filter>${basedir}/src/main/assembly/filter.properties</filter>
                             </filters>
                             <descriptors>
                                 <descriptor>src/main/assembly/bin.xml</descriptor>
-                                <!--descriptor>src/main/assembly/src.xml</descriptor-->
+                            </descriptors>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>docs</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>attached</goal>
+                        </goals>
+                        <configuration>
+                            <appendAssemblyId>true</appendAssemblyId>
+                            <filters>
+                                <filter>${basedir}/src/main/assembly/filter.properties</filter>
+                            </filters>
+                            <descriptors>
                                 <descriptor>src/main/assembly/docs.xml</descriptor>
                             </descriptors>
                         </configuration>
@@ -950,7 +966,7 @@
                <!--</execution>-->
            <!--</executions>-->
            <!--<configuration>-->
-               <!--<file>${basedir}/../p2-profile-gen/target/wso2carbon-core-${carbon.platform.version}/repository/conf/api-manager.xml</file>-->
+               <!--<file>${basedir}/../p2-profile-gen/target/wso2carbon-core-${carbon.kernel.version}/repository/conf/api-manager.xml</file>-->
                <!--<replacements>-->
                    <!--<replacement>-->
 			<!--<xpath>/APIManager/APIKeyManager/EnableThriftServer</xpath>-->

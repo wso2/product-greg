@@ -29,7 +29,7 @@
     <packaging>pom</packaging>
     <name>WSO2 Governance Registry - Shutterbug Sample</name>
     <modules>
-        <module>org.wso2.governance.samples.shutterbug</module>
-        <module>org.wso2.governance.samples.shutterbug.ui</module>
+        <module>org.wso2.carbon.governance.samples.shutterbug</module>
+        <module>org.wso2.carbon.governance.samples.shutterbug.ui</module>
     </modules>
 </project>

@@ -114,13 +114,13 @@
                                     org.wso2.carbon.deployment:org.wso2.carbon.module.mgt.server.feature:${carbon.deployment.version}
                                 </featureArtifactDef>
                                <!-- <featureArtifactDef>
-                                    org.wso2.carbon:org.wso2.carbon.throttle.server.feature:${carbon.platform.version}
+                                    org.wso2.carbon.commons:org.wso2.carbon.throttle.server.feature:${carbon.commons.version}
                                 </featureArtifactDef>-->
                                <!-- <featureArtifactDef>
-                                    org.wso2.carbon:org.wso2.carbon.caching.server.feature:${carbon.platform.version}
+                                    org.wso2.carbon.commons:org.wso2.carbon.caching.server.feature:${carbon.commons.version}
                                 </featureArtifactDef>-->
                                 <!--<featureArtifactDef>
-                                    org.wso2.carbon:org.wso2.carbon.rm.server.feature:${carbon.platform.version}
+                                    org.wso2.carbon.commons:org.wso2.carbon.rm.server.feature:${carbon.commons.version}
                                 </featureArtifactDef>-->
 
 
@@ -329,26 +329,6 @@
                                     org.wso2.carbon.commons:org.wso2.carbon.system.statistics.feature:${carbon.commons.version}
                                 </featureArtifactDef>
 
-                                <!--casandra -->
-                                <!--<featureArtifactDef>-->
-                                    <!--org.wso2.carbon:org.wso2.carbon.cassandra.explorer.feature:4.2.2-->
-                                <!--</featureArtifactDef>-->
-                                <!--<featureArtifactDef>
-                                    org.wso2.carbon:org.wso2.carbon.cassandra.server.feature:${carbon.platform.version}
-                                </featureArtifactDef>
-                                <featureArtifactDef>
-                                    org.wso2.carbon:org.wso2.carbon.cassandra.mgt.feature:${carbon.platform.version}
-                                </featureArtifactDef>
-                                <featureArtifactDef>
-                                    org.wso2.carbon:org.wso2.carbon.cassandra.dataaccess.feature:${carbon.platform.version}
-                                </featureArtifactDef>
-                                <featureArtifactDef>
-                                    org.wso2.carbon:org.wso2.carbon.cassandra.common.feature:${carbon.platform.version}
-                                </featureArtifactDef>
-                                <featureArtifactDef>
-                                    org.wso2.carbon:org.wso2.carbon.cassandra-jdbc-1.2.5.server.feature:${carbon.platform.version}
-                                </featureArtifactDef>-->
-
                                 <!--User management feature list -->
                                 <featureArtifactDef>
                                     org.wso2.carbon.identity:org.wso2.carbon.identity.core.feature:${carbon.identity.version}
@@ -410,16 +390,16 @@
 
                                 <!--Greg Styles feature list -->
                                 <featureArtifactDef>
-                                    org.wso2.greg:org.wso2.governance.styles.feature:${product.greg.version}
+                                    org.wso2.greg:org.wso2.carbon.governance.styles.feature:${product.greg.version}
                                 </featureArtifactDef>
 
                                 <!--Greg apps-->
                                 <featureArtifactDef>
-                                    org.wso2.greg:org.wso2.governance.jaggeryapps.feature:${product.greg.version}
+                                    org.wso2.greg:org.wso2.carbon.governance.jaggeryapps.feature:${product.greg.version}
                                 </featureArtifactDef>
 
                                 <featureArtifactDef>
-                                    org.wso2.greg:org.wso2.governance.es.extensions.feature:${product.greg.version}
+                                    org.wso2.greg:org.wso2.carbon.governance.es.extensions.feature:${product.greg.version}
                                 </featureArtifactDef>
 
 
@@ -748,16 +728,16 @@
 
                                 <!--Governance Style features -->
                                 <feature>
-                                    <id>org.wso2.governance.styles.feature.group</id>
+                                    <id>org.wso2.carbon.governance.styles.feature.group</id>
                                     <version>${product.greg.version}</version>
                                 </feature>
                                 <feature>
-                                    <id>org.wso2.governance.jaggeryapps.feature.group</id>
+                                    <id>org.wso2.carbon.governance.jaggeryapps.feature.group</id>
                                     <version>${product.greg.version}</version>
                                 </feature>
 
                                 <feature>
-                                    <id>org.wso2.governance.es.extensions.feature.group</id>
+                                    <id>org.wso2.carbon.governance.es.extensions.feature.group</id>
                                     <version>${product.greg.version}</version>
                                 </feature>
 
@@ -779,32 +759,6 @@
                                     <id>org.wso2.carbon.registry.reporting.feature.group</id>
                                     <version>${carbon.registry.version}</version>
                                 </feature>
-
-                                <!-- Cassandra -->
-                                <!--<feature>-->
-                                <!--<id>org.wso2.carbon.cassandra.explorer.feature.group</id>-->
-                                <!--<version>4.2.2</version>-->
-                                <!--</feature>-->
-                                <!--feature>
-                                    <id>org.wso2.carbon.cassandra.server.feature.group</id>
-                                    <version>${carbon.platform.version}</version>
-                                </feature>
-                                <feature>
-                                    <id>org.wso2.carbon.cassandra.mgt.feature.group</id>
-                                    <version>${carbon.platform.version}</version>
-                                </feature>
-                                <feature>
-                                    <id>org.wso2.carbon.cassandra.dataaccess.feature.group</id>
-                                    <version>${carbon.platform.version}</version>
-                                </feature>
-                                <feature>
-                                    <id>org.wso2.carbon.cassandra.common.feature.group</id>
-                                    <version>${carbon.platform.version}</version>
-                                </feature>
-                                <feature>
-                                    <id>org.wso2.carbon.cassandra-jdbc-1.2.5.server.feature.group</id>
-                                    <version>${carbon.platform.version}</version>
-                                </feature-->
 
                                 <!-- Single Sign on features -->
                                 <feature>
@@ -1108,16 +1062,16 @@
 
                                 <!--Governance Style features -->
                                 <feature>
-                                    <id>org.wso2.governance.styles.feature.group</id>
+                                    <id>org.wso2.carbon.governance.styles.feature.group</id>
                                     <version>${product.greg.version}</version>
                                 </feature>
                                 <feature>
-                                    <id>org.wso2.governance.jaggeryapps.feature.group</id>
+                                    <id>org.wso2.carbon.governance.jaggeryapps.feature.group</id>
                                     <version>${product.greg.version}</version>
                                 </feature>
 
                                 <feature>
-                                    <id>org.wso2.governance.es.extensions.feature.group</id>
+                                    <id>org.wso2.carbon.governance.es.extensions.feature.group</id>
                                     <version>${product.greg.version}</version>
                                 </feature>
 
@@ -1140,32 +1094,6 @@
                                     <version>${carbon.registry.version}</version>
                                 </feature>
 
-
-                                <!-- Cassandra -->
-                                <!--<feature>-->
-                                <!--<id>org.wso2.carbon.cassandra.explorer.feature.group</id>-->
-                                <!--<version>4.2.2</version>-->
-                                <!--</feature>-->
-                                <!--feature>
-                                    <id>org.wso2.carbon.cassandra.server.feature.group</id>
-                                    <version>${carbon.platform.version}</version>
-                                </feature>
-                                <feature>
-                                    <id>org.wso2.carbon.cassandra.mgt.feature.group</id>
-                                    <version>${carbon.platform.version}</version>
-                                </feature>
-                                <feature>
-                                    <id>org.wso2.carbon.cassandra.dataaccess.feature.group</id>
-                                    <version>${carbon.platform.version}</version>
-                                </feature>
-                                <feature>
-                                    <id>org.wso2.carbon.cassandra.common.feature.group</id>
-                                    <version>${carbon.platform.version}</version>
-                                </feature>
-                                <feature>
-                                    <id>org.wso2.carbon.cassandra-jdbc-1.2.5.server.feature.group</id>
-                                    <version>${carbon.platform.version}</version>
-                                </feature-->
 
                                 <!-- Single Sign on features -->
                                 <feature>
@@ -1526,16 +1454,16 @@
 
                                 <!--Governance Style features -->
                                 <feature>
-                                    <id>org.wso2.governance.styles.feature.group</id>
+                                    <id>org.wso2.carbon.governance.styles.feature.group</id>
                                     <version>${product.greg.version}</version>
                                 </feature>
                                 <feature>
-                                    <id>org.wso2.governance.jaggeryapps.feature.group</id>
+                                    <id>org.wso2.carbon.governance.jaggeryapps.feature.group</id>
                                     <version>${product.greg.version}</version>
                                 </feature>
 
                                 <feature>
-                                    <id>org.wso2.governance.es.extensions.feature.group</id>
+                                    <id>org.wso2.carbon.governance.es.extensions.feature.group</id>
                                     <version>${product.greg.version}</version>
                                 </feature>
 
@@ -1557,32 +1485,6 @@
                                     <id>org.wso2.carbon.registry.reporting.feature.group</id>
                                     <version>${carbon.registry.version}</version>
                                 </feature>
-
-                                <!-- Cassandra -->
-                                <!--<feature>-->
-                                    <!--<id>org.wso2.carbon.cassandra.explorer.feature.group</id>-->
-                                    <!--<version>4.2.2</version>-->
-                                <!--</feature>-->
-                                <!--feature>
-                                    <id>org.wso2.carbon.cassandra.server.feature.group</id>
-                                    <version>${carbon.platform.version}</version>
-                                </feature>
-                                <feature>
-                                    <id>org.wso2.carbon.cassandra.mgt.feature.group</id>
-                                    <version>${carbon.platform.version}</version>
-                                </feature>
-                                <feature>
-                                    <id>org.wso2.carbon.cassandra.dataaccess.feature.group</id>
-                                    <version>${carbon.platform.version}</version>
-                                </feature>
-                                <feature>
-                                    <id>org.wso2.carbon.cassandra.common.feature.group</id>
-                                    <version>${carbon.platform.version}</version>
-                                </feature>
-                                <feature>
-                                    <id>org.wso2.carbon.cassandra-jdbc-1.2.5.server.feature.group</id>
-                                    <version>${carbon.platform.version}</version>
-                                </feature-->
 
                                 <!-- Single Sign on features -->
                                 <feature>
