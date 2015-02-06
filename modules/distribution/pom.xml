@@ -15,11 +15,13 @@
  ~ specific language governing permissions and limitations
  ~ under the License.
  -->
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <parent>
         <groupId>org.wso2.greg</groupId>
         <artifactId>governance-parent</artifactId>
-        <version>5.0.0</version>
+        <version>5.0.0-SNAPSHOT</version>
         <relativePath>../../pom.xml</relativePath>
     </parent>
 
@@ -351,8 +353,7 @@
     <scm>
         <connection>scm:svn:http://svn.wso2.org/repos/wso2/trunk/carbon/products/greg</connection>
         <developerConnection>scm:svn:https://svn.wso2.org/repos/wso2/trunk/carbon/products/greg</developerConnection>
-      <tag>5.0.0-M2</tag>
-  </scm>
+    </scm>
 
     <build>
         <plugins>
@@ -486,17 +487,24 @@
                         <configuration>
                             <tasks>
                                 <path id="h2.classpath">
-                                    <path refid="maven.compile.classpath" />
+                                    <path refid="maven.compile.classpath"/>
                                 </path>
 
-                                <echo message="########### Create HT H2 Database ##############" />
-                                <sql driver="org.h2.Driver" url="jdbc:h2:${basedir}/target/database/jpadb;create=true" userid="wso2carbon" password="wso2carbon" autocommit="true" onerror="continue">
+                                <echo
+                                        message="########### Create HT H2 Database ##############"/>
+                                <sql
+                                        driver="org.h2.Driver"
+                                        url="jdbc:h2:${basedir}/target/database/jpadb;create=true"
+                                        userid="wso2carbon" password="wso2carbon" autocommit="true"
+                                        onerror="continue">
                                     <classpath>
-                                        <path refid="h2.classpath" />
+                                        <path refid="h2.classpath"/>
                                     </classpath>
-                                    <fileset file="${basedir}/src/main/resources/humantask/sql/h2.sql" />
+                                    <fileset
+                                            file="${basedir}/src/main/resources/humantask/sql/h2.sql"/>
                                 </sql>
-                                <echo message="##################### END ############################" />
+                                <echo
+                                        message="##################### END ############################"/>
                             </tasks>
                         </configuration>
                     </execution>
@@ -505,28 +513,44 @@
                         <phase>package</phase>
                         <configuration>
                             <target>
-                                <echo message="########### Create Identity Database ##############" />
-                                <copy todir="target/wso2carbon-core-${carbon.kernel.version}/dbscripts/identity" overwrite="false">
-                                    <fileset dir="${basedir}/../p2-profile-gen/target/wso2carbon-core-${carbon.kernel.version}/dbscripts/identity/">
+                                <echo
+                                        message="########### Create Identity Database ##############"/>
+                                <copy
+                                        todir="target/wso2carbon-core-${carbon.kernel.version}/dbscripts/identity"
+                                        overwrite="false">
+                                    <fileset
+                                            dir="${basedir}/../p2-profile-gen/target/wso2carbon-core-${carbon.kernel.version}/dbscripts/identity/">
                                     </fileset>
                                 </copy>
                                 <path id="h2.classpath">
-                                    <path refid="maven.compile.classpath" />
+                                    <path refid="maven.compile.classpath"/>
                                 </path>
-                                <echo message="########### Create Identity Database ##############" />
-                                <sql driver="org.h2.Driver" url="jdbc:h2:${basedir}/target/wso2carbon-core-${carbon.kernel.version}/repository/database/WSO2CARBON_DB" userid="wso2carbon" password="wso2carbon" autocommit="true" onerror="continue">
+                                <echo
+                                        message="########### Create Identity Database ##############"/>
+                                <sql
+                                        driver="org.h2.Driver"
+                                        url="jdbc:h2:${basedir}/target/wso2carbon-core-${carbon.kernel.version}/repository/database/WSO2CARBON_DB"
+                                        userid="wso2carbon" password="wso2carbon" autocommit="true"
+                                        onerror="continue">
                                     <classpath>
-                                        <path refid="h2.classpath" />
+                                        <path refid="h2.classpath"/>
                                     </classpath>
-                                    <fileset file="target/wso2carbon-core-${carbon.kernel.version}/dbscripts/identity/application-mgt/h2.sql" />
+                                    <fileset
+                                            file="target/wso2carbon-core-${carbon.kernel.version}/dbscripts/identity/application-mgt/h2.sql"/>
                                 </sql>
-                                <sql driver="org.h2.Driver" url="jdbc:h2:${basedir}/target/wso2carbon-core-${carbon.kernel.version}/repository/database/WSO2CARBON_DB" userid="wso2carbon" password="wso2carbon" autocommit="true" onerror="continue">
+                                <sql
+                                        driver="org.h2.Driver"
+                                        url="jdbc:h2:${basedir}/target/wso2carbon-core-${carbon.kernel.version}/repository/database/WSO2CARBON_DB"
+                                        userid="wso2carbon" password="wso2carbon" autocommit="true"
+                                        onerror="continue">
                                     <classpath>
-                                        <path refid="h2.classpath" />
+                                        <path refid="h2.classpath"/>
                                     </classpath>
-                                    <fileset file="target/wso2carbon-core-${carbon.kernel.version}/dbscripts/identity/h2.sql" />
+                                    <fileset
+                                            file="target/wso2carbon-core-${carbon.kernel.version}/dbscripts/identity/h2.sql"/>
                                 </sql>
-                                <echo message="##################### END ########################" />
+                                <echo
+                                        message="##################### END ########################"/>
 
 
                             </target>
@@ -543,64 +567,64 @@
                         </goals>
                         <configuration>
                             <tasks>
-                                <property name="tempdir" value="target/docs-temp" />
-                                <mkdir dir="${tempdir}" />
+                                <property name="tempdir" value="target/docs-temp"/>
+                                <mkdir dir="${tempdir}"/>
                                 <unzip dest="${tempdir}">
                                     <fileset dir="target">
-                                        <include name="${project.artifactId}-${build.version}.zip" />
+                                        <include name="${project.artifactId}-${build.version}.zip"/>
                                     </fileset>
                                 </unzip>
                                 <copy todir="target/wso2carbon-core-${carbon.kernel.version}/repository/components/" overwrite="false">
                                     <fileset dir="${tempdir}/${project.artifactId}-${build.version}/repository/components/">
                                     </fileset>
                                 </copy>
-                                <delete file="target/${project.artifactId}-${build.version}.zip" />
-                                <delete dir="${tempdir}" />
-                                <mkdir dir="${tempdir}" />
+                                <delete file="target/${project.artifactId}-${build.version}.zip"/>
+                                <delete dir="${tempdir}"/>
+                                <mkdir dir="${tempdir}"/>
                                 <unzip dest="${tempdir}">
                                     <fileset dir="target/wso2carbon-core-${carbon.kernel.version}/repository/components/plugins/">
-                                        <include name="*.ui*.jar" />
+                                        <include name="*.ui*.jar"/>
                                     </fileset>
                                 </unzip>
                                 <move todir="${tempdir}/web/" includeemptydirs="false">
                                     <fileset dir="${tempdir}/web/">
-                                        <exclude name="**/yui/**" />
-                                        <exclude name="**/ajax/**" />
-                                        <exclude name="**/tenant-login/**" />
-                                        <exclude name="**/WEB-INF/**" />
-                                        <exclude name="**/signin_userguide.html" />
-                                        <exclude name="**/about.html" />
-                                        <include name="**/*.html" />
+                                        <exclude name="**/yui/**"/>
+                                        <exclude name="**/ajax/**"/>
+                                        <exclude name="**/tenant-login/**"/>
+                                        <exclude name="**/WEB-INF/**"/>
+                                        <exclude name="**/signin_userguide.html"/>
+                                        <exclude name="**/about.html"/>
+                                        <include name="**/*.html"/>
                                     </fileset>
-                                    <mapper type="glob" from="*.html" to="*.xml" />
+                                    <mapper type="glob" from="*.html" to="*.xml"/>
                                 </move>
-                                <mkdir dir="src/site/xdoc" />
+                                <mkdir dir="src/site/xdoc"/>
                                 <copy todir="src/site/xdoc" overwrite="false" includeemptydirs="false">
                                     <fileset dir="${tempdir}/web">
-                                        <exclude name="**/yui/**" />
-                                        <exclude name="**/ajax/**" />
-                                        <exclude name="**/dashboard/**" />
-                                        <exclude name="**/lifecycles/**" />
-                                        <exclude name="**/tenant-login/**" />
-                                        <exclude name="**/impactAnalysis/**" />
-                                        <exclude name="**/codepress.xml" />
-                                        <exclude name="**/template.xml" />
-                                        <exclude name="**/WEB-INF/**" />
-                                        <exclude name="**/*.html" />
-                                        <exclude name="**/*.js" />
-                                        <exclude name="**/*.jsp" />
-                                        <exclude name="**/*.xsl" />
-                                        <exclude name="*.*" />
+                                        <exclude name="**/yui/**"/>
+                                        <exclude name="**/ajax/**"/>
+                                        <exclude name="**/dashboard/**"/>
+                                        <exclude name="**/lifecycles/**"/>
+                                        <exclude name="**/tenant-login/**"/>
+                                        <exclude name="**/impactAnalysis/**"/>
+                                        <exclude name="**/codepress.xml"/>
+                                        <exclude name="**/template.xml"/>
+                                        <exclude name="**/WEB-INF/**"/>
+                                        <exclude name="**/*.html"/>
+                                        <exclude name="**/*.js"/>
+                                        <exclude name="**/*.jsp"/>
+                                        <exclude name="**/*.xsl"/>
+                                        <exclude name="*.*"/>
                                     </fileset>
                                 </copy>
                                 <copy todir="src/site" overwrite="false" includeemptydirs="false">
                                     <fileset dir="../../docs">
-                                        <exclude name="**/user-mgt-*.xml" />
+                                        <exclude name="**/user-mgt-*.xml"/>
                                     </fileset>
                                 </copy>
                                 <copy todir="target/site/" overwrite="false" includeemptydirs="false">
                                     <fileset dir="src/site/xdoc/">
-                                        <include name="**/images/*.*" />
+                                        <include name="**/images/*.*"/>
                                     </fileset>
                                 </copy>
                                 <copy todir="target/site/apidocs/kernel/" overwrite="false" includeemptydirs="false">
@@ -624,12 +648,12 @@
                                     <then>
                                         <copy todir="target/meta" overwrite="false" includeemptydirs="false">
                                             <fileset dir="${settings.localRepository}${fake.artifact.path}">
-                                                <include name="maven-metadata-local.xml" />
+                                                <include name="maven-metadata-local.xml"/>
                                             </fileset>
                                         </copy>
                                     </then>
                                 </if>
-                                <delete dir="${tempdir}" />
+                                <delete dir="${tempdir}"/>
                             </tasks>
                         </configuration>
                     </execution>
@@ -638,41 +662,41 @@
                         <phase>install</phase>
                         <configuration>
                             <tasks>
-                                <delete dir="target/archive-tmp" />
-                                <delete dir="target/database" />
-                                <delete dir="target/dependency-maven-plugin-markers" />
-                                <delete dir="target/maven-archiver" />
-                                <delete dir="target/wso2carbon-core-${carbon.kernel.version}" />
-                                <delete dir="target/org.wso2.carbon.registry.core-${carbon.kernel.version}-docs" />
-                                <delete dir="target/org.wso2.carbon.governance.api-${carbon.governance.version}-docs" />
-                                <delete dir="target/org.wso2.carbon.registry.admin.api-${carbon.registry.version}-docs" />
-                                <delete dir="target/org.wso2.carbon.registry.ws.api-${carbon.registry.version}-docs" />
-                                <delete dir="target/org.wso2.carbon.registry.social.api-${carbon.registry.version}-docs" />
-                                <delete file="target/${project.artifactId}-${build.version}.jar" />
-                                <delete dir="target/sources" />
-                                <delete dir="target/site" />
-                                <delete dir="target/classes" />
-                                <delete dir="src/site" />
+                                <delete dir="target/archive-tmp"/>
+                                <delete dir="target/database"/>
+                                <delete dir="target/dependency-maven-plugin-markers"/>
+                                <delete dir="target/maven-archiver"/>
+                                <delete dir="target/wso2carbon-core-${carbon.kernel.version}"/>
+                                <delete dir="target/org.wso2.carbon.registry.core-${carbon.kernel.version}-docs"/>
+                                <delete dir="target/org.wso2.carbon.governance.api-${carbon.governance.version}-docs"/>
+                                <delete dir="target/org.wso2.carbon.registry.admin.api-${carbon.registry.version}-docs"/>
+                                <delete dir="target/org.wso2.carbon.registry.ws.api-${carbon.registry.version}-docs"/>
+                                <delete dir="target/org.wso2.carbon.registry.social.api-${carbon.registry.version}-docs"/>
+                                <delete file="target/${project.artifactId}-${build.version}.jar"/>
+                                <delete dir="target/sources"/>
+                                <delete dir="target/site"/>
+                                <delete dir="target/classes"/>
+                                <delete dir="src/site"/>
                                 <taskdef classname="net.sf.antcontrib.logic.IfTask" classpathref="maven.test.classpath" name="if" />
                                 <if>
                                     <istrue value="${build.qa}" />
                                     <then>
                                         <delete includeEmptyDirs="true">
                                             <fileset dir="${settings.localRepository}${fake.artifact.path}">
-                                                <include name="**/*release.version*" />
+                                                <include name="**/*release.version*"/>
                                             </fileset>
                                         </delete>
                                         <move todir="${settings.localRepository}${fake.artifact.path}" overwrite="true" includeemptydirs="false">
                                             <fileset dir="target/meta">
-                                                <include name="maven-metadata-local.xml" />
+                                                <include name="maven-metadata-local.xml"/>
                                             </fileset>
                                         </move>
-                                        <delete dir="target/meta" />
+                                        <delete dir="target/meta"/>
                                     </then>
                                     <else>
                                         <delete includeEmptyDirs="true">
                                             <fileset dir="${settings.localRepository}${fake.artifact.path}">
-                                                <include name="**/${project.parent.version}/*.jar" />
+                                                <include name="**/${project.parent.version}/*.jar"/>
                                             </fileset>
                                         </delete>
                                     </else>
@@ -836,8 +860,8 @@
                                def bundlesInfoPath = targetPath + sep + 'repository'  + sep + 'components' + sep + 'default' + sep + 'configuration' + sep + 'org.eclipse.equinox.simpleconfigurator' + sep + 'bundles.info' 
 
                                 println "Removing jaxb 2.2.5 from bundles.info"
-                                new File(targetPath + sep + 'bundles.info').withWriter { out -&gt;
-                                 new File(bundlesInfoPath).eachLine { line -&gt;
+                                new File(targetPath + sep + 'bundles.info').withWriter { out ->
+                                 new File(bundlesInfoPath).eachLine { line ->
                                   if (!line.contains("plugins/jaxb_")) {
                                    out.writeLine(line)
                                   } else {
