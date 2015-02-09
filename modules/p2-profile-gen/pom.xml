@@ -259,6 +259,9 @@
                                     org.jaggeryjs.modules:uuid.feature:${uuid.feature.version}
                                 </featureArtifactDef>
                                 <featureArtifactDef>
+                                    org.jaggeryjs.modules:i18n.feature:${i18n.feature.version}
+                                </featureArtifactDef>
+                                <featureArtifactDef>
                                     org.jaggeryjs.modules:sso.feature:${sso.feature.version}
                                 </featureArtifactDef>
                                 <featureArtifactDef>org.wso2.carbon.store:event.feature:${es.feature.version}
@@ -841,6 +844,10 @@
                                     <id>org.jaggeryjs.modules.sso.feature.group</id>
                                     <version>${sso.feature.version}</version>
                                 </feature>
+                                <feature>
+                                    <id>org.jaggeryjs.modules.i18n.feature.group</id>
+                                    <version>${i18n.feature.version}</version>
+                                </feature>
                                 <!--feature>
                                     <id>org.wso2.store.event.feature.group</id>
                                     <version>${es.feature.version}</version>
@@ -1175,6 +1182,10 @@
                                 <feature>
                                     <id>org.jaggeryjs.modules.sso.feature.group</id>
                                     <version>${sso.feature.version}</version>
+                                </feature>
+                                <feature>
+                                    <id>org.jaggeryjs.modules.i18n.feature.group</id>
+                                    <version>${i18n.feature.version}</version>
                                 </feature>
                                 <feature>
                                     <id>org.wso2.store.modules.event.feature.group</id>
@@ -1570,6 +1581,10 @@
                                 <feature>
                                     <id>org.jaggeryjs.modules.sso.feature.group</id>
                                     <version>${sso.feature.version}</version>
+                                </feature>
+                                <feature>
+                                    <id>org.jaggeryjs.modules.i18n.feature.group</id>
+                                    <version>${i18n.feature.version}</version>
                                 </feature>
                                 <feature>
                                     <id>org.wso2.store.modules.event.feature.group</id>
