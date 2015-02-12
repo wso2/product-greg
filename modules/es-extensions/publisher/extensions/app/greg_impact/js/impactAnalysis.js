@@ -16,10 +16,15 @@
  * under the License.
  */
 
+/**
+ * Impact analysis: Dependency Graph UI functions
+ * @method functions to run on DOM ready
+ */
+
 $(document).ready(function() {
 
     $("#search").select2({
-        placeholder: "Locate a resource",
+        placeholder: "Find Resource",
         data: root.nodes,
         maximumSelectionSize: 1
     }).on("select2-close", function() {
@@ -29,23 +34,21 @@ $(document).ready(function() {
 
     for (i = 0; i < root.nodes.length; i++) {
         linkedByIndex[i + "," + i] = 1;
-    };
+    }
 
     root.edges.forEach(function(d) {
         linkedByIndex[d.source.index + "," + d.target.index] = 1;
     });
 
     var linknodes = $('.linkNode');
-
     for (var i = 0; i < linknodes.length; i++) {
         setClickableTooltip('#' + linknodes[i].id , alertLinkRelations(linknodes[i].__data__));
-    };
+    }
 
     var nodeCircles = $('.nodeCircle');
-
     for (var i = 0; i < nodeCircles.length; i++) {
         setClickableTooltip('#' + nodeCircles[i].id , alertNodeRelations(nodeCircles[i].__data__));
-    };
+    }
 
 });
 
@@ -72,7 +75,7 @@ function getCenter() {
     return center;
 }
 
-function update() {
+function update(d) {
 
     var nodes = root.nodes,
         links = root.edges;
@@ -89,8 +92,7 @@ function update() {
 
     linkg = svg.selectAll(".linkg")
         .data(links)
-        .enter().append("g")
-        .attr("class", "linkg");
+        .enter().append("g");
 
     link = linkg.append("line")
         .attr("class", "link");
@@ -98,9 +100,9 @@ function update() {
     linkNode = linkg.append("circle")
         .attr("id", getLinkID)
         .attr("class", "linkNode")
-        .attr("title", '<p>&nbsp;</p>')
+        .attr("title", '')
         .on("click", showRelations)
-        .attr("r", 5);
+        .attr("r", 10);
 
     // Update nodes.
     node = node.data(nodes, function(d) {
@@ -109,94 +111,63 @@ function update() {
 
     node.exit().remove();
 
-    var nodeEnter = node.enter().append("g")
+    nodeEnter = node.enter().append("g")
         .attr("id", getNodeID)
         .attr("class", function (d) {
             return "node" + ('image' in d ? ' imagenode' : '')  + " nodeCircle";
         })
-        .on("click", click);
+        .on("click", click)
+        .attr("group", "node");
         //.call(force.drag); //enable node dragging
 
     var circle = nodeEnter.append("circle")
         .attr("cx", 0)
         .attr("cy", 0)
-        .attr("r", 30);
+        .attr("r", 35);
 
     nodeEnter.attr("nodetype", nodeType);
 
     node.select("[nodetype=parent] circle")
-        .attr("r", 50);
+        .attr("r", 65);
 
-    svg.selectAll(".imagenode")
-        .attr("class", "node")
-        .append("image")
-        .attr("x", -12)
-        .attr("y", -12)
-        .attr("xlink:href", function (d) {
-            var url = "../extensions/app/greg_impact/images/icons/" + d['image'] ;
-            var simg = this;
-            var img = new Image();
-            img.onload = function () {
-                d.width = this.width * imageScale;
-                d.height = this.height * imageScale;
-                simg.setAttribute("width", d.width);
-                simg.setAttribute("height", d.height);
-            }
-            return img.src = url;
+    nodeEnter.each(function(d, i){
+        d3.xml("../extensions/app/greg_impact/images/svg/"+nodeIcon(d.mediaType), "image/svg+xml", function(xml){
+            document.getElementById("node_"+i).appendChild(xml.documentElement.cloneNode(true));
+
+            nodeEnter.select("svg")
+                .attr("width", 40)
+                .attr("height", 40)
+                .attr("y", -40/2)
+                .attr("x", -40/2)
+                .selectAll("svg path")
+                .attr("style","");
+            nodeEnter.select("[nodetype=parent] svg")
+                .attr("width", 80)
+                .attr("height", 80)
+                .attr("y", -80/2)
+                .attr("x", -80/2);
         });
-
-    nodeEnter.append("image")
-        .attr("x", -24)
-        .attr("y", -24)
-        .attr("xlink:href", function (d) {
-            if( d['alertimage'] != undefined)  {
-                var url = "../extensions/app/greg_impact/images/" + d['alertimage'] ;
-                var simg = this;
-                var img = new Image();
-                img.onload = function () {
-                    d.width = this.width * imageScale;
-                    d.height = this.height * imageScale;
-                    simg.setAttribute("width", d.width);
-                    simg.setAttribute("height", d.height);
-                }
-                return img.src = url;
-            }
-        });
-
-    nodeEnter.append("svg:foreignObject")
-        .attr("width", 62)
-        .attr("height", 62)
-        .attr("y", -60/4)
-        .attr("x", -60/4)
-        .append("xhtml:span")
-        .attr("class", iconClass);
-
-    node.select("[nodetype=parent] foreignObject")
-        .attr("width", 106)
-        .attr("height", 106)
-        .attr("y", -108/4)
-        .attr("x", -108/4);
+    });
 
     nodeEnter.append("text")
         .attr("class", "resource-name")
-        .attr("dy", 50)
-        .attr("dx", -30)
+        .attr("dy", 60)
+        .attr("dx", -40)
         .text(function(d) { return d.name; });
 
     nodeEnter.append("text")
         .attr("class", "media-type")
-        .attr("dy", 62)
-        .attr("dx", -30)
+        .attr("dy", 78)
+        .attr("dx", -40)
         .text(function(d) { return d.mediaType; });
 
     nodeEnter.select("[nodetype=parent] text.resource-name")
-        .attr("dy", 75)
-        .attr("dx", -50);
+        .attr("dy", 100)
+        .attr("dx", -70);
 
     nodeEnter.select("[nodetype=parent] text.media-type")
-        .attr("dy", 87)
-        .attr("dx", -50);
-    
+        .attr("dy", 120)
+        .attr("dx", -70);
 
 }
 
@@ -240,6 +211,7 @@ function drawArrows() {
         .enter();
 }
 
+// Get node types ex:- Parent > Child
 function nodeType(d) {
     if(d.children){
         if(d.children.length > 0){
@@ -256,66 +228,72 @@ function nodeType(d) {
     return d.nodeType;
 }
 
-function iconClass(d) {
-    switch(d.mediaType) {
+// Defining icons for resource type
+function nodeIcon(getType) {
+
+    switch(getType) {
         case "application/wsdl+xml":
-            return "fa fa-cube";
+            return "xml6.svg";
             break;
         case "application/wadl+xml":
-            return "fa fa-cube";
+            return "xml6.svg";
             break;
         case "application/vnd.wso2-uri+xml":
-            return "fa fa-cube";
+            return "xml6.svg";
             break;
         case "application/vnd.wso2-site+xml":
-            return "fa fa-cube";
+            return "xml6.svg";
             break;
         case "application/vnd.wso2-servicex+xml":
-            return "fa fa-cube";
+            return "xml6.svg";
             break;
         case "application/vnd.wso2-service+xml":
-            return "fa fa-cube";
+            return "xml6.svg";
             break;
         case "application/vnd.wso2-sequence+xml":
-            return "fa fa-cube";
+            return "xml6.svg";
             break;
         case "application/x-xsd+xml":
-            return "fa fa-cube";
+            return "xml6.svg";
             break;
         case "application/vnd.wso2-proxy+xml":
-            return "fa fa-cube";
+            return "xml6.svg";
             break;
         case "application/vnd.wso2-provider+xml":
-            return "fa fa-cube";
+            return "xml6.svg";
             break;
         case "application/policy+xml":
-            return "fa fa-cube";
+            return "xml6.svg";
             break;
         case "application/vnd.wso2-gadget+xml":
-            return "fa fa-cube";
+            return "xml6.svg";
             break;
         case "application/vnd.wso2-endpoint+xml":
-            return "fa fa-cube";
+            return "xml6.svg";
             break;
         case "application/vnd.wso2-ebook+xml":
-            return "fa fa-cube";
+            return "xml6.svg";
             break;
         case "application/vnd.wso2-document+xml":
-            return "fa fa-cube";
+            return "xml6.svg";
             break;
         case "application/vnd.wso2-api+xml":
-            return "fa fa-cube";
+            return "xml6.svg";
             break;
         case "application/vnd.wso2.endpoint":
-            return "fa fa-cube";
+            return "meeting3.svg";
             break;
         case "application/vnd.wso2-application+xml":
-            return "fa fa-cube";
+            return "xml6.svg";
             break;
         default:
-            return "fa fa-cube";
+            return "rdf.svg";
     }
 }
+
+//function dragstart(d){
+//    d3.select(this).classed("fixed", d.fixed = true);
+//}
 
 //This function looks up whether a pair are neighbours  
 function neighboring(a, b) {
@@ -331,7 +309,6 @@ var isSame = null,
 on double click expand and retract node's children
  */
 function showHideChildren(d) {
-
     if (d.children) {
         d._children = d.children;
         d.children = null;
@@ -347,6 +324,11 @@ function closeSidebar() {
     $("#sidebar-wrapper").removeClass("toggled");
 }
 
+function openSidebar() {
+    $("#wrapper").addClass("toggled");
+    $("#sidebar-wrapper").addClass("toggled");
+}
+
 function outClick() {
     closeSidebar();
     d3.selectAll("g").select("circle").classed("active", false);
@@ -354,7 +336,7 @@ function outClick() {
     node.attr("class", "");
     linkg.attr("class", "");
     isSame = self;
-    selectedNode = -1
+    selectedNode = -1;
 }
 
 function click(d) {
@@ -374,13 +356,11 @@ function click(d) {
 
             // single click function
             if ((self === isSame) && ($("#wrapper").hasClass("toggled"))) {
-                $("#wrapper").removeClass("toggled");
-                $("#sidebar-wrapper").removeClass("toggled");
+                closeSidebar();
                 d3.selectAll("g").select("circle").classed("active", false);
             }
             else {
-                $("#wrapper").addClass("toggled");
-                $("#sidebar-wrapper").addClass("toggled");
+                openSidebar();
             }
             isSame = self;
         }, delay);
@@ -431,16 +411,16 @@ function click(d) {
     return false;
 }
 
-function imageZoom(img, scale) {
-    d3.select(img)
-        .transition()
-        .attr("width", function (d) {
-            return scale * d.width;
-        })
-        .attr("height", function (d) {
-            return scale * d.height;
-        });
-}
+//function imageZoom(img, scale) {
+//    d3.select(img)
+//        .transition()
+//        .attr("width", function (d) {
+//            return scale * d.width;
+//        })
+//        .attr("height", function (d) {
+//            return scale * d.height;
+//        });
+//}
 
 function displayInfo(resource){
     $('#name span').text(resource.name);
@@ -455,7 +435,7 @@ function displayInfo(resource){
     }
 }
 
-function tick() {
+function tick(){
     link.attr("x1", function(d) { return d.source.x; })
         .attr("y1", function(d) { return d.source.y; })
         .attr("x2", function(d) { return d.target.x; })
@@ -468,7 +448,11 @@ function tick() {
         return JSON.stringify(d)
     });
 
-    node.attr("transform", function(d) { return "translate(" + d.x + "," + d.y + ")"; });
+    //console.log(nodeEnter.html());
+
+    nodeEnter.attr("transform", function(d) { return "translate(" + d.x + "," + d.y + ")"; });
+
+    //zoomFit(); //Zoom out graph to fit screen on page load
 }
 
 function midPoint(val1, val2) {
@@ -496,25 +480,21 @@ function clearSearchOperation() {
     $(".reset-locate").hide();
 
     clearSearchedNode();
-
-    $("#wrapper").removeClass("toggled");
-    $("#sidebar-wrapper").removeClass("toggled");
+    closeSidebar();
+    zoomFit();
 }
 
 function clearSearchedNode() {
-
     d3.selectAll("g").select("circle").classed("active", false);
     node.attr("class", "");
     linkg.attr("class", "");
 }
 
 function searchNode() {
-
     clearSearchedNode();
 
-    var selectedVal = $('#search').select2('data').name;
-
-    var node = svg.selectAll("g");
+    var selectedVal = $('#search').select2('data').name,
+        node = svg.selectAll("[group=node]");
 
     if (selectedVal == "none") {
         node.style("stroke", "black").style("stroke-width", "10");
@@ -537,6 +517,7 @@ function searchNode() {
     }
 }
 
+/* Function to zoom in graph */
 function zoomIn(){
     var coor = zoom.translate();
     var x = (coor[0] - getCenter().x) * 1.1 + getCenter().x;
@@ -548,6 +529,7 @@ function zoomIn(){
     zoom.event(svg);
 }
 
+/* Function to zoom out graph */
 function zoomOut(){
     var coor = zoom.translate();
     var x = (coor[0] - getCenter().x) * 0.9 + getCenter().x;
@@ -559,6 +541,7 @@ function zoomOut(){
     zoom.event(svg);
 }
 
+/* Function to zoom out/in graph to fit current screen */
 function zoomFit(){
     var graphBBox = d3.select("svg g#mainG").node().getBBox(),
         graphScreen = $("svg");
@@ -575,35 +558,65 @@ function zoomFit(){
     zoom.event(svg);
 }
 
+/* Function to show resource relationships */
 function showRelations(d){
     var id = '#' + getLinkID(d);
-    console.log("link " + $(id).parent().get(0));
+    //console.log("link " + $(id).parent().get(0));
     $(id).css({ opacity: 1 });
 }
 
-//function svgDownload(){
-//
-//    var svgString = new XMLSerializer().serializeToString(document.querySelector('svg'));
-//
-//    var canvas = document.getElementById("canvas");
-//    var ctx = canvas.getContext("2d");
-//    var DOMURL = self.URL || self.webkitURL || self;
-//    var img = new Image();
-//    var svg = new Blob([svgString], {type: "image/svg+xml;charset=utf-8"});
-//    var url = DOMURL.createObjectURL(svg);
-//    img.onload = function() {
-//        ctx.drawImage(img, 0, 0);
-//        var png = canvas.toDataURL("image/png");
-//        document.querySelector('#png-container').innerHTML = '<img src="'+png+'"/>';
-//        DOMURL.revokeObjectURL(png);
-//    };
-//    img.src = url;
-//
-//    //var elem = document.getElementById("graphFrame");
-//    //var theCSSprop = window.getComputedStyle(elem,null).getPropertyValue("height");
-//    //document.getElementById("output").innerHTML = theCSSprop;
-//
-//}
+/* Function to save current screen as a .png image file */
+function svgDownload(){
+
+    $("#graph svg").clone().appendTo("#graph-capture");
+    $("#graph-capture svg").attr("id","cloned");
+    var cssRules = {
+        'propertyGroups' : {
+            'block' : ['fill'],
+            'inline' : ['fill', 'stroke', 'stroke-width'],
+            'object' : ['fill'],
+            'headings' : ['font', 'font-size', 'font-family', 'font-weight', 'fill', 'display']
+        },
+        'elementGroups' : {
+            'block' : ['g'],
+            'inline' : ['circle', 'line'],
+            'object' : ['svg', 'path'],
+            'headings' : ['text']
+        }
+    };
+    $("#graph-capture svg g").inlineStyler(cssRules);
+    svgenie.save(document.getElementById("cloned"), { name:"graph.png" });
+    $("#graph-capture svg").remove();
+
+
+    //var oSerializer = new XMLSerializer();
+    //var sXML = oSerializer.serializeToString(document.getElementById("dependency-graph"));
+    //canvg(document.getElementById('canvas'), sXML,{ ignoreMouse: true, ignoreAnimation: true });
+
+
+
+
+    //var svgString = new XMLSerializer().serializeToString(document.getElementById('cloned'));
+    //
+    //var canvas = document.getElementById("canvas");
+    //var ctx = canvas.getContext("2d");
+    //var DOMURL = self.URL || self.webkitURL || self;
+    //var img = new Image();
+    //var svg = new Blob([svgString], {type: "image/svg+xml;charset=utf-8"});
+    //var url = DOMURL.createObjectURL(svg);
+    //img.onload = function() {
+    //    ctx.drawImage(img, 0, 0);
+    //    var png = canvas.toDataURL("image/png");
+    //    document.querySelector('#png-container').innerHTML = '<img src="'+png+'"/>';
+    //    DOMURL.revokeObjectURL(png);
+    //};
+    //img.src = url;
+
+    //var elem = document.getElementById("graphFrame");
+    //var theCSSprop = window.getComputedStyle(elem,null).getPropertyValue("height");
+    //document.getElementById("output").innerHTML = theCSSprop;
+
+}
 
 function alertLinkRelations(d){
 
