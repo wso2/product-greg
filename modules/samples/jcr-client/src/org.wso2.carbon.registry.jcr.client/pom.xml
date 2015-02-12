@@ -2,14 +2,13 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
  <parent>
-        <groupId>org.wso2.governance</groupId>
+        <groupId>org.wso2.greg</groupId>
     <artifactId>jcr-client</artifactId>
         <version>5.0.0-SNAPSHOT</version>
 	<relativePath>../pom.xml</relativePath>
     </parent>
 
     <modelVersion>4.0.0</modelVersion>
-    <version>5.0.0-SNAPSHOT</version>
     <artifactId>org.wso2.carbon.registry.jcr.client</artifactId>
     <packaging>bundle</packaging>
     <name>WSO2 Governance Registry - JCR Client</name>
@@ -73,12 +72,12 @@
             <artifactId>org.wso2.carbon.registry.core</artifactId>
         </dependency>
         <dependency>
-            <groupId>org.wso2.carbon</groupId>
+            <groupId>org.wso2.carbon.registry</groupId>
             <artifactId>org.wso2.carbon.registry.jcr</artifactId>
-            <version>${carbon.platform.version}</version>
+            <version>${carbon.registry.version}</version>
         </dependency>
 	 <dependency>
-            <groupId>org.wso2.carbon</groupId>
+            <groupId>org.wso2.carbon.registry</groupId>
             <artifactId>org.wso2.carbon.registry.common</artifactId>
         </dependency>
         <dependency>

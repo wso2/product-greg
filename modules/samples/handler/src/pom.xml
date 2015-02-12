@@ -20,7 +20,7 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 
  <parent>
-        <groupId>org.wso2.governance</groupId>
+        <groupId>org.wso2.greg</groupId>
     	<artifactId>governance-samples</artifactId>
         <version>5.0.0-SNAPSHOT</version>
 	<relativePath>../../pom.xml</relativePath>
@@ -69,8 +69,7 @@
     </profiles>
 
     <build>
-        <sourceDirectory>src</sourceDirectory>
-        <testSourceDirectory>test/java</testSourceDirectory>
+        <sourceDirectory>src/main/java</sourceDirectory>
         <resources>
             <resource>
                 <directory>resources</directory>
