@@ -17,19 +17,68 @@
  */
 
 /**
+ * @set default global variables
+ */
+var svgIconsFolder = "../extensions/app/greg_impact/images/svg/",
+    footerHeight = 50;
+
+/**
  * Impact analysis: Dependency Graph UI functions
  * @method functions to run on DOM ready
  */
-
 $(document).ready(function() {
 
-    $("#search").select2({
-        placeholder: "Find Resource",
+    $('#search').select2({
+        placeholder: 'Find Resource',
         data: root.nodes,
-        maximumSelectionSize: 1
-    }).on("select2-close", function() {
-        searchNode();
-        $(".reset-locate").show();
+        multiple: false,
+        width: "copy",
+        formatResult: function (object, container, d){
+            return  '<div class="item">' +
+                        '<div class="text">' +
+                            '<div class="resource-name">' + object.text + '</div>' +
+                            '<div class="media-type">' + object.mediaType + '</div>' +
+                        '</div>' +
+                        '<div class="icon">' +
+                            '<img class="svg" src="' + svgIconsFolder + nodeIcon(object.mediaType) + '" />' +
+                        '</div>' +
+                    '</div>';
+        }
+    }).on('select2-close', function() {
+        if (this.value !== ""){
+            searchNode();
+            $('.reset-locate').show();
+        }
+    }).on('select2-open', function(){
+
+        $('img.svg').each(function(){
+            var $img = $(this);
+            var imgID = $img.attr('id');
+            var imgClass = $img.attr('class');
+            var imgURL = $img.attr('src');
+
+            $.get(imgURL, function(data) {
+                // Get the SVG tag, ignore the rest
+                var $svg = $(data).find('svg');
+
+                // Add replaced image's ID to the new SVG
+                if(typeof imgID !== 'undefined') {
+                    $svg = $svg.attr('id', imgID);
+                }
+                // Add replaced image's classes to the new SVG
+                if(typeof imgClass !== 'undefined') {
+                    $svg = $svg.attr('class', imgClass+' replaced-svg');
+                }
+
+                // Remove any invalid XML tags as per http://validator.w3.org
+                $svg = $svg.removeAttr('xmlns:a');
+
+                // Replace image with new SVG
+                $img.replaceWith($svg);
+
+            }, 'xml');
+        });
+
     });
 
     for (i = 0; i < root.nodes.length; i++) {
@@ -54,8 +103,8 @@ $(document).ready(function() {
 
 $(window).resize(function() {
     d3.select("svg").attr("width", $(window).width());
-    d3.select("svg").attr("height", $(window).height());
-    d3.select("svg").attr("viewBox", "0 0 " + $(window).width() + " " + $(window).height());
+    d3.select("svg").attr("height", ($(window).height()-footerHeight));
+    d3.select("svg").attr("viewBox", "0 0 " + $(window).width() + " " + ($(window).height()-footerHeight));
 });
 
 $(window).load(function() {
@@ -102,7 +151,7 @@ function update(d) {
         .attr("class", "linkNode")
         .attr("title", '')
         .on("click", showRelations)
-        .attr("r", 10);
+        .attr("r", 5);
 
     // Update nodes.
     node = node.data(nodes, function(d) {
@@ -123,7 +172,8 @@ function update(d) {
     var circle = nodeEnter.append("circle")
         .attr("cx", 0)
         .attr("cy", 0)
-        .attr("r", 35);
+        .attr("r", 35)
+        .attr("active-status", "");
 
     nodeEnter.attr("nodetype", nodeType);
 
@@ -131,7 +181,7 @@ function update(d) {
         .attr("r", 65);
 
     nodeEnter.each(function(d, i){
-        d3.xml("../extensions/app/greg_impact/images/svg/"+nodeIcon(d.mediaType), "image/svg+xml", function(xml){
+        d3.xml(svgIconsFolder+nodeIcon(d.mediaType), "image/svg+xml", function(xml){
             document.getElementById("node_"+i).appendChild(xml.documentElement.cloneNode(true));
 
             nodeEnter.select("svg")
@@ -291,9 +341,9 @@ function nodeIcon(getType) {
     }
 }
 
-//function dragstart(d){
-//    d3.select(this).classed("fixed", d.fixed = true);
-//}
+function dragstart(d){
+    d3.select(this).classed("fixed", d.fixed = true);
+}
 
 //This function looks up whether a pair are neighbours  
 function neighboring(a, b) {
@@ -301,7 +351,7 @@ function neighboring(a, b) {
 }
 
 var isSame = null,
-    delay = 200,
+    delay = 300,
     clicks = 0,
     timer = null;
 
@@ -320,18 +370,22 @@ function showHideChildren(d) {
 }
 
 function closeSidebar() {
-    $("#wrapper").removeClass("toggled");
-    $("#sidebar-wrapper").removeClass("toggled");
+    //$("#wrapper").removeClass("toggled");
+    //$("#sidebar-wrapper").removeClass("toggled");
+    $('#urlView #path').html("<i>Select a node to view path</i>");
 }
 
 function openSidebar() {
-    $("#wrapper").addClass("toggled");
-    $("#sidebar-wrapper").addClass("toggled");
+    //$("#wrapper").addClass("toggled");
+    //$("#sidebar-wrapper").addClass("toggled");
 }
 
 function outClick() {
+
     closeSidebar();
+    clearSearchOperation();
     d3.selectAll("g").select("circle").classed("active", false);
+    d3.selectAll("g").attr("active-status", "");
 
     node.attr("class", "");
     linkg.attr("class", "");
@@ -346,7 +400,14 @@ function click(d) {
     var self = this;
 
     d3.selectAll("g").select("circle").classed("active", false);
+    d3.selectAll("g").attr("active-status", "");
+
     d3.select(self).select("circle").classed("active", true);
+
+    $('#search').select2("val", function(){
+        $('.reset-locate').show();
+        return d.id;
+    });
 
     // if single click
     if (timer == null) {
@@ -394,6 +455,7 @@ function click(d) {
             // order[b.d3.selectAll('.inactive')] < order[a.d3.selectAll('.active')] ? 1 : 0;
             //});
 
+            d3.select(self).attr("active-status", "groupselect");
             selectedNode = d.index;
         }
         else{
@@ -423,26 +485,28 @@ function click(d) {
 //}
 
 function displayInfo(resource){
-    $('#name span').text(resource.name);
-    $('#mediaType span').text(resource.mediaType);
+    $('#name').text(resource.name);
+    $('#mediaType').text(resource.mediaType);
     var linkString = '<a href = "../../carbon/resources/resource.jsp?region=region3&item=resource_browser_menu&path=' +
         encodeURIComponent(resource.path) + '">' + resource.path + '</a>';
-    $('#path span').html(linkString);
+    $('#path').html(linkString);
     if(resource.lcState==null){
-        $('#lcState span').text("Not defined");
+        $('#lcState').text("Not defined");
     } else{
-        $('#lcState span').text(resource.lcState) ;
+        $('#lcState').text(resource.lcState);
     }
 }
 
+var screenOrientation = $(window).width() > $(window).height() ? .5625 : .9625;
+
 function tick(){
     link.attr("x1", function(d) { return d.source.x; })
-        .attr("y1", function(d) { return d.source.y; })
+        .attr("y1", function(d) { return screenOrientation * d.source.y; })
         .attr("x2", function(d) { return d.target.x; })
-        .attr("y2", function(d) { return d.target.y; });
+        .attr("y2", function(d) { return screenOrientation * d.target.y; });
 
     linkNode.attr("cx", function(d) { return midPoint(d.source.x,d.target.x) })
-            .attr("cy", function(d) { return midPoint(d.source.y,d.target.y) });
+            .attr("cy", function(d) { return screenOrientation * midPoint(d.source.y,d.target.y) });
 
     linkg.attr("object", function(d) {
         return JSON.stringify(d)
@@ -450,9 +514,14 @@ function tick(){
 
     //console.log(nodeEnter.html());
 
-    nodeEnter.attr("transform", function(d) { return "translate(" + d.x + "," + d.y + ")"; });
+    nodeEnter.attr("transform", function(d) { return "translate(" + d.x + "," + screenOrientation * d.y + ")"; });
 
-    //zoomFit(); //Zoom out graph to fit screen on page load
+    zoomFit(); //Zoom out graph to fit screen on page load
+}
+
+function tickCallback(){
+    $("#preLoader").hide();
+    $(".zoom").attr("disabled", false);
 }
 
 function midPoint(val1, val2) {
@@ -481,13 +550,14 @@ function clearSearchOperation() {
 
     clearSearchedNode();
     closeSidebar();
-    zoomFit();
+    //zoomFit();
 }
 
 function clearSearchedNode() {
     d3.selectAll("g").select("circle").classed("active", false);
     node.attr("class", "");
     linkg.attr("class", "");
+    d3.selectAll("g").attr("active-status", "");
 }
 
 function searchNode() {
@@ -587,34 +657,6 @@ function svgDownload(){
     $("#graph-capture svg g").inlineStyler(cssRules);
     svgenie.save(document.getElementById("cloned"), { name:"graph.png" });
     $("#graph-capture svg").remove();
-
-
-    //var oSerializer = new XMLSerializer();
-    //var sXML = oSerializer.serializeToString(document.getElementById("dependency-graph"));
-    //canvg(document.getElementById('canvas'), sXML,{ ignoreMouse: true, ignoreAnimation: true });
-
-
-
-
-    //var svgString = new XMLSerializer().serializeToString(document.getElementById('cloned'));
-    //
-    //var canvas = document.getElementById("canvas");
-    //var ctx = canvas.getContext("2d");
-    //var DOMURL = self.URL || self.webkitURL || self;
-    //var img = new Image();
-    //var svg = new Blob([svgString], {type: "image/svg+xml;charset=utf-8"});
-    //var url = DOMURL.createObjectURL(svg);
-    //img.onload = function() {
-    //    ctx.drawImage(img, 0, 0);
-    //    var png = canvas.toDataURL("image/png");
-    //    document.querySelector('#png-container').innerHTML = '<img src="'+png+'"/>';
-    //    DOMURL.revokeObjectURL(png);
-    //};
-    //img.src = url;
-
-    //var elem = document.getElementById("graphFrame");
-    //var theCSSprop = window.getComputedStyle(elem,null).getPropertyValue("height");
-    //document.getElementById("output").innerHTML = theCSSprop;
 
 }
 

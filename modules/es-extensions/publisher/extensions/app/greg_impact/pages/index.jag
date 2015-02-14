@@ -40,14 +40,19 @@ else {
 
     <div id="wrapper">
 
+       <div id="urlView">
+            <span class="label">Path:</span>
+            <span id="path"><!-- dynamic content --></span>
+       </div>
+
        <!-- Sidebar Left -->
        <div id="sidebar-wrapper" class="sidebar left">
            <button type="button" class="btn btn-default sidebar-close-btn" onclick="closeSidebar()"><span class="fa fa-close" aria-hidden="true"></span> Close Window</button>
            <br />
            <div class="details">
-                <p id="name">Name: <span><!-- dynamic content --></span></p>
-                <p id="mediaType">Type: <span><!-- dynamic content --></span></p>
-                <p id="path">Path: <span><!-- dynamic content --></span></p>
+                <p>Name: <span id="name"><!-- dynamic content --></span></p>
+                <p>Type: <span id="mediaType"><!-- dynamic content --></span></p>
+                <p>Path: <span id="path"><!-- dynamic content --></span></p>
            </div>
        </div>
        <!-- /#sidebar-wrapper-left -->
@@ -55,28 +60,27 @@ else {
        <!-- Page Content -->
        <div id="page-content-wrapper">
 
-           	<div class="ui-widget left searchfield">
-           	    <button type="button" class="btn btn-default controls download" onclick="svgDownload()" title="Save screen for print"><span class="fa fa-save" aria-hidden="true"></span> Save</button>
-                <input id="search" class="searchbox" title="Locate Resource"><button type="button" class="btn btn-default btn-locate" onclick="searchNode()">Search</button>
+            <div id="preLoader" class="preloader">
+                <div class="load-animation">
+                    <div class="loader-dot" id="loaderDot_1"><div class="loader-inner-dot"></div></div>
+                    <div class="loader-dot" id="loaderDot_2"><div class="loader-inner-dot"></div></div>
+                    <div class="loader-dot" id="loaderDot_3"><div class="loader-inner-dot"></div></div>
+                    <div class="loader-dot" id="loaderDot_4"><div class="loader-inner-dot"></div></div>
+                    <div class="loader-dot" id="loaderDot_5"><div class="loader-inner-dot"></div></div>
+                </div>
+                Loading: <i>Please wait ...</i>
+            </div>
+
+            <div class="ui-widget left searchfield">
+                <button type="button" class="btn btn-default controls download" onclick="svgDownload()" title="Save screen for print"><span class="fa fa-save" aria-hidden="true"></span> Save</button>
+                <input id="search" class="searchbox" title="Locate Resource" /><button type="button" class="btn btn-default btn-locate" onclick="searchNode()">Search</button>
                 <button type="button" class="btn btn-default reset-locate" onclick="clearSearchOperation()" title="Clear search"><span class="fa fa-times" aria-hidden="true"></span></button>
             </div>
 
-            <!--<section class="search-widget">-->
-                 <!--<form class="search" method="post" action="index.html" >-->
-                     <!--<input type="text" name="q" placeholder="Find Resource" />-->
-                     <!--<ul class="results" >-->
-                         <!--<li><a href="index.html">Search Result #1<br /><span>Description...</span></a></li>-->
-                         <!--<li><a href="index.html">Search Result #2<br /><span>Description...</span></a></li>-->
-                        <!--<li><a href="index.html">Search Result #3<br /><span>Description...</span></a></li>-->
-                        <!--<li><a href="index.html">Search Result #4</a></li>-->
-                     <!--</ul>-->
-                 <!--</form>-->
-            <!--</section>-->
-
             <div class="ui-widget right">
-                <button type="button" class="btn btn-default controls" onclick="zoomIn()" title="Zoom-in"><span class="fa fa-plus" aria-hidden="true"></span></button><br />
-                <button type="button" class="btn btn-default controls" onclick="zoomOut()" title="Zoom-out"><span class="fa fa-minus" aria-hidden="true"></span></button><br />
-                <button type="button" class="btn btn-default controls zooomfit" onclick="zoomFit()" title="Zoom-out to fit screen"><span class="fa fa-arrows-alt" aria-hidden="true"></span></button>
+                <button type="button" class="btn btn-default controls zoom" onclick="zoomIn()" title="Zoom-in" disabled="disabled"><span class="fa fa-plus" aria-hidden="true"></span></button><br />
+                <button type="button" class="btn btn-default controls zoom" onclick="zoomOut()" title="Zoom-out" disabled="disabled"><span class="fa fa-minus" aria-hidden="true"></span></button><br />
+                <button type="button" class="btn btn-default controls zoom zooomfit" onclick="zoomFit()" title="Zoom-out to fit screen" disabled="disabled"><span class="fa fa-arrows-alt" aria-hidden="true"></span></button>
             </div>
 
             <div id="graphFrame">
@@ -135,19 +139,21 @@ else {
     <script>
 
         var imageScale = 0.9,
-            width = $(window).width(),
-            height = $(window).height(),
+            footerHeight = 50,
+            width = ($(window).width()),
+            height = ($(window).height()-footerHeight),
             root = <%=obj%>,
             legend = <%=application.get("mediaTypesToImages")%>;
 
         var force = d3.layout.force()
-            .linkDistance(root.index * 5)
+            .linkDistance(200)
             .linkStrength(0.1)
-            .charge(root.index * -150)
+            .charge(root.index * -200)
             .gravity(0)
             .alpha(10)
             .size([width, height])
             .on("tick", tick)
+            .on("end", tickCallback)
             .start();
 
         var zoom = d3.behavior.zoom().on("zoom", redraw);
@@ -160,13 +166,12 @@ else {
             .attr("width", width)
             .attr("height", height)
             .attr("pointer-events", "all")
-            .call(zoom).on("dblclick.zoom", null)
+            .call(zoom)
+            .on("dblclick.zoom", null)
             .append('g')
             .attr('id', 'mainG');
 
-        var graph = d3.select("*:not(#mainG)").on("click", outClick);
-        //var graph = d3.select("*:not(#mainG)");
-        //graph.select("*:not(.btn)").on("click", outClick);
+        var graph = d3.select("svg:not(#mainG)").on("click", outClick);
 
         var node = svg.selectAll(".node"),
             linkg = svg.selectAll(".linkg"),
@@ -179,7 +184,7 @@ else {
             linkedByIndex = {};
 
             update(root) ;
-            displayInfo(root.nodes[0]);
+            //displayInfo(root.nodes[0]);
             setupSearch();
 
     </script>
