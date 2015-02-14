@@ -40,11 +40,6 @@ else {
 
     <div id="wrapper">
 
-       <div id="urlView">
-            <span class="label">Path:</span>
-            <span id="path"><!-- dynamic content --></span>
-       </div>
-
        <!-- Sidebar Left -->
        <div id="sidebar-wrapper" class="sidebar left">
            <button type="button" class="btn btn-default sidebar-close-btn" onclick="closeSidebar()"><span class="fa fa-close" aria-hidden="true"></span> Close Window</button>
@@ -52,7 +47,7 @@ else {
            <div class="details">
                 <p>Name: <span id="name"><!-- dynamic content --></span></p>
                 <p>Type: <span id="mediaType"><!-- dynamic content --></span></p>
-                <p>Path: <span id="path"><!-- dynamic content --></span></p>
+                <p>Path: <span id="path2"><!-- dynamic content --></span></p>
            </div>
        </div>
        <!-- /#sidebar-wrapper-left -->
@@ -60,19 +55,27 @@ else {
        <!-- Page Content -->
        <div id="page-content-wrapper">
 
-            <div id="preLoader" class="preloader">
-                <div class="load-animation">
-                    <div class="loader-dot" id="loaderDot_1"><div class="loader-inner-dot"></div></div>
-                    <div class="loader-dot" id="loaderDot_2"><div class="loader-inner-dot"></div></div>
-                    <div class="loader-dot" id="loaderDot_3"><div class="loader-inner-dot"></div></div>
-                    <div class="loader-dot" id="loaderDot_4"><div class="loader-inner-dot"></div></div>
-                    <div class="loader-dot" id="loaderDot_5"><div class="loader-inner-dot"></div></div>
+            <div id="preLoader">
+                <div class="preloader">
+                    <div class="load-animation">
+                        <div class="loader-dot" id="loaderDot_1"><div class="loader-inner-dot"></div></div>
+                        <div class="loader-dot" id="loaderDot_2"><div class="loader-inner-dot"></div></div>
+                        <div class="loader-dot" id="loaderDot_3"><div class="loader-inner-dot"></div></div>
+                        <div class="loader-dot" id="loaderDot_4"><div class="loader-inner-dot"></div></div>
+                        <div class="loader-dot" id="loaderDot_5"><div class="loader-inner-dot"></div></div>
+                    </div>
+                    Loading: <i>Please wait ...</i>
                 </div>
-                Loading: <i>Please wait ...</i>
+                <div class="loaderbg"></div>
+            </div>
+
+            <div id="urlView">
+                <span class="label">Path:</span>
+                <span id="path"><!-- dynamic content --></span>
             </div>
 
             <div class="ui-widget left searchfield">
-                <button type="button" class="btn btn-default controls download" onclick="svgDownload()" title="Save screen for print"><span class="fa fa-save" aria-hidden="true"></span> Save</button>
+                <button type="button" class="btn btn-default download" onclick="svgDownload()" title="Save screen for print"><span class="fa fa-save" aria-hidden="true"></span> Save</button>
                 <input id="search" class="searchbox" title="Locate Resource" /><button type="button" class="btn btn-default btn-locate" onclick="searchNode()">Search</button>
                 <button type="button" class="btn btn-default reset-locate" onclick="clearSearchOperation()" title="Clear search"><span class="fa fa-times" aria-hidden="true"></span></button>
             </div>
@@ -150,7 +153,7 @@ else {
             .linkStrength(0.1)
             .charge(root.index * -200)
             .gravity(0)
-            .alpha(10)
+            .alpha(0)
             .size([width, height])
             .on("tick", tick)
             .on("end", tickCallback)

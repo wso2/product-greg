@@ -485,6 +485,7 @@ function click(d) {
 //}
 
 function displayInfo(resource){
+
     $('#name').text(resource.name);
     $('#mediaType').text(resource.mediaType);
     var linkString = '<a href = "../../carbon/resources/resource.jsp?region=region3&item=resource_browser_menu&path=' +

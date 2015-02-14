@@ -122,7 +122,7 @@ button { overflow: visible; }
 #urlView { position: absolute; background: #161616; color: #ffffff; bottom: 0; left: 0; width:100%; }
 #urlView a { color: #ffffff; text-decoration: none; }
 #urlView a:hover { text-decoration: underline; }
-#urlView span { padding: 15px; display: inline-block; }
+#urlView span { padding: 15px; display: inline-block; height: 50px; overflow: hidden; }
 #urlView span i { opacity: 0.3; font-weight: 100; }
 #urlView span.label { background: #007d85; }
 
@@ -219,12 +219,12 @@ svg .inactive svg path { fill: #3a424d; }
     background-color: #e6e6e6;
 }
 
+.btn.download { background: #007d85; }
 .btn.controls {
     outline: medium none;
     margin-bottom: 2px;
 }
 .btn.controls.zooomfit { margin-top: 6px; }
-.btn.controls.download { background: #007d85; }
 .btn.controls.download:hover { background: #00aeb9; color: #ffffff; }
 .btn.controls[disabled=disabled], .btn.controls[disabled=disabled]:hover { background: #696969; cursor: default; color: #ffffff; opacity: 0.2; }
 
@@ -298,6 +298,15 @@ svg .inactive svg path { fill: #3a424d; }
     border: none;
     background-color: #ffffff;
 }
+.select2-results::-webkit-scrollbar{
+    width: 6px;
+    background: transparent;
+    padding: 0 5px;
+    cursor: all-scroll;
+}
+.select2-results::-webkit-scrollbar-thumb{ background: #2c313b; }
+.select2-results::-webkit-scrollbar-thumb:hover{ background: #007d85; }
+.select2-results::-webkit-scrollbar-thumb:active{ background: #007d85; }
 
 /*====== Tooltip styles ======*/
 .ui-tooltip {
@@ -360,12 +369,21 @@ svg .inactive svg path { fill: #3a424d; }
 }
 
 /*====== Loading animation ======*/
+.loaderbg {
+    position:absolute;
+    z-index: 10000;
+    width: 300000px;
+    height: 300000px;
+    background: #000000;
+    opacity: 0.7;
+    display: block;
+}
 .preloader {
     position: absolute;
     bottom: 80px;
     left: 30px;
     color: #ffffff;
-    z-index: 0;
+    z-index: 10001;
     font-weight: 400;
 }
 .preloader i { font-weight: 100; }
