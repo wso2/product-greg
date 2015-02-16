@@ -236,6 +236,7 @@ svg .inactive svg path { fill: #3a424d; }
 }
 
 .btn.download { background: #007d85; }
+.btn.download.res { display: none; }
 .btn.zoom {
     outline: medium none;
     margin-bottom: 2px;
@@ -773,10 +774,6 @@ and (max-width : 700px) {
     .ui-widget.left .btn { display: block; float: left; margin-right:5px; }
     .select2-container, .select2-search, .search { min-width: inherit; float: left; margin: 8px 0;  }
     .select2-container, .select2-drop, .select2-results { width: 100%; }
-    .ui-widget.left .zoom {
-        display: inline-block;
-    }
-    .ui-widget.right .zoom {
-        display: none;
-    }
+    .ui-widget.right .zoom, .ui-widget.left .download { display: none; }
+    .ui-widget.left .zoom, .ui-widget.left .download.res { display: inline-block; }
 }
