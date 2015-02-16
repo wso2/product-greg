@@ -119,12 +119,27 @@ button { overflow: visible; }
 }
 #sidebar-wrapper .details a:hover { text-decoration: none; }
 
-#urlView { position: absolute; background: #161616; color: #ffffff; bottom: 0; left: 0; width:100%; }
+#urlView { position: absolute; background: #161616; color: #ffffff; bottom: 0; left: 0; width:100%; height: 50px; white-space: nowrap; }
 #urlView a { color: #ffffff; text-decoration: none; }
 #urlView a:hover { text-decoration: underline; }
 #urlView span { padding: 15px; display: inline-block; height: 50px; overflow: hidden; }
 #urlView span i { opacity: 0.3; font-weight: 100; }
 #urlView span.label { background: #007d85; }
+#urlView #path:before {
+    content: "";
+    pointer-events: none;
+    position: absolute;
+    width: 150px;
+    height: 100%;
+    top: 0;
+    right: 0;
+
+    background-image: -webkit-linear-gradient(right, rgba(22, 22, 22, 1), rgba(22, 22, 22, 0));
+    background-image: -moz-linear-gradient(right, rgba(22, 22, 22, 1), rgba(22, 22, 22, 0));
+    background-image: -ms-linear-gradient(right, rgba(22, 22, 22, 1), rgba(22, 22, 22, 0));
+    background-image: -o-linear-gradient(right, rgba(22, 22, 22, 1), rgba(22, 22, 22, 0));
+    background-image: linear-gradient(to left, rgba(22, 22, 22, 1), rgba(22, 22, 22, 0));
+}
 
 /*====== Graph styles ======*/
 
@@ -182,6 +197,7 @@ svg .inactive svg path { fill: #3a424d; }
 .ui-widget {
     position: absolute;
     top: 30px;
+    white-space: nowrap;
 }
 .fa {
     font-size: 1.2em;
@@ -220,15 +236,17 @@ svg .inactive svg path { fill: #3a424d; }
 }
 
 .btn.download { background: #007d85; }
-.btn.controls {
+.btn.zoom {
     outline: medium none;
     margin-bottom: 2px;
 }
-.btn.controls.zooomfit { margin-top: 6px; }
-.btn.controls.download:hover { background: #00aeb9; color: #ffffff; }
-.btn.controls[disabled=disabled], .btn.controls[disabled=disabled]:hover { background: #696969; cursor: default; color: #ffffff; opacity: 0.2; }
+.btn.zoom.zooomfit { margin-top: 6px; }
+.ui-widget.left .zoom { display: none; margin-bottom: 0; }
+.btn.download:hover { background: #00aeb9; color: #ffffff; }
+.btn.zoom[disabled=disabled], .btn.zoom[disabled=disabled]:hover { background: #696969; cursor: default; color: #ffffff; opacity: 0.2; }
 
 .searchfield { visibility: hidden; }
+.searchfield button { display: inline-block; }
 .searchfield button.reset-locate, .searchfield button.btn-locate { display: none; }
 .sidebar-close-btn {
     display: block;
@@ -263,8 +281,13 @@ svg .inactive svg path { fill: #3a424d; }
 .select2-results .select2-highlighted .resource-name { color: #ffffff; }
 .select2-results .select2-highlighted .media-type { color: #00bb8d; }
 .select2-results .select2-highlighted .icon path { fill: #ffffff; }
-.select2-search input { width:400px; }
-/*.select2-container.searchbox,*/ .select2-container, .select2-drop, .select2-search { min-width:450px; }
+.select2-search input { /*width:400px;*/ }
+.select2-container { min-width:350px; }
+.select2-container .select2-choice > .select2-chosen {
+    margin-right:0;
+}
+
+/*.select2-container.searchbox,*/ .select2-container, .select2-drop, .select2-search { /*min-width:450px;*/ }
 .select2-container .select2-choice, .select2-container-multi .select2-choices {
     border-radius: 2px;
     box-shadow: 1px 2px 2px rgba(0, 0, 0, 0.3);
@@ -283,7 +306,6 @@ svg .inactive svg path { fill: #3a424d; }
     background: none;
     border: none;
     width:35px;
-    /*display: none;*/
 }
 .select2-container .select2-choice .select2-arrow b:before, .select2-container-multi .select2-choices li.select2-search-field:after { font-family: "FontAwesome"; content: "\f002"; }
 .select2-container .select2-choice .select2-arrow b {
@@ -741,4 +763,20 @@ svg .inactive svg path { fill: #3a424d; }
         transform: rotate(900deg);
     }
 
+}
+
+/*====== Screen responsive styles ======*/
+@media only screen
+and (max-width : 700px) {
+    .btn.download span { display: none; }
+    .ui-widget.left { width: 100%; top:0; left:0; padding: 8px; }
+    .ui-widget.left .btn { display: block; float: left; margin-right:5px; }
+    .select2-container, .select2-search, .search { min-width: inherit; float: left; margin: 8px 0;  }
+    .select2-container, .select2-drop, .select2-results { width: 100%; }
+    .ui-widget.left .zoom {
+        display: inline-block;
+    }
+    .ui-widget.right .zoom {
+        display: none;
+    }
 }

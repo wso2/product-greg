@@ -32,7 +32,8 @@ $(document).ready(function() {
         placeholder: 'Find Resource',
         data: root.nodes,
         multiple: false,
-        width: "copy",
+        //width: "copy",
+        width: "100%",
         formatResult: function (object, container, d){
             return  '<div class="item">' +
                         '<div class="text">' +
@@ -47,7 +48,7 @@ $(document).ready(function() {
     }).on('select2-close', function() {
         if (this.value !== ""){
             searchNode();
-            $('.reset-locate').show();
+            $('.reset-locate').css("display", "inline-block");
         }
     }).on('select2-open', function(){
 
@@ -405,7 +406,7 @@ function click(d) {
     d3.select(self).select("circle").classed("active", true);
 
     $('#search').select2("val", function(){
-        $('.reset-locate').show();
+        $('.reset-locate').css("display", "inline-block");
         return d.id;
     });
 
