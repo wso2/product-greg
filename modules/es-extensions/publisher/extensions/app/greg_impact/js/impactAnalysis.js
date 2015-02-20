@@ -20,7 +20,13 @@
  * @set default global variables
  */
 var svgIconsFolder = "../extensions/app/greg_impact/images/svg/",
-    footerHeight = 50;
+    footerHeight = 50,
+    isSame = null,
+    delay = 300,
+    clicks = 0,
+    timer = null,
+    screenOrientation = $(window).width() > $(window).height() ? .5625 : .9625,
+    onload = true;
 
 /**
  * Impact analysis: Dependency Graph UI functions
@@ -32,10 +38,9 @@ $(document).ready(function() {
         placeholder: 'Find Resource',
         data: root.nodes,
         multiple: false,
-        //width: "copy",
         width: "100%",
         formatResult: function (object, container, d){
-            return  '<div class="item">' +
+            return  '<div class="item" id="search_' + object.id + '">' +
                         '<div class="text">' +
                             '<div class="resource-name">' + object.text + '</div>' +
                             '<div class="media-type">' + object.mediaType + '</div>' +
@@ -51,6 +56,15 @@ $(document).ready(function() {
             $('.reset-locate').css("display", "inline-block");
         }
     }).on('select2-open', function(){
+
+        $('ul.select2-results li').each(function(){
+            var itemId = $('.item', this).attr('id');
+                itemId = itemId.replace('search_', 'node_');
+
+            if($("#"+itemId+"").css('display') == 'none'){
+                $(this).hide();
+            }
+        });
 
         $('img.svg').each(function(){
             var $img = $(this);
@@ -92,12 +106,12 @@ $(document).ready(function() {
 
     var linknodes = $('.linkNode');
     for (var i = 0; i < linknodes.length; i++) {
-        setClickableTooltip('#' + linknodes[i].id , alertLinkRelations(linknodes[i].__data__));
+        setClickableTooltip('#' + linknodes[i].id , linkRelations(linknodes[i].__data__));
     }
 
     var nodeCircles = $('.nodeCircle');
     for (var i = 0; i < nodeCircles.length; i++) {
-        setClickableTooltip('#' + nodeCircles[i].id , alertNodeRelations(nodeCircles[i].__data__));
+        setClickableTooltip('#' + nodeCircles[i].id , linkRelations(nodeCircles[i].__data__));
     }
 
 });
@@ -142,17 +156,37 @@ function update(d) {
 
     linkg = svg.selectAll(".linkg")
         .data(links)
-        .enter().append("g");
+        .enter().append("g")
+        .attr("group", "link")
+        .attr("id", function(d,i){
+            return "link_"+[i];
+        })
+        .attr("associations", function(d,i){
+            var result = "";
+            for (loop = 0; loop < root.edges[i].relations.length; loop++){
+                result += (loop !== 0 ? ";" : "") + root.relations[root.edges[i].relations[loop]].relation;
+            }
+            return result;
+        });
 
     link = linkg.append("line")
-        .attr("class", "link");
+        .attr("class", "linkLine");
 
     linkNode = linkg.append("circle")
-        .attr("id", getLinkID)
         .attr("class", "linkNode")
+        .attr("id", getLinkID)
         .attr("title", '')
         .on("click", showRelations)
         .attr("r", 5);
+
+    //linkTitle = linkg.append('svg:title')
+    //    .text(function(d,i){
+    //        var result = "";
+    //        for (loop = 0; loop < root.edges[i].relations.length; loop++){
+    //            result += root.relations[root.edges[i].relations[loop]].relation +": "+ root.relations[root.edges[i].relations[loop]].target +"; ";
+    //        }
+    //        return result;
+    //    });
 
     // Update nodes.
     node = node.data(nodes, function(d) {
@@ -167,7 +201,24 @@ function update(d) {
             return "node" + ('image' in d ? ' imagenode' : '')  + " nodeCircle";
         })
         .on("click", click)
-        .attr("group", "node");
+        .attr("group", "node")
+        .attr("edges", function(d, i){
+            var result = "";
+            for (loop = 0; loop < root.nodes[i].relations.length; loop++){
+
+                var relationTarget = root.relations[root.nodes[i].relations[loop]].target,
+                    relationSource = root.relations[root.nodes[i].relations[loop]].source;
+
+                    for (innerloop = 0; innerloop < root.edges.length; innerloop++) {
+                        if( ((relationTarget == root.edges[innerloop].target.index) && (relationSource == root.edges[innerloop].source.index)) ||
+                            ((relationTarget == root.edges[innerloop].source.index) && (relationSource == root.edges[innerloop].target.index)) ){
+                            result += (loop !== 0 ? ";" : "") + "link_"+[innerloop];
+                        }
+                    }
+
+            }
+            return result;
+        });
         //.call(force.drag); //enable node dragging
 
     var circle = nodeEnter.append("circle")
@@ -230,37 +281,37 @@ function update(d) {
     return c;
 }*/
 
-function drawArrows() {
-    var markerWidth = 10,
-        markerHeight = 18,
-        cRadius = 29,
-        refX = cRadius + (markerWidth * 2),
-        refY = 0,
-        drSub = cRadius + refY;
-
-
-    svg.append("svg:defs").selectAll("marker")
-        .data(["arrow"])
-        .enter().append("svg:marker")
-        .attr("id", "arrow")
-        .attr("viewBox", "0 -5 10 10")
-        .attr("refX", refX)
-        .attr("refY", refY)
-        .attr("markerWidth", markerWidth)
-        .attr("markerHeight", markerHeight)
-        .attr("orient", "auto")
-        .append("svg:path")
-        .attr("d", "M0,-5L10,0L0,5");
-
-    path = svg.append("svg:g").selectAll("line")
-        .attr("class", function (d) {
-            return "link";
-        })
-        .attr("marker-end", function (d) {
-            return "url(#arrow)"})
-        .data(force.links())
-        .enter();
-}
+//function drawArrows() {
+//    var markerWidth = 10,
+//        markerHeight = 18,
+//        cRadius = 29,
+//        refX = cRadius + (markerWidth * 2),
+//        refY = 0,
+//        drSub = cRadius + refY;
+//
+//
+//    svg.append("svg:defs").selectAll("marker")
+//        .data(["arrow"])
+//        .enter().append("svg:marker")
+//        .attr("id", "arrow")
+//        .attr("viewBox", "0 -5 10 10")
+//        .attr("refX", refX)
+//        .attr("refY", refY)
+//        .attr("markerWidth", markerWidth)
+//        .attr("markerHeight", markerHeight)
+//        .attr("orient", "auto")
+//        .append("svg:path")
+//        .attr("d", "M0,-5L10,0L0,5");
+//
+//    path = svg.append("svg:g").selectAll("line")
+//        .attr("class", function (d) {
+//            return "linkLine";
+//        })
+//        .attr("marker-end", function (d) {
+//            return "url(#arrow)"})
+//        .data(force.links())
+//        .enter();
+//}
 
 // Get node types ex:- Parent > Child
 function nodeType(d) {
@@ -284,61 +335,61 @@ function nodeIcon(getType) {
 
     switch(getType) {
         case "application/wsdl+xml":
-            return "xml6.svg";
+            return "wsdl.svg";
             break;
         case "application/wadl+xml":
-            return "xml6.svg";
+            return "wadl.svg";
             break;
         case "application/vnd.wso2-uri+xml":
-            return "xml6.svg";
+            return "uri.svg";
             break;
         case "application/vnd.wso2-site+xml":
-            return "xml6.svg";
+            return "site.svg";
             break;
         case "application/vnd.wso2-servicex+xml":
-            return "xml6.svg";
+            return "soap.svg";
             break;
         case "application/vnd.wso2-service+xml":
-            return "xml6.svg";
+            return "service.svg";
             break;
         case "application/vnd.wso2-sequence+xml":
-            return "xml6.svg";
+            return "sequence.svg";
             break;
         case "application/x-xsd+xml":
-            return "xml6.svg";
+            return "xsd.svg";
             break;
         case "application/vnd.wso2-proxy+xml":
-            return "xml6.svg";
+            return "proxy.svg";
             break;
         case "application/vnd.wso2-provider+xml":
-            return "xml6.svg";
+            return "service_provider.svg";
             break;
         case "application/policy+xml":
-            return "xml6.svg";
+            return "policy.svg";
             break;
         case "application/vnd.wso2-gadget+xml":
-            return "xml6.svg";
+            return "gadget.svg";
             break;
         case "application/vnd.wso2-endpoint+xml":
-            return "xml6.svg";
+            return "endpoint.svg";
             break;
         case "application/vnd.wso2-ebook+xml":
-            return "xml6.svg";
+            return "pdf.svg";
             break;
         case "application/vnd.wso2-document+xml":
-            return "xml6.svg";
+            return "ms_document.svg";
             break;
         case "application/vnd.wso2-api+xml":
-            return "xml6.svg";
+            return "api.svg";
             break;
         case "application/vnd.wso2.endpoint":
-            return "meeting3.svg";
+            return "endpoint.svg";
             break;
         case "application/vnd.wso2-application+xml":
-            return "xml6.svg";
+            return "application.svg";
             break;
         default:
-            return "rdf.svg";
+            return "resource.svg";
     }
 }
 
@@ -346,15 +397,79 @@ function dragstart(d){
     d3.select(this).classed("fixed", d.fixed = true);
 }
 
+function setupFilters(){
+    var filters = [];
+
+    d3.selectAll("[group=link]").each(function(){
+        var associations = $(this).attr("associations"),
+            association = associations.split(';');
+
+        for(var i = 0; i < association.length; i++) {
+            var newFilter = association[i];
+            if(filters.indexOf(newFilter) === -1) {
+                filters.push(newFilter)
+            }
+        }
+    });
+
+    for(var i = 0; i < filters.length; i++) {
+        $('#filters').append('<div class="tag" onclick="filter(this)"><span>' +filters[i]+ '</span> <i class="fa fa-check" aria-hidden="true"></i></div><br />');
+    }
+}
+
+function filter(elem){
+
+    $(elem).toggleClass('hidden');
+
+    $('i', elem).toggleClass('fa fa-check', function(){
+
+        $("svg").find("[group='link']").hide();
+        $('.tag').each(function(){
+            if(!$(this).hasClass('hidden')) {
+
+                var filter = $('span', this).html();
+                d3.selectAll("[group=link]").each(function(){
+                    var associations = $(this).attr("associations"),
+                        association = associations.split(';');
+
+                    for(var i = 0; i < association.length; i++) {
+                        if(association[i] == filter){
+                            $(this).show();
+                        }
+                    }
+                });
+
+            }
+        });
+
+        $("svg").find("[group='node']").hide();
+        d3.selectAll("[group=node]").each(function(){
+            var edges = $(this).attr("edges"),
+                edge = edges.split(';');
+
+            for(var i = 0; i < edge.length; i++) {
+                if($("#"+edge[i]+"").css('display') !== 'none'){
+                    $(this).show();
+                }
+            }
+            zoomFit();
+        });
+
+    });
+
+    $("#search").select2("enable", false);
+    $('#filters .tag').each(function(){
+        if(!$(this).hasClass('hidden')){
+            $("#search").select2("enable", true);
+        }
+    });
+
+}
+
 //This function looks up whether a pair are neighbours  
 function neighboring(a, b) {
     return linkedByIndex[a.index + "," + b.index];
 }
-
-var isSame = null,
-    delay = 300,
-    clicks = 0,
-    timer = null;
 
 /*
 on double click expand and retract node's children
@@ -370,20 +485,13 @@ function showHideChildren(d) {
     update();
 }
 
-function closeSidebar() {
-    //$("#wrapper").removeClass("toggled");
-    //$("#sidebar-wrapper").removeClass("toggled");
-    $('#urlView #path').html("<i>Select a node to view path</i>");
-}
-
-function openSidebar() {
-    //$("#wrapper").addClass("toggled");
-    //$("#sidebar-wrapper").addClass("toggled");
+function resetPath() {
+    $("#urlView #path").html("<i>Select a resource to view path</i>");
 }
 
 function outClick() {
 
-    closeSidebar();
+    resetPath();
     clearSearchOperation();
     d3.selectAll("g").select("circle").classed("active", false);
     d3.selectAll("g").attr("active-status", "");
@@ -392,6 +500,7 @@ function outClick() {
     linkg.attr("class", "");
     isSame = self;
     selectedNode = -1;
+
 }
 
 function click(d) {
@@ -418,11 +527,8 @@ function click(d) {
 
             // single click function
             if ((self === isSame) && ($("#wrapper").hasClass("toggled"))) {
-                closeSidebar();
+                resetPath();
                 d3.selectAll("g").select("circle").classed("active", false);
-            }
-            else {
-                openSidebar();
             }
             isSame = self;
         }, delay);
@@ -474,19 +580,7 @@ function click(d) {
     return false;
 }
 
-//function imageZoom(img, scale) {
-//    d3.select(img)
-//        .transition()
-//        .attr("width", function (d) {
-//            return scale * d.width;
-//        })
-//        .attr("height", function (d) {
-//            return scale * d.height;
-//        });
-//}
-
 function displayInfo(resource){
-
     $('#name').text(resource.name);
     $('#mediaType').text(resource.mediaType);
     var linkString = '<a href = "../../carbon/resources/resource.jsp?region=region3&item=resource_browser_menu&path=' +
@@ -499,8 +593,6 @@ function displayInfo(resource){
     }
 }
 
-var screenOrientation = $(window).width() > $(window).height() ? .5625 : .9625;
-
 function tick(){
     link.attr("x1", function(d) { return d.source.x; })
         .attr("y1", function(d) { return screenOrientation * d.source.y; })
@@ -510,20 +602,23 @@ function tick(){
     linkNode.attr("cx", function(d) { return midPoint(d.source.x,d.target.x) })
             .attr("cy", function(d) { return screenOrientation * midPoint(d.source.y,d.target.y) });
 
-    linkg.attr("object", function(d) {
-        return JSON.stringify(d)
-    });
+    //linkg.attr("object", function(d) {
+    //    return JSON.stringify(d)
+    //});
 
     //console.log(nodeEnter.html());
 
     nodeEnter.attr("transform", function(d) { return "translate(" + d.x + "," + screenOrientation * d.y + ")"; });
 
-    zoomFit(); //Zoom out graph to fit screen on page load
+    if(onload == true){
+        zoomFit(); //Zoom out graph to fit screen on page load
+    }
 }
 
 function tickCallback(){
     $("#preLoader").hide();
     $(".zoom").attr("disabled", false);
+    onload = false;
 }
 
 function midPoint(val1, val2) {
@@ -551,7 +646,7 @@ function clearSearchOperation() {
     $(".reset-locate").hide();
 
     clearSearchedNode();
-    closeSidebar();
+    resetPath();
     //zoomFit();
 }
 
@@ -583,6 +678,9 @@ function searchNode() {
 
         zoom.scale(1);
         var coor = zoom.translate();
+
+        screenOrientation = 1;
+        tick();
 
         zoom.translate( [/*coor[0] + */getCenter().x - rootNode.x, /*coor [1] + */getCenter().y - rootNode.y] );
         zoom.event(svg);
@@ -662,31 +760,30 @@ function svgDownload(){
 
 }
 
-function alertLinkRelations(d){
-
+function linkRelations(d){
     if (d.relations.length > 0){
         var result = "";
         for (i = 0; i < d.relations.length; i++){
             var relation = root.relations[d.relations[i]];
-            result = result + '<span class="relation-type">' + relation.relation + '</span><br />'
+            result = result + '<div class="'+relation.relation+'"><span class="relation-type">' + relation.relation + '</span><br />'
                 + root.nodes[relation.source].name + '<i class="fa fa-chevron-right"></i>'
-                + root.nodes[relation.target].name + '<br>';
+                + root.nodes[relation.target].name + '</div>';
         }
         return result;
     }
 }
 
-function alertNodeRelations(nodeData){
-    if (nodeData.relations.length > 0){
-        var result = "";
-        for (i = 0; i < nodeData.relations.length; i++){
-            var relation = root.relations[nodeData.relations[i]];
-            result = result + relation.relation + '<br>' + root.nodes[relation.source].name + ' > '
-                + root.nodes[relation.target].name + '<br>';
-        }
-        return result;
-    }
-}
+//function alertNodeRelations(nodeData){
+//    if (nodeData.relations.length > 0){
+//        var result = "";
+//        for (i = 0; i < nodeData.relations.length; i++){
+//            var relation = root.relations[nodeData.relations[i]];
+//            result = result + relation.relation + '<br>' + root.nodes[relation.source].name + ' > '
+//                + root.nodes[relation.target].name + '<br>';
+//        }
+//        return result;
+//    }
+//}
 
 function getLinkID(d){
     return d.source.id + "_" + d.target.id;
@@ -698,11 +795,21 @@ function getNodeID(d){
 
 function setClickableTooltip(target, content){
     $(target).tooltip({
-        show: null, // show immediately 
+        show: null, // show immediately
         content: content,
         hide: { effect: "" }, //fadeOut
         tooltipClass: 'top',
-        position: { my: 'left bottom-10', at: 'right-78 bottom', collision: "none" },
+        position: { my: 'left bottom-10', at: 'right-80 bottom', collision: "none" },
+        open: function(event, ui){
+            $(ui.tooltip[0]).find('.ui-tooltip-content div').each(function(){
+                var self = this;
+                $('.filters .tag.hidden span').each(function(){
+                    if($(this).html() == $(self).attr('class')){
+                        $(self).remove();
+                    }
+                });
+            });
+        },
         close: function(event, ui){
             ui.tooltip.hover(
                 function () {
@@ -713,6 +820,6 @@ function setClickableTooltip(target, content){
                     })
                 }
             );
-        }  
+        }
     });
 }

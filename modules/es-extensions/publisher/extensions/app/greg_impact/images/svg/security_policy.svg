@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+
+<!--
+ * Copyright (c) 2015, WSO2 Inc. (http://www.wso2.org) All Rights Reserved.
+ *
+ * WSO2 Inc. licenses this file to you under the Apache License,
+ * Version 2.0 (the "License"); you may not use this file except
+ * in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing,
+ * software distributed under the License is distributed on an
+ * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ * KIND, either express or implied. See the License for the
+ * specific language governing permissions and limitations
+ * under the License.
+-->
+
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="48px"
+	 height="48px" viewBox="0 0 48 48" style="enable-background:new 0 0 48 48;" xml:space="preserve">
+<g id="Security_Policy">
+	<g id="Policy_2_">
+		<g>
+			<path d="M12.416,35.729h1.215v-2.487c-0.329-0.325-0.748-0.56-1.215-0.656V35.729z"/>
+			<path d="M34.301,0.017h-1.555L32.738,0.01v0.007H14.51c-1.155,0-2.095,0.939-2.095,2.095v26.004
+				c0.416,0.027,0.822,0.09,1.215,0.189V2.111c0-0.484,0.394-0.879,0.879-0.879h18.228v6.933c0,1.103,0.896,2.001,2,2.001h7.383
+				v28.399c0,0.485-0.395,0.88-0.879,0.88H20.195v1.216h21.047c1.154,0,2.094-0.94,2.094-2.096V8.68L34.301,0.017z"/>
+		</g>
+		<g>
+			<polygon points="38.615,35.403 33.941,35.403 33.941,30.506 37.59,30.506 38.639,29.406 32.893,29.406 
+				32.893,36.503 39.664,36.503 39.664,31.959 38.615,33.059 			"/>
+			<polygon points="35.092,31.983 34.35,32.76 36.131,34.627 40.584,29.957 39.844,29.179 36.131,33.072 			
+				"/>
+		</g>
+		<g>
+			<polygon points="31.758,14.658 17.216,14.658 17.216,12.84 31.758,12.84 			"/>
+			<polygon points="26.305,18.293 17.216,18.293 17.216,16.476 26.305,16.476 			"/>
+			<polygon points="31.758,23.748 17.216,23.748 17.216,21.93 31.758,21.93 			"/>
+			<polygon points="28.123,27.383 17.216,27.383 17.216,25.565 28.123,25.565 			"/>
+			<path d="M31.758,26.474c0,0.503-0.408,0.909-0.908,0.909c-0.506,0-0.912-0.406-0.912-0.909
+				c0-0.502,0.406-0.908,0.912-0.908C31.35,25.565,31.758,25.972,31.758,26.474z"/>
+		</g>
+	</g>
+	<path d="M18.165,36.729h-0.369v-1.724c0-3.188-2.53-5.854-5.693-5.91c-0.086-0.001-0.259-0.001-0.345,0
+		c-3.164,0.057-5.694,2.722-5.694,5.91v1.724H5.694c-0.568,0-1.031,0.586-1.031,1.31v8.647C4.664,47.409,5.126,48,5.694,48h12.47
+		c0.567,0,1.03-0.591,1.03-1.314v-8.647C19.195,37.314,18.732,36.729,18.165,36.729z M13.098,42.354v2.613
+		c0,0.299-0.25,0.552-0.55,0.552h-1.237c-0.3,0-0.55-0.253-0.55-0.552v-2.613c-0.29-0.285-0.459-0.682-0.459-1.118
+		c0-0.829,0.641-1.541,1.456-1.574c0.086-0.003,0.259-0.003,0.345,0c0.814,0.033,1.456,0.745,1.456,1.574
+		C13.558,41.672,13.388,42.068,13.098,42.354z M15.368,36.729h-3.266h-0.345H8.491v-1.724c0-1.899,1.543-3.47,3.438-3.47
+		c1.896,0,3.439,1.57,3.439,3.47V36.729z"/>
+</g>
+</svg>

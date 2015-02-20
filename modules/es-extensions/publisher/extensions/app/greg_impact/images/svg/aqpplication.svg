@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+
+<!--
+ * Copyright (c) 2015, WSO2 Inc. (http://www.wso2.org) All Rights Reserved.
+ *
+ * WSO2 Inc. licenses this file to you under the Apache License,
+ * Version 2.0 (the "License"); you may not use this file except
+ * in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing,
+ * software distributed under the License is distributed on an
+ * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ * KIND, either express or implied. See the License for the
+ * specific language governing permissions and limitations
+ * under the License.
+-->
+
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="48px"
+	 height="48px" viewBox="0 0 48 48" style="enable-background:new 0 0 48 48;" xml:space="preserve">
+<g id="Application">
+	<path id="_x3C_Compound_Path_x3E_" d="M0.13,38.019L0.078,16.204c-0.002-1.074,1.095-1.799,2.081-1.377
+		l19.859,8.49c0.549,0.234,0.905,0.772,0.907,1.369l0.051,21.815c0.003,1.073-1.094,1.799-2.081,1.377L1.036,39.389
+		C0.488,39.154,0.131,38.615,0.13,38.019z M45.632,17.23l-18.327,7.938l0.049,20.188l18.326-7.937L45.632,17.23 M46.373,14.599
+		c0.788-0.002,1.494,0.631,1.496,1.492l0.053,21.815c0.001,0.597-0.354,1.138-0.9,1.374l-19.818,8.584
+		c-0.196,0.084-0.396,0.124-0.592,0.125c-0.787,0.002-1.494-0.632-1.496-1.492l-0.053-21.814c-0.001-0.598,0.354-1.138,0.9-1.375
+		l19.819-8.583C45.979,14.639,46.178,14.599,46.373,14.599L46.373,14.599z M23.855,2.311L4.844,10.799l19.051,8.398l19.012-8.488
+		L23.855,2.311 M23.85,0c0.207,0,0.413,0.042,0.605,0.127L45.35,9.338c1.186,0.522,1.189,2.203,0.007,2.731l-20.851,9.31
+		c-0.192,0.086-0.398,0.129-0.605,0.13s-0.413-0.042-0.605-0.127L2.399,12.17c-1.185-0.522-1.188-2.203-0.006-2.731l20.851-9.31
+		C23.437,0.044,23.643,0,23.85,0L23.85,0z"/>
+</g>
+</svg>

@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+
+<!--
+ * Copyright (c) 2015, WSO2 Inc. (http://www.wso2.org) All Rights Reserved.
+ *
+ * WSO2 Inc. licenses this file to you under the Apache License,
+ * Version 2.0 (the "License"); you may not use this file except
+ * in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing,
+ * software distributed under the License is distributed on an
+ * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ * KIND, either express or implied. See the License for the
+ * specific language governing permissions and limitations
+ * under the License.
+-->
+
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="48px"
+	 height="48px" viewBox="0 0 48 48" style="enable-background:new 0 0 48 48;" xml:space="preserve">
+<g id="Policy">
+	<g id="Policy_1_">
+		<path id="Doc_8_" d="M31.583,0.018h-1.836L29.738,0.01v0.008H8.225c-1.363,0-2.473,1.109-2.473,2.473
+			v43.027c0,1.363,1.109,2.473,2.473,2.473h31.551c1.363,0,2.473-1.109,2.473-2.473V10.243L31.583,0.018z M39.775,46.556H8.225
+			c-0.573,0-1.038-0.466-1.038-1.038V2.49c0-0.571,0.465-1.038,1.038-1.038h21.514v8.184c0,1.302,1.06,2.361,2.361,2.361h8.714
+			v33.521C40.813,46.09,40.348,46.556,39.775,46.556z"/>
+	</g>
+	<g>
+		<polygon points="36.675,41.785 31.16,41.785 31.16,36.004 35.465,36.004 36.702,34.707 29.922,34.707 
+			29.922,43.083 37.913,43.083 37.913,37.72 36.675,39.018 		"/>
+		<polygon points="32.517,37.748 31.641,38.665 33.742,40.869 39,35.356 38.125,34.438 33.742,39.033 		"/>
+	</g>
+	<g>
+		<polygon style="fill:#060507;" points="28.582,17.299 11.417,17.299 11.417,15.154 28.582,15.154 		"/>
+		<polygon style="fill:#060507;" points="22.146,21.59 11.417,21.59 11.417,19.445 22.146,19.445 		"/>
+		<polygon style="fill:#060507;" points="28.582,28.027 11.417,28.027 11.417,25.882 28.582,25.882 		"/>
+		<polygon style="fill:#060507;" points="24.291,32.318 11.417,32.318 11.417,30.173 24.291,30.173 		"/>
+		<path style="fill:#060507;" d="M28.582,31.245c0,0.594-0.482,1.073-1.073,1.073c-0.596,0-1.075-0.479-1.075-1.073
+			c0-0.593,0.479-1.072,1.075-1.072C28.1,30.173,28.582,30.652,28.582,31.245z"/>
+	</g>
+</g>
+</svg>
