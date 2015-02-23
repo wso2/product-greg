@@ -474,16 +474,16 @@ function neighboring(a, b) {
 /*
 on double click expand and retract node's children
  */
-function showHideChildren(d) {
-    if (d.children) {
-        d._children = d.children;
-        d.children = null;
-    } else {
-        d.children = d._children;
-        d._children = null;
-    }
-    update();
-}
+//function showHideChildren(d) {
+//    if (d.children) {
+//        d._children = d.children;
+//        d.children = null;
+//    } else {
+//        d.children = d._children;
+//        d._children = null;
+//    }
+//    update();
+//}
 
 function resetPath() {
     $("#urlView #path").html("<i>Select a resource to view path</i>");
@@ -503,6 +503,27 @@ function outClick() {
 
 }
 
+//function arrangeLabels() {
+//    var move = 1;
+//    while(move > 0) {
+//        move = 0;
+//        svg.selectAll("text")
+//            .each(function() {
+//                var that = this,
+//                    a = this.getBoundingClientRect();
+//                svg.selectAll("text")
+//                    .each(function() {
+//                        if(this != that) {
+//                            var b = this.getBoundingClientRect();
+//                            if(overlap) {
+//                                move = 25;
+//                            }
+//                        }
+//                    });
+//            });
+//    }
+//}
+
 function click(d) {
 
     d3.event.stopPropagation();
@@ -518,6 +539,8 @@ function click(d) {
         $('.reset-locate').css("display", "inline-block");
         return d.id;
     });
+
+    d3.selectAll("use").remove();
 
     // if single click
     if (timer == null) {
@@ -555,15 +578,12 @@ function click(d) {
                 return (d.index == o.target.index) || (d.index == o.source.index) ? "active" : "inactive";
             });
 
-            //var order = {red: -1, green: 0, orange: 1};
-            //
-            //node.sort(function(a, b) {
-            //    return order[a.d3.selectAll('.active')] < order[b.d3.selectAll('.inactive')] ? -1 :
-            // order[b.d3.selectAll('.inactive')] < order[a.d3.selectAll('.active')] ? 1 : 0;
-            //});
-
             d3.select(self).attr("active-status", "groupselect");
             selectedNode = d.index;
+
+            d3.selectAll(".active").each(function(){
+                d3.select('#mainG').append('use').attr('xlink:href', "#"+$(this).attr('id'));
+            });
         }
         else{
             // Reset relation highlight
