@@ -540,8 +540,6 @@ function click(d) {
         return d.id;
     });
 
-    d3.selectAll("use").remove();
-
     // if single click
     if (timer == null) {
         timer = setTimeout(function() {
@@ -569,21 +567,39 @@ function click(d) {
 
         // double click function
         if(selectedNode == -1 || selectedNode != d.index){
-            // highlight nodes if they are connected to source
-            node.attr("class", function(o) {
-                return neighboring(o, d) || neighboring(d, o) ? "active" : "inactive";
-            });
+
             // highlight links if they are connected to source
             linkg.attr("class", function(o) {
                 return (d.index == o.target.index) || (d.index == o.source.index) ? "active" : "inactive";
             });
 
+            // highlight nodes if they are connected to source
+            node.attr("class", function(o) {
+                return neighboring(o, d) || neighboring(d, o) ? "active" : "inactive";
+            });
+
             d3.select(self).attr("active-status", "groupselect");
             selectedNode = d.index;
 
-            d3.selectAll(".active").each(function(){
-                d3.select('#mainG').append('use').attr('xlink:href', "#"+$(this).attr('id'));
+
+            d3.selectAll("[group=node].active").each(function(){
+                if ($(this).css('display') !== 'none') {
+                    var edges = $(this).attr("edges"),
+                        edge = edges.split(';');
+
+                    $(this).attr('class', 'inactive');
+                    for(var i = 0; i < edge.length; i++) {
+                        if(($("#"+edge[i]+"").css('display') !== 'none') && ($("#"+edge[i]+"").attr('class') !== 'inactive')){
+                            $(this).attr('class', 'active');
+                        }
+                    }
+                }
             });
+
+            //$("svg use").remove();
+            //d3.selectAll(".active").each(function(){
+            //    d3.select('#mainG').append('use').attr('xlink:href', "#"+$(this).attr('id'));
+            //});
         }
         else{
             // Reset relation highlight
