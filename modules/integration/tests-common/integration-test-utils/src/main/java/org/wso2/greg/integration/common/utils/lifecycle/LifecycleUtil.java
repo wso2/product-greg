@@ -286,13 +286,13 @@ public class LifecycleUtil {
         Property[] p = lifeCycle.getLifecycleProperties();
         boolean result1 = false, result2 = false, result3 = false;
         for (Property prop : p) {
-            if (("registry.custom_lifecycle.checklist.option.0.item").equalsIgnoreCase(prop.getKey())) {
+			if (("registry.custom_lifecycle.checklist.option." + ASPECT_NAME + ".0.item").equalsIgnoreCase(prop.getKey())) {
                 result1 = (prop.getValues()[3].equals("value:true"));
             }
-            if (("registry.custom_lifecycle.checklist.option.1.item").equalsIgnoreCase(prop.getKey())) {
+            if (("registry.custom_lifecycle.checklist.option." + ASPECT_NAME + ".1.item").equalsIgnoreCase(prop.getKey())) {
                 result2 = (prop.getValues()[3].equals("value:true"));
             }
-            if (("registry.custom_lifecycle.checklist.option.2.item").equalsIgnoreCase(prop.getKey())) {
+            if (("registry.custom_lifecycle.checklist.option." + ASPECT_NAME + ".2.item").equalsIgnoreCase(prop.getKey())) {
                 result3 = (prop.getValues()[3].equals("value:true"));
             }
         }
@@ -319,13 +319,13 @@ public class LifecycleUtil {
         boolean resultProp2 = false;
         boolean resultProp3 = false;
         for (Property prop : p) {
-            if (("registry.custom_lifecycle.checklist.option.0.item").equalsIgnoreCase(prop.getKey())) {
+            if (("registry.custom_lifecycle.checklist.option." + ASPECT_NAME + ".0.item").equalsIgnoreCase(prop.getKey())) {
                 resultProp1 = (prop.getValues()[3].equals("value:false"));
             }
-            if (("registry.custom_lifecycle.checklist.option.1.item").equalsIgnoreCase(prop.getKey())) {
+            if (("registry.custom_lifecycle.checklist.option." + ASPECT_NAME + ".1.item").equalsIgnoreCase(prop.getKey())) {
                 resultProp2 = (prop.getValues()[3].equals("value:false"));
             }
-            if (("registry.custom_lifecycle.checklist.option.2.item").equalsIgnoreCase(prop.getKey())) {
+            if (("registry.custom_lifecycle.checklist.option." + ASPECT_NAME + ".2.item").equalsIgnoreCase(prop.getKey())) {
                 resultProp3 = (prop.getValues()[3].equals("value:false"));
             }
 

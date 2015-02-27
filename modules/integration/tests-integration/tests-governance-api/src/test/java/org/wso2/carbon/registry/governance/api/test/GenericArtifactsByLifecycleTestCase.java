@@ -95,7 +95,7 @@ public class GenericArtifactsByLifecycleTestCase extends GREGIntegrationBaseTest
         GenericArtifact artifact = getAddedGenericArtifact();
         Map<String, String> map = new HashMap<String, String>();
         map.put("/_system/governance/trunk/services/com/wso2/www/greg/store/1.0.0-SNAPSHOT/GenericArtifactStoreService", "2.3.5");
-        artifact.invokeAction("Promote", map);
+        artifact.invokeAction("Promote", map, LIFE_CYCLE_NAME);
 
         GenericArtifact[] filterByLCName = genericArtifactManager.findGenericArtifacts(new GenericArtifactFilter() {
             @Override

@@ -66,11 +66,7 @@ public class LCCheckListItemRecordTestCase extends GREGIntegrationBaseTest {
             "lifecycles/history/__system_governance_trunk_services_com_abb_1.0.0-SNAPSHOT_IntergalacticService7";
     private LifeCycleAdminServiceClient lifeCycleAdminServiceClient;
     private LifeCycleManagementClient lifeCycleManagementClient;
-    private GovernanceServiceClient governanceServiceClient;
-    private ListMetaDataServiceClient listMetadataServiceClient;
     private ResourceAdminServiceClient resourceAdminServiceClient;
-    private ServiceManager serviceManager;
-    private static final String SERVICE_NAME = "IntergalacticService7";
     private static final String LC_NAME = "CheckListLC";
     private static final String LC_STATE0 = "Development";
     private static final String LC_STATE1 = "Testing";
@@ -105,11 +101,9 @@ public class LCCheckListItemRecordTestCase extends GREGIntegrationBaseTest {
         lifeCycleAdminServiceClient =
                 new LifeCycleAdminServiceClient(backendURL, sessionCookie);
 
-        governanceServiceClient =
-                new GovernanceServiceClient(backendURL, sessionCookie);
+        new GovernanceServiceClient(backendURL, sessionCookie);
 
-        listMetadataServiceClient =
-                new ListMetaDataServiceClient(backendURL, sessionCookie);
+        new ListMetaDataServiceClient(backendURL, sessionCookie);
 
         lifeCycleManagementClient =
                 new LifeCycleManagementClient(backendURL, sessionCookie);
@@ -124,7 +118,7 @@ public class LCCheckListItemRecordTestCase extends GREGIntegrationBaseTest {
                 .getWSRegistry(automationContext), automationContext);
 
         GovernanceUtils.loadGovernanceArtifacts((UserRegistry) reg);
-        serviceManager = new ServiceManager(reg);
+        new ServiceManager(reg);
 
         String userName = automationContext.getContextTenant().getContextUser().getUserName();
         userNameWithoutDomain = userName.substring(0, userName.indexOf('@'));
@@ -200,17 +194,17 @@ public class LCCheckListItemRecordTestCase extends GREGIntegrationBaseTest {
                 ACTION_ITEM_CLICK, new String[]{"true", "true", "true"});
         lifeCycle = lifeCycleAdminServiceClient.getLifecycleBean(absPath);
         for (Property prop : lifeCycle.getLifecycleProperties()) {
-            if (("registry.custom_lifecycle.checklist.option.1.item").equalsIgnoreCase(prop.getKey())) {
+            if (("registry.custom_lifecycle.checklist.option." + LC_NAME + ".1.item").equalsIgnoreCase(prop.getKey())) {
                 assertNotNull(prop.getValues(), "Item Not Found");
                 assertEquals(prop.getValues()[0], "status:" + LC_STATE0, "State is not development");
                 assertEquals(prop.getValues()[3], "value:true", "Item not clicked");
             }
-            if (("registry.custom_lifecycle.checklist.option.2.item").equalsIgnoreCase(prop.getKey())) {
+            if (("registry.custom_lifecycle.checklist.option." + LC_NAME + ".2.item").equalsIgnoreCase(prop.getKey())) {
                 assertNotNull(prop.getValues(), "Item Not Found");
                 assertEquals(prop.getValues()[0], "status:" + LC_STATE0, "State is not development");
                 assertEquals(prop.getValues()[3], "value:true", "Item not clicked");
             }
-            if (("registry.custom_lifecycle.checklist.option.3.item").equalsIgnoreCase(prop.getKey())) {
+            if (("registry.custom_lifecycle.checklist.option." + LC_NAME + ".3.item").equalsIgnoreCase(prop.getKey())) {
                 assertNotNull(prop.getValues(), "Item Not Found");
                 assertEquals(prop.getValues()[0], "status:" + LC_STATE0, "State is not development");
                 assertEquals(prop.getValues()[3], "value:true", "Item not clicked");
@@ -251,17 +245,17 @@ public class LCCheckListItemRecordTestCase extends GREGIntegrationBaseTest {
                 ACTION_ITEM_CLICK, new String[]{"false", "false", "false"});
         lifeCycle = lifeCycleAdminServiceClient.getLifecycleBean(absPath);
         for (Property prop : lifeCycle.getLifecycleProperties()) {
-            if (("registry.custom_lifecycle.checklist.option.1.item").equalsIgnoreCase(prop.getKey())) {
+            if (("registry.custom_lifecycle.checklist.option." + LC_NAME + ".1.item").equalsIgnoreCase(prop.getKey())) {
                 assertNotNull(prop.getValues(), "Item Not Found");
                 assertEquals(prop.getValues()[0], "status:" + LC_STATE0, "State is not development");
                 assertEquals(prop.getValues()[3], VALUE_FALSE, "Item not unclicked");
             }
-            if (("registry.custom_lifecycle.checklist.option.2.item").equalsIgnoreCase(prop.getKey())) {
+            if (("registry.custom_lifecycle.checklist.option." + LC_NAME + ".2.item").equalsIgnoreCase(prop.getKey())) {
                 assertNotNull(prop.getValues(), "Item Not Found");
                 assertEquals(prop.getValues()[0], "status:" + LC_STATE0, "State is not development");
                 assertEquals(prop.getValues()[3], VALUE_FALSE, "Item not unclicked");
             }
-            if (("registry.custom_lifecycle.checklist.option.3.item").equalsIgnoreCase(prop.getKey())) {
+            if (("registry.custom_lifecycle.checklist.option." + LC_NAME + ".3.item").equalsIgnoreCase(prop.getKey())) {
                 assertNotNull(prop.getValues(), "Item Not Found");
                 assertEquals(prop.getValues()[0], "status:" + LC_STATE0, "State is not development");
                 assertEquals(prop.getValues()[3], VALUE_FALSE, "Item not unclicked");
@@ -318,17 +312,17 @@ public class LCCheckListItemRecordTestCase extends GREGIntegrationBaseTest {
                 ACTION_ITEM_CLICK, new String[]{"true", "true", "true"});
         lifeCycle = lifeCycleAdminServiceClient.getLifecycleBean(absPath);
         for (Property prop : lifeCycle.getLifecycleProperties()) {
-            if (("registry.custom_lifecycle.checklist.option.1.item").equalsIgnoreCase(prop.getKey())) {
+            if (("registry.custom_lifecycle.checklist.option." + LC_NAME + ".1.item").equalsIgnoreCase(prop.getKey())) {
                 assertNotNull(prop.getValues(), "Item Not Found");
                 assertEquals(prop.getValues()[0], "status:" + LC_STATE1, "State is not " + LC_STATE1);
                 assertEquals(prop.getValues()[3], VALUE_TRUE, "Item not clicked");
             }
-            if (("registry.custom_lifecycle.checklist.option.2.item").equalsIgnoreCase(prop.getKey())) {
+            if (("registry.custom_lifecycle.checklist.option." + LC_NAME + ".2.item").equalsIgnoreCase(prop.getKey())) {
                 assertNotNull(prop.getValues(), "Item Not Found");
                 assertEquals(prop.getValues()[0], "status:" + LC_STATE1, "State is not " + LC_STATE1);
                 assertEquals(prop.getValues()[3], VALUE_TRUE, "Item not clicked");
             }
-            if (("registry.custom_lifecycle.checklist.option.3.item").equalsIgnoreCase(prop.getKey())) {
+            if (("registry.custom_lifecycle.checklist.option." + LC_NAME + ".3.item").equalsIgnoreCase(prop.getKey())) {
                 assertNotNull(prop.getValues(), "Item Not Found");
                 assertEquals(prop.getValues()[0], "status:" + LC_STATE1, "State is not " + LC_STATE1);
                 assertEquals(prop.getValues()[3], VALUE_TRUE, "Item not clicked");
@@ -369,17 +363,17 @@ public class LCCheckListItemRecordTestCase extends GREGIntegrationBaseTest {
                 ACTION_ITEM_CLICK, new String[]{"false", "false", "false"});
         lifeCycle = lifeCycleAdminServiceClient.getLifecycleBean(absPath);
         for (Property prop : lifeCycle.getLifecycleProperties()) {
-            if (("registry.custom_lifecycle.checklist.option.1.item").equalsIgnoreCase(prop.getKey())) {
+            if (("registry.custom_lifecycle.checklist.option." + LC_NAME + ".1.item").equalsIgnoreCase(prop.getKey())) {
                 assertNotNull(prop.getValues(), "Item Not Found");
                 assertEquals(prop.getValues()[0], "status:" + LC_STATE1, "State is not " + LC_STATE1);
                 assertEquals(prop.getValues()[3], VALUE_FALSE, "Item not unclicked");
             }
-            if (("registry.custom_lifecycle.checklist.option.2.item").equalsIgnoreCase(prop.getKey())) {
+            if (("registry.custom_lifecycle.checklist.option." + LC_NAME + ".2.item").equalsIgnoreCase(prop.getKey())) {
                 assertNotNull(prop.getValues(), "Item Not Found");
                 assertEquals(prop.getValues()[0], "status:" + LC_STATE1, "State is not " + LC_STATE1);
                 assertEquals(prop.getValues()[3], VALUE_FALSE, "Item not unclicked");
             }
-            if (("registry.custom_lifecycle.checklist.option.3.item").equalsIgnoreCase(prop.getKey())) {
+            if (("registry.custom_lifecycle.checklist.option." + LC_NAME + ".3.item").equalsIgnoreCase(prop.getKey())) {
                 assertNotNull(prop.getValues(), "Item Not Found");
                 assertEquals(prop.getValues()[0], "status:" + LC_STATE1, "State is not " + LC_STATE1);
                 assertEquals(prop.getValues()[3], VALUE_FALSE, "Item not unclicked");
@@ -444,12 +438,9 @@ public class LCCheckListItemRecordTestCase extends GREGIntegrationBaseTest {
         //  resourceAdminServiceClient.deleteResource(wsdlPathToDelete);
         // }
         lifeCycleManagementClient.deleteLifeCycle(LC_NAME);
-        governanceServiceClient = null;
         wsRegistryServiceClient = null;
         lifeCycleAdminServiceClient = null;
         lifeCycleManagementClient = null;
-        governanceServiceClient = null;
-        listMetadataServiceClient = null;
         resourceAdminServiceClient = null;
 
     }

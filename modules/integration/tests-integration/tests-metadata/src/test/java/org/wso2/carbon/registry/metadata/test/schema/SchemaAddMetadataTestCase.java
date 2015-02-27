@@ -252,8 +252,7 @@ public class SchemaAddMetadataTestCase extends GREGIntegrationBaseTest {
                                          CustomLifecyclesChecklistAdminServiceExceptionException,
                                          RegistryException, RegistryExceptionException {
         lifecyclesChecklistAdminServiceclient.removeAspect(schemaPath + "org/charitha/1.0.0/", "ServiceLifeCycle");
-        lifecyclesChecklistAdminServiceclient.removeAspect(schemaPath +
-                "org1/charitha/", "ServiceLifeCycle");
+        lifecyclesChecklistAdminServiceclient.removeAspect(schemaPath + "org1/charitha/1.0.0/", "ServiceLifeCycle");
         resourceAdminServiceClient.deleteResource(schemaPath +
                                                   "org/charitha/1.0.0/" + resourceName);
         resourceAdminServiceClient.deleteResource(schemaPath +

@@ -307,11 +307,11 @@ public class PreserveOriginalWithDependencyLCTestCase extends GREGIntegrationBas
         assertTrue(service.getPath().contains("trunk"), "Service not in trunk. " + servicePtah);
         assertTrue((lifeCycle.getLifecycleProperties().length > 5), "LifeCycle properties missing some properties");
         assertNotNull(lifeCycle.getLifecycleProperties()[4], "LifeCycle State property not found");
-        assertEquals(lifeCycle.getLifecycleProperties()[5].getKey(),
+        assertEquals(lifeCycle.getLifecycleProperties()[4].getKey(),
                 "registry.lifecycle.ServiceLifeCycle.state", "LifeCycle State property not found");
         assertNotNull(lifeCycle.getLifecycleProperties()[4].getValues(), "State Value Not Found");
 
-        assertEquals(lifeCycle.getLifecycleProperties()[5].getValues()[0], "Development",
+        assertEquals(lifeCycle.getLifecycleProperties()[4].getValues()[0], "Development",
                      "LifeCycle State Mismatched");
 
         assertTrue((lifeCycleAdminServiceClient.getAllDependencies(servicePtah).length == 2),

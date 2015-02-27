@@ -3,13 +3,18 @@
 <suite name="public-jira-test-suite">
     <parameter name="useDefaultListeners" value="false"/>
 
-    <test name="public-jira-tests" preserve-order="true" parallel="false">
+    <test name="JMX-test" preserve-order="true" parallel="false">
         <packages>
-            <package name="org.wso2.carbon.registry.jira2.issues.test2"/>
-            <package name="org.wso2.carbon.registry.jira.issues.test"/>
+           <package name="org.wso2.carbon.registry.jira.issues.test3"/>
         </packages>
     </test>
-
+    <test name="public-jira-tests" preserve-order="true" parallel="false">
+        <packages>
+           <package name="org.wso2.carbon.registry.jira.issues.test"/>
+            <package name="org.wso2.carbon.registry.jira2.issues.test2"/>
+        </packages>
+    </test>
+    
     <!--<test name="public-jira-tests" preserve-order="true" parallel="false">-->
         <!--<classes>-->
             <!--<class name="org.wso2.carbon.registry.jira.issues.test.Carbon2163TestCase"/>-->

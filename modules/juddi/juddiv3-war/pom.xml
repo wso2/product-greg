@@ -11,7 +11,7 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <parent>
-        <groupId>org.wso2.governance</groupId>
+        <groupId>org.wso2.greg</groupId>
         <artifactId>governance-parent</artifactId>
         <version>5.0.0-SNAPSHOT</version>
         <relativePath>../../../pom.xml</relativePath>
@@ -28,7 +28,6 @@
         <dependency>
             <artifactId>uddi-ws</artifactId>
             <groupId>org.apache.juddi</groupId>
-            <version>3.1.5.wso2v1</version>
         </dependency>
         <dependency>
             <groupId>commons-logging</groupId>
@@ -45,7 +44,6 @@
         <dependency>
             <groupId>commons-configuration</groupId>
             <artifactId>commons-configuration</artifactId>
-            <version>1.6</version>
         </dependency>
     </dependencies>
     <build>
@@ -241,8 +239,7 @@
             <dependencies>
                 <dependency>
                     <artifactId>juddi-listener</artifactId>
-                    <groupId>org.wso2.governance</groupId>
-                    <version>5.0.0-SNAPSHOT</version>
+                    <groupId>org.wso2.greg</groupId>
                     <exclusions>
                         <exclusion>
                             <groupId>*</groupId>
@@ -338,8 +335,7 @@
 
                 <dependency>
                     <artifactId>juddi-listener</artifactId>
-                    <groupId>org.wso2.governance</groupId>
-                    <version>5.0.0-SNAPSHOT</version>
+                    <groupId>org.wso2.greg</groupId>
                     <exclusions>
                         <exclusion>
                             <groupId>*</groupId>
@@ -364,22 +360,22 @@
                 <dependency>
                     <groupId>org.apache.axis2</groupId>
                     <artifactId>axis2</artifactId>
-                    <version>1.6.2</version>
+                    <version>${axis2.wso2.version}</version>
                 </dependency>
                 <dependency>
                     <groupId>org.apache.axis2</groupId>
                     <artifactId>axis2-jaxws</artifactId>
-                    <version>1.6.2</version>
+                    <version>${axis2.wso2.version}</version>
                 </dependency>
                 <dependency>
                     <groupId>org.apache.axis2</groupId>
                     <artifactId>axis2-transport-http</artifactId>
-                    <version>1.6.2</version>
+                    <version>${axis2.wso2.version}</version>
                 </dependency>
                 <dependency>
                     <groupId>org.apache.axis2</groupId>
                     <artifactId>axis2-transport-local</artifactId>
-                    <version>1.6.2</version>
+                    <version>${axis2.wso2.version}</version>
                 </dependency>
                 <dependency>
                     <groupId>org.apache.xmlbeans</groupId>

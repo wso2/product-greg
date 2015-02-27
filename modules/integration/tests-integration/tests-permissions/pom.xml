@@ -3,7 +3,7 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <parent>
-        <groupId>org.wso2.governance</groupId>
+        <groupId>org.wso2.greg</groupId>
         <artifactId>org.wso2.greg.integration.tests</artifactId>
         <version>5.0.0-SNAPSHOT</version>
         <relativePath>../pom.xml</relativePath>
@@ -37,7 +37,7 @@
                         <property>
                             <name>carbon.zip</name>
                             <value>
-                                ${basedir}/../../../distribution/target/wso2greg-${project.version}.zip
+                                ${basedir}/../../../distribution/target/wso2greg-${product.greg.version}.zip
                             </value>
                         </property>
                         <property>
@@ -57,6 +57,7 @@
                         <emma.output>${basedir}/target/emma</emma.output>
                     </systemProperties>
                     <workingDirectory>${basedir}/target</workingDirectory>
+                    <testFailureIgnore>true</testFailureIgnore>
                 </configuration>
             </plugin>
             <plugin>
@@ -100,9 +101,9 @@
                         <configuration>
                             <artifactItems>
                                 <artifactItem>
-                                    <groupId>org.wso2.governance</groupId>
+                                    <groupId>org.wso2.greg</groupId>
                                     <artifactId>wso2greg</artifactId>
-                                    <version>${project.version}</version>
+                                    <version>${product.greg.version}</version>
                                     <type>zip</type>
                                     <overWrite>true</overWrite>
                                     <outputDirectory>${basedir}/target/tobeCopied/</outputDirectory>
@@ -159,7 +160,7 @@
                             <resources>
                                 <resource>
                                     <directory>
-                                        ${basedir}/target/tobeCopied/wso2greg-${project.version}/repository/resources/security/
+                                        ${basedir}/target/tobeCopied/wso2greg-${product.greg.version}/repository/resources/security/
                                     </directory>
                                     <includes>
                                         <include>**/*.jks</include>
@@ -180,7 +181,7 @@
                             <resources>
                                 <resource>
                                     <directory>
-                                        ${basedir}/target/tobeCopied/wso2greg-${project.version}/repository/conf/axis2/
+                                        ${basedir}/target/tobeCopied/wso2greg-${product.greg.version}/repository/conf/axis2/
                                     </directory>
                                     <includes>
                                         <include>**/*.xml</include>
@@ -201,7 +202,7 @@
                             <resources>
                                 <resource>
                                     <directory>
-                                        ${basedir}/target/tobeCopied/wso2greg-${project.version}/repository/deployment/client/modules
+                                        ${basedir}/target/tobeCopied/wso2greg-${product.greg.version}/repository/deployment/client/modules
                                     </directory>
                                     <includes>
                                         <include>**/*.mar</include>
@@ -221,11 +222,11 @@
             <artifactId>jettison</artifactId>
         </dependency>
         <dependency>
-            <groupId>org.wso2.carbon</groupId>
+            <groupId>org.wso2.carbon.registry</groupId>
             <artifactId>org.wso2.carbon.registry.activities</artifactId>
         </dependency>
         <dependency>
-            <groupId>org.wso2.carbon</groupId>
+            <groupId>org.wso2.carbon.governance</groupId>
             <artifactId>org.wso2.carbon.governance.client</artifactId>
         </dependency>
         <dependency>
@@ -241,23 +242,23 @@
             <artifactId>org.wso2.carbon.automation.test.utils</artifactId>
         </dependency>
         <dependency>
-            <groupId>org.wso2.governance</groupId>
+            <groupId>org.wso2.greg</groupId>
             <artifactId>org.wso2.greg.integration.common.utils</artifactId>
         </dependency>
         <dependency>
-            <groupId>org.wso2.governance</groupId>
+            <groupId>org.wso2.greg</groupId>
             <artifactId>org.wso2.greg.integration.common.clients</artifactId>
         </dependency>
         <dependency>
-            <groupId>org.wso2.carbon</groupId>
+            <groupId>org.wso2.carbon.automationutils</groupId>
             <artifactId>org.wso2.carbon.integration.common.utils</artifactId>
         </dependency>
         <dependency>
-            <groupId>org.wso2.carbon</groupId>
+            <groupId>org.wso2.carbon.automationutils</groupId>
             <artifactId>org.wso2.carbon.integration.common.extensions</artifactId>
         </dependency>
         <dependency>
-            <groupId>org.wso2.carbon</groupId>
+            <groupId>org.wso2.carbon.automationutils</groupId>
             <artifactId>org.wso2.carbon.integration.common.tests</artifactId>
         </dependency>
     </dependencies>

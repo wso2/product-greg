@@ -29,10 +29,13 @@ import org.wso2.carbon.automation.engine.context.TestUserMode;
 import org.wso2.carbon.governance.api.exception.GovernanceException;
 import org.wso2.carbon.governance.api.services.ServiceManager;
 import org.wso2.carbon.governance.api.services.dataobjects.Service;
+import org.wso2.carbon.governance.api.util.GovernanceUtils;
 import org.wso2.carbon.governance.api.wsdls.WsdlManager;
 import org.wso2.carbon.governance.api.wsdls.dataobjects.Wsdl;
 import org.wso2.carbon.integration.common.utils.mgt.ServerConfigurationManager;
 import org.wso2.carbon.registry.core.Registry;
+import org.wso2.carbon.registry.core.exceptions.RegistryException;
+import org.wso2.carbon.registry.core.session.UserRegistry;
 import org.wso2.carbon.registry.resource.stub.ResourceAdminServiceExceptionException;
 import org.wso2.carbon.registry.ws.client.registry.WSRegistryServiceClient;
 import org.wso2.carbon.utils.CarbonUtils;
@@ -44,6 +47,7 @@ import org.wso2.greg.integration.common.utils.RegistryProviderUtil;
 import javax.activation.DataHandler;
 import javax.xml.namespace.QName;
 import javax.xml.stream.*;
+
 import java.io.*;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -53,7 +57,11 @@ import java.util.Iterator;
 import static org.testng.Assert.assertFalse;
 import static org.testng.Assert.assertTrue;
 
-
+/**
+ * 
+ * Disabled this test case due to REGISTRY-2338
+ *
+ */
 public class Carbon11572TestCase extends GREGIntegrationBaseTest {
 
 
@@ -93,7 +101,7 @@ public class Carbon11572TestCase extends GREGIntegrationBaseTest {
 
     }
 
-    @Test(groups = {"wso2.greg"}, description = "change registry.xml and restart server")
+    @Test(groups = {"wso2.greg"}, description = "change registry.xml and restart server", enabled=false)
     @SetEnvironment(executionEnvironments = {ExecutionEnvironment.STANDALONE})
     public void editRegistryXML() throws Exception {
 
@@ -147,10 +155,11 @@ public class Carbon11572TestCase extends GREGIntegrationBaseTest {
     }
 
     @Test(groups = {
-            "wso2.greg"}, description = "add a WSDL without creating a service", dependsOnMethods = "editRegistryXML")
+            "wso2.greg"}, description = "add a WSDL without creating a service", dependsOnMethods = "editRegistryXML", enabled=false)
     @SetEnvironment(executionEnvironments = {ExecutionEnvironment.STANDALONE})
     public void addWSDL()
-            throws ResourceAdminServiceExceptionException, RemoteException, MalformedURLException, GovernanceException {
+            throws ResourceAdminServiceExceptionException, RemoteException, MalformedURLException,RegistryException, GovernanceException {
+    	GovernanceUtils.loadGovernanceArtifacts((UserRegistry) governance);
         boolean nameExists = false;
         //add WSDL file
         String path1 = getTestArtifactLocation() + "artifacts" + File.separator

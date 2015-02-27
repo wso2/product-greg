@@ -18,7 +18,7 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <parent>
-        <groupId>org.wso2.governance</groupId>
+        <groupId>org.wso2.greg</groupId>
         <artifactId>governance-parent</artifactId>
         <version>5.0.0-SNAPSHOT</version>
         <relativePath>../../../pom.xml</relativePath>
@@ -32,12 +32,10 @@
         <dependency>
             <groupId>org.apache.geronimo.specs</groupId>
             <artifactId>geronimo-jpa_2.0_spec</artifactId>
-            <version>${version.geronimo.specs.geronimo-jpa_2.0_spec}</version>
         </dependency>
         <dependency>
             <groupId>org.apache.openjpa</groupId>
             <artifactId>openjpa</artifactId>
-            <version>${openjpa.version}</version>
             <exclusions>
                 <exclusion>
                     <groupId>org.apache.geronimo.specs</groupId>
@@ -47,55 +45,45 @@
             <!-- We don't need an orbit bundle, since this is a bundle -->
         </dependency>
         <dependency>
-            <groupId>org.wso2.carbon</groupId>
+            <groupId>org.wso2.carbon.governance</groupId>
             <artifactId>org.wso2.carbon.governance.api</artifactId>
-            <version>${carbon.platform.version}</version>
         </dependency>
         <dependency>
-            <groupId>org.wso2.carbon</groupId>
+            <groupId>org.wso2.carbon.registry</groupId>
             <artifactId>org.wso2.carbon.registry.common</artifactId>
-            <version>${carbon.platform.version}</version>
         </dependency>
         <dependency>
-            <groupId>org.wso2.carbon</groupId>
+            <groupId>org.wso2.carbon.registry</groupId>
             <artifactId>org.wso2.carbon.registry.uddi</artifactId>
-            <version>${carbon.platform.version}</version>
         </dependency>
 
         <dependency>
             <groupId>org.apache.juddi</groupId>
             <artifactId>juddi-core-openjpa</artifactId>
-            <version>3.1.5.wso2v1</version>
         </dependency>
         <dependency>
             <groupId>org.wso2.carbon</groupId>
             <artifactId>org.wso2.carbon.registry.core</artifactId>
-            <version>4.0.5</version>
         </dependency>
         <dependency>
             <groupId>org.wso2.carbon</groupId>
             <artifactId>org.wso2.carbon.logging</artifactId>
-            <version>${carbon.platform.version}</version>
         </dependency>
         <dependency>
             <groupId>org.wso2.carbon</groupId>
             <artifactId>org.wso2.carbon.utils</artifactId>
-            <version>${carbon.platform.version}</version>
         </dependency>
         <dependency>
             <groupId>commons-pool.wso2</groupId>
             <artifactId>commons-pool</artifactId>
-            <version>1.5.0.wso2v1</version>
         </dependency>
         <dependency>
             <groupId>commons-dbcp.wso2</groupId>
             <artifactId>commons-dbcp</artifactId>
-            <version>1.2.2.wso2v1</version>
         </dependency>
         <dependency>
             <groupId>net.sf.ehcache.wso2</groupId>
             <artifactId>ehcache</artifactId>
-            <version>1.5.0.wso2v1</version>
         </dependency>
     </dependencies>
     <build>

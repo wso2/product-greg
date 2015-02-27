@@ -22,7 +22,10 @@ import org.apache.commons.logging.LogFactory;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
+import org.openqa.selenium.support.ui.WebDriverWait;
 import org.wso2.greg.integration.common.ui.page.util.UIElementMapper;
 
 import java.io.IOException;
@@ -33,6 +36,7 @@ public class WsdlListPage {
     private static final Log log = LogFactory.getLog(WsdlListPage.class);
     private WebDriver driver;
     private UIElementMapper uiElementMapper;
+    private String serviceNameOnServer = null;
 
     public WsdlListPage(WebDriver driver) throws IOException {
         this.driver = driver;
@@ -48,12 +52,23 @@ public class WsdlListPage {
     public boolean checkOnUploadWsdl(String wsdlName) throws InterruptedException {
 
         log.info(wsdlName);
-        Thread.sleep(6000);
         driver.navigate().refresh();
-        // driver.findElement(By.xpath(uiElementMapper.getElement("service.check.save.service"))).click();
-        String ServiceNameOnServer = driver.findElement(By.xpath("/html/body/table/tbody/tr[2]/td[3]/table/tbody/tr[2]/td/div/div/form[4]/table/tbody/tr/td/a")).getText();
-        log.info(ServiceNameOnServer);
-        if (wsdlName.equals(ServiceNameOnServer)) {
+
+        //Waiting maximum 30secs to show updated wsdl list.
+        for (int i = 0; i <= 6; i++) {
+            Thread.sleep(5000);
+            driver.navigate().refresh();
+
+            if (!driver.findElement(By.xpath(uiElementMapper.getElement("wsdl.list.workarea"))).
+                    getText().contains("There are no WSDLs added")) {
+                serviceNameOnServer = driver.
+                        findElement(By.xpath(uiElementMapper.getElement("wsdl.table.first.element"))).getText();
+                break;
+            }
+        }
+
+        log.info(serviceNameOnServer);
+        if (wsdlName.equals(serviceNameOnServer)) {
             log.info("Uploaded Wsdl exists");
             return true;
 
@@ -73,6 +88,84 @@ public class WsdlListPage {
                     if (wsdlName.contains(actualResourceName)) {
                         log.info("Uploaded Wsdl exists");
                         return true;
+
+                    }  else {
+                        return false;
+                    }
+
+                } catch (NoSuchElementException ex) {
+                    log.info("Cannot Find the Uploaded Wsdl");
+
+                }
+
+            }
+
+        }
+
+        return false;
+    }
+
+    public boolean visualize(String wsdlName, String registryPath) throws InterruptedException {
+        log.info(wsdlName);
+        driver.navigate().refresh();
+
+        //Waiting maximum 30secs to show updated wsdl list.
+        WebElement workArea = (new WebDriverWait(driver, 30))
+                .until(ExpectedConditions.presenceOfElementLocated(By.xpath(uiElementMapper.getElement("wsdl.list.workarea"))));
+
+        log.info(serviceNameOnServer);
+        if (wsdlName.equals(serviceNameOnServer)) {
+            log.info("Uploaded Wsdl exists");
+            //click on wsdl
+            driver.findElement(By.xpath(uiElementMapper.getElement("wsdl.table.first.element"))).click();
+            //execute visualize js
+            WebElement resourceMain = (new WebDriverWait(driver, 30))
+                    .until(ExpectedConditions.presenceOfElementLocated(By.id("resourceMain")));
+            JavascriptExecutor js = (JavascriptExecutor) driver;
+            String jsFunction = "visualizeXML('"+ registryPath + "', 'wsdl')";
+            js.executeScript(jsFunction);
+            Thread.sleep(3000);
+            //switch to visualize iframe
+            driver.switchTo().frame(
+                    driver.findElement(By.xpath("/html/body/div[contains(@class, " +
+                            "'ui-dialog ui-draggable ui-resizable')]/div[1]/div[@id=\"dialog\"]/iframe")));
+
+            if (driver.findElement(By.xpath("/html/body/table/tbody/tr/td[contains(@class,'source-area')]/div[contains(@class,'definitions')]")) != null) {
+                return true;
+            }
+
+        } else {
+            String resourceXpath = "/html/body/table/tbody/tr[2]/td[3]/table/tbody/tr[2]/td/div/div/form[4]/table/tbody/tr[";
+            String resourceXpath2 = "]/td/a";
+
+            for (int i = 2; i < 10; i++) {
+                String serviceNameOnAppServer = resourceXpath + i + resourceXpath2;
+
+                String actualResourceName = driver.findElement(By.xpath(serviceNameOnAppServer)).getText();
+                log.info("val on app is -------> " + actualResourceName);
+                log.info("Correct is    -------> " + wsdlName);
+
+                try {
+
+                    if (wsdlName.contains(actualResourceName)) {
+                        log.info("Uploaded Wsdl exists");
+                        //click on wsdl
+                        driver.findElement(By.xpath(uiElementMapper.getElement("wsdl.table.first.element"))).click();
+                        //execute visualize js
+                        WebElement myDynamicElement = (new WebDriverWait(driver, 30))
+                                .until(ExpectedConditions.presenceOfElementLocated(By.id("resourceMain")));
+                        JavascriptExecutor js = (JavascriptExecutor) driver;
+                        String jsFunction = "visualizeXML('"+ registryPath + "', 'wsdl')";
+                        js.executeScript(jsFunction);
+                        Thread.sleep(3000);
+                        //switch to visualize iframe
+                        driver.switchTo().frame(
+                                driver.findElement(By.xpath("/html/body/div[contains(@class, " +
+                                        "'ui-dialog ui-draggable ui-resizable')]/div[1]/div[@id=\"dialog\"]/iframe")));
+
+                        if (driver.findElement(By.xpath("/html/body/table/tbody/tr/td[contains(@class,'source-area')]/div[contains(@class,'definitions')]")) != null) {
+                            return true;
+                        }
 
                     }  else {
                         return false;

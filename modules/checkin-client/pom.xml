@@ -18,7 +18,7 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <parent>
-        <groupId>org.wso2.governance</groupId>
+        <groupId>org.wso2.greg</groupId>
         <artifactId>governance-parent</artifactId>
         <version>5.0.0-SNAPSHOT</version>
 	<relativePath>../../pom.xml</relativePath>
@@ -32,59 +32,48 @@
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
-            <version>3.8.1</version>
             <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>org.wso2.carbon</groupId>
             <artifactId>org.wso2.carbon.registry.core</artifactId>
-            <version>${carbon.platform.version}</version>
         </dependency>
         <dependency>
-            <groupId>org.wso2.carbon</groupId>
+            <groupId>org.wso2.carbon.commons</groupId>
             <artifactId>org.wso2.carbon.user.mgt</artifactId>
-            <version>${carbon.platform.version}</version>
         </dependency>
         <dependency>
             <groupId>org.wso2.carbon</groupId>
             <artifactId>org.wso2.carbon.logging</artifactId>
-            <version>${carbon.platform.version}</version>
         </dependency>
         <dependency>
             <groupId>org.wso2.carbon</groupId>
             <artifactId>org.wso2.carbon.utils</artifactId>
-            <version>${carbon.platform.version}</version>
         </dependency>
         <dependency>
-            <groupId>org.wso2.carbon</groupId>
+            <groupId>org.wso2.carbon.registry</groupId>
             <artifactId>org.wso2.carbon.registry.ws.client</artifactId>
-            <version>${carbon.platform.version}</version>
             <scope>compile</scope>
         </dependency>
         <dependency>
             <groupId>com.h2database.wso2</groupId>
             <artifactId>h2-database-engine</artifactId>
-            <version>1.2.140.wso2v3</version>
         </dependency>
         <dependency>
             <groupId>commons-pool.wso2</groupId>
             <artifactId>commons-pool</artifactId>
-            <version>1.5.6.wso2v1</version>
         </dependency>
         <dependency>
             <groupId>commons-dbcp.wso2</groupId>
             <artifactId>commons-dbcp</artifactId>
-            <version>1.4.0.wso2v1</version>
         </dependency>
         <dependency>
             <groupId>org.apache.abdera.wso2</groupId>
             <artifactId>abdera</artifactId>
-            <version>1.0.0.wso2v3</version>
         </dependency>
         <dependency>
             <groupId>org.apache.maven.scm.wso2</groupId>
             <artifactId>maven-scm</artifactId>
-            <version>${orbit.version.maven-scm}</version>
         </dependency>
     </dependencies>
     <build>

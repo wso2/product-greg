@@ -112,17 +112,23 @@ public class CustomLifeCyclePromoteLCTestCase extends GREGIntegrationBaseTest {
         assertEquals(LifeCycleUtils.getLifeCycleProperty(lifeCycle.getLifecycleProperties(), "registry.lifecycle.CustomServiceLC.state")[0], "Commencement",
                 "LifeCycle State Mismatched");
         //life cycle check list
-        assertEquals(LifeCycleUtils.getLifeCycleProperty(lifeCycle.getLifecycleProperties(), "registry.custom_lifecycle.checklist.option.0.item")[1],
+        assertEquals(LifeCycleUtils.getLifeCycleProperty(lifeCycle.getLifecycleProperties(), 
+        		"registry.custom_lifecycle.checklist.option."+ ASPECT_NAME +".0.item")[1],
                 "name:Requirements Gathered", "Requirements Gathered Check List Item Not Found");
-        assertEquals(LifeCycleUtils.getLifeCycleProperty(lifeCycle.getLifecycleProperties(), "registry.custom_lifecycle.checklist.option.1.item")[1],
+        assertEquals(LifeCycleUtils.getLifeCycleProperty(lifeCycle.getLifecycleProperties(), 
+        		"registry.custom_lifecycle.checklist.option."+ ASPECT_NAME +".1.item")[1],
                 "name:Document Requirements", "Document Requirements Check List Item Not Found");
-        assertEquals(LifeCycleUtils.getLifeCycleProperty(lifeCycle.getLifecycleProperties(), "registry.custom_lifecycle.checklist.option.2.item")[1],
+        assertEquals(LifeCycleUtils.getLifeCycleProperty(lifeCycle.getLifecycleProperties(), 
+        		"registry.custom_lifecycle.checklist.option."+ ASPECT_NAME +".2.item")[1],
                 "name:Architecture Diagram Finalized", "Architecture Diagram Finalize Check List Item Not Found");
-        assertEquals(LifeCycleUtils.getLifeCycleProperty(lifeCycle.getLifecycleProperties(), "registry.custom_lifecycle.checklist.option.3.item")[1],
+        assertEquals(LifeCycleUtils.getLifeCycleProperty(lifeCycle.getLifecycleProperties(), 
+        		"registry.custom_lifecycle.checklist.option."+ ASPECT_NAME +".3.item")[1],
                 "name:Design UML Diagrams", "Design UML Diagrams Check List Item Not Found");
-        assertEquals(LifeCycleUtils.getLifeCycleProperty(lifeCycle.getLifecycleProperties(), "registry.custom_lifecycle.checklist.option.4.item")[1]
+        assertEquals(LifeCycleUtils.getLifeCycleProperty(lifeCycle.getLifecycleProperties(), 
+        		"registry.custom_lifecycle.checklist.option."+ ASPECT_NAME +".4.item")[1]
                 , "name:High Level Design Completed", "High Level Design Completed Check List Item Not Found");
-        assertEquals(LifeCycleUtils.getLifeCycleProperty(lifeCycle.getLifecycleProperties(), "registry.custom_lifecycle.checklist.option.5.item")[1]
+        assertEquals(LifeCycleUtils.getLifeCycleProperty(lifeCycle.getLifecycleProperties(), 
+        		"registry.custom_lifecycle.checklist.option."+ ASPECT_NAME +".5.item")[1]
                 , "name:Completion of Commencement", "Completion of Commencement  Check List Item Not Found");
         //Activity search
         Thread.sleep(1000 * 10);
@@ -211,17 +217,23 @@ public class CustomLifeCyclePromoteLCTestCase extends GREGIntegrationBaseTest {
                 , "Creation", "LifeCycle State Mismatched");
         assertEquals(wsRegistry.get(servicePathTrunk).getPath(), servicePathTrunk, "Preserve original failed");
         //life cycle check list
-        assertEquals(LifeCycleUtils.getLifeCycleProperty(lifeCycle.getLifecycleProperties(), "registry.custom_lifecycle.checklist.option.0.item")[1],
+        assertEquals(LifeCycleUtils.getLifeCycleProperty(lifeCycle.getLifecycleProperties(), 
+        		"registry.custom_lifecycle.checklist.option."+ ASPECT_NAME +".0.item")[1],
                 "name:Code Completed", "Code Completed Check List Item Not Found");
-        assertEquals(LifeCycleUtils.getLifeCycleProperty(lifeCycle.getLifecycleProperties(), "registry.custom_lifecycle.checklist.option.1.item")[1],
+        assertEquals(LifeCycleUtils.getLifeCycleProperty(lifeCycle.getLifecycleProperties(), 
+        		"registry.custom_lifecycle.checklist.option."+ ASPECT_NAME +".1.item")[1],
                 "name:WSDL Created", "WSDL Created Check List Item Not Found");
-        assertEquals(LifeCycleUtils.getLifeCycleProperty(lifeCycle.getLifecycleProperties(), "registry.custom_lifecycle.checklist.option.2.item")[1],
+        assertEquals(LifeCycleUtils.getLifeCycleProperty(lifeCycle.getLifecycleProperties(), 
+        		"registry.custom_lifecycle.checklist.option."+ ASPECT_NAME +".2.item")[1],
                 "name:QoS Created", "QoS Created Check List Item Not Found");
-        assertEquals(LifeCycleUtils.getLifeCycleProperty(lifeCycle.getLifecycleProperties(), "registry.custom_lifecycle.checklist.option.3.item")[1],
+        assertEquals(LifeCycleUtils.getLifeCycleProperty(lifeCycle.getLifecycleProperties(), 
+        		"registry.custom_lifecycle.checklist.option."+ ASPECT_NAME +".3.item")[1],
                 "name:Schema Created", "Schema Created Check List Item Not Found");
-        assertEquals(LifeCycleUtils.getLifeCycleProperty(lifeCycle.getLifecycleProperties(), "registry.custom_lifecycle.checklist.option.4.item")[1],
+        assertEquals(LifeCycleUtils.getLifeCycleProperty(lifeCycle.getLifecycleProperties(), 
+        		"registry.custom_lifecycle.checklist.option."+ ASPECT_NAME +".4.item")[1],
                 "name:Services Created", "Services Created Check List Item Not Found");
-        assertEquals(LifeCycleUtils.getLifeCycleProperty(lifeCycle.getLifecycleProperties(), "registry.custom_lifecycle.checklist.option.5.item")[1],
+        assertEquals(LifeCycleUtils.getLifeCycleProperty(lifeCycle.getLifecycleProperties(), 
+        		"registry.custom_lifecycle.checklist.option."+ ASPECT_NAME +".5.item")[1],
                 "name:Completion of Creation", "Completion of Creation  Check List Item Not Found");
         //activity search for trunk
         Thread.sleep(1000 * 10);
@@ -319,11 +331,14 @@ public class CustomLifeCyclePromoteLCTestCase extends GREGIntegrationBaseTest {
                 , "Development", "LifeCycle State Mismatched");
         assertEquals(wsRegistry.get(servicePathTrunk).getPath(), servicePathTrunk, "Preserve original failed");
         //life cycle check list
-        assertEquals(LifeCycleUtils.getLifeCycleProperty(lifeCycle.getLifecycleProperties(), "registry.custom_lifecycle.checklist.option.0.item")[1],
+        assertEquals(LifeCycleUtils.getLifeCycleProperty(lifeCycle.getLifecycleProperties(), 
+        		"registry.custom_lifecycle.checklist.option."+ ASPECT_NAME +".0.item")[1],
                 "name:Effective Inspection Completed", "Effective Inspection Completed Check List Item Not Found");
-        assertEquals(LifeCycleUtils.getLifeCycleProperty(lifeCycle.getLifecycleProperties(), "registry.custom_lifecycle.checklist.option.1.item")[1],
+        assertEquals(LifeCycleUtils.getLifeCycleProperty(lifeCycle.getLifecycleProperties(), 
+        		"registry.custom_lifecycle.checklist.option."+ ASPECT_NAME +".1.item")[1],
                 "name:Test Cases Passed", "Test Cases Passed Check List Item Not Found");
-        assertEquals(LifeCycleUtils.getLifeCycleProperty(lifeCycle.getLifecycleProperties(), "registry.custom_lifecycle.checklist.option.2.item")[1],
+        assertEquals(LifeCycleUtils.getLifeCycleProperty(lifeCycle.getLifecycleProperties(), 
+        		"registry.custom_lifecycle.checklist.option."+ ASPECT_NAME +".2.item")[1],
                 "name:Smoke Test Passed", "Smoke Test Passed Check List Item Not Found");
         //activity search for trunk
         Thread.sleep(1000 * 10);
@@ -424,7 +439,8 @@ public class CustomLifeCyclePromoteLCTestCase extends GREGIntegrationBaseTest {
                 , "QA", "LifeCycle State Mismatched");
         assertEquals(wsRegistry.get(servicePathBranchDev).getPath(), servicePathBranchDev, "Preserve original failed");
         //life cycle check list
-        assertEquals(LifeCycleUtils.getLifeCycleProperty(lifeCycle.getLifecycleProperties(), "registry.custom_lifecycle.checklist.option.0.item")[1],
+        assertEquals(LifeCycleUtils.getLifeCycleProperty(lifeCycle.getLifecycleProperties(), 
+        		"registry.custom_lifecycle.checklist.option."+ ASPECT_NAME +".0.item")[1],
                 "name:Service Configuration", "Service Configuration Check List Item Not Found");
         //activity search for trunk
         Thread.sleep(1000 * 10);
@@ -532,7 +548,8 @@ public class CustomLifeCyclePromoteLCTestCase extends GREGIntegrationBaseTest {
                 , "Launched", "LifeCycle State Mismatched");
         assertEquals(wsRegistry.get(servicePathBranchQA).getPath(), servicePathBranchQA, "Preserve original failed");
         //life cycle check list
-        assertEquals(LifeCycleUtils.getLifeCycleProperty(lifeCycle.getLifecycleProperties(), "registry.custom_lifecycle.checklist.option.0.item")[1],
+        assertEquals(LifeCycleUtils.getLifeCycleProperty(lifeCycle.getLifecycleProperties(), 
+        		"registry.custom_lifecycle.checklist.option."+ ASPECT_NAME +".0.item")[1],
                 "name:Service Configuration", "Service Configuration Check List Item Not Found");
         //activity search for trunk
         Thread.sleep(1000 * 10);
