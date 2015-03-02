@@ -98,11 +98,6 @@ public class LCCheckpointNotificationTestCase extends GREGIntegrationBaseTest {
     private String userNameWithoutDomain;
 
     /**
-     * System governance registry path.
-     */
-    private final String govPath = "/_system/governance";
-
-    /**
      * Resource admin service client.
      */
     private ResourceAdminServiceClient resourceAdminServiceClient;
@@ -120,12 +115,12 @@ public class LCCheckpointNotificationTestCase extends GREGIntegrationBaseTest {
     /**
      * Registry path of the service which is created for the test cases.
      */
-    private String serviceString = "/trunk/services/com/abb/1.0.0-SNAPSHOT/IntergalacticService9";
+    private final String serviceString = "/trunk/services/com/abb/1.0.0-SNAPSHOT/IntergalacticService9";
 
     /**
      * Absolute registry path of the service.
      */
-    private final String absPath = govPath + serviceString;
+    private final String absPath = GREGTestConstants.GOVERNANCE_LOCATION + serviceString;
 
     /**
      * Session cookie.
@@ -233,7 +228,7 @@ public class LCCheckpointNotificationTestCase extends GREGIntegrationBaseTest {
         DataHandler dataHandler = new DataHandler(new URL("file:///" + servicePath));
         String mediaType = "application/vnd.wso2-service+xml";
         String description = "This is a test service";
-        String destinationPath = govPath + "/service";
+        String destinationPath = GREGTestConstants.GOVERNANCE_LOCATION + "/service";
         resourceAdminServiceClient.addResource(destinationPath, mediaType, description, dataHandler);
         org.wso2.carbon.registry.resource.stub.common.xsd.ResourceData[] data = resourceAdminServiceClient
                 .getResource(absPath);
