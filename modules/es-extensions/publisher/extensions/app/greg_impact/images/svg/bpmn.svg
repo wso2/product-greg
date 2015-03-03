@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+
+<!--
+ * Copyright (c) 2015, WSO2 Inc. (http://www.wso2.org) All Rights Reserved.
+ *
+ * WSO2 Inc. licenses this file to you under the Apache License,
+ * Version 2.0 (the "License"); you may not use this file except
+ * in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing,
+ * software distributed under the License is distributed on an
+ * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ * KIND, either express or implied. See the License for the
+ * specific language governing permissions and limitations
+ * under the License.
+-->
+
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="48px"
+	 height="48px" viewBox="0 0 48 48" style="enable-background:new 0 0 48 48;" xml:space="preserve">
+<g id="BPMN">
+	<path d="M41.251,0c-3.728,0-6.749,3.022-6.749,6.75c0,3.387,2.497,6.182,5.749,6.666V23h-5.493L24.524,12.768
+		c-0.29-0.29-0.76-0.29-1.049,0L13.159,23.083h-5.41v-0.001h-2v11.501C2.497,35.068,0,37.865,0,41.252C0,44.979,3.021,48,6.749,48
+		s6.749-3.021,6.749-6.748c0-3.387-2.497-6.184-5.749-6.668v-9.5h5.577l10.149,10.148c0.289,0.289,0.759,0.289,1.049,0L34.758,25
+		h5.493v0.001h2V13.416C45.503,12.932,48,10.137,48,6.75C48,3.022,44.979,0,41.251,0z M12.271,41.313
+		c0,3.061-2.481,5.541-5.541,5.541c-3.061,0-5.542-2.48-5.542-5.541s2.481-5.542,5.542-5.542
+		C9.79,35.771,12.271,38.253,12.271,41.313z M41.335,12.292c-3.061,0-5.542-2.481-5.542-5.542s2.481-5.542,5.542-5.542
+		c3.06,0,5.541,2.481,5.541,5.542S44.395,12.292,41.335,12.292z"/>
+</g>
+</svg>

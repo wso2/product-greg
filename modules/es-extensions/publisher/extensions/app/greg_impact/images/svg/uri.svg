@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+
+<!--
+ * Copyright (c) 2015, WSO2 Inc. (http://www.wso2.org) All Rights Reserved.
+ *
+ * WSO2 Inc. licenses this file to you under the Apache License,
+ * Version 2.0 (the "License"); you may not use this file except
+ * in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing,
+ * software distributed under the License is distributed on an
+ * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ * KIND, either express or implied. See the License for the
+ * specific language governing permissions and limitations
+ * under the License.
+-->
+
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="48px"
+	 height="48px" viewBox="0 0 48 48" style="enable-background:new 0 0 48 48;" xml:space="preserve">
+<g id="URI">
+	<path id="_x3C_Compound_Path_x3E__1_" d="M36.36,26.309l8.907-8.909c3.644-3.645,3.644-9.575-0.002-13.22
+		l-1.446-1.447c-3.646-3.646-9.574-3.646-13.22,0l-8.906,8.907c-2.012,2.01-2.911,4.716-2.703,7.351
+		c-2.634-0.208-5.341,0.691-7.35,2.702L2.734,30.6c-3.645,3.646-3.645,9.576,0,13.221l1.447,1.447c3.645,3.645,9.576,3.645,13.221,0
+		l8.906-8.906c2.01-2.012,2.91-4.718,2.703-7.351C31.644,29.219,34.349,28.317,36.36,26.309z M23.16,33.214l-8.907,8.907
+		c-1.909,1.908-5.016,1.908-6.924,0l-1.448-1.448c-1.91-1.91-1.909-5.016,0-6.925l8.907-8.908c1.617-1.617,4.089-1.864,5.968-0.746
+		l-3.691,3.693c-0.87,0.869-0.87,2.279,0,3.148c0.869,0.868,2.279,0.868,3.147,0l3.693-3.691
+		C25.023,29.124,24.776,31.598,23.16,33.214z M27.244,23.905l3.69-3.692c0.869-0.869,0.869-2.278,0-3.147
+		c-0.868-0.87-2.278-0.87-3.147-0.001l-3.69,3.692c-1.12-1.88-0.872-4.353,0.743-5.969l8.907-8.907c1.909-1.91,5.016-1.91,6.925,0
+		l1.448,1.447c1.908,1.909,1.908,5.016,0,6.925l-8.907,8.906C31.596,24.776,29.122,25.022,27.244,23.905z"/>
+</g>
+</svg>
