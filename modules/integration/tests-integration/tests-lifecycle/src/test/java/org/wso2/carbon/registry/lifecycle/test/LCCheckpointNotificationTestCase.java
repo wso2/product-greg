@@ -288,7 +288,7 @@ public class LCCheckpointNotificationTestCase extends GREGIntegrationBaseTest {
     }
 
     /**
-     * Method used to add a role
+     * This method used to add a role
      *
      * @return              true if the role is successfully added.
      * @throws Exception
@@ -391,7 +391,8 @@ public class LCCheckpointNotificationTestCase extends GREGIntegrationBaseTest {
     }
 
     /**
-     * THis method is used to unsubscribe from management console notifications.
+     * This method is used to unsubscribe from management console notifications.
+     *
      * @param path                          Registry path to the service.
      * @return                              true if successfully unsubscribed.
      * @throws RegistryException
