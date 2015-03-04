@@ -16,6 +16,7 @@
  ~ under the License.
  -->
 <assembly>
+    <id>bin</id>
     <formats>
         <format>zip</format>
     </formats>
@@ -480,7 +481,7 @@
         </fileSet>
 	<fileSet>
             <directory>src/main/resources/carbon-home/conf</directory>
-            <outputDirectory>${project.artifactId}-${project.version}/repository/conf/security/</outputDirectory>
+            <outputDirectory>${project.artifactId}-${product.greg.version}/repository/conf/security/</outputDirectory>
             <includes>
                 <include>**/sso-idp-config.xml</include>
             </includes>
@@ -489,7 +490,7 @@
             <directory>
                 ../p2-profile-gen/target/wso2carbon-core-${carbon.kernel.version}/repository/resources/security/
             </directory>
-            <outputDirectory>${project.artifactId}-${project.version}/repository/resources/security/</outputDirectory>
+            <outputDirectory>${project.artifactId}-${product.greg.version}/repository/resources/security/</outputDirectory>
             <includes>
                 <include>**/sso_redirect.html</include>
             </includes>
@@ -501,7 +502,7 @@
         <dependencySet>
             <outputDirectory>${pom.artifactId}-${build.version}/repository/lib</outputDirectory>
             <includes>
-                <include>org.wso2.governance:checkin-client:jar</include>
+                <include>org.wso2.greg:checkin-client:jar</include>
             </includes>
         </dependencySet>
 
@@ -519,15 +520,15 @@
             <outputFileNameMapping>${artifact.artifactId}-${artifact.version}${dashClassifier?}.${artifact.extension}</outputFileNameMapping>
             <outputDirectory>${pom.artifactId}-${build.version}/samples/custom-ui/bin</outputDirectory>
             <includes>
-                <include>org.wso2.governance:org.wso2.carbon.registry.samples.custom.topics:jar</include>
-                <include>org.wso2.governance:org.wso2.carbon.registry.samples.custom.topics.ui:jar</include>
+                <include>org.wso2.greg:org.wso2.carbon.registry.samples.custom.topics:jar</include>
+                <include>org.wso2.greg:org.wso2.carbon.registry.samples.custom.topics.ui:jar</include>
             </includes>
         </dependencySet>
         <dependencySet>
             <outputFileNameMapping>${artifact.artifactId}-${artifact.version}${dashClassifier?}.${artifact.extension}</outputFileNameMapping>
             <outputDirectory>${pom.artifactId}-${build.version}/samples/handler/bin</outputDirectory>
             <includes>
-                <include>org.wso2.governance:org.wso2.carbon.registry.samples.handler:jar</include>
+                <include>org.wso2.greg:org.wso2.carbon.registry.samples.handler:jar</include>
             </includes>
         </dependencySet>
         <!-- Those jar files are required to be in lib dir in jaxr sample -->
@@ -543,7 +544,7 @@
         <dependencySet>
             <outputDirectory>${pom.artifactId}-${build.version}/repository/components/lib</outputDirectory>
             <includes>
-                <include>org.wso2.governance:juddi-listener:jar</include>
+                <include>org.wso2.greg:juddi-listener:jar</include>
             </includes>
         </dependencySet>
 
