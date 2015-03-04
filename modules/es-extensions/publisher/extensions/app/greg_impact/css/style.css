@@ -189,9 +189,9 @@ svg .inactive svg path { fill: #3a424d; }
 }
 .btn.zoom.zooomfit { margin: 6px 0 8px 0; }
 .btn.download:hover { background: #00aeb9; color: #ffffff; }
-.btn.zoom[disabled=disabled], .btn.zoom[disabled=disabled]:hover { background: #696969; cursor: default; color: #ffffff; opacity: 0.2; }
+.btn[disabled=disabled], .btn[disabled=disabled]:hover { background: #696969; cursor: default; color: #ffffff; opacity: 0.2; }
 
-.filters { margin-top: 50px; display: inline-block; }
+.filters { margin-top: 50px; display: none; }
 .filters .tag {
     color: #ffffff;
     background: #696969;
