@@ -20,11 +20,11 @@
 var user = require('store').server.current(session);
 var log = new Log();
 
+/*
+ * query parameters of the original request should be passed to the
+ * login jag in order to redirect to the correct place
+ */
 if (!user) {
-    /*
-    query parameters of the original request should be passed to the
-    login jag in order to redirect to the correct place
-     */
     response.sendRedirect('./login?' + request.getQueryString());
 }
 else {
@@ -54,7 +54,6 @@ else {
                     </div>
                     Loading: <i>Please wait ...</i>
                 </div>
-                <!--<div class="loaderbg"></div>-->
             </div>
 
             <div id="urlView">
@@ -63,12 +62,13 @@ else {
             </div>
 
             <div class="ui-widget left searchfield">
-                <button type="button" class="btn btn-default download" onclick="svgDownload()" title="Save screen for print"><i class="fa fa-save" aria-hidden="true"></i> <span>Save</span></button>
-                <input id="search" class="searchbox" title="Locate Resource" />
-                <button type="button" class="btn btn-default download res" onclick="svgDownload()" title="Save screen for print"><i class="fa fa-save" aria-hidden="true"></i> <span>Save</span></button>
+                <button type="button" class="btn btn-default download" onclick="svgDownload()" title="Save screen for print" disabled="disabled"><i class="fa fa-save" aria-hidden="true"></i> <span>Save</span></button>
+                <input id="search" class="searchbox" title="Locate Resource" disabled="disabled" />
+                <button type="button" class="btn btn-default download res" onclick="svgDownload()" title="Save screen for print" disabled="disabled"><i class="fa fa-save" aria-hidden="true"></i> <span>Save</span></button>
                 <button type="button" class="btn btn-default reset-locate" onclick="clearSearchOperation()" title="Clear search"><i class="fa fa-times" aria-hidden="true"></i></button>
-                <div id="filters" class="filters"><!-- dynamic tags space --></div>
             </div>
+
+            <div id="filters" class="ui-widget left filters"><!-- dynamic tags space --></div>
 
             <div class="ui-widget right bottom">
                 <button type="button" class="btn btn-default zoom" onclick="zoomFit()" title="Zoom-out to fit screen" disabled="disabled"><i class="fa fa-arrows-alt" aria-hidden="true"></i></button>
@@ -126,7 +126,9 @@ else {
     <script src="../extensions/app/greg_impact/public/js/jquery-1.11.1.js"></script>
     <script src="../extensions/app/greg_impact/public/js/jquery-ui.js"></script>
     <script src="../extensions/app/greg_impact/public/js/select2.js"></script>
-    <!--[if lt IE 9]><script src="../extensions/app/greg_impact/public/js/flashcanvas.js"></script><![endif]-->
+    <!--[if lt IE 9]>
+    <script src="../extensions/app/greg_impact/public/js/flashcanvas.js"></script>
+    <![endif]-->
 	<script src="../extensions/app/greg_impact/public/js/rgbcolor.js"></script>
     <script src="../extensions/app/greg_impact/public/js/StackBlur.js"></script>
 	<script src="../extensions/app/greg_impact/public/js/canvg.js"></script>
@@ -156,7 +158,7 @@ else {
         var zoom = d3.behavior.zoom().on("zoom", redraw);
 
         //var drag = force.drag()
-        //    .on("dragstart", dragstart);
+        //    .on("dragstart", dragstart); // To enable node dragging
 
         var svg = d3.select("#graph").append("svg")
             .attr("id", "dependency-graph")
@@ -181,7 +183,6 @@ else {
             linkedByIndex = {};
 
             update(root) ;
-            //displayInfo(root.nodes[0]);
             setupSearch();
             setupFilters();
 

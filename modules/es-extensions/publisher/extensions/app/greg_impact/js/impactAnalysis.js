@@ -16,8 +16,8 @@
  * under the License.
  */
 
-/**
- * @set default global variables
+/*
+ * @set  default global variables
  */
 var svgIconsFolder = "../extensions/app/greg_impact/images/svg/",
     footerHeight = 50,
@@ -26,14 +26,20 @@ var svgIconsFolder = "../extensions/app/greg_impact/images/svg/",
     clicks = 0,
     timer = null,
     screenOrientation = $(window).width() > $(window).height() ? .5625 : .9625,
-    onload = true;
+    onload = true,
+    graphSVG = "#graph svg",
+    graphCaptureSVG = "#graph-capture svg";
 
-/**
- * Impact analysis: Dependency Graph UI functions
- * @method functions to run on DOM ready
+/*
+ * Impact analysis: Dependency Graph UI functions (functions to run on DOM ready).
+ *
+ * @method  Initializing search element
+ *          - On search element drop list open function
+ *          - On search element drop list close function
  */
 $(document).ready(function() {
 
+    // Initializing search element
     $('#search').select2({
         placeholder: 'Find Resource',
         data: root.nodes,
@@ -56,7 +62,6 @@ $(document).ready(function() {
             $('.reset-locate').css("display", "inline-block");
         }
     }).on('select2-open', function(){
-
         $('ul.select2-results li').each(function(){
             var itemId = $('.item', this).attr('id');
                 itemId = itemId.replace('search_', 'node_');
@@ -66,6 +71,7 @@ $(document).ready(function() {
             }
         });
 
+        // Convert all svg images to xml paths
         $('img.svg').each(function(){
             var $img = $(this);
             var imgID = $img.attr('id');
@@ -116,21 +122,34 @@ $(document).ready(function() {
 
 });
 
+/*
+ * Function to run on window resize (To keep graph screen responsiveness).
+ */
 $(window).resize(function() {
     d3.select("svg").attr("width", $(window).width());
     d3.select("svg").attr("height", ($(window).height()-footerHeight));
     d3.select("svg").attr("viewBox", "0 0 " + $(window).width() + " " + ($(window).height()-footerHeight));
 });
 
+/*
+ * Function to run on window load (After page load functions)
+ */
 $(window).load(function() {
     clearSearchOperation();
     $(".searchfield").css("visibility", "visible");
 });
 
+/*
+ * Graph redrawing function
+ */
 function redraw() {
     svg.attr("transform", "translate(" + d3.event.translate + ")" + " scale(" + d3.event.scale + ")");
 }
 
+/*
+ * Function to get center of an element.
+ * @return center: Element center
+ */
 function getCenter() {
     var center = {
         x : this.width / 2,
@@ -139,6 +158,10 @@ function getCenter() {
     return center;
 }
 
+/*
+ * Function to update graph UI.
+ * @param d: Data
+ */
 function update(d) {
 
     var nodes = root.nodes,
@@ -178,15 +201,6 @@ function update(d) {
         .attr("title", '')
         .on("click", showRelations)
         .attr("r", 5);
-
-    //linkTitle = linkg.append('svg:title')
-    //    .text(function(d,i){
-    //        var result = "";
-    //        for (loop = 0; loop < root.edges[i].relations.length; loop++){
-    //            result += root.relations[root.edges[i].relations[loop]].relation +": "+ root.relations[root.edges[i].relations[loop]].target +"; ";
-    //        }
-    //        return result;
-    //    });
 
     // Update nodes.
     node = node.data(nodes, function(d) {
@@ -273,47 +287,10 @@ function update(d) {
 
 }
 
-/*function isPointInPoly(poly, pt){
-    for(var c = false, i = -1, l = poly.length, j = l - 1; ++i < l; j = i)
-        ((poly[i].y <= pt.y && pt.y < poly[j].y) || (poly[j].y <= pt.y && pt.y < poly[i].y))
-        && (pt.x < (poly[j].x - poly[i].x) * (pt.y - poly[i].y) / (poly[j].y - poly[i].y) + poly[i].x)
-        && (c = !c);
-    return c;
-}*/
-
-//function drawArrows() {
-//    var markerWidth = 10,
-//        markerHeight = 18,
-//        cRadius = 29,
-//        refX = cRadius + (markerWidth * 2),
-//        refY = 0,
-//        drSub = cRadius + refY;
-//
-//
-//    svg.append("svg:defs").selectAll("marker")
-//        .data(["arrow"])
-//        .enter().append("svg:marker")
-//        .attr("id", "arrow")
-//        .attr("viewBox", "0 -5 10 10")
-//        .attr("refX", refX)
-//        .attr("refY", refY)
-//        .attr("markerWidth", markerWidth)
-//        .attr("markerHeight", markerHeight)
-//        .attr("orient", "auto")
-//        .append("svg:path")
-//        .attr("d", "M0,-5L10,0L0,5");
-//
-//    path = svg.append("svg:g").selectAll("line")
-//        .attr("class", function (d) {
-//            return "linkLine";
-//        })
-//        .attr("marker-end", function (d) {
-//            return "url(#arrow)"})
-//        .data(force.links())
-//        .enter();
-//}
-
-// Get node types ex:- Parent > Child
+/*
+ * Get node types ex:- Parent > Child.
+ * @param d: Data
+ */
 function nodeType(d) {
     if(d.children){
         if(d.children.length > 0){
@@ -330,7 +307,9 @@ function nodeType(d) {
     return d.nodeType;
 }
 
-// Defining icons for resource type
+/* Defining icons for resource type.
+ * @param getType: Selected resource media type
+ */
 function nodeIcon(getType) {
 
     switch(getType) {
@@ -393,10 +372,16 @@ function nodeIcon(getType) {
     }
 }
 
+/* Function to run on node drag.
+ * @param d: data
+ */
 function dragstart(d){
     d3.select(this).classed("fixed", d.fixed = true);
 }
 
+/*
+ * Initializing filtering function.
+ */
 function setupFilters(){
     var filters = [];
 
@@ -417,6 +402,9 @@ function setupFilters(){
     }
 }
 
+/* Function to filter resources by it's connected relationships.
+ * @param elem: Selected filter tag
+ */
 function filter(elem){
 
     $(elem).toggleClass('hidden');
@@ -466,31 +454,24 @@ function filter(elem){
 
 }
 
-//This function looks up whether a pair are neighbours  
+/*
+ * Function to looks up whether a pair are neighbours.
+ */
 function neighboring(a, b) {
     return linkedByIndex[a.index + "," + b.index];
 }
 
 /*
-on double click expand and retract node's children
+ * Reset resource path on page bottom.
  */
-function showHideChildren(d) {
-    if (d.children) {
-        d._children = d.children;
-        d.children = null;
-    } else {
-        d.children = d._children;
-        d._children = null;
-    }
-    update();
-}
-
 function resetPath() {
     $("#urlView #path").html("<i>Select a resource to view path</i>");
 }
 
+/*
+ * Function to run on graph outside click.
+ */
 function outClick() {
-
     resetPath();
     clearSearchOperation();
     d3.selectAll("g").select("circle").classed("active", false);
@@ -500,11 +481,13 @@ function outClick() {
     linkg.attr("class", "");
     isSame = self;
     selectedNode = -1;
-
 }
 
+/*
+ * Function to run on resource node double click and single click.
+ * @param d: data
+ */
 function click(d) {
-
     d3.event.stopPropagation();
 
     var self = this;
@@ -546,24 +529,34 @@ function click(d) {
 
         // double click function
         if(selectedNode == -1 || selectedNode != d.index){
-            // highlight nodes if they are connected to source
-            node.attr("class", function(o) {
-                return neighboring(o, d) || neighboring(d, o) ? "active" : "inactive";
-            });
+
             // highlight links if they are connected to source
             linkg.attr("class", function(o) {
                 return (d.index == o.target.index) || (d.index == o.source.index) ? "active" : "inactive";
             });
 
-            //var order = {red: -1, green: 0, orange: 1};
-            //
-            //node.sort(function(a, b) {
-            //    return order[a.d3.selectAll('.active')] < order[b.d3.selectAll('.inactive')] ? -1 :
-            // order[b.d3.selectAll('.inactive')] < order[a.d3.selectAll('.active')] ? 1 : 0;
-            //});
+            // highlight nodes if they are connected to source
+            node.attr("class", function(o) {
+                return neighboring(o, d) || neighboring(d, o) ? "active" : "inactive";
+            });
 
             d3.select(self).attr("active-status", "groupselect");
             selectedNode = d.index;
+
+
+            d3.selectAll("[group=node].active").each(function(){
+                if ($(this).css('display') !== 'none') {
+                    var edges = $(this).attr("edges"),
+                        edge = edges.split(';');
+
+                    $(this).attr('class', 'inactive');
+                    for(var i = 0; i < edge.length; i++) {
+                        if(($("#"+edge[i]+"").css('display') !== 'none') && ($("#"+edge[i]+"").attr('class') !== 'inactive')){
+                            $(this).attr('class', 'active');
+                        }
+                    }
+                }
+            });
         }
         else{
             // Reset relation highlight
@@ -580,6 +573,10 @@ function click(d) {
     return false;
 }
 
+/*
+ * Function to display resource info.
+ * @param  resource: Selected resource
+ */
 function displayInfo(resource){
     $('#name').text(resource.name);
     $('#mediaType').text(resource.mediaType);
@@ -593,6 +590,9 @@ function displayInfo(resource){
     }
 }
 
+/*
+ * On load node spreading function.
+ */
 function tick(){
     link.attr("x1", function(d) { return d.source.x; })
         .attr("y1", function(d) { return screenOrientation * d.source.y; })
@@ -602,12 +602,6 @@ function tick(){
     linkNode.attr("cx", function(d) { return midPoint(d.source.x,d.target.x) })
             .attr("cy", function(d) { return screenOrientation * midPoint(d.source.y,d.target.y) });
 
-    //linkg.attr("object", function(d) {
-    //    return JSON.stringify(d)
-    //});
-
-    //console.log(nodeEnter.html());
-
     nodeEnter.attr("transform", function(d) { return "translate(" + d.x + "," + screenOrientation * d.y + ")"; });
 
     if(onload == true){
@@ -615,12 +609,21 @@ function tick(){
     }
 }
 
+/*
+ * Function to run after nodes spreading done.
+ */
 function tickCallback(){
     $("#preLoader").hide();
     $(".zoom").attr("disabled", false);
+    $(".searchbox").attr("disabled", false);
+    $(".download").attr("disabled", false);
+    $(".filters").css("display", "inline-block");
     onload = false;
 }
 
+/*
+ * Function to find graph middle point.
+ */
 function midPoint(val1, val2) {
     if (val1 < val2){
         return val1 + ((val2 - val1) / 2);
@@ -633,6 +636,9 @@ function midPoint(val1, val2) {
     }
 }
 
+/*
+ * Initializing search function.
+ */
 function setupSearch() {
     for (var i = 0; i < root.nodes.length; i++) {
         searchArray.push(root.nodes[i].name);
@@ -641,15 +647,20 @@ function setupSearch() {
     searchArray = searchArray.sort();
 }
 
+/*
+ * Function to clear search operation.
+ */
 function clearSearchOperation() {
     $("#search").select2('data', null);
     $(".reset-locate").hide();
 
     clearSearchedNode();
     resetPath();
-    //zoomFit();
 }
 
+/*
+ * Function to clear search.
+ */
 function clearSearchedNode() {
     d3.selectAll("g").select("circle").classed("active", false);
     node.attr("class", "");
@@ -657,6 +668,9 @@ function clearSearchedNode() {
     d3.selectAll("g").attr("active-status", "");
 }
 
+/*
+ * Function to search resource.
+ */
 function searchNode() {
     clearSearchedNode();
 
@@ -677,17 +691,18 @@ function searchNode() {
         displayInfo(searchedNode[0][0].__data__);
 
         zoom.scale(1);
-        var coor = zoom.translate();
 
         screenOrientation = 1;
         tick();
 
-        zoom.translate( [/*coor[0] + */getCenter().x - rootNode.x, /*coor [1] + */getCenter().y - rootNode.y] );
+        zoom.translate( [getCenter().x - rootNode.x, getCenter().y - rootNode.y] );
         zoom.event(svg);
     }
 }
 
-/* Function to zoom in graph */
+/*
+ * Function to zoom in graph.
+ */
 function zoomIn(){
     var coor = zoom.translate();
     var x = (coor[0] - getCenter().x) * 1.1 + getCenter().x;
@@ -699,7 +714,9 @@ function zoomIn(){
     zoom.event(svg);
 }
 
-/* Function to zoom out graph */
+/*
+ * Function to zoom out graph.
+ */
 function zoomOut(){
     var coor = zoom.translate();
     var x = (coor[0] - getCenter().x) * 0.9 + getCenter().x;
@@ -711,7 +728,9 @@ function zoomOut(){
     zoom.event(svg);
 }
 
-/* Function to zoom out/in graph to fit current screen */
+/*
+ * Function to zoom out/in graph to fit current screen.
+ */
 function zoomFit(){
     var graphBBox = d3.select("svg g#mainG").node().getBBox(),
         graphScreen = $("svg");
@@ -728,18 +747,20 @@ function zoomFit(){
     zoom.event(svg);
 }
 
-/* Function to show resource relationships */
+/*
+ * Function to show resource relationships.
+ */
 function showRelations(d){
     var id = '#' + getLinkID(d);
-    //console.log("link " + $(id).parent().get(0));
     $(id).css({ opacity: 1 });
 }
 
-/* Function to save current screen as a .png image file */
+/*
+ * Function to save current screen as a .png image file.
+ */
 function svgDownload(){
-
-    $("#graph svg").clone().appendTo("#graph-capture");
-    $("#graph-capture svg").attr("id","cloned");
+    $(graphSVG).clone().appendTo("#graph-capture");
+    $(graphCaptureSVG).attr("id","cloned");
     var cssRules = {
         'propertyGroups' : {
             'block' : ['fill'],
@@ -754,12 +775,15 @@ function svgDownload(){
             'headings' : ['text']
         }
     };
-    $("#graph-capture svg g").inlineStyler(cssRules);
+    $(graphCaptureSVG + " g").inlineStyler(cssRules);
     svgenie.save(document.getElementById("cloned"), { name:"graph.png" });
-    $("#graph-capture svg").remove();
-
+    $(graphCaptureSVG).remove();
 }
 
+/*
+ * Function to get link relations.
+ * @param d: data
+ */
 function linkRelations(d){
     if (d.relations.length > 0){
         var result = "";
@@ -773,26 +797,25 @@ function linkRelations(d){
     }
 }
 
-//function alertNodeRelations(nodeData){
-//    if (nodeData.relations.length > 0){
-//        var result = "";
-//        for (i = 0; i < nodeData.relations.length; i++){
-//            var relation = root.relations[nodeData.relations[i]];
-//            result = result + relation.relation + '<br>' + root.nodes[relation.source].name + ' > '
-//                + root.nodes[relation.target].name + '<br>';
-//        }
-//        return result;
-//    }
-//}
-
+/*
+ * Function to get link id.
+ * @param d: data
+ */
 function getLinkID(d){
     return d.source.id + "_" + d.target.id;
 }
 
+/*
+ * Function to get resource id.
+ * @param d: data
+ */
 function getNodeID(d){
     return "node_" + d.id;
 }
 
+/*
+ * Initializing mouse over tooltip to resource links to show relationships.
+ */
 function setClickableTooltip(target, content){
     $(target).tooltip({
         show: null, // show immediately
