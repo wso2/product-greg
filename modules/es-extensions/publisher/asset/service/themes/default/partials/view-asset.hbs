@@ -19,7 +19,7 @@
             <div class="row-fluid asset-detail-top-row">
                 <div class="span2">
                     <div class="thumbnail-div">
-                        <img src='{{url ""}}/extensions/assets/service/themes/default/imgs/thumbnail.jpg' class="" alt="Thumb"/>
+                        <img src='{{url ""}}/extensions/assets/service/themes/default/imgs/thumbnail.png' class="" alt="Thumb"/>
                     </div>
                 </div>
                 <div class="span10 asset-details-box">
@@ -53,7 +53,9 @@
                                     <table class='table'>
                                         <tr>
                                             <td>{{t "WSDL/WADL URL"}}</td>
-                                            <td><a href="../../../asts/wsdl/details/{{wsdl_uuid}}">{{wsdl_url}}</a></td>
+                                            <!-- Assuming service can have only one dependency, WSDL/WADL-->
+                                            <td><a href="../../../asts/{{dependencies.[0].associationType}}/details/
+                                            {{dependencies.[0].associationUUID}}" target="_blank">{{wsdl_url}}</a></td>
                                         </tr>
                                         <tr>
                                             <td>{{t "Transport Protocols"}}</td>
