@@ -20,7 +20,6 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 import org.wso2.carbon.automation.engine.context.TestUserMode;
 import org.wso2.carbon.governance.api.endpoints.dataobjects.Endpoint;
-import org.wso2.carbon.governance.api.exception.GovernanceException;
 import org.wso2.carbon.governance.api.services.ServiceManager;
 import org.wso2.carbon.governance.api.services.dataobjects.Service;
 import org.wso2.carbon.governance.api.util.GovernanceUtils;
@@ -30,6 +29,7 @@ import org.wso2.carbon.integration.common.utils.LoginLogoutClient;
 import org.wso2.carbon.registry.core.Registry;
 import org.wso2.carbon.registry.core.exceptions.RegistryException;
 import org.wso2.carbon.registry.core.session.UserRegistry;
+import org.wso2.carbon.registry.info.stub.RegistryExceptionException;
 import org.wso2.carbon.registry.metadata.test.util.RegistryConstants;
 import org.wso2.carbon.registry.properties.stub.PropertiesAdminServiceRegistryExceptionException;
 import org.wso2.carbon.registry.properties.stub.beans.xsd.PropertiesBean;
@@ -45,6 +45,7 @@ import org.wso2.greg.integration.common.utils.RegistryProviderUtil;
 
 import javax.activation.DataHandler;
 import java.io.File;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.rmi.RemoteException;
 
@@ -53,51 +54,53 @@ import static org.testng.Assert.assertTrue;
 /**
  * This class used to add WSDL files in to the governance registry using resource-admin command.
  */
-public class WSDLValidationTestCase extends GREGIntegrationBaseTest{
-    //private static final Log log = LogFactory.getLog(WSDLValidationTestCase.class);
+public class WSDLValidationTestCase extends GREGIntegrationBaseTest {
 
     private PropertiesAdminServiceClient propertiesAdminServiceClient;
-    private RelationAdminServiceClient relationAdminServiceClient;
     private ResourceAdminServiceClient resourceAdminServiceClient;
     private ServiceManager serviceManager;
     private WsdlManager wsdlManager;
-    private String sessionCookie;
     private Registry governance;
     private final String wsdlPath = "/_system/governance/trunk/wsdls/net/restfulwebservices/www/servicecontracts"
             + "/_2008/_01/1.0.0/GeoIPService.svc.wsdl";
 
-
-    @BeforeClass(groups = {"wso2.greg"})
+    /**
+     * THis method used to init the wsdl validation test cases.
+     *
+     * @throws Exception
+     */
+    @BeforeClass(groups = { "wso2.greg" })
     public void init() throws Exception {
         super.init(TestUserMode.SUPER_TENANT_ADMIN);
-        sessionCookie = new LoginLogoutClient(automationContext).login();
-        propertiesAdminServiceClient =
-                new PropertiesAdminServiceClient(backendURL,
-                                                 sessionCookie);
-        relationAdminServiceClient =
-                new RelationAdminServiceClient(backendURL,
-                                               sessionCookie);
-        resourceAdminServiceClient =
-                new ResourceAdminServiceClient(backendURL,
-                                               sessionCookie);
-        WSRegistryServiceClient wsRegistry =
-                new RegistryProviderUtil().getWSRegistry(automationContext);
+        String sessionCookie = new LoginLogoutClient(automationContext).login();
 
-        governance = new RegistryProviderUtil().getGovernanceRegistry(wsRegistry, automationContext);
+        propertiesAdminServiceClient = new PropertiesAdminServiceClient(backendURL, sessionCookie);
+        resourceAdminServiceClient = new ResourceAdminServiceClient(backendURL, sessionCookie);
+        WSRegistryServiceClient wsRegistryServiceClient = new RegistryProviderUtil().getWSRegistry(automationContext);
+
+        governance = new RegistryProviderUtil().getGovernanceRegistry(wsRegistryServiceClient, automationContext);
         serviceManager = new ServiceManager(governance);
         wsdlManager = new WsdlManager(governance);
     }
 
-    @Test(groups = {"wso2.greg"})
-    public void addWSDL() throws Exception {
+    /**
+     * This method act as the wsdl addition test case.
+     *
+     * @throws MalformedURLException
+     * @throws RemoteException
+     * @throws ResourceAdminServiceExceptionException
+     * @throws RegistryExceptionException
+     */
+    @Test(groups = { "wso2.greg" })
+    public void addWSDL() throws MalformedURLException, RemoteException, ResourceAdminServiceExceptionException,
+            RegistryExceptionException {
         boolean isFound = false;
 
-        String resource = getTestArtifactLocation() + "artifacts" + File.separator +
-                          "GREG" + File.separator +
-                          "wsdl" + File.separator + "sample.wsdl";
+        String resource = getTestArtifactLocation() + "artifacts" + File.separator + "GREG" + File.separator
+                + "wsdl" + File.separator + "sample.wsdl";
 
         resourceAdminServiceClient.addResource("/_system/governance/trunk/wsdls/sample.wsdl",
-                                               RegistryConstants.APPLICATION_WSDL_XML, "txtDesc",
+                RegistryConstants.APPLICATION_WSDL_XML, "txtDesc",
                 new DataHandler(new URL("file:///" + resource)));
         resourceAdminServiceClient.importResource("/_system/governance/trunk/wsdls", "GeoIPService.svc.wsdl",
                 RegistryConstants.APPLICATION_WSDL_XML, "txtDesc", "https://svn.wso2"
@@ -129,26 +132,37 @@ public class WSDLValidationTestCase extends GREGIntegrationBaseTest{
         assertTrue(isFound);
     }
 
-
     /**
-     * wsdlValidationTestCase having two different of test-cases.adding wsdl from local file system and adding wsdl from global url.
+     * This method act as the wsdl validation test case.
+     * wsdlValidationTestCase have two different of test-cases.
+     * <ul>
+     * <li>Adding wsdl from local file system.</li>
+     * <li>Adding wsdl from global url.</li>
+     * </ul>
+     *
+     * @throws PropertiesAdminServiceRegistryExceptionException
+     * @throws RemoteException
      */
-    @Test(groups = {"wso2.greg"}, dependsOnMethods = {"addWSDL"})
-    public void wsdlValidationTestCase()
-            throws PropertiesAdminServiceRegistryExceptionException, RemoteException {
+    @Test(groups = { "wso2.greg" }, dependsOnMethods = { "addWSDL" })
+    public void wsdlValidationTestCase() throws PropertiesAdminServiceRegistryExceptionException, RemoteException {
         PropertiesBean propertiesBean = propertiesAdminServiceClient.getProperty(wsdlPath, "yes");
         Property[] property = propertiesBean.getProperties();
         for (int i = 0; i <= property.length - 1; i++) {
             if (property[i].getKey().equalsIgnoreCase("WSDL Validation")) {
-                assertTrue(property[i].getValue().equalsIgnoreCase("valid"), "WSDL validation not matched with expected result");
+                assertTrue(property[i].getValue().equalsIgnoreCase("valid"),
+                        "WSDL validation not matched with expected result");
             }
         }
-
     }
 
-    @Test(groups = {"wso2.greg"}, dependsOnMethods = "wsdlValidationTestCase")
-    public void addPropertyTest()
-            throws PropertiesAdminServiceRegistryExceptionException, RemoteException {
+    /**
+     * This method act as the test case for adding a property for the validated test case.
+     *
+     * @throws PropertiesAdminServiceRegistryExceptionException
+     * @throws RemoteException
+     */
+    @Test(groups = { "wso2.greg" }, dependsOnMethods = "wsdlValidationTestCase")
+    public void addPropertyTest() throws PropertiesAdminServiceRegistryExceptionException, RemoteException {
         propertiesAdminServiceClient.setProperty(wsdlPath, "TestProperty", "sample-value");
         PropertiesBean propertiesBean = propertiesAdminServiceClient.getProperty(wsdlPath, "yes");
         Property[] property = propertiesBean.getProperties();
@@ -160,9 +174,15 @@ public class WSDLValidationTestCase extends GREGIntegrationBaseTest{
 
     }
 
-    @AfterClass(groups = {"wso2.greg"})
-    public void deleteResources()
-            throws ResourceAdminServiceExceptionException, RemoteException, RegistryException {
+    /**
+     * This method act as the cleaning process after validation test cases.
+     *
+     * @throws ResourceAdminServiceExceptionException
+     * @throws RemoteException
+     * @throws RegistryException
+     */
+    @AfterClass(groups = { "wso2.greg" })
+    public void deleteResources() throws ResourceAdminServiceExceptionException, RemoteException, RegistryException {
         Endpoint[] endpoints = null;
         Endpoint[] endPointsOther = null;
 
@@ -177,7 +197,8 @@ public class WSDLValidationTestCase extends GREGIntegrationBaseTest{
             }
         }
 
-        resourceAdminServiceClient.deleteResource("/_system/governance/trunk/wsdls/eu/dataaccess/footballpool/1.0.0/sample.wsdl");
+        resourceAdminServiceClient
+                .deleteResource("/_system/governance/trunk/wsdls/eu/dataaccess/footballpool/1.0.0/sample.wsdl");
         resourceAdminServiceClient.deleteResource(wsdlPath);
 
         for (Endpoint path : endpoints) {
