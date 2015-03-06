@@ -1,6 +1,6 @@
 <%
 /*
- * Copyright (c) 2014, WSO2 Inc. (http://www.wso2.org) All Rights Reserved.
+ * Copyright (c) 2015, WSO2 Inc. (http://www.wso2.org) All Rights Reserved.
  *
  * WSO2 Inc. licenses this file to you under the Apache License,
  * Version 2.0 (the "License"); you may not use this file except
@@ -20,11 +20,11 @@
 var user = require('store').server.current(session);
 var log = new Log();
 
+/*
+ * query parameters of the original request should be passed to the
+ * login jag in order to redirect to the correct place
+ */
 if (!user) {
-    /*
-    query parameters of the original request should be passed to the
-    login jag in order to redirect to the correct place
-     */
     response.sendRedirect('./login?' + request.getQueryString());
 }
 else {
@@ -40,38 +40,50 @@ else {
 
     <div id="wrapper">
 
-        <div id="ff"></div>
-
-       <!-- Sidebar Left -->
-       <div id="sidebar-wrapper" class="sidebar left">
-           <button type="button" class="btn btn-default sidebar-close-btn" onclick="closeSidebar()"><span class="fa fa-close" aria-hidden="true"></span> Close Window</button>
-           <br />
-           <div class="details">
-                <p id="name">Name: <span><!-- dynamic content --></span></p>
-                <p id="mediaType">Type: <span><!-- dynamic content --></span></p>
-                <p id="path">Path: <span><!-- dynamic content --></span></p>
-           </div>
-       </div>
-       <!-- /#sidebar-wrapper-left -->
-
        <!-- Page Content -->
        <div id="page-content-wrapper">
-           	<div class="ui-widget left searchfield">
-                <input id="search" class="searchbox" title="Locate Resource"><button type="button" class="btn btn-default btn-locate" onclick="searchNode()">Locate</button>
-                <button type="button" class="btn btn-default reset-locate" onclick="clearSearchOperation()">Reset</button>
+
+            <div id="preLoader">
+                <div class="preloader">
+                    <div class="load-animation">
+                        <div class="loader-dot" id="loaderDot_1"><div class="loader-inner-dot"></div></div>
+                        <div class="loader-dot" id="loaderDot_2"><div class="loader-inner-dot"></div></div>
+                        <div class="loader-dot" id="loaderDot_3"><div class="loader-inner-dot"></div></div>
+                        <div class="loader-dot" id="loaderDot_4"><div class="loader-inner-dot"></div></div>
+                        <div class="loader-dot" id="loaderDot_5"><div class="loader-inner-dot"></div></div>
+                    </div>
+                    Loading: <i>Please wait ...</i>
+                </div>
+            </div>
+
+            <div id="urlView">
+                <span class="label">Path:</span>
+                <span id="path"><!-- dynamic content --></span>
+            </div>
+
+            <div class="ui-widget left searchfield">
+                <button type="button" class="btn btn-default download" onclick="svgDownload()" title="Save screen for print" disabled="disabled"><i class="fa fa-save" aria-hidden="true"></i> <span>Save</span></button>
+                <input id="search" class="searchbox" title="Locate Resource" disabled="disabled" />
+                <button type="button" class="btn btn-default download res" onclick="svgDownload()" title="Save screen for print" disabled="disabled"><i class="fa fa-save" aria-hidden="true"></i> <span>Save</span></button>
+                <button type="button" class="btn btn-default reset-locate" onclick="clearSearchOperation()" title="Clear search"><i class="fa fa-times" aria-hidden="true"></i></button>
+            </div>
+
+            <div id="filters" class="ui-widget left filters"><!-- dynamic tags space --></div>
+
+            <div class="ui-widget right bottom">
+                <button type="button" class="btn btn-default zoom" onclick="zoomFit()" title="Zoom-out to fit screen" disabled="disabled"><i class="fa fa-arrows-alt" aria-hidden="true"></i></button>
             </div>
 
             <div class="ui-widget right">
-                <button type="button" class="btn btn-default" onclick="zoomIn()"><span class="fa fa-plus" aria-hidden="true"></span></button><br />
-                <button type="button" class="btn btn-default" onclick="zoomOut()"><span class="fa fa-minus" aria-hidden="true"></span></button><br />
-                <button type="button" class="btn btn-default" onclick="zoomFit()" style="display: none;"><span class="fa fa-arrows-alt" aria-hidden="true"></span></button>
+                <button type="button" class="btn btn-default zoom" onclick="zoomIn()" title="Zoom-in" disabled="disabled"><i class="fa fa-plus" aria-hidden="true"></i></button><br />
+                <button type="button" class="btn btn-default zoom" onclick="zoomOut()" title="Zoom-out" disabled="disabled"><i class="fa fa-minus" aria-hidden="true"></i></button><br />
+                <button type="button" class="btn btn-default zoom zooomfit" onclick="zoomFit()" title="Zoom-out to fit screen" disabled="disabled"><i class="fa fa-arrows-alt" aria-hidden="true"></i></button>
             </div>
 
             <div id="graphFrame">
-                <div id="graph" style="overflow:hidden;"><!-- dynamic svg graph --></div>
+                <div id="graph"><!-- dynamic svg graph space --></div>
+                <div id="graph-capture"><!-- svg graph clone space for capturing --></div>
             </div>
-
-            <div class="ui-widget left footer">© 2015 WSO2 Inc. Dependency Graph</div>
 
             <%
             var util = require('../modules/utility.js');
@@ -109,55 +121,70 @@ else {
     <link href="../extensions/app/greg_impact/public/css/jquery-ui.css" rel="stylesheet" />
     <link href="../extensions/app/greg_impact/public/css/select2.css" rel="stylesheet" />
     <link href="../extensions/app/greg_impact/css/style.css" rel="stylesheet" />
+
     <script src="../extensions/app/greg_impact/public/js/d3.v3.js"></script>
     <script src="../extensions/app/greg_impact/public/js/jquery-1.11.1.js"></script>
     <script src="../extensions/app/greg_impact/public/js/jquery-ui.js"></script>
     <script src="../extensions/app/greg_impact/public/js/select2.js"></script>
+    <!--[if lt IE 9]>
+    <script src="../extensions/app/greg_impact/public/js/flashcanvas.js"></script>
+    <![endif]-->
+	<script src="../extensions/app/greg_impact/public/js/rgbcolor.js"></script>
+    <script src="../extensions/app/greg_impact/public/js/StackBlur.js"></script>
+	<script src="../extensions/app/greg_impact/public/js/canvg.js"></script>
+	<script src="../extensions/app/greg_impact/public/js/svgenie.js"></script>
+	<script src="../extensions/app/greg_impact/public/js/jquery.inlineStyler.min.js"></script>
     <script src="../extensions/app/greg_impact/js/impactAnalysis.js"></script>
     <script>
 
         var imageScale = 0.9,
-            width = $(window).width(),
-            height = $(window).height(),
+            footerHeight = 50,
+            width = ($(window).width()),
+            height = ($(window).height()-footerHeight),
             root = <%=obj%>,
             legend = <%=application.get("mediaTypesToImages")%>;
 
         var force = d3.layout.force()
             .linkDistance(200)
-            .linkStrength(0.5)
-            .charge(root.index * -100)
+            .linkStrength(0.1)
+            .charge(root.index * -200)
             .gravity(0)
-            .friction(0.9)
-            .theta(0.8)
-            .alpha(0.1)
+            .alpha(0)
             .size([width, height])
             .on("tick", tick)
+            .on("end", tickCallback)
             .start();
 
         var zoom = d3.behavior.zoom().on("zoom", redraw);
 
+        //var drag = force.drag()
+        //    .on("dragstart", dragstart); // To enable node dragging
+
         var svg = d3.select("#graph").append("svg")
+            .attr("id", "dependency-graph")
             .attr("width", width)
             .attr("height", height)
             .attr("pointer-events", "all")
-            .call(zoom).on("dblclick.zoom", null)
+            .call(zoom)
+            .on("dblclick.zoom", null)
             .append('g')
             .attr('id', 'mainG');
 
-        var graph = d3.select("*:not(#mainG)").on("click", outClick);
+        var graph = d3.select("svg:not(#mainG)").on("click", outClick);
 
         var node = svg.selectAll(".node"),
             linkg = svg.selectAll(".linkg"),
-            link = svg.selectAll(".link"),
+            link = svg.selectAll(".linkLine"),
             linkNode = svg.selectAll(".linkNode"),
+            nodeEnter = svg.selectAll("[group=node]"),
             searchArray = [],
             searchedNode,
             selectedNode = -1,
             linkedByIndex = {};
 
             update(root) ;
-            displayInfo(root.nodes[0]);
             setupSearch();
+            setupFilters();
 
     </script>
 </body>
