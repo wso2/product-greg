@@ -83,9 +83,9 @@ public class WsdlRetentionVerificationTestCase extends GREGIntegrationBaseTest {
             ResourceAdminServiceExceptionException,
             GovernanceException {
 
-        wsdl = wsdlManager
-                .newWsdl("https://svn.wso2.org/repos/wso2/carbon/platform/trunk/products/greg/modules/integration/" +
-                        "registry/tests-metadata/src/test/resources/artifacts/GREG/wsdl/GeoIPService.svc.wsdl");
+        wsdl = wsdlManager.newWsdl(
+                "https://svn.wso2.org/repos/wso2/carbon/platform/trunk/products/greg/modules/integration/registry"
+                        + "/tests-metadata/src/test/resources/artifacts/GREG/wsdl/GeoIPService/GeoIPService.svc.wsdl");
         wsdl.addAttribute("version", "1.0.0");
         wsdl.addAttribute("author", "Kanarupan");
         wsdl.addAttribute("description", "for retention verification");
@@ -147,12 +147,12 @@ public class WsdlRetentionVerificationTestCase extends GREGIntegrationBaseTest {
         wsdlManager2 = new WsdlManager(governanceRegistry1);
         Wsdl[] wsdls = wsdlManager2.getAllWsdls();
         for (Wsdl tmpWsdl : wsdls) {
-            if (tmpWsdl.getQName().getLocalPart().contains("GeoIPService")) {
+            if (tmpWsdl.getQName().getLocalPart().contains("GeoIPService.svc.wsdl")) {
                 wsdlAddedByFirstUser = tmpWsdl;
             }
         }
         assertTrue(wsdlAddedByFirstUser.getQName().getLocalPart()
-                .contains("GeoIPService"));
+                .contains("GeoIPService.svc.wsdl"));
         assertTrue(wsdlAddedByFirstUser.getAttribute("author").contains(
                 "Kanarupan"));
         wsdlAddedByFirstUser.addAttribute("WriteAccess", "enabled");
