@@ -16,14 +16,11 @@
 package org.wso2.carbon.registry.metadata.test.wsdl;
 
 import org.apache.axis2.AxisFault;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 import org.wso2.carbon.automation.engine.context.TestUserMode;
 import org.wso2.carbon.governance.api.endpoints.dataobjects.Endpoint;
-import org.wso2.carbon.governance.api.exception.GovernanceException;
 import org.wso2.carbon.governance.api.services.ServiceManager;
 import org.wso2.carbon.governance.api.services.dataobjects.Service;
 import org.wso2.carbon.governance.api.util.GovernanceUtils;
@@ -56,18 +53,20 @@ import org.wso2.greg.integration.common.utils.RegistryProviderUtil;
 
 import javax.activation.DataHandler;
 import java.io.File;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.rmi.RemoteException;
 
-import static org.testng.Assert.*;
-
-//import org.wso2.carbon.governance.custom.lifecycles.checklist.stub.ExceptionException;
+import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertFalse;
+import static org.testng.Assert.assertTrue;
 
 /**
- * This class used to add WSDL files in to the governance registry using resource-admin command.
+ * This class used to add WSDL files in to the governance registry using resource-admin command in the purpose for
+ * wsdl addition test cases.
  */
-public class CommunityFeatureTestCase extends GREGIntegrationBaseTest{
-    private static final Log log = LogFactory.getLog(CommunityFeatureTestCase.class);
+public class CommunityFeatureTestCase extends GREGIntegrationBaseTest {
+
     private RelationAdminServiceClient relationAdminServiceClient;
     private InfoServiceAdminClient infoAdminServiceClient;
     private LifeCycleAdminServiceClient lifeCycleAdminServiceClient;
@@ -76,143 +75,185 @@ public class CommunityFeatureTestCase extends GREGIntegrationBaseTest{
     private WsdlManager wsdlManager;
     private String sessionCookie;
     private Registry governance;
+    private final String wsdlPath = "/_system/governance/trunk/wsdls/net/restfulwebservices/www/servicecontracts"
+            + "/_2008/_01/1.0.0/GeoIPService.svc.wsdl";
 
-    @BeforeClass(groups = {"wso2.greg"})
+    /**
+     * This method used to init the wsdl addition test cases.
+     *
+     * @throws Exception
+     */
+    @BeforeClass(groups = { "wso2.greg" })
     public void init() throws Exception {
-        int userId = 0;
         super.init(TestUserMode.SUPER_TENANT_ADMIN);
         sessionCookie = new LoginLogoutClient(automationContext).login();
 
+        infoAdminServiceClient = new InfoServiceAdminClient(backendURL, sessionCookie);
+        lifeCycleAdminServiceClient = new LifeCycleAdminServiceClient(backendURL, sessionCookie);
+        relationAdminServiceClient = new RelationAdminServiceClient(backendURL, sessionCookie);
+        resourceAdminServiceClient = new ResourceAdminServiceClient(backendURL, sessionCookie);
+        WSRegistryServiceClient wsRegistryServiceClient = new RegistryProviderUtil().getWSRegistry(automationContext);
 
-        relationAdminServiceClient =
-                new RelationAdminServiceClient(backendURL,
-                                               sessionCookie);
-        infoAdminServiceClient =
-                new InfoServiceAdminClient(backendURL,
-                                           sessionCookie);
-        lifeCycleAdminServiceClient =
-                new LifeCycleAdminServiceClient(backendURL,
-                                                sessionCookie);
-        resourceAdminServiceClient =
-                new ResourceAdminServiceClient(backendURL,
-                                               sessionCookie);
-        WSRegistryServiceClient wsRegistry =
-                new RegistryProviderUtil().getWSRegistry(automationContext);
-
-        governance = new RegistryProviderUtil().getGovernanceRegistry(wsRegistry, automationContext);
+        governance = new RegistryProviderUtil().getGovernanceRegistry(wsRegistryServiceClient, automationContext);
         serviceManager = new ServiceManager(governance);
         wsdlManager = new WsdlManager(governance);
     }
 
-    @Test(groups = {"wso2.greg"}, description = "addWSDL")
-    public void addWSDL() throws Exception {
+    /**
+     * This method act as the test case for wsdl addition.
+     *
+     * @throws RegistryExceptionException
+     * @throws RemoteException
+     * @throws InterruptedException
+     * @throws MalformedURLException
+     * @throws ResourceAdminServiceExceptionException
+     */
+    @Test(groups = { "wso2.greg" }, description = "addWSDL")
+    public void addWSDL() throws RegistryExceptionException, RemoteException, InterruptedException,
+            MalformedURLException, ResourceAdminServiceExceptionException {
         boolean isFound = false;
-        String resource = getTestArtifactLocation() + "artifacts" + File.separator +
-                          "GREG" + File.separator +
-                          "wsdl" + File.separator + "sample.wsdl";
+        String resource = getTestArtifactLocation() + "artifacts" + File.separator + "GREG" + File.separator + "wsdl"
+                + File.separator + "sample.wsdl";
         resourceAdminServiceClient.addResource("/_system/governance/trunk/wsdls/sample.wsdl",
-                                               RegistryConstants.APPLICATION_WSDL_XML, "txtDesc",
-                new DataHandler(new URL("file:///" + resource)));
-        resourceAdminServiceClient.importResource("/_system/governance/trunk/wsdls", "WeatherForecastService.wsdl",
-                RegistryConstants.APPLICATION_WSDL_XML, "txtDesc",
-                                                  "https://svn.wso2.org/repos/wso2/trunk/commons/qa/qa-artifacts/greg/wsdl/WeatherForecastService.wsdl", null);
+                RegistryConstants.APPLICATION_WSDL_XML, "txtDesc", new DataHandler(new URL("file:///" + resource)));
+        resourceAdminServiceClient.importResource("/_system/governance/trunk/wsdls", "GeoIPService.svc.wsdl",
+                RegistryConstants.APPLICATION_WSDL_XML, "txtDesc", "https://svn.wso2"
+                        + ".org/repos/wso2/carbon/platform/trunk/products/greg/modules/integration/registry/tests"
+                        + "-metadata/src/test/resources/artifacts/GREG/wsdl/GeoIPService/GeoIPService.svc.wsdl", null);
         ResourceTreeEntryBean searchFileOne = resourceAdminServiceClient.getResourceTreeEntryBean
                 ("/_system/governance/trunk/wsdls/eu/dataaccess/footballpool/1.0.0");
         ResourceTreeEntryBean searchFileTwo = resourceAdminServiceClient.getResourceTreeEntryBean
                 ("/_system/governance/trunk/wsdls/net/restfulwebservices/www/servicecontracts/_2008/_01/1.0.0");
+
         String[] resourceChildOne = searchFileOne.getChildren();
-        String[] resourceChildTwo = searchFileTwo.getChildren();
         for (int childCount = 0; childCount <= resourceChildOne.length; childCount++) {
-            if (resourceChildOne[childCount].equalsIgnoreCase("/_system/governance/trunk/wsdls/eu/dataaccess/footballpool/1.0.0/sample.wsdl")) {
+            if (resourceChildOne[childCount]
+                    .equalsIgnoreCase("/_system/governance/trunk/wsdls/eu/dataaccess/footballpool/1.0.0/sample.wsdl")) {
                 isFound = true;
                 break;
             }
         }
         assertTrue(isFound);
+
+        isFound = false;
+        String[] resourceChildTwo = searchFileTwo.getChildren();
         for (int childCount = 0; childCount <= resourceChildTwo.length; childCount++) {
-            if (resourceChildTwo[childCount].equalsIgnoreCase("/_system/governance/trunk/wsdls/net/restfulwebservices/www/servicecontracts/_2008/_01/1.0.0/WeatherForecastService.wsdl")) {
+            if (resourceChildTwo[childCount].equalsIgnoreCase(wsdlPath)) {
                 isFound = true;
                 break;
             }
         }
         assertTrue(isFound);
-
-
     }
 
-    @Test(groups = {"wso2.greg"}, dependsOnMethods = {"addWSDL"})
+    /**
+     * This method act as the test case for adding associations for created wsdl.
+     *
+     * @throws AddAssociationRegistryExceptionException
+     * @throws RemoteException
+     */
+    @Test(groups = { "wso2.greg" }, dependsOnMethods = { "addWSDL" })
     public void associationTest() throws AddAssociationRegistryExceptionException, RemoteException {
-        AssociationTreeBean associationTreeBean = null;
         //check association is in position
-        associationTreeBean = relationAdminServiceClient.getAssociationTree("/_system/governance/trunk/wsdls/net/restfulwebservices/www/servicecontracts/_2008/_01/1.0.0/WeatherForecastService.wsdl", "association");
+        AssociationTreeBean associationTreeBean = relationAdminServiceClient.getAssociationTree(wsdlPath,
+                "association");
         assertTrue(associationTreeBean.getAssociationTree().contains("usedBy"));
     }
 
-    @Test(groups = {"wso2.greg"}, dependsOnMethods = {"addWSDL"})
+    /**
+     * This method act as the test case for adding dependency for added wsdl.
+     *
+     * @throws AddAssociationRegistryExceptionException
+     * @throws RemoteException
+     */
+    @Test(groups = { "wso2.greg" }, dependsOnMethods = { "addWSDL" })
     public void dependencyTest() throws AddAssociationRegistryExceptionException, RemoteException {
-        AssociationTreeBean associationTreeBean = null;
         //check dependency information is in position
-        associationTreeBean = relationAdminServiceClient.getAssociationTree("/_system/governance/trunk/wsdls/net/restfulwebservices/www/servicecontracts/_2008/_01/1.0.0/WeatherForecastService.wsdl", "depends");
-        assertTrue(associationTreeBean.getAssociationTree().contains("/_system/governance/trunk/endpoints/net/restfulwebservices/www/wcf/ep-WeatherForecastService-svc"));
+        AssociationTreeBean associationTreeBean = relationAdminServiceClient.getAssociationTree(wsdlPath, "depends");
+        assertTrue(associationTreeBean.getAssociationTree().contains
+                ("/_system/governance/trunk/endpoints/net/restfulwebservices/www/wcf/ep-GeoIPService-svc"));
     }
 
-    @Test(groups = {"wso2.greg"}, dependsOnMethods = {"addWSDL"})
+    /**
+     * This method act as the test case for testing commenting on add wsdl.
+     *
+     * @throws RegistryException
+     * @throws AxisFault
+     * @throws RegistryExceptionException
+     */
+    @Test(groups = { "wso2.greg" }, dependsOnMethods = { "addWSDL" })
     public void commentTest() throws RegistryException, AxisFault, RegistryExceptionException {
-
-        infoAdminServiceClient.addComment("this is sample comment", "/_system/governance/trunk/wsdls/net/restfulwebservices/www/servicecontracts/_2008/_01/1.0.0/WeatherForecastService.wsdl", sessionCookie);
-        infoAdminServiceClient.addComment("this is sample comment2", "/_system/governance/trunk/wsdls/net/restfulwebservices/www/servicecontracts/_2008/_01/1.0.0/WeatherForecastService.wsdl", sessionCookie);
-        CommentBean commentBean = infoAdminServiceClient.getComments("/_system/governance/trunk/wsdls/net/restfulwebservices/www/servicecontracts/_2008/_01/1.0.0/WeatherForecastService.wsdl", sessionCookie);
+        infoAdminServiceClient.addComment("this is sample comment", wsdlPath, sessionCookie);
+        infoAdminServiceClient.addComment("this is sample comment2", wsdlPath, sessionCookie);
+        CommentBean commentBean = infoAdminServiceClient.getComments(wsdlPath, sessionCookie);
         Comment[] comment = commentBean.getComments();
         assertTrue(comment[0].getDescription().equalsIgnoreCase("this is sample comment"));
         assertTrue(comment[1].getDescription().equalsIgnoreCase("this is sample comment2"));
         infoAdminServiceClient.removeComment(comment[0].getCommentPath(), sessionCookie);
-        commentBean = infoAdminServiceClient.getComments("/_system/governance/trunk/wsdls/net/restfulwebservices/www/servicecontracts/_2008/_01/1.0.0/WeatherForecastService.wsdl", sessionCookie);
+        commentBean = infoAdminServiceClient.getComments(wsdlPath, sessionCookie);
         comment = commentBean.getComments();
         assertFalse(comment[0].getDescription().equalsIgnoreCase("this is sample comment"));
     }
 
-    @Test(groups = {"wso2.greg"}, dependsOnMethods = {"dependencyTest"})
+    /**
+     * This method act as the test case for adding a tag to the added wsdl.
+     *
+     * @throws RegistryException
+     * @throws AxisFault
+     * @throws RegistryExceptionException
+     */
+    @Test(groups = { "wso2.greg" }, dependsOnMethods = { "dependencyTest" })
     public void tagTest() throws RegistryException, AxisFault, RegistryExceptionException {
-
-        TagBean tagBean;
-
-        infoAdminServiceClient.addTag("SampleTag", "/_system/governance/trunk/wsdls/net/restfulwebservices/www/servicecontracts/_2008/_01/1.0.0/WeatherForecastService.wsdl", sessionCookie);
-        tagBean = infoAdminServiceClient.getTags("/_system/governance/trunk/wsdls/net/restfulwebservices/www/servicecontracts/_2008/_01/1.0.0/WeatherForecastService.wsdl", sessionCookie);
+        infoAdminServiceClient.addTag("SampleTag", wsdlPath, sessionCookie);
+        TagBean tagBean = infoAdminServiceClient.getTags(wsdlPath, sessionCookie);
         Tag[] tag = tagBean.getTags();
         for (int i = 0; i <= tag.length - 1; i++) {
             assertTrue(tag[i].getTagName().equalsIgnoreCase("SampleTag"));
         }
-
     }
 
-    @Test(groups = {"wso2.greg"}, dependsOnMethods = {"commentTest"})
+    /**
+     * This method act as the test case for rating the added wsdl.
+     *
+     * @throws RegistryException
+     * @throws RegistryExceptionException
+     */
+    @Test(groups = { "wso2.greg" }, dependsOnMethods = { "commentTest" })
     public void rateTest() throws RegistryException, RegistryExceptionException {
-        RatingBean ratingBean;
-
-        infoAdminServiceClient.rateResource("2", "/_system/governance/trunk/wsdls/net/restfulwebservices/www/servicecontracts/_2008/_01/1.0.0/WeatherForecastService.wsdl", sessionCookie);
-        ratingBean = infoAdminServiceClient.getRatings("/_system/governance/trunk/wsdls/net/restfulwebservices/www/servicecontracts/_2008/_01/1.0.0/WeatherForecastService.wsdl", sessionCookie);
+        infoAdminServiceClient.rateResource("2", wsdlPath, sessionCookie);
+        RatingBean ratingBean = infoAdminServiceClient.getRatings(wsdlPath, sessionCookie);
         assertEquals(ratingBean.getUserRating(), 2);
     }
 
-    @Test(groups = {"wso2.greg"}, dependsOnMethods = {"rateTest"})
+    /**
+     * This method act as the test case for adding a lifecycle for the added wsdl.
+     *
+     * @throws Exception
+     */
+    @Test(groups = { "wso2.greg" }, dependsOnMethods = { "rateTest" })
     public void lifeCycleTest() throws Exception {
-        String[] lifeCycleItem = {"Requirements Gathered", "Architecture Finalized", "High Level Design Completed"};
-        lifeCycleAdminServiceClient.addAspect("/_system/governance/trunk/wsdls/net/restfulwebservices/www/servicecontracts/_2008/_01/1.0.0/WeatherForecastService.wsdl", "ServiceLifeCycle");
-        lifeCycleAdminServiceClient.invokeAspect("/_system/governance/trunk/wsdls/net/restfulwebservices/www/servicecontracts/_2008/_01/1.0.0/WeatherForecastService.wsdl", "ServiceLifeCycle", "Promote", lifeCycleItem);
-        LifecycleBean lifecycleBean = lifeCycleAdminServiceClient.getLifecycleBean("/_system/governance/trunk/wsdls/net/restfulwebservices/www/servicecontracts/_2008/_01/1.0.0/WeatherForecastService.wsdl");
+        String[] lifeCycleItem = { "Requirements Gathered", "Architecture Finalized", "High Level Design Completed" };
+        lifeCycleAdminServiceClient.addAspect(wsdlPath, "ServiceLifeCycle");
+        lifeCycleAdminServiceClient.invokeAspect(wsdlPath, "ServiceLifeCycle", "Promote", lifeCycleItem);
+        LifecycleBean lifecycleBean = lifeCycleAdminServiceClient.getLifecycleBean(wsdlPath);
         Property[] lifecycleProperties = lifecycleBean.getLifecycleProperties();
         for (Property property : lifecycleProperties) {
             if (property.getKey().equals("registry.lifecycle.ServiceLifeCycle.state")) {
                 assertTrue("Testing".equalsIgnoreCase(property.getValues()[0]));
             }
         }
-        lifeCycleAdminServiceClient.removeAspect("/_system/governance/trunk/wsdls/net/restfulwebservices/www/servicecontracts/_2008/_01/1.0.0/WeatherForecastService.wsdl", "ServiceLifeCycle");
+        lifeCycleAdminServiceClient.removeAspect(wsdlPath, "ServiceLifeCycle");
     }
 
-
-    @AfterClass(groups = {"wso2.greg"})
-    public void deleteResources()
-            throws ResourceAdminServiceExceptionException, RemoteException, RegistryException {
+    /**
+     * THis method act as the test case cleaning process after the wsdl test case.
+     *
+     * @throws ResourceAdminServiceExceptionException
+     * @throws RemoteException
+     * @throws RegistryException
+     */
+    @AfterClass(groups = { "wso2.greg" })
+    public void deleteResources() throws ResourceAdminServiceExceptionException, RemoteException, RegistryException {
 
         Endpoint[] endpoints = null;
         Endpoint[] endPointsOther = null;
@@ -223,17 +264,24 @@ public class CommunityFeatureTestCase extends GREGIntegrationBaseTest{
         for (Wsdl wsdl : wsdls) {
             if (wsdl.getQName().getLocalPart().equals("sample.wsdl")) {
                 endpoints = wsdlManager.getWsdl(wsdl.getId()).getAttachedEndpoints();
-            } else if (wsdl.getQName().getLocalPart().equals("WeatherForecastService.wsdl")) {
+            } else if (wsdl.getQName().getLocalPart().equals("GeoIPService.svc.wsdl")) {
                 endPointsOther = wsdlManager.getWsdl(wsdl.getId()).getAttachedEndpoints();
             }
         }
-        resourceAdminServiceClient.deleteResource("/_system/governance/trunk/wsdls/eu/dataaccess/footballpool/1.0.0/sample.wsdl");
-        resourceAdminServiceClient.deleteResource("/_system/governance/trunk/wsdls/net/restfulwebservices/www/servicecontracts/_2008/_01/1.0.0/WeatherForecastService.wsdl");
-        resourceAdminServiceClient.deleteResource("/_system/governance/trunk/schemas/com/microsoft/schemas/_2003/_10/serialization/arrays/1.0.0/WeatherForecastService.svc.xsd");
-        resourceAdminServiceClient.deleteResource("/_system/governance/trunk/schemas/net/restfulwebservices/www/datacontracts/_2008/_01/1.0.0/WeatherForecastService1.xsd");
-        resourceAdminServiceClient.deleteResource("/_system/governance/trunk/schemas/net/restfulwebservices/www/servicecontracts/_2008/_01/1.0.0/WeatherForecastService2.xsd");
-        resourceAdminServiceClient.deleteResource("/_system/governance/trunk/schemas/com/microsoft/schemas/_2003/_10/serialization/1.0.0/WeatherForecastService3.xsd");
-        resourceAdminServiceClient.deleteResource("/_system/governance/trunk/schemas/faultcontracts/gotlservices/_2008/_01/1.0.0/WeatherForecastService4.xsd");
+        resourceAdminServiceClient.deleteResource(
+                "/_system/governance/trunk/wsdls/eu/dataaccess/footballpool/1.0.0/sample.wsdl");
+        resourceAdminServiceClient.deleteResource(wsdlPath);
+        resourceAdminServiceClient.deleteResource
+                ("/_system/governance/trunk/schemas/net/restfulwebservices/www/datacontracts/_2008/_01/1.0"
+                        + ".0/GeoIPService.svc.xsd");
+        resourceAdminServiceClient.deleteResource
+                ("/_system/governance/trunk/schemas/faultcontracts/gotlservices/_2008/_01/1.0.0/GeoIPService3.xsd");
+        resourceAdminServiceClient.deleteResource
+                ("/_system/governance/trunk/schemas/net/restfulwebservices/www/servicecontracts/_2008/_01/1.0"
+                        + ".0/GeoIPService1.xsd");
+        resourceAdminServiceClient.deleteResource
+                ("/_system/governance/trunk/schemas/com/microsoft/schemas/_2003/_10/serialization/1.0.0/GeoIPService2"
+                        + ".xsd");
         for (Endpoint path : endpoints) {
             resourceAdminServiceClient.deleteResource("_system/governance/" + path.getPath());
         }
@@ -244,16 +292,15 @@ public class CommunityFeatureTestCase extends GREGIntegrationBaseTest{
         for (Service service : serviceManager.getAllServices()) {
             if (service.getQName().getLocalPart().equals("Info")) {
                 serviceManager.removeService(service.getId());
-            } else if (service.getQName().getLocalPart().equals("WeatherForecastService")) {
+            } else if (service.getQName().getLocalPart().equals("GeoIPService")) {
                 serviceManager.removeService(service.getId());
             }
         }
-
+        infoAdminServiceClient = null;
         relationAdminServiceClient = null;
         resourceAdminServiceClient = null;
-        infoAdminServiceClient = null;
         lifeCycleAdminServiceClient = null;
-        wsdlManager = null;
         serviceManager = null;
+        wsdlManager = null;
     }
 }
