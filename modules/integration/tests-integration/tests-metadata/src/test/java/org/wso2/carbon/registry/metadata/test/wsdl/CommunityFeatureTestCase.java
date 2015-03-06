@@ -113,13 +113,14 @@ public class CommunityFeatureTestCase extends GREGIntegrationBaseTest{
         resourceAdminServiceClient.addResource("/_system/governance/trunk/wsdls/sample.wsdl",
                                                RegistryConstants.APPLICATION_WSDL_XML, "txtDesc",
                 new DataHandler(new URL("file:///" + resource)));
-        resourceAdminServiceClient.importResource("/_system/governance/trunk/wsdls", "WeatherForecastService.wsdl",
+        resourceAdminServiceClient.importResource("/_system/governance/trunk/wsdls", "GeoIPService.svc.wsdl",
                 RegistryConstants.APPLICATION_WSDL_XML, "txtDesc",
-                                                  "https://svn.wso2.org/repos/wso2/trunk/commons/qa/qa-artifacts/greg/wsdl/WeatherForecastService.wsdl", null);
+                                                  "https://svn.wso2.org/repos/wso2/carbon/platform/trunk/products/greg/modules/integration/registry/tests-metadata/src/test/resources/artifacts/GREG/wsdl/GeoIPService/GeoIPService.svc.wsdl", null);
         ResourceTreeEntryBean searchFileOne = resourceAdminServiceClient.getResourceTreeEntryBean
                 ("/_system/governance/trunk/wsdls/eu/dataaccess/footballpool/1.0.0");
         ResourceTreeEntryBean searchFileTwo = resourceAdminServiceClient.getResourceTreeEntryBean
                 ("/_system/governance/trunk/wsdls/net/restfulwebservices/www/servicecontracts/_2008/_01/1.0.0");
+        Thread.sleep(10000);
         String[] resourceChildOne = searchFileOne.getChildren();
         String[] resourceChildTwo = searchFileTwo.getChildren();
         for (int childCount = 0; childCount <= resourceChildOne.length; childCount++) {
@@ -130,7 +131,7 @@ public class CommunityFeatureTestCase extends GREGIntegrationBaseTest{
         }
         assertTrue(isFound);
         for (int childCount = 0; childCount <= resourceChildTwo.length; childCount++) {
-            if (resourceChildTwo[childCount].equalsIgnoreCase("/_system/governance/trunk/wsdls/net/restfulwebservices/www/servicecontracts/_2008/_01/1.0.0/WeatherForecastService.wsdl")) {
+            if (resourceChildTwo[childCount].equalsIgnoreCase("/_system/governance/trunk/wsdls/net/restfulwebservices/www/servicecontracts/_2008/_01/1.0.0/GeoIPService.svc.wsdl")) {
                 isFound = true;
                 break;
             }
@@ -144,7 +145,7 @@ public class CommunityFeatureTestCase extends GREGIntegrationBaseTest{
     public void associationTest() throws AddAssociationRegistryExceptionException, RemoteException {
         AssociationTreeBean associationTreeBean = null;
         //check association is in position
-        associationTreeBean = relationAdminServiceClient.getAssociationTree("/_system/governance/trunk/wsdls/net/restfulwebservices/www/servicecontracts/_2008/_01/1.0.0/WeatherForecastService.wsdl", "association");
+        associationTreeBean = relationAdminServiceClient.getAssociationTree("/_system/governance/trunk/wsdls/net/restfulwebservices/www/servicecontracts/_2008/_01/1.0.0/GeoIPService.svc.wsdl", "association");
         assertTrue(associationTreeBean.getAssociationTree().contains("usedBy"));
     }
 
@@ -152,21 +153,21 @@ public class CommunityFeatureTestCase extends GREGIntegrationBaseTest{
     public void dependencyTest() throws AddAssociationRegistryExceptionException, RemoteException {
         AssociationTreeBean associationTreeBean = null;
         //check dependency information is in position
-        associationTreeBean = relationAdminServiceClient.getAssociationTree("/_system/governance/trunk/wsdls/net/restfulwebservices/www/servicecontracts/_2008/_01/1.0.0/WeatherForecastService.wsdl", "depends");
-        assertTrue(associationTreeBean.getAssociationTree().contains("/_system/governance/trunk/endpoints/net/restfulwebservices/www/wcf/ep-WeatherForecastService-svc"));
+        associationTreeBean = relationAdminServiceClient.getAssociationTree("/_system/governance/trunk/wsdls/net/restfulwebservices/www/servicecontracts/_2008/_01/1.0.0/GeoIPService.svc.wsdl", "depends");
+        assertTrue(associationTreeBean.getAssociationTree().contains("/_system/governance/trunk/endpoints/net/restfulwebservices/www/wcf/ep-GeoIPService-svc"));
     }
 
     @Test(groups = {"wso2.greg"}, dependsOnMethods = {"addWSDL"})
     public void commentTest() throws RegistryException, AxisFault, RegistryExceptionException {
 
-        infoAdminServiceClient.addComment("this is sample comment", "/_system/governance/trunk/wsdls/net/restfulwebservices/www/servicecontracts/_2008/_01/1.0.0/WeatherForecastService.wsdl", sessionCookie);
-        infoAdminServiceClient.addComment("this is sample comment2", "/_system/governance/trunk/wsdls/net/restfulwebservices/www/servicecontracts/_2008/_01/1.0.0/WeatherForecastService.wsdl", sessionCookie);
-        CommentBean commentBean = infoAdminServiceClient.getComments("/_system/governance/trunk/wsdls/net/restfulwebservices/www/servicecontracts/_2008/_01/1.0.0/WeatherForecastService.wsdl", sessionCookie);
+        infoAdminServiceClient.addComment("this is sample comment", "/_system/governance/trunk/wsdls/net/restfulwebservices/www/servicecontracts/_2008/_01/1.0.0/GeoIPService.svc.wsdl", sessionCookie);
+        infoAdminServiceClient.addComment("this is sample comment2", "/_system/governance/trunk/wsdls/net/restfulwebservices/www/servicecontracts/_2008/_01/1.0.0/GeoIPService.svc.wsdl", sessionCookie);
+        CommentBean commentBean = infoAdminServiceClient.getComments("/_system/governance/trunk/wsdls/net/restfulwebservices/www/servicecontracts/_2008/_01/1.0.0/GeoIPService.svc.wsdl", sessionCookie);
         Comment[] comment = commentBean.getComments();
         assertTrue(comment[0].getDescription().equalsIgnoreCase("this is sample comment"));
         assertTrue(comment[1].getDescription().equalsIgnoreCase("this is sample comment2"));
         infoAdminServiceClient.removeComment(comment[0].getCommentPath(), sessionCookie);
-        commentBean = infoAdminServiceClient.getComments("/_system/governance/trunk/wsdls/net/restfulwebservices/www/servicecontracts/_2008/_01/1.0.0/WeatherForecastService.wsdl", sessionCookie);
+        commentBean = infoAdminServiceClient.getComments("/_system/governance/trunk/wsdls/net/restfulwebservices/www/servicecontracts/_2008/_01/1.0.0/GeoIPService.svc.wsdl", sessionCookie);
         comment = commentBean.getComments();
         assertFalse(comment[0].getDescription().equalsIgnoreCase("this is sample comment"));
     }
@@ -176,8 +177,8 @@ public class CommunityFeatureTestCase extends GREGIntegrationBaseTest{
 
         TagBean tagBean;
 
-        infoAdminServiceClient.addTag("SampleTag", "/_system/governance/trunk/wsdls/net/restfulwebservices/www/servicecontracts/_2008/_01/1.0.0/WeatherForecastService.wsdl", sessionCookie);
-        tagBean = infoAdminServiceClient.getTags("/_system/governance/trunk/wsdls/net/restfulwebservices/www/servicecontracts/_2008/_01/1.0.0/WeatherForecastService.wsdl", sessionCookie);
+        infoAdminServiceClient.addTag("SampleTag", "/_system/governance/trunk/wsdls/net/restfulwebservices/www/servicecontracts/_2008/_01/1.0.0/GeoIPService.svc.wsdl", sessionCookie);
+        tagBean = infoAdminServiceClient.getTags("/_system/governance/trunk/wsdls/net/restfulwebservices/www/servicecontracts/_2008/_01/1.0.0/GeoIPService.svc.wsdl", sessionCookie);
         Tag[] tag = tagBean.getTags();
         for (int i = 0; i <= tag.length - 1; i++) {
             assertTrue(tag[i].getTagName().equalsIgnoreCase("SampleTag"));
@@ -189,24 +190,24 @@ public class CommunityFeatureTestCase extends GREGIntegrationBaseTest{
     public void rateTest() throws RegistryException, RegistryExceptionException {
         RatingBean ratingBean;
 
-        infoAdminServiceClient.rateResource("2", "/_system/governance/trunk/wsdls/net/restfulwebservices/www/servicecontracts/_2008/_01/1.0.0/WeatherForecastService.wsdl", sessionCookie);
-        ratingBean = infoAdminServiceClient.getRatings("/_system/governance/trunk/wsdls/net/restfulwebservices/www/servicecontracts/_2008/_01/1.0.0/WeatherForecastService.wsdl", sessionCookie);
+        infoAdminServiceClient.rateResource("2", "/_system/governance/trunk/wsdls/net/restfulwebservices/www/servicecontracts/_2008/_01/1.0.0/GeoIPService.svc.wsdl", sessionCookie);
+        ratingBean = infoAdminServiceClient.getRatings("/_system/governance/trunk/wsdls/net/restfulwebservices/www/servicecontracts/_2008/_01/1.0.0/GeoIPService.svc.wsdl", sessionCookie);
         assertEquals(ratingBean.getUserRating(), 2);
     }
 
     @Test(groups = {"wso2.greg"}, dependsOnMethods = {"rateTest"})
     public void lifeCycleTest() throws Exception {
         String[] lifeCycleItem = {"Requirements Gathered", "Architecture Finalized", "High Level Design Completed"};
-        lifeCycleAdminServiceClient.addAspect("/_system/governance/trunk/wsdls/net/restfulwebservices/www/servicecontracts/_2008/_01/1.0.0/WeatherForecastService.wsdl", "ServiceLifeCycle");
-        lifeCycleAdminServiceClient.invokeAspect("/_system/governance/trunk/wsdls/net/restfulwebservices/www/servicecontracts/_2008/_01/1.0.0/WeatherForecastService.wsdl", "ServiceLifeCycle", "Promote", lifeCycleItem);
-        LifecycleBean lifecycleBean = lifeCycleAdminServiceClient.getLifecycleBean("/_system/governance/trunk/wsdls/net/restfulwebservices/www/servicecontracts/_2008/_01/1.0.0/WeatherForecastService.wsdl");
+        lifeCycleAdminServiceClient.addAspect("/_system/governance/trunk/wsdls/net/restfulwebservices/www/servicecontracts/_2008/_01/1.0.0/GeoIPService.svc.wsdl", "ServiceLifeCycle");
+        lifeCycleAdminServiceClient.invokeAspect("/_system/governance/trunk/wsdls/net/restfulwebservices/www/servicecontracts/_2008/_01/1.0.0/GeoIPService.svc.wsdl", "ServiceLifeCycle", "Promote", lifeCycleItem);
+        LifecycleBean lifecycleBean = lifeCycleAdminServiceClient.getLifecycleBean("/_system/governance/trunk/wsdls/net/restfulwebservices/www/servicecontracts/_2008/_01/1.0.0/GeoIPService.svc.wsdl");
         Property[] lifecycleProperties = lifecycleBean.getLifecycleProperties();
         for (Property property : lifecycleProperties) {
             if (property.getKey().equals("registry.lifecycle.ServiceLifeCycle.state")) {
                 assertTrue("Testing".equalsIgnoreCase(property.getValues()[0]));
             }
         }
-        lifeCycleAdminServiceClient.removeAspect("/_system/governance/trunk/wsdls/net/restfulwebservices/www/servicecontracts/_2008/_01/1.0.0/WeatherForecastService.wsdl", "ServiceLifeCycle");
+        lifeCycleAdminServiceClient.removeAspect("/_system/governance/trunk/wsdls/net/restfulwebservices/www/servicecontracts/_2008/_01/1.0.0/GeoIPService.svc.wsdl", "ServiceLifeCycle");
     }
 
 
@@ -223,17 +224,16 @@ public class CommunityFeatureTestCase extends GREGIntegrationBaseTest{
         for (Wsdl wsdl : wsdls) {
             if (wsdl.getQName().getLocalPart().equals("sample.wsdl")) {
                 endpoints = wsdlManager.getWsdl(wsdl.getId()).getAttachedEndpoints();
-            } else if (wsdl.getQName().getLocalPart().equals("WeatherForecastService.wsdl")) {
+            } else if (wsdl.getQName().getLocalPart().equals("GeoIPService.svc.wsdl")) {
                 endPointsOther = wsdlManager.getWsdl(wsdl.getId()).getAttachedEndpoints();
             }
         }
         resourceAdminServiceClient.deleteResource("/_system/governance/trunk/wsdls/eu/dataaccess/footballpool/1.0.0/sample.wsdl");
-        resourceAdminServiceClient.deleteResource("/_system/governance/trunk/wsdls/net/restfulwebservices/www/servicecontracts/_2008/_01/1.0.0/WeatherForecastService.wsdl");
-        resourceAdminServiceClient.deleteResource("/_system/governance/trunk/schemas/com/microsoft/schemas/_2003/_10/serialization/arrays/1.0.0/WeatherForecastService.svc.xsd");
-        resourceAdminServiceClient.deleteResource("/_system/governance/trunk/schemas/net/restfulwebservices/www/datacontracts/_2008/_01/1.0.0/WeatherForecastService1.xsd");
-        resourceAdminServiceClient.deleteResource("/_system/governance/trunk/schemas/net/restfulwebservices/www/servicecontracts/_2008/_01/1.0.0/WeatherForecastService2.xsd");
-        resourceAdminServiceClient.deleteResource("/_system/governance/trunk/schemas/com/microsoft/schemas/_2003/_10/serialization/1.0.0/WeatherForecastService3.xsd");
-        resourceAdminServiceClient.deleteResource("/_system/governance/trunk/schemas/faultcontracts/gotlservices/_2008/_01/1.0.0/WeatherForecastService4.xsd");
+        resourceAdminServiceClient.deleteResource("/_system/governance/trunk/wsdls/net/restfulwebservices/www/servicecontracts/_2008/_01/1.0.0/GeoIPService.svc.wsdl");
+        resourceAdminServiceClient.deleteResource("/_system/governance/trunk/schemas/net/restfulwebservices/www/datacontracts/_2008/_01/1.0.0/GeoIPService.svc.xsd");
+        resourceAdminServiceClient.deleteResource("/_system/governance/trunk/schemas/faultcontracts/gotlservices/_2008/_01/1.0.0/GeoIPService3.xsd");
+        resourceAdminServiceClient.deleteResource("/_system/governance/trunk/schemas/net/restfulwebservices/www/servicecontracts/_2008/_01/1.0.0/GeoIPService1.xsd");
+        resourceAdminServiceClient.deleteResource("/_system/governance/trunk/schemas/com/microsoft/schemas/_2003/_10/serialization/1.0.0/GeoIPService2.xsd");
         for (Endpoint path : endpoints) {
             resourceAdminServiceClient.deleteResource("_system/governance/" + path.getPath());
         }
@@ -244,7 +244,7 @@ public class CommunityFeatureTestCase extends GREGIntegrationBaseTest{
         for (Service service : serviceManager.getAllServices()) {
             if (service.getQName().getLocalPart().equals("Info")) {
                 serviceManager.removeService(service.getId());
-            } else if (service.getQName().getLocalPart().equals("WeatherForecastService")) {
+            } else if (service.getQName().getLocalPart().equals("GeoIPService")) {
                 serviceManager.removeService(service.getId());
             }
         }
