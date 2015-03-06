@@ -75,7 +75,6 @@ public class CommunityFeatureTestCase extends GREGIntegrationBaseTest {
     private WsdlManager wsdlManager;
     private String sessionCookie;
     private Registry governance;
-    private WSRegistryServiceClient wsRegistryServiceClient;
     private final String wsdlPath = "/_system/governance/trunk/wsdls/net/restfulwebservices/www/servicecontracts"
             + "/_2008/_01/1.0.0/GeoIPService.svc.wsdl";
 
@@ -93,7 +92,7 @@ public class CommunityFeatureTestCase extends GREGIntegrationBaseTest {
         lifeCycleAdminServiceClient = new LifeCycleAdminServiceClient(backendURL, sessionCookie);
         relationAdminServiceClient = new RelationAdminServiceClient(backendURL, sessionCookie);
         resourceAdminServiceClient = new ResourceAdminServiceClient(backendURL, sessionCookie);
-        wsRegistryServiceClient = new RegistryProviderUtil().getWSRegistry(automationContext);
+        WSRegistryServiceClient wsRegistryServiceClient = new RegistryProviderUtil().getWSRegistry(automationContext);
 
         governance = new RegistryProviderUtil().getGovernanceRegistry(wsRegistryServiceClient, automationContext);
         serviceManager = new ServiceManager(governance);
@@ -125,8 +124,6 @@ public class CommunityFeatureTestCase extends GREGIntegrationBaseTest {
                 ("/_system/governance/trunk/wsdls/eu/dataaccess/footballpool/1.0.0");
         ResourceTreeEntryBean searchFileTwo = resourceAdminServiceClient.getResourceTreeEntryBean
                 ("/_system/governance/trunk/wsdls/net/restfulwebservices/www/servicecontracts/_2008/_01/1.0.0");
-        // Halting until the wsdl is added.
-        Thread.sleep(10000);
 
         String[] resourceChildOne = searchFileOne.getChildren();
         for (int childCount = 0; childCount <= resourceChildOne.length; childCount++) {
