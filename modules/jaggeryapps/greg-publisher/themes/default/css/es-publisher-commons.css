@@ -892,6 +892,9 @@ span.title {
 .asset-detail-top-row {
     border-bottom: 1px solid #ECF0F1;
 }
+.asset-show-dependency {
+    float: right;
+}
 .nav-list > li > a, .nav-list .nav-header {
     margin-left: 0;
     margin-right: 0;
