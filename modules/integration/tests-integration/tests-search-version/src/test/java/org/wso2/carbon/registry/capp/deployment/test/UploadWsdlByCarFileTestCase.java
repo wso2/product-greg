@@ -40,58 +40,54 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.rmi.RemoteException;
 
+/**
+ * This test class holds the test cases related to uploading a wsdl through a carbon application.
+ */
 public class UploadWsdlByCarFileTestCase extends GREGIntegrationBaseTest {
 
-    private WSRegistryServiceClient wsRegistry;
+    private WSRegistryServiceClient wsRegistryServiceClient;
     private CarbonAppUploaderClient cAppUploader;
     private ApplicationAdminClient adminServiceApplicationAdmin;
     private ResourceAdminServiceClient resourceAdminServiceClient;
     private String sessionCookie;
-    private String backEndUrl;
-    private String userName;
-    private String userNameWithoutDomain;
 
-    private String cAppName = "wsdl_new_1.0.0";
+    private final String cAppName = "wsdl_new_1.0.0";
     private final String wsdlPath = "/_system/governance/trunk/wsdls/net/webservicex/www/1.0.0/globalweather.asmx.wsdl";
-    private final String wsdlUploadedPath = "/_system/wsdl_new/WeatherForecastService.svc.wsdl";
     private final String servicePath = "/_system/governance/trunk/services/net/webservicex/www/1.0.0/GlobalWeather";
 
-
+    /**
+     * Method used to initialize test cases.
+     *
+     * @throws Exception
+     */
     @BeforeClass
     public void init() throws Exception {
 
         super.init(TestUserMode.SUPER_TENANT_ADMIN);
-        backEndUrl = getBackendURL();
+        String backEndUrl = getBackendURL();
         sessionCookie = getSessionCookie();
-        userName = automationContext.getContextTenant().getContextUser().getUserName();
 
-        if (userName.contains("@"))
-            userNameWithoutDomain = userName.substring(0, userName.indexOf('@'));
-        else
-            userNameWithoutDomain = userName;
-
-        resourceAdminServiceClient =
-                new ResourceAdminServiceClient(backEndUrl,
-                                               sessionCookie);
-        adminServiceApplicationAdmin =
-                new ApplicationAdminClient(backEndUrl,
-                                           sessionCookie);
-        cAppUploader =
-                new CarbonAppUploaderClient(backEndUrl,
-                                            sessionCookie);
+        resourceAdminServiceClient = new ResourceAdminServiceClient(backEndUrl, sessionCookie);
+        adminServiceApplicationAdmin = new ApplicationAdminClient(backEndUrl, sessionCookie);
+        cAppUploader = new CarbonAppUploaderClient(backEndUrl, sessionCookie);
         RegistryProviderUtil registryProviderUtil = new RegistryProviderUtil();
-        wsRegistry = registryProviderUtil.getWSRegistry(automationContext);
-
+        wsRegistryServiceClient = registryProviderUtil.getWSRegistry(automationContext);
     }
 
+    /**
+     * Test case for testing a wsdl upload through a carbon application.
+     *
+     * @throws MalformedURLException
+     * @throws RemoteException
+     * @throws InterruptedException
+     * @throws ApplicationAdminExceptionException
+     */
     @Test(description = "Upload CApp having Text Resources")
-    public void uploadCApplicationWithWsdl()
-            throws MalformedURLException, RemoteException, InterruptedException,
-                   ApplicationAdminExceptionException {
+    public void uploadCApplicationWithWsdl() throws MalformedURLException, RemoteException, InterruptedException,
+            ApplicationAdminExceptionException {
         String filePath = FrameworkPathUtil.getSystemResourceLocation() + "artifacts" + File.separator +
-                          "GREG" + File.separator + "car" + File.separator + "wsdl_1.0.0.car";
-        cAppUploader.uploadCarbonAppArtifact("wsdl_1.0.0.car",
-                                             new DataHandler(new URL("file:///" + filePath)));
+                "GREG" + File.separator + "car" + File.separator + "wsdl_1.0.0.car";
+        cAppUploader.uploadCarbonAppArtifact("wsdl_1.0.0.car", new DataHandler(new URL("file:///" + filePath)));
 
         Assert.assertTrue(CAppTestUtils.isCAppDeployed(sessionCookie, cAppName, adminServiceApplicationAdmin)
                 , "Deployed CApplication not in CApp List");
@@ -102,19 +98,29 @@ public class UploadWsdlByCarFileTestCase extends GREGIntegrationBaseTest {
 //        wsRegistry.get("/_system/config/repository/applications/" + cAppName);
 //    }
 
-    @Test(description = "Verify Uploaded Resources", dependsOnMethods = {"uploadCApplicationWithWsdl"})
+    /**
+     * Test case for testing wsdl and service resources exists after carbon application deployment is success.
+     *
+     * @throws RegistryException
+     */
+    @Test(description = "Verify Uploaded Resources", dependsOnMethods = { "uploadCApplicationWithWsdl" })
     public void isResourcesExist() throws RegistryException {
-
-        Assert.assertTrue(wsRegistry.resourceExists(wsdlPath), wsdlPath + " resource does not exist");
-        Assert.assertTrue(wsRegistry.resourceExists(servicePath), servicePath + " resource does not exist");
-//        Assert.assertTrue(registry.resourceExists(wsdlUploadedPath), wsdlUploadedPath + " resource does not exist");
-
+        Assert.assertTrue(wsRegistryServiceClient.resourceExists(wsdlPath), wsdlPath + " resource does not exist");
+        Assert.assertTrue(wsRegistryServiceClient.resourceExists(servicePath),
+                servicePath + " resource does not exist");
     }
 
-    @Test(description = "Delete Carbon Application ", dependsOnMethods = {"isResourcesExist"})
-    public void deleteCApplication()
-            throws ApplicationAdminExceptionException, RemoteException, InterruptedException,
-                   RegistryException {
+    /**
+     * Test case for testing deletion of carbon application which added a wsdl.
+     *
+     * @throws ApplicationAdminExceptionException
+     * @throws RemoteException
+     * @throws InterruptedException
+     * @throws RegistryException
+     */
+    @Test(description = "Delete Carbon Application ", dependsOnMethods = { "isResourcesExist" })
+    public void deleteCApplication() throws ApplicationAdminExceptionException, RemoteException, InterruptedException,
+            RegistryException {
         adminServiceApplicationAdmin.deleteApplication(cAppName);
 
         Assert.assertTrue(CAppTestUtils.isCAppDeleted(sessionCookie, cAppName, adminServiceApplicationAdmin)
@@ -133,29 +139,44 @@ public class UploadWsdlByCarFileTestCase extends GREGIntegrationBaseTest {
 
     }*/
 
+    /**
+     * Test used to for the cleaning process after executing wsdl upload test cases through a carbon application.
+     *
+     * @throws ApplicationAdminExceptionException
+     * @throws RemoteException
+     * @throws InterruptedException
+     * @throws ResourceAdminServiceExceptionException
+     * @throws RegistryException
+     */
     @AfterClass
-    public void destroy()
-            throws ApplicationAdminExceptionException, RemoteException, InterruptedException,
-                   ResourceAdminServiceExceptionException, RegistryException {
+    public void destroy() throws ApplicationAdminExceptionException, RemoteException, InterruptedException,
+            ResourceAdminServiceExceptionException, RegistryException {
         if (!(CAppTestUtils.isCAppDeleted(sessionCookie,
-                                          cAppName, adminServiceApplicationAdmin))) {
+                cAppName, adminServiceApplicationAdmin))) {
             adminServiceApplicationAdmin.deleteApplication(cAppName);
         }
 
-
-        delete("/_system/governance/trunk/wsdls/net/webservicex/www/1.0.0/globalweather.asmx.wsdl");
-        delete("/_system/governance/trunk/services/net/webservicex/www/1.0.0/GlobalWeather");
+        delete(wsdlPath);
+        delete(servicePath);
 
         cAppUploader = null;
         adminServiceApplicationAdmin = null;
-        wsRegistry = null;
+        wsRegistryServiceClient = null;
         resourceAdminServiceClient = null;
     }
 
-    public void delete(String destPath)
-            throws ResourceAdminServiceExceptionException, RemoteException, RegistryException {
-        if (wsRegistry.resourceExists(destPath)) {
-            resourceAdminServiceClient.deleteResource(destPath);
+    /**
+     * Method used in test AfterClass for deleting resources.
+     *
+     * @param registryPath registry path of the resource.
+     * @throws ResourceAdminServiceExceptionException
+     * @throws RemoteException
+     * @throws RegistryException
+     */
+    private void delete(String registryPath) throws ResourceAdminServiceExceptionException, RemoteException,
+            RegistryException {
+        if (wsRegistryServiceClient.resourceExists(registryPath)) {
+            resourceAdminServiceClient.deleteResource(registryPath);
         }
     }
 }
