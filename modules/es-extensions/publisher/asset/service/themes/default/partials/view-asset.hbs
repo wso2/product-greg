@@ -54,8 +54,7 @@
                                         <tr>
                                             <td>{{t "WSDL/WADL URL"}}</td>
                                             <!-- Assuming service can have only one dependency, WSDL/WADL-->
-                                            <td><a href="../../../asts/{{dependencies.[0].associationType}}/details/
-                                            {{dependencies.[0].associationUUID}}" target="_blank">{{wsdl_url}}</a></td>
+                                            <td><a href="../../../asts/{{dependencies.[0].associationType}}/details/{{dependencies.[0].associationUUID}}" target="_blank">{{wsdl_url}}</a></td>
                                         </tr>
                                         <tr>
                                             <td>{{t "Transport Protocols"}}</td>
@@ -84,6 +83,29 @@
                                         </td>
                                     </tr>
                                 {{/if}}
+                                </tbody>
+                            </table>
+                            <table class="table table-striped table-hover">
+                                <thead>
+                                <h4>Associations</h4>
+                                </thead>
+                                <tbody>
+                                <tr>
+                                    <th>Dependencies :</th>
+                                {{#each dependencies}}
+                                    <tr>
+                                        <td><a href="../../../asts/{{this.associationType}}/details/{{this.associationUUID}}">{{this.associationName}}</a></td>
+                                    </tr>
+                                {{/each}}
+                                </tr>
+                                <tr>
+                                    <th>Dependents :</th>
+                                {{#each dependents}}
+                                    <tr>
+                                        <td><a href="../../../asts/{{this.associationType}}/details/{{this.associationUUID}}">{{this.associationName}}</a></td>
+                                    </tr>
+                                {{/each}}
+                                </tr>
                                 </tbody>
                             </table>
                         </div>
