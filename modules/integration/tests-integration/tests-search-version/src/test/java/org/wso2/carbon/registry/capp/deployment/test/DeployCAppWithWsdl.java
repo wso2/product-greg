@@ -197,7 +197,7 @@ public class DeployCAppWithWsdl extends GREGIntegrationBaseTest {
 
         for (GenericArtifact genericArtifact : serviceArtifacts) {
             String name = genericArtifact.getQName().getLocalPart();
-            if (name.equalsIgnoreCase("WeatherForecastService")) {
+            if (name.equalsIgnoreCase("GlobalWeather")) {
                 isService = true;
                 break;
             }
@@ -226,16 +226,8 @@ public class DeployCAppWithWsdl extends GREGIntegrationBaseTest {
                    ResourceAdminServiceExceptionException {
 
         resourceAdminServiceClient.deleteResource
-                ("/_system/governance/trunk/services/net/restfulwebservices/www/servicecontracts/_2008/_01" +
-                 "/1.0.0/WeatherForecastService");
-        resourceAdminServiceClient.deleteResource
-                ("/_system/governance/trunk/endpoints/net/restfulwebservices/www/wcf/ep-WeatherForecastService-svc");
-        resourceAdminServiceClient.deleteResource
-                ("/_system/governance/trunk/schemas/com/microsoft/schemas/_2003");
-        resourceAdminServiceClient.deleteResource
-                ("/_system/governance/trunk/schemas/net/restfulwebservices/www");
-        resourceAdminServiceClient.deleteResource
-                ("/_system/governance/trunk/schemas/faultcontracts/gotlservices/_2008");
+                ("/_system/governance/trunk/services/net/webservicex/www/1.0.0/GlobalWeather");
+
 
     }
 
