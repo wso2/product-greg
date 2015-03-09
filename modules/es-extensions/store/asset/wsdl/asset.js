@@ -1,5 +1,5 @@
 /*
- *  Copyright (c) 2005-2014, WSO2 Inc. (http://www.wso2.org) All Rights Reserved.
+ *  Copyright (c) 2015, WSO2 Inc. (http://www.wso2.org) All Rights Reserved.
  *
  *  WSO2 Inc. licenses this file to you under the Apache License,
  *  Version 2.0 (the "License"); you may not use this file except
@@ -17,9 +17,7 @@
  *
  */
 asset.manager = function(ctx) {
-    //If extension is moved to another folder (tenant support), this path need to be changed
-    //JIRA:https://wso2.org/jira/browse/STORE-613
-    var configs = require("/extensions/assets/service/config/properties.json");
+  var configs = require("/extensions/assets/wsdl/config/properties.json");
     /**
      * The function augments the provided query to include published state information
      * @param  {[type]} query [description]
@@ -46,26 +44,25 @@ asset.manager = function(ctx) {
         return userRegistry;
     };
     var setCustomAssetAttributes = function(asset, userRegistry) {
-        var interfaceUrl=asset.attributes.interface_wsdlURL;
-        if (interfaceUrl != null) {
-            var resource = userRegistry.registry.get(interfaceUrl);
-            var wsdlContent = getInterfaceTypeContent(resource);
-            asset.wsdlContent = wsdlContent;
-            var wsdlUUID = getInterfaceTypeUUID(resource);
-            asset.wsdl_uuid = wsdlUUID;
-        }
-    };
-    var getInterfaceTypeContent = function (resource) {
         var ByteArrayInputStream = Packages.java.io.ByteArrayInputStream;
-        var content = resource.getContent();
-        var value = '' + new Stream(new ByteArrayInputStream(content));
-        //this is wsdlcontent.
-        return value;
-
-    };
-    var getInterfaceTypeUUID = function (resource) {
-        var wsdlUUID = resource.getUUID();
-        return wsdlUUID;
+        //check for the wsdl url in the asset json object
+        var path = asset.path;
+        if (path != null) {
+            var subPaths = path.split('/');
+            //setting asset.name did not work, as it seems there comes a default 'name'
+            //attribute.
+            var wsdlname = subPaths[subPaths.length - 1];
+            var version = subPaths[subPaths.length - 2];
+            var resource = userRegistry.registry.get(path);
+            var authorUserName = resource.getAuthorUserName();
+            var content = resource.getContent();
+            var value = '' + new Stream(new ByteArrayInputStream(content));
+            //since this is wsdlcontent.
+            asset.wsdlname = wsdlname;
+            asset.version = version;
+            asset.authorUserName = authorUserName;
+            asset.wsdlContent = value;
+        }
     };
     var getAssociations = function(genericArtifacts, userRegistry){
         //Array to store the association names.
@@ -100,9 +97,14 @@ asset.manager = function(ctx) {
     return {
         //due to a bug needed to replicate the 'search' method. JIRA:https://wso2.org/jira/browse/STORE-561
         search: function(query, paging) {
-            //query = buildPublishedQuery(query);--commented this inorder to let anystate
+            //query = buildPublishedQuery(query);--commented this inorder to let anystate 
             //to be visible in store.
             var assets = this._super.search.call(this, query, paging);
+            var userRegistry = getRegistry(ctx.session);
+            for (var index in assets) {
+                var asset = assets[index];
+                setCustomAssetAttributes(asset, userRegistry);
+            }
             return assets;
         },
         get: function(id) {
