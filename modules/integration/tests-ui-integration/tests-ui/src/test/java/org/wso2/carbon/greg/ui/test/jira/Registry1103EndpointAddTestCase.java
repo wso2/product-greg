@@ -35,6 +35,8 @@ import org.wso2.greg.integration.common.ui.page.main.HomePage;
 import org.wso2.greg.integration.common.utils.GREGIntegrationUIBaseTest;
 
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.Scanner;
 
 import static org.testng.Assert.assertTrue;
@@ -58,7 +60,6 @@ public class Registry1103EndpointAddTestCase extends GREGIntegrationUIBaseTest {
     @BeforeClass(alwaysRun = true)
     public void setUp() throws Exception {
         super.init(TestUserMode.SUPER_TENANT_ADMIN);
-        //ProductConstant.init();
         userInfo = automationContext.getContextTenant().getContextUser();
         driver = BrowserManager.getWebDriver();
         driver.get(getLoginURL());
@@ -67,28 +68,36 @@ public class Registry1103EndpointAddTestCase extends GREGIntegrationUIBaseTest {
     }
 
     @Test(groups = "wso2.greg", description = "Verify adding new endpoint")
-    public void test() throws Exception {
-        // Login to server
-        LoginPage loginPage = new LoginPage(driver);
-        HomePage homePage = loginPage.loginAs(userInfo.getUserName(), userInfo.getPassword());
-        // Add endpoint
-        driver.findElement(By.linkText("ESB Endpoint")).click();
-        driver.findElement(By.id("id_Overview_Name")).sendKeys("myendpoint");
-        driver.findElement(By.id("id_Overview_Version")).sendKeys("1.0.0");
-        driver.findElement(By.id("id_Overview_Address")).sendKeys("http://google.com");
-        driver.findElement(By.xpath("//input[contains(@class,'button registryWriteOperation')]")).click();
-        // Read the logs
-        String readCarbonLogs = readCarbonLogs();
-        assertTrue(!readCarbonLogs.contains(STACK_OVERFLOW_ERROR_MESSAGE), "Error StackOverflowError encountered");
-        driver.close();
+    public void test() throws IOException {
+        try {
+            // Login to server
+            LoginPage loginPage = new LoginPage(driver);
+            HomePage homePage = loginPage.loginAs(userInfo.getUserName(), userInfo.getPassword());
+
+            // Add endpoint
+            driver.findElement(By.linkText("ESB Endpoint")).click();
+            driver.findElement(By.id("id_Overview_Name")).sendKeys("myendpoint");
+            driver.findElement(By.id("id_Overview_Version")).sendKeys("1.0.0");
+            driver.findElement(By.id("id_Overview_Address")).sendKeys("http://google.com");
+            driver.findElement(By.xpath("//input[contains(@class,'button registryWriteOperation')]")).click();
+            log.info("Endpoint added successfully");
+
+            // Read the logs
+            String readCarbonLogs = readCarbonLogs();
+            log.info("Read the " + LOG_FILE + " file successfully");
+            assertTrue(!readCarbonLogs.contains(STACK_OVERFLOW_ERROR_MESSAGE), "Error StackOverflowError encountered");
+        } finally {
+            driver.close();
+        }
+
     }
 
     /**
      * Method to read the carbon.log file content
      * @return log content as a string
-     * @throws Exception
+     * @throws FileNotFoundException Log file cannot be find
      */
-    private String readCarbonLogs() throws Exception {
+    private String readCarbonLogs() throws FileNotFoundException {
         File carbonLogFile = new File(carbonHome + File.separator + "repository" + File.separator +
                 "logs" + File.separator + LOG_FILE);
         return new Scanner(carbonLogFile).useDelimiter("\\A").next();
