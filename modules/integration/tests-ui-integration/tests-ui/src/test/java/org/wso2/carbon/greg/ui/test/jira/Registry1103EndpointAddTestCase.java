@@ -78,7 +78,8 @@ public class Registry1103EndpointAddTestCase extends GREGIntegrationUIBaseTest {
             driver.findElement(By.linkText("ESB Endpoint")).click();
             driver.findElement(By.id("id_Overview_Name")).sendKeys("myendpoint");
             driver.findElement(By.id("id_Overview_Version")).sendKeys("1.0.0");
-            driver.findElement(By.id("id_Overview_Address")).sendKeys("http://google.com");
+            driver.findElement(By.id("id_Overview_Address"))
+                    .sendKeys("http://localhost:9000/services/SimpleStockQutoteService");
             driver.findElement(By.xpath("//input[contains(@class,'button registryWriteOperation')]")).click();
             log.info("Endpoint added successfully");
 
