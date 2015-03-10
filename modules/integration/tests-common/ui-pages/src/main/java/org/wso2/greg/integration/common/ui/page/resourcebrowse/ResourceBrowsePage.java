@@ -49,7 +49,6 @@ public class ResourceBrowsePage {
 
     public ResourceBrowsePage addLifeCycle(String lifeCycleName) throws IOException{
         driver.findElement(By.xpath(uiElementMapper.getElement("resource.lifecycle.minimized"))).click();
-        driver.findElement(By.xpath(uiElementMapper.getElement("resource.lifecycle.add"))).click();
 
         Select lifeCycles = new Select(driver.findElement(By.id(uiElementMapper.getElement("resource.lifecycle.add.select.id"))));
         List<WebElement> lifeCycleList = lifeCycles.getOptions();
