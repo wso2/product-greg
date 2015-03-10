@@ -21,7 +21,7 @@ app.dependencies=['store_common'];
 app.server = function(ctx) {
     return {
         configs: {
-            disabledAssets: ['ebook', 'api','policy','proxy','schema','sequence','servicex','uri','wadl','endpoint',
+            disabledAssets: ['ebook','proxy','sequence','servicex','uri',
                              'site','provider','gadget','document']
         }
     }

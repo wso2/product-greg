@@ -1,5 +1,5 @@
 /*
- *  Copyright (c) 2005-2014, WSO2 Inc. (http://www.wso2.org) All Rights Reserved.
+ *  Copyright (c) 2015, WSO2 Inc. (http://www.wso2.org) All Rights Reserved.
  *
  *  WSO2 Inc. licenses this file to you under the Apache License,
  *  Version 2.0 (the "License"); you may not use this file except
@@ -17,9 +17,7 @@
  *
  */
 asset.manager = function(ctx) {
-    //If extension is moved to another folder (tenant support), this path need to be changed
-    //JIRA:https://wso2.org/jira/browse/STORE-613
-    var configs = require("/extensions/assets/service/config/properties.json");
+    var configs = require("/extensions/assets/policy/config/properties.json");
     /**
      * The function augments the provided query to include published state information
      * @param  {[type]} query [description]
@@ -46,28 +44,27 @@ asset.manager = function(ctx) {
         return userRegistry;
     };
     var setCustomAssetAttributes = function(asset, userRegistry) {
-        var interfaceUrl=asset.attributes.interface_wsdlURL;
-        if (interfaceUrl != null) {
-            var resource = userRegistry.registry.get(interfaceUrl);
-            var wsdlContent = getInterfaceTypeContent(resource);
-            asset.wsdlContent = wsdlContent;
-            var wsdlUUID = getInterfaceTypeUUID(resource);
-            asset.wsdl_uuid = wsdlUUID;
+        var ByteArrayInputStream = Packages.java.io.ByteArrayInputStream;
+        //check for the wadl url in the asset json object
+        var path = asset.path;
+        if (path != null) {
+            var subPaths = path.split('/');
+            //setting asset.name did not work, as it seems there comes a default 'name'
+            //attribute.
+            var policyname = subPaths[subPaths.length - 1];
+            var version = subPaths[subPaths.length - 2];
+            var resource = userRegistry.registry.get(path);
+            var authorUserName = resource.getAuthorUserName();
+            var content = resource.getContent();
+            var value = '' + new Stream(new ByteArrayInputStream(content));
+            //since this is wsdlcontent.
+            asset.policyname = policyname;
+            asset.version = version;
+            asset.authorUserName = authorUserName;
+            asset.policyContent = value;
         }
     };
-    var getInterfaceTypeContent = function (resource) {
-        var ByteArrayInputStream = Packages.java.io.ByteArrayInputStream;
-        var content = resource.getContent();
-        var value = '' + new Stream(new ByteArrayInputStream(content));
-        //this is wsdlcontent.
-        return value;
-
-    };
-    var getInterfaceTypeUUID = function (resource) {
-        var wsdlUUID = resource.getUUID();
-        return wsdlUUID;
-    };
-    var getAssociations = function(genericArtifacts, userRegistry){
+    var getAssociations = function(genericArtifacts, userRegistry) {
         //Array to store the association names.
         var associations = [];
         if (genericArtifacts != null) {
@@ -78,17 +75,17 @@ asset.manager = function(ctx) {
                 var subPaths = path.split('/');
                 var associationTypePlural = subPaths[2];
                 var associationName = subPaths[subPaths.length - 1];
-                var resource = userRegistry.registry.get(configs.depends_asset_path_prefix+path);
+                var resource = userRegistry.registry.get(configs.depends_asset_path_prefix + path);
                 var associationUUID = resource.getUUID();
                 deps.associationName = associationName;
-                deps.associationType = associationTypePlural.substring(0,associationTypePlural.lastIndexOf('s'));
+                deps.associationType = associationTypePlural.substring(0, associationTypePlural.lastIndexOf('s'));
                 deps.associationUUID = associationUUID;
                 associations.push(deps);
             }
         }
         return associations;
     };
-    var setDependencies = function(genericArtifact, asset ,userRegistry) {
+    var setDependencies = function(genericArtifact, asset, userRegistry) {
         //get dependencies of the artifact.
         var dependencyArtifacts = genericArtifact.getDependencies();
         asset.dependencies = getAssociations(dependencyArtifacts, userRegistry);
@@ -100,13 +97,17 @@ asset.manager = function(ctx) {
     return {
         //due to a bug needed to replicate the 'search' method. JIRA:https://wso2.org/jira/browse/STORE-561
         search: function(query, paging) {
-            //query = buildPublishedQuery(query);--commented this inorder to let anystate
+            //query = buildPublishedQuery(query);--commented this inorder to let anystate 
             //to be visible in store.
             var assets = this._super.search.call(this, query, paging);
+            var userRegistry = getRegistry(ctx.session);
+            for (var index in assets) {
+                var asset = assets[index];
+                setCustomAssetAttributes(asset, userRegistry);
+            }
             return assets;
         },
         get: function(id) {
-            //TODO: support services added through WSDL, once multiple lifecycle is supported.
             var asset = this._super.get.call(this, id);
             var userRegistry = getRegistry(ctx.session);
             setCustomAssetAttributes(asset, userRegistry);
