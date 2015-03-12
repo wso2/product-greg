@@ -1018,6 +1018,8 @@
 
         <!-- Product G-Reg -->
         <product.greg.version>5.0.0-SNAPSHOT</product.greg.version>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 
     </properties>
 </project>
