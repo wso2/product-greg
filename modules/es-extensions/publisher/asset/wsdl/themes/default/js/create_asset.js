@@ -64,6 +64,21 @@ $(function() {
             uploadUI.hide();
         }
     });
+	var obtainFormMeta=function(formId){
+	return $(formId).data();
+	};
+	var doSubmit = function(){
+		$('#form-asset-create').ajaxForm({
+			success:function(){
+				var options=obtainFormMeta('#form-asset-create');
+				//alert('Aww snap! '+JSON.stringify(options));
+				window.location=options.redirectUrl;
+			},
+			error:function(){
+				alert('Unable to add the asset');
+			}	
+		});
+	};
     //function to call the custom wsdl api or default api.
     $('form[name="form-asset-create"] input[type="submit"]').click(function(event) {
         var $form = $('form[name="form-asset-create"]');
@@ -76,11 +91,12 @@ $(function() {
             var fileName = wsdlFilePath.split('\\').reverse()[0];
             //set the zip file name, to the hidden attribute.
             $('input[name="wsdl_file_name"]').val(fileName);
-            $form.submit();
+			doSubmit();
         } else if ($(this).attr("name") == 'addNewAssetButton') {//upload via url.
             //call the default endpoint.
             $form.attr('action', caramel.context + '/apis/assets?type=wsdl');
-            $form.submit();
+            doSubmit();
         }
     });
+
 });
