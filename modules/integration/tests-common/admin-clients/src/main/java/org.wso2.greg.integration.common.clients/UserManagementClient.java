@@ -118,10 +118,11 @@ public class UserManagementClient {
         }
     }
 
-    protected void handleException(String msg, Exception e) throws Exception {
+    // Below method is removed to maintain the good coding practice. 
+    /*protected void handleException(String msg, Exception e) throws Exception {
         log.error(msg, e);
         throw new Exception(msg + ": " + e);
-    }
+    }*/
 
     public void updateUserListOfRole(String roleName, String[] addingUsers,
                                      String[] deletingUsers) throws Exception {
@@ -166,7 +167,9 @@ public class UserManagementClient {
                 }
             }
         } catch (RemoteException e1) {
-            handleException("Failed to update role", e1);
+            String msg = "Failed to update role";
+            log.error(msg, e1);
+            throw new RemoteException(msg + ": " + e1);
         }
     }
 
@@ -176,9 +179,13 @@ public class UserManagementClient {
         try {
             roles = userAdminStub.getAllRolesNames(roleName, LIMIT);
         } catch (RemoteException e) {
-            handleException("Unable to get role names list", e);
+            String msg = "Unable to get role names list";
+            log.error(msg, e);
+            throw new RemoteException(msg + ": " + e);
         } catch (UserAdminUserAdminException e) {
-            handleException("Faile to get all roles", e);
+            String msg = "Failed to get all roles";
+            log.error(msg, e);
+            throw new UserAdminUserAdminException(msg + ": " + e);
         }
 
         for (FlaggedName role : roles) {
@@ -232,7 +239,9 @@ public class UserManagementClient {
             log.error("Unable to get user names list");
             throw new RemoteException("Unable to get user names list");
         } catch (UserAdminUserAdminException e) {
-            handleException("Unable to get user name list", e);
+            String msg = "Unable to get user name list";
+            log.error(msg, e);
+            throw new UserAdminUserAdminException(msg + ": " + e);
         }
 
         for (FlaggedName user : users) {
