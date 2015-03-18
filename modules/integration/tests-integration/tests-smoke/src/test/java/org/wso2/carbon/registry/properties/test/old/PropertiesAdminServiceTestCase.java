@@ -63,20 +63,23 @@ public class PropertiesAdminServiceTestCase extends GREGIntegrationBaseTest {
                 "somehidden.property_value");
     }
 
-    @Test(groups = {"wso2.greg.prop.admin.service"}, expectedExceptions = RemoteException.class)
+    @Test(groups = {"wso2.greg.prop.admin.service"}, expectedExceptions = RemoteException.class,
+            dependsOnMethods = "addHiddenPropertiesToResourceThrowException")
     public void updateHiddenPropertiesToResourceThrowException() throws Exception {
         propertiesAdminServiceClient.updateProperty("/", "registry.somehidden.property_name",
                 "somehidden.property_value", "some.old.prop.name");
     }
 
-    @Test(groups = {"wso2.greg.prop.admin.service"}, expectedExceptions = RemoteException.class)
+    @Test(groups = {"wso2.greg.prop.admin.service"}, expectedExceptions = RemoteException.class,
+            dependsOnMethods = "updateHiddenPropertiesToResourceThrowException")
     public void addDuplicatePropertiesToResourceThrowException() throws Exception {
         propertiesAdminServiceClient.setProperty("/", "add_property_name", "some.property_value");
         //trying to add an existing property name,thus, this should fail.
         propertiesAdminServiceClient.setProperty("/", "add_property_name", "some.property_value1");
     }
 
-    @Test(groups = {"wso2.greg.prop.admin.service"}, expectedExceptions = RemoteException.class)
+    @Test(groups = {"wso2.greg.prop.admin.service"}, expectedExceptions = RemoteException.class,
+            dependsOnMethods = "addDuplicatePropertiesToResourceThrowException")
     public void updateDuplicatePropertiesToResourceThrowException() throws Exception{
         propertiesAdminServiceClient.setProperty("/", "update_property_name_1", "some.property_value1");
         propertiesAdminServiceClient.setProperty("/", "update_property_name_2", "some.property_value2");
