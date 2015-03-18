@@ -91,7 +91,8 @@ public class PolicyAdditionTestCase extends GREGIntegrationBaseTest {
     }
 
     /* add a Policy via URL */
-    @Test(groups = "wso2.greg", description = "Add Policy via URL")
+    @Test(groups = "wso2.greg", description = "Add Policy via URL",
+            dependsOnMethods = "testAddPolicyFromFileSystem")
     public void testAddPolicyViaURL() throws IOException,
                                              ResourceAdminServiceExceptionException,
                                              RegistryException {

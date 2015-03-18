@@ -18,6 +18,7 @@
 package org.wso2.carbon.registry.metadata.test.wadl;
 
 import org.testng.Assert;
+import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 import org.wso2.carbon.automation.engine.context.TestUserMode;
@@ -29,11 +30,14 @@ import org.wso2.carbon.governance.api.util.GovernanceUtils;
 import org.wso2.carbon.integration.common.utils.LoginLogoutClient;
 import org.wso2.carbon.registry.core.Registry;
 import org.wso2.carbon.registry.core.session.UserRegistry;
+import org.wso2.carbon.registry.resource.stub.ResourceAdminServiceExceptionException;
 import org.wso2.carbon.registry.resource.stub.beans.xsd.ContentBean;
 import org.wso2.carbon.registry.ws.client.registry.WSRegistryServiceClient;
 import org.wso2.greg.integration.common.clients.ResourceAdminServiceClient;
 import org.wso2.greg.integration.common.utils.GREGIntegrationBaseTest;
 import org.wso2.greg.integration.common.utils.RegistryProviderUtil;
+
+import java.rmi.RemoteException;
 
 public class AddWADLTestCase extends GREGIntegrationBaseTest{
     private ResourceAdminServiceClient resourceAdminServiceClient;
@@ -78,10 +82,9 @@ public class AddWADLTestCase extends GREGIntegrationBaseTest{
             }
         }
         Assert.assertTrue(serviceAvailable, "Service not created for the WADL");
-        resourceAdminServiceClient.deleteResource(wadlPath);
     }
 
-    @Test(groups = "wso2.greg", description = "adding wadl with schema import")
+    @Test(groups = "wso2.greg", description = "adding wadl with schema import", dependsOnMethods = "addWADLFromURL")
     public void addWADLWithSchemaImport() throws Exception {
         String wadlPath = "/_system/governance/trunk/wadls/net/java/dev/wadl/_2009/_02/1.0.0/SearchSearvice";
 
@@ -117,11 +120,10 @@ public class AddWADLTestCase extends GREGIntegrationBaseTest{
             }
         }
         Assert.assertTrue(schemaAvailable, "Schema not imported for the WADL");
-
-        resourceAdminServiceClient.deleteResource(wadlPath);
     }
 
-    @Test(groups = "wso2.greg", description = "adding invalid schema importing wadl")
+    @Test(groups = "wso2.greg", description = "adding invalid schema importing wadl",
+            dependsOnMethods = "addWADLWithSchemaImport")
     public void addInvalidSchemaImportWADL() throws Exception {
         try {
             resourceAdminServiceClient.addWADL("InvalidSchemaImportWADL", "Adding WADL with invalid schema import",
@@ -132,5 +134,15 @@ public class AddWADLTestCase extends GREGIntegrationBaseTest{
             }
         }
 
+    }
+
+    @AfterClass(groups = { "wso2.greg" })
+    public void deleteResources()
+            throws ResourceAdminServiceExceptionException, RemoteException {
+        resourceAdminServiceClient.deleteResource(
+                "/_system/governance/trunk/wadls/com/sun/research/wadl/_2006/_10/1.0.0/StorageService");
+        resourceAdminServiceClient.deleteResource(
+                "/_system/governance/trunk/wadls/net/java/dev/wadl/_2009/_02/1.0.0/SearchSearvice");
+        resourceAdminServiceClient = null;
     }
 }
