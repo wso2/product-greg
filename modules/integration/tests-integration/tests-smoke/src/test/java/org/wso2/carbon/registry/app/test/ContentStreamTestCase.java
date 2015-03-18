@@ -79,7 +79,7 @@ public class ContentStreamTestCase extends GREGIntegrationBaseTest{
 
     }
 
-    @Test(groups = {"wso2.greg"})
+    @Test(groups = {"wso2.greg"}, dependsOnMethods = "putResourceasStreamXML")
     public void ContentStreaming() throws RegistryException, IOException {
 
 
@@ -106,7 +106,7 @@ public class ContentStreamTestCase extends GREGIntegrationBaseTest{
     }
 
 
-    @Test(groups = {"wso2.greg"})
+    @Test(groups = {"wso2.greg"}, dependsOnMethods = "ContentStreaming")
     public void setContainStreamXML() throws RegistryException, FileNotFoundException {
 
         final String description = "testPutXMLResourceAsBytes";
