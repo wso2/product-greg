@@ -89,7 +89,8 @@ public class RolePermissionAsAdminTestCase extends GREGIntegrationBaseTest{
     }
 
     @Test(groups = "wso2.greg", expectedExceptions = IOException.class, description = "Test deny access to new " +
-                                                                                      "resources")
+                                                                                      "resources",
+          dependsOnMethods = "testUserDenyAccessToExistingResource")
     public void testUserDenyAccessToNewResource()
             throws ResourceAdminServiceResourceServiceExceptionException, IOException,
             ResourceAdminServiceExceptionException, XPathExpressionException {
@@ -111,7 +112,8 @@ public class RolePermissionAsAdminTestCase extends GREGIntegrationBaseTest{
     }
 
     @Test(groups = "wso2.greg", expectedExceptions = IOException.class, description = "Test allow access to new " +
-                                                                                      "resources")
+                                                                                      "resources",
+          dependsOnMethods = "testUserAllowAccessToExistingResource")
     public void testUserAllowAccessToNewResource() throws ResourceAdminServiceResourceServiceExceptionException, IOException,
             ResourceAdminServiceExceptionException, XPathExpressionException {
 
@@ -129,7 +131,8 @@ public class RolePermissionAsAdminTestCase extends GREGIntegrationBaseTest{
     }
 
     @Test(groups = "wso2.greg", expectedExceptions = IOException.class, description = "Test deny access to existing " +
-                                                                                      "resources")
+                                                                                      "resources",
+          dependsOnMethods = "testUserAllowAccessToNewResource")
     public void testUserDenyAccessToExistingResource()
             throws ResourceAdminServiceResourceServiceExceptionException, IOException,
             ResourceAdminServiceExceptionException, XPathExpressionException {
@@ -149,7 +152,8 @@ public class RolePermissionAsAdminTestCase extends GREGIntegrationBaseTest{
     }
 
     @Test(groups = "wso2.greg", expectedExceptions = IOException.class, description = "Test allow access to existing " +
-                                                                                      "resources")
+                                                                                      "resources",
+          dependsOnMethods = "testPermissionReassignWhenDeletedAndReCreated")
     public void testUserAllowAccessToExistingResource()
             throws ResourceAdminServiceResourceServiceExceptionException, IOException,
             ResourceAdminServiceExceptionException, XPathExpressionException {
@@ -179,7 +183,8 @@ public class RolePermissionAsAdminTestCase extends GREGIntegrationBaseTest{
     }
 
     @Test(groups = "wso2.greg", expectedExceptions = IOException.class,
-          description = "Test anonymous deny access to resources when internal/everyone is denied for resources")
+          description = "Test anonymous deny access to resources when internal/everyone is denied for resources",
+          dependsOnMethods = "testDenyAccessToAnonymousWhenEveryoneAllowed")
     public void testDenyAccessToAnonymousWhenEveryoneDenied()
             throws ResourceAdminServiceResourceServiceExceptionException, IOException, XPathExpressionException {
         adminResourceAdminClient.addResourcePermission(NEW_RESOURCE_PATH, PermissionTestConstants.EVERYONE_ROLE,
@@ -192,7 +197,8 @@ public class RolePermissionAsAdminTestCase extends GREGIntegrationBaseTest{
         InputStream resourceStream = resourceURL.openStream();
     }
 
-    @Test(groups = "wso2.greg", description = "Test access to versions of resources using non-admin role")
+    @Test(groups = "wso2.greg", description = "Test access to versions of resources using non-admin role",
+          dependsOnMethods = "testUserDenyAccessToNewResource")
     public void testVersionAccess()
             throws ResourceAdminServiceExceptionException, RemoteException,
                    ResourceAdminServiceResourceServiceExceptionException {
@@ -208,7 +214,8 @@ public class RolePermissionAsAdminTestCase extends GREGIntegrationBaseTest{
     }
 
     @Test(groups = "wso2.greg", description = "Test whether permissions are reassigned " +
-                                              "when resource deleted and recreated with same name")
+                                              "when resource deleted and recreated with same name",
+          dependsOnMethods = "testDenyAccessToAnonymousWhenEveryoneDenied")
     public void testPermissionReassignWhenDeletedAndReCreated()
             throws ResourceAdminServiceExceptionException, RemoteException, MalformedURLException,
                    ResourceAdminServiceResourceServiceExceptionException, InterruptedException {

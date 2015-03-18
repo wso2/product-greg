@@ -110,7 +110,7 @@ public class PermissionForSearchTestCase extends GREGIntegrationBaseTest{
         AdvancedSearchResultsBean result = searchDisabledAdminServiceClient.getAdvancedSearchResults(searchQuery);
     }
 
-    @Test(groups = "wso2.greg", description = "Test allow permission for search")
+    @Test(groups = "wso2.greg", description = "Test allow permission for search", dependsOnMethods = "testDenySearch")
     public void testAllowSearch()
             throws SearchAdminServiceRegistryExceptionException, RemoteException {
         CustomSearchParameterBean searchQuery = new CustomSearchParameterBean();
