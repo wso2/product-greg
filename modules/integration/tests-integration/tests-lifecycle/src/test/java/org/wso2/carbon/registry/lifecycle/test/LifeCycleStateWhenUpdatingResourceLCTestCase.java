@@ -94,7 +94,8 @@ public class LifeCycleStateWhenUpdatingResourceLCTestCase extends GREGIntegratio
 
     }
 
-    @Test(groups = "wso2.greg", description = "Add lifecycle to a policy and update policy")
+    @Test(groups = "wso2.greg", description = "Add lifecycle to a policy and update policy",
+          dependsOnMethods = "SchemaAddLifecycleAndUpdateResource")
     public void policyAddLifecycleAndUpdateResource()
             throws RegistryException, CustomLifecyclesChecklistAdminServiceExceptionException,
                    IOException, InterruptedException, RegistryExceptionException {
@@ -122,7 +123,8 @@ public class LifeCycleStateWhenUpdatingResourceLCTestCase extends GREGIntegratio
 
     }
 
-    @Test(groups = "wso2.greg", description = "Add lifecycle to a WSDl and update WSDL")
+    @Test(groups = "wso2.greg", description = "Add lifecycle to a WSDl and update WSDL",
+          dependsOnMethods = "policyAddLifecycleAndUpdateResource")
     public void WSDLAddLifecycleAndUpdateResource()
             throws RegistryException, CustomLifecyclesChecklistAdminServiceExceptionException,
                    IOException, InterruptedException, RegistryExceptionException {
@@ -150,7 +152,8 @@ public class LifeCycleStateWhenUpdatingResourceLCTestCase extends GREGIntegratio
 
     }
 
-    @Test(groups = "wso2.greg", description = "Add lifecycle to a Service and update Service")
+    @Test(groups = "wso2.greg", description = "Add lifecycle to a Service and update Service",
+          dependsOnMethods = "WSDLAddLifecycleAndUpdateResource")
     public void serviceAddLifecycleAndUpdateResource()
             throws Exception {
         servicePathDev = "/_system/governance" + LifeCycleUtils.addService("sns", "ServiceLifeCycleState", governance);
