@@ -181,7 +181,7 @@ public  class LifeCyclePermissionTestCase extends GREGIntegrationBaseTest{
     }
 
     @Test(groups = "wso2.greg", description = "Test permission to allow create a service",
-          expectedExceptions = AxisFault.class)
+          expectedExceptions = AxisFault.class, dependsOnMethods = "testCreateNewLifeCycle")
     public void testDenyCreateService() throws ResourceAdminServiceExceptionException, MalformedURLException, RemoteException {
 
         String servicePath = getTestArtifactLocation() + "artifacts" +

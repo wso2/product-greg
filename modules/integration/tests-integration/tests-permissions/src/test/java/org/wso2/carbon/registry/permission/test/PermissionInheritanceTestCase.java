@@ -160,7 +160,7 @@ public class PermissionInheritanceTestCase extends GREGIntegrationBaseTest{
     }
 
     @Test(groups = "wso2.greg", description = "Test write access inheritance",
-            expectedExceptions = AxisFault.class)
+            expectedExceptions = AxisFault.class, dependsOnMethods = "testDenyReadPermission")
     public void testDenyWritePermission() throws ResourceAdminServiceExceptionException,
             RemoteException, MalformedURLException, ResourceAdminServiceResourceServiceExceptionException {
         //create a new collection in the test directory and disable permission at root
@@ -175,7 +175,7 @@ public class PermissionInheritanceTestCase extends GREGIntegrationBaseTest{
     }
 
     @Test(groups = "wso2.greg", description = "Test delete access inheritance",
-          expectedExceptions = AxisFault.class)
+          expectedExceptions = AxisFault.class, dependsOnMethods = "testDenyWritePermission")
     public void testDenyDeletePermission()
             throws ResourceAdminServiceExceptionException, RemoteException,
                    ResourceAdminServiceResourceServiceExceptionException {
@@ -200,7 +200,7 @@ public class PermissionInheritanceTestCase extends GREGIntegrationBaseTest{
 
     //fails due to REGISTRY-1185
     @Test(groups = "wso2.greg", description = "Test authorization access inheritance",
-          expectedExceptions = ResourceAdminServiceResourceServiceExceptionException.class)
+          expectedExceptions = ResourceAdminServiceResourceServiceExceptionException.class, dependsOnMethods = "testDenyDeletePermission")
     public void testDenyAuthPermission() throws Exception {
 
         //Deny permission
@@ -221,7 +221,7 @@ public class PermissionInheritanceTestCase extends GREGIntegrationBaseTest{
                                                           PermissionTestConstants.PERMISSION_ENABLED);
     }
 
-    @Test(groups = "wso2.greg", description = "Test read access inheritance")
+    @Test(groups = "wso2.greg", description = "Test read access inheritance", dependsOnMethods = "testDenyAuthPermission")
     public void testAllowReadPermission()
             throws ResourceAdminServiceExceptionException, RemoteException,
                    ResourceAdminServiceResourceServiceExceptionException, MalformedURLException,
@@ -239,7 +239,7 @@ public class PermissionInheritanceTestCase extends GREGIntegrationBaseTest{
         Assert.assertNotNull(nonAdminResourceAdminClient.getResource(TEST_DIR_PATH + ALLOWED_DIR + "/allowRead.txt"));
     }
 
-    @Test(groups = "wso2.greg", description = "Test write access inheritance")
+    @Test(groups = "wso2.greg", description = "Test write access inheritance", dependsOnMethods = "testAllowReadPermission")
     public void testAllowWritePermission()
             throws ResourceAdminServiceExceptionException, RemoteException, MalformedURLException,
                    ResourceAdminServiceResourceServiceExceptionException {
@@ -263,7 +263,7 @@ public class PermissionInheritanceTestCase extends GREGIntegrationBaseTest{
                                                                   ".txt"));
     }
 
-    @Test(groups = "wso2.greg", expectedExceptions = AxisFault.class, description = "Test delete access inheritance")
+    @Test(groups = "wso2.greg", expectedExceptions = AxisFault.class, description = "Test delete access inheritance", dependsOnMethods = "testAllowWritePermission")
     public void testAllowDeletePermission()
             throws ResourceAdminServiceExceptionException, RemoteException,
                    ResourceAdminServiceResourceServiceExceptionException, MalformedURLException {
@@ -289,7 +289,7 @@ public class PermissionInheritanceTestCase extends GREGIntegrationBaseTest{
         adminResourceAdminClient.getResource(TEST_DIR_PATH + ALLOWED_DIR + "/allowDelete.txt");
     }
 
-    @Test(groups = "wso2.greg", description = "Test authorization access inheritance")
+    @Test(groups = "wso2.greg", description = "Test authorization access inheritance", dependsOnMethods = "testAllowDeletePermission")
     public void testAllowAuthPermission() throws Exception {
         //Allow denied permission
         adminResourceAdminClient.addResourcePermission(TEST_DIR_PATH + ALLOWED_DIR,

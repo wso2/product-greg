@@ -150,7 +150,7 @@ public class PolicyDefaultLCTestCase extends GREGIntegrationBaseTest{
      * @throws org.wso2.carbon.registry.activities.stub.RegistryExceptionException
      *
      */
-    @Test(groups = "wso2.greg", dependsOnMethods = "addLifecycle", description = "Promote to Testing")
+    @Test(groups = "wso2.greg", dependsOnMethods = "testLifecycleAddActivities", description = "Promote to Testing")
     public void promoteToTesting()
             throws CustomLifecyclesChecklistAdminServiceExceptionException, RemoteException,
                    InterruptedException, RegistryException, RegistryExceptionException {
