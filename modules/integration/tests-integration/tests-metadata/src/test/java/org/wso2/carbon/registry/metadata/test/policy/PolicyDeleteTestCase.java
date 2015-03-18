@@ -75,7 +75,7 @@ public class PolicyDeleteTestCase extends GREGIntegrationBaseTest{
     /**
      * Add policy file from import URL functionality
      */
-    @Test(groups = {"wso2.greg"})
+    @Test(groups = "wso2.greg", dependsOnMethods = "addPolicyFromFile")
     public void addPolicyFromURL() throws ResourceAdminServiceExceptionException, RemoteException {
         String resourceUrl = "https://svn.wso2.org/repos/wso2/trunk/commons/qa/qa-artifacts/greg/policies/policy.xml";
         String resourceName = "RMpolicy3.xml";

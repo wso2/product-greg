@@ -89,7 +89,8 @@ public class NegativePolicyAdditionTestCase extends GREGIntegrationBaseTest{
 
     // invalid wsdl form file system
     //, expectedExceptions = NullPointerException.class
-    @Test(groups = "wso2.greg", description = "invalid policy form file system using admin services")
+    @Test (groups = "wso2.greg", description = "invalid policy from file system using admin services",
+            dependsOnMethods = "testInvalidAdditionPolicyViaUrl")
     public void testAddInvalidpolicyFromFileSystem() throws RegistryException,
                                                             IOException {
 
