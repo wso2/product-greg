@@ -133,7 +133,8 @@ public class ConfigureServiceUITestCase extends GREGIntegrationBaseTest {
      *
      * @throws IOException
      */
-    @Test(groups = "wso2.greg", description = "repeting the same field inside a table", expectedExceptions = ManageGenericArtifactServiceRegistryExceptionException.class)
+    @Test(groups = "wso2.greg", description = "repeting the same field inside a table",
+          expectedExceptions = ManageGenericArtifactServiceRegistryExceptionException.class, dependsOnMethods = "testListServicesAfterRestart")
     @SetEnvironment(executionEnvironments = {ExecutionEnvironment.STANDALONE})
     public void testSubHeaders() throws IOException, ManageGenericArtifactServiceRegistryExceptionException {
         String servicePath =
@@ -152,7 +153,8 @@ public class ConfigureServiceUITestCase extends GREGIntegrationBaseTest {
      *
      * @throws IOException
      */
-    @Test(groups = "wso2.greg", description = "repeting the same field inside a table", expectedExceptions = ManageGenericArtifactServiceRegistryExceptionException.class)
+    @Test(groups = "wso2.greg", description = "repeting the same field inside a table",
+          expectedExceptions = ManageGenericArtifactServiceRegistryExceptionException.class, dependsOnMethods = "testSubHeaders")
     @SetEnvironment(executionEnvironments = {ExecutionEnvironment.STANDALONE})
     public void testSyntaxErrors() throws IOException, ManageGenericArtifactServiceRegistryExceptionException {
         String servicePath =
@@ -165,7 +167,7 @@ public class ConfigureServiceUITestCase extends GREGIntegrationBaseTest {
 
     }
 
-    @Test(groups = "wso2.greg", description = "repeting the same field inside a table")
+    @Test(groups = "wso2.greg", description = "repeting the same field inside a table", dependsOnMethods = "testElementRepeat")
     @SetEnvironment(executionEnvironments = {ExecutionEnvironment.STANDALONE})
     public void testListServicesAfterRestart() throws java.lang.Exception {
         int servicesBefore = serviceManager.getAllServices().length;
