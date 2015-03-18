@@ -24,7 +24,7 @@ app.server = function(ctx) {
         configs: {
             landingPage: '/asts/service/list',
             disabledAssets: ['ebook','proxy','sequence','servicex','uri',
-                             'site','provider','gadget','document']
+                             'site','provider','gadget','document','api']
         }
     }
 };
