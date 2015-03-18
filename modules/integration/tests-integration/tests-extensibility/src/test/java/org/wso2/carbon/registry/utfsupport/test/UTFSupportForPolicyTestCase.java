@@ -193,7 +193,7 @@ public class UTFSupportForPolicyTestCase extends GREGIntegrationBaseTest {
 
     }
 
-    @AfterClass
+    @AfterClass(alwaysRun = true)
     public void clean() throws Exception {
         delete(pathPrefix + policyPath);
         policyManager = new PolicyManager(governance);

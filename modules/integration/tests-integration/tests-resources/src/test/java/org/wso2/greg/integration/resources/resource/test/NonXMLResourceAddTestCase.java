@@ -48,7 +48,7 @@ public class NonXMLResourceAddTestCase extends GREGIntegrationBaseTest{
     private static final String TEXT_FILE_NAME = "sampleText.txt";
     private ResourceAdminServiceClient resourceAdminServiceClient;
 
-    @BeforeClass(groups = {"wso2.greg"})
+    @BeforeClass(groups = {"wso2.greg"}, alwaysRun = true)
     public void init() throws Exception {
 
         super.init(TestUserMode.SUPER_TENANT_ADMIN);
@@ -107,7 +107,7 @@ public class NonXMLResourceAddTestCase extends GREGIntegrationBaseTest{
     }
 
     //cleanup code
-    @AfterClass
+    @AfterClass(groups = {"wso2.greg"}, alwaysRun = true)
     public void cleanup()
             throws Exception {
         resourceAdminServiceClient.deleteResource(PARENT_PATH+RES_FILE_FOLDER);

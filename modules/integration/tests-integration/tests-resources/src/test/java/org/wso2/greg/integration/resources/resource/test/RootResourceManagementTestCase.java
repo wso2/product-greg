@@ -63,7 +63,7 @@ public class RootResourceManagementTestCase extends GREGIntegrationBaseTest {
 
     public static final String REGISTRY_NAMESPACE = "http://wso2.org/registry";
 
-    @BeforeClass(alwaysRun = true)
+    @BeforeClass(groups = {"wso2.greg"}, alwaysRun = true)
     public void initialize() throws Exception {
         super.init(TestUserMode.SUPER_TENANT_ADMIN);
         resourceAdminClient = new ResourceAdminServiceClient(getBackendURL(), getSessionCookie());
@@ -195,7 +195,7 @@ public class RootResourceManagementTestCase extends GREGIntegrationBaseTest {
         return AXIOMUtil.stringToOM(sb.toString());
     }
 
-    @AfterClass
+    @AfterClass(groups = {"wso2.greg"}, alwaysRun = true)
     public void cleanUp() throws ResourceAdminServiceExceptionException, RemoteException {
         resourceAdminClient.deleteResource(RES_COPIED_LOCATION);
         resourceAdminClient = null;

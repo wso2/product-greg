@@ -51,7 +51,7 @@ public class ResourceTestCase extends GREGIntegrationBaseTest {
     private ResourceAdminServiceClient resourceAdminClient;
     private RelationAdminServiceClient relationAdminServiceClient;
 
-    @BeforeClass(alwaysRun = true)
+    @BeforeClass(groups = {"wso2.greg"}, alwaysRun = true)
     public void initializeTests() throws Exception {
         super.init(TestUserMode.SUPER_TENANT_ADMIN);
         resourceAdminClient = new ResourceAdminServiceClient(getBackendURL(), getSessionCookie());

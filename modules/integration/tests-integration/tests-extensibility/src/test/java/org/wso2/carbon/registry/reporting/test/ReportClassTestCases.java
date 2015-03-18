@@ -30,7 +30,7 @@ import static org.testng.Assert.assertTrue;
 
 public class ReportClassTestCases extends ReportingTestCaseSuper {
 
-    @BeforeClass(alwaysRun = true)
+    @BeforeClass(groups = {"wso2.greg"}, alwaysRun = true)
     public void initializeForReportClassTesting() throws Exception {
         applicationName = super.applicationName + "ReportClassTestCases";
         artifactName = super.artifactName + "ReportClassTestCases";
@@ -116,7 +116,7 @@ public class ReportClassTestCases extends ReportingTestCaseSuper {
                 "net.sf.jasperreports.engine.JRException: Error retrieving field value from bean : details_govCycleName");
     }
 
-    @AfterClass(alwaysRun = true)
+    @AfterClass(groups = {"wso2.greg"}, alwaysRun = true)
     public void ClearResourcesAddedForReportClassTesting() throws Exception {
         removeResourcesLCReport();
         removeAppicationArtifact(1);

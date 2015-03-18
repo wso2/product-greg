@@ -396,7 +396,7 @@ public class CopyResourceCommunityFeaturesTestCase extends GREGIntegrationBaseTe
         assertTrue(TAG.equalsIgnoreCase(tag), "Tags does not match  after copying.");
     }
 
-    @AfterClass
+    @AfterClass(alwaysRun = true)
     public void cleanUp() throws Exception {
         deleteResource(PATH);
         deleteResource(DEPENDENCY_PATH);
