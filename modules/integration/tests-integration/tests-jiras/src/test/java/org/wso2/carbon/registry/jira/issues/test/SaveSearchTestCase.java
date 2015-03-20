@@ -22,10 +22,12 @@ import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 import org.wso2.carbon.automation.engine.context.TestUserMode;
+import org.wso2.carbon.automation.engine.frameworkutils.FrameworkPathUtil;
 import org.wso2.carbon.governance.api.services.ServiceManager;
 import org.wso2.carbon.governance.api.services.dataobjects.Service;
 import org.wso2.carbon.governance.api.util.GovernanceUtils;
 import org.wso2.carbon.integration.common.admin.client.UserManagementClient;
+import org.wso2.carbon.integration.common.utils.mgt.ServerConfigurationManager;
 import org.wso2.carbon.registry.core.Registry;
 import org.wso2.carbon.registry.core.exceptions.RegistryException;
 import org.wso2.carbon.registry.core.session.UserRegistry;
@@ -44,6 +46,7 @@ import org.wso2.greg.integration.common.utils.GREGIntegrationBaseTest;
 import org.wso2.greg.integration.common.utils.RegistryProviderUtil;
 
 import javax.xml.namespace.QName;
+import java.io.File;
 import java.rmi.RemoteException;
 
 public class SaveSearchTestCase extends GREGIntegrationBaseTest{
@@ -59,6 +62,11 @@ public class SaveSearchTestCase extends GREGIntegrationBaseTest{
     @BeforeClass(alwaysRun = true)
     public void init() throws Exception {
         super.init(TestUserMode.SUPER_TENANT_ADMIN);
+        ServerConfigurationManager serverConfigurationManager = new ServerConfigurationManager("GREG",TestUserMode.SUPER_TENANT_ADMIN);
+        File targetFile = new File(FrameworkPathUtil.getCarbonServerConfLocation() + File.separator + "registry.xml");
+        File sourceFile = new File(FrameworkPathUtil.getSystemResourceLocation() + "registry.xml");
+        serverConfigurationManager.applyConfiguration(sourceFile,targetFile);
+
         String session = getSessionCookie();
 
         userManagementClient = new UserManagementClient(backendURL, session);
@@ -116,7 +124,7 @@ public class SaveSearchTestCase extends GREGIntegrationBaseTest{
         searchQuery.setParameterValues(paramList);
         searchAdminServiceClient.saveAdvancedSearchFilter(searchQuery, FILTER_NAME);
         String[] filters = searchAdminServiceClient.getSavedFilters();
-
+        Thread.sleep(30000);
         boolean filterFound = false;
         for (String filter : filters) {
 

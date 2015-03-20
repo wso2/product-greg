@@ -29,6 +29,7 @@ import org.wso2.carbon.governance.api.schema.SchemaManager;
 import org.wso2.carbon.governance.api.schema.dataobjects.Schema;
 import org.wso2.carbon.governance.api.wsdls.WsdlManager;
 import org.wso2.carbon.governance.api.wsdls.dataobjects.Wsdl;
+import org.wso2.carbon.integration.common.utils.mgt.ServerConfigurationManager;
 import org.wso2.carbon.registry.core.Registry;
 import org.wso2.carbon.registry.core.Resource;
 import org.wso2.carbon.registry.core.exceptions.RegistryException;
@@ -65,6 +66,12 @@ public class RegistrySearchByPropertyValueTestCase extends GREGIntegrationBaseTe
     public void init() throws Exception {
 
         super.init(TestUserMode.SUPER_TENANT_ADMIN);
+
+        ServerConfigurationManager serverConfigurationManager = new ServerConfigurationManager("GREG",TestUserMode.SUPER_TENANT_ADMIN);
+        File targetFile = new File(FrameworkPathUtil.getCarbonServerConfLocation() + File.separator + "registry.xml");
+        File sourceFile = new File(FrameworkPathUtil.getSystemResourceLocation() + "registry.xml");
+        serverConfigurationManager.applyConfiguration(sourceFile,targetFile);
+
         backEndUrl = getBackendURL();
         sessionCookie = getSessionCookie();
         userName = automationContext.getContextTenant().getContextUser().getUserName();
@@ -310,13 +317,14 @@ public class RegistrySearchByPropertyValueTestCase extends GREGIntegrationBaseTe
 
 
     private void addResources()
-            throws ResourceAdminServiceExceptionException, IOException, RegistryException {
+            throws ResourceAdminServiceExceptionException, IOException, RegistryException, SearchAdminServiceRegistryExceptionException, InterruptedException {
         addWSDL();
         addSchema();
+        Thread.sleep(60000);
     }
 
     private void addWSDL()
-            throws IOException, ResourceAdminServiceExceptionException, RegistryException {
+            throws IOException, ResourceAdminServiceExceptionException, RegistryException, InterruptedException {
 
         WsdlManager wsdlManager = new WsdlManager(governance);
         Wsdl wsdl;
@@ -328,10 +336,10 @@ public class RegistrySearchByPropertyValueTestCase extends GREGIntegrationBaseTe
         Resource resource = governance.get(wsdl.getPath());
         resource.addProperty("wsdlProperty", "10");
         governance.put(wsdl.getPath(), resource);
-
+/*        waitForResourceIndex("application/wsdl+xml" , resource.getPath());*/
     }
 
-    private void addSchema() throws IOException, RegistryException {
+    private void addSchema() throws IOException, RegistryException, InterruptedException {
 
         SchemaManager schemaManager = new SchemaManager(governance);
         String schemaFilePath = FrameworkPathUtil.getSystemResourceLocation() + "artifacts" +
@@ -342,7 +350,33 @@ public class RegistrySearchByPropertyValueTestCase extends GREGIntegrationBaseTe
         Resource resource = governance.get(schema.getPath());
         resource.addProperty("wsdlProperty", "20");
         governance.put(schema.getPath(), resource);
+/*        waitForResourceIndex("application/x-xsd+xml", resource.getPath());*/
     }
+
+/*    public void waitForResourceIndex(String mediaType, String path) throws RemoteException, SearchAdminServiceRegistryExceptionException, InterruptedException {
+        CustomSearchParameterBean searchQuery = new CustomSearchParameterBean();
+        SearchParameterBean paramBean = new SearchParameterBean();
+        paramBean.setMediaType(mediaType);
+        ArrayOfString[] paramList = paramBean.getParameterList();
+        searchQuery.setParameterValues(paramList);
+        while (true) {
+            boolean isExists = false;
+            AdvancedSearchResultsBean result = searchAdminServiceClient.getAdvancedSearchResults(searchQuery);
+            if (result != null && result.getResourceDataList() != null) {
+                for (ResourceData resource : result.getResourceDataList()) {
+                    if (resource.getResourcePath() != null && resource.getResourcePath().contains(path)) {
+                        isExists =true;
+                        break;
+                    }
+                }
+            }
+            if(isExists) {
+                break;
+            }
+            log.info("waiting for resource index: " + path);
+            Thread.sleep(10000);
+        }
+    }*/
 
     @AfterClass
     public void clean() throws ResourceAdminServiceExceptionException, RemoteException {

@@ -29,6 +29,7 @@ import org.wso2.carbon.governance.api.schema.SchemaManager;
 import org.wso2.carbon.governance.api.schema.dataobjects.Schema;
 import org.wso2.carbon.governance.api.wsdls.WsdlManager;
 import org.wso2.carbon.governance.api.wsdls.dataobjects.Wsdl;
+import org.wso2.carbon.integration.common.utils.mgt.ServerConfigurationManager;
 import org.wso2.carbon.registry.core.Registry;
 import org.wso2.carbon.registry.core.Resource;
 import org.wso2.carbon.registry.core.exceptions.RegistryException;
@@ -65,6 +66,12 @@ public class RegistryFilterSearchTestCase extends GREGIntegrationBaseTest {
     public void init() throws Exception {
 
         super.init(TestUserMode.SUPER_TENANT_ADMIN);
+
+        ServerConfigurationManager serverConfigurationManager = new ServerConfigurationManager("GREG",TestUserMode.SUPER_TENANT_ADMIN);
+        File targetFile = new File(FrameworkPathUtil.getCarbonServerConfLocation() + File.separator + "registry.xml");
+        File sourceFile = new File(FrameworkPathUtil.getSystemResourceLocation() + "registry.xml");
+        serverConfigurationManager.applyConfiguration(sourceFile,targetFile);
+
         backEndUrl = getBackendURL();
         sessionCookie = getSessionCookie();
         userName = automationContext.getContextTenant().getContextUser().getUserName();
@@ -206,13 +213,13 @@ public class RegistryFilterSearchTestCase extends GREGIntegrationBaseTest {
 
 
     public void addResources()
-            throws ResourceAdminServiceExceptionException, IOException, RegistryException {
+            throws ResourceAdminServiceExceptionException, IOException, RegistryException, InterruptedException {
         addWSDL();
         addSchema();
     }
 
     public void addWSDL()
-            throws IOException, ResourceAdminServiceExceptionException, RegistryException {
+            throws IOException, ResourceAdminServiceExceptionException, RegistryException, InterruptedException {
 
         WsdlManager wsdlManager = new WsdlManager(governance);
         Wsdl wsdl;
@@ -224,10 +231,10 @@ public class RegistryFilterSearchTestCase extends GREGIntegrationBaseTest {
         Resource resource = governance.get(wsdl.getPath());
         resource.addProperty("wsdlProperty", "10");
         governance.put(wsdl.getPath(), resource);
-
+        Thread.sleep(60000);
     }
 
-    public void addSchema() throws IOException, RegistryException {
+    public void addSchema() throws IOException, RegistryException, InterruptedException {
         SchemaManager schemaManager = new SchemaManager(governance);
         String schemaFilePath = FrameworkPathUtil.getSystemResourceLocation() + "artifacts" +
                 File.separator + "GREG" + File.separator + "schema" + File.separator + "library.xsd";
@@ -237,6 +244,7 @@ public class RegistryFilterSearchTestCase extends GREGIntegrationBaseTest {
         Resource resource = governance.get(schema.getPath());
         resource.addProperty("wsdlProperty", "20");
         governance.put(schema.getPath(), resource);
+        Thread.sleep(60000);
     }
 
     @AfterClass

@@ -22,8 +22,10 @@ import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 import org.wso2.carbon.automation.engine.context.TestUserMode;
+import org.wso2.carbon.automation.engine.frameworkutils.FrameworkPathUtil;
 import org.wso2.carbon.governance.list.stub.ListMetadataServiceRegistryExceptionException;
 import org.wso2.carbon.governance.services.stub.AddServicesServiceRegistryExceptionException;
+import org.wso2.carbon.integration.common.utils.mgt.ServerConfigurationManager;
 import org.wso2.carbon.registry.info.stub.beans.xsd.SubscriptionBean;
 import org.wso2.carbon.registry.resource.stub.ResourceAdminServiceExceptionException;
 import org.wso2.carbon.registry.resource.stub.common.xsd.ResourceData;
@@ -53,6 +55,11 @@ public class Registry1170TestCase extends GREGIntegrationBaseTest {
     @BeforeClass(alwaysRun = true)
     public void initialize() throws Exception {
         super.init(TestUserMode.SUPER_TENANT_ADMIN);
+        ServerConfigurationManager serverConfigurationManager = new ServerConfigurationManager("GREG",TestUserMode.SUPER_TENANT_ADMIN);
+        File targetFile = new File(FrameworkPathUtil.getCarbonServerConfLocation() + File.separator + "registry.xml");
+        File sourceFile = new File(FrameworkPathUtil.getSystemResourceLocation() + "registry.xml");
+        serverConfigurationManager.applyConfiguration(sourceFile,targetFile);
+
         session = getSessionCookie();
 
         infoServiceAdminClient =
@@ -64,9 +71,9 @@ public class Registry1170TestCase extends GREGIntegrationBaseTest {
 
     @Test(groups = "wso2.greg", description = "Create a service")
     public void testCreateService() throws XMLStreamException, IOException,
-                                           AddServicesServiceRegistryExceptionException,
-                                           ListMetadataServiceRegistryExceptionException,
-                                           ResourceAdminServiceExceptionException {
+            AddServicesServiceRegistryExceptionException,
+            ListMetadataServiceRegistryExceptionException,
+            ResourceAdminServiceExceptionException, InterruptedException {
 
         String servicePath =
                 getTestArtifactLocation() + "artifacts" +
@@ -77,7 +84,7 @@ public class Registry1170TestCase extends GREGIntegrationBaseTest {
         String mediaType = "application/vnd.wso2-service+xml";
         String description = "This is a test service";
         resourceAdminServiceClient.addResource("/_system/governance/service1", mediaType, description, dataHandler);
-
+        Thread.sleep(60000);
         ResourceData[] resourceDataArray = resourceAdminServiceClient.
                 getResource(SERVICE_PATH);
 

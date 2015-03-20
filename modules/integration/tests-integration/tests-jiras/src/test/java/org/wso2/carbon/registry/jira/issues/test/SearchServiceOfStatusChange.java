@@ -21,6 +21,7 @@ import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 import org.wso2.carbon.automation.engine.context.TestUserMode;
+import org.wso2.carbon.automation.engine.frameworkutils.FrameworkPathUtil;
 import org.wso2.carbon.automation.test.utils.common.FileManager;
 import org.wso2.carbon.governance.api.exception.GovernanceException;
 import org.wso2.carbon.governance.api.services.ServiceManager;
@@ -30,6 +31,7 @@ import org.wso2.carbon.governance.custom.lifecycles.checklist.stub.beans.xsd.Lif
 import org.wso2.carbon.governance.custom.lifecycles.checklist.stub.services.ArrayOfString;
 import org.wso2.carbon.governance.custom.lifecycles.checklist.stub.util.xsd.Property;
 import org.wso2.carbon.governance.lcm.stub.LifeCycleManagementServiceExceptionException;
+import org.wso2.carbon.integration.common.utils.mgt.ServerConfigurationManager;
 import org.wso2.carbon.registry.core.Registry;
 import org.wso2.carbon.registry.core.Resource;
 import org.wso2.carbon.registry.core.exceptions.RegistryException;
@@ -72,6 +74,10 @@ public class SearchServiceOfStatusChange extends GREGIntegrationBaseTest {
     @BeforeClass
     public void init() throws Exception {
         super.init(TestUserMode.SUPER_TENANT_ADMIN);
+        ServerConfigurationManager serverConfigurationManager = new ServerConfigurationManager("GREG",TestUserMode.SUPER_TENANT_ADMIN);
+        File targetFile = new File(FrameworkPathUtil.getCarbonServerConfLocation() + File.separator + "registry.xml");
+        File sourceFile = new File(FrameworkPathUtil.getSystemResourceLocation() + "registry.xml");
+        serverConfigurationManager.applyConfiguration(sourceFile,targetFile);
         String session = getSessionCookie();
 
         lifeCycleManagementClient =
@@ -117,9 +123,10 @@ public class SearchServiceOfStatusChange extends GREGIntegrationBaseTest {
     @Test(groups = {"wso2.greg"}, description = "add lifecycle to service", dependsOnMethods = "testCreateLc")
     public void testAddLC()
             throws RegistryException, CustomLifecyclesChecklistAdminServiceExceptionException,
-                   RemoteException {
+            RemoteException, InterruptedException {
         servicePath = addService();
         wsRegistryServiceClient.associateAspect(pathPrefix + servicePath, LC_NAME);
+        Thread.sleep(60000);
         LifecycleBean lifeCycle = lifeCycleAdminServiceClient.getLifecycleBean(pathPrefix + servicePath);
         Property[] properties = lifeCycle.getLifecycleProperties();
         boolean lcAdded = false;

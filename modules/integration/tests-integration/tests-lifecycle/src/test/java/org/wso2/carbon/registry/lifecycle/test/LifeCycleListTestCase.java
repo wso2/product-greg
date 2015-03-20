@@ -22,6 +22,7 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 import org.wso2.carbon.authenticator.stub.LoginAuthenticationExceptionException;
 import org.wso2.carbon.automation.engine.context.TestUserMode;
+import org.wso2.carbon.automation.engine.frameworkutils.FrameworkPathUtil;
 import org.wso2.carbon.automation.test.utils.common.FileManager;
 import org.wso2.carbon.governance.custom.lifecycles.checklist.stub.CustomLifecyclesChecklistAdminServiceExceptionException;
 import org.wso2.carbon.governance.custom.lifecycles.checklist.stub.beans.xsd.LifecycleBean;
@@ -30,6 +31,7 @@ import org.wso2.carbon.governance.lcm.stub.LifeCycleManagementServiceExceptionEx
 import org.wso2.carbon.governance.list.stub.ListMetadataServiceRegistryExceptionException;
 import org.wso2.carbon.governance.list.stub.beans.xsd.ServiceBean;
 import org.wso2.carbon.governance.services.stub.AddServicesServiceRegistryExceptionException;
+import org.wso2.carbon.integration.common.utils.mgt.ServerConfigurationManager;
 import org.wso2.carbon.registry.core.exceptions.RegistryException;
 import org.wso2.carbon.registry.resource.stub.ResourceAdminServiceExceptionException;
 import org.wso2.carbon.registry.lifecycle.test.bean.SearchParameterBean;
@@ -107,6 +109,11 @@ public class LifeCycleListTestCase extends GREGIntegrationBaseTest{
     @BeforeClass(alwaysRun = true)
     public void init() throws Exception {
         super.init(TestUserMode.SUPER_TENANT_USER);
+        ServerConfigurationManager serverConfigurationManager = new ServerConfigurationManager("GREG",TestUserMode.SUPER_TENANT_ADMIN);
+        File targetFile = new File(FrameworkPathUtil.getCarbonServerConfLocation() + File.separator + "registry.xml");
+        File sourceFile = new File(FrameworkPathUtil.getSystemResourceLocation() + "registry.xml");
+        serverConfigurationManager.applyConfiguration(sourceFile,targetFile);
+
         String sessionCookie = getSessionCookie();
 
         lifeCycleAdminServiceClient =
@@ -151,10 +158,10 @@ public class LifeCycleListTestCase extends GREGIntegrationBaseTest{
      */
     @Test(groups = "wso2.greg", description = "Create 3 services")
     public void testCreateServices() throws XMLStreamException, IOException,
-                                            AddServicesServiceRegistryExceptionException,
-                                            ListMetadataServiceRegistryExceptionException,
-                                            ResourceAdminServiceExceptionException,
-					    GovernanceException {
+            AddServicesServiceRegistryExceptionException,
+            ListMetadataServiceRegistryExceptionException,
+            ResourceAdminServiceExceptionException,
+            GovernanceException, InterruptedException {
 
         String servicePath =
                 getTestArtifactLocation() + "artifacts" +
@@ -199,6 +206,7 @@ public class LifeCycleListTestCase extends GREGIntegrationBaseTest{
                 }
             }
         }
+        Thread.sleep(60000);
         assertEquals(serviceCount, SERVICE_NAMES.length, "Mismatching number of services");
     }
 
@@ -244,7 +252,7 @@ public class LifeCycleListTestCase extends GREGIntegrationBaseTest{
                 File.separator + "CheckListPermissionLC.xml";
         lifeCycleContent = FileManager.readFile(resourcePath);
         lifeCycleManagementClient.addLifeCycle(lifeCycleContent);
-
+        Thread.sleep(60000);
         assertEquals(lifeCycleManagementClient.getLifecycleList().length, realLcCount + LC_NAMES.length,
                      "LifeCycle number mismatched");
 
@@ -262,9 +270,9 @@ public class LifeCycleListTestCase extends GREGIntegrationBaseTest{
      */
     @Test(groups = "wso2.greg", description = "Add lifecycle to a service", dependsOnMethods = "testCreateLifeCycles")
     public void testAddLcToService() throws RegistryException, RemoteException,
-                                            CustomLifecyclesChecklistAdminServiceExceptionException,
-                                            ListMetadataServiceRegistryExceptionException,
-                                            ResourceAdminServiceExceptionException {
+            CustomLifecyclesChecklistAdminServiceExceptionException,
+            ListMetadataServiceRegistryExceptionException,
+            ResourceAdminServiceExceptionException, InterruptedException {
 
 	Service[] services = serviceManager.getAllServices();
         String serviceString = "";
@@ -308,6 +316,7 @@ public class LifeCycleListTestCase extends GREGIntegrationBaseTest{
                 lcStatus = true;
             }
         }
+        Thread.sleep(60000);
         assertTrue(lcStatus, "LifeCycle not added to service");
     }
 

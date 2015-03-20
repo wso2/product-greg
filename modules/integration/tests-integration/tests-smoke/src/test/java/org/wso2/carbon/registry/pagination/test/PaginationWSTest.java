@@ -29,6 +29,7 @@ import org.wso2.carbon.governance.api.generic.GenericArtifactManager;
 import org.wso2.carbon.governance.api.generic.dataobjects.GenericArtifact;
 import org.wso2.carbon.governance.api.util.GovernanceUtils;
 import org.wso2.carbon.governance.client.WSRegistrySearchClient;
+import org.wso2.carbon.integration.common.utils.mgt.ServerConfigurationManager;
 import org.wso2.carbon.registry.core.Registry;
 import org.wso2.carbon.registry.core.exceptions.RegistryException;
 import org.wso2.carbon.registry.core.pagination.PaginationContext;
@@ -57,6 +58,11 @@ public class PaginationWSTest extends GREGIntegrationBaseTest {
     @BeforeClass(alwaysRun = true)
     public void initTest() throws Exception {
         super.init(TestUserMode.SUPER_TENANT_ADMIN);
+        ServerConfigurationManager serverConfigurationManager = new ServerConfigurationManager("GREG",TestUserMode.SUPER_TENANT_ADMIN);
+        File targetFile = new File(FrameworkPathUtil.getCarbonServerConfLocation() + File.separator + "registry.xml");
+        File sourceFile = new File(FrameworkPathUtil.getSystemResourceLocation() + "registry.xml");
+        serverConfigurationManager.applyConfiguration(sourceFile,targetFile);
+
         cookie = getSessionCookie();
         RegistryProviderUtil registryProviderUtil = new RegistryProviderUtil();
         registry = registryProviderUtil.getWSRegistry(automationContext);

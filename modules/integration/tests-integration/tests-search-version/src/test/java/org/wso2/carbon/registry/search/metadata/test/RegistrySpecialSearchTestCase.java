@@ -25,6 +25,7 @@ import org.testng.annotations.Test;
 import org.wso2.carbon.application.mgt.stub.ApplicationAdminExceptionException;
 import org.wso2.carbon.automation.engine.context.TestUserMode;
 import org.wso2.carbon.automation.engine.frameworkutils.FrameworkPathUtil;
+import org.wso2.carbon.integration.common.utils.mgt.ServerConfigurationManager;
 import org.wso2.carbon.registry.capp.deployment.test.utils.CAppTestUtils;
 import org.wso2.carbon.registry.core.exceptions.RegistryException;
 import org.wso2.carbon.registry.resource.stub.ResourceAdminServiceExceptionException;
@@ -65,6 +66,11 @@ public class RegistrySpecialSearchTestCase extends GREGIntegrationBaseTest {
     public void init() throws Exception {
 
         super.init(TestUserMode.SUPER_TENANT_ADMIN);
+        ServerConfigurationManager serverConfigurationManager = new ServerConfigurationManager("GREG",TestUserMode.SUPER_TENANT_ADMIN);
+        File targetFile = new File(FrameworkPathUtil.getCarbonServerConfLocation() + File.separator + "registry.xml");
+        File sourceFile = new File(FrameworkPathUtil.getSystemResourceLocation() + "registry.xml");
+        serverConfigurationManager.applyConfiguration(sourceFile,targetFile);
+
         backEndUrl = getBackendURL();
         sessionCookie = getSessionCookie();
         userName = automationContext.getContextTenant().getContextUser().getUserName();
@@ -106,6 +112,7 @@ public class RegistrySpecialSearchTestCase extends GREGIntegrationBaseTest {
 
         cAppUploader.uploadCarbonAppArtifact("text_resources_1.0.0.car",
                                              new DataHandler(new URL("file:///" + filePath)));
+        Thread.sleep(60000);
 
     }
 

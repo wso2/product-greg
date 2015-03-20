@@ -9,6 +9,7 @@ import org.wso2.carbon.automation.engine.frameworkutils.FrameworkPathUtil;
 import org.wso2.carbon.automation.test.utils.common.FileManager;
 import org.wso2.carbon.governance.api.wsdls.WsdlManager;
 import org.wso2.carbon.governance.api.wsdls.dataobjects.Wsdl;
+import org.wso2.carbon.integration.common.utils.mgt.ServerConfigurationManager;
 import org.wso2.carbon.registry.core.Registry;
 import org.wso2.carbon.registry.core.Resource;
 import org.wso2.carbon.registry.core.exceptions.RegistryException;
@@ -45,6 +46,12 @@ public class RegistrySearchPropertyValueByText extends GREGIntegrationBaseTest {
     public void init() throws Exception {
 
         super.init(TestUserMode.SUPER_TENANT_ADMIN);
+
+        ServerConfigurationManager serverConfigurationManager = new ServerConfigurationManager("GREG",TestUserMode.SUPER_TENANT_ADMIN);
+        File targetFile = new File(FrameworkPathUtil.getCarbonServerConfLocation() + File.separator + "registry.xml");
+        File sourceFile = new File(FrameworkPathUtil.getSystemResourceLocation() + "registry.xml");
+        serverConfigurationManager.applyConfiguration(sourceFile,targetFile);
+
         backEndUrl = getBackendURL();
         sessionCookie = getSessionCookie();
         userName = automationContext.getContextTenant().getContextUser().getUserName();
@@ -69,7 +76,7 @@ public class RegistrySearchPropertyValueByText extends GREGIntegrationBaseTest {
     @Test(groups = {"wso2.greg"}, description = "add wsdl")
 
     public void addWSDL()
-            throws IOException, ResourceAdminServiceExceptionException, RegistryException {
+            throws IOException, ResourceAdminServiceExceptionException, RegistryException, InterruptedException {
 
         WsdlManager wsdlManager = new WsdlManager(governance);
         Wsdl wsdl;
@@ -81,6 +88,7 @@ public class RegistrySearchPropertyValueByText extends GREGIntegrationBaseTest {
         Resource resource = governance.get(wsdl.getPath());
         resource.addProperty("wsdlPropertyText", "ee");
         governance.put(wsdl.getPath(), resource);
+        Thread.sleep(60000);
     }
 
     @Test(groups = {"wso2.greg"}, description = "Search by Property value a <= X < b", dependsOnMethods = "addWSDL")

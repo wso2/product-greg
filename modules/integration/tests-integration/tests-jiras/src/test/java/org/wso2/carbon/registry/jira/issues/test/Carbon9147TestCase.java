@@ -24,12 +24,14 @@ import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 import org.wso2.carbon.automation.engine.context.TestUserMode;
+import org.wso2.carbon.automation.engine.frameworkutils.FrameworkPathUtil;
 import org.wso2.carbon.governance.api.services.ServiceManager;
 import org.wso2.carbon.governance.api.services.dataobjects.Service;
 import org.wso2.carbon.governance.api.util.GovernanceUtils;
 import org.wso2.carbon.governance.api.wsdls.WsdlManager;
 import org.wso2.carbon.governance.api.wsdls.dataobjects.Wsdl;
 import org.wso2.carbon.integration.common.utils.FileManager;
+import org.wso2.carbon.integration.common.utils.mgt.ServerConfigurationManager;
 import org.wso2.carbon.registry.core.Registry;
 import org.wso2.carbon.registry.core.exceptions.RegistryException;
 import org.wso2.carbon.registry.core.session.UserRegistry;
@@ -57,7 +59,11 @@ public class Carbon9147TestCase extends GREGIntegrationBaseTest {
     @BeforeClass
     public void init() throws Exception {
         super.init(TestUserMode.SUPER_TENANT_ADMIN);
-
+        ServerConfigurationManager serverConfigurationManager = new ServerConfigurationManager("GREG",TestUserMode.SUPER_TENANT_ADMIN);
+        File targetFile = new File(FrameworkPathUtil.getCarbonServerConfLocation() + File.separator + "registry.xml");
+        File sourceFile = new File(FrameworkPathUtil.getSystemResourceLocation() + "registry.xml");
+        serverConfigurationManager.applyConfiguration(sourceFile,targetFile);
+        
         RegistryProviderUtil registryProviderUtil = new RegistryProviderUtil();
         WSRegistryServiceClient registry = registryProviderUtil.getWSRegistry(automationContext);
         governance = registryProviderUtil.getGovernanceRegistry(registry, automationContext);
@@ -124,7 +130,7 @@ public class Carbon9147TestCase extends GREGIntegrationBaseTest {
 
 
     public void addWSDL()
-            throws IOException, ResourceAdminServiceExceptionException, RegistryException {
+            throws IOException, ResourceAdminServiceExceptionException, RegistryException, InterruptedException {
         Wsdl wsdl;
         WsdlManager wsdlManager = new WsdlManager(governance);
 
@@ -132,6 +138,7 @@ public class Carbon9147TestCase extends GREGIntegrationBaseTest {
                               "GREG" + File.separator + "wsdl" + File.separator + "echo.wsdl";
         wsdl = wsdlManager.newWsdl(FileManager.readFile(wsdlFilePath).getBytes(), "echo.wsdl");
         wsdlManager.addWsdl(wsdl);
+        Thread.sleep(60000);
     }
 
 }

@@ -24,11 +24,13 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 import org.wso2.carbon.authenticator.stub.LoginAuthenticationExceptionException;
 import org.wso2.carbon.automation.engine.context.TestUserMode;
+import org.wso2.carbon.automation.engine.frameworkutils.FrameworkPathUtil;
 import org.wso2.carbon.automation.test.utils.common.FileManager;
 import org.wso2.carbon.governance.custom.lifecycles.checklist.stub.CustomLifecyclesChecklistAdminServiceExceptionException;
 import org.wso2.carbon.governance.custom.lifecycles.checklist.stub.beans.xsd.LifecycleBean;
 import org.wso2.carbon.governance.custom.lifecycles.checklist.stub.util.xsd.Property;
 import org.wso2.carbon.governance.lcm.stub.LifeCycleManagementServiceExceptionException;
+import org.wso2.carbon.integration.common.utils.mgt.ServerConfigurationManager;
 import org.wso2.carbon.registry.activities.stub.RegistryExceptionException;
 import org.wso2.carbon.registry.activities.stub.beans.xsd.ActivityBean;
 import org.wso2.carbon.registry.core.Registry;
@@ -75,6 +77,11 @@ public class AddCustomLCTestCase extends GREGIntegrationBaseTest {
     @BeforeClass (alwaysRun = true)
     public void init () throws Exception {
         super.init(TestUserMode.SUPER_TENANT_ADMIN);
+        ServerConfigurationManager serverConfigurationManager = new ServerConfigurationManager("GREG",TestUserMode.SUPER_TENANT_ADMIN);
+        File targetFile = new File(FrameworkPathUtil.getCarbonServerConfLocation() + File.separator + "registry.xml");
+        File sourceFile = new File(FrameworkPathUtil.getSystemResourceLocation() + "registry.xml");
+        serverConfigurationManager.applyConfiguration(sourceFile,targetFile);
+
         String sessionCookie = getSessionCookie();
         lifeCycleAdminService = new LifeCycleAdminServiceClient(backendURL, sessionCookie);
         activityAdminServiceClient = new ActivityAdminServiceClient(backendURL, sessionCookie);
@@ -86,7 +93,7 @@ public class AddCustomLCTestCase extends GREGIntegrationBaseTest {
         LifeCycleUtils.deleteLifeCycleIfExist(ASPECT_NAME, lifeCycleManagementClient);
         String serviceName = "CustomLifeCycleTestService";
         servicePathDev = "/_system/governance" + LifeCycleUtils.addService("sns", serviceName, governance);
-        Thread.sleep(1000);
+        Thread.sleep(3000);
         String userName = automationContext.getContextTenant().getContextUser().getUserName();
         if (userName.contains("@")) {
             userName1WithoutDomain = userName.substring(0, userName.indexOf('@'));
@@ -114,7 +121,7 @@ public class AddCustomLCTestCase extends GREGIntegrationBaseTest {
         String lifeCycleConfiguration = FileManager.readFile(filePath);
         assertTrue(lifeCycleManagementClient.addLifeCycle(lifeCycleConfiguration)
                 , "Adding New LifeCycle Failed");
-        Thread.sleep(2000);
+        Thread.sleep(3000);
         lifeCycleConfiguration = lifeCycleManagementClient.getLifecycleConfiguration(ASPECT_NAME);
         assertTrue(lifeCycleConfiguration.contains("aspect name=\"IntergalacticServiceLC\""),
                 "LifeCycleName Not Found in lifecycle configuration");

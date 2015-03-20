@@ -7,6 +7,7 @@ import org.testng.annotations.Test;
 import org.wso2.carbon.application.mgt.stub.ApplicationAdminExceptionException;
 import org.wso2.carbon.automation.engine.context.TestUserMode;
 import org.wso2.carbon.automation.engine.frameworkutils.FrameworkPathUtil;
+import org.wso2.carbon.integration.common.utils.mgt.ServerConfigurationManager;
 import org.wso2.carbon.registry.capp.deployment.test.utils.CAppTestUtils;
 import org.wso2.carbon.registry.core.exceptions.RegistryException;
 import org.wso2.carbon.registry.resource.stub.ResourceAdminServiceExceptionException;
@@ -47,6 +48,11 @@ public class UTFSupportForCAPPTestCase extends GREGIntegrationBaseTest {
     public void init() throws Exception {
 
         super.init(TestUserMode.SUPER_TENANT_ADMIN);
+        ServerConfigurationManager serverConfigurationManager = new ServerConfigurationManager("GREG",TestUserMode.SUPER_TENANT_ADMIN);
+        File targetFile = new File(FrameworkPathUtil.getCarbonServerConfLocation() + File.separator + "registry.xml");
+        File sourceFile = new File(FrameworkPathUtil.getSystemResourceLocation() + "registry.xml");
+        serverConfigurationManager.applyConfiguration(sourceFile,targetFile);
+
         backEndUrl = getBackendURL();
         sessionCookie = getSessionCookie();
 
@@ -76,7 +82,7 @@ public class UTFSupportForCAPPTestCase extends GREGIntegrationBaseTest {
 
         cAppUploader.uploadCarbonAppArtifact("text_resources2_1.0.0.car",
                                              new DataHandler(new URL("file:///" + filePath)));
-
+        Thread.sleep(60000);
 
         Assert.assertTrue(CAppTestUtils.isCAppDeployed(sessionCookie, "text_resources_1.0.0",
                                                        applicationAdminClient));
@@ -121,7 +127,7 @@ public class UTFSupportForCAPPTestCase extends GREGIntegrationBaseTest {
 
         cAppUploader.uploadCarbonAppArtifact("Capp_1.0.0.car",
                                              new DataHandler(new URL("file:///" + filePath)));
-
+        Thread.sleep(60000);
 
         Assert.assertTrue(CAppTestUtils.isCAppDeployed(sessionCookie, "Capp_1.0.0", applicationAdminClient));
 
