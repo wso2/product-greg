@@ -46,7 +46,7 @@ public class PropertyTestCase extends GREGIntegrationBaseTest {
 
     private ResourceAdminServiceClient resourceAdminServiceClient;
 
-    @BeforeClass()
+    @BeforeClass(groups = {"wso2.greg"}, alwaysRun = true)
     public void initialize() throws Exception {
         super.init(TestUserMode.SUPER_TENANT_ADMIN);
         //org.wso2.carbon.automation.extensions.servers..carbonserver.CarbonServerExtension
@@ -69,7 +69,7 @@ public class PropertyTestCase extends GREGIntegrationBaseTest {
         assertTrue(propertyPropertiesAdminServiceClient.getProperty("/_system/config/testResource", "true").getProperties()[0].getValue().equals("TestValue"));
     }
 
-    @AfterClass
+    @AfterClass(groups = {"wso2.greg"}, alwaysRun = true)
     public void testCleanup() throws ResourceAdminServiceExceptionException, RemoteException {
         resourceAdminServiceClient.deleteResource("/_system/config/testResource");
         resourceAdminServiceClient = null;

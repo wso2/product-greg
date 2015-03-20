@@ -84,7 +84,7 @@ public class ResourceAssociationsTestCase extends GREGIntegrationBaseTest{
 
     private String pathToPolicy = "";
 
-    @BeforeClass(alwaysRun = true)
+    @BeforeClass(groups = {"wso2.greg"}, alwaysRun = true)
     public void initialize()
             throws Exception {
 
@@ -119,7 +119,7 @@ public class ResourceAssociationsTestCase extends GREGIntegrationBaseTest{
         assertTrue(automationContext.getContextTenant().getContextUser().getUserName().equalsIgnoreCase(authorUserName), "Child collection creation failure");
     }
 
-    @Test(dependsOnMethods = "testAddCollections")
+    @Test(groups = "wso2.greg", dependsOnMethods = "testAddCollections")
     public void testAddResource()
             throws MalformedURLException, ResourceAdminServiceExceptionException, RemoteException, XPathExpressionException {
 
@@ -135,7 +135,7 @@ public class ResourceAssociationsTestCase extends GREGIntegrationBaseTest{
 
     }
 
-    @Test(dependsOnMethods = "testAddResource")
+    @Test(groups = "wso2.greg", dependsOnMethods = "testAddResource")
     public void testAddDependencyFromChildCollection()
             throws MalformedURLException, ResourceAdminServiceExceptionException, RemoteException,
                    AddAssociationRegistryExceptionException {
@@ -399,7 +399,7 @@ public class ResourceAssociationsTestCase extends GREGIntegrationBaseTest{
 
     }
 
-    @AfterClass
+    @AfterClass(groups = {"wso2.greg"}, alwaysRun = true)
     public void cleanUp() throws ResourceAdminServiceExceptionException, RemoteException {
         resourceAdminClient.deleteResource(PARENT_PATH.substring(0, PARENT_PATH.length() - 1));
         resourceAdminClient.deleteResource(RXT_LOCATION);

@@ -85,7 +85,7 @@ public class SymlinkToRootCollectionTestCase extends GREGIntegrationBaseTest {
     private static final String ROLE_NAME = "RoleSubscriptionTest";
     private String sessionId;
 
-    @BeforeClass(alwaysRun = true)
+    @BeforeClass(groups = {"wso2.greg"}, alwaysRun = true)
     public void initialize()
             throws Exception {
 
@@ -498,7 +498,7 @@ public class SymlinkToRootCollectionTestCase extends GREGIntegrationBaseTest {
     }
 
     //cleanup code
-    @AfterClass
+    @AfterClass(groups = {"wso2.greg"}, alwaysRun = true)
     public void cleanup() throws Exception {
 
         deleteResources(DEPENDENCY_PATH);

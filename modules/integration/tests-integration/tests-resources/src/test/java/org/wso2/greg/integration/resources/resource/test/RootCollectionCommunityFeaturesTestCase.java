@@ -79,7 +79,7 @@ public class RootCollectionCommunityFeaturesTestCase extends GREGIntegrationBase
     private static final String ROLE_NAME = "RoleSubscriptionTest";
     private String sessionId;
 
-    @BeforeClass(alwaysRun = true)
+    @BeforeClass(groups = {"wso2.greg"}, alwaysRun = true)
     public void initialize()
             throws Exception {
 
@@ -420,7 +420,7 @@ public class RootCollectionCommunityFeaturesTestCase extends GREGIntegrationBase
     }
 
     //cleanup code
-    @AfterClass(alwaysRun = true)
+    @AfterClass(groups = {"wso2.greg"}, alwaysRun = true)
     public void cleanup() throws Exception {
         deleteResources(DEPENDENCY_PATH);
         deleteResources(ASSOCIATION_PATH);

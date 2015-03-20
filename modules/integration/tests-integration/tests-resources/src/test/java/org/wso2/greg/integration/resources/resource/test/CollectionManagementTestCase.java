@@ -190,7 +190,7 @@ public class CollectionManagementTestCase extends GREGIntegrationBaseTest {
         return null;
     }
 
-    @AfterClass
+    @AfterClass(alwaysRun = true)
     public void cleanupResources() throws ResourceAdminServiceExceptionException, RemoteException {
         CollectionContentBean collectionContentBean = resourceAdminClient.getCollectionContent("/");
         if(collectionContentBean.getChildCount() > 0) {

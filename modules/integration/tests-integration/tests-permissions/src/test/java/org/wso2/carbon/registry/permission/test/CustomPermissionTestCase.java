@@ -104,7 +104,7 @@ public abstract class CustomPermissionTestCase extends GREGIntegrationBaseTest {
         Assert.assertFalse(CustomPermissionTests.canAddAssociation(automationContext1));
     }
 
-    @Test (groups = "wso2.greg", description = "test permission when only browse permission given")
+    @Test (groups = "wso2.greg", description = "test permission when only browse permission given", dependsOnMethods = "testActivitySearchOnly")
     public void testBrowseOnly () throws Exception {
 
         AutomationContext automationContext2 = new AutomationContext("GREG", "greg001",
@@ -115,7 +115,7 @@ public abstract class CustomPermissionTestCase extends GREGIntegrationBaseTest {
         Assert.assertFalse(CustomPermissionTests.canAddAssociation(automationContext2));
     }
 
-    @Test (groups = "wso2.greg", description = "test permission when only browse and Association permission given")
+    @Test (groups = "wso2.greg", description = "test permission when only browse and Association permission given", dependsOnMethods = "testBrowseOnly")
     public void testBrowseAndAssociations () throws Exception {
 
         AutomationContext automationContext3 = new AutomationContext("GREG", "greg001",
@@ -126,7 +126,7 @@ public abstract class CustomPermissionTestCase extends GREGIntegrationBaseTest {
         Assert.assertFalse(CustomPermissionTests.canAddLifecycles(automationContext3));
     }
 
-    @Test (groups = "wso2.greg", description = "test permission when only browse and lifecycle permission given")
+    @Test (groups = "wso2.greg", description = "test permission when only browse and lifecycle permission given", dependsOnMethods = "testBrowseAndAssociations")
     public void testBrowseAndLifeCycles () throws Exception {
 
         AutomationContext automationContext4 = new AutomationContext("GREG", "greg001",

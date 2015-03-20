@@ -43,7 +43,7 @@ public class ResourceAdminServiceTestCase extends GREGIntegrationBaseTest{
     private static final Log log = LogFactory.getLog(ResourceAdminServiceTestCase.class);
     private ResourceAdminServiceClient resourceAdminServiceClient;
 
-    @BeforeClass(groups = {"wso2.greg"})
+    @BeforeClass(groups = {"wso2.greg"}, alwaysRun = true)
     public void init() throws Exception {
 
        super.init(TestUserMode.SUPER_TENANT_ADMIN);
@@ -75,7 +75,7 @@ public class ResourceAdminServiceTestCase extends GREGIntegrationBaseTest{
 
     }
 
-    @AfterClass
+    @AfterClass(groups = {"wso2.greg"}, alwaysRun = true)
     public void cleanup() throws ResourceAdminServiceExceptionException, RemoteException {
         resourceAdminServiceClient.deleteResource("/Test");
         resourceAdminServiceClient=null;

@@ -73,7 +73,7 @@ public class AnonymousAccessTestCase extends GREGIntegrationBaseTest {
     }
 
     @Test(groups = "wso2.greg", expectedExceptions = IOException.class,
-          description = "Test Anonymous access to new root level resources")
+          description = "Test Anonymous access to new root level resources", dependsOnMethods = "testExistingResourceAccess")
     public void testNewResourceAnonAccess() throws IOException {
         URL resourceURL = new URL(serverUrl + PermissionTestConstants.WEB_APP_RESOURCE_URL + NEW_RESOURCE_PATH);
         InputStream resourceStream = resourceURL.openStream();

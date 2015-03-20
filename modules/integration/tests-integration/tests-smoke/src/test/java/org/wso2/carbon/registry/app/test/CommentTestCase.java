@@ -108,7 +108,7 @@ public class CommentTestCase extends GREGIntegrationBaseTest {
         assertTrue(commentTexts.contains(comment2), comment2 + " is not associated with the resource /d112/r3.");
     }
 
-    @Test(groups = {"wso2.greg"})
+    @Test(groups = {"wso2.greg"}, dependsOnMethods = "AddComment")
     public void AddCommentToResource() throws Exception {
         Resource r1 = registry.newResource();
         byte[] r1content = "R1 content".getBytes();
@@ -171,7 +171,7 @@ public class CommentTestCase extends GREGIntegrationBaseTest {
         } */
     }
 
-    @Test(groups = {"wso2.greg"})
+    @Test(groups = {"wso2.greg"}, dependsOnMethods = "AddCommentToResource")
     public void AddCommentToCollection() throws Exception {
         Resource r1 = registry.newCollection();
         r1.setDescription("this is a collection to add comment");
@@ -240,7 +240,7 @@ public class CommentTestCase extends GREGIntegrationBaseTest {
         }
     }
 
-    @Test(groups = {"wso2.greg"})
+    @Test(groups = {"wso2.greg"}, dependsOnMethods = "AddCommentToCollection")
     public void AddCommenttoRoot() {
         String comment1 = "this is qa comment 1 for root";
         String comment2 = "this is qa comment 2 for root";
@@ -291,7 +291,7 @@ public class CommentTestCase extends GREGIntegrationBaseTest {
         }
     }
 
-    @Test(groups = {"wso2.greg"})
+    @Test(groups = {"wso2.greg"}, dependsOnMethods = "AddCommenttoRoot")
     public void EditComment() throws Exception {
         Resource r1 = registry.newResource();
         byte[] r1content = "R1 content".getBytes();
@@ -341,7 +341,7 @@ public class CommentTestCase extends GREGIntegrationBaseTest {
         registry.editComment("/c101/c11/r1", "This is the edited comment");
     }
 
-    @Test(groups = {"wso2.greg"})
+    @Test(groups = {"wso2.greg"}, dependsOnMethods = "EditComment")
     public void CommentDelete() throws Exception {
         String r1Path = "/_c1d1/c1";
         Collection r1 = registry.newCollection();

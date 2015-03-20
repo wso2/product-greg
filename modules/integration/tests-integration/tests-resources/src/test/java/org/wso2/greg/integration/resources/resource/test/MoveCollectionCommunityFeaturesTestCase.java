@@ -78,7 +78,7 @@ public class MoveCollectionCommunityFeaturesTestCase extends GREGIntegrationBase
     private static final String ASPECT_NAME = "IntergalacticServiceLC";
     private String sessionId;
 
-    @BeforeClass(alwaysRun = true)
+    @BeforeClass(groups = {"wso2.greg"}, alwaysRun = true)
     public void initialize()
             throws Exception {
 
@@ -396,7 +396,7 @@ public class MoveCollectionCommunityFeaturesTestCase extends GREGIntegrationBase
         assertTrue(TAG.equalsIgnoreCase(tag), "Tags does not match  after copying.");
     }
 
-    @AfterClass
+    @AfterClass(groups = {"wso2.greg"}, alwaysRun = true)
     public void cleanUp() throws Exception {
         resourceAdminClient.deleteResource("/c3");
         resourceAdminClient.deleteResource(PATH);
