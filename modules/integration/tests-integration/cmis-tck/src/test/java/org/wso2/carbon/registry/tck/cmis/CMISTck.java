@@ -50,7 +50,7 @@ public class CMISTck extends GREGIntegrationBaseTest {
         registry = new RegistryProviderUtil().getRemoteRegistry(automationContext);
     }
 
-    @Test(groups = {"wso2.greg"}, dependsOnMethods = "init")
+    @Test(groups = {"wso2.greg"})
     public void runTckTest() throws RegistryException, InterruptedException, IOException, Exception {
 	
         PrintStream ps = new PrintStream(new FileOutputStream("system.properties"));
