@@ -36,6 +36,6 @@
 	</properties>
 
 	<modules>
-		<module>tests-clustering</module>
+<!--		<module>tests-clustering</module>-->
 	</modules>
 </project>
