@@ -62,10 +62,6 @@ public class SaveSearchTestCase extends GREGIntegrationBaseTest{
     @BeforeClass(alwaysRun = true)
     public void init() throws Exception {
         super.init(TestUserMode.SUPER_TENANT_ADMIN);
-        ServerConfigurationManager serverConfigurationManager = new ServerConfigurationManager("GREG",TestUserMode.SUPER_TENANT_ADMIN);
-        File targetFile = new File(FrameworkPathUtil.getCarbonServerConfLocation() + File.separator + "registry.xml");
-        File sourceFile = new File(FrameworkPathUtil.getSystemResourceLocation() + "registry.xml");
-        serverConfigurationManager.applyConfiguration(sourceFile,targetFile);
 
         String session = getSessionCookie();
 

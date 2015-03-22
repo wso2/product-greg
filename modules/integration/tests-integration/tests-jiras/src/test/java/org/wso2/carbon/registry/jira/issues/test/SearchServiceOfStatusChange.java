@@ -74,10 +74,6 @@ public class SearchServiceOfStatusChange extends GREGIntegrationBaseTest {
     @BeforeClass
     public void init() throws Exception {
         super.init(TestUserMode.SUPER_TENANT_ADMIN);
-        ServerConfigurationManager serverConfigurationManager = new ServerConfigurationManager("GREG",TestUserMode.SUPER_TENANT_ADMIN);
-        File targetFile = new File(FrameworkPathUtil.getCarbonServerConfLocation() + File.separator + "registry.xml");
-        File sourceFile = new File(FrameworkPathUtil.getSystemResourceLocation() + "registry.xml");
-        serverConfigurationManager.applyConfiguration(sourceFile,targetFile);
         String session = getSessionCookie();
 
         lifeCycleManagementClient =
@@ -125,8 +121,8 @@ public class SearchServiceOfStatusChange extends GREGIntegrationBaseTest {
             throws RegistryException, CustomLifecyclesChecklistAdminServiceExceptionException,
             RemoteException, InterruptedException {
         servicePath = addService();
-        wsRegistryServiceClient.associateAspect(pathPrefix + servicePath, LC_NAME);
         Thread.sleep(60000);
+        wsRegistryServiceClient.associateAspect(pathPrefix + servicePath, LC_NAME);
         LifecycleBean lifeCycle = lifeCycleAdminServiceClient.getLifecycleBean(pathPrefix + servicePath);
         Property[] properties = lifeCycle.getLifecycleProperties();
         boolean lcAdded = false;
@@ -149,7 +145,7 @@ public class SearchServiceOfStatusChange extends GREGIntegrationBaseTest {
 
     @Test(groups = {"wso2.greg"}, description = "search service", dependsOnMethods = "testAddLC")
     public void testSearchService()
-            throws SearchAdminServiceRegistryExceptionException, RemoteException {
+            throws SearchAdminServiceRegistryExceptionException, RemoteException, InterruptedException {
         CustomSearchParameterBean searchQuery = new CustomSearchParameterBean();
         SearchParameterBean paramBean = new SearchParameterBean();
         paramBean.setResourceName(SERVICE_NAME);
@@ -159,6 +155,7 @@ public class SearchServiceOfStatusChange extends GREGIntegrationBaseTest {
 
         searchQuery.setParameterValues(paramList);
         paramList = null;
+        Thread.sleep(60000);
         AdvancedSearchResultsBean result = searchAdminServiceClient.getAdvancedSearchResults(searchQuery);
         Assert.assertNotNull(result.getResourceDataList(), "No Record Found");
         Assert.assertTrue((result.getResourceDataList().length > 0));

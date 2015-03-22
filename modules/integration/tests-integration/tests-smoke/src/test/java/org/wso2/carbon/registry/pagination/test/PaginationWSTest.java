@@ -58,10 +58,6 @@ public class PaginationWSTest extends GREGIntegrationBaseTest {
     @BeforeClass(alwaysRun = true)
     public void initTest() throws Exception {
         super.init(TestUserMode.SUPER_TENANT_ADMIN);
-        ServerConfigurationManager serverConfigurationManager = new ServerConfigurationManager("GREG",TestUserMode.SUPER_TENANT_ADMIN);
-        File targetFile = new File(FrameworkPathUtil.getCarbonServerConfLocation() + File.separator + "registry.xml");
-        File sourceFile = new File(FrameworkPathUtil.getSystemResourceLocation() + "registry.xml");
-        serverConfigurationManager.applyConfiguration(sourceFile,targetFile);
 
         cookie = getSessionCookie();
         RegistryProviderUtil registryProviderUtil = new RegistryProviderUtil();
@@ -106,6 +102,7 @@ public class PaginationWSTest extends GREGIntegrationBaseTest {
             listMap.put("lcState", new ArrayList<String>() {{
                 add("Development");
             }});
+            Thread.sleep(60000);
             //Find the results.
             GenericArtifact[] genericArtifacts = artifactManager.findGenericArtifacts(listMap);
             assertTrue(genericArtifacts.length > 0, "No any service found");

@@ -77,10 +77,6 @@ public class AddCustomLCTestCase extends GREGIntegrationBaseTest {
     @BeforeClass (alwaysRun = true)
     public void init () throws Exception {
         super.init(TestUserMode.SUPER_TENANT_ADMIN);
-        ServerConfigurationManager serverConfigurationManager = new ServerConfigurationManager("GREG",TestUserMode.SUPER_TENANT_ADMIN);
-        File targetFile = new File(FrameworkPathUtil.getCarbonServerConfLocation() + File.separator + "registry.xml");
-        File sourceFile = new File(FrameworkPathUtil.getSystemResourceLocation() + "registry.xml");
-        serverConfigurationManager.applyConfiguration(sourceFile,targetFile);
 
         String sessionCookie = getSessionCookie();
         lifeCycleAdminService = new LifeCycleAdminServiceClient(backendURL, sessionCookie);
@@ -121,7 +117,7 @@ public class AddCustomLCTestCase extends GREGIntegrationBaseTest {
         String lifeCycleConfiguration = FileManager.readFile(filePath);
         assertTrue(lifeCycleManagementClient.addLifeCycle(lifeCycleConfiguration)
                 , "Adding New LifeCycle Failed");
-        Thread.sleep(3000);
+        Thread.sleep(6000);
         lifeCycleConfiguration = lifeCycleManagementClient.getLifecycleConfiguration(ASPECT_NAME);
         assertTrue(lifeCycleConfiguration.contains("aspect name=\"IntergalacticServiceLC\""),
                 "LifeCycleName Not Found in lifecycle configuration");
@@ -141,6 +137,7 @@ public class AddCustomLCTestCase extends GREGIntegrationBaseTest {
         paramBean.setResourceName(ASPECT_NAME);
         ArrayOfString[] paramList = paramBean.getParameterList();
         searchQuery.setParameterValues(paramList);
+        Thread.sleep(60000);
         AdvancedSearchResultsBean result = searchAdminService.getAdvancedSearchResults(searchQuery);
         assertNotNull(result.getResourceDataList(), "No Record Found");
         assertTrue((result.getResourceDataList().length == 1), "No Record Found for Life Cycle " +
