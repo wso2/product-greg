@@ -21,9 +21,7 @@ import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 import org.wso2.carbon.automation.engine.context.TestUserMode;
-import org.wso2.carbon.automation.engine.frameworkutils.FrameworkPathUtil;
 import org.wso2.carbon.governance.lcm.stub.LifeCycleManagementServiceExceptionException;
-import org.wso2.carbon.integration.common.utils.mgt.ServerConfigurationManager;
 import org.wso2.carbon.registry.core.exceptions.RegistryException;
 import org.wso2.carbon.registry.lifecycle.test.utils.LifeCycleUtils;
 import org.wso2.carbon.registry.lifecycle.test.bean.SearchParameterBean;
@@ -36,7 +34,6 @@ import org.wso2.greg.integration.common.clients.LifeCycleManagementClient;
 import org.wso2.greg.integration.common.clients.SearchAdminServiceClient;
 import org.wso2.greg.integration.common.utils.GREGIntegrationBaseTest;
 
-import java.io.File;
 import java.rmi.RemoteException;
 
 import static org.testng.Assert.assertEquals;

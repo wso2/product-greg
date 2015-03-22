@@ -22,7 +22,6 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 import org.wso2.carbon.authenticator.stub.LoginAuthenticationExceptionException;
 import org.wso2.carbon.automation.engine.context.TestUserMode;
-import org.wso2.carbon.automation.engine.frameworkutils.FrameworkPathUtil;
 import org.wso2.carbon.automation.test.utils.common.FileManager;
 import org.wso2.carbon.governance.custom.lifecycles.checklist.stub.CustomLifecyclesChecklistAdminServiceExceptionException;
 import org.wso2.carbon.governance.custom.lifecycles.checklist.stub.beans.xsd.LifecycleBean;
@@ -31,7 +30,6 @@ import org.wso2.carbon.governance.lcm.stub.LifeCycleManagementServiceExceptionEx
 import org.wso2.carbon.governance.list.stub.ListMetadataServiceRegistryExceptionException;
 import org.wso2.carbon.governance.list.stub.beans.xsd.ServiceBean;
 import org.wso2.carbon.governance.services.stub.AddServicesServiceRegistryExceptionException;
-import org.wso2.carbon.integration.common.utils.mgt.ServerConfigurationManager;
 import org.wso2.carbon.registry.core.exceptions.RegistryException;
 import org.wso2.carbon.registry.resource.stub.ResourceAdminServiceExceptionException;
 import org.wso2.carbon.registry.lifecycle.test.bean.SearchParameterBean;
@@ -52,19 +50,15 @@ import org.wso2.carbon.governance.api.util.GovernanceUtils;
 import org.wso2.greg.integration.common.clients.*;
 import org.wso2.greg.integration.common.utils.GREGIntegrationBaseTest;
 import org.wso2.greg.integration.common.utils.RegistryProviderUtil;
-import org.xml.sax.SAXException;
 
 import javax.activation.DataHandler;
 import javax.xml.stream.XMLStreamException;
-import javax.xml.xpath.XPathExpressionException;
 import java.io.File;
 import java.io.IOException;
-import java.net.URISyntaxException;
 import java.net.URL;
 import java.rmi.RemoteException;
 
 import static org.testng.Assert.assertEquals;
-import static org.testng.Assert.assertFalse;
 import static org.testng.Assert.assertNotNull;
 import static org.testng.Assert.assertTrue;
 

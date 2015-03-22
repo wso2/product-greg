@@ -20,7 +20,6 @@ package org.wso2.greg.integration.common.clients;
 
 import org.apache.axis2.AxisFault;
 import org.apache.axis2.databinding.types.URI;
-import org.apache.axis2.databinding.types.URI.MalformedURIException;
 import org.wso2.carbon.governance.notifications.worklist.stub.WorkListServiceStub;
 import org.wso2.carbon.humantask.stub.ui.task.client.api.HumanTaskClientAPIAdminStub;
 import org.wso2.carbon.humantask.stub.ui.task.client.api.IllegalAccessFault;
@@ -40,73 +39,74 @@ import java.util.List;
 
 public class HumanTaskAdminClient {
 
-	    private HumanTaskClientAPIAdminStub htStub;
-	    private UserAdminStub umStub;
-	    private WorkListServiceStub wlStub;
-	    
-		public HumanTaskAdminClient(String backEndUrl, String sessionCookie) throws AxisFault {
-	        htStub = new HumanTaskClientAPIAdminStub(backEndUrl + "HumanTaskClientAPIAdmin");
-	        AuthenticateStub.authenticateStub(sessionCookie, htStub);
-	
-	        umStub = new UserAdminStub(backEndUrl + "UserAdmin");
-	        AuthenticateStub.authenticateStub(sessionCookie, umStub);
-	
-	        wlStub = new WorkListServiceStub(backEndUrl + "WorkListService");
-	        AuthenticateStub.authenticateStub(sessionCookie, wlStub);
-	    }
-		
-		public HumanTaskAdminClient(String backEndUrl, String userName, String password) throws AxisFault {
-	     
-	        htStub = new HumanTaskClientAPIAdminStub(backEndUrl + "HumanTaskClientAPIAdmin");
-	        AuthenticateStub.authenticateStub(userName, password,htStub);
-	
-	        umStub = new UserAdminStub(backEndUrl + "UserAdmin");
-	        AuthenticateStub.authenticateStub(userName, password, umStub);
-	
-	        wlStub = new WorkListServiceStub(backEndUrl + "WorkListService");
-	        AuthenticateStub.authenticateStub(userName, password, wlStub);
-	    }
+	private HumanTaskClientAPIAdminStub htStub;
+	private UserAdminStub umStub;
+	private WorkListServiceStub wlStub;
 
-		
-	  public WorkItem[] getWorkItems()
-	            throws IllegalStateFault, IllegalAccessFault, RemoteException, IllegalArgumentFault {
+	public HumanTaskAdminClient(String backEndUrl, String sessionCookie) throws AxisFault {
+		htStub = new HumanTaskClientAPIAdminStub(backEndUrl + "HumanTaskClientAPIAdmin");
+		AuthenticateStub.authenticateStub(sessionCookie, htStub);
 
-	        TSimpleQueryInput queryInput = new TSimpleQueryInput();
-	        queryInput.setPageNumber(0);
-	        queryInput.setSimpleQueryCategory(TSimpleQueryCategory.ALL_TASKS);
+		umStub = new UserAdminStub(backEndUrl + "UserAdmin");
+		AuthenticateStub.authenticateStub(sessionCookie, umStub);
 
-	        TTaskSimpleQueryResultSet resultSet = htStub.simpleQuery(queryInput);
-	        if (resultSet == null || resultSet.getRow() == null || resultSet.getRow().length == 0) {
-	            return new WorkItem[0];
-	        }
-	        List<WorkItem> workItems = new LinkedList<WorkItem>();
-	        for (TTaskSimpleQueryResultRow row : resultSet.getRow()) {
-	        	URI id = row.getId();
-	        	String taskUser = "";
-	        	//Ready state notification doesn't have taskUser
-	        	if (htStub.loadTask(id) != null && htStub.loadTask(id).getActualOwner() != null) {
-	        		taskUser = htStub.loadTask(id).getActualOwner().getTUser();
-	        	}
-	            
-	            workItems.add(new WorkItem(id, row.getPresentationSubject(),
-	                    row.getPresentationName(), row.getPriority(), row.getStatus(),
-	                    row.getCreatedTime(), taskUser));
-	        }
-	        return workItems.toArray(new WorkItem[workItems.size()]);
+		wlStub = new WorkListServiceStub(backEndUrl + "WorkListService");
+		AuthenticateStub.authenticateStub(sessionCookie, wlStub);
+	}
+
+	public HumanTaskAdminClient(String backEndUrl, String userName, String password) throws AxisFault {
+
+		htStub = new HumanTaskClientAPIAdminStub(backEndUrl + "HumanTaskClientAPIAdmin");
+		AuthenticateStub.authenticateStub(userName, password, htStub);
+
+		umStub = new UserAdminStub(backEndUrl + "UserAdmin");
+		AuthenticateStub.authenticateStub(userName, password, umStub);
+
+		wlStub = new WorkListServiceStub(backEndUrl + "WorkListService");
+		AuthenticateStub.authenticateStub(userName, password, wlStub);
+	}
+
+
+	public WorkItem[] getWorkItems()
+			throws IllegalStateFault, IllegalAccessFault, RemoteException, IllegalArgumentFault {
+
+		TSimpleQueryInput queryInput = new TSimpleQueryInput();
+		queryInput.setPageNumber(0);
+		queryInput.setSimpleQueryCategory(TSimpleQueryCategory.ALL_TASKS);
+
+		TTaskSimpleQueryResultSet resultSet = htStub.simpleQuery(queryInput);
+		if (resultSet == null || resultSet.getRow() == null || resultSet.getRow().length == 0) {
+			return new WorkItem[0];
 		}
-	
-	  	/**
-	  	 * change the workItem status to Complete. it will hide from the management console
-	  	 * @param id
-	  	 * @throws RemoteException
-	  	 * @throws IllegalStateFault
-	  	 * @throws IllegalOperationFault
-	  	 * @throws IllegalArgumentFault
-	  	 * @throws IllegalAccessFault
-	  	 */
-		public void completeTask(URI id) throws RemoteException, IllegalStateFault,
-				IllegalOperationFault, IllegalArgumentFault, IllegalAccessFault {
-			htStub.start(id);
-			htStub.complete(id, "<WorkResponse>true</WorkResponse>");
+		List<WorkItem> workItems = new LinkedList<WorkItem>();
+		for (TTaskSimpleQueryResultRow row : resultSet.getRow()) {
+			URI id = row.getId();
+			String taskUser = "";
+			//Ready state notification doesn't have taskUser
+			if (htStub.loadTask(id) != null && htStub.loadTask(id).getActualOwner() != null) {
+				taskUser = htStub.loadTask(id).getActualOwner().getTUser();
+			}
+
+			workItems.add(new WorkItem(id, row.getPresentationSubject(),
+					row.getPresentationName(), row.getPriority(), row.getStatus(),
+					row.getCreatedTime(), taskUser));
 		}
+		return workItems.toArray(new WorkItem[workItems.size()]);
+	}
+
+	/**
+	 * change the workItem status to Complete. it will hide from the management console
+	 *
+	 * @param id
+	 * @throws RemoteException
+	 * @throws IllegalStateFault
+	 * @throws IllegalOperationFault
+	 * @throws IllegalArgumentFault
+	 * @throws IllegalAccessFault
+	 */
+	public void completeTask(URI id) throws RemoteException, IllegalStateFault,
+			IllegalOperationFault, IllegalArgumentFault, IllegalAccessFault {
+		htStub.start(id);
+		htStub.complete(id, "<WorkResponse>true</WorkResponse>");
+	}
 }

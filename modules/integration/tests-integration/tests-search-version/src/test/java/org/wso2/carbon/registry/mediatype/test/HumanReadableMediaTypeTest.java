@@ -25,7 +25,6 @@ import org.wso2.carbon.automation.engine.annotations.ExecutionEnvironment;
 import org.wso2.carbon.automation.engine.annotations.SetEnvironment;
 import org.wso2.carbon.automation.engine.context.TestUserMode;
 import org.wso2.carbon.automation.engine.frameworkutils.FrameworkPathUtil;
-import org.wso2.carbon.integration.common.utils.mgt.ServerConfigurationManager;
 import org.wso2.carbon.registry.capp.deployment.test.utils.CAppTestUtils;
 import org.wso2.carbon.registry.core.Registry;
 import org.wso2.carbon.registry.core.exceptions.RegistryException;
@@ -137,7 +136,6 @@ public class HumanReadableMediaTypeTest extends GREGIntegrationBaseTest {
         assertTrue((CAppTestUtils.isCAppDeployed(sessionCookie, /*"MyApp"*/ "MyApp_1.0.0", applicationAdminClient)));
 
         startTime = System.currentTimeMillis();
-        Thread.sleep(60000);
         /*
         *  commented out because resources uploaded using car file is not indexed,
         *  need to fix
