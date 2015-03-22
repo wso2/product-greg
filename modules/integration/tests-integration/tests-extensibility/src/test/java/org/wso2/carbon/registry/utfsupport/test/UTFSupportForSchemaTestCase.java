@@ -55,7 +55,7 @@ public class UTFSupportForSchemaTestCase extends GREGIntegrationBaseTest {
     private String sessionCookie;
     private String backEndUrl;
 
-    @BeforeClass
+    @BeforeClass(alwaysRun = true)
     public void init() throws Exception {
         
         super.init(TestUserMode.SUPER_TENANT_ADMIN);
@@ -197,7 +197,7 @@ public class UTFSupportForSchemaTestCase extends GREGIntegrationBaseTest {
 
     }
 
-    @AfterClass
+    @AfterClass(alwaysRun = true)
     public void clean() throws Exception {
         delete(pathPrefix + schemaPath);
 

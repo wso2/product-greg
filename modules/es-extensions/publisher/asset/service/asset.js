@@ -14,6 +14,7 @@
  * limitations under the License.
  */
 asset.manager = function(ctx) {
+    var configs = require("/extensions/assets/service/config/properties.json");
     var getRegistry = function(cSession) {
         var userMod = require('store').user;
         var userRegistry = userMod.userRegistry(cSession);
@@ -156,14 +157,54 @@ asset.manager = function(ctx) {
         log.info('lifecycle is attached');
         return artifact;
     };
+    var setCustomAssetAttributes = function(asset, userRegistry) {
+        var interfaceUrl=asset.attributes.interface_wsdlURL;
+        if (interfaceUrl != null) {
+            var resource = userRegistry.registry.get(interfaceUrl);
+            var wsdlUUID = resource.getUUID();
+            asset.wsdl_uuid = wsdlUUID;
+            asset.wsdl_url = asset.attributes.interface_wsdlURL;
+        }
+    };
+    var getAssociations = function(genericArtifacts, userRegistry){
+        //Array to store the association names.
+        var associations = [];
+        if (genericArtifacts != null) {
+            for (var index in genericArtifacts) {
+                var deps = {};
+                //extract the association name via the path.
+                var path = genericArtifacts[index].getPath();
+                var subPaths = path.split('/');
+                var associationTypePlural = subPaths[2];
+                var associationName = subPaths[subPaths.length - 1];
+                var resource = userRegistry.registry.get(configs.depends_asset_path_prefix+path);
+                var associationUUID = resource.getUUID();
+                deps.associationName = associationName;
+                deps.associationType = associationTypePlural.substring(0,associationTypePlural.lastIndexOf('s'));
+                deps.associationUUID = associationUUID;
+                associations.push(deps);
+            }
+        }
+        return associations;
+    };
+    var setDependencies = function(genericArtifact, asset ,userRegistry) {
+        //get dependencies of the artifact.
+        var dependencyArtifacts = genericArtifact.getDependencies();
+        asset.dependencies = getAssociations(dependencyArtifacts, userRegistry);
+    };
+    var setDependents = function(genericArtifact, asset, userRegistry) {
+        var dependentArtifacts = genericArtifact.getDependents();
+        asset.dependents = getAssociations(dependentArtifacts, userRegistry);
+    };
     return {
         get: function(id) {
             var asset = this._super.get.call(this, id);
-            if (asset.attributes.interface_wsdlURL) {
-                var wsdlUUID = getRegistry(ctx.session).registry.get(asset.attributes.interface_wsdlURL).getUUID();
-                asset.wsdl_uuid = wsdlUUID;
-                asset.wsdl_url = asset.attributes.interface_wsdlURL;
-            }
+            var userRegistry = getRegistry(ctx.session);
+            setCustomAssetAttributes(asset, userRegistry);
+            //get the GenericArtifactManager
+            var rawArtifact = this.am.manager.getGenericArtifact(id);
+            setDependencies(rawArtifact, asset, userRegistry);
+            setDependents(rawArtifact, asset, userRegistry);
             return asset;
         },
         combineWithRxt: function(asset) {
@@ -176,6 +217,18 @@ asset.manager = function(ctx) {
                 var wsdlURL = asset.wsdl_url;
                 modAsset.wsdl_url = wsdlURL;
                 modAsset.tables[2].fields.wsdlUrl.value = modAsset.wsdl_url;
+            }
+            if (asset.interfaceType) {
+                var interfaceType = asset.interfaceType;
+                modAsset.interfaceType = interfaceType;
+            }
+            if (asset.dependencies) {
+                var dependencies = asset.dependencies;
+                modAsset.dependencies = dependencies;
+            }
+            if (asset.dependents) {
+                var dependents = asset.dependents;
+                modAsset.dependents = dependents;
             }
             return modAsset;
         },
@@ -197,6 +250,18 @@ asset.manager = function(ctx) {
             options.id = artifact.getId();
         }
     }
+};
+asset.configure = function() {
+    return {
+        meta: {
+            lifecycle: {
+                commentRequired: false,
+                defaultAction: '',
+                deletableStates: [],
+                publishedStates: ['Published']
+            }
+        }
+    };
 };
 asset.renderer = function(ctx) {
     var hideTables = function(page) {

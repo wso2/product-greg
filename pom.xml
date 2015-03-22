@@ -795,8 +795,8 @@
                 <version>2.3.1</version>
                 <inherited>true</inherited>
                 <configuration>
-                    <source>1.6</source>
-                    <target>1.6</target>
+                    <source>1.7</source>
+                    <target>1.7</target>
                 </configuration>
             </plugin>
             <plugin>
@@ -894,7 +894,7 @@
         <handlebars.feature.version>1.0.0</handlebars.feature.version>
         <markdown.feature.version>1.0.0</markdown.feature.version>
         <process.feature.version>1.2.0</process.feature.version>
-        <carbon.feature.version>1.2.0</carbon.feature.version>
+        <carbon.feature.version>1.2.1</carbon.feature.version>
         <uuid.feature.version>1.2.0</uuid.feature.version>
         <sso.feature.version>1.2.0</sso.feature.version>
         <es.feature.version>2.0.0</es.feature.version>
@@ -965,19 +965,19 @@
         <carbon.kernel.registry.imp.pkg.version>[1.0.1, 2.0.0)</carbon.kernel.registry.imp.pkg.version>
         
         <!-- Carbon Registry -->
-        <carbon.registry.version>4.3.0</carbon.registry.version>
+        <carbon.registry.version>4.3.2-SNAPSHOT</carbon.registry.version>
         <carbon.registry.package.import.version.range>[4.3.0, 4.4.0)
         </carbon.registry.package.import.version.range>
         
         <!-- Carbon Governance -->
-        <carbon.governance.version>4.3.0</carbon.governance.version>
+        <carbon.governance.version>4.3.1-SNAPSHOT</carbon.governance.version>
 
-        <carbon.governance.ext.version>4.3.0</carbon.governance.ext.version>
+        <carbon.governance.ext.version>4.3.1-SNAPSHOT</carbon.governance.ext.version>
 
         <carbon.business.process.version>4.3.1</carbon.business.process.version>
         
         <!-- Carbon Commons -->
-        <carbon.commons.version>4.3.4</carbon.commons.version>
+        <carbon.commons.version>4.3.5</carbon.commons.version>
         
         <!-- Carbon Identity -->
         <carbon.identity.version>4.3.3</carbon.identity.version>
@@ -1018,6 +1018,8 @@
 
         <!-- Product G-Reg -->
         <product.greg.version>5.0.0-SNAPSHOT</product.greg.version>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 
     </properties>
 </project>

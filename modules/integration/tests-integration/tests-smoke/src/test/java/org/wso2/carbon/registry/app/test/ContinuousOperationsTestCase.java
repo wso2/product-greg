@@ -78,7 +78,7 @@ public class ContinuousOperationsTestCase extends GREGIntegrationBaseTest{
         }
     }
 
-    @Test(groups = {"wso2.greg"})
+    @Test(groups = {"wso2.greg"}, dependsOnMethods = "ContinuousDelete")
     public void ContinuousUpdate() throws RegistryException, InterruptedException {
 
         int iterations = 100;

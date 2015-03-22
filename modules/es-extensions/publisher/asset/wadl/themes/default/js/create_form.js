@@ -1,5 +1,5 @@
 /*
- *  Copyright (c) 2014, WSO2 Inc. (http://www.wso2.org) All Rights Reserved.
+ *  Copyright (c) 2015, WSO2 Inc. (http://www.wso2.org) All Rights Reserved.
  *
  *  WSO2 Inc. licenses this file to you under the Apache License,
  *  Version 2.0 (the "License"); you may not use this file except
@@ -17,36 +17,38 @@
  *
  */
 /**
- * [contains actions, for creating a wsdl name when the wsdl url is selected,
- * to show drop down menu for import & upload of wsdls,
+ * [contains actions, for creating a wadl name when the wadl url is selected,
+ * to show drop down menu for import & upload of wadls,
  * to call custom api
  * ]
  */
 $(function() {
-    //function to set the wsdl name from the wsdl url.
+    //function to set the wadl name from the wadl url.
     $('input[name="overview_url"]').change(function() {
-        var wsdlUrl = $('input[name="overview_url"]').val();
-        var wsdlFileName = "";
-        if (wsdlUrl.indexOf("\\") != -1) {
-            wsdlFileName = wsdlUrl.substring(wsdlUrl.lastIndexOf('\\') + 1, wsdlUrl.length);
+        var wadlUrl = $('input[name="overview_url"]').val();
+        var wadlFileName = "";
+        //This check seems unwanted, as registry does not support file
+        //upload here.
+        if (wadlUrl.indexOf("\\") != -1) {
+            wadlFileName = wadlUrl.substring(wadlUrl.lastIndexOf('\\') + 1, wadlUrl.length);
         } else {
-            wsdlFileName = wsdlUrl.substring(wsdlUrl.lastIndexOf('/') + 1, wsdlUrl.length);
+            wadlFileName = wadlUrl.substring(wadlUrl.lastIndexOf('/') + 1, wadlUrl.length);
         }
-        if (wsdlFileName.search(/\.[^?]*$/i) < 0) {
-            wsdlFileName = wsdlFileName.replace("?", ".");
-            var suffix = ".wsdl";
-            if (wsdlFileName.indexOf(".") > 0) {
-                wsdlFileName = wsdlFileName.substring(0, wsdlFileName.lastIndexOf(".")) + suffix;
+        if (wadlFileName.search(/\.[^?]*$/i) < 0) {
+            wadlFileName = wadlFileName.replace("?", ".");
+            var suffix = ".wadl";
+            if (wadlFileName.indexOf(".") > 0) {
+                wadlFileName = wadlFileName.substring(0, wadlFileName.lastIndexOf(".")) + suffix;
             } else {
-                wsdlFileName = wsdlFileName + suffix;
+                wadlFileName = wadlFileName + suffix;
             }
         }
         var notAllowedChars = "!@#;%^*+={}|<>";
         for (i = 0; i < notAllowedChars.length; i ++) {
             var c = notAllowedChars.charAt(i);
-            wsdlFileName = wsdlFileName.replace(c, "_");
+            wadlFileName = wadlFileName.replace(c, "_");
         }
-        $('input[name="overview_name"]').val(wsdlFileName);
+        $('input[name="overview_name"]').val(wadlFileName);
     });
     //function to display upload or import uis.
     var uploadUI = $('#uploadUI');
@@ -64,22 +66,22 @@ $(function() {
             uploadUI.hide();
         }
     });
-    //function to call the custom wsdl api or default api.
+    //function to call the custom schema api or default api.
     $('form[name="form-asset-create"] input[type="submit"]').click(function(event) {
         var $form = $('form[name="form-asset-create"]');
-        if ($(this).attr("name") == 'addNewWsdlFileAssetButton') {//upload via file browser
-            //call the custom endpoint for processing wsdls upload via file browser.
-            $form.attr('action', caramel.context + '/asts/wsdl/apis/wsdls');
-            var $wsdlFileInput = $('input[name="wsdl_file"]');
-            var wsdlFileInputValue = $wsdlFileInput.val();
-            var wsdlFilePath = wsdlFileInputValue;
-            var fileName = wsdlFilePath.split('\\').reverse()[0];
+        if ($(this).attr("name") == 'addNewWadlFileAssetButton') {//upload via file browser
+            //call the custom endpoint for processing schema upload via file browser.
+            $form.attr('action', caramel.context + '/asts/wadl/apis/wadls');
+            var $wadlFileInput = $('input[name="wadl_file"]');
+            var wadlFileInputValue = $wadlFileInput.val();
+            var wadlFilePath = wadlFileInputValue;
+            var fileName = wadlFilePath.split('\\').reverse()[0];
             //set the zip file name, to the hidden attribute.
-            $('input[name="wsdl_file_name"]').val(fileName);
+            $('input[name="wadl_file_name"]').val(fileName);
             $form.submit();
         } else if ($(this).attr("name") == 'addNewAssetButton') {//upload via url.
             //call the default endpoint.
-            $form.attr('action', caramel.context + '/apis/assets?type=wsdl');
+            $form.attr('action', caramel.context + '/apis/assets?type=wadl');
             $form.submit();
         }
     });

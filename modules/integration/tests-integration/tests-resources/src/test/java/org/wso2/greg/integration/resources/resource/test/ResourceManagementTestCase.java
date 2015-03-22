@@ -69,7 +69,7 @@ public class ResourceManagementTestCase extends GREGIntegrationBaseTest{
 
     public static final String REGISTRY_NAMESPACE = "http://wso2.org/registry";
 
-    @BeforeClass(alwaysRun = true)
+    @BeforeClass(groups = {"wso2.greg"}, alwaysRun = true)
     public void initialize() throws Exception {
         super.init(TestUserMode.SUPER_TENANT_ADMIN);
         resourceAdminClient =
@@ -92,7 +92,7 @@ public class ResourceManagementTestCase extends GREGIntegrationBaseTest{
         assertTrue(automationContext.getContextTenant().getContextUser().getUserName().equalsIgnoreCase(authorUserName), "Resource creation failure");
     }
 
-    @Test(dependsOnMethods = "testAddResource")
+    @Test(groups = "wso2.greg", dependsOnMethods = "testAddResource")
     public void testMetadata() throws ResourceAdminServiceExceptionException, RemoteException, XPathExpressionException {
         MetadataBean mBean = resourceAdminClient.getMetadata(PATH + RES_NAME);
 
@@ -330,7 +330,7 @@ public class ResourceManagementTestCase extends GREGIntegrationBaseTest{
     }
 
 
-    @AfterClass
+    @AfterClass(groups = {"wso2.greg"}, alwaysRun = true)
     public void cleanUp() throws ResourceAdminServiceExceptionException, RemoteException {
         resourceAdminClient.deleteResource(PATH);
         resourceAdminClient.deleteResource(RES_COPIED_LOCATION);

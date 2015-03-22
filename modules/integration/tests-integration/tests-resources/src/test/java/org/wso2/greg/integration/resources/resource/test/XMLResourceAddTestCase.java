@@ -51,7 +51,7 @@ public class XMLResourceAddTestCase extends GREGIntegrationBaseTest {
     private static final String ESB_MEDIATYPE = "application/vnd.wso2.esb";
     private ResourceAdminServiceClient resourceAdminServiceClient;
 
-    @BeforeClass (groups = {"wso2.greg"})
+    @BeforeClass(groups = {"wso2.greg"}, alwaysRun = true)
     public void init () throws Exception {
 
         super.init(TestUserMode.SUPER_TENANT_ADMIN);
@@ -122,7 +122,7 @@ public class XMLResourceAddTestCase extends GREGIntegrationBaseTest {
         assertFalse(isResourceExist, "Resource exists even after deleting");
     }
 
-    @AfterClass
+    @AfterClass(groups = {"wso2.greg"}, alwaysRun = true)
     public void cleanup () throws ResourceAdminServiceExceptionException, RemoteException {
 
         resourceAdminServiceClient.deleteResource(PARENT_PATH + "/" + RES_FILES_COLLECTION);

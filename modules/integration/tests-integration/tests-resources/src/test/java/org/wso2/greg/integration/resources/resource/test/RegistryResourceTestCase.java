@@ -55,7 +55,7 @@ public class RegistryResourceTestCase extends GREGIntegrationBaseTest{
     private ResourceAdminServiceClient resourceAdminServiceClient;
     private String TEXT_FILE_NAME = "hello";
 
-    @BeforeClass(groups = {"wso2.greg"})
+    @BeforeClass(groups = {"wso2.greg"}, alwaysRun = true)
     public void init() throws Exception {
 
         super.init(TestUserMode.SUPER_TENANT_ADMIN);
@@ -193,7 +193,7 @@ public class RegistryResourceTestCase extends GREGIntegrationBaseTest{
         }
     }
 
-    @AfterClass
+    @AfterClass(groups = {"wso2.greg"}, alwaysRun = true)
     public void cleanup() throws ResourceAdminServiceExceptionException, RemoteException {
         resourceAdminServiceClient.deleteResource("/TestAutomation");
 

@@ -50,7 +50,7 @@ public class NotificationTestCase extends GREGIntegrationBaseTest{
     private String loggedInSessionCookie = "";
     private InfoServiceAdminClient infoServiceAdminClient;
 
-    @BeforeClass(groups = {"wso2.greg"})
+    @BeforeClass(groups = {"wso2.greg"}, alwaysRun = true)
     public void init() throws Exception {
 
         super.init(TestUserMode.SUPER_TENANT_ADMIN);
@@ -100,7 +100,7 @@ public class NotificationTestCase extends GREGIntegrationBaseTest{
     }
 
     //cleanup code
-    @AfterClass
+    @AfterClass(groups = {"wso2.greg"}, alwaysRun = true)
     public void cleanup()
             throws Exception {
         infoServiceAdminClient=null;

@@ -1,0 +1,79 @@
+<!-- Copyright (c) 2015, WSO2 Inc. (http://www.wso2.org) All Rights Reserved.
+*
+* Licensed under the Apache License, Version 2.0 (the "License");
+* you may not use this file except in compliance with the License.
+* You may obtain a copy of the License at
+*
+* http://www.apache.org/licenses/LICENSE-2.0
+*
+* Unless required by applicable law or agreed to in writing, software
+* distributed under the License is distributed on an "AS IS" BASIS,
+* WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+* See the License for the specific language governing permissions and
+* limitations under the License. 
+-->
+{{#with assets}}
+<div class='content-div'>
+	<div class="tab-content asset-tab-content">
+		<div id="view" class="asset-view-container">
+            <div class="row-fluid asset-detail-top-row">
+                <div class="span2">
+                            <div class="thumbnail-div">
+                               <img src='{{url ""}}/extensions/assets/endpoint/themes/default/imgs/thumbnail.png' class="" alt="Thumb"/>
+                            </div>
+                </div>
+                <div class="span10 asset-details-box">
+                        <h4>{{name}}</h4>
+                </div>
+            </div>
+		    <div class="row-fluid asset-details-row">
+		                <div class="span12 asset-content-box">
+		                    <div class="widget wlightblue">
+		                        <div class="widget-head">
+                                    <div class="pull-left">Asset Overview</div>
+                                    <div class="asset-show-dependency">
+                                        <a class="btn btn-default btn-lg active pull-right" href='{{url ""}}/pages/impact?path={{path}}' target="_blank">
+                                            Show Dependency</a>
+                                    </div>
+                                    <!--<div class="widget-icons pull-right">
+                                        <a class="wminimize" href="#"><i class="icon-chevron-up"></i></a>
+
+                                    </div>-->
+                                    <div class="clearfix"></div>
+                                </div>
+
+                                <div class="widget-content">
+                                        <table class="table table-bordered asset-view-table widget-table">
+                                            <tbody>
+                                            {{#each tables}}
+                                                
+                                                <tr>
+                                                   {{renderTablePreview .}}
+                                                </tr>
+
+                                        
+                                            {{/each}}
+                                        
+                                            {{#if tags}}
+                                            
+                                                <tr>
+                                                    <td class="span3">Tags</td>
+                                                    <td>
+                                                    	{{#each tags}}
+                                                        <span class="view-tag">{{this}}</span>
+                                                        {{/each}}
+                                                    </td>
+                                                </tr>
+                                            {{/if}}
+                                            </tbody>
+                                        </table>
+                                </div>
+                            </div>
+		                </div>
+		    </div>
+        </div>
+</div>
+{{/with}}
+
+
+

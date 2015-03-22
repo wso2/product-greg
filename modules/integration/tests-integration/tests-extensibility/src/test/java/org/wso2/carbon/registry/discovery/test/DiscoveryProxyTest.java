@@ -83,7 +83,7 @@ public class DiscoveryProxyTest extends GREGIntegrationBaseTest {
     private String userName;
     private String userNameWithoutDomain;
 
-    @BeforeClass
+    @BeforeClass(alwaysRun = true)
     public void initialize()
             throws Exception {
 

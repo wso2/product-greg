@@ -17,8 +17,6 @@
 */
 package org.wso2.carbon.registry.capp.deployment.test;
 
-
-import org.apache.poi.util.SystemOutLogger;
 import org.testng.Assert;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
@@ -28,7 +26,7 @@ import org.wso2.carbon.automation.engine.context.TestUserMode;
 import org.wso2.carbon.automation.engine.frameworkutils.FrameworkPathUtil;
 import org.wso2.carbon.governance.api.generic.GenericArtifactManager;
 import org.wso2.carbon.governance.api.generic.dataobjects.GenericArtifact;
-import org.wso2.carbon.governance.api.util.GovernanceUtils; //
+import org.wso2.carbon.governance.api.util.GovernanceUtils;
 import org.wso2.carbon.logging.view.stub.LogViewerLogViewerException;
 import org.wso2.carbon.logging.view.stub.types.carbon.LogEvent;
 import org.wso2.carbon.registry.capp.deployment.test.utils.CAppTestUtils;
@@ -44,10 +42,7 @@ import org.wso2.greg.integration.common.clients.ResourceAdminServiceClient;
 import org.wso2.greg.integration.common.utils.GREGIntegrationBaseTest;
 import org.wso2.greg.integration.common.utils.RegistryProviderUtil;
 
-import sun.rmi.runtime.Log;
-
 import javax.activation.DataHandler;
-
 import java.io.File;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -56,69 +51,58 @@ import java.rmi.RemoteException;
 import static org.testng.Assert.assertFalse;
 import static org.testng.Assert.assertTrue;
 
+/**
+ * This class hold test cases for deploying a carbon application with a wsdl.
+ */
 public class DeployCAppWithWsdl extends GREGIntegrationBaseTest {
 
     private CarbonAppUploaderClient cAppUploader;
     private ApplicationAdminClient adminServiceApplicationAdmin;
-//    private ListMetaDataServiceClient listMetaDataServiceClient;
     private ResourceAdminServiceClient resourceAdminServiceClient;
     private String sessionCookie;
-    private String backEndUrl;
-    private String userName;
-    private String userNameWithoutDomain;
-    private LogViewerClient logViewerClient;
-    private String wsdl_new_1Capp ="wsdl_new_1.0.0";
-    private String wsdl_tCapp = "wsdl-t_1.0.0";
-    private String serverRole_incorrectCapp ="serverRole-incorrect_1.0.0";
     private Registry governance;
+    private LogViewerClient logViewerClient;
+    private String wsdl_new_1Capp = "wsdl_new_1.0.0";
+    private String wsdl_tCapp = "wsdl-t_1.0.0";
 
+    /**
+     * Method used to initialize deploying a carbon application with a wsdl.
+     *
+     * @throws Exception
+     */
     @BeforeClass
-    public void initialize()
-            throws Exception {
-
+    public void initialize() throws Exception {
         super.init(TestUserMode.SUPER_TENANT_ADMIN);
-        backEndUrl = getBackendURL();
+        String backEndUrl = getBackendURL();
         sessionCookie = getSessionCookie();
-        userName = automationContext.getContextTenant().getContextUser().getUserName();
-        if (userName.contains("@"))
-            userNameWithoutDomain = userName.substring(0, userName.indexOf('@'));
-        else
-            userNameWithoutDomain = userName;
-        
-        adminServiceApplicationAdmin =
-                new ApplicationAdminClient(backEndUrl,
-                                           sessionCookie);
-        cAppUploader =
-                new CarbonAppUploaderClient(backEndUrl,
-                                            sessionCookie);
-//        listMetaDataServiceClient =
-//                new ListMetaDataServiceClient(backEndUrl,
-//                                              sessionCookie);
-        logViewerClient =
-                new LogViewerClient(backEndUrl,
-                                    sessionCookie);
-        resourceAdminServiceClient =
-                new ResourceAdminServiceClient(backEndUrl,
-                                               sessionCookie);
-        WSRegistryServiceClient wsRegistry =
-                new RegistryProviderUtil().getWSRegistry(automationContext);
+        adminServiceApplicationAdmin = new ApplicationAdminClient(backEndUrl, sessionCookie);
+        cAppUploader = new CarbonAppUploaderClient(backEndUrl, sessionCookie);
+        logViewerClient = new LogViewerClient(backEndUrl, sessionCookie);
+        resourceAdminServiceClient = new ResourceAdminServiceClient(backEndUrl, sessionCookie);
+        WSRegistryServiceClient wsRegistry = new RegistryProviderUtil().getWSRegistry(automationContext);
         governance = new RegistryProviderUtil().getGovernanceRegistry(wsRegistry, automationContext);
     }
 
+    /**
+     * Test case for testing a carbon application deployment with a wsdl.
+     *
+     * @throws MalformedURLException
+     * @throws RemoteException
+     * @throws ApplicationAdminExceptionException
+     * @throws InterruptedException
+     * @throws LogViewerLogViewerException
+     */
     @Test(groups = "wso2.greg", description = "Upload CApp with wsdls")
-    public void deployCAppWithWsdl()
-            throws MalformedURLException, RemoteException, ApplicationAdminExceptionException,
-                   InterruptedException, LogViewerLogViewerException {
-
+    public void deployCAppWithWsdl() throws MalformedURLException, RemoteException, ApplicationAdminExceptionException,
+            InterruptedException, LogViewerLogViewerException {
         String resourcePath = FrameworkPathUtil.getSystemResourceLocation() + "artifacts" + File.separator +
-                              "GREG" + File.separator + "car" + File.separator + "wsdl_1.0.0.car";
-
+                "GREG" + File.separator + "car" + File.separator + "wsdl_1.0.0.car";
         cAppUploader.uploadCarbonAppArtifact("wsdl_1.0.0.car", new DataHandler(new URL("file:///" + resourcePath)));
-
         //artifact.xml  name is  "wsdl_new".
-        assertTrue(CAppTestUtils.isCAppDeployed(sessionCookie, wsdl_new_1Capp, adminServiceApplicationAdmin), "Deployed wsdl_1.0.0.car not in CApp List");
-
-        LogEvent[] logEvents = logViewerClient.getLogs("INFO", "Successfully Deployed Carbon Application : wsdl_new", "", "");
+        assertTrue(CAppTestUtils.isCAppDeployed(sessionCookie, wsdl_new_1Capp, adminServiceApplicationAdmin),
+                "Deployed wsdl_1.0.0.car not in CApp List");
+        LogEvent[] logEvents = logViewerClient.getLogs("INFO", "Successfully Deployed Carbon Application : wsdl_new",
+                "", "");
 
         boolean status = false;
         for (LogEvent event : logEvents) {
@@ -130,53 +114,64 @@ public class DeployCAppWithWsdl extends GREGIntegrationBaseTest {
         assertTrue(status, "Log info message for capp deployment not found");
     }
 
-
+    /**
+     * Test case used to test a carbon application deployment failures with an incorrect server role.
+     *
+     * @throws MalformedURLException
+     * @throws RemoteException
+     * @throws ApplicationAdminExceptionException
+     * @throws InterruptedException
+     * @throws LogViewerLogViewerException
+     */
     @Test(groups = "wso2.greg", description = "Upload CApp with incorrect ServerRole(ESB)",
-          dependsOnMethods = "deployCAppWithWsdl")
+            dependsOnMethods = "deployCAppWithWsdl")
     public void cAppWithIncorrectServerRole() throws MalformedURLException, RemoteException,
-                                                     ApplicationAdminExceptionException,
-                                                     InterruptedException, LogViewerLogViewerException {
+            ApplicationAdminExceptionException, InterruptedException, LogViewerLogViewerException {
 
         String resourcePath = FrameworkPathUtil.getSystemResourceLocation() + "artifacts" + File.separator +
-                              "GREG" + File.separator + "car" + File.separator + "serverRole-incorrect_1.0.0.car";
-
-        cAppUploader.uploadCarbonAppArtifact("serverRole-incorrect_1.0.0.car", new DataHandler(new URL("file:///" + resourcePath)));
-
+                "GREG" + File.separator + "car" + File.separator + "serverRole-incorrect_1.0.0.car";
+        cAppUploader.uploadCarbonAppArtifact("serverRole-incorrect_1.0.0.car",
+                new DataHandler(new URL("file:///" + resourcePath)));
+        String serverRole_incorrectCapp = "serverRole-incorrect_1.0.0";
         assertFalse(CAppTestUtils.isCAppDeployed(sessionCookie, serverRole_incorrectCapp,
-                                                 adminServiceApplicationAdmin), "Deployed serverRole-incorrect_1.0.0.car not in CApp List");
-
+                adminServiceApplicationAdmin), "Deployed serverRole-incorrect_1.0.0.car not in CApp List");
         LogEvent[] logEvents = logViewerClient.getLogs("WARN", "No artifacts found to be deployed in this server." +
-                                                               " Ignoring Carbon Application : serverRole-incorrect_1.0.0.car", "", "");
+                " Ignoring Carbon Application : serverRole-incorrect_1.0.0.car", "", "");
 
         boolean status = false;
         for (LogEvent event : logEvents) {
             if (event.getMessage().contains("No artifacts found to be deployed in this server. " +
-                                            "Ignoring Carbon Application : serverRole-incorrect_1.0.0.car")) {
+                    "Ignoring Carbon Application : serverRole-incorrect_1.0.0.car")) {
                 status = true;
                 break;
             }
         }
         assertTrue(status, "Log info message for capp deployment not found");
-
     }
 
-
+    /**
+     * Test case used to test deploying a new carbon application which includes a wsdl.
+     *
+     * @throws MalformedURLException
+     * @throws RemoteException
+     * @throws InterruptedException
+     * @throws ApplicationAdminExceptionException
+     * @throws RegistryException
+     * @throws ResourceAdminServiceExceptionException
+     * @throws LogViewerLogViewerException
+     */
     @Test(groups = "wso2.greg", description = "Upload CApp as Service",
-          dependsOnMethods = "cAppWithIncorrectServerRole")
-    public void deployNewCApplication() throws MalformedURLException, RemoteException,
-            ApplicationAdminExceptionException,
-            InterruptedException, RegistryException,
-            ResourceAdminServiceExceptionException, LogViewerLogViewerException {
-
+            dependsOnMethods = "cAppWithIncorrectServerRole")
+    public void deployNewCApplication() throws MalformedURLException, RemoteException, InterruptedException,
+            ApplicationAdminExceptionException, RegistryException, ResourceAdminServiceExceptionException,
+            LogViewerLogViewerException {
         String resourcePath = FrameworkPathUtil.getSystemResourceLocation() + "artifacts" + File.separator +
-                              "GREG" + File.separator + "car" + File.separator + "wsdl-t_1.0.0.car";
-
+                "GREG" + File.separator + "car" + File.separator + "wsdl-t_1.0.0.car";
         cAppUploader.uploadCarbonAppArtifact("wsdl-t_1.0.0.car", new DataHandler(new URL("file:///" + resourcePath)));
-
         assertTrue(CAppTestUtils.isCAppDeployed(sessionCookie, wsdl_tCapp,
-                                                adminServiceApplicationAdmin), "Deployed wsdl-t_1.0.0.car not in CApp List");
-
-        LogEvent[] logEvents = logViewerClient.getLogs("INFO", "Successfully Deployed Carbon Application : wsdl-t", "", "");
+                adminServiceApplicationAdmin), "Deployed wsdl-t_1.0.0.car not in CApp List");
+        LogEvent[] logEvents = logViewerClient.getLogs("INFO", "Successfully Deployed Carbon Application : wsdl-t", "",
+                "");
 
         boolean status = false;
         for (LogEvent event : logEvents) {
@@ -188,62 +183,62 @@ public class DeployCAppWithWsdl extends GREGIntegrationBaseTest {
         assertTrue(status, "Log info message for cApp deployment not found");
 
         boolean isService = false;
-
-        //
-        GovernanceUtils.loadGovernanceArtifacts((UserRegistry)governance);
+        GovernanceUtils.loadGovernanceArtifacts((UserRegistry) governance);
         GenericArtifactManager manager = new GenericArtifactManager(governance, "service");
-
         GenericArtifact[] serviceArtifacts = manager.getAllGenericArtifacts();
 
         for (GenericArtifact genericArtifact : serviceArtifacts) {
             String name = genericArtifact.getQName().getLocalPart();
-            if (name.equalsIgnoreCase("WeatherForecastService")) {
+            if (name.equalsIgnoreCase("GlobalWeather")) {
                 isService = true;
                 break;
             }
         }
         assertTrue(isService);
-
     }
 
+    /**
+     * Test case used to delete all deployed carbon applications.
+     *
+     * @throws ApplicationAdminExceptionException
+     * @throws RemoteException
+     * @throws InterruptedException
+     * @throws RegistryException
+     */
     @Test(groups = "wso2.greg", description = "Delete Carbon Applications ", dependsOnMethods = "deployNewCApplication")
-    public void deleteAllCApplications()
-            throws ApplicationAdminExceptionException, RemoteException, InterruptedException,
-                   RegistryException {
-
+    public void deleteAllCApplications() throws ApplicationAdminExceptionException, RemoteException,
+            InterruptedException, RegistryException {
         adminServiceApplicationAdmin.deleteApplication(wsdl_new_1Capp);
         adminServiceApplicationAdmin.deleteApplication(wsdl_tCapp);
-
         Assert.assertTrue(CAppTestUtils.isCAppDeleted(sessionCookie, wsdl_new_1Capp, adminServiceApplicationAdmin)
                 , "Deployed wsdl_new still in CApp List");
         Assert.assertTrue(CAppTestUtils.isCAppDeleted(sessionCookie, wsdl_tCapp, adminServiceApplicationAdmin)
                 , "Deployed wsdl-t still in CApp List");
     }
 
+    /**
+     * Test case used to delete the artifacts which adds with the carbon application.
+     * wsdl service.
+     *
+     * @throws ApplicationAdminExceptionException
+     * @throws InterruptedException
+     * @throws RemoteException
+     * @throws ResourceAdminServiceExceptionException
+     */
     @Test(groups = "wso2.greg", description = "Delete artifacts ", dependsOnMethods = "deleteAllCApplications")
-    public void deleteArtifacts()
-            throws ApplicationAdminExceptionException, InterruptedException, RemoteException,
-                   ResourceAdminServiceExceptionException {
-
+    public void deleteArtifacts() throws ApplicationAdminExceptionException, InterruptedException, RemoteException,
+            ResourceAdminServiceExceptionException {
         resourceAdminServiceClient.deleteResource
-                ("/_system/governance/trunk/services/net/restfulwebservices/www/servicecontracts/_2008/_01" +
-                 "/1.0.0/WeatherForecastService");
-        resourceAdminServiceClient.deleteResource
-                ("/_system/governance/trunk/endpoints/net/restfulwebservices/www/wcf/ep-WeatherForecastService-svc");
-        resourceAdminServiceClient.deleteResource
-                ("/_system/governance/trunk/schemas/com/microsoft/schemas/_2003");
-        resourceAdminServiceClient.deleteResource
-                ("/_system/governance/trunk/schemas/net/restfulwebservices/www");
-        resourceAdminServiceClient.deleteResource
-                ("/_system/governance/trunk/schemas/faultcontracts/gotlservices/_2008");
-
+                ("/_system/governance/trunk/services/net/webservicex/www/1.0.0/GlobalWeather");
     }
 
+    /**
+     * Test case for the cleaning process after executing deploying a carbon application with a wsdl test cases.
+     */
     @AfterClass
     public void cleanupResources() {
         resourceAdminServiceClient = null;
         adminServiceApplicationAdmin = null;
-//        listMetaDataServiceClient = null;
         logViewerClient = null;
     }
 }

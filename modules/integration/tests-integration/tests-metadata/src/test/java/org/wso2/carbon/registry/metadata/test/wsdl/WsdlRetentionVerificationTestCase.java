@@ -47,8 +47,13 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 
-import static org.testng.Assert.*;
+import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertFalse;
+import static org.testng.Assert.assertTrue;
 
+/**
+ * This class holds the test cases for wsdl retention test cases.
+ */
 public class WsdlRetentionVerificationTestCase extends GREGIntegrationBaseTest {
 
     private Wsdl wsdl;
@@ -62,30 +67,38 @@ public class WsdlRetentionVerificationTestCase extends GREGIntegrationBaseTest {
     private Date date;
     private Calendar calendar;
     private Wsdl wsdlAddedByFirstUser;
-    private WSRegistryServiceClient wsRegistry;
+    private WSRegistryServiceClient wsRegistryServiceClient;
     private String sessionCookie;
 
-    @BeforeClass (groups = "wso2.greg", alwaysRun = true)
-    public void initialize () throws Exception {
-
+    /**
+     * Method used to initialize the test cases.
+     *
+     * @throws Exception
+     */
+    @BeforeClass(groups = "wso2.greg", alwaysRun = true)
+    public void initialize() throws Exception {
         super.init(TestUserMode.SUPER_TENANT_USER);
         sessionCookie = new LoginLogoutClient(automationContext).login();
         registryProviderUtil = new RegistryProviderUtil();
-        wsRegistry = registryProviderUtil.getWSRegistry(automationContext);
-        governanceRegistry = registryProviderUtil.getGovernanceRegistry(
-                wsRegistry, automationContext);
+        wsRegistryServiceClient = registryProviderUtil.getWSRegistry(automationContext);
+        governanceRegistry = registryProviderUtil.getGovernanceRegistry(wsRegistryServiceClient, automationContext);
         wsdlManager = new WsdlManager(governanceRegistry);
     }
 
-    @Test (groups = "wso2.greg", description = "wsdl addition for retention Verification")
-    public void testAddResourcesToVerifyRetention () throws RemoteException,
-            MalformedURLException,
-            ResourceAdminServiceExceptionException,
-            GovernanceException {
-
-        wsdl = wsdlManager
-                .newWsdl("https://svn.wso2.org/repos/wso2/carbon/platform/trunk/products/greg/modules/integration/" +
-                        "registry/tests-metadata/src/test/resources/artifacts/GREG/wsdl/GeoIPService.svc.wsdl");
+    /**
+     * This method act as the test case for verifying retention of resource addition.
+     *
+     * @throws RemoteException
+     * @throws MalformedURLException
+     * @throws ResourceAdminServiceExceptionException
+     * @throws GovernanceException
+     */
+    @Test(groups = "wso2.greg", description = "wsdl addition for retention Verification")
+    public void testAddResourcesToVerifyRetention() throws RemoteException, MalformedURLException,
+            ResourceAdminServiceExceptionException, GovernanceException {
+        wsdl = wsdlManager.newWsdl(
+                "https://svn.wso2.org/repos/wso2/carbon/platform/trunk/products/greg/modules/integration/registry"
+                        + "/tests-metadata/src/test/resources/artifacts/GREG/wsdl/GeoIPService/GeoIPService.svc.wsdl");
         wsdl.addAttribute("version", "1.0.0");
         wsdl.addAttribute("author", "Kanarupan");
         wsdl.addAttribute("description", "for retention verification");
@@ -94,73 +107,67 @@ public class WsdlRetentionVerificationTestCase extends GREGIntegrationBaseTest {
         wsdlPath = "/_system/governance" + wsdl.getPath();
     }
 
-    @Test (groups = "wso2.greg", description = "Retention Verification",
+    /**
+     * This method act as the test case for first user set retention.
+     *
+     * @throws GovernanceException
+     * @throws RemoteException
+     * @throws PropertiesAdminServiceRegistryExceptionException
+     * @throws LogoutAuthenticationExceptionException
+     */
+    @Test(groups = "wso2.greg", description = "Retention Verification",
             dependsOnMethods = "testAddResourcesToVerifyRetention")
-    public void testFirstUserSetRetention () throws GovernanceException,
-            RemoteException,
-            PropertiesAdminServiceRegistryExceptionException,
-            LogoutAuthenticationExceptionException {
+    public void testFirstUserSetRetention() throws GovernanceException, RemoteException,
+            PropertiesAdminServiceRegistryExceptionException, LogoutAuthenticationExceptionException {
 
-        propertiesAdminServiceClient = new PropertiesAdminServiceClient(
-                backendURL, sessionCookie);
-
-        /* getting current date and date exactly after a month */
+        propertiesAdminServiceClient = new PropertiesAdminServiceClient(backendURL, sessionCookie);
+        // getting current date and date exactly after a month.
         dateFormat = new SimpleDateFormat("MM/dd/yyyy");
         date = new Date();
         calendar = GregorianCalendar.getInstance();
         calendar.add(Calendar.MONTH, 1);
-        propertiesAdminServiceClient.setRetentionProperties(wsdlPath, "delete",
-                dateFormat.format(date), dateFormat.format(calendar.getTime())); // delete
-        // access
-        // locked
+        // Set delete property.
+        propertiesAdminServiceClient.setRetentionProperties(wsdlPath, "delete", dateFormat.format(date),
+                dateFormat.format(calendar.getTime()));
+        // Access locked.
         wsdlManager.updateWsdl(wsdl);
-        RetentionBean retentionBean = propertiesAdminServiceClient
-                .getRetentionProperties(wsdlPath);
+        RetentionBean retentionBean = propertiesAdminServiceClient.getRetentionProperties(wsdlPath);
         assertTrue(retentionBean.getDeleteLocked());
-        assertTrue(retentionBean.getFromDate().contentEquals(
-                dateFormat.format(date)));
+        assertTrue(retentionBean.getFromDate().contentEquals(dateFormat.format(date)));
         assertFalse(retentionBean.getWriteLocked());
-
-        /* logout */
+        // Logout.
         new AuthenticatorClient(backendURL).logOut();
     }
 
     /**
-     * With SecondUser, couldn't access the artifact using
-     * wsdlManager.getWsdl(path), used getAllWsdls()
+     * This method act as the test case for second user verify retention.
+     * With SecondUser, couldn't access the artifact using wsdlManager.getWsdl(path), used getAllWsdls().
      *
      * @throws Exception
      */
-    @Test (groups = "wso2.greg", description = "Retention verificaiton: second user",
+    @Test(groups = "wso2.greg", description = "Retention verificaiton: second user",
             dependsOnMethods = "testFirstUserSetRetention")
-    public void testSecondUserVerifyRetention () throws Exception {
+    public void testSecondUserVerifyRetention() throws Exception {
 
-        AutomationContext automationContext1 = new AutomationContext("GREG", "greg001",
-                "superTenant", "user2");
+        AutomationContext automationContext1 = new AutomationContext("GREG", "greg001", "superTenant", "user2");
         String sessionCookieUser2 = new LoginLogoutClient(automationContext1).login();
-        propertiesAdminServiceClient = new PropertiesAdminServiceClient( automationContext1
+        propertiesAdminServiceClient = new PropertiesAdminServiceClient(automationContext1
                 .getContextUrls().getBackEndUrl(), sessionCookieUser2);
-        WSRegistryServiceClient wsRegistry2 = registryProviderUtil
-                .getWSRegistry(automationContext1);
-        Registry governanceRegistry1 = registryProviderUtil
-                .getGovernanceRegistry(wsRegistry2, automationContext1);
+        WSRegistryServiceClient wsRegistry2 = registryProviderUtil.getWSRegistry(automationContext1);
+        Registry governanceRegistry1 = registryProviderUtil.getGovernanceRegistry(wsRegistry2, automationContext1);
         wsdlManager2 = new WsdlManager(governanceRegistry1);
         Wsdl[] wsdls = wsdlManager2.getAllWsdls();
         for (Wsdl tmpWsdl : wsdls) {
-            if (tmpWsdl.getQName().getLocalPart().contains("GeoIPService")) {
+            if (tmpWsdl.getQName().getLocalPart().contains("GeoIPService.svc.wsdl")) {
                 wsdlAddedByFirstUser = tmpWsdl;
             }
         }
-        assertTrue(wsdlAddedByFirstUser.getQName().getLocalPart()
-                .contains("GeoIPService"));
-        assertTrue(wsdlAddedByFirstUser.getAttribute("author").contains(
-                "Kanarupan"));
+        assertTrue(wsdlAddedByFirstUser.getQName().getLocalPart().contains("GeoIPService.svc.wsdl"));
+        assertTrue(wsdlAddedByFirstUser.getAttribute("author").contains("Kanarupan"));
         wsdlAddedByFirstUser.addAttribute("WriteAccess", "enabled");
         wsdlManager2.updateWsdl(wsdlAddedByFirstUser);
-        assertTrue(wsdlAddedByFirstUser.getAttribute("WriteAccess").contains(
-                "enabled"));
-        RetentionBean retentionBean = propertiesAdminServiceClient
-                .getRetentionProperties(wsdlPath);
+        assertTrue(wsdlAddedByFirstUser.getAttribute("WriteAccess").contains("enabled"));
+        RetentionBean retentionBean = propertiesAdminServiceClient.getRetentionProperties(wsdlPath);
         assertEquals(retentionBean.getFromDate(), dateFormat.format(date));
 
         String userName = automationContext.getContextTenant().getContextUser().getUserName();
@@ -168,31 +175,41 @@ public class WsdlRetentionVerificationTestCase extends GREGIntegrationBaseTest {
         assertEquals(retentionBean.getUserName(), userNameWithoutDomain);
         assertFalse(retentionBean.getWriteLocked());
         assertTrue(retentionBean.getDeleteLocked());
-
     }
 
-    @Test (groups = "wso2.greg", description = "second user deletion check: blocked by first user", expectedExceptions = GovernanceException.class, dependsOnMethods = "testSecondUserVerifyRetention")
-    public void testSecondUserRetentionDeleteCheck () throws GovernanceException {
-
+    /**
+     * This method act as the test case for deletion check of second user retention.
+     *
+     * @throws GovernanceException
+     */
+    @Test(groups = "wso2.greg", description = "second user deletion check: blocked by first user", expectedExceptions
+            = GovernanceException.class, dependsOnMethods = "testSecondUserVerifyRetention")
+    public void testSecondUserRetentionDeleteCheck() throws GovernanceException {
         wsdlManager2.removeWsdl(wsdlAddedByFirstUser.getPath());
     }
 
-    @AfterClass (groups = "wso2.greg", alwaysRun = true, description = "cleaning up the artifacts added")
-    public void tearDown () throws AxisFault, RegistryException {
+    /**
+     * This method act as the test case for cleaning process of the wsdl retention verification test cases.
+     *
+     * @throws AxisFault
+     * @throws RegistryException
+     */
+    @AfterClass(groups = "wso2.greg", alwaysRun = true, description = "cleaning up the artifacts added")
+    public void tearDown() throws AxisFault, RegistryException {
 
-        if (wsRegistry.resourceExists("/_system/governance/trunk/services")) {
-            wsRegistry.delete("/_system/governance/trunk/services");
+        if (wsRegistryServiceClient.resourceExists("/_system/governance/trunk/services")) {
+            wsRegistryServiceClient.delete("/_system/governance/trunk/services");
         }
-        if (wsRegistry.resourceExists("/_system/governance/trunk/wsdls")) {
-            wsRegistry.delete("/_system/governance/trunk/wsdls");
+        if (wsRegistryServiceClient.resourceExists("/_system/governance/trunk/wsdls")) {
+            wsRegistryServiceClient.delete("/_system/governance/trunk/wsdls");
         }
-        if (wsRegistry.resourceExists("/_system/governance/trunk")) {
-            wsRegistry.delete("/_system/governance/trunk");
+        if (wsRegistryServiceClient.resourceExists("/_system/governance/trunk")) {
+            wsRegistryServiceClient.delete("/_system/governance/trunk");
         }
-        if (wsRegistry.resourceExists("/_system/governance/branches")) {
-            wsRegistry.delete("/_system/governance/branches");
+        if (wsRegistryServiceClient.resourceExists("/_system/governance/branches")) {
+            wsRegistryServiceClient.delete("/_system/governance/branches");
         }
-        wsRegistry = null;
+        wsRegistryServiceClient = null;
         wsdl = null;
         wsdlManager = null;
         wsdlAddedByFirstUser = null;

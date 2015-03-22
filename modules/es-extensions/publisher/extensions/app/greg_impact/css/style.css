@@ -85,14 +85,16 @@ button { overflow: visible; }
 #graph { overflow: hidden; }
 #graph-capture { display: none; }
 
-svg { font: 14px sans-serif; cursor: grab; }
-svg:active { cursor: grabbing; }
+svg { font: 14px sans-serif; cursor: grab; cursor: -webkit-grab; cursor:-moz-grab; }
+svg:active { cursor: grabbing; cursor: -webkit-grabbing; cursor:-moz-grabbing; }
 /*svg marker#arrow { fill: #3f93ff; }*/
 svg circle {
     cursor: pointer;
     stroke: #ffca31;
     fill: #e6e6e6;
     stroke-width: 4px;
+    -webkit-transition-timing-function: linear;
+    transition-timing-function: linear;
 }
 svg#cloned circle, svg#cloned line { stroke: #2c313b; }
 svg [nodetype=parent] circle { stroke: #00bb8d; stroke-width: 9px; }
@@ -187,9 +189,9 @@ svg .inactive svg path { fill: #3a424d; }
 }
 .btn.zoom.zooomfit { margin: 6px 0 8px 0; }
 .btn.download:hover { background: #00aeb9; color: #ffffff; }
-.btn.zoom[disabled=disabled], .btn.zoom[disabled=disabled]:hover { background: #696969; cursor: default; color: #ffffff; opacity: 0.2; }
+.btn[disabled=disabled], .btn[disabled=disabled]:hover { background: #696969; cursor: default; color: #ffffff; opacity: 0.2; }
 
-.filters { margin-top: 10px; }
+.filters { margin-top: 50px; display: none; }
 .filters .tag {
     color: #ffffff;
     background: #696969;

@@ -81,7 +81,7 @@ public class SymlinkToCollectionTestCase extends GREGIntegrationBaseTest {
     private static final String ROLE_NAME = "RoleSubscriptionTest";
     private String sessionID;
 
-    @BeforeClass(alwaysRun = true)
+    @BeforeClass(groups = {"wso2.greg"}, alwaysRun = true)
     public void initialize() throws Exception {
         super.init(TestUserMode.SUPER_TENANT_ADMIN);
         sessionID = getSessionCookie();
@@ -384,7 +384,7 @@ public class SymlinkToCollectionTestCase extends GREGIntegrationBaseTest {
     }
 
     //cleanup code
-    @AfterClass
+    @AfterClass(groups = {"wso2.greg"}, alwaysRun = true)
     public void cleanup() throws Exception {
         UserManagementClient adminUserManagementClient = new UserManagementClient(getBackendURL(), sessionID);
         resourceAdminClient.deleteResource(DEPENDENCY_PATH);

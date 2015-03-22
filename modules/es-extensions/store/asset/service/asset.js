@@ -17,6 +17,9 @@
  *
  */
 asset.manager = function(ctx) {
+    //If extension is moved to another folder (tenant support), this path need to be changed
+    //JIRA:https://wso2.org/jira/browse/STORE-613
+    var configs = require("/extensions/assets/service/config/properties.json");
     /**
      * The function augments the provided query to include published state information
      * @param  {[type]} query [description]
@@ -37,27 +40,80 @@ asset.manager = function(ctx) {
         query.lcState = [publishedStates[0]];
         return query;
     };
+    var getRegistry = function(cSession) {
+        var userMod = require('store').user;
+        var userRegistry = userMod.userRegistry(cSession);
+        return userRegistry;
+    };
+    var setCustomAssetAttributes = function(asset, userRegistry) {
+        var interfaceUrl=asset.attributes.interface_wsdlURL;
+        if (interfaceUrl != null) {
+            var resource = userRegistry.registry.get(interfaceUrl);
+            var wsdlContent = getInterfaceTypeContent(resource);
+            asset.wsdlContent = wsdlContent;
+            var wsdlUUID = getInterfaceTypeUUID(resource);
+            asset.wsdl_uuid = wsdlUUID;
+        }
+    };
+    var getInterfaceTypeContent = function (resource) {
+        var ByteArrayInputStream = Packages.java.io.ByteArrayInputStream;
+        var content = resource.getContent();
+        var value = '' + new Stream(new ByteArrayInputStream(content));
+        //this is wsdlcontent.
+        return value;
+
+    };
+    var getInterfaceTypeUUID = function (resource) {
+        var wsdlUUID = resource.getUUID();
+        return wsdlUUID;
+    };
+    var getAssociations = function(genericArtifacts, userRegistry){
+        //Array to store the association names.
+        var associations = [];
+        if (genericArtifacts != null) {
+            for (var index in genericArtifacts) {
+                var deps = {};
+                //extract the association name via the path.
+                var path = genericArtifacts[index].getPath();
+                var subPaths = path.split('/');
+                var associationTypePlural = subPaths[2];
+                var associationName = subPaths[subPaths.length - 1];
+                var resource = userRegistry.registry.get(configs.depends_asset_path_prefix+path);
+                var associationUUID = resource.getUUID();
+                deps.associationName = associationName;
+                deps.associationType = associationTypePlural.substring(0,associationTypePlural.lastIndexOf('s'));
+                deps.associationUUID = associationUUID;
+                associations.push(deps);
+            }
+        }
+        return associations;
+    };
+    var setDependencies = function(genericArtifact, asset ,userRegistry) {
+        //get dependencies of the artifact.
+        var dependencyArtifacts = genericArtifact.getDependencies();
+        asset.dependencies = getAssociations(dependencyArtifacts, userRegistry);
+    };
+    var setDependents = function(genericArtifact, asset, userRegistry) {
+        var dependentArtifacts = genericArtifact.getDependents();
+        asset.dependents = getAssociations(dependentArtifacts, userRegistry);
+    };
     return {
         //due to a bug needed to replicate the 'search' method. JIRA:https://wso2.org/jira/browse/STORE-561
         search: function(query, paging) {
-            query = buildPublishedQuery(query);
+            //query = buildPublishedQuery(query);--commented this inorder to let anystate
+            //to be visible in store.
             var assets = this._super.search.call(this, query, paging);
             return assets;
         },
         get: function(id) {
             //TODO: support services added through WSDL, once multiple lifecycle is supported.
             var asset = this._super.get.call(this, id);
-            //check for the wsdl url in the asset json object
-            if (asset.attributes.interface_wsdlURL != null) {
-                var userMod = require('store').user;//Obtain the configurations for the tenant.
-                var userRegistry = userMod.userRegistry(ctx.session);
-                var ByteArrayInputStream = Packages.java.io.ByteArrayInputStream;
-                var resource = userRegistry.registry.get(asset.attributes.interface_wsdlURL);
-                var content = resource.getContent();
-                var value = '' + new Stream(new ByteArrayInputStream(content));
-                //since this is wsdlcontent.
-                asset.wsdlContent = value;
-            }
+            var userRegistry = getRegistry(ctx.session);
+            setCustomAssetAttributes(asset, userRegistry);
+            //get the GenericArtifactManager
+            var rawArtifact = this.am.manager.getGenericArtifact(id);
+            setDependencies(rawArtifact, asset, userRegistry);
+            setDependents(rawArtifact, asset, userRegistry);
             return asset;
         }
     };
