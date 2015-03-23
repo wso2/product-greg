@@ -35,13 +35,19 @@
             <package name="org.wso2.carbon.registry.mediatype.test"/>
         </packages>
 
-  <!--      <classes>
+<!--        <classes>
             <class name="org.wso2.carbon.registry.mediatype.test.HumanReadableMediaTypeTest"/>
         </classes>-->
     </test>
     <test name="Test5" parallel="false">
         <packages>
             <package name="org.wso2.carbon.registry.activity.search"/>
+        </packages>
+    </test>
+
+    <test name="Test6" parallel="false">
+        <packages>
+            <package name="org.wso2.carbon.registry.service.search.test"/>
         </packages>
     </test>
 </suite>

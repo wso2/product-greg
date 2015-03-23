@@ -124,7 +124,7 @@ public class Carbon9147TestCase extends GREGIntegrationBaseTest {
 
 
     public void addWSDL()
-            throws IOException, ResourceAdminServiceExceptionException, RegistryException {
+            throws IOException, ResourceAdminServiceExceptionException, RegistryException, InterruptedException {
         Wsdl wsdl;
         WsdlManager wsdlManager = new WsdlManager(governance);
 
@@ -132,6 +132,7 @@ public class Carbon9147TestCase extends GREGIntegrationBaseTest {
                               "GREG" + File.separator + "wsdl" + File.separator + "echo.wsdl";
         wsdl = wsdlManager.newWsdl(FileManager.readFile(wsdlFilePath).getBytes(), "echo.wsdl");
         wsdlManager.addWsdl(wsdl);
+        Thread.sleep(30000);
     }
 
 }

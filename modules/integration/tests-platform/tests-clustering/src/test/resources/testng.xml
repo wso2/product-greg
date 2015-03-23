@@ -1,0 +1,10 @@
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
+
+<suite name="transport-test-suite">
+    <parameter name="useDefaultListeners" value="false"/>
+    <test name="tests-transports" preserve-order="true" parallel="false">
+        <classes>
+           <class name="org.wso2.carbon.registry.test.platform.clustering.SharedSubscriptionTestCase"/>
+        </classes>
+    </test>
+</suite>

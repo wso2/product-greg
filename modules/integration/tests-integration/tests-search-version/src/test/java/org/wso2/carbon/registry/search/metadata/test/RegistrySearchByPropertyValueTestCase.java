@@ -65,6 +65,7 @@ public class RegistrySearchByPropertyValueTestCase extends GREGIntegrationBaseTe
     public void init() throws Exception {
 
         super.init(TestUserMode.SUPER_TENANT_ADMIN);
+
         backEndUrl = getBackendURL();
         sessionCookie = getSessionCookie();
         userName = automationContext.getContextTenant().getContextUser().getUserName();
@@ -310,13 +311,14 @@ public class RegistrySearchByPropertyValueTestCase extends GREGIntegrationBaseTe
 
 
     private void addResources()
-            throws ResourceAdminServiceExceptionException, IOException, RegistryException {
+            throws ResourceAdminServiceExceptionException, IOException, RegistryException, SearchAdminServiceRegistryExceptionException, InterruptedException {
         addWSDL();
         addSchema();
+        Thread.sleep(30000);
     }
 
     private void addWSDL()
-            throws IOException, ResourceAdminServiceExceptionException, RegistryException {
+            throws IOException, ResourceAdminServiceExceptionException, RegistryException, InterruptedException {
 
         WsdlManager wsdlManager = new WsdlManager(governance);
         Wsdl wsdl;
@@ -328,10 +330,9 @@ public class RegistrySearchByPropertyValueTestCase extends GREGIntegrationBaseTe
         Resource resource = governance.get(wsdl.getPath());
         resource.addProperty("wsdlProperty", "10");
         governance.put(wsdl.getPath(), resource);
-
     }
 
-    private void addSchema() throws IOException, RegistryException {
+    private void addSchema() throws IOException, RegistryException, InterruptedException {
 
         SchemaManager schemaManager = new SchemaManager(governance);
         String schemaFilePath = FrameworkPathUtil.getSystemResourceLocation() + "artifacts" +

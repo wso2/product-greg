@@ -44,6 +44,7 @@ import org.wso2.greg.integration.common.utils.GREGIntegrationBaseTest;
 import org.wso2.greg.integration.common.utils.RegistryProviderUtil;
 
 import javax.xml.namespace.QName;
+import java.io.File;
 import java.rmi.RemoteException;
 
 public class SaveSearchTestCase extends GREGIntegrationBaseTest{
@@ -59,6 +60,7 @@ public class SaveSearchTestCase extends GREGIntegrationBaseTest{
     @BeforeClass(alwaysRun = true)
     public void init() throws Exception {
         super.init(TestUserMode.SUPER_TENANT_ADMIN);
+
         String session = getSessionCookie();
 
         userManagementClient = new UserManagementClient(backendURL, session);
@@ -116,7 +118,7 @@ public class SaveSearchTestCase extends GREGIntegrationBaseTest{
         searchQuery.setParameterValues(paramList);
         searchAdminServiceClient.saveAdvancedSearchFilter(searchQuery, FILTER_NAME);
         String[] filters = searchAdminServiceClient.getSavedFilters();
-
+        Thread.sleep(60000);
         boolean filterFound = false;
         for (String filter : filters) {
 

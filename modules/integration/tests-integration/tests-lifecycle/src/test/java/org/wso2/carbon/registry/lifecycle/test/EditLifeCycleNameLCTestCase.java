@@ -56,6 +56,7 @@ public class EditLifeCycleNameLCTestCase extends GREGIntegrationBaseTest{
     @BeforeClass
     public void init() throws Exception {
         super.init(TestUserMode.SUPER_TENANT_USER);
+
         String sessionCookie = getSessionCookie();
 
         lifeCycleManagementClient = new LifeCycleManagementClient(backendURL, sessionCookie);
@@ -121,13 +122,14 @@ public class EditLifeCycleNameLCTestCase extends GREGIntegrationBaseTest{
      */
     @Test(groups = "wso2.greg", description = "Metadata Search for Edited Life Cycle", dependsOnMethods = {"editLifeCycleName"})
     public void searchNewLifeCycleByName()
-            throws SearchAdminServiceRegistryExceptionException, RemoteException {
+            throws SearchAdminServiceRegistryExceptionException, RemoteException, InterruptedException {
         CustomSearchParameterBean searchQuery = new CustomSearchParameterBean();
         SearchParameterBean paramBean = new SearchParameterBean();
         paramBean.setResourceName(NEW_ASPECT_NAME);
         ArrayOfString[] paramList = paramBean.getParameterList();
 
         searchQuery.setParameterValues(paramList);
+        Thread.sleep(30000);
         AdvancedSearchResultsBean result = searchAdminServiceClient.getAdvancedSearchResults(searchQuery);
         assertNotNull(result.getResourceDataList(), "No Record Found");
         assertTrue((result.getResourceDataList().length == 1), "No Record Found for Life Cycle " +

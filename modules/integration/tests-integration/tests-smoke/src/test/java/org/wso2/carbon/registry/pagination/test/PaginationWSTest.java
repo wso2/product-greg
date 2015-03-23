@@ -37,7 +37,6 @@ import org.wso2.carbon.registry.ws.client.registry.WSRegistryServiceClient;
 import org.wso2.greg.integration.common.utils.GREGIntegrationBaseTest;
 import org.wso2.greg.integration.common.utils.RegistryProviderUtil;
 
-import javax.xml.namespace.QName;
 import javax.xml.stream.XMLStreamException;
 import java.io.File;
 import java.util.ArrayList;
@@ -57,6 +56,7 @@ public class PaginationWSTest extends GREGIntegrationBaseTest {
     @BeforeClass(alwaysRun = true)
     public void initTest() throws Exception {
         super.init(TestUserMode.SUPER_TENANT_ADMIN);
+
         cookie = getSessionCookie();
         RegistryProviderUtil registryProviderUtil = new RegistryProviderUtil();
         registry = registryProviderUtil.getWSRegistry(automationContext);
@@ -100,6 +100,7 @@ public class PaginationWSTest extends GREGIntegrationBaseTest {
             listMap.put("lcState", new ArrayList<String>() {{
                 add("Development");
             }});
+            Thread.sleep(60000);
             //Find the results.
             GenericArtifact[] genericArtifacts = artifactManager.findGenericArtifacts(listMap);
             assertTrue(genericArtifacts.length > 0, "No any service found");

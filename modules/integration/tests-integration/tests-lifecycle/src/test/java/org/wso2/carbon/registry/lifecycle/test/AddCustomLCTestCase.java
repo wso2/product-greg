@@ -22,21 +22,17 @@ import org.apache.axis2.AxisFault;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
-import org.wso2.carbon.authenticator.stub.LoginAuthenticationExceptionException;
 import org.wso2.carbon.automation.engine.context.TestUserMode;
 import org.wso2.carbon.automation.test.utils.common.FileManager;
-import org.wso2.carbon.governance.custom.lifecycles.checklist.stub.CustomLifecyclesChecklistAdminServiceExceptionException;
 import org.wso2.carbon.governance.custom.lifecycles.checklist.stub.beans.xsd.LifecycleBean;
 import org.wso2.carbon.governance.custom.lifecycles.checklist.stub.util.xsd.Property;
 import org.wso2.carbon.governance.lcm.stub.LifeCycleManagementServiceExceptionException;
-import org.wso2.carbon.registry.activities.stub.RegistryExceptionException;
 import org.wso2.carbon.registry.activities.stub.beans.xsd.ActivityBean;
 import org.wso2.carbon.registry.core.Registry;
 import org.wso2.carbon.registry.core.Resource;
 import org.wso2.carbon.registry.core.exceptions.RegistryException;
 import org.wso2.carbon.registry.lifecycle.test.bean.SearchParameterBean;
 import org.wso2.carbon.registry.lifecycle.test.utils.LifeCycleUtils;
-import org.wso2.carbon.registry.resource.stub.ResourceAdminServiceExceptionException;
 import org.wso2.carbon.registry.search.stub.SearchAdminServiceRegistryExceptionException;
 import org.wso2.carbon.registry.search.stub.beans.xsd.AdvancedSearchResultsBean;
 import org.wso2.carbon.registry.search.stub.beans.xsd.ArrayOfString;
@@ -49,13 +45,9 @@ import org.wso2.greg.integration.common.clients.LifeCycleManagementClient;
 import org.wso2.greg.integration.common.clients.SearchAdminServiceClient;
 import org.wso2.greg.integration.common.utils.GREGIntegrationBaseTest;
 import org.wso2.greg.integration.common.utils.RegistryProviderUtil;
-import org.xml.sax.SAXException;
 
-import javax.xml.stream.XMLStreamException;
-import javax.xml.xpath.XPathExpressionException;
 import java.io.File;
 import java.io.IOException;
-import java.net.URISyntaxException;
 import java.rmi.RemoteException;
 import java.util.Calendar;
 
@@ -75,6 +67,7 @@ public class AddCustomLCTestCase extends GREGIntegrationBaseTest {
     @BeforeClass (alwaysRun = true)
     public void init () throws Exception {
         super.init(TestUserMode.SUPER_TENANT_ADMIN);
+
         String sessionCookie = getSessionCookie();
         lifeCycleAdminService = new LifeCycleAdminServiceClient(backendURL, sessionCookie);
         activityAdminServiceClient = new ActivityAdminServiceClient(backendURL, sessionCookie);
@@ -86,7 +79,7 @@ public class AddCustomLCTestCase extends GREGIntegrationBaseTest {
         LifeCycleUtils.deleteLifeCycleIfExist(ASPECT_NAME, lifeCycleManagementClient);
         String serviceName = "CustomLifeCycleTestService";
         servicePathDev = "/_system/governance" + LifeCycleUtils.addService("sns", serviceName, governance);
-        Thread.sleep(1000);
+        Thread.sleep(3000);
         String userName = automationContext.getContextTenant().getContextUser().getUserName();
         if (userName.contains("@")) {
             userName1WithoutDomain = userName.substring(0, userName.indexOf('@'));
@@ -114,7 +107,7 @@ public class AddCustomLCTestCase extends GREGIntegrationBaseTest {
         String lifeCycleConfiguration = FileManager.readFile(filePath);
         assertTrue(lifeCycleManagementClient.addLifeCycle(lifeCycleConfiguration)
                 , "Adding New LifeCycle Failed");
-        Thread.sleep(2000);
+        Thread.sleep(6000);
         lifeCycleConfiguration = lifeCycleManagementClient.getLifecycleConfiguration(ASPECT_NAME);
         assertTrue(lifeCycleConfiguration.contains("aspect name=\"IntergalacticServiceLC\""),
                 "LifeCycleName Not Found in lifecycle configuration");
@@ -134,6 +127,7 @@ public class AddCustomLCTestCase extends GREGIntegrationBaseTest {
         paramBean.setResourceName(ASPECT_NAME);
         ArrayOfString[] paramList = paramBean.getParameterList();
         searchQuery.setParameterValues(paramList);
+        Thread.sleep(30000);
         AdvancedSearchResultsBean result = searchAdminService.getAdvancedSearchResults(searchQuery);
         assertNotNull(result.getResourceDataList(), "No Record Found");
         assertTrue((result.getResourceDataList().length == 1), "No Record Found for Life Cycle " +

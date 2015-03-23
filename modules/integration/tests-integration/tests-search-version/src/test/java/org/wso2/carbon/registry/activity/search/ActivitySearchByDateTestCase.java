@@ -76,6 +76,7 @@ public class ActivitySearchByDateTestCase extends GREGIntegrationBaseTest{
         log.debug("Activity Search Tests Initialised");
 
         super.init(TestUserMode.SUPER_TENANT_ADMIN);
+
         backEndUrl = getBackendURL();
         sessionCookie = getSessionCookie();
         userName = automationContext.getContextTenant().getContextUser().getUserName();

@@ -396,6 +396,12 @@
             </dependency>
             <dependency>
                 <groupId>org.wso2.greg</groupId>
+                <artifactId>org.wso2.greg.platform.common.utils</artifactId>
+                <version>${product.greg.version}</version>
+                <scope>test</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.wso2.greg</groupId>
                 <artifactId>org.wso2.greg.integration.common.clients</artifactId>
                 <version>${product.greg.version}</version>
                 <scope>compile</scope>
