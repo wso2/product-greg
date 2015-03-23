@@ -160,6 +160,7 @@ public class SwaggerAdditionTestCase extends GREGIntegrationBaseTest {
 	@AfterClass(groups = { "wso2.greg" })
 	public void cleanup() throws ResourceAdminServiceExceptionException, RemoteException {
 		deleteResource(restServiceCommonPath + "admin/SwaggerPetstore/1.0.0/SwaggerPetstore-rest_service");
+		deleteResource(restServiceCommonPath + "admin/SwaggerPetstore/2.1.1/SwaggerPetstore-rest_service");
 		deleteResource(restServiceCommonPath + "admin/SwaggerSampleApp/1.0.0/SwaggerSampleApp-rest_service");
 		resourceAdminServiceClient = null;
 		swaggerCommonPath = null;
