@@ -210,10 +210,11 @@ public class RegistryFilterSearchTestCase extends GREGIntegrationBaseTest {
             throws ResourceAdminServiceExceptionException, IOException, RegistryException, InterruptedException {
         addWSDL();
         addSchema();
+        Thread.sleep(30000);
     }
 
     public void addWSDL()
-            throws IOException, ResourceAdminServiceExceptionException, RegistryException, InterruptedException {
+            throws IOException, ResourceAdminServiceExceptionException, RegistryException {
 
         WsdlManager wsdlManager = new WsdlManager(governance);
         Wsdl wsdl;
@@ -225,10 +226,9 @@ public class RegistryFilterSearchTestCase extends GREGIntegrationBaseTest {
         Resource resource = governance.get(wsdl.getPath());
         resource.addProperty("wsdlProperty", "10");
         governance.put(wsdl.getPath(), resource);
-        Thread.sleep(60000);
     }
 
-    public void addSchema() throws IOException, RegistryException, InterruptedException {
+    public void addSchema() throws IOException, RegistryException {
         SchemaManager schemaManager = new SchemaManager(governance);
         String schemaFilePath = FrameworkPathUtil.getSystemResourceLocation() + "artifacts" +
                 File.separator + "GREG" + File.separator + "schema" + File.separator + "library.xsd";
@@ -238,7 +238,6 @@ public class RegistryFilterSearchTestCase extends GREGIntegrationBaseTest {
         Resource resource = governance.get(schema.getPath());
         resource.addProperty("wsdlProperty", "20");
         governance.put(schema.getPath(), resource);
-        Thread.sleep(60000);
     }
 
     @AfterClass

@@ -682,7 +682,7 @@ public class RegistrySearchByPropertyValueWithEmptyValueTest extends GREGIntegra
             throws ResourceAdminServiceExceptionException, IOException, RegistryException, InterruptedException {
         addWSDL();
         addSchema();
-        Thread.sleep(60000);
+        Thread.sleep(30000);
     }
 
     public void addWSDL()

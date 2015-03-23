@@ -314,7 +314,7 @@ public class RegistrySearchByPropertyValueTestCase extends GREGIntegrationBaseTe
             throws ResourceAdminServiceExceptionException, IOException, RegistryException, SearchAdminServiceRegistryExceptionException, InterruptedException {
         addWSDL();
         addSchema();
-        Thread.sleep(60000);
+        Thread.sleep(30000);
     }
 
     private void addWSDL()

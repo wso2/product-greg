@@ -84,7 +84,7 @@ public class SearchServiceByParamTestCase extends GREGIntegrationBaseTest {
         GovernanceUtils.loadGovernanceArtifacts((UserRegistry) governance);
         serviceManager = new ServiceManager(governance);
         addResources();
-        Thread.sleep(60000);
+        Thread.sleep(30000);
     }
 
     @Test(groups = {"wso2.greg"}, description = "search via filter")
