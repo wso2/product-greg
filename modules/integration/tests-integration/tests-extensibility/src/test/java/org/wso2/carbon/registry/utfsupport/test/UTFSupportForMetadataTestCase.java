@@ -130,8 +130,7 @@ public class UTFSupportForMetadataTestCase extends GREGIntegrationBaseTest {
         String WSDL_URL = "https://svn.wso2.org/repos/wso2/carbon/platform/trunk/products/greg/modules/integration/registry" +
                           "/tests-new/src/test/resources/artifacts/GREG/wsdl/Axis2ImportedWsdl.wsdl";
         associatePath = addWSDL("wsdl_" + utfString, "desc", WSDL_URL);
-
-
+        Thread.sleep(30000);
 
     }
 
@@ -167,7 +166,7 @@ public class UTFSupportForMetadataTestCase extends GREGIntegrationBaseTest {
           dependsOnMethods = {"testByResourceName"})
     public void testSearchByTag() throws Exception {
         UTFSupport.addTag(infoServiceAdminClient, utfString, pathPrefix + policyPath, automationContext);
-        Thread.sleep(30000);
+        Thread.sleep(20000);
         CustomSearchParameterBean searchQuery = new CustomSearchParameterBean();
         SearchParameterBean paramBean = new SearchParameterBean();
         paramBean.setTags(utfString);
@@ -193,7 +192,7 @@ public class UTFSupportForMetadataTestCase extends GREGIntegrationBaseTest {
     public void testSearchByComment()
             throws Exception {
         UTFSupport.addComment(infoServiceAdminClient, utfString, pathPrefix + policyPath, automationContext);
-        Thread.sleep(30000);
+        Thread.sleep(20000);
         CustomSearchParameterBean searchQuery = new CustomSearchParameterBean();
         SearchParameterBean paramBean = new SearchParameterBean();
         paramBean.setCommentWords(utfString);
@@ -277,7 +276,7 @@ public class UTFSupportForMetadataTestCase extends GREGIntegrationBaseTest {
                                                sessionCookieLocal);
 
         resourceAdminServiceClient.addCollection("/", "test_collection", "other", "desc");
-        Thread.sleep(30000);
+        Thread.sleep(20000);
         CustomSearchParameterBean searchQuery = new CustomSearchParameterBean();
         SearchParameterBean paramBean = new SearchParameterBean();
         paramBean.setAuthor(utfString);
@@ -365,7 +364,7 @@ public class UTFSupportForMetadataTestCase extends GREGIntegrationBaseTest {
 
         DataHandler dh = new DataHandler(new URL("file:///" + resourcePath));
         resourceAdminServiceClient.addResource("/_system/governance/trunk/test1/" + "testresource.txt", utfString, "desc", dh);
-        Thread.sleep(30000);
+        Thread.sleep(20000);
         CustomSearchParameterBean searchQuery = new CustomSearchParameterBean();
         SearchParameterBean paramBean = new SearchParameterBean();
         paramBean.setMediaType(utfString);
@@ -538,7 +537,7 @@ public class UTFSupportForMetadataTestCase extends GREGIntegrationBaseTest {
     public void testByAssociationDest() throws Exception {
 
         relationAdminServiceClient.addAssociation(pathPrefix + policyPath, utfString, pathPrefix + associatePath, "add");
-        Thread.sleep(30000);
+        Thread.sleep(20000);
         CustomSearchParameterBean searchQuery = new CustomSearchParameterBean();
         SearchParameterBean paramBean = new SearchParameterBean();
         paramBean.setAssociationDest(pathPrefix + associatePath);
@@ -596,7 +595,6 @@ public class UTFSupportForMetadataTestCase extends GREGIntegrationBaseTest {
         Resource resource = governance.get(wsdl.getPath());
         resource.addProperty(utfString, utfString);
         governance.put(wsdl.getPath(), resource);
-        Thread.sleep(30000);
         return wsdl.getPath();
 
     }
@@ -606,7 +604,6 @@ public class UTFSupportForMetadataTestCase extends GREGIntegrationBaseTest {
             ResourceAdminServiceExceptionException, RemoteException, RegistryException, InterruptedException {
 
         resourceAdminServiceClient.addPolicy(policyName, desc, url);
-        Thread.sleep(30000);
         PolicyManager policyManager = new PolicyManager(governance);
         Policy[] policies = policyManager.getAllPolicies();
         String path = null;
@@ -627,7 +624,6 @@ public class UTFSupportForMetadataTestCase extends GREGIntegrationBaseTest {
             RegistryException, InterruptedException {
 
         resourceAdminServiceClient.addWSDL(wsdlName, desc, url);
-        Thread.sleep(30000);
         WsdlManager wsdlManager = new WsdlManager(governance);
         Wsdl[] wsdls = wsdlManager.getAllWsdls();
         String path = null;

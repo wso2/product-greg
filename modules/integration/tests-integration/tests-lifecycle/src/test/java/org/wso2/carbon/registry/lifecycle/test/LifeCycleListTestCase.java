@@ -196,7 +196,7 @@ public class LifeCycleListTestCase extends GREGIntegrationBaseTest{
                 }
             }
         }
-        Thread.sleep(60000);
+        Thread.sleep(30000);
         assertEquals(serviceCount, SERVICE_NAMES.length, "Mismatching number of services");
     }
 
@@ -242,7 +242,7 @@ public class LifeCycleListTestCase extends GREGIntegrationBaseTest{
                 File.separator + "CheckListPermissionLC.xml";
         lifeCycleContent = FileManager.readFile(resourcePath);
         lifeCycleManagementClient.addLifeCycle(lifeCycleContent);
-        Thread.sleep(60000);
+        Thread.sleep(30000);
         assertEquals(lifeCycleManagementClient.getLifecycleList().length, realLcCount + LC_NAMES.length,
                      "LifeCycle number mismatched");
 
@@ -306,7 +306,7 @@ public class LifeCycleListTestCase extends GREGIntegrationBaseTest{
                 lcStatus = true;
             }
         }
-        Thread.sleep(60000);
+        Thread.sleep(30000);
         assertTrue(lcStatus, "LifeCycle not added to service");
     }
 

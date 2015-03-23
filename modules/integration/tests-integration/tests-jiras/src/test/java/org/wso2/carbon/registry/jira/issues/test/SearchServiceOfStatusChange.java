@@ -119,7 +119,7 @@ public class SearchServiceOfStatusChange extends GREGIntegrationBaseTest {
             throws RegistryException, CustomLifecyclesChecklistAdminServiceExceptionException,
             RemoteException, InterruptedException {
         servicePath = addService();
-        Thread.sleep(60000);
+        Thread.sleep(20000);
         wsRegistryServiceClient.associateAspect(pathPrefix + servicePath, LC_NAME);
         LifecycleBean lifeCycle = lifeCycleAdminServiceClient.getLifecycleBean(pathPrefix + servicePath);
         Property[] properties = lifeCycle.getLifecycleProperties();
@@ -153,7 +153,7 @@ public class SearchServiceOfStatusChange extends GREGIntegrationBaseTest {
 
         searchQuery.setParameterValues(paramList);
         paramList = null;
-        Thread.sleep(60000);
+        Thread.sleep(30000);
         AdvancedSearchResultsBean result = searchAdminServiceClient.getAdvancedSearchResults(searchQuery);
         Assert.assertNotNull(result.getResourceDataList(), "No Record Found");
         Assert.assertTrue((result.getResourceDataList().length > 0));

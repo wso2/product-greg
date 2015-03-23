@@ -132,7 +132,7 @@ public class Carbon9147TestCase extends GREGIntegrationBaseTest {
                               "GREG" + File.separator + "wsdl" + File.separator + "echo.wsdl";
         wsdl = wsdlManager.newWsdl(FileManager.readFile(wsdlFilePath).getBytes(), "echo.wsdl");
         wsdlManager.addWsdl(wsdl);
-        Thread.sleep(60000);
+        Thread.sleep(30000);
     }
 
 }

@@ -124,7 +124,7 @@ public class ServiceVersionTestForLCs extends GREGIntegrationBaseTest{
         ArrayOfString[] paramList = paramBean.getParameterList();
 
         searchQuery.setParameterValues(paramList);
-        Thread.sleep(60000);
+        Thread.sleep(30000);
         AdvancedSearchResultsBean result = searchAdminService.getAdvancedSearchResults(searchQuery);
         Assert.assertNotNull(result.getResourceDataList(), "No Record Found");
         Assert.assertTrue((result.getResourceDataList().length == 1), "No Record Found for Life Cycle " +

@@ -118,7 +118,7 @@ public class SaveSearchTestCase extends GREGIntegrationBaseTest{
         searchQuery.setParameterValues(paramList);
         searchAdminServiceClient.saveAdvancedSearchFilter(searchQuery, FILTER_NAME);
         String[] filters = searchAdminServiceClient.getSavedFilters();
-        Thread.sleep(30000);
+        Thread.sleep(60000);
         boolean filterFound = false;
         for (String filter : filters) {
 

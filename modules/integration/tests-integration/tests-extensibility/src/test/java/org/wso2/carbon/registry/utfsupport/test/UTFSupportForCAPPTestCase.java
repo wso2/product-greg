@@ -77,7 +77,7 @@ public class UTFSupportForCAPPTestCase extends GREGIntegrationBaseTest {
 
         cAppUploader.uploadCarbonAppArtifact("text_resources2_1.0.0.car",
                                              new DataHandler(new URL("file:///" + filePath)));
-        Thread.sleep(60000);
+        Thread.sleep(30000);
 
         Assert.assertTrue(CAppTestUtils.isCAppDeployed(sessionCookie, "text_resources_1.0.0",
                                                        applicationAdminClient));
@@ -122,7 +122,7 @@ public class UTFSupportForCAPPTestCase extends GREGIntegrationBaseTest {
 
         cAppUploader.uploadCarbonAppArtifact("Capp_1.0.0.car",
                                              new DataHandler(new URL("file:///" + filePath)));
-        Thread.sleep(60000);
+        Thread.sleep(30000);
 
         Assert.assertTrue(CAppTestUtils.isCAppDeployed(sessionCookie, "Capp_1.0.0", applicationAdminClient));
 

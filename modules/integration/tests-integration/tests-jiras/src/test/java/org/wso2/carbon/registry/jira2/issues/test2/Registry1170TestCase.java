@@ -76,7 +76,7 @@ public class Registry1170TestCase extends GREGIntegrationBaseTest {
         String mediaType = "application/vnd.wso2-service+xml";
         String description = "This is a test service";
         resourceAdminServiceClient.addResource("/_system/governance/service1", mediaType, description, dataHandler);
-        Thread.sleep(60000);
+        Thread.sleep(30000);
         ResourceData[] resourceDataArray = resourceAdminServiceClient.
                 getResource(SERVICE_PATH);
 

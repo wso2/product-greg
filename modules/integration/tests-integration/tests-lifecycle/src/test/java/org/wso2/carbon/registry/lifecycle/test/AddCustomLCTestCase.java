@@ -127,7 +127,7 @@ public class AddCustomLCTestCase extends GREGIntegrationBaseTest {
         paramBean.setResourceName(ASPECT_NAME);
         ArrayOfString[] paramList = paramBean.getParameterList();
         searchQuery.setParameterValues(paramList);
-        Thread.sleep(60000);
+        Thread.sleep(30000);
         AdvancedSearchResultsBean result = searchAdminService.getAdvancedSearchResults(searchQuery);
         assertNotNull(result.getResourceDataList(), "No Record Found");
         assertTrue((result.getResourceDataList().length == 1), "No Record Found for Life Cycle " +
