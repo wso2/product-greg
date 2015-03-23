@@ -51,6 +51,7 @@ import org.wso2.greg.integration.common.clients.LifeCycleManagementClient;
 import org.wso2.greg.integration.common.clients.SearchAdminServiceClient;
 import org.wso2.greg.integration.common.utils.GREGIntegrationBaseTest;
 import org.wso2.greg.integration.common.utils.RegistryProviderUtil;
+
 import java.io.IOException;
 import java.rmi.RemoteException;
 
@@ -123,6 +124,7 @@ public class ServiceVersionTestForLCs extends GREGIntegrationBaseTest{
         ArrayOfString[] paramList = paramBean.getParameterList();
 
         searchQuery.setParameterValues(paramList);
+        Thread.sleep(30000);
         AdvancedSearchResultsBean result = searchAdminService.getAdvancedSearchResults(searchQuery);
         Assert.assertNotNull(result.getResourceDataList(), "No Record Found");
         Assert.assertTrue((result.getResourceDataList().length == 1), "No Record Found for Life Cycle " +

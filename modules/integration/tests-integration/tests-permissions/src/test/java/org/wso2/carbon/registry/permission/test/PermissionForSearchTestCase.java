@@ -112,7 +112,7 @@ public class PermissionForSearchTestCase extends GREGIntegrationBaseTest{
 
     @Test(groups = "wso2.greg", description = "Test allow permission for search", dependsOnMethods = "testDenySearch")
     public void testAllowSearch()
-            throws SearchAdminServiceRegistryExceptionException, RemoteException {
+            throws SearchAdminServiceRegistryExceptionException, RemoteException, InterruptedException {
         CustomSearchParameterBean searchQuery = new CustomSearchParameterBean();
         SearchParameterBean paramBean = new SearchParameterBean();
         paramBean.setResourceName(EXISTING_RESOURCE_NAME);
@@ -120,6 +120,7 @@ public class PermissionForSearchTestCase extends GREGIntegrationBaseTest{
 
         searchQuery.setParameterValues(paramList);
         paramList = null;
+        Thread.sleep(30000);
         AdvancedSearchResultsBean result = searchEnabledAdminServiceClient.getAdvancedSearchResults(searchQuery);
         assertNotNull(result.getResourceDataList());
     }

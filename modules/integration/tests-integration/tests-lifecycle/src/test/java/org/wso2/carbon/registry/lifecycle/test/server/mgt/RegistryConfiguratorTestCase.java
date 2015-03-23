@@ -152,10 +152,16 @@ public class RegistryConfiguratorTestCase extends GREGIntegrationBaseTest {
         try {
             AXIOMXPath xpathExpression = new AXIOMXPath("/wso2registry/indexingConfiguration/startingDelayInSeconds");
             OMElement indexConfigNode = (OMElement) xpathExpression.selectSingleNode(documentElement);
-            indexConfigNode.setText("60");
+            indexConfigNode.setText("30");
             AXIOMXPath xpathExpression1 = new AXIOMXPath("/wso2registry/indexingConfiguration/indexingFrequencyInSeconds");
             OMElement indexConfigNode1 = (OMElement) xpathExpression1.selectSingleNode(documentElement);
-            indexConfigNode1.setText("5");
+            indexConfigNode1.setText("3");
+            AXIOMXPath xpathExpression2 = new AXIOMXPath("/wso2registry/indexingConfiguration/batchSize");
+            OMElement indexConfigNode2 = (OMElement) xpathExpression2.selectSingleNode(documentElement);
+            indexConfigNode2.setText("120");
+            AXIOMXPath xpathExpression3 = new AXIOMXPath("/wso2registry/indexingConfiguration/indexerPoolSize");
+            OMElement indexConfigNode3 = (OMElement) xpathExpression3.selectSingleNode(documentElement);
+            indexConfigNode3.setText("120");
             fileOutputStream = new FileOutputStream(getRegistryXMLPath());
             writer = XMLOutputFactory.newInstance().createXMLStreamWriter(fileOutputStream);
             documentElement.serialize(writer);

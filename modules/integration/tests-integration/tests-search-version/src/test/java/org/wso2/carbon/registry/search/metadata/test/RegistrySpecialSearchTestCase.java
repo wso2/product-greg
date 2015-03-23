@@ -65,6 +65,7 @@ public class RegistrySpecialSearchTestCase extends GREGIntegrationBaseTest {
     public void init() throws Exception {
 
         super.init(TestUserMode.SUPER_TENANT_ADMIN);
+
         backEndUrl = getBackendURL();
         sessionCookie = getSessionCookie();
         userName = automationContext.getContextTenant().getContextUser().getUserName();
@@ -106,6 +107,7 @@ public class RegistrySpecialSearchTestCase extends GREGIntegrationBaseTest {
 
         cAppUploader.uploadCarbonAppArtifact("text_resources_1.0.0.car",
                                              new DataHandler(new URL("file:///" + filePath)));
+        Thread.sleep(60000);
 
     }
 

@@ -18,7 +18,6 @@
 package org.wso2.carbon.registry.jira2.issues.test2;
 
 import org.testng.Assert;
-import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 import org.wso2.carbon.automation.engine.context.TestUserMode;
@@ -37,7 +36,6 @@ import javax.xml.stream.XMLStreamException;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
-import java.rmi.RemoteException;
 
 import static org.testng.Assert.assertNotNull;
 import static org.testng.Assert.assertTrue;
@@ -53,6 +51,7 @@ public class Registry1170TestCase extends GREGIntegrationBaseTest {
     @BeforeClass(alwaysRun = true)
     public void initialize() throws Exception {
         super.init(TestUserMode.SUPER_TENANT_ADMIN);
+
         session = getSessionCookie();
 
         infoServiceAdminClient =
@@ -64,9 +63,9 @@ public class Registry1170TestCase extends GREGIntegrationBaseTest {
 
     @Test(groups = "wso2.greg", description = "Create a service")
     public void testCreateService() throws XMLStreamException, IOException,
-                                           AddServicesServiceRegistryExceptionException,
-                                           ListMetadataServiceRegistryExceptionException,
-                                           ResourceAdminServiceExceptionException {
+            AddServicesServiceRegistryExceptionException,
+            ListMetadataServiceRegistryExceptionException,
+            ResourceAdminServiceExceptionException, InterruptedException {
 
         String servicePath =
                 getTestArtifactLocation() + "artifacts" +
@@ -77,7 +76,7 @@ public class Registry1170TestCase extends GREGIntegrationBaseTest {
         String mediaType = "application/vnd.wso2-service+xml";
         String description = "This is a test service";
         resourceAdminServiceClient.addResource("/_system/governance/service1", mediaType, description, dataHandler);
-
+        Thread.sleep(30000);
         ResourceData[] resourceDataArray = resourceAdminServiceClient.
                 getResource(SERVICE_PATH);
 

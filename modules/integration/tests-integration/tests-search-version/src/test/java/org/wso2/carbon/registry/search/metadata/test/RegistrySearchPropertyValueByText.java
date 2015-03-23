@@ -45,6 +45,7 @@ public class RegistrySearchPropertyValueByText extends GREGIntegrationBaseTest {
     public void init() throws Exception {
 
         super.init(TestUserMode.SUPER_TENANT_ADMIN);
+
         backEndUrl = getBackendURL();
         sessionCookie = getSessionCookie();
         userName = automationContext.getContextTenant().getContextUser().getUserName();
@@ -69,7 +70,7 @@ public class RegistrySearchPropertyValueByText extends GREGIntegrationBaseTest {
     @Test(groups = {"wso2.greg"}, description = "add wsdl")
 
     public void addWSDL()
-            throws IOException, ResourceAdminServiceExceptionException, RegistryException {
+            throws IOException, ResourceAdminServiceExceptionException, RegistryException, InterruptedException {
 
         WsdlManager wsdlManager = new WsdlManager(governance);
         Wsdl wsdl;
@@ -81,6 +82,7 @@ public class RegistrySearchPropertyValueByText extends GREGIntegrationBaseTest {
         Resource resource = governance.get(wsdl.getPath());
         resource.addProperty("wsdlPropertyText", "ee");
         governance.put(wsdl.getPath(), resource);
+        Thread.sleep(60000);
     }
 
     @Test(groups = {"wso2.greg"}, description = "Search by Property value a <= X < b", dependsOnMethods = "addWSDL")
