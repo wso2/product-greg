@@ -159,7 +159,7 @@ public class RegistryConfiguratorTestCase extends GREGIntegrationBaseTest {
             indexConfigNode2.setText("120");
             AXIOMXPath xpathExpression3 = new AXIOMXPath("/wso2registry/indexingConfiguration/indexerPoolSize");
             OMElement indexConfigNode3 = (OMElement) xpathExpression3.selectSingleNode(documentElement);
-            indexConfigNode3.setText("120");
+            indexConfigNode3.setText("50");
 
             fileOutputStream = new FileOutputStream(getRegistryXMLPath());
             writer = XMLOutputFactory.newInstance().createXMLStreamWriter(fileOutputStream);

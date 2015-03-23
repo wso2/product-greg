@@ -96,6 +96,7 @@ public class PermissionForSearchTestCase extends GREGIntegrationBaseTest{
         searchDisabledAdminServiceClient =
                 new SearchAdminServiceClient(automationContextUser2.getContextUrls().getBackEndUrl(),
                         new LoginLogoutClient(automationContextUser2).login());
+        Thread.sleep(60000);
     }
 
     @Test(groups = "wso2.greg", description = "Test deny permission for search", expectedExceptions = AxisFault.class)
