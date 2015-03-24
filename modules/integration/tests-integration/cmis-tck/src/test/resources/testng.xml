@@ -84,7 +84,7 @@
             <!--<class name="org.wso2.carbon.registry.version.test.PropertyServiceTestCase"/>-->
             <!--<class name="org.wso2.carbon.registry.metadata.test.wsdl.LargeWSDLAdditionTestCase"/>-->
             <!--<class name="org.wso2.carbon.registry.activity.search.ActivitySearchByFilterTestCase"/>-->
-            <!--<class name="org.wso2.carbon.registry.server.mgt.test.ServerStartupTestCase"/>-->
+            <!--<class name="org.wso2.carbon.registry.server.mgt.test.org.wso2.carbon.registry.server.mgt.test.RegistryConfiguratorTestCase.ServerStartupTestCase"/>-->
         </classes>
     </test>
 </suite>

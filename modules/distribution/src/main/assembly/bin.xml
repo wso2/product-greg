@@ -367,8 +367,8 @@
 
 	<!-- ES Extensions for service UI-->
         <fileSet>
-            <directory>../p2-profile-gen/target/wso2carbon-core-${carbon.kernel.version}/repository/resources/publisher/asset/service</directory>
-            <outputDirectory>${pom.artifactId}-${pom.version}/repository/deployment/server/jaggeryapps/publisher/extensions/assets/service</outputDirectory>
+            <directory>../p2-profile-gen/target/wso2carbon-core-${carbon.kernel.version}/repository/resources/publisher/asset/soapservice</directory>
+            <outputDirectory>${pom.artifactId}-${pom.version}/repository/deployment/server/jaggeryapps/publisher/extensions/assets/soapservice</outputDirectory>
         </fileSet>
 
         <fileSet>
@@ -397,8 +397,8 @@
         </fileSet>
         
         <fileSet>
-            <directory>../p2-profile-gen/target/wso2carbon-core-${carbon.kernel.version}/repository/resources/store/asset/service</directory>
-            <outputDirectory>${pom.artifactId}-${pom.version}/repository/deployment/server/jaggeryapps/store/extensions/assets/service</outputDirectory>
+            <directory>../p2-profile-gen/target/wso2carbon-core-${carbon.kernel.version}/repository/resources/store/asset/soapservice</directory>
+            <outputDirectory>${pom.artifactId}-${pom.version}/repository/deployment/server/jaggeryapps/store/extensions/assets/soapservice</outputDirectory>
         </fileSet>
 
         <fileSet>
@@ -806,6 +806,13 @@
         <file>
             <source>${basedir}/src/main/resources/carbon-home/bin/checkin-client.bat</source>
             <outputDirectory>${pom.artifactId}-${build.version}/bin/</outputDirectory>
+            <filtered>true</filtered>
+            <fileMode>644</fileMode>
+        </file>
+        <!-- Temp fix for web app class loading issue -->
+        <file>
+            <source>${basedir}/src/main/resources/etc/launch.ini</source>
+            <outputDirectory>${pom.artifactId}-${build.version}/repository/conf/etc/</outputDirectory>
             <filtered>true</filtered>
             <fileMode>644</fileMode>
         </file>

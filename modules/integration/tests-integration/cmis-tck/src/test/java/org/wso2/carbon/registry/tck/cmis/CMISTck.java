@@ -63,8 +63,10 @@ public class CMISTck extends GREGIntegrationBaseTest {
         ps.println(CMIS_PATH + "=" + cmisJarPath);
         ps.println(LOG_PATH + "=" + loggingJarPath);
 
+        System.out.println(cmisJarPath);
+        System.out.println(loggingJarPath);
+
         Process p = Runtime.getRuntime().exec("ant cmis");
-        Thread.sleep(10000L);
         int stat = p.waitFor();
 
         if (stat == 0) {

@@ -22,8 +22,8 @@ app.dependencies=['publisher_common'];
 app.server = function(ctx) {
     return {
         configs: {
-            landingPage: '/asts/service/list',
-            disabledAssets: ['ebook','proxy','sequence','servicex','uri',
+            landingPage: '/asts/soapservice/list',
+            disabledAssets: ['ebook','proxy','sequence','service','servicex','uri',
                              'site','provider','gadget','document','api']
         }
     }

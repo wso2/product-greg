@@ -53,8 +53,8 @@ public class Carbon6025TestCase extends GREGIntegrationBaseTest {
 
     @Test(groups = {"wso2.greg"}, description = "add a wsdl")
     public void testAddGar()
-            throws RegistryException, IOException, ResourceAdminServiceExceptionException {
-
+            throws RegistryException, IOException, ResourceAdminServiceExceptionException, InterruptedException {
+        Thread.sleep(60000L);
         String filePath = getTestArtifactLocation() + "artifacts" + File.separator +
                           "GREG" + File.separator + "gar" + File.separator + "myGar.gar";
         DataHandler dh = new DataHandler(new URL("file:///" + filePath));
