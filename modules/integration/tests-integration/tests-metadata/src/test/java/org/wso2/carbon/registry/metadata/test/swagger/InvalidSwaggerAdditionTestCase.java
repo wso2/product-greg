@@ -37,6 +37,7 @@ import java.rmi.RemoteException;
  * This class contains test cases to test adding invalid swagger documents to GREG.
  */
 public class InvalidSwaggerAdditionTestCase extends GREGIntegrationBaseTest{
+	private static final String URL_MALFORMED = "File url is malformed. ";
 	private ResourceAdminServiceClient resourceAdminServiceClient;
 
 	/**
@@ -67,9 +68,8 @@ public class InvalidSwaggerAdditionTestCase extends GREGIntegrationBaseTest{
 		} catch (RemoteException | ResourceAdminServiceExceptionException e) {
 			Assert.assertTrue(e.getMessage().contains("Unsupported swagger version."));
 		} catch (MalformedURLException e) {
-			String msg = "File url is malformed. ";
-			log.error(msg, e);
-			Assert.fail(msg);
+			log.error(URL_MALFORMED, e);
+			Assert.fail(URL_MALFORMED);
 		}
 	}
 
@@ -88,9 +88,28 @@ public class InvalidSwaggerAdditionTestCase extends GREGIntegrationBaseTest{
 		} catch (RemoteException | ResourceAdminServiceExceptionException e) {
 			Assert.assertTrue(e.getMessage().contains("Unsupported swagger version."));
 		} catch (MalformedURLException e) {
-			String msg = "File url is malformed. ";
-			log.error(msg, e);
-			Assert.fail(msg);
+			log.error(URL_MALFORMED, e);
+			Assert.fail(URL_MALFORMED);
+		}
+	}
+
+	/**
+	 * Adding a corrupted swagger document.
+	 */
+	@Test(groups = {"wso2.greg"}, description = "Adding a corrupted swagger")
+	public void testAddCorruptedSwagger() throws RemoteException, ResourceAdminServiceExceptionException {
+		String fileName = "corruptedSwagger.json";
+		String swaggerPath =
+				FrameworkPathUtil.getSystemResourceLocation() + "artifacts" + File.separator + "GREG" + File.separator +
+				"swagger" + File.separator + fileName;
+		try {
+			resourceAdminServiceClient.addSwagger("Adding a corrupted swagger file. ",
+			                                      new DataHandler(new URL("file:///" + swaggerPath)));
+		} catch (RemoteException | ResourceAdminServiceExceptionException e) {
+			Assert.assertTrue(e.getMessage().contains("Invalid swagger document."));
+		} catch (MalformedURLException e) {
+			log.error(URL_MALFORMED, e);
+			Assert.fail(URL_MALFORMED);
 		}
 	}
 
