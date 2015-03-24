@@ -4,7 +4,9 @@ target
 .classpath
 .settings
 .project
-*.i??
+*.im?
+*.iw?
+*.ip?
 .idea
 atlassian-ide-plugin.xml
 modules/jaxwebapps/
