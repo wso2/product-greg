@@ -152,7 +152,7 @@
     <!-- This handler processes service end-points defined in the WSDL files being uploaded to the registry -->
 
     <handler class="org.wso2.carbon.registry.extensions.handlers.EndpointMediaTypeHandler">
-        <property name="endpointMediaType">application/vnd.wso2.endpoint</property>
+        <property name="endpointMediaType">application/vnd.wso2-endpoint+xml</property>
         <property name="endpointLocationConfiguration" type="xml">
             <location>/trunk/endpoints/</location>
         </property>

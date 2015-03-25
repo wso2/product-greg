@@ -18,6 +18,7 @@
 
 package org.wso2.carbon.registry.metadata.test.wsdl;
 
+import org.testng.Assert;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
@@ -52,12 +53,12 @@ public class ValidWsdlWithEndpointsTestCase extends GREGIntegrationBaseTest {
     private ResourceAdminServiceClient resourceAdminServiceClient;
     private String sessionCookie;
     private String[] endpointArtifactPaths = {
-            "/_system/governance/trunk/endpoints/localhost/services/ep-echo-yu-echoHttpEndpoint",
-            "/_system/governance/trunk/endpoints/localhost/services/ep-echo-yu-echoHttpsEndpoint",
-            "/_system/governance/trunk/endpoints/localhost/services/ep-echo-yu-echoHttpSoap11Endpoint",
-            "/_system/governance/trunk/endpoints/localhost/services/ep-echo-yu-echoHttpSoap12Endpoint",
-            "/_system/governance/trunk/endpoints/localhost/services/ep-echo-yu-echoHttpsSoap11Endpoint",
-            "/_system/governance/trunk/endpoints/localhost/services/ep-echo-yu-echoHttpsSoap12Endpoint" };
+            "/trunk/endpoints/localhost/services/ep-echo-yu-echoHttpsSoap11Endpoint",
+            "/trunk/endpoints/localhost/services/ep-echo-yu-echoHttpSoap11Endpoint",
+            "/trunk/endpoints/localhost/services/ep-echo-yu-echoHttpsSoap12Endpoint",
+            "/trunk/endpoints/localhost/services/ep-echo-yu-echoHttpSoap12Endpoint",
+            "/trunk/endpoints/localhost/services/ep-echo-yu-echoHttpEndpoint",
+            "/trunk/endpoints/localhost/services/ep-echo-yu-echoHttpsEndpoint" };
 
     @BeforeClass(groups = "wso2.greg", alwaysRun = true)
     public void initialize() throws Exception {
@@ -78,7 +79,7 @@ public class ValidWsdlWithEndpointsTestCase extends GREGIntegrationBaseTest {
      * @throws MalformedURLException
      */
     @Test(groups = "wso2.greg", description = "Add secured URL WSDL Axis2Import.wsdl")
-    public void testAddSecuredURLWSDL()
+    public void testAddSecuredURLWSDLWithEndpoints()
             throws RemoteException, ResourceAdminServiceExceptionException, GovernanceException, MalformedURLException {
 
         wsdl = wsdlManager.newWsdl("https://svn.wso2.org" +
@@ -91,8 +92,11 @@ public class ValidWsdlWithEndpointsTestCase extends GREGIntegrationBaseTest {
         wsdlManager.addWsdl(wsdl);
 
         Endpoint[] endpoints = wsdl.getAttachedEndpoints();
+        Assert.assertNotNull(endpoints, "No Records Found");
+        Assert.assertTrue((endpoints.length == 6), "There should be only 6 records");
 
         for (int i = 0; i < endpoints.length; i++) {
+            log.info("Resource Path: " + ((EndpointImpl) endpoints[i]).getArtifactPath());
             assertTrue(endpointArtifactPaths[i].equals(((EndpointImpl) endpoints[i]).getArtifactPath()));
         }
     }
