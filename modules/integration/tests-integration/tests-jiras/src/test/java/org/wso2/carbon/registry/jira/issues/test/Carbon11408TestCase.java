@@ -65,7 +65,7 @@ public class Carbon11408TestCase extends GREGIntegrationBaseTest {
         governance = registryProviderUtil.getGovernanceRegistry(registry, automationContext);
         relationAdminServiceClient =
                 new RelationAdminServiceClient(backendURL, session);
-
+        Thread.sleep(10000);
         wsdlManager = new WsdlManager(governance);
         Wsdl[] wsdls = wsdlManager.getAllWsdls();
         for (Wsdl wsdl : wsdls) {
@@ -73,7 +73,7 @@ public class Carbon11408TestCase extends GREGIntegrationBaseTest {
                 wsdlManager.removeWsdl(wsdl.getId());
             }
         }
-
+        Thread.sleep(30000);
         ServiceManager serviceManager = new ServiceManager(governance);
         Service[] services = serviceManager.getAllServices();
         for (Service s : services) {

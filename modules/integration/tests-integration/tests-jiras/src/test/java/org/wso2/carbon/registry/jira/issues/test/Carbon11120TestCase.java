@@ -92,7 +92,7 @@ public class Carbon11120TestCase extends GREGIntegrationBaseTest {
      * @throws MalformedURLException
      */
     public void addWSDL() throws ResourceAdminServiceExceptionException, RemoteException,
-            MalformedURLException, RegistryException {
+                                 MalformedURLException, RegistryException, InterruptedException {
         Boolean nameExists = false;
         String path1 =
                 getTestArtifactLocation() + "artifacts" +
@@ -114,7 +114,7 @@ public class Carbon11120TestCase extends GREGIntegrationBaseTest {
 
         GovernanceUtils.loadGovernanceArtifacts((UserRegistry)governance,
                 GovernanceUtils.findGovernanceArtifactConfigurations(governance));
-
+        Thread.sleep(20000);
         for (Service service : serviceManager.getAllServices()) {
             String name = service.getQName().getLocalPart();
             if (name.contains(SERVICE_NAME)) {
@@ -136,7 +136,7 @@ public class Carbon11120TestCase extends GREGIntegrationBaseTest {
     @Test(groups = "wso2.greg", description = "Save the existing service without modifying and list services ")
     public void testSaveListService() throws RemoteException, MalformedURLException,
             ResourceAdminServiceExceptionException,
-            RegistryException,
+            RegistryException, InterruptedException ,
             LogViewerLogViewerException {
 
         String ADD_LOG =

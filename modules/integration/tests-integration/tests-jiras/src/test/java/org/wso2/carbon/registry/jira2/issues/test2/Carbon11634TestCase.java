@@ -72,7 +72,7 @@ public class Carbon11634TestCase extends GREGIntegrationBaseTest {
     public void init() throws Exception {
         super.init(TestUserMode.SUPER_TENANT_ADMIN);
         String session = getSessionCookie();
-
+        Thread.sleep(10000);
 
         lifeCycleAdminServiceClient =
                 new LifeCycleAdminServiceClient(backendURL, session);
@@ -128,8 +128,8 @@ public class Carbon11634TestCase extends GREGIntegrationBaseTest {
     }
 
     @Test(groups = {"wso2.greg"}, description = "add WSDL", dependsOnMethods = {"testPromote"})
-    public void testAttachWSDL() throws IOException, RegistryException {
-
+    public void testAttachWSDL() throws IOException, RegistryException, InterruptedException {
+        Thread.sleep(10000);
         Service[] services = serviceManager.getAllServices();
         for (Service service : services) {
             String name = service.getQName().getLocalPart();

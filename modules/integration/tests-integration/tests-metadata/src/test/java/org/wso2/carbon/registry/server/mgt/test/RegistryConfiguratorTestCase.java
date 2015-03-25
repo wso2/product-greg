@@ -81,6 +81,7 @@ public class RegistryConfiguratorTestCase extends GREGIntegrationBaseTest {
         ServerConfigurationManager serverConfigurationManager =
                 new ServerConfigurationManager (automationContext);
         serverConfigurationManager.restartGracefully();
+        Thread.sleep(120000);
 
     }
 

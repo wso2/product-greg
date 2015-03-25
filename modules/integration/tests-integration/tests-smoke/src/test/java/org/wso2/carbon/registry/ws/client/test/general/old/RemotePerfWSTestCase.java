@@ -49,6 +49,7 @@ public class RemotePerfWSTestCase extends GREGIntegrationBaseTest {
             worker3();
             worker4();
             worker5();
+            Thread.sleep(12000);
         } catch(Exception e) {
             e.printStackTrace();
             fail("The Remote Perf Test for WS-API failed");

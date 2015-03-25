@@ -77,6 +77,7 @@ public class RegistryConfiguratorTestCase extends GREGIntegrationBaseTest {
         ServerConfigurationManager serverConfigurationManager =
                 new ServerConfigurationManager (automationContext);
         serverConfigurationManager.restartGracefully();
+        Thread.sleep(120000);
 
     }
 
@@ -188,7 +189,7 @@ public class RegistryConfiguratorTestCase extends GREGIntegrationBaseTest {
             indexConfigNode1.setText("3");
             AXIOMXPath xpathExpression2 = new AXIOMXPath("/wso2registry/indexingConfiguration/batchSize");
             OMElement indexConfigNode2 = (OMElement) xpathExpression2.selectSingleNode(documentElement);
-            indexConfigNode2.setText("70");
+            indexConfigNode2.setText("50");
             AXIOMXPath xpathExpression3 = new AXIOMXPath("/wso2registry/indexingConfiguration/indexerPoolSize");
             OMElement indexConfigNode3 = (OMElement) xpathExpression3.selectSingleNode(documentElement);
             indexConfigNode3.setText("50");

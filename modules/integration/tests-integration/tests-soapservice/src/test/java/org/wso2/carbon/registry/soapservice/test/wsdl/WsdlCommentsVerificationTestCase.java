@@ -70,8 +70,8 @@ public class WsdlCommentsVerificationTestCase extends GREGIntegrationBaseTest{
     @Test(groups = "wso2.greg", description = "comments verification")
     public void testAddWSDL() throws RemoteException,
                                      ResourceAdminServiceExceptionException, GovernanceException,
-                                     MalformedURLException {
-
+                                     MalformedURLException, InterruptedException {
+        Thread.sleep(30000L);
         wsdl = wsdlManager
                 .newWsdl("https://svn.wso2.org/repos/wso2/carbon/platform/trunk/platform-integration/"
                          + "platform-automated-test-suite/org.wso2.carbon.automation.test.repo/src/main/resources/artifacts/"

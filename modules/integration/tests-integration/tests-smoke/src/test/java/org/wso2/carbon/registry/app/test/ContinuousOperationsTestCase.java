@@ -76,6 +76,7 @@ public class ContinuousOperationsTestCase extends GREGIntegrationBaseTest{
             resource1.discard();
             Thread.sleep(100);
         }
+        Thread.sleep(60000);
     }
 
     @Test(groups = {"wso2.greg"}, dependsOnMethods = "ContinuousDelete")
@@ -115,6 +116,7 @@ public class ContinuousOperationsTestCase extends GREGIntegrationBaseTest{
             resource2.discard();
             Thread.sleep(100);
         }
+        Thread.sleep(60000);
     }
 
     @AfterClass(alwaysRun = true)

@@ -81,7 +81,7 @@ public class RegistryConfiguratorTestCase extends GREGIntegrationBaseTest {
         ServerConfigurationManager serverConfigurationManager =
                 new ServerConfigurationManager (automationContext);
         serverConfigurationManager.restartGracefully();
-
+        Thread.sleep(120000);
     }
 
     public void copyResources () throws Exception {
@@ -178,18 +178,24 @@ public class RegistryConfiguratorTestCase extends GREGIntegrationBaseTest {
 
     }
 
-    private void increaseSearchIndexStartTimeDelay () throws Exception {
-
+    private void increaseSearchIndexStartTimeDelay() throws Exception {
         FileOutputStream fileOutputStream = null;
         XMLStreamWriter writer = null;
         OMElement documentElement = getRegistryXmlOmElement();
         try {
             AXIOMXPath xpathExpression = new AXIOMXPath("/wso2registry/indexingConfiguration/startingDelayInSeconds");
             OMElement indexConfigNode = (OMElement) xpathExpression.selectSingleNode(documentElement);
-            indexConfigNode.setText("60");
+            indexConfigNode.setText("30");
             AXIOMXPath xpathExpression1 = new AXIOMXPath("/wso2registry/indexingConfiguration/indexingFrequencyInSeconds");
             OMElement indexConfigNode1 = (OMElement) xpathExpression1.selectSingleNode(documentElement);
-            indexConfigNode1.setText("30");
+            indexConfigNode1.setText("3");
+            AXIOMXPath xpathExpression2 = new AXIOMXPath("/wso2registry/indexingConfiguration/batchSize");
+            OMElement indexConfigNode2 = (OMElement) xpathExpression2.selectSingleNode(documentElement);
+            indexConfigNode2.setText("70");
+            AXIOMXPath xpathExpression3 = new AXIOMXPath("/wso2registry/indexingConfiguration/indexerPoolSize");
+            OMElement indexConfigNode3 = (OMElement) xpathExpression3.selectSingleNode(documentElement);
+            indexConfigNode3.setText("50");
+
             fileOutputStream = new FileOutputStream(getRegistryXMLPath());
             writer = XMLOutputFactory.newInstance().createXMLStreamWriter(fileOutputStream);
             documentElement.serialize(writer);

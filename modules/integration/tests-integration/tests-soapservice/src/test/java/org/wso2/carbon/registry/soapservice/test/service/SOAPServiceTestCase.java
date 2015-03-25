@@ -67,13 +67,7 @@ import static org.testng.Assert.*;
  */
 public class SOAPServiceTestCase extends GREGIntegrationBaseTest {
 
-    private RelationAdminServiceClient relationAdminServiceClient;
-    private InfoServiceAdminClient infoAdminServiceClient;
-    private LifeCycleAdminServiceClient lifeCycleAdminServiceClient;
-    private ResourceAdminServiceClient resourceAdminServiceClient;
     private GenericArtifactManager artifactManager;
-    private WsdlManager wsdlManager;
-    private String sessionCookie;
     private Registry governance;
 
     /**
@@ -84,23 +78,17 @@ public class SOAPServiceTestCase extends GREGIntegrationBaseTest {
     @BeforeClass(groups = { "wso2.greg" })
     public void init() throws Exception {
         super.init(TestUserMode.SUPER_TENANT_ADMIN);
-        sessionCookie = new LoginLogoutClient(automationContext).login();
-
-        infoAdminServiceClient = new InfoServiceAdminClient(backendURL, sessionCookie);
-        lifeCycleAdminServiceClient = new LifeCycleAdminServiceClient(backendURL, sessionCookie);
-        relationAdminServiceClient = new RelationAdminServiceClient(backendURL, sessionCookie);
-        resourceAdminServiceClient = new ResourceAdminServiceClient(backendURL, sessionCookie);
         WSRegistryServiceClient wsRegistryServiceClient = new RegistryProviderUtil().getWSRegistry(automationContext);
 
         governance = new RegistryProviderUtil().getGovernanceRegistry(wsRegistryServiceClient, automationContext);
-        GovernanceUtils.loadGovernanceArtifacts((UserRegistry)governance,
+        GovernanceUtils.loadGovernanceArtifacts((UserRegistry) governance,
                                                 GovernanceUtils.findGovernanceArtifactConfigurations(governance));
         artifactManager = new GenericArtifactManager(governance, "soapservice");
-        wsdlManager = new WsdlManager(governance);
+
     }
 
     @Test(groups = { "wso2.greg" }, description = "create SOAP Service using GenericArtifact")
-    public void createSOAPService() throws GovernanceException{
+    public void createSOAPService() throws GovernanceException {
         GenericArtifact artifact = artifactManager.newGovernanceArtifact(new QName("SOAPService1"));
 
         artifact.setAttribute("overview_name", "SOAPService1");
@@ -110,13 +98,15 @@ public class SOAPServiceTestCase extends GREGIntegrationBaseTest {
         artifactManager.addGenericArtifact(artifact);
 
         GenericArtifact receivedArtifact = artifactManager.getGenericArtifact(artifact.getId());
-        assertEquals(artifact.getAttribute("overview_name"), receivedArtifact.getAttribute("overview_name") ," Service name must be equal");
+        assertEquals(artifact.getAttribute("overview_name"), receivedArtifact.getAttribute("overview_name"),
+                     " Service name must be equal");
 
         artifactManager.removeGenericArtifact(artifact.getId());
     }
 
-    @Test(groups = { "wso2.greg" }, description = "try add SOAP service without version", dependsOnMethods ="createSOAPService" , expectedExceptions =GovernanceException.class)
-    public void createSOAPServiceFault() throws GovernanceException{
+    @Test(groups = { "wso2.greg" }, description = "try add SOAP service without version",
+          dependsOnMethods = "createSOAPService", expectedExceptions = GovernanceException.class)
+    public void createSOAPServiceFault() throws GovernanceException {
         GenericArtifact artifact = artifactManager.newGovernanceArtifact(new QName("SOAPService2"));
 
         artifact.setAttribute("overview_name", "SOAPService2");
@@ -125,29 +115,31 @@ public class SOAPServiceTestCase extends GREGIntegrationBaseTest {
         artifactManager.addGenericArtifact(artifact);
 
         GenericArtifact receivedArtifact = artifactManager.getGenericArtifact(artifact.getId());
-        assertEquals(artifact.getAttribute("overview_name"), receivedArtifact.getAttribute("overview_name") ," Service name must be equal");
+        assertEquals(artifact.getAttribute("overview_name"), receivedArtifact.getAttribute("overview_name"),
+                     " Service name must be equal");
     }
 
-    @Test(groups = { "wso2.greg" }, description = "try add SOAP service without version", dependsOnMethods ="createSOAPServiceFault" )
-    public void createSOAPServiceWithWSDL() throws GovernanceException{
-        GenericArtifact artifact = artifactManager.newGovernanceArtifact(new QName("http://com.wso2.sample", "SOAPService2"));
+    @Test(groups = { "wso2.greg" }, description = "try add SOAP service without version",
+          dependsOnMethods = "createSOAPServiceFault")
+    public void createSOAPServiceWithWSDL() throws GovernanceException {
+        GenericArtifact artifact =
+                artifactManager.newGovernanceArtifact(new QName("http://com.wso2.sample", "SOAPService2"));
 
         artifact.setAttribute("overview_name", "SOAPService2");
         artifact.setAttribute("overview_version", "4.5.0");
         artifact.setAttribute("overview_namespace", "com.wso2.sample");
-        artifact.setAttribute("interface_wsdlURL", "http://graphical.weather.gov/xml/SOAP_server/ndfdXMLserver.php?wsdl");
+        artifact.setAttribute("interface_wsdlURL",
+                              "http://graphical.weather.gov/xml/SOAP_server/ndfdXMLserver.php?wsdl");
         artifact.setAttribute("overview_description", "Description");
 
         artifactManager.addGenericArtifact(artifact);
 
         GenericArtifact receivedArtifact = artifactManager.getGenericArtifact(artifact.getId());
         assertNotNull(receivedArtifact.getDependencies());
-        assertEquals(receivedArtifact.getDependencies().length, 2 , "Expecting 2 dependencies : WSDL and Endpoint");
+        assertEquals(receivedArtifact.getDependencies().length, 2, "Expecting 2 dependencies : WSDL and Endpoint");
 
         artifactManager.removeGenericArtifact(artifact.getId());
     }
-
-
 
     /**
      * This method act as the test case cleaning process after the wsdl test case.
@@ -158,13 +150,7 @@ public class SOAPServiceTestCase extends GREGIntegrationBaseTest {
      */
     @AfterClass(groups = { "wso2.greg" })
     public void deleteResources() throws ResourceAdminServiceExceptionException, RemoteException, RegistryException {
-
-
-        infoAdminServiceClient = null;
-        relationAdminServiceClient = null;
-        resourceAdminServiceClient = null;
-        lifeCycleAdminServiceClient = null;
         artifactManager = null;
-        wsdlManager = null;
+
     }
 }
