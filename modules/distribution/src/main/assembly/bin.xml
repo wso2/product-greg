@@ -50,6 +50,7 @@
                 <exclude>**/identity.xml</exclude>
                 <exclude>**/claim-config.xml</exclude>
                 <exclude>**/email/email-admin-config.xml</exclude>
+                <exclude>**/launch.ini</exclude>
                 <!--<exclude>**/lib/org.wso2.carbon.server-${carbon.kernel.version}.jar</exclude>-->
 
             </excludes>
@@ -124,6 +125,13 @@
             <outputDirectory>${pom.artifactId}-${build.version}/repository/conf/etc</outputDirectory>
             <includes>
                 <include>**/permission-mappings.xml</include>
+            </includes>
+        </fileSet>
+        <fileSet>
+            <directory>src/main/resources/etc</directory>
+            <outputDirectory>${pom.artifactId}-${build.version}/repository/conf/etc</outputDirectory>
+            <includes>
+                <include>**/launch.ini</include>
             </includes>
         </fileSet>
         <fileSet>
@@ -806,13 +814,6 @@
         <file>
             <source>${basedir}/src/main/resources/carbon-home/bin/checkin-client.bat</source>
             <outputDirectory>${pom.artifactId}-${build.version}/bin/</outputDirectory>
-            <filtered>true</filtered>
-            <fileMode>644</fileMode>
-        </file>
-        <!-- Temp fix for web app class loading issue -->
-        <file>
-            <source>${basedir}/src/main/resources/etc/launch.ini</source>
-            <outputDirectory>${pom.artifactId}-${build.version}/repository/conf/etc/</outputDirectory>
             <filtered>true</filtered>
             <fileMode>644</fileMode>
         </file>
