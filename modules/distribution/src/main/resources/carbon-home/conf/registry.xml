@@ -92,6 +92,9 @@
         <property name="restServiceLocationConfiguration" type="xml">
             <location>/apimgt/applicationdata/provider/</location>
         </property>
+        <property name="endpointLocationConfiguration" type="xml">
+            <location>/trunk/endpoints/</location>
+        </property>
         <filter class="org.wso2.carbon.registry.core.jdbc.handlers.filters.MediaTypeMatcher">
             <property name="mediaType">application/swagger+json</property>
         </filter>
