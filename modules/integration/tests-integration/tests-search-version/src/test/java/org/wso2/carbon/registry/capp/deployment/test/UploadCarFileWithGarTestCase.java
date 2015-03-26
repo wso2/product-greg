@@ -90,6 +90,7 @@ public class UploadCarFileWithGarTestCase extends GREGIntegrationBaseTest {
     public void uploadCApplicationWithGar()
             throws MalformedURLException, RemoteException, InterruptedException,
                    ApplicationAdminExceptionException {
+        Thread.sleep(60000L);// added for avoid indexing delay.
         String filePath = FrameworkPathUtil.getSystemResourceLocation() + "artifacts" + File.separator +
                           "GREG" + File.separator + "car" + File.separator + "GarTestCApp_1.0.0.car";
         cAppUploader.uploadCarbonAppArtifact("GarTestCApp_1.0.0.car",

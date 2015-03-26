@@ -54,8 +54,8 @@ public class FileSystemImportExportTestCase extends GREGIntegrationBaseTest{
     }
 
     @Test(groups = {"wso2.greg"})
-    public void FileImportTest() throws RegistryException, MalformedURLException {
-
+    public void FileImportTest() throws RegistryException, MalformedURLException, InterruptedException {
+        Thread.sleep(30000L);
         String filePath = getTestArtifactLocation() + "artifacts" + File.separator + "GREG" +
                           File.separator + "apptestresources";
 

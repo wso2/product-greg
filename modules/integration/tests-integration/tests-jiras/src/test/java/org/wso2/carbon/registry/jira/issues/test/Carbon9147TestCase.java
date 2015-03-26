@@ -72,7 +72,7 @@ public class Carbon9147TestCase extends GREGIntegrationBaseTest {
                 wsdlManager.removeWsdl(wsdl.getId());
             }
         }
-
+        Thread.sleep(10000);
         
         addWSDL();
     }
@@ -81,9 +81,9 @@ public class Carbon9147TestCase extends GREGIntegrationBaseTest {
     @Test(groups = {"wso2.greg"}, description = "Search by Resource Name 'echo.wsdl'")
     public void searchByResourceName()
             throws SearchAdminServiceRegistryExceptionException, RemoteException,
-                   RegistryException {
+                   RegistryException, InterruptedException {
 
-
+        Thread.sleep(60000);
         CustomSearchParameterBean searchQuery = new CustomSearchParameterBean();
         SearchParameterBean paramBean = new SearchParameterBean();
         paramBean.setResourceName("echo.wsdl");
@@ -124,7 +124,7 @@ public class Carbon9147TestCase extends GREGIntegrationBaseTest {
 
 
     public void addWSDL()
-            throws IOException, ResourceAdminServiceExceptionException, RegistryException {
+            throws IOException, ResourceAdminServiceExceptionException, RegistryException, InterruptedException {
         Wsdl wsdl;
         WsdlManager wsdlManager = new WsdlManager(governance);
 
@@ -132,6 +132,7 @@ public class Carbon9147TestCase extends GREGIntegrationBaseTest {
                               "GREG" + File.separator + "wsdl" + File.separator + "echo.wsdl";
         wsdl = wsdlManager.newWsdl(FileManager.readFile(wsdlFilePath).getBytes(), "echo.wsdl");
         wsdlManager.addWsdl(wsdl);
+        Thread.sleep(30000);
     }
 
 }

@@ -44,6 +44,7 @@ import org.wso2.greg.integration.common.utils.GREGIntegrationBaseTest;
 import org.wso2.greg.integration.common.utils.RegistryProviderUtil;
 
 import javax.xml.namespace.QName;
+import java.io.File;
 import java.rmi.RemoteException;
 
 public class SaveSearchTestCase extends GREGIntegrationBaseTest{
@@ -59,8 +60,9 @@ public class SaveSearchTestCase extends GREGIntegrationBaseTest{
     @BeforeClass(alwaysRun = true)
     public void init() throws Exception {
         super.init(TestUserMode.SUPER_TENANT_ADMIN);
-        String session = getSessionCookie();
 
+        String session = getSessionCookie();
+        Thread.sleep(10000);
         userManagementClient = new UserManagementClient(backendURL, session);
         resourceAdminServiceClient =
                 new ResourceAdminServiceClient(backendURL, session);
@@ -116,7 +118,7 @@ public class SaveSearchTestCase extends GREGIntegrationBaseTest{
         searchQuery.setParameterValues(paramList);
         searchAdminServiceClient.saveAdvancedSearchFilter(searchQuery, FILTER_NAME);
         String[] filters = searchAdminServiceClient.getSavedFilters();
-
+        Thread.sleep(60000);
         boolean filterFound = false;
         for (String filter : filters) {
 
@@ -131,7 +133,8 @@ public class SaveSearchTestCase extends GREGIntegrationBaseTest{
 
     @Test(groups = {"wso2.greg"}, description = "search from filter", dependsOnMethods = "testAddFilter")
     public void testSearchViaFilter() throws SearchAdminServiceRegistryExceptionException,
-                                             RemoteException, RegistryException {
+                                             RemoteException, RegistryException, InterruptedException {
+        Thread.sleep(60000);
         AdvancedSearchResultsBean result =
                 searchAdminServiceClient.getAdvancedSearchResults(searchAdminServiceClient.getAdvancedSearchFilter
                         (FILTER_NAME));

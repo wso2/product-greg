@@ -48,6 +48,7 @@ import java.io.*;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.rmi.RemoteException;
+import java.util.List;
 
 public class RegistryConfiguratorTestCase extends GREGIntegrationBaseTest {
 
@@ -92,6 +93,7 @@ public class RegistryConfiguratorTestCase extends GREGIntegrationBaseTest {
         ServerConfigurationManager serverConfigurationManager =
                 new ServerConfigurationManager(automationContext);
         serverConfigurationManager.restartGracefully();
+       Thread.sleep(120000);
     }
 
 
@@ -110,6 +112,7 @@ public class RegistryConfiguratorTestCase extends GREGIntegrationBaseTest {
 
     public void editConfigurationFiles() throws Exception {
         increaseSearchIndexStartTimeDelay();
+        changeServiceCreationElement();
         enableJmxManagement();
         enableWorkList();
     }
@@ -159,6 +162,36 @@ public class RegistryConfiguratorTestCase extends GREGIntegrationBaseTest {
 
     }
 
+    private void changeServiceCreationElement() throws Exception {
+        FileOutputStream fileOutputStream = null;
+        XMLStreamWriter writer = null;
+        OMElement documentElement = getRegistryXmlOmElement();
+        try {
+            AXIOMXPath xpathExpression = new AXIOMXPath("/wso2registry/handler/property");
+            List<OMElement> nodes = xpathExpression.selectNodes(documentElement);
+            for (OMElement node : nodes) {
+                if (node.getAttributeValue(new QName("name")).equals("createSOAPService")) {
+                    node.setText("false");
+                }
+            }
+            fileOutputStream = new FileOutputStream(getRegistryXMLPath());
+            writer = XMLOutputFactory.newInstance().createXMLStreamWriter(fileOutputStream);
+            documentElement.serialize(writer);
+            documentElement.build();
+            Thread.sleep(2000);
+
+        } catch (Exception e) {
+            log.error("Failed to modify registry.xml " + e.getMessage());
+            throw new Exception("Failed to modify registry.xml " + e.getMessage());
+        } finally {
+            assert fileOutputStream != null;
+            fileOutputStream.close();
+            assert writer != null;
+            writer.flush();
+        }
+
+    }
+
     private void increaseSearchIndexStartTimeDelay() throws Exception {
         FileOutputStream fileOutputStream = null;
         XMLStreamWriter writer = null;
@@ -166,11 +199,16 @@ public class RegistryConfiguratorTestCase extends GREGIntegrationBaseTest {
         try {
             AXIOMXPath xpathExpression = new AXIOMXPath("/wso2registry/indexingConfiguration/startingDelayInSeconds");
             OMElement indexConfigNode = (OMElement) xpathExpression.selectSingleNode(documentElement);
-            indexConfigNode.setText("60");
-
+            indexConfigNode.setText("30");
             AXIOMXPath xpathExpression1 = new AXIOMXPath("/wso2registry/indexingConfiguration/indexingFrequencyInSeconds");
             OMElement indexConfigNode1 = (OMElement) xpathExpression1.selectSingleNode(documentElement);
-            indexConfigNode1.setText("5");
+            indexConfigNode1.setText("3");
+            AXIOMXPath xpathExpression2 = new AXIOMXPath("/wso2registry/indexingConfiguration/batchSize");
+            OMElement indexConfigNode2 = (OMElement) xpathExpression2.selectSingleNode(documentElement);
+            indexConfigNode2.setText("70");
+            AXIOMXPath xpathExpression3 = new AXIOMXPath("/wso2registry/indexingConfiguration/indexerPoolSize");
+            OMElement indexConfigNode3 = (OMElement) xpathExpression3.selectSingleNode(documentElement);
+            indexConfigNode3.setText("50");
 
             fileOutputStream = new FileOutputStream(getRegistryXMLPath());
             writer = XMLOutputFactory.newInstance().createXMLStreamWriter(fileOutputStream);

@@ -206,7 +206,7 @@ public class Registry732 extends GREGIntegrationBaseTest {
 
     }
 
-    @Test (groups = "wso2.greg", description = "Create new life cycle", dependsOnMethods = "testAddDependencyToService")
+    @Test (groups = "wso2.greg", description = "Create new life cycle", dependsOnMethods = "testAddAssociationToService")
     public void testCreateNewLifeCycle () throws LifeCycleManagementServiceExceptionException,
             IOException, InterruptedException,
             SearchAdminServiceRegistryExceptionException,

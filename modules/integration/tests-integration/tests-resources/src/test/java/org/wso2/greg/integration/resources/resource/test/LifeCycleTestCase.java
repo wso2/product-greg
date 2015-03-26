@@ -51,7 +51,7 @@ public class LifeCycleTestCase extends GREGIntegrationBaseTest {
     private ResourceAdminServiceClient resourceAdminServiceClient;
     private LifeCycleManagementClient lifeCycleManagementClient;
 
-    @BeforeClass(groups = {"wso2.greg"})
+    @BeforeClass(groups = {"wso2.greg"}, alwaysRun = true)
     public void init() throws Exception {
 
         super.init(TestUserMode.SUPER_TENANT_ADMIN);
@@ -169,7 +169,7 @@ public class LifeCycleTestCase extends GREGIntegrationBaseTest {
 
     }
 
-    @AfterClass
+    @AfterClass(groups = {"wso2.greg"}, alwaysRun = true)
     public void cleanup() throws ResourceAdminServiceExceptionException, RemoteException {
         resourceAdminServiceClient.deleteResource("/TestAutomation");
         resourceAdminServiceClient = null;

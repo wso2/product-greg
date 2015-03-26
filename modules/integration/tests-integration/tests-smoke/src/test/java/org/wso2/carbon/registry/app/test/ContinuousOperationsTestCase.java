@@ -76,9 +76,10 @@ public class ContinuousOperationsTestCase extends GREGIntegrationBaseTest{
             resource1.discard();
             Thread.sleep(100);
         }
+        Thread.sleep(60000);
     }
 
-    @Test(groups = {"wso2.greg"})
+    @Test(groups = {"wso2.greg"}, dependsOnMethods = "ContinuousDelete")
     public void ContinuousUpdate() throws RegistryException, InterruptedException {
 
         int iterations = 100;
@@ -115,6 +116,7 @@ public class ContinuousOperationsTestCase extends GREGIntegrationBaseTest{
             resource2.discard();
             Thread.sleep(100);
         }
+        Thread.sleep(60000);
     }
 
     @AfterClass(alwaysRun = true)

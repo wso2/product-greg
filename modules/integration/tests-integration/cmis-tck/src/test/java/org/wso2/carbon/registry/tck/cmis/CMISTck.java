@@ -44,7 +44,7 @@ public class CMISTck extends GREGIntegrationBaseTest {
     private String cmisJarPath = "";
     private String loggingJarPath = "";
 
-    @BeforeClass(groups = {"wso2.greg"})
+    @BeforeClass(groups = {"wso2.greg"}, alwaysRun = true)
     public void init() throws Exception{
         super.init(TestUserMode.SUPER_TENANT_ADMIN);
         registry = new RegistryProviderUtil().getRemoteRegistry(automationContext);
@@ -63,8 +63,11 @@ public class CMISTck extends GREGIntegrationBaseTest {
         ps.println(CMIS_PATH + "=" + cmisJarPath);
         ps.println(LOG_PATH + "=" + loggingJarPath);
 
+        System.out.println(cmisJarPath);
+        System.out.println(loggingJarPath);
+
         Process p = Runtime.getRuntime().exec("ant cmis");
-            int stat = p.waitFor();
+        int stat = p.waitFor();
 
         if (stat == 0) {
            System.out.println("----------------- CMIS TCK ran successfully, see the tck-results (default) for the results -------------------");

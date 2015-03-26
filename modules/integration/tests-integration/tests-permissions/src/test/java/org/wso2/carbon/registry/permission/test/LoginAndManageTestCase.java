@@ -75,7 +75,7 @@ public class LoginAndManageTestCase extends GREGIntegrationBaseTest{
                         .getBackEndUrl(), new LoginLogoutClient(automationContextUser2).login());
     }
 
-    @Test(groups = "wso2.greg", description = "Test whether a non admin can add a report")
+    @Test(groups = "wso2.greg", description = "Test whether a non admin can add a report", dependsOnMethods = "testProfile")
     public void testAddReport() throws Exception {
         ReportConfigurationBean reportConfigurationBean = new ReportConfigurationBean();
         reportConfigurationBean.setName("dummyReport");

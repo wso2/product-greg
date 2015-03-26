@@ -94,6 +94,7 @@ public class LifeCycleUtils {
         service = serviceManager.newService(new QName(nameSpace, serviceName));
         service.addAttribute("overview_version", version);
         serviceManager.addService(service);
+        Thread.sleep(20000);
         for (String serviceId : serviceManager.getAllServiceIds()) {
             service = serviceManager.getService(serviceId);
             if (service.getPath().endsWith(serviceName) && service.getPath().contains("trunk")) {

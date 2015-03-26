@@ -137,7 +137,7 @@ public class RolePermissionAsNonAdminTestCase extends GREGIntegrationBaseTest{
     }
 
     @Test(groups = "wso2.greg", expectedExceptions = IOException.class,
-            description = "Test allow access to new resources")
+            description = "Test allow access to new resources", dependsOnMethods = "testUserDenyAccessToNewResource")
     public void testUserAllowAccessToNewResource()
             throws ResourceAdminServiceResourceServiceExceptionException, IOException,
                    ResourceAdminServiceExceptionException {

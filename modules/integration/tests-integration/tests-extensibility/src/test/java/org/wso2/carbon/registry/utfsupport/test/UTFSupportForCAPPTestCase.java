@@ -47,6 +47,7 @@ public class UTFSupportForCAPPTestCase extends GREGIntegrationBaseTest {
     public void init() throws Exception {
 
         super.init(TestUserMode.SUPER_TENANT_ADMIN);
+
         backEndUrl = getBackendURL();
         sessionCookie = getSessionCookie();
 
@@ -76,7 +77,7 @@ public class UTFSupportForCAPPTestCase extends GREGIntegrationBaseTest {
 
         cAppUploader.uploadCarbonAppArtifact("text_resources2_1.0.0.car",
                                              new DataHandler(new URL("file:///" + filePath)));
-
+        Thread.sleep(30000);
 
         Assert.assertTrue(CAppTestUtils.isCAppDeployed(sessionCookie, "text_resources_1.0.0",
                                                        applicationAdminClient));
@@ -121,7 +122,7 @@ public class UTFSupportForCAPPTestCase extends GREGIntegrationBaseTest {
 
         cAppUploader.uploadCarbonAppArtifact("Capp_1.0.0.car",
                                              new DataHandler(new URL("file:///" + filePath)));
-
+        Thread.sleep(30000);
 
         Assert.assertTrue(CAppTestUtils.isCAppDeployed(sessionCookie, "Capp_1.0.0", applicationAdminClient));
 

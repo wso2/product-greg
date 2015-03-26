@@ -397,7 +397,7 @@ public class CopyCollectionCommunityFeaturesTestCase extends GREGIntegrationBase
         }
     }
 
-    @AfterClass
+    @AfterClass(alwaysRun = true)
     public void cleanUp() throws Exception {
         deleteResources(COLL_COPIED_LOCATION);
         deleteResources(DEPENDENCY_PATH);

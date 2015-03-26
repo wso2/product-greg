@@ -8,4 +8,9 @@
             <package name="org.wso2.carbon.registry.permission.test.*"/>
         </packages>
     </test>
+    <test name="permission-tests2" preserve-order="true" parallel="false">
+        <packages>
+            <package name="org.wso2.carbon.registry.permission.test2.*"/>
+        </packages>
+    </test>
 </suite>

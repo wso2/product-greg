@@ -102,7 +102,8 @@ public class REGISTRY2102_CarFileWithGarTestCase extends GREGIntegrationBaseTest
     }
 
     @Test(groups = {"wso2.greg"}, description = "Add new Handler")
-    public void addNewHandler() throws IOException, ExceptionException {
+    public void addNewHandler() throws IOException, ExceptionException, InterruptedException {
+        Thread.sleep(60000L);
         assertTrue(handlerManagementServiceClient.createHandler(FileManager.readFile(newHandlerPath)));
     }
 

@@ -117,8 +117,9 @@ public class SearchServiceOfStatusChange extends GREGIntegrationBaseTest {
     @Test(groups = {"wso2.greg"}, description = "add lifecycle to service", dependsOnMethods = "testCreateLc")
     public void testAddLC()
             throws RegistryException, CustomLifecyclesChecklistAdminServiceExceptionException,
-                   RemoteException {
+            RemoteException, InterruptedException {
         servicePath = addService();
+        Thread.sleep(40000);
         wsRegistryServiceClient.associateAspect(pathPrefix + servicePath, LC_NAME);
         LifecycleBean lifeCycle = lifeCycleAdminServiceClient.getLifecycleBean(pathPrefix + servicePath);
         Property[] properties = lifeCycle.getLifecycleProperties();
@@ -142,7 +143,7 @@ public class SearchServiceOfStatusChange extends GREGIntegrationBaseTest {
 
     @Test(groups = {"wso2.greg"}, description = "search service", dependsOnMethods = "testAddLC")
     public void testSearchService()
-            throws SearchAdminServiceRegistryExceptionException, RemoteException {
+            throws SearchAdminServiceRegistryExceptionException, RemoteException, InterruptedException {
         CustomSearchParameterBean searchQuery = new CustomSearchParameterBean();
         SearchParameterBean paramBean = new SearchParameterBean();
         paramBean.setResourceName(SERVICE_NAME);
@@ -152,6 +153,7 @@ public class SearchServiceOfStatusChange extends GREGIntegrationBaseTest {
 
         searchQuery.setParameterValues(paramList);
         paramList = null;
+        Thread.sleep(30000);
         AdvancedSearchResultsBean result = searchAdminServiceClient.getAdvancedSearchResults(searchQuery);
         Assert.assertNotNull(result.getResourceDataList(), "No Record Found");
         Assert.assertTrue((result.getResourceDataList().length > 0));

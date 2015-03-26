@@ -60,7 +60,7 @@ public class MetadataSearchTestCase extends GREGIntegrationBaseTest {
 
     public static final int RERTY_CYCLES = 30;
 
-    @BeforeClass(groups = {"wso2.greg"})
+    @BeforeClass(groups = {"wso2.greg"}, alwaysRun = true)
     public void init() throws Exception {
 
         super.init(TestUserMode.SUPER_TENANT_ADMIN);
@@ -145,7 +145,7 @@ public class MetadataSearchTestCase extends GREGIntegrationBaseTest {
         assertTrue(searchSuccess, "### Content search test failed .. ");
     }
 
-    @AfterClass
+    @AfterClass(groups = {"wso2.greg"}, alwaysRun = true)
     public void cleanup() throws ResourceAdminServiceExceptionException, RemoteException {
 
         resourceAdminServiceClient.deleteResource(WSDL_PATH + RESOURCE_NAME);

@@ -51,7 +51,7 @@ public class UTFSupportForServiceTestCase extends GREGIntegrationBaseTest {
     private String userName;
     private String userNameWithoutDomain;
 
-    @BeforeClass
+    @BeforeClass(alwaysRun = true)
     public void init() throws Exception {
         
         super.init(TestUserMode.SUPER_TENANT_ADMIN);
@@ -197,7 +197,7 @@ public class UTFSupportForServiceTestCase extends GREGIntegrationBaseTest {
 
     }
 
-    @AfterClass
+    @AfterClass(alwaysRun = true)
     public void clean() throws Exception {
         GovernanceUtils.loadGovernanceArtifacts((UserRegistry) governance);
         delete(pathPrefix + servicepath1);

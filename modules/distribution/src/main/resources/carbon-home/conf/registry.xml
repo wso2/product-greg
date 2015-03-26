@@ -37,15 +37,16 @@
         <!--property name="createService">false</property>
         <property name="disableWSDLValidation">true</property-->
         <property name="disableSymlinkCreation">true</property>
+        <property name="createSOAPService">true</property>
         <property name="schemaLocationConfiguration" type="xml">
             <location>/trunk/schemas/</location>            
-	</property>
-        <property name="wsdlLocationConfiguration" type="xml">
-            <location>/trunk/wsdls/</location>            
-	</property>
-        <property name="policyLocationConfiguration" type="xml">
-            <location>/trunk/policies/</location>            
-	</property>
+        </property>
+            <property name="wsdlLocationConfiguration" type="xml">
+                <location>/trunk/wsdls/</location>
+        </property>
+            <property name="policyLocationConfiguration" type="xml">
+                <location>/trunk/policies/</location>
+        </property>
 
         <filter class="org.wso2.carbon.registry.core.jdbc.handlers.filters.MediaTypeMatcher">
             <property name="mediaType">application/wsdl+xml</property>
@@ -59,10 +60,11 @@
         <property name="schemaMediaType">application/xsd+xml</property>
         <property name="threadPoolSize">50</property>
         <property name="disableSymlinkCreation">true</property>
+        <property name="createSOAPService">true</property>
         <!--property name="createService">false</property>
 	    <property name="useOriginalSchema">true</property>
         <property name="disableWSDLValidation">true</property>
-	<property name="disableWADLValidation">true</property>
+	    <property name="disableWADLValidation">true</property>
         <property name="disableSchemaValidation">true</property>
         <property name="wsdlExtension">.wsdl</property>
         <property name="schemaExtension">.xsd</property>
@@ -78,7 +80,7 @@
         <property name="wadlLocationConfiguration" type="xml">
             <location>/trunk/wadls/</location>
         </property>
-	<filter class="org.wso2.carbon.registry.core.jdbc.handlers.filters.MediaTypeMatcher">
+	    <filter class="org.wso2.carbon.registry.core.jdbc.handlers.filters.MediaTypeMatcher">
             <property name="mediaType">application/vnd.wso2.governance-archive</property>
         </filter>
     </handler>
@@ -116,6 +118,22 @@
         </filter>
     </handler>
 
+    <!-- This handler processes the soap services being added to the registry -->
+
+    <handler class="org.wso2.carbon.registry.extensions.handlers.SOAPServiceMediaTypeHandler" profiles="default,uddi-registry">
+        <!--property name="disableWSDLValidation">true</property-->
+        <property name="defaultServiceVersion">1.0.0-SNAPSHOT</property>
+        <property name="disableSymlinkCreation">true</property>
+        <property name="smartLifecycleLinks" type="xml">
+            <key>dev</key>
+            <key>qa</key>
+            <key>live</key>
+        </property>
+        <filter class="org.wso2.carbon.registry.core.jdbc.handlers.filters.MediaTypeMatcher">
+            <property name="mediaType">application/vnd.wso2-soap-service+xml</property>
+        </filter>
+    </handler>
+
     <!--This handler will delete resources individually when deleting a collection of resources-->
 
     <handler class="org.wso2.carbon.registry.extensions.handlers.RecursiveDeleteHandler">
@@ -136,9 +154,9 @@
    <!--This handler delete the subscription hierarcy generated in the notifications path when a subscription is deleted directly -->
 
     <handler class="org.wso2.carbon.registry.extensions.handlers.DeleteHierarchyHandler">
-         <filter class="org.wso2.carbon.registry.core.jdbc.handlers.filters.URLMatcher">
-                <property name="deletePattern">/_system/governance/event/topics/registry/notifications/.*</property>
-         </filter>
+        <filter class="org.wso2.carbon.registry.core.jdbc.handlers.filters.URLMatcher">
+            <property name="deletePattern">/_system/governance/event/topics/registry/notifications/.*</property>
+        </filter>
     </handler>
 
 
@@ -158,9 +176,9 @@
     <!-- This handler processes the policy files of the given media type defined by the filter -->
 
     <handler class="org.wso2.carbon.registry.extensions.handlers.PolicyMediaTypeHandler" profiles="default,uddi-registry">
-	<property name="policyLocationConfiguration" type="xml">
+	    <property name="policyLocationConfiguration" type="xml">
             <location>/trunk/policies/</location>            
-	</property>
+	    </property>
         <filter class="org.wso2.carbon.registry.core.jdbc.handlers.filters.MediaTypeMatcher">
             <property name="mediaType">application/policy+xml</property>
         </filter>
@@ -199,22 +217,22 @@
     </handler>
 
     <handler class="org.wso2.carbon.governance.registry.extensions.handlers.UriMediaTypeHandler" profiles="default,uddi-registry">
-	<filter class="org.wso2.carbon.registry.core.jdbc.handlers.filters.MediaTypeMatcher">
-	    <property name="mediaType">application/vnd.wso2-uri+xml</property>
-	</filter>
+	    <filter class="org.wso2.carbon.registry.core.jdbc.handlers.filters.MediaTypeMatcher">
+	        <property name="mediaType">application/vnd.wso2-uri+xml</property>
+	    </filter>
     </handler>
     
     <handler class="org.wso2.carbon.registry.extensions.handlers.WADLMediaTypeHandler" profiles="default,uddi-registry">
-        <!--<property name="disableWADLValidation">true</property>-->
-        <property name="wadlLocationConfiguration" type="xml">
+       <!--<property name="disableWADLValidation">true</property>-->
+       <property name="wadlLocationConfiguration" type="xml">
             <location>/trunk/wadls/</location>
-        </property>
+       </property>
        <property name="schemaLocationConfiguration" type="xml">
             <location>/trunk/schemas/</location>
-        </property>    
-        <filter class="org.wso2.carbon.registry.core.jdbc.handlers.filters.MediaTypeMatcher">
+       </property>
+       <filter class="org.wso2.carbon.registry.core.jdbc.handlers.filters.MediaTypeMatcher">
             <property name="mediaType">application/wadl+xml</property>
-        </filter>
+       </filter>
     </handler>
 
     <!-- When a resource/governance artifact is deleted, this handler will cleanup all its bounded subscriptions from registry-->

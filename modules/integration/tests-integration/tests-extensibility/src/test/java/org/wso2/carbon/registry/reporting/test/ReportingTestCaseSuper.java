@@ -83,6 +83,7 @@ public class ReportingTestCaseSuper extends GREGIntegrationBaseTest {
     private String userName;
     private String userNameWithoutDomain;
 
+
     protected void init() throws Exception {
 
         super.init(TestUserMode.SUPER_TENANT_ADMIN);

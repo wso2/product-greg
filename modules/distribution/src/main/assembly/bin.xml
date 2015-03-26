@@ -50,6 +50,7 @@
                 <exclude>**/identity.xml</exclude>
                 <exclude>**/claim-config.xml</exclude>
                 <exclude>**/email/email-admin-config.xml</exclude>
+                <exclude>**/launch.ini</exclude>
                 <!--<exclude>**/lib/org.wso2.carbon.server-${carbon.kernel.version}.jar</exclude>-->
 
             </excludes>
@@ -124,6 +125,13 @@
             <outputDirectory>${pom.artifactId}-${build.version}/repository/conf/etc</outputDirectory>
             <includes>
                 <include>**/permission-mappings.xml</include>
+            </includes>
+        </fileSet>
+        <fileSet>
+            <directory>src/main/resources/etc</directory>
+            <outputDirectory>${pom.artifactId}-${build.version}/repository/conf/etc</outputDirectory>
+            <includes>
+                <include>**/launch.ini</include>
             </includes>
         </fileSet>
         <fileSet>
@@ -367,8 +375,8 @@
 
 	<!-- ES Extensions for service UI-->
         <fileSet>
-            <directory>../p2-profile-gen/target/wso2carbon-core-${carbon.kernel.version}/repository/resources/publisher/asset/service</directory>
-            <outputDirectory>${pom.artifactId}-${pom.version}/repository/deployment/server/jaggeryapps/publisher/extensions/assets/service</outputDirectory>
+            <directory>../p2-profile-gen/target/wso2carbon-core-${carbon.kernel.version}/repository/resources/publisher/asset/soapservice</directory>
+            <outputDirectory>${pom.artifactId}-${pom.version}/repository/deployment/server/jaggeryapps/publisher/extensions/assets/soapservice</outputDirectory>
         </fileSet>
 
         <fileSet>
@@ -397,8 +405,8 @@
         </fileSet>
         
         <fileSet>
-            <directory>../p2-profile-gen/target/wso2carbon-core-${carbon.kernel.version}/repository/resources/store/asset/service</directory>
-            <outputDirectory>${pom.artifactId}-${pom.version}/repository/deployment/server/jaggeryapps/store/extensions/assets/service</outputDirectory>
+            <directory>../p2-profile-gen/target/wso2carbon-core-${carbon.kernel.version}/repository/resources/store/asset/soapservice</directory>
+            <outputDirectory>${pom.artifactId}-${pom.version}/repository/deployment/server/jaggeryapps/store/extensions/assets/soapservice</outputDirectory>
         </fileSet>
 
         <fileSet>

@@ -273,7 +273,7 @@ public class CollectionInCollectionFeedTestCase extends GREGIntegrationBaseTest 
 
     }
 
-    @AfterClass
+    @AfterClass(alwaysRun = true)
     public void cleanUp() throws ResourceAdminServiceExceptionException, RemoteException {
 
         resourceAdminClient.deleteResource(PATH);

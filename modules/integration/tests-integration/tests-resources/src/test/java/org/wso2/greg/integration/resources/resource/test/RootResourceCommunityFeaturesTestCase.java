@@ -81,7 +81,7 @@ public class RootResourceCommunityFeaturesTestCase extends GREGIntegrationBaseTe
     private static final String ROLE_NAME = "RoleSubscriptionTest";
     private String sessionId;
 
-    @BeforeClass(alwaysRun = true)
+    @BeforeClass(groups = {"wso2.greg"}, alwaysRun = true)
     public void initialize()
             throws Exception {
 
@@ -423,7 +423,7 @@ public class RootResourceCommunityFeaturesTestCase extends GREGIntegrationBaseTe
     }
 
     //cleanup code
-    @AfterClass
+    @AfterClass(groups = {"wso2.greg"}, alwaysRun = true)
     public void cleanup()
             throws Exception {
 

@@ -65,6 +65,7 @@ public class RegistryFilterSearchTestCase extends GREGIntegrationBaseTest {
     public void init() throws Exception {
 
         super.init(TestUserMode.SUPER_TENANT_ADMIN);
+
         backEndUrl = getBackendURL();
         sessionCookie = getSessionCookie();
         userName = automationContext.getContextTenant().getContextUser().getUserName();
@@ -206,9 +207,10 @@ public class RegistryFilterSearchTestCase extends GREGIntegrationBaseTest {
 
 
     public void addResources()
-            throws ResourceAdminServiceExceptionException, IOException, RegistryException {
+            throws ResourceAdminServiceExceptionException, IOException, RegistryException, InterruptedException {
         addWSDL();
         addSchema();
+        Thread.sleep(30000);
     }
 
     public void addWSDL()
@@ -224,7 +226,6 @@ public class RegistryFilterSearchTestCase extends GREGIntegrationBaseTest {
         Resource resource = governance.get(wsdl.getPath());
         resource.addProperty("wsdlProperty", "10");
         governance.put(wsdl.getPath(), resource);
-
     }
 
     public void addSchema() throws IOException, RegistryException {

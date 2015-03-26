@@ -24,6 +24,7 @@
         <module>tests-smoke</module>
         <module>tests-jiras</module>
         <module>tests-search-version</module>
+        <module>tests-soapservice</module>
         <module>cmis-tck</module>
         <module>reports</module>
     </modules>

@@ -158,7 +158,8 @@ public class Carbon11572TestCase extends GREGIntegrationBaseTest {
             "wso2.greg"}, description = "add a WSDL without creating a service", dependsOnMethods = "editRegistryXML", enabled=false)
     @SetEnvironment(executionEnvironments = {ExecutionEnvironment.STANDALONE})
     public void addWSDL()
-            throws ResourceAdminServiceExceptionException, RemoteException, MalformedURLException,RegistryException, GovernanceException {
+            throws ResourceAdminServiceExceptionException, RemoteException, MalformedURLException, RegistryException,
+                   GovernanceException, InterruptedException {
     	GovernanceUtils.loadGovernanceArtifacts((UserRegistry) governance);
         boolean nameExists = false;
         //add WSDL file
@@ -191,7 +192,7 @@ public class Carbon11572TestCase extends GREGIntegrationBaseTest {
             }
         }
         resourceAdminClient.addWSDL("desc 1", dataHandler1);
-
+        Thread.sleep(20000);
         wsdls = wsdlManager.getAllWsdls();
 
             for (Wsdl wsdl: wsdls) {
