@@ -16,7 +16,7 @@
  *  under the License.
  *
  */
-app.dependencies=['publisher-common'];
+app.dependencies=['publisher_common'];
 //override publisher-common and enable 'service' & 'wsdl'.
 //change the landing page to 'service'.
 app.server = function(ctx) {
