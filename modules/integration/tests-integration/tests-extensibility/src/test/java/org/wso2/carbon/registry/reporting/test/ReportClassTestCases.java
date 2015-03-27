@@ -24,6 +24,9 @@ import org.testng.annotations.Test;
 import org.wso2.carbon.logging.view.stub.types.carbon.LogEvent;
 import org.wso2.carbon.registry.reporting.stub.beans.xsd.ReportConfigurationBean;
 
+import java.util.Arrays;
+import java.util.List;
+
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertNotNull;
 import static org.testng.Assert.assertTrue;
@@ -61,8 +64,9 @@ public class ReportClassTestCases extends ReportingTestCaseSuper {
 
         assertEquals(attributenames.length, 2,
                      "Fetched number of attributes is wrong");
-        assertEquals(attributenames[0], "responsibleQA", "Attribute mismatch");
-        assertEquals(attributenames[1], "responsibleQAA", "Attribute mismatch");
+        List attributeList = Arrays.asList(attributenames);
+        assertTrue(attributeList.contains("responsibleQA"), "responsibleQA attribute not found");
+        assertTrue(attributeList.contains("responsibleQAA"), "responsibleQAA attribute not found");
     }
 
     /**
