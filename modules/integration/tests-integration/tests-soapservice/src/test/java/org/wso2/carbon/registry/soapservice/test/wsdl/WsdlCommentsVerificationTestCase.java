@@ -121,16 +121,21 @@ public class WsdlCommentsVerificationTestCase extends GREGIntegrationBaseTest{
         
         GovernanceArtifact[] governanceArtifacts = wsdl.getDependents();
         for (GovernanceArtifact tmpGovernanceArtifact : governanceArtifacts) {
-            if (!tmpGovernanceArtifact.getPath().contentEquals(previousGovernanceArtifactPath)) {
-                wsRegistry.delete(pathPrefix + tmpGovernanceArtifact.getPath());
+            if (tmpGovernanceArtifact != null) {
+                if (tmpGovernanceArtifact.getPath() != null && !tmpGovernanceArtifact.getPath().contentEquals(previousGovernanceArtifactPath)) {
+                    wsRegistry.delete(pathPrefix + tmpGovernanceArtifact.getPath());
+                }
+                previousGovernanceArtifactPath = tmpGovernanceArtifact.getPath();
             }
-            previousGovernanceArtifactPath = tmpGovernanceArtifact.getPath();
+
         }
 
         for (Endpoint tmpEndpoint : endpoints) {
         	GovernanceArtifact[] dependentArtifacts =  tmpEndpoint.getDependents();
         	for (GovernanceArtifact tmpGovernanceArtifact : dependentArtifacts) {
-                wsRegistry.delete(pathPrefix + tmpGovernanceArtifact.getPath());
+                if (tmpGovernanceArtifact != null) {
+                    wsRegistry.delete(pathPrefix + tmpGovernanceArtifact.getPath());
+                }
             }
             wsRegistry.delete(pathPrefix + tmpEndpoint.getPath());
         }
