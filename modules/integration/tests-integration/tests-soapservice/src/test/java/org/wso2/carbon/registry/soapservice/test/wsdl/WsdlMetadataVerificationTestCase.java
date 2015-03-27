@@ -299,15 +299,18 @@ public class WsdlMetadataVerificationTestCase extends GREGIntegrationBaseTest{
         String previousGovernanceArtifactPath = "to prevent re-deleting errors";
         GovernanceArtifact[] governanceArtifacts = wsdl.getDependents();
         for (GovernanceArtifact tmpGovernanceArtifact : governanceArtifacts) {
-
-            if (!tmpGovernanceArtifact.getPath().contentEquals(previousGovernanceArtifactPath)) {
-                wsRegistry.delete(pathPrefix + tmpGovernanceArtifact.getPath());
+            if (tmpGovernanceArtifact != null) {
+                if (tmpGovernanceArtifact.getPath() != null && !tmpGovernanceArtifact.getPath().contentEquals(previousGovernanceArtifactPath)) {
+                    wsRegistry.delete(pathPrefix + tmpGovernanceArtifact.getPath());
+                }
+                previousGovernanceArtifactPath = tmpGovernanceArtifact.getPath();
             }
-            previousGovernanceArtifactPath = tmpGovernanceArtifact.getPath();
         }
 
         for (Endpoint tmpEndpoint : endpoints) {
-            wsRegistry.delete(pathPrefix + tmpEndpoint.getPath());
+            if (tmpEndpoint != null && tmpEndpoint.getPath() != null) {
+                wsRegistry.delete(pathPrefix + tmpEndpoint.getPath());
+            }
         }
         wsRegistry = null;
         wsdl = null;
