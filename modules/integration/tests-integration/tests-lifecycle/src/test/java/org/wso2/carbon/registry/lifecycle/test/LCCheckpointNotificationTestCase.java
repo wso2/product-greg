@@ -178,7 +178,7 @@ public class LCCheckpointNotificationTestCase extends GREGIntegrationBaseTest {
                 + GREGTestConstants.CHECKPOINT_LIFECYCLE;
         String lifeCycleConfiguration = FileManager.readFile(filePath);
         assertTrue(lifeCycleManagementClient.addLifeCycle(lifeCycleConfiguration), "Adding New LifeCycle Failed");
-        Thread.sleep(2000);
+        Thread.sleep(3000);
         lifeCycleConfiguration = lifeCycleManagementClient.getLifecycleConfiguration(aspectName);
         assertTrue(lifeCycleConfiguration.contains("aspect name=\"" + aspectName + "\""),
                 "LifeCycleName Not Found in lifecycle configuration");
@@ -198,6 +198,7 @@ public class LCCheckpointNotificationTestCase extends GREGIntegrationBaseTest {
         paramBean.setResourceName(aspectName);
         ArrayOfString[] paramList = paramBean.getParameterList();
         searchQuery.setParameterValues(paramList);
+        Thread.sleep(30000);
         AdvancedSearchResultsBean result = searchAdminService.getAdvancedSearchResults(searchQuery);
         assertNotNull(result.getResourceDataList(), "No Record Found");
         assertTrue((result.getResourceDataList().length == 1), "No Record Found for Life Cycle Name or more record "
