@@ -101,6 +101,7 @@ public class RegistryConfiguratorTestCase extends GREGIntegrationBaseTest {
         changeServiceCreationElement();
         enableJmxManagement();
         enableWorkList();
+        changeDBConfigurations();
     }
 
     public void updateMimetypes () throws Exception {
@@ -143,6 +144,15 @@ public class RegistryConfiguratorTestCase extends GREGIntegrationBaseTest {
         StAXOMBuilder builder = new StAXOMBuilder(parser);
         return builder.getDocumentElement();
 
+    }
+
+    private OMElement getDataSourceXmlOmElement () throws FileNotFoundException, XMLStreamException {
+        String dataSourceXmlPath = getDataSourceXmlPath();
+        File dataSourceFile = new File(dataSourceXmlPath);
+        FileInputStream inputStream = new FileInputStream(dataSourceFile);
+        XMLStreamReader parser = XMLInputFactory.newInstance().createXMLStreamReader(inputStream);
+        StAXOMBuilder builder = new StAXOMBuilder(parser);
+        return builder.getDocumentElement();
     }
 
     private void changeServiceCreationElement() throws Exception {
@@ -209,6 +219,41 @@ public class RegistryConfiguratorTestCase extends GREGIntegrationBaseTest {
             assert writer != null;
             writer.flush();
         }
+    }
+
+    private void changeDBConfigurations() throws Exception {
+        FileOutputStream fileOutputStream = null;
+        XMLStreamWriter writer = null;
+        OMElement documentElement = getDataSourceXmlOmElement();
+        try {
+            AXIOMXPath xpathExpression = new AXIOMXPath("/datasources-configuration/datasources/datasource");
+            List dataSourcesList = xpathExpression.selectNodes(documentElement);
+            for (Object dataSourceObject : dataSourcesList) {
+                OMElement dataSource = (OMElement) dataSourceObject;
+                String dataSourceName = dataSource.getFirstChildWithName(new QName("name")).getText();
+                if ("WSO2_CARBON_DB".equals(dataSourceName)) {
+                    OMElement maxActive = dataSource.getFirstChildWithName(new QName("definition"))
+                            .getFirstChildWithName(new QName("configuration"))
+                            .getFirstChildWithName(new QName("maxActive"));
+                    maxActive.setText("80");
+                    break;
+                }
+            }
+            fileOutputStream = new FileOutputStream(getDataSourceXmlPath());
+            writer = XMLOutputFactory.newInstance().createXMLStreamWriter(fileOutputStream);
+            documentElement.serialize(writer);
+            documentElement.build();
+            Thread.sleep(2000);
+        } catch (Exception e) {
+            log.error("master-datasources.xml edit fails" + e);
+            throw new Exception("master-datasources.xml edit fails" + e);
+        } finally {
+            assert fileOutputStream != null;
+            fileOutputStream.close();
+            assert writer != null;
+            writer.flush();
+        }
+
     }
 
     private void enableJmxManagement () throws Exception {
@@ -290,6 +335,11 @@ public class RegistryConfiguratorTestCase extends GREGIntegrationBaseTest {
                 File.separator + "GREG" + File.separator + "utf8" + File.separator + "test.txt";
         DataHandler dh = new DataHandler(new URL("file:///" + resourcePath));
         resourceAdminServiceClient.addResource("/_system/config/test_utf8_Resource", "text/plain", "testDesc", dh);
+    }
+
+    public String getDataSourceXmlPath() {
+        return CarbonUtils.getCarbonHome() + File.separator + "repository" + File.separator
+                + "conf" + File.separator + "datasources" + File.separator + "master-datasources.xml";
     }
 
 }
