@@ -89,7 +89,7 @@ public class SearchServiceOfStatusChange extends GREGIntegrationBaseTest {
 
         RegistryProviderUtil registryProviderUtil = new RegistryProviderUtil();
         governance = registryProviderUtil.getGovernanceRegistry(wsRegistryServiceClient, automationContext);
-
+        Thread.sleep(60000);
     }
 
     @Test(groups = {"wso2.greg"}, description = "create lifecycle")
