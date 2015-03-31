@@ -45,6 +45,8 @@ import org.wso2.greg.integration.common.utils.GREGIntegrationBaseTest;
 import org.wso2.greg.integration.common.utils.RegistryProviderUtil;
 
 import java.rmi.RemoteException;
+import java.util.Arrays;
+import java.util.List;
 
 import static org.testng.Assert.assertTrue;
 
@@ -114,13 +116,12 @@ public class SearchDependentEndpointInWsdlTestCase extends GREGIntegrationBaseTe
 
         Assert.assertNotNull(result.getResourceDataList(), "No Record Found");
         log.info("Number of resources: " + result.getResourceDataList().length);
-        Assert.assertTrue((result.getResourceDataList().length >= 6), "There should be more than 6 records");
+        Assert.assertEquals(result.getResourceDataList().length, 6, "There should be only 6 records");
 
-        int i = 0;
+        List endPointList = Arrays.asList(endpointArtifactPaths);
         for (ResourceData resource : result.getResourceDataList()) {
-            assertTrue(endpointArtifactPaths[i].equals(resource.getResourcePath()));
+            assertTrue(endPointList.contains(resource.getResourcePath()));
             log.info("Resource Path: " + resource.getResourcePath());
-            i++;
         }
     }
 

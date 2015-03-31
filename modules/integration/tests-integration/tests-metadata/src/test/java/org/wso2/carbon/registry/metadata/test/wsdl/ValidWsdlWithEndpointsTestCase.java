@@ -41,6 +41,8 @@ import org.wso2.greg.integration.common.utils.RegistryProviderUtil;
 
 import java.net.MalformedURLException;
 import java.rmi.RemoteException;
+import java.util.Arrays;
+import java.util.List;
 
 import static org.testng.Assert.assertTrue;
 
@@ -93,11 +95,12 @@ public class ValidWsdlWithEndpointsTestCase extends GREGIntegrationBaseTest {
 
         Endpoint[] endpoints = wsdl.getAttachedEndpoints();
         Assert.assertNotNull(endpoints, "No Records Found");
-        Assert.assertTrue((endpoints.length == 6), "There should be only 6 records");
+        Assert.assertEquals(endpoints.length, 6, "There should be only 6 records");
 
+        List endPointList = Arrays.asList(endpointArtifactPaths);
         for (int i = 0; i < endpoints.length; i++) {
+            assertTrue(endPointList.contains(((EndpointImpl) endpoints[i]).getArtifactPath()));
             log.info("Resource Path: " + ((EndpointImpl) endpoints[i]).getArtifactPath());
-            assertTrue(endpointArtifactPaths[i].equals(((EndpointImpl) endpoints[i]).getArtifactPath()));
         }
     }
 
