@@ -17,7 +17,40 @@
 */
 package org.wso2.greg.integration.common.utils;
 
+/**
+ * THis constants class holds the constants related to test cases.
+ */
 public class GREGTestConstants {
+
+    /**
+     * Super tenant domain key.
+     */
     public static final String SUPER_TENANT_DOMAIN_KEY = "superTenant";
+
+    /**
+     * Governance location.
+     */
+    public static final String GOVERNANCE_LOCATION = "/_system/governance";
+
+    /**
+     * Used as GREG file location.
+     */
+    public static final String GREG = "GREG";
+
+    /**
+     * Used as artifacts file location.
+     */
+    public static final String ARTIFACTS = "artifacts";
+
+    /**
+     * Used as lifecycle file location.
+     */
+    public static final String LIFECYCLE = "lifecycle";
+
+    /**
+     * Lifecycle configuration xml which includes checkpoints in its lifecycle state.
+     */
+    public static final String CHECKPOINT_LIFECYCLE = "checkpointLifeCycle.xml";
+
 
 }
