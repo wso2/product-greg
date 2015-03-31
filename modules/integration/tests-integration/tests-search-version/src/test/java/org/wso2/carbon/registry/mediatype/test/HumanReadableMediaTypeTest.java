@@ -289,12 +289,14 @@ public class HumanReadableMediaTypeTest extends GREGIntegrationBaseTest {
             throws ResourceAdminServiceExceptionException, RemoteException, RegistryException {
 
         delete("/_system/governance/trunk/test");
-//        delete("/_system/governance/trunk/endpoints/com");
-//        delete("/_system/governance/trunk/endpoints/org");
         delete("/_system/governance/trunk/schemas/org/w3/www/xml/_1998/namespace/1.0.0/xml.xsd");
         delete("/_system/governance/trunk/services/com/amazon/soap/1.0.0-SNAPSHOT/AmazonSearchService");
         delete("/_system/governance/trunk/wsdls/com/amazon/soap/1.0.0/AmazonWebServices.wsdl");
-        delete("/_system/governance/trunk/wsdls/org/epo/ops/wsdl/1.0.0/ops.wsdl"); //
+        delete("/_system/governance/trunk/wsdls/org/epo/ops/wsdl/1.0.0/ops.wsdl");
+        delete("/_system/governance/trunk/services/com");
+        delete("/_system/governance/trunk/services/org");
+        delete("/_system/governance/trunk/endpoints/com");
+        delete("/_system/governance/trunk/endpoints/org");
 
 
         resourceAdminServiceClient = null;
