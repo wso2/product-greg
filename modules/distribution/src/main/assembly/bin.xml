@@ -307,7 +307,7 @@
             <outputDirectory>${pom.artifactId}-${pom.version}/repository/deployment/server/jaggeryapps/asset-store</outputDirectory>
         </fileSet>-->
         <!-- API Store/ API Publisher -->
-        <fileSet>
+       <!-- <fileSet>
             <directory>../p2-profile-gen/target/wso2carbon-core-${carbon.kernel.version}/repository/deployment/server/jaggeryapps/publisher/</directory>
             <outputDirectory>${pom.artifactId}-${pom.version}/repository/deployment/server/jaggeryapps/productapipublisher</outputDirectory>
             <excludes>
@@ -339,7 +339,7 @@
                 <exclude>login/**</exclude>
                 <exclude>styles-layout.css</exclude>
             </excludes>
-        </fileSet>
+        </fileSet>-->
 
         <!-- ES store -->
         <fileSet>
@@ -852,7 +852,7 @@
             <outputDirectory>${pom.artifactId}-${pom.version}/repository/conf/etc</outputDirectory>
         </file>
         <!--API Publisher Customization-->
-        <file>
+        <!--<file>
             <source>../p2-profile-gen/target/wso2carbon-core-${carbon.kernel.version}/repository/deployment/server/jaggeryapps/publisher/publisherLogo/logo.png</source>
             <outputDirectory>${pom.artifactId}-${build.version}/repository/deployment/server/jaggeryapps/productapipublisher/site/themes/default/images</outputDirectory>
             <destName>logo.png</destName>
@@ -886,10 +886,10 @@
             <destName>site.json</destName>
             <filtered>true</filtered>
             <fileMode>644</fileMode>
-        </file>
+        </file>-->
         <!--End API Publisher Customization-->
         <!--API Store Customization-->
-        <file>
+        <!--<file>
             <source>../p2-profile-gen/target/wso2carbon-core-${carbon.kernel.version}/repository/deployment/server/jaggeryapps/store/storeLogo/logo.png</source>
             <outputDirectory>${pom.artifactId}-${build.version}/repository/deployment/server/jaggeryapps/productapistore/site/themes/fancy/images</outputDirectory>
             <destName>logo.png</destName>
@@ -930,7 +930,7 @@
             <destName>template.jag</destName>
             <filtered>true</filtered>
             <fileMode>644</fileMode>
-        </file>
+        </file>-->
         <!--End API Store Customization-->
         <!-- Including log4j.properties file -->
         <file>
@@ -944,10 +944,10 @@
             <outputDirectory>${pom.artifactId}-${pom.version}/repository/resources/webapps</outputDirectory>
         </file>
         <!-- Copy APIM DB -->
-        <file>
+       <!-- <file>
             <source>../p2-profile-gen/target/wso2carbon-core-${carbon.kernel.version}/repository/database/WSO2AM_DB.h2.db</source>
             <outputDirectory>${pom.artifactId}-${build.version}/repository/database</outputDirectory>
-        </file>
+        </file>-->
         <file>
             <source>../cmis/cmis-war/target/cmis.war</source>
             <outputDirectory>${pom.artifactId}-${pom.version}/repository/deployment/server/webapps</outputDirectory>
