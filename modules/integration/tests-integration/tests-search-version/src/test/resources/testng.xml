@@ -4,6 +4,11 @@
     <parameter name="useDefaultListeners" value="false"/>
     <test name="Test1" parallel="false">
         <packages>
+            <package name="org.wso2.carbon.registry.service.search.test"/>
+        </packages>
+    </test>
+    <test name="Test2" parallel="false">
+        <packages>
             <package name="org.wso2.carbon.registry.version.test"/>
         </packages>
 
@@ -12,7 +17,7 @@
             <class name="org.wso2.carbon.registry.version.test.CollectionTestCase"/>
         </classes>-->
     </test>
-    <test name="Test2" parallel="false">
+    <test name="Test3" parallel="false">
         <packages>
             <package name="org.wso2.carbon.registry.capp.deployment.test"/>
         </packages>
@@ -21,7 +26,7 @@
         <classes>
         </classes>
     </test>
-    <test name="Test3" parallel="false">
+    <test name="Test4" parallel="false">
         <packages>
             <package name="org.wso2.carbon.registry.search.metadata.test"/>
         </packages>
@@ -30,7 +35,7 @@
         <classes>
         </classes>
     </test>
-    <test name="Test4" parallel="false">
+    <test name="Test5" parallel="false">
         <packages>
             <package name="org.wso2.carbon.registry.mediatype.test"/>
         </packages>
@@ -39,15 +44,9 @@
             <class name="org.wso2.carbon.registry.mediatype.test.HumanReadableMediaTypeTest"/>
         </classes>-->
     </test>
-    <test name="Test5" parallel="false">
-        <packages>
-            <package name="org.wso2.carbon.registry.activity.search"/>
-        </packages>
-    </test>
-
     <test name="Test6" parallel="false">
         <packages>
-            <package name="org.wso2.carbon.registry.service.search.test"/>
+            <package name="org.wso2.carbon.registry.activity.search"/>
         </packages>
     </test>
 </suite>

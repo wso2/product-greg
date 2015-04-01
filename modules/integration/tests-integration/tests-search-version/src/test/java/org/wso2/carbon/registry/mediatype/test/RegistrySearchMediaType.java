@@ -173,7 +173,7 @@ public class RegistrySearchMediaType extends GREGIntegrationBaseTest {
         String endPointPath = endpoint.getPath();
 
         assertTrue(resourceAdminServiceClient.getMetadata("/_system/governance" + endPointPath).
-                getMediaType().equals("application/vnd.wso2.endpoint"));
+                getMediaType().equals("application/vnd.wso2-endpoint+xml"));
 
     }
 
@@ -187,6 +187,7 @@ public class RegistrySearchMediaType extends GREGIntegrationBaseTest {
         delete( "/_system/governance/trunk/services/com/amazon/soap/1.0.0/AmazonSearchService");
         delete("/_system/governance/trunk/wsdls/com/amazon/soap/1.0.0/AmazonWebServices.wsdl");
         delete("/_system/governance/trunk/schemas/com/example/www/library/1.0.0/library.xsd");
+        delete("/_system/governance/trunk/endpoints/com/amazon/soap/onca/ep-soap2");
 
         resourceAdminServiceClient = null;
         governance = null;
