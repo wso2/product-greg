@@ -162,6 +162,8 @@ public class SwaggerAdditionTestCase extends GREGIntegrationBaseTest {
 		deleteResource(restServiceCommonPath + "admin/SwaggerPetstore/1.0.0/SwaggerPetstore-rest_service");
 		deleteResource(restServiceCommonPath + "admin/SwaggerPetstore/2.1.1/SwaggerPetstore-rest_service");
 		deleteResource(restServiceCommonPath + "admin/SwaggerSampleApp/1.0.0/SwaggerSampleApp-rest_service");
+		deleteResource("/_system/governance/trunk/endpoints/io/swagger/petstore/ep-api");
+		deleteResource("/_system/governance/trunk/endpoints/io/swagger/petstore/ep-v2");
 		resourceAdminServiceClient = null;
 		swaggerCommonPath = null;
 	}

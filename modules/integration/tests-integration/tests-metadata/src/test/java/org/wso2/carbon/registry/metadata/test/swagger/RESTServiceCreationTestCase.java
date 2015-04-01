@@ -64,7 +64,8 @@ public class RESTServiceCreationTestCase extends GREGIntegrationBaseTest{
 		resourceAdminServiceClient.addSwagger(resourceName, "adding From URL", resourceUrl);
 		Assert.assertNotNull(resourceAdminServiceClient.getResourceContent(
 				swaggerCommonPath + "admin/SwaggerSampleApp/1.0.0/" + resourceName));
-		Assert.assertNotNull(restServiceCommonPath + "admin/SwaggerSampleApp/1.0.0/SwaggerSampleApp-rest_service");
+		Assert.assertNotNull(resourceAdminServiceClient.getResourceContent(
+				restServiceCommonPath + "admin/SwaggerSampleApp/1.0.0/SwaggerSampleApp-rest_service"));
 	}
 
 	/**
@@ -86,7 +87,8 @@ public class RESTServiceCreationTestCase extends GREGIntegrationBaseTest{
 
 		Assert.assertNotNull(resourceAdminServiceClient
 				                     .getResourceContent(swaggerCommonPath + "admin/SwaggerPetstore/1.0.0/" + fileName));
-		Assert.assertNotNull(restServiceCommonPath + "admin/SwaggerPetstore/2.1.1/SwaggerPetstore-rest_service");
+		Assert.assertNotNull(resourceAdminServiceClient.getResourceContent(
+				restServiceCommonPath + "admin/SwaggerPetstore/2.1.1/SwaggerPetstore-rest_service"));
 	}
 
 	/**
@@ -101,6 +103,8 @@ public class RESTServiceCreationTestCase extends GREGIntegrationBaseTest{
 		deleteResource(swaggerCommonPath + "admin/SwaggerSampleApp/1.0.0/store");
 		deleteResource(swaggerCommonPath + "admin/SwaggerSampleApp/1.0.0/user");
 		deleteResource(swaggerCommonPath + "admin/SwaggerPetstore/1.0.0/swagger2.json");
+		deleteResource("/_system/governance/trunk/endpoints/io/swagger/petstore/ep-api");
+		deleteResource("/_system/governance/trunk/endpoints/io/swagger/petstore/ep-v2");
 		resourceAdminServiceClient = null;
 		swaggerCommonPath = null;
 		restServiceCommonPath = null;
