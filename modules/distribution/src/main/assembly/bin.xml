@@ -47,7 +47,7 @@
                 <exclude>**/resources/clientRepository/modules/rampart*</exclude>
                 <exclude>**/log4j.properties</exclude>
                 <exclude>**/master-datasources.xml</exclude>
-                <exclude>**/identity.xml</exclude>
+                <!--<exclude>**/identity.xml</exclude>-->
                 <exclude>**/claim-config.xml</exclude>
                 <exclude>**/email/email-admin-config.xml</exclude>
                 <exclude>**/launch.ini</exclude>
@@ -110,7 +110,7 @@
                 <include>**/registry.xml</include>
                 <include>**/datasources.properties</include>
                 <include>**/notifications-email-verification.xml</include>
-                <include>**/api-manager.xml</include>
+                <!--<include>**/api-manager.xml</include>-->
             </includes>
         </fileSet>
         <fileSet>
