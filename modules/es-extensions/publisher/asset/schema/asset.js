@@ -83,6 +83,9 @@ asset.manager = function(ctx) {
         getName: function(asset) {
             return asset.name;
         },
+        /*Default update method fails when updating
+        * wsdls/wadls/schemas/policies.
+        * */
         update: function(){
 
         }
