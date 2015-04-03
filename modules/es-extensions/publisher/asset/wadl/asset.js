@@ -58,6 +58,14 @@ asset.manager = function(ctx) {
         },
         list: function(paging) {
             var items = this._super.list.call(this, paging);
+            for (var index = 0; index < items.length; index++) {
+                var result = items[index];
+                var path = result.path;
+                var subPaths = path.split('/');
+                var name = subPaths[subPaths.length - 1];
+                result.name = name;
+                result.version = subPaths[subPaths.length - 2];
+            }
             return items;
         },
         search: function(q, paging) {
@@ -74,6 +82,9 @@ asset.manager = function(ctx) {
         },
         getName: function(asset) {
             return asset.name;
+        },
+        update: function(){
+
         }
     };
 };
