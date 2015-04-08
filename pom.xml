@@ -902,9 +902,9 @@
         <process.feature.version>1.2.0</process.feature.version>
         <carbon.feature.version>1.2.1</carbon.feature.version>
         <uuid.feature.version>1.2.0</uuid.feature.version>
-        <sso.feature.version>1.2.1</sso.feature.version>
-        <es.feature.version>2.0.1-SNAPSHOT</es.feature.version>
-        <carbon.social.version>1.2.1-SNAPSHOT</carbon.social.version>
+        <sso.feature.version>1.2.0</sso.feature.version>
+        <es.feature.version>2.0.0</es.feature.version>
+        <carbon.social.version>1.2.0</carbon.social.version>
         <i18n.feature.version>1.0.0</i18n.feature.version>
         <!--<event.feature.version>1.0.0</event.feature.version>-->
         <!--<login.feature.version>1.0.0</login.feature.version>-->
