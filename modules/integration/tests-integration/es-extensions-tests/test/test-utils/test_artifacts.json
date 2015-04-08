@@ -1,0 +1,6 @@
+{
+    "ServiceCOnfigurations": {
+        "metadata": "<metadata xmlns=\"http://www.wso2.org/governance/metadata\"><overview><name>TestService</name><namespace>org.wso2.test</namespace><version>1.2.3</version><description>test description</description></overview><interface><wsdlURL>https://svn.wso2.org/repos/wso2/carbon/platform/trunk/products/greg/modules/integration/registry/tests-metadata/src/test/resources/artifacts/GREG/wsdl/sample.wsdl</wsdlURL></interface><docLinks><documentType>pdf</documentType><url>http://www.jetbrains.com/idea/docs/IntelliJIDEA_ReferenceCard.pdf</url><documentComment>This is a pdf</documentComment></docLinks></metadata>" 
+
+    }
+}
