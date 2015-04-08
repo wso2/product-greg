@@ -222,7 +222,7 @@
                                 <!--Asset Store Feature list -->
                                 <featureArtifactDef>org.jaggeryjs:org.jaggeryjs.feature:${jaggery.version}
                                 </featureArtifactDef>
-                                <featureArtifactDef>
+                                <!--<featureArtifactDef>
                                     org.wso2.carbon.apimgt:org.wso2.carbon.apimgt.core.feature:${carbon.apimgt.feature.version}
                                 </featureArtifactDef>
                                 <featureArtifactDef>
@@ -236,7 +236,7 @@
                                 </featureArtifactDef>
                                 <featureArtifactDef>
                                     org.wso2.carbon.apimgt:org.wso2.carbon.apimgt.startup.publisher.feature:${carbon.apimgt.feature.version}
-                                </featureArtifactDef>
+                                </featureArtifactDef>-->
                                 <featureArtifactDef>
                                     org.jaggeryjs:org.jaggeryjs.feature:${jaggery.version}
                                 </featureArtifactDef>
@@ -799,7 +799,7 @@
                                     <id>org.jaggeryjs.feature.group</id>
                                     <version>${jaggery.version}</version>
                                 </feature>
-                                <feature>
+                               <!--<feature>
                                     <id>org.wso2.carbon.apimgt.core.feature.group</id>
                                     <version>${carbon.apimgt.feature.version}</version>
                                 </feature>
@@ -818,7 +818,7 @@
                                 <feature>
                                     <id>org.wso2.carbon.apimgt.startup.publisher.feature.group</id>
                                     <version>${carbon.apimgt.feature.version}</version>
-                                </feature>
+                                </feature>-->
                                 <feature>
                                     <id>org.jaggeryjs.modules.caramel.feature.group</id>
                                     <version>${caramel.feature.version}</version>
@@ -1142,7 +1142,7 @@
                                     <id>org.jaggeryjs.feature.group</id>
                                     <version>${jaggery.version}</version>
                                 </feature>
-                                <feature>
+                                <!--<feature>
                                     <id>org.wso2.carbon.apimgt.core.feature.group</id>
                                     <version>${carbon.apimgt.feature.version}</version>
                                 </feature>
@@ -1161,7 +1161,7 @@
                                 <feature>
                                     <id>org.wso2.carbon.apimgt.startup.publisher.feature.group</id>
                                     <version>${carbon.apimgt.feature.version}</version>
-                                </feature>
+                                </feature>-->
                                 <feature>
                                     <id>org.jaggeryjs.modules.caramel.feature.group</id>
                                     <version>${caramel.feature.version}</version>
@@ -1545,7 +1545,7 @@
                                     <id>org.jaggeryjs.feature.group</id>
                                     <version>${jaggery.version}</version>
                                 </feature>
-                                <feature>
+                               <!-- <feature>
                                     <id>org.wso2.carbon.apimgt.core.feature.group</id>
                                     <version>${carbon.apimgt.feature.version}</version>
                                 </feature>
@@ -1564,7 +1564,7 @@
                                 <feature>
                                     <id>org.wso2.carbon.apimgt.startup.publisher.feature.group</id>
                                     <version>${carbon.apimgt.feature.version}</version>
-                                </feature>
+                                </feature>-->
                                 <feature>
                                     <id>org.jaggeryjs.modules.caramel.feature.group</id>
                                     <version>${caramel.feature.version}</version>

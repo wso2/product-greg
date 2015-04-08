@@ -52,9 +52,9 @@
                                     <h4 class='rxt-table-heading'>{{t "Interface"}}</h4>
                                     <table class='table'>
                                         <tr>
-                                            <td>{{t "WSDL/WADL URL"}}</td>
-                                            <!-- Assuming service can have only one dependency, WSDL/WADL-->
-                                            <td><a href="../../../asts/{{dependencies.[0].associationType}}/details/{{dependencies.[0].associationUUID}}" target="_blank">{{wsdl_url}}</a></td>
+                                            <td>{{t "WSDL URL"}}</td>
+                                            <!-- Assuming service can have only one dependency, WSDL.WADL will be shown in REST Service-->
+                                            <td><a href="../../../asts/wsdl/details/{{wsdl_uuid}}" target="_blank">{{wsdl_url}}</a></td>
                                         </tr>
                                         <tr>
                                             <td>{{t "Transport Protocols"}}</td>

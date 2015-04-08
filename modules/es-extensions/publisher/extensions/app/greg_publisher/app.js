@@ -16,7 +16,7 @@
  *  under the License.
  *
  */
-app.dependencies=['publisher_common'];
+app.dependencies=['publisher-common'];
 //override publisher-common and enable 'service' & 'wsdl'.
 //change the landing page to 'service'.
 app.server = function(ctx) {
@@ -24,7 +24,7 @@ app.server = function(ctx) {
         configs: {
             landingPage: '/asts/soapservice/list',
             disabledAssets: ['ebook','proxy','sequence','service','servicex','uri',
-                             'site','provider','gadget','document','api']
+                             'site','provider','gadget','document']
         }
     }
 };
