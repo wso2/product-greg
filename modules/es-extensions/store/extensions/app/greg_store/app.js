@@ -22,7 +22,7 @@ app.server = function(ctx) {
     return {
         configs: {
             disabledAssets: ['ebook','proxy','sequence','service','servicex','uri',
-                             'site','provider','gadget','document','api']
+                             'site','provider','gadget','document']
         }
     }
 };

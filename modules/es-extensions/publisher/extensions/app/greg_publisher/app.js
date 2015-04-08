@@ -24,7 +24,7 @@ app.server = function(ctx) {
         configs: {
             landingPage: '/asts/soapservice/list',
             disabledAssets: ['ebook','proxy','sequence','service','servicex','uri',
-                             'site','provider','gadget','document','api']
+                             'site','provider','gadget','document']
         }
     }
 };
