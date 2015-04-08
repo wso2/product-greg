@@ -24,12 +24,8 @@ import org.testng.annotations.Test;
 import org.wso2.carbon.automation.engine.context.TestUserMode;
 import org.wso2.carbon.governance.api.schema.SchemaManager;
 import org.wso2.carbon.governance.api.schema.dataobjects.Schema;
-import org.wso2.carbon.governance.api.services.ServiceManager;
-import org.wso2.carbon.governance.api.services.dataobjects.Service;
-import org.wso2.carbon.governance.api.util.GovernanceUtils;
 import org.wso2.carbon.integration.common.utils.LoginLogoutClient;
 import org.wso2.carbon.registry.core.Registry;
-import org.wso2.carbon.registry.core.session.UserRegistry;
 import org.wso2.carbon.registry.resource.stub.ResourceAdminServiceExceptionException;
 import org.wso2.carbon.registry.resource.stub.beans.xsd.ContentBean;
 import org.wso2.carbon.registry.ws.client.registry.WSRegistryServiceClient;
@@ -66,22 +62,6 @@ public class AddWADLTestCase extends GREGIntegrationBaseTest{
 
         ContentBean wadlContentBean = resourceAdminServiceClient.getResourceContent(wadlPath);
         Assert.assertNotNull(wadlContentBean);
-
-        GovernanceUtils.loadGovernanceArtifacts((UserRegistry) governanceRegistry);
-
-        ServiceManager serviceManager = new ServiceManager(governanceRegistry);
-        Service[] services = serviceManager.getAllServices();
-
-        Assert.assertEquals(services.length, 1, "More than one services created after adding WADL");
-
-        boolean serviceAvailable = false;
-        for(Service service : services){
-            if(service.getQName().getLocalPart().equals("StorageService")){
-                serviceAvailable = true;
-                serviceManager.removeService(service.getId());
-            }
-        }
-        Assert.assertTrue(serviceAvailable, "Service not created for the WADL");
     }
 
     @Test(groups = "wso2.greg", description = "adding wadl with schema import", dependsOnMethods = "addWADLFromURL")
@@ -93,22 +73,6 @@ public class AddWADLTestCase extends GREGIntegrationBaseTest{
 
         ContentBean wadlContentBean = resourceAdminServiceClient.getResourceContent(wadlPath);
         Assert.assertNotNull(wadlContentBean);
-
-        GovernanceUtils.loadGovernanceArtifacts((UserRegistry) governanceRegistry);
-
-        ServiceManager serviceManager = new ServiceManager(governanceRegistry);
-        Service[] services = serviceManager.getAllServices();
-
-        Assert.assertEquals(services.length, 1, "More than one services created after adding WADL");
-
-        boolean serviceAvailable = false;
-        for(Service service : services){
-            if(service.getQName().getLocalPart().equals("SearchSearvice")){
-                serviceAvailable = true;
-                serviceManager.removeService(service.getId());
-            }
-        }
-        Assert.assertTrue(serviceAvailable, "Service not created for the WADL");
 
         SchemaManager schemaManager = new SchemaManager(governanceRegistry);
         Schema[] schemas = schemaManager.getAllSchemas();
@@ -139,10 +103,18 @@ public class AddWADLTestCase extends GREGIntegrationBaseTest{
     @AfterClass(groups = { "wso2.greg" })
     public void deleteResources()
             throws ResourceAdminServiceExceptionException, RemoteException {
-        resourceAdminServiceClient.deleteResource(
-                "/_system/governance/trunk/wadls/com/sun/research/wadl/_2006/_10/1.0.0/StorageService");
-        resourceAdminServiceClient.deleteResource(
-                "/_system/governance/trunk/wadls/net/java/dev/wadl/_2009/_02/1.0.0/SearchSearvice");
-        resourceAdminServiceClient = null;
+	    resourceAdminServiceClient.deleteResource(
+			    "/_system/governance/apimgt/applicationdata/provider/admin/StorageService/1.0.0/StorageService-rest_service");
+	    resourceAdminServiceClient.deleteResource("/_system/governance/trunk/endpoints/localhost/ep-storage");
+	    resourceAdminServiceClient.deleteResource(
+			    "/_system/governance/apimgt/applicationdata/provider/admin/SearchSearvice/1.0.0/SearchSearvice-rest_service");
+	    resourceAdminServiceClient
+			    .deleteResource("/_system/governance/trunk/endpoints/com/yahoo/search/api/newssearchservice/ep-V1");
+	    resourceAdminServiceClient
+			    .deleteResource("/_system/governance/trunk/wadls/com/sun/research/wadl/_2006/_10/1.0.0/StorageService");
+	    resourceAdminServiceClient
+			    .deleteResource("/_system/governance/trunk/wadls/net/java/dev/wadl/_2009/_02/1.0.0/SearchSearvice");
+
+	    resourceAdminServiceClient = null;
     }
 }
