@@ -88,6 +88,9 @@ asset.manager = function(ctx) {
          * */
         update: function(){
 
+        },
+        getAssetGroup:function(){
+            return [];
         }
     };
 };
