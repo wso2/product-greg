@@ -45,7 +45,16 @@ asset.manager = function(ctx) {
                 artifact.setContent(new java.lang.String(content).getBytes());
             }
         }
-    }
+    };
+    /**
+     * Checks if there are any other asset versions
+     * @param  {[type]}  asset [description]
+     * @return {Boolean}       [description]
+     */
+    var isOnlyAssetVersion = function(asset, am) {
+        var versions = am.getAssetGroup(asset);
+        return (versions.length < 1) ? true : false;
+    };
     var createOMContent = function(attributes) {
         var omContent = "<metadata xmlns=\"http://www.wso2.org/governance/metadata\"><overview><name>";
         omContent += attributes.overview_name;
@@ -234,20 +243,44 @@ asset.manager = function(ctx) {
         },
         create: function(options) {
             var log = new Log();
+            var isDefault = false;
             var manager = this.am.manager;
             var artifact = createArtifact(manager, options);
+            if((options.hasOwnProperty('_default')) &&(options._default===true)){
+                delete options._default;
+                isDefault = true;
+            }
             manager.addGenericArtifact(artifact);
             log.info('Service successfully created');
             options.id = artifact.getId();
+            var asset = this.get(options.id);
+            if(!this.rxtManager.isGroupingEnabled(this.type)){
+                log.info('Omitted grouping');
+                return;
+            }
+            if ( (isDefault) || (isOnlyAssetVersion(asset,this)) ){
+                this.setAsDefaultAsset(asset);
+            }
         },
         update: function(options) {
             var log = new Log();
             var manager = this.am.manager;
+            var isDefault = false;
+            if((options.hasOwnProperty('_default'))&&(options._default === true)){
+                isDefault = true;
+            }
             var asset = this.get(options.id);
             var artifact = createArtifact(manager, options);
             manager.updateGenericArtifact(artifact);
             log.info('Service successfully updated');
             options.id = artifact.getId();
+            if(!this.rxtManager.isGroupingEnabled(this.type)){
+                log.debug('Omitting grouping step');
+                return;
+            }
+            if(isDefault){
+                this.setAsDefaultAsset(asset);
+            }
         }
     }
 };
@@ -259,7 +292,8 @@ asset.configure = function() {
                 defaultAction: '',
                 deletableStates: [],
                 publishedStates: ['Published']
-            }
+            },
+            groupingEnabled : true
         }
     };
 };
