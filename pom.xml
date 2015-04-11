@@ -971,7 +971,7 @@
         <carbon.kernel.registry.imp.pkg.version>[1.0.1, 2.0.0)</carbon.kernel.registry.imp.pkg.version>
         
         <!-- Carbon Registry -->
-        <carbon.registry.version>4.3.2-SNAPSHOT</carbon.registry.version>
+        <carbon.registry.version>4.3.2</carbon.registry.version>
         <carbon.registry.package.import.version.range>[4.3.0, 4.4.0)
         </carbon.registry.package.import.version.range>
         
