@@ -356,10 +356,10 @@
         </fileSet>
 
         <!-- Jaggery Apps used by Greg-->
-        <fileSet>
+        <!--fileSet>
             <directory>../p2-profile-gen/target/wso2carbon-core-${carbon.kernel.version}/repository/deployment/server/jaggeryapps/greg-bam</directory>
             <outputDirectory>${pom.artifactId}-${pom.version}/repository/deployment/server/jaggeryapps/greg-bam</outputDirectory>
-        </fileSet>
+        </fileSet-->
         <fileSet>
             <directory>../p2-profile-gen/target/wso2carbon-core-${carbon.kernel.version}/repository/deployment/server/jaggeryapps/greg-impact</directory>
             <outputDirectory>${pom.artifactId}-${pom.version}/repository/deployment/server/jaggeryapps/greg-impact</outputDirectory>
