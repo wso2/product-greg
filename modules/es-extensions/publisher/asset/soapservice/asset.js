@@ -181,17 +181,19 @@ asset.manager = function(ctx) {
         if (genericArtifacts != null) {
             for (var index in genericArtifacts) {
                 var deps = {};
-                //extract the association name via the path.
-                var path = genericArtifacts[index].getPath();
-                var subPaths = path.split('/');
-                var associationTypePlural = subPaths[2];
-                var associationName = subPaths[subPaths.length - 1];
-                var resource = userRegistry.registry.get(configs.depends_asset_path_prefix+path);
-                var associationUUID = resource.getUUID();
-                deps.associationName = associationName;
-                deps.associationType = associationTypePlural.substring(0,associationTypePlural.lastIndexOf('s'));
-                deps.associationUUID = associationUUID;
-                associations.push(deps);
+                if (genericArtifacts[index] != null) {
+                    //extract the association name via the path.
+                    var path = genericArtifacts[index].getPath();
+                    var subPaths = path.split('/');
+                    var associationTypePlural = subPaths[2];
+                    var associationName = subPaths[subPaths.length - 1];
+                    var resource = userRegistry.registry.get(configs.depends_asset_path_prefix + path);
+                    var associationUUID = resource.getUUID();
+                    deps.associationName = associationName;
+                    deps.associationType = associationTypePlural.substring(0, associationTypePlural.lastIndexOf('s'));
+                    deps.associationUUID = associationUUID;
+                    associations.push(deps);
+                }
             }
         }
         return associations;
