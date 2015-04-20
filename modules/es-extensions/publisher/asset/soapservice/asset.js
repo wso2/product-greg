@@ -291,6 +291,7 @@ asset.configure = function() {
                 commentRequired: false,
                 defaultAction: '',
                 deletableStates: [],
+		defaultLifecycleEnabled:false,
                 publishedStates: ['Published']
             },
             groupingEnabled : true
