@@ -264,6 +264,9 @@
                                 <featureArtifactDef>
                                     org.jaggeryjs.modules:sso.feature:${sso.feature.version}
                                 </featureArtifactDef>
+				<featureArtifactDef>
+				    org.jaggeryjs.modules:jaggery-test.feature:${jaggery-test.feature.version}
+				</featureArtifactDef>
                                 <featureArtifactDef>org.wso2.carbon.store:event.feature:${es.feature.version}
                                 </featureArtifactDef>
                                 <featureArtifactDef>org.wso2.carbon.store:login.feature:${es.feature.version}
@@ -798,6 +801,10 @@
                                 <feature>
                                     <id>org.jaggeryjs.feature.group</id>
                                     <version>${jaggery.version}</version>
+                                </feature>
+                                <feature>
+                                    <id>org.jaggeryjs.modules.jaggery-test.feature.group</id>
+                                    <version>${jaggery-test.feature.version}</version>
                                 </feature>
                                <!--<feature>
                                     <id>org.wso2.carbon.apimgt.core.feature.group</id>

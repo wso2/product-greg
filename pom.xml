@@ -917,6 +917,7 @@
 
         <maven-resources-plugin.version>2.5</maven-resources-plugin.version>
         <jaggery.version>0.9.0</jaggery.version>
+	<jaggery-test.feature.version>1.2.2</jaggery-test.feature.version>
         <eclipse.version>3.2.0</eclipse.version>
 
 
