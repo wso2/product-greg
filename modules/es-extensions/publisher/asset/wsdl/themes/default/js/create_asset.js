@@ -64,25 +64,38 @@ $(function() {
             uploadUI.hide();
         }
     });
+
 	var obtainFormMeta=function(formId){
-	return $(formId).data();
+	   return $(formId).data();
 	};
-	var doSubmit = function(){
+
+	var doSubmit = function(action,container){
 		$('#form-asset-create').ajaxForm({
 			success:function(){
 				var options=obtainFormMeta('#form-asset-create');
-				//alert('Aww snap! '+JSON.stringify(options));
 				window.location=options.redirectUrl;
 			},
 			error:function(){
 				alert('Unable to add the asset');
+                PublisherUtils.unblockButtons({
+                    container:container
+                });
 			}	
 		});
 	};
+
+    var styleFix = function(){
+        var item = $('#ui-asset-operations-overlay');
+        item.css('top','-34px');
+    };
+
     //function to call the custom wsdl api or default api.
     $('form[name="form-asset-create"] input[type="submit"]').click(function(event) {
+
+        var action = $(this).attr("name"); 
+        var container;
         var $form = $('form[name="form-asset-create"]');
-        if ($(this).attr("name") == 'addNewWsdlFileAssetButton') {//upload via file browser
+        if ( action === 'addNewWsdlFileAssetButton') {//upload via file browser
             //call the custom endpoint for processing wsdls upload via file browser.
             $form.attr('action', caramel.context + '/asts/wsdl/apis/wsdls');
             var $wsdlFileInput = $('input[name="wsdl_file"]');
@@ -90,13 +103,19 @@ $(function() {
             var wsdlFilePath = wsdlFileInputValue;
             var fileName = wsdlFilePath.split('\\').reverse()[0];
             //set the zip file name, to the hidden attribute.
+            container = 'saveButtonsFile';
             $('input[name="wsdl_file_name"]').val(fileName);
-			doSubmit();
-        } else if ($(this).attr("name") == 'addNewAssetButton') {//upload via url.
+        } else if (action === 'addNewAssetButton') {//upload via url.
             //call the default endpoint.
+            container = 'saveButtonsURL';
             $form.attr('action', caramel.context + '/apis/assets?type=wsdl');
-            doSubmit();
         }
+        PublisherUtils.blockButtons({
+            container:container,
+            msg:'Creating the '+PublisherUtils.resolveCurrentPageAssetType()+ ' instance'
+        });
+        styleFix();
+        doSubmit(action,container);
     });
 
 });
