@@ -434,6 +434,11 @@
             <outputDirectory>${pom.artifactId}-${pom.version}/repository/deployment/server/jaggeryapps/store/extensions/assets/endpoint</outputDirectory>
         </fileSet>
 
+        <fileSet>
+            <directory>../p2-profile-gen/target/wso2carbon-core-${carbon.kernel.version}/repository/resources/publisher/test</directory>
+            <outputDirectory>${pom.artifactId}-${pom.version}/repository/deployment/server/jaggeryapps/publisher/test</outputDirectory>
+        </fileSet>
+
         <!-- ES App Extension for G-Reg Publisher-->
         <fileSet>
             <directory>../p2-profile-gen/target/wso2carbon-core-${carbon.kernel.version}/repository/resources/publisher/extensions/app/greg_publisher</directory>
