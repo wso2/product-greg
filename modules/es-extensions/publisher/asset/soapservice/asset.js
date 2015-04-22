@@ -296,7 +296,10 @@ asset.configure = function() {
 		defaultLifecycleEnabled:false,
                 publishedStates: ['Published']
             },
-            groupingEnabled : true
+            grouping: {
+                groupingEnabled: false,
+                groupingAttributes: ['overview_name']
+            }
         }
     };
 };
