@@ -45,7 +45,6 @@ describe('Assets POST - Publisher API', function() {
             expect(result.data.data.overview_version).toEqual(asset.overview_version);
             expect(result.data.data.overview_url).toEqual(asset.overview_url);
             expect(result.data.data.type).toEqual("wsdl");
-
         }
     });
 });

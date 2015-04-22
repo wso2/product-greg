@@ -24,7 +24,7 @@ describe('Assets POST - Publisher API', function() {
      * Response: created asset
      * test: check for a return-id
      */
-    it('Test add wsdl', function() {
+    it('Test add wadl', function() {
         var url = utils.server_url + '/assets?type=wadl';
         var asset = {
             'overview_url': 'https://svn.wso2.org/repos/wso2/trunk/commons/qa/qa-artifacts/greg/wadl/SearchSearvice.wadl',
@@ -44,7 +44,6 @@ describe('Assets POST - Publisher API', function() {
             expect(result.data.data.overview_version).toEqual(asset.overview_version);
             expect(result.data.data.overview_url).toEqual(asset.overview_url);
             expect(result.data.data.type).toEqual("wadl");
-
         }
     });
 });
