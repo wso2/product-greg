@@ -169,10 +169,15 @@ asset.manager = function(ctx) {
     var setCustomAssetAttributes = function(asset, userRegistry) {
         var interfaceUrl=asset.attributes.interface_wsdlURL;
         if (interfaceUrl != null) {
-            var resource = userRegistry.registry.get(interfaceUrl);
-            var wsdlUUID = resource.getUUID();
-            asset.wsdl_uuid = wsdlUUID;
-            asset.wsdl_url = asset.attributes.interface_wsdlURL;
+            try {
+                var resource = userRegistry.registry.get(interfaceUrl);
+                var wsdlUUID = resource.getUUID();
+                asset.wsdl_uuid = wsdlUUID;
+                asset.wsdl_url = asset.attributes.interface_wsdlURL;
+            } catch(e) {
+                asset.wsdl_uuid = "";
+                asset.wsdl_url = "";
+            }
         }
     };
     var getAssociations = function(genericArtifacts, userRegistry){
