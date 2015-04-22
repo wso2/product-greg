@@ -203,24 +203,41 @@ asset.manager = function(ctx) {
         }
         return associations;
     };
+
     var setDependencies = function(genericArtifact, asset ,userRegistry) {
-        //get dependencies of the artifact.
-        var dependencyArtifacts = genericArtifact.getDependencies();
-        asset.dependencies = getAssociations(dependencyArtifacts, userRegistry);
+        try {
+            //get dependencies of the artifact.
+            var dependencyArtifacts = genericArtifact.getDependencies();
+            asset.dependencies = getAssociations(dependencyArtifacts, userRegistry);
+        } catch(e) {
+            asset.dependencies = [];
+        }
     };
+
     var setDependents = function(genericArtifact, asset, userRegistry) {
-        var dependentArtifacts = genericArtifact.getDependents();
-        asset.dependents = getAssociations(dependentArtifacts, userRegistry);
+        try {
+            var dependentArtifacts = genericArtifact.getDependents();
+            asset.dependents = getAssociations(dependentArtifacts, userRegistry);
+        } catch(e) {
+            asset.dependents = [];
+        }
     };
+
     return {
         get: function(id) {
-            var asset = this._super.get.call(this, id);
-            var userRegistry = getRegistry(ctx.session);
-            setCustomAssetAttributes(asset, userRegistry);
-            //get the GenericArtifactManager
-            var rawArtifact = this.am.manager.getGenericArtifact(id);
-            setDependencies(rawArtifact, asset, userRegistry);
-            setDependents(rawArtifact, asset, userRegistry);
+            var asset;
+            try {
+                asset = this._super.get.call(this, id); 
+                var userRegistry = getRegistry(ctx.session);
+                setCustomAssetAttributes(asset, userRegistry);
+                var rawArtifact = this.am.manager.getGenericArtifact(id);
+                setDependencies(rawArtifact, asset, userRegistry);
+                setDependents(rawArtifact, asset, userRegistry);
+            } catch(e) {
+                log.error(e);
+                return null;
+            }
+
             return asset;
         },
         combineWithRxt: function(asset) {

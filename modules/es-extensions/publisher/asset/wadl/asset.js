@@ -43,17 +43,25 @@ asset.manager = function(ctx) {
             utils.importResource(parentPath, name, mediaType, '', url, '', userRegistry.registry, properties);
         },
         get: function(id) {
-            var item = this._super.get.call(this, id);
-            var subPaths = item.path.split('/');
-            item.name = subPaths[subPaths.length - 1];
-            item.version = subPaths[subPaths.length - 2];
-            var userRegistry = getRegistry(ctx.session);
-            var ByteArrayInputStream = Packages.java.io.ByteArrayInputStream;
-            var resource = userRegistry.registry.get(item.path);
-            item.authorUserName = resource.getAuthorUserName();
-            var content = resource.getContent();
-            var value = '' + new Stream(new ByteArrayInputStream(content));
-            item.content = value;
+            var item;
+
+            try {
+                item = this._super.get.call(this, id);
+                var subPaths = item.path.split('/');
+                item.name = subPaths[subPaths.length - 1];
+                item.version = subPaths[subPaths.length - 2];
+                var userRegistry = getRegistry(ctx.session);
+                var ByteArrayInputStream = Packages.java.io.ByteArrayInputStream;
+                var resource = userRegistry.registry.get(item.path);
+                item.authorUserName = resource.getAuthorUserName();
+                var content = resource.getContent();
+                var value = '' + new Stream(new ByteArrayInputStream(content));
+                item.content = value;
+            } catch(e) {
+                log.error(e);
+                return null;
+            }
+            
             return item;
         },
         list: function(paging) {
