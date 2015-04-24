@@ -1,0 +1,458 @@
+@import 'fontwso2.css';
+@import 'fontwso2-extend.css';
+
+body {
+    overflow-x: hidden;
+    -ms-overflow-x: hidden;
+}
+
+textarea { width: 100%; }
+
+.well {
+    border-radius: 0;
+    -webkit-box-shadow: none;
+    box-shadow: none;
+}
+
+a.cu-btn {
+	color:#fff;
+	text-decoration: none;
+	font-weight:100;
+	display: inline-block;
+	text-transform: uppercase;
+    height: 53px;
+    padding: 13px 10px;
+}
+
+a.cu-btn:hover {
+	background-color: #132D45;
+}
+
+/* enabled/disabled switch styles */
+.wr-input-control.switch {
+    display: inline-block;
+    margin-right: 10px;
+    cursor: pointer;
+    position: relative;
+}
+.wr-input-control.switch  > input[type=checkbox] {
+    position: absolute;
+    opacity: 0;
+}
+.wr-input-control.switch .helper {
+    padding-left: 52px;
+    position: relative;
+}
+
+.wr-input-control.switch .text {
+    display: none;
+    margin-left: 5px;
+    font-weight: 100;
+}
+
+.wr-input-control.switch input[type="checkbox"]:checked + .helper + .text {
+    display: inline-block;
+}
+
+.wr-input-control.switch .helper:before {
+    position: absolute;
+    left: 0;
+    top: 2px;
+    display: block;
+    content: "";
+    width: 45px;
+    height: 16px;
+    cursor: pointer;
+    background: #a6a6a6;
+    margin-left: 2px;
+    z-index: 1;
+    border-radius: 8px;
+}
+.wr-input-control.switch input[type="checkbox"] + .helper:after {
+    position: absolute;
+    left: 22px;
+    top: -2px;
+    display: block;
+    content: "";
+    width: 24px;
+    height: 24px;
+    cursor: pointer;
+    background: #237bd5;
+    z-index: 2;
+    border-radius: 12px;
+
+    -webkit-transition: left 0.2s ease-in-out;
+    -moz-transition: left 0.2s ease-in-out;
+    -o-transition: left 0.2s ease-in-out;
+    transition: left 0.2s ease-in-out;
+}
+.wr-input-control.switch input[type="checkbox"]:not(:checked) + .helper:after {
+    left: 2px !important;
+    background: #eaeaea;
+    border: 1px #eaeaea solid;
+}
+
+.wr-input-control.switch input[type="checkbox"]:not(:checked) + .helper:before {
+    background: #a6a6a6 !important;
+}
+.wr-input-control.switch input[type="checkbox"]:disabled + .helper:after {
+    background: #a6a6a6 !important;
+    outline: 2px #a6a6a6 solid !important;
+}
+.wr-input-control.switch input[type="checkbox"]:disabled + .helper:before {
+    cursor: default !important;
+    background: #e0e0e0 !important;
+    outline: 2px #ccc solid !important;
+}
+
+/* panel styles */
+.panel-group .panel {
+	margin-bottom: 0;
+	border-radius: 0;
+}
+
+.panel-default {
+
+}
+
+.panel {
+	margin-bottom: 20px;
+	background-color: transparent;
+	border: 0 solid #ddd;
+	border-radius: 0;
+	-webkit-box-shadow: 0 0 0 rgba(0, 0, 0, .05);
+	box-shadow: 0 0 0 rgba(0, 0, 0, .05);
+}
+
+.panel-default > .panel-heading {
+	color: #fff;
+	background-color: #999;
+	border-color: #e4e4e4;
+}
+
+.panel-default > .panel-heading {
+	color: #fff;
+	background-color: #999;
+	border-color: #e4e4e4;
+}
+
+.cu-acc-head-title {
+	font-weight:400;
+	font-size:22px;
+}
+
+.cu-acc-head-title:hover {
+	text-decoration: none;
+}
+
+.panel-title a .fw-stack {
+    font-size: 14px;
+}
+
+.panel-title a.collapsed .fw-arrow:before {
+    content: "\e634";
+}
+
+.panel-title a {
+	text-decoration: none;
+}
+
+.panel-heading {
+/*	padding: 0 0 0 15px;*/
+    padding: 0;
+	border-bottom: 0 solid transparent;
+	border-top-left-radius: 0;
+	border-top-right-radius: 0;
+}
+
+.panel-title table, .panel-body table {
+	width:100%;
+}
+
+.panel-title a {
+	color:#fff;
+}
+
+.cu-acc-head-created {
+	font-weight:200;
+	font-size:16px;
+}
+
+.cu-acc-head-workflow {
+	font-weight:200;
+	font-size:16px;
+}
+
+.panel-group .panel-heading + .panel-collapse > .panel-body, .panel-group .panel-heading + .panel-collapse > .list-group {
+	border-top: 0 solid #e4e4e4;
+}
+
+.panel-body {
+	padding: 10px;
+	background:#f9f9f9;
+}
+
+
+.wr-notification-bar, .wr-side-panel {
+    width: 400px;
+    background: #262933;
+    position: absolute;
+    right: -400px;
+    padding: 10px;
+    z-index: 1000;
+    color: #fff;
+    transition: right 0.4s ease 0s;
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+
+.wr-side-panel {
+    background: #f9f9f9;
+    color: #333;
+    padding: 0;
+}
+
+.wr-notification-bar::-webkit-scrollbar, .wr-side-panel::-webkit-scrollbar {
+    width: 6px;
+    background: transparent;
+    padding: 0 5px;
+    cursor: all-scroll;
+}
+.wr-notification-bar::-webkit-scrollbar-thumb {
+    background: #e4e4e4;
+}
+.wr-notification-bar::-webkit-scrollbar-thumb:hover {
+    background: #e4e4e4;
+}
+.wr-notification-bar::-webkit-scrollbar-thumb:active {
+    background: #e4e4e4;
+}
+
+.wr-side-panel::-webkit-scrollbar-thumb {
+    background: #526A84;
+}
+.wr-side-panel::-webkit-scrollbar-thumb:hover {
+    background: #526A84;
+}
+.wr-side-panel::-webkit-scrollbar-thumb:active {
+    background: #526A84;
+}
+
+.wr-notification-bar.toggled, .wr-side-panel.toggled {
+    right: 0;
+}
+
+.wr-notification-desc.new .wr-notification-operation {
+    font-weight: 500;
+}
+
+.wr-notification-desc .fw {
+    font-size: 12px;
+}
+
+.wr-notification-toggle-btn, .wr-side-panel-toggle-btn {
+    float: right;
+}
+
+.wr-notification-bubble {
+    display: inline-block;
+    background: #fafafa;
+    color: #555;
+    padding: 2px 4px;
+    border-radius: 5px;
+    min-width: 10px;
+    font-weight: 500;
+}
+
+a.wr-notification-toggle-btn.selected {
+    background-color: #262933;
+}
+
+a.wr-side-panel-toggle-btn.selected {
+    background-color: #237bd5;
+    color: #fff;
+}
+
+.wr-side-panel .panel-title a {
+    display: block;
+    padding: 10px;
+    background: #237bd5;
+    color: #fff;
+    border-bottom: 1px solid #e4e4e4;
+}
+
+.wr-side-panel .panel-title a:hover {
+    background: #1965b2;
+}
+
+.wr-side-panel .panel {
+    margin-bottom: 0;
+}
+
+.wr-side-panel .panel-sub-title {
+    margin: 10px 0;
+}
+
+.wr-side-panel .wr-input-control.switch input[type="checkbox"]:not(:checked) + .helper:after {
+    background: #fff;
+}
+
+.wr-side-panel .panel-body {
+    padding: 10px;
+}
+
+.wr-panel-notes textarea {
+    resize: vertical;
+}
+
+.wr-panel-notes .wr-btn {
+    margin-right: 5px;
+}
+
+.wr-panel-notes .wr-input-control.checkbox {
+    margin: 0;
+}
+
+.wr-panel-notes .wr-input-control.checkbox .helper:before {
+    border-color: #526A84;
+}
+
+.wr-panel-notes .add-btn {
+    margin-bottom: 15px;
+    padding-left: 0;
+}
+
+.wr-panel-notes .panel-collapse {
+    padding: 10px 0 10px 35px;
+}
+
+.wr-panel-note {
+    margin: 0;
+}
+
+.wr-panel-notes .well {
+    margin: 5px 0;
+    padding: 10px;
+}
+
+.wr-panel-note .wr-panel-msg:hover {
+    cursor: pointer;
+    background: #f5f5f5;
+}
+
+.wr-panel-notes .wr-panel-desc-icon i {
+    width: 30px;
+    height: 30px;
+    display: inline-block;
+    background: #333;
+    color: #fff;
+    text-align: center;
+    margin-right: 10px;
+}
+
+.wr-panel-notes .wr-panel-desc-icon img {
+    width: 30px;
+    height: auto;
+}
+
+.wr-panel-notes .wr-panel-desc-icon {
+    float: left;
+    width: 30px;
+    height: 30px;
+    line-height: 30px;
+    white-space: nowrap;
+    margin-bottom: 5px;
+}
+
+.wr-panel-msg {
+    background: #fff;
+    border-right: 2px solid #526A84;
+    padding: 8px 35px 8px 10px;
+    margin-left: 35px;
+    margin-bottom: 5px;
+    font-size: 16px;
+    position: relative;
+}
+
+
+.wr-panel-msg .dropdown-menu {
+    background: #526A84;
+    color: #fff;
+    left: -167px;
+    top: -2px;
+}
+
+.wr-panel-msg .dropdown-menu a {
+    color: #fff;
+}
+
+.wr-panel-msg .dropdown-menu a:hover, .wr-panel-msg .dropdown-menu a:focus {
+    background-color: #132D45;
+    color: #fff;
+}
+
+.wr-panel-msg .msg-options {
+    position: absolute;
+    top: 0;
+    right: 0;
+    padding: 0;
+    cursor: pointer;
+}
+
+.wr-panel-msg .msg-options .btn.dropdown-toggle {
+    padding: 6px;
+    border: none;
+    color: #333;
+    background: transparent;
+}
+
+.wr-panel-msg .msg-options .btn.dropdown-toggle:hover, .wr-panel-msg .msg-options .btn.dropdown-toggle[aria-expanded="true"] {
+    color: #fff;
+    background-color: #526A84;
+}
+
+.wr-panel-msg-visibility {
+    position: absolute;
+    bottom: 7px;
+    right: 10px;
+    font-size: 14px;
+}
+
+.wr-panel-notes .resolve-icon {
+    display: none;
+    position: absolute;
+    bottom: 5px;
+    right: 15px;
+    font-size: 14px;
+}
+
+.wr-panel-notes .resolved .resolve-icon {
+    display: block;
+}
+
+.wr-panel-notes .resolved .wr-panel-msg {
+    border-right: none;
+    background: #C7CFD0;
+}
+
+.wr-panel-notes .resolved .wr-panel-sub-note .wr-panel-msg .msg-options {
+    display: none;
+}
+
+.wr-panel-sub-note .wr-panel-msg {
+    background: transparent;
+    margin-bottom: 5px;
+    padding-top: 0;
+    border-right: none;
+}
+
+.wr-panel-msg-details {
+    font-size: 10px;
+    color: #919191;
+    margin-top: 10px;
+}
+
+.wr-panel-notes .more-link {
+    display: inline-block;
+    margin-bottom: 8px;
+}
