@@ -13,57 +13,64 @@
 * limitations under the License.
 -->
 <form  method='post' class="form-horizontal" id="form-asset-create" name ="form-asset-create" data-redirect-url='{{url ""}}/asts/{{rxt.shortName}}/list' >
-    <div class="control-group">
-        <select id="addMethodSelector">
-            <option value="import" selected="selected">{{t "Import Schema from a url"}}</option>
-            <option value="upload">{{t "Upload Schema from a file"}}</option>
-        </select>
-    </div>
+        <div class="form-group">
+            <label class="custom-form-label col-lg-2 col-md-2 col-sm-12 col-xs-12">&nbsp;</label>
+            <div class="custom-form-right col-lg-5 col-md-8 col-sm-8 col-xs-12">
+                <select id="addMethodSelector" class="input-large">
+                    <option value="import" selected="selected">{{t "Import Schema from a url"}}</option>
+                    <option value="upload">{{t "Upload Schema from a file"}}</option>
+                </select>
+            </div>
+        </div>
     <div id="importUI" style="display: none;">
-        <div class="control-group">
-            <label class="control-label" for="overview_url">{{t "Schema Url"}}</label>
-            <div class="controls">
-                <input type='text' name='overview_url' id='overview_url' />
+        <div class="form-group">
+            <label class="custom-form-label col-lg-2 col-md-2 col-sm-12 col-xs-12" for="overview_url">{{t "Schema Url"}}</label>
+            <div class="custom-form-right col-lg-5 col-md-8 col-sm-8 col-xs-12">
+                <input type='text' name='overview_url' id='overview_url' class="form-control"/>
             </div>
         </div>
-        <div class="control-group">
-            <label class="control-label" for="overview_name">{{t "Name"}}</label>
-            <div class="controls">
-                <input type='text' name='overview_name' id='overview_name' />
+        <div class="form-group">
+            <label class="custom-form-label col-lg-2 col-md-2 col-sm-12 col-xs-12" for="overview_name">{{t "Name"}}</label>
+            <div class="custom-form-right col-lg-5 col-md-8 col-sm-8 col-xs-12">
+                <input type='text' name='overview_name' id='overview_name' class="form-control"/>
             </div>
         </div>
-        <div class="control-group">
-            <label class="control-label" for="overview_version">{{t "Version"}}</label>
-            <div class="controls">
-                <input type='text' name='overview_version' id='overview_version' />
+        <div class="form-group">
+            <label class="custom-form-label col-lg-2 col-md-2 col-sm-12 col-xs-12" for="overview_version">{{t "Version"}}</label>
+            <div class="custom-form-right col-lg-5 col-md-8 col-sm-8 col-xs-12">
+                <input type='text' name='overview_version' id='overview_version' class="form-control"/>
             </div>
         </div>
-        <div id="saveButtonsURL" class="form-actions">
-            <input type='submit' id="btn-create-asset" class="btn btn-primary" name="addNewAssetButton" value='{{t "Create"}}'>
-            <button class="btn" type="reset">{{t "Reset"}}</button>
-            <input type="hidden" value="{{rxt.shortName}}" name="{{rxt.shortName}}" id="meta-asset-type">
+        <div id="saveButtonsURL" class="form-group" >
+            <div class="col-sm-offset-2 col-sm-10">
+                <input type='submit' id="btn-create-asset" class="btn btn-primary" name="addNewAssetButton" value='{{t "Create"}}'>
+                <button class="btn btn-default" type="reset">{{t "Reset"}}</button>
+                <input type="hidden" value="{{rxt.shortName}}" name="{{rxt.shortName}}" id="meta-asset-type">
+            </div>
         </div>
     </div>
     <div id="uploadUI" style="display: none;">
-        <div class="control-group">
-            <label class="control-label" for="schema_zip">{{t "Schema/Zip file"}}</label>
-            <div class="controls">
-                <input type='file' name='schema_file' id='schema_file' />
+        <div class="form-group">
+            <label class="custom-form-label col-lg-2 col-md-2 col-sm-12 col-xs-12" for="schema_zip">{{t "Schema/Zip file"}}</label>
+            <div class="custom-form-right col-lg-5 col-md-8 col-sm-8 col-xs-12">
+                <input type='file' name='schema_file' id='schema_file' class="form-control"/>
                 <!--Use a hidden field to save the zip name and pass it to request, as 'file' 
                     attribute is not passed to the request unless it is defined in the rxt.-->
                 <input type='hidden' name='schema_file_name' id='schema_file_name' />
             </div>
         </div>
-        <div class="control-group">
-            <label class="control-label" for="file_version">{{t "Version"}}</label>
-            <div class="controls">
-                <input type='text' name='file_version' id='file_version' />
+        <div class="form-group">
+            <label class="custom-form-label col-lg-2 col-md-2 col-sm-12 col-xs-12" for="file_version">{{t "Version"}}</label>
+            <div class="custom-form-right col-lg-5 col-md-8 col-sm-8 col-xs-12">
+                <input type='text' name='file_version' id='file_version' class="form-control"/>
             </div>
         </div>
-        <div id="saveButtonsFile" class="form-actions">
-            <input type='submit' id="btn-create-asset" class="btn btn-primary" name="addNewSchemaFileAssetButton" value='{{t "Create"}}'>
-            <button class="btn" type="reset">{{t "Reset"}}</button>
-            <input type="hidden" value="{{rxt.shortName}}" name="{{rxt.shortName}}" id="meta-asset-type">
+        <div id="saveButtonsFile" class="form-group">
+            <div class="col-sm-offset-2 col-sm-10">
+                <input type='submit' id="btn-create-asset" class="btn btn-primary" name="addNewSchemaFileAssetButton" value='{{t "Create"}}'>
+                <button class="btn btn-default" type="reset">{{t "Reset"}}</button>
+                <input type="hidden" value="{{rxt.shortName}}" name="{{rxt.shortName}}" id="meta-asset-type">
+            </div>
         </div>
     </div>
 
