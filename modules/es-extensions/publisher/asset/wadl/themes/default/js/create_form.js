@@ -88,7 +88,7 @@ $(function() {
 
     var styleFix = function(){
         var item = $('#ui-asset-operations-overlay');
-        item.css('top','-34px');
+        item.css('top','-15px');
     };
 
     //function to call the custom schema api or default api.
