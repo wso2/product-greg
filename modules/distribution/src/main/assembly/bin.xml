@@ -457,6 +457,11 @@
             <outputDirectory>${pom.artifactId}-${pom.version}/repository/deployment/server/jaggeryapps/publisher/extensions/app/greg_impact</outputDirectory>
         </fileSet>
 
+        <fileSet>
+            <directory>../p2-profile-gen/target/wso2carbon-core-${carbon.kernel.version}/repository/resources/publisher/extensions/app/greg-publisher-defaults</directory>
+            <outputDirectory>${pom.artifactId}-${pom.version}/repository/deployment/server/jaggeryapps/publisher/extensions/app/greg-publisher-defaults</outputDirectory>
+        </fileSet>
+
     <!--End of ES Extensions for service UI-->
 	<!--
         <fileSet>
