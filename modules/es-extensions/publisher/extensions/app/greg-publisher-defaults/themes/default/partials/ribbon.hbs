@@ -9,39 +9,46 @@
                 <span class="icon-bar"></span>
             </button>
         </div>
-        <div class="wr-asset-type-switcher">
-            <a id="popoverExampleTwo" data-placement="bottom" class="ctrl-asset-type-switcher pull-left" href="#" data-original-title="" title="">
-                <span class="btn-asset"></span>
-            </a>
-
-            <a class="pull-left switcher-link" href='{{url ""}}{{currentUrl}}{{ribbon.currentUrl}}'>{{rxt.pluralLabel}}</a>
-        </div>
+        
         <div id="navbar" class="navbar-collapse collapse">
             
             <div class="wr-action-btn-bar">
-            <ul class="nav navbar-nav">
-                
-                {{#each leftNav}}
-                <li>
-                    <a href='{{url ""}}{{this.url}}' class="cu-btn {{this.iconClass}}">                     
-                        {{this.name}}
-                    </a>
-                </li>
-                {{/each}}
-                
-                <li>
-                    <a href="javascript:toggleSidePanel()" class="cu-btn wr-side-panel-toggle-btn">
-                    <span class="fw-stack-md">
-                        <i class="fw fw-left-arrow fw-stack-1-5x"></i>
-                    </span>
-                    Options
-                </a>
-                </li>
+                <ul class="nav navbar-nav">
+                    
+                    <li>
+                        <div class="wr-asset-type-switcher">
+                            <a id="popoverExampleTwo" data-placement="bottom" class="ctrl-asset-type-switcher pull-left" href="#" data-original-title="" title="">
+                                <span class="btn-asset"></span>
+                            </a>
 
-            </ul>
-                
-    
-                
+                            <a class="pull-left switcher-link" href='{{url ""}}{{currentUrl}}{{ribbon.currentUrl}}'>{{rxt.pluralLabel}}</a>
+                        </div>
+                    </li>
+
+                    {{#each leftNav}}
+                    <li>
+                        <a href='{{url ""}}{{this.url}}' class="cu-btn {{this.iconClass}}">                     
+                            {{this.name}}
+                        </a>
+                    </li>
+                    {{/each}}
+
+                    <li class="pull-right">
+                        <a href="javascript:void(0)" onclick="toggleSidePanel('notifications',this)"  class="cu-btn wr-side-panel-toggle-btn wr-notification-toggle-btn">
+                            <span class="fw-stack-md">
+                                <i class="fw fw-bell fw-stack-1-5x"></i>
+                            </span>
+                            <span class="wr-notification-bubble">35</span>
+                        </a>
+                        <a href="javascript:void(0)" onclick="toggleSidePanel('options',this)" class="cu-btn wr-side-panel-toggle-btn">
+                            <span class="fw-stack-md">
+                                <i class="fw fw-left-arrow fw-stack-1-5x"></i>
+                            </span>
+                            Options
+                        </a>
+                    </li>
+
+                </ul> 
             </div> 
 
         </div><!--/.nav-collapse -->

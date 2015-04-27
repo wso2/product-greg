@@ -79,10 +79,35 @@ function sidePanelPositionFix(){
 
 /*
  * Notification panel slide toggle
+ * @param view: which should be visible on side panel open
+ * @param button: selected button
  */
-function toggleSidePanel(){
-    $(sidePanel).toggleClass('toggled');
-    $(toggleButton).toggleClass('selected');
+function toggleSidePanel(view,button){
+    
+    var viewElement = (sidePanel + ' #' + view);
+    
+    $(viewElement).siblings().hide();
+    $(viewElement).show();
+    
+    $(button).siblings().removeClass('selected');
+    $(button).toggleClass('selected');
+    
+
+        if($(button).hasClass('selected')){
+            $(sidePanel).addClass('toggled');
+        }
+        else {
+            $(sidePanel).removeClass('toggled');
+        }
+   
+   
+//    if(!$(sidePanel).hasClass('toggled')){
+//        $(sidePanel).addClass('toggled');
+//    }
+//    else {
+//        $(sidePanel).removeClass('toggled');
+//    } 
+
 }
 
 /*
