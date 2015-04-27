@@ -14,6 +14,10 @@ textarea { width: 100%; }
     box-shadow: none;
 }
 
+.nav {
+    background-color: #237bd5;
+}
+
 .btn {
     border-radius: 0;
 }
@@ -225,25 +229,24 @@ a.cu-btn:hover {
 
 .wr-side-panel {
     width: 400px;
-    background: #262933;
     position: absolute;
     right: -400px;
-    padding: 10px;
     z-index: 1000;
-    color: #fff;
     transition: right 0.4s ease 0s;
     overflow-y: auto;
     overflow-x: hidden;
-}
-
-.wr-side-panel {
-    background: #f9f9f9;
+    background: #444;
     color: #333;
     padding: 0;
 }
 
+.wr-side-panel hr {
+    margin: 0;
+}
+
 .wr-side-notifiactions {
-    padding: 10px;
+    background-color: #444;
+    color: #fff;
 }
 
 .wr-side-options, .wr-side-notifiactions {
@@ -264,12 +267,43 @@ a.cu-btn:hover {
     right: 0;
 }
 
+.wr-notification-desc {
+    padding: 15px;
+    position: relative;
+}
+
 .wr-notification-desc.new .wr-notification-operation {
     font-weight: 500;
 }
 
-.wr-notification-desc .fw {
+.wr-notification-desc .wr-notification-time .fw {
     font-size: 12px;
+}
+
+.wr-notification-desc .fw-ring {
+    display: none;
+}
+
+.wr-notification-desc:hover {
+    background-color: #6d6d6d;
+    cursor: pointer;
+}
+
+.wr-notification-desc .wr-operation-icon {
+    position: absolute;
+    color: #fff;
+    top: 26%;
+    right: 15px;
+    display: none;
+    font-size: 14px;
+}
+
+.wr-notification-desc .wr-operation-icon:hover .fw-ring {
+    display: inline-block;
+}
+
+.wr-notification-desc:hover .wr-operation-icon {
+    display: block;
 }
 
 .wr-notification-toggle-btn, .wr-side-panel-toggle-btn {
@@ -285,13 +319,14 @@ a.cu-btn:hover {
     font-weight: 500;
 }
 
-a.wr-notification-toggle-btn.selected {
-    background-color: #262933;
+a.cu-btn.wr-side-panel-toggle-btn.selected:visited {
+    background-color: inherit;
 }
 
-a.wr-side-panel-toggle-btn.selected {
-    background-color: #237bd5;
-    color: #fff;
+a.cu-btn.wr-side-panel-toggle-btn.selected,
+a.cu-btn.wr-side-panel-toggle-btn.selected:hover,
+a.cu-btn.wr-side-panel-toggle-btn.selected:focus {
+    background-color: #444 !important;
 }
 
 .wr-side-panel .panel-title a {
