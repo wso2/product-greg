@@ -14,7 +14,15 @@ textarea { width: 100%; }
     box-shadow: none;
 }
 
-a.cu-btn {
+.btn {
+    border-radius: 0;
+}
+
+.navbar-default .navbar-nav>li>a:hover, .navbar-default .navbar-nav>li>a:focus {
+    color: #fff;
+}
+
+a.cu-btn, a.cu-btn-inner {
 	color:#fff;
 	text-decoration: none;
 	font-weight:100;
@@ -22,6 +30,28 @@ a.cu-btn {
 	text-transform: uppercase;
     height: 53px;
     padding: 13px 10px;
+}
+
+a.cu-btn:hover {
+	background-color: #132D45;
+}
+
+a.cu-btn-inner {
+    color: #333;
+    padding: 5px 10px;
+    height: 35px;
+}
+a.cu-btn-inner:hover {
+    background-color:#e4e4e4;
+}
+
+.navbar-collapse {
+    width: 100%;
+    padding: 0;
+}
+
+.navbar-nav .pull-right a.cu-btn {
+    padding-left: 20px !important;
 }
 
 a.cu-btn:hover {
@@ -193,7 +223,7 @@ a.cu-btn:hover {
 }
 
 
-.wr-notification-bar, .wr-side-panel {
+.wr-side-panel {
     width: 400px;
     background: #262933;
     position: absolute;
@@ -212,20 +242,12 @@ a.cu-btn:hover {
     padding: 0;
 }
 
-.wr-notification-bar::-webkit-scrollbar, .wr-side-panel::-webkit-scrollbar {
-    width: 6px;
-    background: transparent;
-    padding: 0 5px;
-    cursor: all-scroll;
+.wr-side-notifiactions {
+    padding: 10px;
 }
-.wr-notification-bar::-webkit-scrollbar-thumb {
-    background: #e4e4e4;
-}
-.wr-notification-bar::-webkit-scrollbar-thumb:hover {
-    background: #e4e4e4;
-}
-.wr-notification-bar::-webkit-scrollbar-thumb:active {
-    background: #e4e4e4;
+
+.wr-side-options, .wr-side-notifiactions {
+    display: none;
 }
 
 .wr-side-panel::-webkit-scrollbar-thumb {
@@ -251,11 +273,10 @@ a.cu-btn:hover {
 }
 
 .wr-notification-toggle-btn, .wr-side-panel-toggle-btn {
-    float: right;
+    float: left;
 }
 
 .wr-notification-bubble {
-    display: inline-block;
     background: #fafafa;
     color: #555;
     padding: 2px 4px;
@@ -276,13 +297,13 @@ a.wr-side-panel-toggle-btn.selected {
 .wr-side-panel .panel-title a {
     display: block;
     padding: 10px;
-    background: #237bd5;
+    background: #444;
     color: #fff;
     border-bottom: 1px solid #e4e4e4;
 }
 
 .wr-side-panel .panel-title a:hover {
-    background: #1965b2;
+    background: #4f4f4f;
 }
 
 .wr-side-panel .panel {
@@ -366,7 +387,7 @@ a.wr-side-panel-toggle-btn.selected {
 
 .wr-panel-msg {
     background: #fff;
-    border-right: 2px solid #526A84;
+    border-right: 2px solid #333;
     padding: 8px 35px 8px 10px;
     margin-left: 35px;
     margin-bottom: 5px;
@@ -376,10 +397,11 @@ a.wr-side-panel-toggle-btn.selected {
 
 
 .wr-panel-msg .dropdown-menu {
-    background: #526A84;
+    background: #333;
     color: #fff;
-    left: -167px;
+    left: -172px;
     top: -2px;
+    width: auto;
 }
 
 .wr-panel-msg .dropdown-menu a {
@@ -408,14 +430,15 @@ a.wr-side-panel-toggle-btn.selected {
 
 .wr-panel-msg .msg-options .btn.dropdown-toggle:hover, .wr-panel-msg .msg-options .btn.dropdown-toggle[aria-expanded="true"] {
     color: #fff;
-    background-color: #526A84;
+    background-color: #333;
 }
 
-.wr-panel-msg-visibility {
+a.wr-panel-msg-visibility {
     position: absolute;
     bottom: 7px;
     right: 10px;
     font-size: 14px;
+    color: #333;
 }
 
 .wr-panel-notes .resolve-icon {
@@ -432,7 +455,7 @@ a.wr-side-panel-toggle-btn.selected {
 
 .wr-panel-notes .resolved .wr-panel-msg {
     border-right: none;
-    background: #C7CFD0;
+    background: #dedede;
 }
 
 .wr-panel-notes .resolved .wr-panel-sub-note .wr-panel-msg .msg-options {
