@@ -29,9 +29,12 @@
 asset.renderer = function(ctx) {
 	return {
 		pageDecorators:{
-			comments:function(page){
-				log.info('Comments method was called!!');
-			}
+            sidebarPopulator: function(page) {
+                log.info('current page: '+page.meta.pageName);
+                if (page.meta.pageName === 'details') {
+                    page.isSidebarEnabled = true;
+                }
+            }
 		}
 	};
 };
