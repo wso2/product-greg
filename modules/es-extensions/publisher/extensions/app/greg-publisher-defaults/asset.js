@@ -16,29 +16,53 @@
  *  under the License.
  *
  */
-
 // asset.manager = function(ctx) {
-// 	return {
-// 		get:function(id){
-// 			log.info('overridden get method in the GREG default extension');
-// 			return this._super.get.call(this,id);
-// 		}
-// 	}
+//  return {
+//      get:function(id){
+//          log.info('overridden get method in the GREG default extension');
+//          return this._super.get.call(this,id);
+//      }
+//  }
 // };
-	
 asset.renderer = function(ctx) {
-	return {
-		pageDecorators:{
+    var gregAPI = require('/modules/greg-publisher-api.js').gregAPI;
+    var rxt = require('rxt');
+    var assetManager = function(session, type) {
+        var am = rxt.asset.createUserAssetManager(session, type);
+        return am;
+    };
+    return {
+        pageDecorators: {
             sidebarPopulator: function(page) {
-                log.info('current page: '+page.meta.pageName);
                 if (page.meta.pageName === 'details') {
                     page.isSidebarEnabled = true;
                 }
+            },
+            subscriptionPopulator: function(page) {
+                if (page.meta.pageName === 'details') {
+                    var am = assetManager(ctx.session,ctx.assetType);
+                    log.info('### obtaining subscriptions ###');
+                    page.subscriptions = gregAPI.subscriptions.list(am,page.assets.id);
+                    log.info('### done ###');
+                }
+            },
+            notificationPopulator: function(page) {
+                if (page.meta.pageName === 'details') {
+                    page.notificationsCount = gregAPI.notifications.count();
+                }
+            },
+            notificationListPopulator: function(page) {
+                if (page.meta.pageName === 'details') {
+                    var am = assetManager(ctx.session,ctx.assetType);
+                    page.notifications = gregAPI.notifications.list(am);
+                }
+            },
+            notePopulator: function(page) {
+                if (page.meta.pageName === 'details') {}
             }
-		}
-	};
+        }
+    };
 };
-
 asset.configure = function() {
     return {
         meta: {
@@ -46,7 +70,7 @@ asset.configure = function() {
                 commentRequired: false,
                 defaultAction: '',
                 deletableStates: [],
-		defaultLifecycleEnabled:false,
+                defaultLifecycleEnabled: false,
                 publishedStates: ['Published']
             },
             grouping: {
@@ -56,17 +80,16 @@ asset.configure = function() {
         }
     };
 };
-
 // asset.configure = function(){
-// 	return {
-// 		meta:{
-// 			lifecycle:{
-// 				lifecycleViewEnabled:false,
-// 				lifecycleEnabled:false
-// 			},
-// 			grouping:{
-// 				groupingEnabled:true
-// 			}
-// 		}
-// 	};
+//  return {
+//      meta:{
+//          lifecycle:{
+//              lifecycleViewEnabled:false,
+//              lifecycleEnabled:false
+//          },
+//          grouping:{
+//              groupingEnabled:true
+//          }
+//      }
+//  };
 // };

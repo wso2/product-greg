@@ -36,8 +36,14 @@ var resources = function(page, meta) {
     if(!o.js){
         o.js = [];
     }
+    if(!o.code){
+        o.code = [];
+    }
     o.css.push('sidepanel.css');
+    o.code.push('view-details-meta.hbs');
     o.js.push('sidepanel.js');
+    o.js.push('greg-page-api.js');
+    o.js.push('greg-subscriptions-api.js');
     //o.css.push('styles.css');
     //o.css.push('assets.css');
     //o.js.push('jquery.event.mousestop.js');
