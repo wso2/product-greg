@@ -292,10 +292,10 @@ a.cu-btn:hover {
 .wr-notification-desc .wr-operation-icon {
     position: absolute;
     color: #fff;
-    top: 26%;
+    top: 28%;
     right: 15px;
     display: none;
-    font-size: 14px;
+    font-size: 12px;
 }
 
 .wr-notification-desc .wr-operation-icon:hover .fw-ring {
@@ -426,7 +426,7 @@ a.cu-btn.wr-side-panel-toggle-btn.selected:focus {
     padding: 8px 35px 8px 10px;
     margin-left: 35px;
     margin-bottom: 5px;
-    font-size: 16px;
+    font-size: 14px;
     position: relative;
 }
 
@@ -514,3 +514,30 @@ a.wr-panel-msg-visibility {
     display: inline-block;
     margin-bottom: 8px;
 }
+
+.wr-asset-type-switcher .popover {
+    min-width: 362px !important;
+}
+
+
+/*
+.nav,
+.navbar-themed,
+.navbar-themed .navbar-nav > li,
+a.ast-type-item:hover {
+    background: #BF822B;
+}
+
+.wr-input-control.switch input[type="checkbox"] + .helper:after {
+    background: #444;
+}
+
+.wr-asset-type-switcher a.switcher-link {
+    background-color: #A16D21;
+    border-right-color: #8C5C17;
+}
+
+a.cu-btn:hover, .wr-asset-type-switcher a.switcher-link:hover {
+    background-color: #8C5C17 !important;
+}
+*/
