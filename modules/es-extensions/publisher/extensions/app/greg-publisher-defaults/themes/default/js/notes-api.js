@@ -139,4 +139,25 @@ $(function () {
             }
         });
     });
+    
+});
+
+/**
+ * On DOM load if note are empty, button text changes to "Add Note" else "New".
+ */
+$('document').ready(function(){
+    if ($('#collapseNotes .panel-group .panel > div').length == 0){
+        $('#newThreadBtn .btn-text').html('Add Note');
+    }
+    else {
+        $('#newThreadBtn .btn-text').html('New');
+    }
+    $('#newThreadBtn').show();
+});
+
+/**
+ * On button "Add Note"/"New" click, show text input field
+ */
+$('#newThreadBtn').click(function(){
+    $('#newThread').fadeIn('fast');
 });
