@@ -1,0 +1,26 @@
+{{#each comments}}
+    <div class="wr-panel-note collapsed" role="tab" data-toggle="collapse" data-parent="#accordion" href="#{{id}}"
+         aria-expanded="false" aria-controls="{{id}}" data-path="{{path}}">
+        {{> notes-comment .}}
+    </div>
+    <div id="{{id}}" class="panel-collapse collapse" role="tabpanel" aria-labelledby="{{id}}">
+
+        <!--<a href="#" class="more-link">More ...</a>-->
+
+        <div class="wr-panel-sub-note" id="subcomment-container">
+            <!--Sub comments go here -->
+        </div>
+
+        <div class="well">
+            <textarea placeholder="reply..." id="{{id}}reply" data-path="{{path}}"></textarea>
+            <a href="#" class="cu-btn-inner reply-note" data-path="{{path}}" data-id="{{id}}">
+                <span class="fw-stack">
+                    <i class="fw fw-ring fw-stack-2x"></i>
+                    <i class="fw fw-message fw-stack-1x"></i>
+                </span>
+                Reply
+            </a>
+        </div>
+
+    </div>
+{{/each}}

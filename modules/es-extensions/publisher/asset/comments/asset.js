@@ -1,5 +1,5 @@
 /*
- *  Copyright (c) 2014, WSO2 Inc. (http://www.wso2.org) All Rights Reserved.
+ *  Copyright (c) 2015, WSO2 Inc. (http://www.wso2.org) All Rights Reserved.
  *
  *  WSO2 Inc. licenses this file to you under the Apache License,
  *  Version 2.0 (the "License"); you may not use this file except
@@ -16,15 +16,28 @@
  *  under the License.
  *
  */
-app.dependencies=['publisher-common'];
-//override publisher-common and enable 'service' & 'wsdl'.
-//change the landing page to 'service'.
-app.server = function(ctx) {
+
+asset.manager = function (ctx) {
     return {
-        configs: {
-            landingPage: '/asts/soapservice/list',
-            disabledAssets: ['ebook','proxy','sequence','service','servicex','uri',
-                             'site','provider','gadget','document','endpoint','comments']
+        create: function (options) {
+            options.attributes.overview_hash = Math.random();
+            log.info(options);
+            try {
+                this._super.create.call(this, options);
+            } catch (e) {
+                log.error(e);
+                throw e;
+            }
+        }
+    };
+};
+
+asset.configure = function () {
+    return {
+        meta: {
+            lifecycle: {
+                defaultLifecycleEnabled: false
+            }
         }
     }
 };
