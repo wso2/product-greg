@@ -69,7 +69,7 @@ asset.renderer = function(ctx) {
                 var ptr = page.leftNav || [];
                 var entry;
                 log.info('Association populator ' + page.meta.pageName);
-                if ((page.meta.pageName !== 'associations') && (page.meta.pageName !== 'list')) {
+                if (((page.meta.pageName !== 'associations') && (page.meta.pageName !== 'list')) &&(page.meta.pageName !== 'create')) {
                     log.info('adding link');
                     entry = {};
                     entry.name = 'Associations';

@@ -1,5 +1,4 @@
 /* inner page title buttons */
-
 .tile-buttons-list h4 {
     font-weight: 400;
 }
@@ -24,30 +23,34 @@
     width: 120px;
     height: 120px;
     padding: 20px;
-    background: #132D45;
+    background: #237bd5;
     display: block;
     overflow: hidden;
     text-align: center;
 }
 
 .tile-buttons li a.selected,.tile-buttons li a.selected:hover {
-    background: #132D45;
+    background: #237bd5;
 }
 
 .tile-buttons li a.disabled,.tile-buttons li a.disabled:hover {
     opacity: 0.1;
-    background: #132D45;
+    background: #237bd5;
     cursor: default;
 }
 
 .tile-buttons li a:hover {
-    background: #526A84;
+    background: #1965b2;
 }
 
 .tile-buttons li a i {
     font-size: 50px;
     display: block;
     margin-bottom: 10px;
+}
+
+.wr-associations-list {
+    margin-top: 10px;
 }
 
 .wr-associations-list .wr-association-icon,
@@ -103,4 +106,15 @@
     font-size: 25px;
     background-color: #444;
     color: #fff;
+}
+
+.wr-configurations-table th {
+    font-weight: 400;
+    text-transform: uppercase;
+    padding: 10px 2px;
+}
+
+.wr-configurations-table td {
+    padding:5px 2px;
+    vertical-align: text-top;
 }

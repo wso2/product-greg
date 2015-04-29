@@ -30,7 +30,7 @@ var sidePanel = '.wr-side-panel',
  */
 $(window).load(function(){
     setSidePanelHeight();
-    $(sidePanel).css('top' , offset);
+    $(sidePanel).css('top', offset);
     sidePanelPositionFix();
 });
 
@@ -73,7 +73,7 @@ function sidePanelPositionFix(){
     }
     else {
         $(sidePanel).css('position','absolute');
-        $(sidePanel).css('top' , offset);
+        $(sidePanel).css('top', offset);
     }
 }
 
@@ -92,21 +92,12 @@ function toggleSidePanel(view,button){
     $(button).siblings().removeClass('selected');
     $(button).toggleClass('selected');
     
-
-        if($(button).hasClass('selected')){
-            $(sidePanel).addClass('toggled');
-        }
-        else {
-            $(sidePanel).removeClass('toggled');
-        }
-   
-   
-//    if(!$(sidePanel).hasClass('toggled')){
-//        $(sidePanel).addClass('toggled');
-//    }
-//    else {
-//        $(sidePanel).removeClass('toggled');
-//    } 
+    if($(button).hasClass('selected')){
+        $(sidePanel).addClass('toggled');
+    }
+    else {
+        $(sidePanel).removeClass('toggled');
+    }
 
 }
 
