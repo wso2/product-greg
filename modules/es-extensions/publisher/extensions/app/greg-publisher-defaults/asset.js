@@ -31,6 +31,11 @@ asset.renderer = function(ctx) {
         var am = rxt.asset.createUserAssetManager(session, type);
         return am;
     };
+    var getAssetCommentManager = function (ctx) {
+        var rxt = require('rxt');
+        var am = rxt.asset.createUserAssetManager(ctx.session, 'comments');
+        return am;
+    };
     return {
         pageDecorators: {
             sidebarPopulator: function(page) {
@@ -59,6 +64,16 @@ asset.renderer = function(ctx) {
             },
             notePopulator: function(page) {
                 if (page.meta.pageName === 'details') {}
+            },
+            comments: function (page) {
+                if (!page.assets.id) {
+                    return;
+                }
+                var q = {};
+                q.overview_resourcepath = page.assets.path;
+                var items = getAssetCommentManager(ctx).search(q);
+                page.comments = items;
+                log.info(page.comments);
             }
         }
     };

@@ -216,6 +216,9 @@ var gregAPI = {};
                         pathValue = arr[a];
                     }
                 }
+                if (endsWith('.',pathValue)){
+                    pathValue = pathValue.substr(0,pathValue.length-1);
+                }
                 var uuid = am.registry.registry.get(pathValue).getUUID();
                 workList.presentationSubject = workList.presentationSubject.replace(pathValue,"");
 
@@ -241,6 +244,9 @@ var gregAPI = {};
         }
         results.list = result;
         return results;
+    };
+    var endsWith = function(suffix, val) {
+        return val.indexOf(suffix, val.length - suffix.length) !== -1;
     };
     gregAPI.notifications.remove = function(registry, notificationId) {};
     gregAPI.notes.reply = function() {};
