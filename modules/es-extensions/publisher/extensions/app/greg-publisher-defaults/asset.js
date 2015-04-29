@@ -59,6 +59,19 @@ asset.renderer = function(ctx) {
             },
             notePopulator: function(page) {
                 if (page.meta.pageName === 'details') {}
+            },
+            associationMetaDataPopulator: function(page, util) {
+                var ptr = page.leftNav || [];
+                var entry;
+                log.info('Association populator '+page.meta.pageName);
+                if ((page.meta.pageName !== 'associations') &&(page.meta.pageName !== 'list')) {
+                    log.info('adding link');
+                    entry = {};
+                    entry.name = 'Associations';
+                    entry.iconClass = 'btn-lifecycle';
+                    entry.url = this.buildAppPageUrl('associations')+'/'+page.assets.type+'/'+page.assets.id
+                    ptr.push(entry);
+                }
             }
         }
     };

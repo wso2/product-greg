@@ -1,0 +1,34 @@
+<%
+var caramel;
+require('/modules/publisher.js').exec(function(ctx) {
+	caramel = require('caramel');
+	var PAGE_PATTERN = '/{context}/pages/associations/{type}/{id}';
+    var gregAPI = require('/modules/greg-publisher-api.js').gregAPI;
+
+	var uriMatcher = new URIMatcher(ctx.request.getRequestURI());
+	var options = uriMatcher.match(PAGE_PATTERN);
+	var appAPI = require('rxt').app;
+	var constants = require('rxt').constants;
+	var asset = require('rxt').asset;
+	var core = require('rxt').core;
+	var constants = require('rxt').constants;
+	var am;
+	var server = require('store').server;
+	var user = server.current(ctx.session);
+	var ui = require('rxt').ui;
+	var page = ui.buildPage(ctx.session, ctx.request);
+	var am;
+	var instance;
+	var output;
+	if((!options.id)||(!options.type)){
+		ctx.response.sendError(404,'Unable to locate the asset without a valid Id or Type');
+		return;
+	}
+	am = asset.createUserAssetManager(ctx.session, options.type); //appAPI.createUserAppManager(ctx.session);
+	instance = am.get(options.id);
+	output = am.render(instance,page)._custom(); //appManager.render([],page);
+
+	output.associationsTypes = gregAPI.associations.listTypes(options.type);
+	output.associations = gregAPI.associations.list(ctx.session, options.type, instance.path);
+	caramel.render(output);
+}, request, response, session); %>

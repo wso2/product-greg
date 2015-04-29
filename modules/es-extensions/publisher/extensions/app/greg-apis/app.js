@@ -28,6 +28,11 @@ app.server = function(ctx){
                     url:'notification',
                     path:'notification.jag',
                     secured:true
+                },
+                {
+                    url:'association',
+                    path:'association.jag',
+                    secured:true
                 }
             ]
         }
