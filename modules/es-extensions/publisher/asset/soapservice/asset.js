@@ -45,7 +45,16 @@ asset.manager = function(ctx) {
                 artifact.setContent(new java.lang.String(content).getBytes());
             }
         }
-    }
+    };
+    /**
+     * Checks if there are any other asset versions
+     * @param  {[type]}  asset [description]
+     * @return {Boolean}       [description]
+     */
+    var isOnlyAssetVersion = function(asset, am) {
+        var versions = am.getAssetGroup(asset);
+        return (versions.length < 1) ? true : false;
+    };
     var createOMContent = function(attributes) {
         var omContent = "<metadata xmlns=\"http://www.wso2.org/governance/metadata\"><overview><name>";
         omContent += attributes.overview_name;
@@ -160,10 +169,15 @@ asset.manager = function(ctx) {
     var setCustomAssetAttributes = function(asset, userRegistry) {
         var interfaceUrl=asset.attributes.interface_wsdlURL;
         if (interfaceUrl != null) {
-            var resource = userRegistry.registry.get(interfaceUrl);
-            var wsdlUUID = resource.getUUID();
-            asset.wsdl_uuid = wsdlUUID;
-            asset.wsdl_url = asset.attributes.interface_wsdlURL;
+            try {
+                var resource = userRegistry.registry.get(interfaceUrl);
+                var wsdlUUID = resource.getUUID();
+                asset.wsdl_uuid = wsdlUUID;
+                asset.wsdl_url = asset.attributes.interface_wsdlURL;
+            } catch(e) {
+                asset.wsdl_uuid = "";
+                asset.wsdl_url = "";
+            }
         }
     };
     var getAssociations = function(genericArtifacts, userRegistry){
@@ -172,39 +186,58 @@ asset.manager = function(ctx) {
         if (genericArtifacts != null) {
             for (var index in genericArtifacts) {
                 var deps = {};
-                //extract the association name via the path.
-                var path = genericArtifacts[index].getPath();
-                var subPaths = path.split('/');
-                var associationTypePlural = subPaths[2];
-                var associationName = subPaths[subPaths.length - 1];
-                var resource = userRegistry.registry.get(configs.depends_asset_path_prefix+path);
-                var associationUUID = resource.getUUID();
-                deps.associationName = associationName;
-                deps.associationType = associationTypePlural.substring(0,associationTypePlural.lastIndexOf('s'));
-                deps.associationUUID = associationUUID;
-                associations.push(deps);
+                if (genericArtifacts[index] != null) {
+                    //extract the association name via the path.
+                    var path = genericArtifacts[index].getPath();
+                    var subPaths = path.split('/');
+                    var associationTypePlural = subPaths[2];
+                    var associationName = subPaths[subPaths.length - 1];
+                    var resource = userRegistry.registry.get(configs.depends_asset_path_prefix + path);
+                    var associationUUID = resource.getUUID();
+                    deps.associationName = associationName;
+                    deps.associationType = associationTypePlural.substring(0, associationTypePlural.lastIndexOf('s'));
+                    deps.associationUUID = associationUUID;
+                    associations.push(deps);
+                }
             }
         }
         return associations;
     };
+
     var setDependencies = function(genericArtifact, asset ,userRegistry) {
-        //get dependencies of the artifact.
-        var dependencyArtifacts = genericArtifact.getDependencies();
-        asset.dependencies = getAssociations(dependencyArtifacts, userRegistry);
+        try {
+            //get dependencies of the artifact.
+            var dependencyArtifacts = genericArtifact.getDependencies();
+            asset.dependencies = getAssociations(dependencyArtifacts, userRegistry);
+        } catch(e) {
+            asset.dependencies = [];
+        }
     };
+
     var setDependents = function(genericArtifact, asset, userRegistry) {
-        var dependentArtifacts = genericArtifact.getDependents();
-        asset.dependents = getAssociations(dependentArtifacts, userRegistry);
+        try {
+            var dependentArtifacts = genericArtifact.getDependents();
+            asset.dependents = getAssociations(dependentArtifacts, userRegistry);
+        } catch(e) {
+            asset.dependents = [];
+        }
     };
+
     return {
         get: function(id) {
-            var asset = this._super.get.call(this, id);
-            var userRegistry = getRegistry(ctx.session);
-            setCustomAssetAttributes(asset, userRegistry);
-            //get the GenericArtifactManager
-            var rawArtifact = this.am.manager.getGenericArtifact(id);
-            setDependencies(rawArtifact, asset, userRegistry);
-            setDependents(rawArtifact, asset, userRegistry);
+            var asset;
+            try {
+                asset = this._super.get.call(this, id); 
+                var userRegistry = getRegistry(ctx.session);
+                setCustomAssetAttributes(asset, userRegistry);
+                var rawArtifact = this.am.manager.getGenericArtifact(id);
+                setDependencies(rawArtifact, asset, userRegistry);
+                setDependents(rawArtifact, asset, userRegistry);
+            } catch(e) {
+                log.error(e);
+                return null;
+            }
+
             return asset;
         },
         combineWithRxt: function(asset) {
@@ -234,20 +267,44 @@ asset.manager = function(ctx) {
         },
         create: function(options) {
             var log = new Log();
+            var isDefault = false;
             var manager = this.am.manager;
             var artifact = createArtifact(manager, options);
+            if((options.hasOwnProperty('_default')) &&(options._default===true)){
+                delete options._default;
+                isDefault = true;
+            }
             manager.addGenericArtifact(artifact);
             log.info('Service successfully created');
             options.id = artifact.getId();
+            var asset = this.get(options.id);
+            if(!this.rxtManager.isGroupingEnabled(this.type)){
+                log.info('Omitted grouping');
+                return;
+            }
+            if ( (isDefault) || (isOnlyAssetVersion(asset,this)) ){
+                this.setAsDefaultAsset(asset);
+            }
         },
         update: function(options) {
             var log = new Log();
             var manager = this.am.manager;
+            var isDefault = false;
+            if((options.hasOwnProperty('_default'))&&(options._default === true)){
+                isDefault = true;
+            }
             var asset = this.get(options.id);
             var artifact = createArtifact(manager, options);
             manager.updateGenericArtifact(artifact);
             log.info('Service successfully updated');
             options.id = artifact.getId();
+            if(!this.rxtManager.isGroupingEnabled(this.type)){
+                log.debug('Omitting grouping step');
+                return;
+            }
+            if(isDefault){
+                this.setAsDefaultAsset(asset);
+            }
         }
     }
 };
@@ -258,7 +315,12 @@ asset.configure = function() {
                 commentRequired: false,
                 defaultAction: '',
                 deletableStates: [],
+		        defaultLifecycleEnabled:false,
                 publishedStates: ['Published']
+            },
+            grouping: {
+                groupingEnabled: false,
+                groupingAttributes: ['overview_name']
             }
         }
     };

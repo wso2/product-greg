@@ -41,6 +41,7 @@ public class ResourceAdminServiceClient {
     private static final String MEDIA_TYPE_WADL = "application/wadl+xml";
     private static final String MEDIA_TYPE_SCHEMA = "application/x-xsd+xml";
     private static final String MEDIA_TYPE_POLICY = "application/policy+xml";
+	private static final String MEDIA_TYPE_SWAGGER = "application/swagger+json";
     private static final String MEDIA_TYPE_GOVERNANCE_ARCHIVE = "application/vnd.wso2.governance-archive";
 
     public ResourceAdminServiceClient(String serviceUrl, String sessionCookie) throws AxisFault {
@@ -167,6 +168,19 @@ public class ResourceAdminServiceClient {
         resourceAdminServiceStub.importResource("/", resourceName, MEDIA_TYPE_POLICY,
                                                 description, fetchURL, null, null);
     }
+
+	public void addSwagger(String description, DataHandler dh)
+			throws ResourceAdminServiceExceptionException, RemoteException {
+		String fileName;
+		fileName = dh.getName().substring(dh.getName().lastIndexOf('/') + 1);
+		resourceAdminServiceStub.addResource("/" + fileName, MEDIA_TYPE_SWAGGER, description, dh, null, null);
+	}
+
+	public void addSwagger(String resourceName, String description, String fetchURL)
+			throws RemoteException, ResourceAdminServiceExceptionException {
+		resourceAdminServiceStub
+				.importResource("/", resourceName, MEDIA_TYPE_SWAGGER, description, fetchURL, null, null);
+	}
 
     public void uploadArtifact(String description, DataHandler dh)
             throws ResourceAdminServiceExceptionException, RemoteException {

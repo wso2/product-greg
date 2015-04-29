@@ -1,0 +1,146 @@
+<div class="wr-side-panel">
+    
+    <div id="notifications" class="wr-side-notifiactions">
+        {{> notifications-container . }}
+    </div>
+    
+    <div id="options" class="wr-side-options">
+        <!-- notes -->
+        <div class="panel panel-default">
+            <div class="panel-heading" role="tab" id="headingNotes">
+                <h2 class="sub-title panel-title">
+                    <a data-toggle="collapse" href="#collapseNotes" aria-expanded="true" aria-controls="collapseNotes"  class="collapsed">
+                        <span class="fw-stack">
+                            <i class="fw fw-ring fw-stack-2x"></i>
+                            <i class="fw fw-arrow fw-down-arrow fw-stack-1x"></i>
+                        </span>
+                        Notes
+                    </a>
+                </h2>
+            </div>
+            <div id="collapseNotes" class="panel-collapse collapse" aria-labelledby="headingNotes">
+                <div class="panel-body wr-panel-notes">
+                    {{> notes-container . }}
+                </div>
+            </div>
+        </div>
+        <!-- /notes -->
+
+        <!-- tags -->
+        <div class="panel panel-default">
+            <div class="panel-heading" role="tab" id="headingTags">
+                <h2 class="sub-title panel-title">
+                    <a data-toggle="collapse" href="#collapseTags" aria-expanded="false" aria-controls="collapseTags" class="collapsed">
+                        <span class="fw-stack">
+                            <i class="fw fw-ring fw-stack-2x"></i>
+                            <i class="fw fw-arrow fw-down-arrow fw-stack-1x"></i>
+                        </span>
+                        Tags
+                    </a>
+                </h2>
+            </div>
+            <div id="collapseTags" class="panel-collapse collapse" aria-labelledby="headingTags">
+                <div class="panel-body">
+
+                </div>
+            </div>
+        </div>
+        <!-- /tags -->
+
+        <!-- notifications settings -->
+        <div class="panel panel-default">
+            <div class="panel-heading" role="tab" id="headingNotificationsSettings">
+                <h2 class="sub-title panel-title">
+                    <a data-toggle="collapse" href="#collapseNotificationsSettings" aria-expanded="true" aria-controls="collapseNotificationsSettings">
+                        <span class="fw-stack">
+                            <i class="fw fw-ring fw-stack-2x"></i>
+                            <i class="fw fw-arrow fw-down-arrow fw-stack-1x"></i>
+                        </span>
+                        Notifications Settings
+                    </a>
+                </h2>
+            </div>
+            <div id="collapseNotificationsSettings" class="panel-collapse collapse in" aria-labelledby="headingNotificationsSettings">
+                <div class="panel-body">
+                    <div class="row panel-sub-title">
+                        <div class="col-lg-6"></div>
+                        <div class="col-lg-6">
+                            <div class="col-lg-6">Email</div>
+                            <div class="col-lg-6">Console</div>
+                        </div>
+                    </div>
+                    <div class="row">
+                    <div class="col-lg-6">LifeCycle State Change</div>
+                    <div class="col-lg-6">
+                        <div class="col-lg-6">
+                            <label class="wr-input-control switch">
+                                <input type="checkbox" id="lifeCycleStateChangedEmail" {{#if subscriptions.LifeCycleStateChanged.email.checked}}checked{{/if}} data-id="{{subscriptions.LifeCycleStateChanged.email.id}}"  data-method='LifeCycleStateChanged' data-type="email" >
+                                <span class="helper"></span>
+                            </label>
+                        </div>
+                        <div class="col-lg-6">
+                            <label class="wr-input-control switch">
+                                <input type="checkbox" id="lifeCycleStateChangedWork" {{#if subscriptions.LifeCycleStateChanged.work.checked}}checked{{/if}} data-id="{{subscriptions.LifeCycleStateChanged.work.id}}" data-method='LifeCycleStateChanged' data-type="work" >
+                                <span class="helper"></span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-6">Information Update</div>
+                    <div class="col-lg-6">
+                        <div class="col-lg-6">
+                            <label class="wr-input-control switch">
+                                <input type="checkbox"  id="resourceUpdatedEmail" {{#if subscriptions.ResourceUpdated.email.checked}}checked{{/if}} data-id="{{subscriptions.ResourceUpdated.email.id}}" data-method='ResourceUpdated' data-type="email" >
+                                <span class="helper"></span>
+                            </label>
+                        </div>
+                        <div class="col-lg-6">
+                            <label class="wr-input-control switch">
+                                <input type="checkbox"  id="resourceUpdatedWork" {{#if subscriptions.ResourceUpdated.work.checked}}checked{{/if}} data-id="{{subscriptions.ResourceUpdated.work.id}}" data-method='ResourceUpdated' data-type="work" >
+                                <span class="helper"></span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-6">Check LifeCycle Item</div>
+                    <div class="col-lg-6">
+                        <div class="col-lg-6">
+                            <label class="wr-input-control switch">
+                                <input type="checkbox" id="checkListItemCheckedEmail" {{#if subscriptions.CheckListItemChecked.email.checked}}checked{{/if}} data-id="{{subscriptions.CheckListItemChecked.email.id}}" data-method='CheckListItemChecked' data-type="email" >
+                                <span class="helper"></span>
+                            </label>
+                        </div>
+                        <div class="col-lg-6">
+                            <label class="wr-input-control switch">
+                                <input type="checkbox" id="checkListItemCheckedWork" {{#if subscriptions.CheckListItemChecked.work.checked}}checked{{/if}} data-id="{{subscriptions.CheckListItemChecked.work.id}}" data-method='CheckListItemChecked' data-type="work" >
+                                <span class="helper"></span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-6">UnCheck LifeCycle Item</div>
+                    <div class="col-lg-6">
+                        <div class="col-lg-6">
+                            <label class="wr-input-control switch">
+                                <input type="checkbox" id="checkListItemUncheckedEmail"  {{#if subscriptions.CheckListItemUnchecked.email.checked}}checked{{/if}} data-id="{{subscriptions.CheckListItemUnchecked.email.id}}" data-method='CheckListItemUnchecked' data-type="email" >
+                                <span class="helper"></span>
+                            </label>
+                        </div>
+                        <div class="col-lg-6">
+                            <label class="wr-input-control switch">
+                                <input type="checkbox" id="checkListItemUncheckedWork"  {{#if subscriptions.CheckListItemUnchecked.work.checked}}checked{{/if}} data-id="{{subscriptions.CheckListItemUnchecked.work.id}}" data-method='CheckListItemUnchecked' data-type="work" >
+                                <span class="helper"></span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+                </div>
+            </div>
+        </div>
+        <!-- /notifications settings -->
+    </div>
+
+</div>

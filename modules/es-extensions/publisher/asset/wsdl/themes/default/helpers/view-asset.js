@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2005-2014, WSO2 Inc. (http://www.wso2.org) All Rights Reserved.
+ * Copyright (c) 2005-2015, WSO2 Inc. (http://www.wso2.org) All Rights Reserved.
  *
  * WSO2 Inc. licenses this file to you under the Apache License,
  * Version 2.0 (the "License"); you may not use this file except
@@ -17,22 +17,25 @@
  *
  */
 var name;
-var hps = require('/themes/default/helpers/view-asset.js');
+var custom = require('/extensions/app/greg-publisher-defaults/themes/default/helpers/view-asset.js');
+
 var that = this;
 /*
 In order to inherit all variables in the default helper
 */
-for (name in hps) {
-    if (hps.hasOwnProperty(name)) {
-        that[name] = hps[name];
+for (name in custom) {
+    if (custom.hasOwnProperty(name)) {
+        that[name] = custom[name];
     }
 }
-var fn = that.resources;
+var fn = that.resources || function() { return {}; };
 var resources = function(page, meta) {
-
-    var o = (fn)? fn(page, meta):{css:[],js:[],code:[]};
+    var o = fn(page, meta);
     if (!o.css) {
         o.css = [];
+    }
+    if(!o.js){
+        o.js = [];
     }
     o.css.push('codemirror.css');
     o.css.push('es_codemirror.css');
