@@ -204,9 +204,52 @@ asset.server = function(ctx) {
     };
 };
 asset.renderer =  function (ctx){
+    var assetManager = function(ctx) {
+        var rxt = require('rxt');
+        var type = ctx.assetType;
+        var am = rxt.asset.createUserAssetManager(ctx.session, type);
+        return am;
+    };
     return {
         details:function(page,meta){
             return page;
+        },
+        pageDecorators: {
+            populateAssetVersionDetails: function(page) {
+                if ((page.assets) && (page.assets.id)) {
+                    var am = assetManager(ctx);
+                    var info = page.assets;
+                    info.versions = [];
+                    var versions;
+                    var asset;
+                    var assetInstance = am.get(page.assets.id);
+                    var entry;
+                    versions = am.getAssetGroup(assetInstance || {});
+                    versions.sort(function(a1, a2) {
+                        return am.compareVersions(a1, a2);
+                    });
+                    info.isDefault = am.isDefaultAsset(page.assets);
+
+                    for (var index = 0; index < versions.length; index++) {
+                        asset = versions[index];
+                        entry = {};
+                        entry.id = asset.id;
+                        entry.name = asset.name;
+                        entry.version = asset.attributes.version;
+                        entry.isDefault = am.isDefaultAsset(asset);
+
+                        if (asset.id == page.assets.id) {
+                            entry.selected = true;
+                            info.version = asset.attributes.version;
+                        } else {
+                            entry.selected = false;
+                        }
+                        entry.assetURL = this.buildAssetPageUrl(ctx.assetType, '/details/' + entry.id);
+                        info.versions.push(entry);
+                    }
+                    info.hasMultipleVersions = (info.versions.length > 0) ? true : false;
+                }
+            }
         }
     };
 };
