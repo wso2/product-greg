@@ -69,7 +69,7 @@ asset.manager = function(ctx) {
     };
     return {
         importAssetFromHttpRequest: function(options) {
-            log.info('Importing asset from request');
+            log.debug('Importing asset from request');
             return options;
         },
         combineWithRxt: function(asset) {
@@ -91,10 +91,10 @@ asset.manager = function(ctx) {
             var path = utils.importResource(parentPath, name, mediaType, '', url, '', userRegistry.registry, properties);
 
             if(!this.rxtManager.isGroupingEnabled(this.type)){
-                log.info('Omitted grouping');
+                log.debug('Omitted grouping');
                 return;
             } else {
-                log.info("Grouping seems to be enabled");
+                log.debug("Grouping seems to be enabled");
             }
 
             addDefaultPropertyIfNotExist(userRegistry.registry, path, name);

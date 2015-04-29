@@ -57,7 +57,7 @@ asset.manager = function(ctx) {
                 q.overview_name = serviceName;
                 var artifacts = restAssetManager(ctx.session).search(q);
 
-                if(artifacts.length < 1) {
+                if(artifacts.length < 2) {
                     associatedService.addProperty("default", "true");
                     registry.put(associatedResourcePath, associatedService);
                 }
@@ -94,7 +94,7 @@ asset.manager = function(ctx) {
     return {
     	//without this 'create' method does not work.('options' object not retrieved.)
     	importAssetFromHttpRequest: function(options) {
-            log.info('Importing asset from request');
+            log.debug('Importing asset from request');
             return options;
         },
         combineWithRxt: function(asset) {
@@ -116,10 +116,11 @@ asset.manager = function(ctx) {
             utils.importResource(parentPath, name, mediaType, '', url, '', userRegistry.registry, properties);
 
             if(!this.rxtManager.isGroupingEnabled(this.type)){
-                log.info('Omitted grouping');
+                log.debug('Omitted grouping');
                 return;
-            } else {
-                log.info("Grouping seems to be enabled");
+            } 
+            else {
+                log.debug("Grouping seems to be enabled");
             }
             addDefaultPropertyIfNotExist(userRegistry.registry, name, this);
         },
