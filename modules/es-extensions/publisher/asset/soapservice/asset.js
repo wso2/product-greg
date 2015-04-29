@@ -37,6 +37,11 @@ asset.manager = function(ctx) {
             artifact.id = id;
         }
     }
+    var wsdlAssetManager = function(session){
+        var rxt = require('rxt');
+        var am = rxt.asset.createUserAssetManager(session, 'wsdl');
+        return am;
+    };
     var setContent = function(artifact, content) {
         if (content) {
             if (content instanceof Stream) {
@@ -152,7 +157,7 @@ asset.manager = function(ctx) {
         var attributes = options.attributes;
         var omContent = createOMContent(attributes);
         var artifact = manager.newGovernanceArtifact(omContent);
-        log.info('Finished creating Governance Artifact');
+        log.debug('Finished creating Governance Artifact');
         setAttributes(artifact, attributes);
         setId(artifact, options.id);
         setContent(artifact, options.content);
@@ -163,7 +168,7 @@ asset.manager = function(ctx) {
                 artifact.attachLifeCycle(lc[i]);
             }
         }
-        log.info('lifecycle is attached');
+        log.debug('lifecycle is attached');
         return artifact;
     };
     var setCustomAssetAttributes = function(asset, userRegistry) {
@@ -223,6 +228,27 @@ asset.manager = function(ctx) {
         }
     };
 
+    var addDefaultPropertyIfNotExist = function(registry, path, name){
+        var associations = registry.getAllAssociations(path);
+
+        for(var index = 0; index< associations.length; index++){
+            var associatedResourcePath = associations[index].getDestinationPath();
+            if(associatedResourcePath.indexOf("wsdl") > -1){     
+                var associatedWSDL = registry.get(associatedResourcePath);
+
+                var wsdlName = name + ".wsdl";
+                var q = {};
+                q.overview_name = wsdlName;
+                var artifacts = wsdlAssetManager(ctx.session).search(q);
+                log.info(artifacts.length);
+                if(artifacts.length < 2) {
+                    associatedWSDL.addProperty("default", "true");
+                    registry.put(associatedResourcePath, associatedWSDL);
+                }
+            }
+        }
+    };
+
     return {
         get: function(id) {
             var asset;
@@ -275,16 +301,20 @@ asset.manager = function(ctx) {
                 isDefault = true;
             }
             manager.addGenericArtifact(artifact);
-            log.info('Service successfully created');
+            log.debug('Service successfully created');
             options.id = artifact.getId();
             var asset = this.get(options.id);
             if(!this.rxtManager.isGroupingEnabled(this.type)){
-                log.info('Omitted grouping');
+                log.debug('Omitted grouping');
                 return;
             }
             if ( (isDefault) || (isOnlyAssetVersion(asset,this)) ){
                 this.setAsDefaultAsset(asset);
             }
+
+            var wsdlRelativePath = artifact.getPath();
+            var wsdlPath = "/_system/governance" + wsdlRelativePath;
+            addDefaultPropertyIfNotExist(getRegistry(ctx.session).registry, wsdlPath, options.attributes.overview_name);
         },
         update: function(options) {
             var log = new Log();
