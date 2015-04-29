@@ -68,8 +68,10 @@ asset.renderer = function(ctx) {
             associationMetaDataPopulator: function(page, util) {
                 var ptr = page.leftNav || [];
                 var entry;
+                var allowedPages = ['details','lifecycle','update'];
                 log.info('Association populator ' + page.meta.pageName);
-                if (((page.meta.pageName !== 'associations') && (page.meta.pageName !== 'list')) &&(page.meta.pageName !== 'create')) {
+                //if (((page.meta.pageName !== 'associations') && (page.meta.pageName !== 'list')) &&(page.meta.pageName !== 'create')) {
+                if(allowedPages.indexOf(page.meta.pageName)>-1){
                     log.info('adding link');
                     entry = {};
                     entry.name = 'Associations';
