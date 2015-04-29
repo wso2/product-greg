@@ -1,6 +1,14 @@
 @import 'fontwso2.css';
 @import 'fontwso2-extend.css';
 
+html {
+	position: relative;
+	min-height: 100%;
+    margin:0;
+    padding:0;
+    height:100%;
+}
+
 body {
     overflow-x: hidden;
     -ms-overflow-x: hidden;
@@ -20,6 +28,19 @@ textarea { width: 100%; }
 
 .btn {
     border-radius: 0;
+}
+
+.loading:before {
+    content: "";
+    display: block;
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    z-index: 10;
+    background-color: #fff;
+    opacity: 0.8;
 }
 
 .navbar-default .navbar-nav>li>a:hover, .navbar-default .navbar-nav>li>a:focus {
@@ -45,8 +66,18 @@ a.cu-btn-inner {
     padding: 5px 10px;
     height: 35px;
 }
+
 a.cu-btn-inner:hover {
     background-color:#e4e4e4;
+}
+
+a.cu-btn-inner.inverse {
+    background: #11375B;
+    color: #fff;
+}
+
+a.cu-btn-inner.inverse:hover {
+    background: #526A84;
 }
 
 .navbar-collapse {
@@ -142,11 +173,8 @@ a.cu-btn:hover {
 /* panel styles */
 .panel-group .panel {
 	margin-bottom: 0;
+    margin-top: 10px;
 	border-radius: 0;
-}
-
-.panel-default {
-
 }
 
 .panel {
@@ -207,6 +235,36 @@ a.cu-btn:hover {
 	color:#fff;
 }
 
+.panel-collapse {
+    position: relative;
+}
+
+.panel-collapse.loading:before {
+    content: "";
+    display: block;
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    z-index: 10;
+    background-color: #fff;
+    opacity: 0.8;
+}
+
+.panel-collapse.loading:after {
+    content: "Background operation is running ...";
+    z-index: 11;
+    background: #333;
+    color: #fff;
+    width: 250px;
+    opacity: 0.8;
+    bottom: 25px;
+    display: block;
+    padding: 5px 10px;
+    position: absolute;
+}
+
 .cu-acc-head-created {
 	font-weight:200;
 	font-size:16px;
@@ -231,7 +289,7 @@ a.cu-btn:hover {
     width: 400px;
     position: absolute;
     right: -400px;
-    z-index: 1000;
+    z-index: 10000;
     transition: right 0.4s ease 0s;
     overflow-y: auto;
     overflow-x: hidden;
@@ -253,14 +311,21 @@ a.cu-btn:hover {
     display: none;
 }
 
+.wr-side-panel::-webkit-scrollbar {
+    width: 6px;
+    background: transparent;
+    padding: 0 5px;
+    cursor: all-scroll;
+}
+
 .wr-side-panel::-webkit-scrollbar-thumb {
-    background: #526A84;
+    background: #e4e4e4;
 }
 .wr-side-panel::-webkit-scrollbar-thumb:hover {
-    background: #526A84;
+    background: #e4e4e4;
 }
 .wr-side-panel::-webkit-scrollbar-thumb:active {
-    background: #526A84;
+    background: #e4e4e4;
 }
 
 .wr-notification-bar.toggled, .wr-side-panel.toggled {
@@ -374,12 +439,12 @@ a.cu-btn.wr-side-panel-toggle-btn.selected:focus {
 }
 
 .wr-panel-notes .add-btn {
-    margin-bottom: 15px;
     padding-left: 0;
 }
 
 .wr-panel-notes .panel-collapse {
     padding: 10px 0 10px 35px;
+    position: relative;
 }
 
 .wr-panel-note {
@@ -519,6 +584,233 @@ a.wr-panel-msg-visibility {
     min-width: 362px !important;
 }
 
+/* resource selectbox specific styles */
+.select2-results .item, .select2-selection .item {
+    padding: 5px;
+}
+
+.select2-results .item:after, .select2-selection .item:after {
+    clear: both;
+    content: " ";
+    display: block;
+    height: 0;
+}
+
+.select2-results .item .text, .select2-selection .item .text {
+    float: left;
+}
+
+.select2-results .item .text .resource-name, .select2-selection .item .text .resource-name {
+    font-size: 16px;
+    font-weight: 400;
+    line-height: normal;
+ }
+
+.select2-results .item .text .resource-type, .select2-selection .item .text .resource-type {
+    font-size: 13px;
+    line-height: normal;
+}
+
+.select2-results .item .icon, .select2-selection .item .icon {
+    float: right;
+    padding-top: 4px;
+    text-align: center;
+    width: 40px;
+}
+
+.select2-results .item .icon i, .select2-selection .item .icon i {
+    font-size: 30px;
+}
+
+.select2-selection {
+    height: 60px !important;
+    border-color: #E7EAED !important;
+    background-color: #444 !important;
+}
+
+.select2-selection__rendered {
+    color: #fff !important;
+    padding-right: 28px !important;
+}
+
+.select2-selection__arrow b {
+    border-width: 8px 7px 0 7px !important;
+    border-color: #FFF transparent transparent transparent !important;
+    margin-left: -15px !important;
+    margin-top: 12px !important;
+}
+
+.disabled-area {
+    opacity: 0.5;
+}
+
+.disabled-area * {
+    outline: none;
+}
+
+/* inner page title buttons */
+
+.tile-buttons-list h4 {
+    font-weight: 400;
+}
+
+.tile-buttons {
+    list-style: none;
+    margin: 0;
+    padding-left: 0;
+}
+
+.tile-buttons li {
+    list-style: none;
+    display: inline-block;
+    text-align: center;
+    margin: 0 6px 9px 0;
+    line-height: 17px;
+}
+
+.tile-buttons li a {
+    color: #fff;
+    text-decoration: none;
+    width: 120px;
+    height: 120px;
+    padding: 20px;
+    background: #132D45;
+    display: block;
+    overflow: hidden;
+    text-align: center;
+}
+
+.tile-buttons li a.selected,.tile-buttons li a.selected:hover {
+    background: #132D45;
+}
+
+.tile-buttons li a.disabled,.tile-buttons li a.disabled:hover {
+    opacity: 0.1;
+    background: #132D45;
+    cursor: default;
+}
+
+.tile-buttons li a:hover {
+    background: #526A84;
+}
+
+.tile-buttons li a i {
+    font-size: 50px;
+    display: block;
+    margin-bottom: 10px;
+}
+
+.wr-associations-list {
+    margin-top: 10px;
+}
+
+.wr-associations-list .wr-association-icon,
+.wr-associations-list .wr-security-status,
+.wr-associations-list .wr-asset-desc,
+.wr-associations-list .wr-resource-icon,
+.wr-associations-list .wr-asset-details {
+    float: left;
+}
+
+.wr-associations-list .wr-association-operations {
+    float: right;
+    margin-right: 10px;
+    padding-top: 8px;
+}
+
+.wr-associations-list .wr-association {
+    background: #f1f1f1;
+    /*padding: 10px;*/
+    margin-bottom: 4px;
+}
+
+.wr-associations-list .wr-asset-details {
+    padding: 5px 10px;
+}
+
+.wr-associations-list .wr-resource-icon {
+    font-size: 37px;
+    height: 50px;
+    line-height: 40px;
+}
+
+.wr-associations-list .wr-asset-desc .resource-name {
+    font-weight: 500;
+}
+
+.wr-associations-list .wr-security-status {
+    /*background: #97C543;*/
+    background: #989898;
+    color: #fff;
+    height: 50px;
+    line-height: 50px;
+    padding: 0 10px;
+    margin-right: 10px;
+}
+
+.wr-associations-list .wr-association-icon {
+    width: 50px;
+    height: 50px;
+    vertical-align: text-top;
+    line-height: 40px;
+    text-align: center;
+    font-size: 25px;
+    background-color: #444;
+    color: #fff;
+}
+
+.wr-configurations-table th {
+    font-weight: 400;
+    text-transform: uppercase;
+    padding: 10px 2px;
+}
+
+.wr-configurations-table td {
+    padding:5px 2px;
+    vertical-align: text-top;
+}
+
+.panel-collapse {
+    position: relative;
+}
+
+.loading {
+    position: relative;
+}
+
+.loading:before {
+    content: "";
+    display: block;
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    z-index: 10;
+    background-color: #fff;
+    opacity: 0.8;
+}
+
+.loading:after {
+    content: "Background operation is running ...";
+    z-index: 11;
+    background: #fe8;
+    color: #333;
+    width: 250px;
+    opacity: 0.8;
+    bottom: 25px;
+    display: block;
+    padding: 5px 10px;
+    position: absolute;
+}
+
+a.cu-btn-inner.inverse {
+    background: #11375B;
+    color: #fff;
+}
+a.cu-btn-inner.inverse:hover {
+    background: #526A84;
+}
 
 /*
 .nav,

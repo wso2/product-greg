@@ -23,6 +23,14 @@
 	-moz-osx-font-smoothing: grayscale;
 }
 
+.fw-lifecycle:before {
+	content: "\e617";
+}
+
+.fw-globe:before {
+	content: "\e666";
+}
+
 .fw-filter:before {
 	content: "\e65b";
 }
@@ -79,8 +87,16 @@
 	content: "\e611";
 }
 
+.fw-list2:before {
+	content: "\e667";
+}
+
 .fw-user:before {
 	content: "\e601";
+}
+
+.fw-add-user:before {
+	content: "\e668";
 }
 
 .fw-key:before {
@@ -103,12 +119,20 @@
 	content: "\e65d";
 }
 
+.fw-register2:before {
+	content: "\e669";
+}
+
 .fw-register:before {
 	content: "\e65f";
 }
 
 .fw-search:before {
 	content: "\e657";
+}
+
+.fw-send:before {
+	content: "\e66a";
 }
 
 .fw-delete:before {
@@ -128,7 +152,7 @@
 }
 
 .fw-bell:before {
-	content: "\e617";
+	content: "\e66b";
 }
 
 .fw-lock:before {
@@ -193,6 +217,10 @@
 
 .fw-rules:before {
 	content: "\e626";
+}
+
+.fw-padlock:before {
+	content: "\e66c";
 }
 
 .fw-uri:before {
@@ -311,12 +339,24 @@
 	content: "\e605";
 }
 
+.fw-deploy:before {
+	content: "\e66d";
+}
+
 .fw-devices:before {
 	content: "\e63c";
 }
 
 .fw-dss:before {
 	content: "\e63d";
+}
+
+.fw-database:before {
+	content: "\e66e";
+}
+
+.fw-computer2:before {
+	content: "\e66f";
 }
 
 .fw-endpoint:before {
@@ -387,6 +427,14 @@
 	content: "\e64e";
 }
 
+.fw-ebook:before {
+	content: "\e670";
+}
+
+.fw-document:before {
+	content: "\e671";
+}
+
 .fw-text:before {
 	content: "\e64f";
 }
@@ -430,5 +478,4 @@
 .fw-wso2:before {
 	content: "\e607";
 }
-
 

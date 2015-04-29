@@ -1,0 +1,67 @@
+<table class="wr-configurations-table">
+    <tr>
+        <th></th>
+        <th>Email</th>
+        <th>Console</th>
+    </tr>
+    <tr>
+        <td>LifeCycle State Change</td>
+        <td>
+            <label class="wr-input-control switch">
+                <input type="checkbox" id="lifeCycleStateChangedEmail" {{#if subscriptions.LifeCycleStateChanged.email.checked}}checked{{/if}} data-id="{{subscriptions.LifeCycleStateChanged.email.id}}"  data-method='LifeCycleStateChanged' data-type="email" >
+                <span class="helper"></span>
+            </label>
+        </td>
+        <td>
+            <label class="wr-input-control switch">
+                <input type="checkbox" id="lifeCycleStateChangedWork" {{#if subscriptions.LifeCycleStateChanged.work.checked}}checked{{/if}} data-id="{{subscriptions.LifeCycleStateChanged.work.id}}" data-method='LifeCycleStateChanged' data-type="work" >
+                <span class="helper"></span>
+            </label>
+        </td>
+    </tr>
+    <tr>
+        <td>Information Update</td>
+        <td>
+            <label class="wr-input-control switch">
+                <input type="checkbox"  id="resourceUpdatedEmail" {{#if subscriptions.ResourceUpdated.email.checked}}checked{{/if}} data-id="{{subscriptions.ResourceUpdated.email.id}}" data-method='ResourceUpdated' data-type="email" >
+                <span class="helper"></span>
+            </label>
+        </td>
+        <td>
+            <label class="wr-input-control switch">
+                <input type="checkbox"  id="resourceUpdatedWork" {{#if subscriptions.ResourceUpdated.work.checked}}checked{{/if}} data-id="{{subscriptions.ResourceUpdated.work.id}}" data-method='ResourceUpdated' data-type="work" >
+                <span class="helper"></span>
+            </label>
+        </td>
+    </tr>
+    <tr>
+        <td>Check LifeCycle Item</td>
+        <td>
+            <label class="wr-input-control switch">
+                <input type="checkbox" id="checkListItemCheckedEmail" {{#if subscriptions.CheckListItemChecked.email.checked}}checked{{/if}} data-id="{{subscriptions.CheckListItemChecked.email.id}}" data-method='CheckListItemChecked' data-type="email" >
+                <span class="helper"></span>
+            </label>
+        </td>
+        <td>
+            <label class="wr-input-control switch">
+                <input type="checkbox" id="checkListItemCheckedWork" {{#if subscriptions.CheckListItemChecked.work.checked}}checked{{/if}} data-id="{{subscriptions.CheckListItemChecked.work.id}}" data-method='CheckListItemChecked' data-type="work" >
+                <span class="helper"></span>
+            </label>
+        </td>
+    </tr>
+    <tr>
+        <td>UnCheck LifeCycle Item</td>
+        <td>
+            <label class="wr-input-control switch">
+                <input type="checkbox" id="checkListItemUncheckedEmail"  {{#if subscriptions.CheckListItemUnchecked.email.checked}}checked{{/if}} data-id="{{subscriptions.CheckListItemUnchecked.email.id}}" data-method='CheckListItemUnchecked' data-type="email" >
+                <span class="helper"></span>
+            </label>
+        </td>
+        <td>
+            <label class="wr-input-control switch">
+                <input type="checkbox" id="checkListItemUncheckedWork"  {{#if subscriptions.CheckListItemUnchecked.work.checked}}checked{{/if}} data-id="{{subscriptions.CheckListItemUnchecked.work.id}}" data-method='CheckListItemUnchecked' data-type="work" >
+                <span class="helper"></span>
+            </label>
+        </td>
+    </tr>
+</table>
