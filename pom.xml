@@ -982,7 +982,7 @@
         </carbon.registry.package.import.version.range>
         
         <!-- Carbon Governance -->
-        <carbon.governance.version>4.4.1-SNAPSHOT</carbon.governance.version>
+        <carbon.governance.version>4.4.2-SNAPSHOT</carbon.governance.version>
 
         <carbon.governance.ext.version>4.4.1-SNAPSHOT</carbon.governance.ext.version>
 
