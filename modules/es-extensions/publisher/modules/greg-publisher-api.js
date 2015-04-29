@@ -4,6 +4,8 @@ var gregAPI = {};
     var populator = Packages.org.wso2.carbon.registry.info.services.utils.SubscriptionBeanPopulator;
     var SubscriptionPopulator = Packages.org.wso2.carbon.registry.info.services.utils.SubscriptionBeanPopulator;
     var GovernanceUtils = Packages.org.wso2.carbon.governance.api.util.GovernanceUtils;
+    var CommonUtil = Packages.org.wso2.carbon.governance.registry.extensions.utils.CommonUtil;
+
     var carbon = require('carbon');
     var taskOperationService = carbon.server.osgiService('org.wso2.carbon.humantask.core.TaskOperationService');
     gregAPI.notifications = {};
@@ -248,6 +250,77 @@ var gregAPI = {};
     var endsWith = function(suffix, val) {
         return val.indexOf(suffix, val.length - suffix.length) !== -1;
     };
+
+    var assetManager = function(session, type) {
+        var rxt = require('rxt');
+        var am = rxt.asset.createUserAssetManager(session, type);
+        return am;
+    };
+
+    gregAPI.associations.listPossible = function(type, association) {
+        var resultList = new Object();
+        resultList.results = [];
+        var map = CommonUtil.getAssociationConfig(type);
+        if(!map){
+            map = CommonUtil.getAssociationConfig("default");
+        }
+        var assetsTypes = (map.get(association)).split(",");
+
+        for(var i=0; i < assetsTypes.length; i++){
+            var manager = assetManager(session, assetsTypes[i]).am;
+            var artifacts = manager.search();
+            for(var j=0; j < artifacts.length; j++){
+                var assetJson = new Object();
+                assetJson.text = artifacts[j].attributes.overview_name;
+                assetJson.type = artifacts[j].mediaType;
+                assetJson.shortName = artifacts[j].type;
+                assetJson.uuid = manager.registry.registry.get(artifacts[j].path).getUUID();
+                resultList.results.push(assetJson);
+            }
+
+        }
+        return resultList;
+
+    }
+
+    gregAPI.associations.add = function(session, sourceType, sourceUUID, destType, destUUID, associationType) {
+        var srcam = assetManager(session, sourceType);
+        var sourcePath = srcam.get(sourceUUID).path;
+        var destam = assetManager(session, destType);
+        var destPath = destam.get(destUUID).path;
+        log.info(sourcePath + '....................'+destPath+"----------"+associationType);
+        srcam.registry.registry.addAssociation(sourcePath,destPath,associationType);
+    }
+
+    gregAPI.associations.list = function(session, type, path) {
+        var am = assetManager(session, type);
+        var resultList = new Object();
+        resultList.results = [];
+        var results = am.registry.associations(path);
+        for(var i=0; i < results.length; i++){
+            var assetJson = new Object();
+            var path = results[i].dest
+            var uuid = am.registry.registry.get(path).getUUID();
+            var attifact = Packages.org.wso2.carbon.governance.api.util.GovernanceUtils.findGovernanceArtifactConfigurationByMediaType(am.registry.registry.get(path).getMediaType(),am.registry.registry);
+            var govAttifact = Packages.org.wso2.carbon.governance.api.util.GovernanceUtils.retrieveGovernanceArtifactByPath(am.registry.registry,path);
+            assetJson.text = govAttifact.getAttribute('overview_name');
+            assetJson.type = govAttifact.mediaType;
+            assetJson.associationType = results[i].type;
+            resultList.results.push(assetJson);
+        }
+        return resultList
+
+    }
+    gregAPI.associations.listTypes = function(type) {
+        var map = CommonUtil.getAssociationConfig(type);
+        if(!map){
+            map = CommonUtil.getAssociationConfig("default");
+        }
+        var results = map.keySet().toArray();
+        return results;
+
+    }
+
     gregAPI.notifications.remove = function(registry, notificationId) {};
     gregAPI.notes.reply = function() {};
     gregAPI.notes.replies = function(parentNoteId) {};
