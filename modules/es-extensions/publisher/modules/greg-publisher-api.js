@@ -313,6 +313,7 @@ var gregAPI = {};
             var assetJson = new Object();
             var path = results[i].dest
             var uuid = am.registry.registry.get(path).getUUID();
+
             var attifact = Packages.org.wso2.carbon.governance.api.util.GovernanceUtils.findGovernanceArtifactConfigurationByMediaType(am.registry.registry.get(path).getMediaType(),am.registry.registry);
             var key = String(attifact.getKey());
             if (key === 'wsdl' || key === 'wadl' || key === 'policy' || key === 'schema' || key === 'endpoint'){
