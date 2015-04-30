@@ -150,7 +150,7 @@ var gregAPI = {};
                 subOptions.id = subcription.getId();
                 subOptions.topic = subcription.getTopic();
                 subOptions.address = subcription.getAddress();
-                log.info("A" + subOptions);
+                //log.info("A" + subOptions);
                 result.push(subOptions);
             }
         } catch (e) {
@@ -159,7 +159,7 @@ var gregAPI = {};
     };
     gregAPI.subscriptions.remove = function(am, assetId) {
         var parms = getParameters(request);
-        log.info(parms.subcriptionid);
+        //log.info(parms.subcriptionid);
         try {
             var assert = assetManager(session, options.type);
             var registryPath = assert.get(options.id).path;
@@ -177,7 +177,7 @@ var gregAPI = {};
         var message = {
             'status': 'sucess'
         };
-        log.info(message);
+        //log.info(message);
     };
     gregAPI.notifications.count = function() {
         var results = {};
@@ -190,7 +190,7 @@ var gregAPI = {};
         if (rows != null){
             count = rows.length;
         }
-        log.info(parseInt(count));
+        //log.info(parseInt(count));
         results.count = count;
         return results;
     };
@@ -226,12 +226,20 @@ var gregAPI = {};
 
                 
                 var attifact = Packages.org.wso2.carbon.governance.api.util.GovernanceUtils.findGovernanceArtifactConfigurationByMediaType(am.registry.registry.get(pathValue).getMediaType(),am.registry.registry);
-                var govAttifact = Packages.org.wso2.carbon.governance.api.util.GovernanceUtils.retrieveGovernanceArtifactByPath(am.registry.registry,pathValue);
                 //log.info(attifact.getKey());
+                var key = String(attifact.getKey());
                 workList.uuid = uuid;
                 workList.type = String(attifact.getKey());
-                workList.overviewName = String(govAttifact.getAttribute('overview_name'));
+                if (key === 'wsdl' || key === 'wadl' || key === 'policy' || key === 'schema' || key === 'endpoint'){
+                	var subPaths = pathValue.split('/');
+            		workList.overviewName = subPaths[subPaths.length - 1];
+                } else {
+                	var govAttifact = Packages.org.wso2.carbon.governance.api.util.GovernanceUtils.retrieveGovernanceArtifactByPath(am.registry.registry,pathValue);
+                	workList.overviewName = String(govAttifact.getAttribute('overview_name'));
+                }
+                
                 workList.presentationSubject = workList.presentationSubject.replace("resource at path", workList.overviewName);
+                workList.presentationSubject = workList.presentationSubject.replace("resource at", workList.overviewName);
                 //workList.message = workList.overviewName + 
 
 
@@ -250,6 +258,10 @@ var gregAPI = {};
     var endsWith = function(suffix, val) {
         return val.indexOf(suffix, val.length - suffix.length) !== -1;
     };
+
+    var startsWith  = function(str, prefix) {
+       return str.indexOf(prefix) === 0;
+    }
 
     var assetManager = function(session, type) {
         var rxt = require('rxt');
@@ -302,9 +314,15 @@ var gregAPI = {};
             var path = results[i].dest
             var uuid = am.registry.registry.get(path).getUUID();
             var attifact = Packages.org.wso2.carbon.governance.api.util.GovernanceUtils.findGovernanceArtifactConfigurationByMediaType(am.registry.registry.get(path).getMediaType(),am.registry.registry);
-            var govAttifact = Packages.org.wso2.carbon.governance.api.util.GovernanceUtils.retrieveGovernanceArtifactByPath(am.registry.registry,path);
-            assetJson.text = govAttifact.getAttribute('overview_name');
-            assetJson.type = govAttifact.mediaType;
+            var key = String(attifact.getKey());
+            if (key === 'wsdl' || key === 'wadl' || key === 'policy' || key === 'schema' || key === 'endpoint'){
+                var subPaths = path.split('/');
+            	assetJson.text = subPaths[subPaths.length - 1];
+            } else {
+                var govAttifact = Packages.org.wso2.carbon.governance.api.util.GovernanceUtils.retrieveGovernanceArtifactByPath(am.registry.registry,path);
+                assetJson.text = String(govAttifact.getAttribute('overview_name'));
+            }
+            assetJson.type = am.registry.registry.get(path).getMediaType();
             assetJson.associationType = results[i].type;
             resultList.results.push(assetJson);
         }
