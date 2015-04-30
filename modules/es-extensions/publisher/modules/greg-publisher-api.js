@@ -301,10 +301,17 @@ var gregAPI = {};
             var assetJson = new Object();
             var path = results[i].dest
             var uuid = am.registry.registry.get(path).getUUID();
-            var attifact = Packages.org.wso2.carbon.governance.api.util.GovernanceUtils.findGovernanceArtifactConfigurationByMediaType(am.registry.registry.get(path).getMediaType(),am.registry.registry);
-            var govAttifact = Packages.org.wso2.carbon.governance.api.util.GovernanceUtils.retrieveGovernanceArtifactByPath(am.registry.registry,path);
-            assetJson.text = govAttifact.getAttribute('overview_name');
-            assetJson.type = govAttifact.mediaType;
+            
+            // var attifact = Packages.org.wso2.carbon.governance.api.util.GovernanceUtils.findGovernanceArtifactConfigurationByMediaType(am.registry.registry.get(path).getMediaType(),am.registry.registry);
+            // var govAttifact = Packages.org.wso2.carbon.governance.api.util.GovernanceUtils.retrieveGovernanceArtifactByPath(am.registry.registry,path);
+            // assetJson.text = govAttifact.getAttribute('overview_name');
+            // assetJson.type = govAttifact.mediaType;
+
+            // Above 4 lines been replaced with following as above doesn't work for wsdl/wadl/policy/schema
+            var subPaths = path.split('/');
+            assetJson.text = subPaths[subPaths.length - 1];
+            assetJson.type = am.registry.registry.get(path).getMediaType();
+
             assetJson.associationType = results[i].type;
             resultList.results.push(assetJson);
         }
