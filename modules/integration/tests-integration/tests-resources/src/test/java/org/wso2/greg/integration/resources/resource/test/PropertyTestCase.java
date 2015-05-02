@@ -65,8 +65,8 @@ public class PropertyTestCase extends GREGIntegrationBaseTest {
     public void testPropertyAddition() throws Exception {
         PropertiesAdminServiceClient propertyPropertiesAdminServiceClient = new PropertiesAdminServiceClient(getBackendURL(), getSessionCookie());
         propertyPropertiesAdminServiceClient.setProperty("/_system/config/testResource", "Author", "TestValue");
-        assertTrue(propertyPropertiesAdminServiceClient.getProperty("/_system/config/testResource", "true").getProperties()[0].getKey().equals("Author"));
-        assertTrue(propertyPropertiesAdminServiceClient.getProperty("/_system/config/testResource", "true").getProperties()[0].getValue().equals("TestValue"));
+        assertTrue(propertyPropertiesAdminServiceClient.getProperty("/_system/config/testResource", "true").getProperties()[1].getKey().equals("Author"));
+        assertTrue(propertyPropertiesAdminServiceClient.getProperty("/_system/config/testResource", "true").getProperties()[1].getValue().equals("TestValue"));
     }
 
     @AfterClass(groups = {"wso2.greg"}, alwaysRun = true)
