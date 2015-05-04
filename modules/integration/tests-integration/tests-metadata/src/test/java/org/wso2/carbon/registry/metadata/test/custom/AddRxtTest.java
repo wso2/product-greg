@@ -352,11 +352,10 @@ public class AddRxtTest extends GREGIntegrationBaseTest {
         rxt.setMediaType("application/vnd.wso2.registry-ext-type+xml");
         governance.put("repository/components/org.wso2.carbon.governance/types/groups.rxt", rxt);
         assertTrue(governance.resourceExists("repository/components/org.wso2.carbon.governance/types/groups.rxt"),
-                "rxt resource doesn't exists");
-        Thread.sleep(30000);
-        GovernanceUtils.registerArtifactConfigurationByPath(governance, ((UserRegistry)governance).getTenantId(),"repository/components/org.wso2.carbon.governance/types/groups.rxt" );
-        GovernanceUtils.loadGovernanceArtifacts((UserRegistry) governance, GovernanceUtils.findGovernanceArtifactConfigurations(governance));
-
+                   "rxt resource doesn't exists");
+        Thread.sleep(10000);
+        GovernanceUtils.loadGovernanceArtifacts((UserRegistry) governance,
+                                                GovernanceUtils.findGovernanceArtifactConfigurations(governance));
 
         GenericArtifactManager artifactManager = new GenericArtifactManager(governance, "groups");
         removeGenericArtifactByQName(artifactManager, "projectGroupName");
@@ -383,7 +382,7 @@ public class AddRxtTest extends GREGIntegrationBaseTest {
             governance.delete("repository/components/org.wso2.carbon.governance/types/person.rxt");
         }
         if (governance.resourceExists("repository/components/org.wso2.carbon.governance/types/groups.rxt")) {
-            //governance.delete("repository/components/org.wso2.carbon.governance/types/groups.rxt");
+            governance.delete("repository/components/org.wso2.carbon.governance/types/groups.rxt");
         }
 
         governance = null;
