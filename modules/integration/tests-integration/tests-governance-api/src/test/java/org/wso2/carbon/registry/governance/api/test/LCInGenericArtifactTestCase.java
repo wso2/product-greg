@@ -78,7 +78,10 @@ public class LCInGenericArtifactTestCase extends GREGIntegrationBaseTest{
         wsRegistry.put(rxtLocation + "event_lc.rxt", resource);
         assertTrue(wsRegistry.resourceExists(rxtLocation + "event_lc.rxt"),
                 "rxt resource doesn't exists");
-        Thread.sleep(10000);
+
+        GovernanceUtils.loadGovernanceArtifacts((UserRegistry) governance, GovernanceUtils.findGovernanceArtifactConfigurations(governance));
+
+
         GovernanceArtifactConfiguration governanceArtifactConfiguration =
                 GovernanceUtils.findGovernanceArtifactConfiguration("evlc", governance);
 
