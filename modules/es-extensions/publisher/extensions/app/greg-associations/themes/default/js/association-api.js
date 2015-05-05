@@ -1,6 +1,11 @@
-$(function() {
+var SELECT_CONTAINER = '.select-resource';
 
-	var SELECT_CONTAINER = '.select-resource';
+$(document).ready(function(){
+    $(SELECT_CONTAINER).select2();
+});
+
+$(function() {
+	
 	var SELECT_ENTRY_TEMPLATE = "" +
 		"<div class='item' data-uuid='{{uuid}}' data-type='{{shortName}}'>" +
 		"<div class='text'>" +
@@ -31,8 +36,13 @@ $(function() {
 			url: associatableURL(assetType, associationType)
 		});
 		promise.done(function(data) {
-			//console.log(data);
 			renderSelect2Box(data);
+            if($(SELECT_CONTAINER + ' option').length !== 0){
+                $(ADD_ASSOCIATION_BUTTON_ID).css('display', 'inline-block');
+            }
+            else {
+                $(ADD_ASSOCIATION_BUTTON_ID).hide();
+            }
 		});
 		promise.fail(function() {
 			//Do the error handling here
@@ -80,6 +90,9 @@ $(function() {
 	var init = function() {
 		$('#association-type-container > li').each(function() {
 			$(this).on('click', function() {
+                
+                $('#step2').removeClass('disabled-area');
+                $('#step2 select').attr('disabled', false);
 
 				$('#association-type-container > li > a').removeClass('selected, disabled');
 
@@ -90,7 +103,7 @@ $(function() {
 				}
 				//Make the API call here
 				loadAssociationTargets(assetType, meta.associationType);
-
+                
 				$('a', this).addClass('selected');
 				$(this).siblings('li').find('a').addClass('disabled');
 
@@ -116,7 +129,7 @@ $(function() {
 		data = formatSelect2Data(data);
 		$(SELECT_CONTAINER).html('');
 		$(SELECT_CONTAINER).select2({
-			placeholder: 'Select Asset',
+			placeholder: 'NO ASSET FOUND',
 			data: data.results,
 			multiple: false,
 			width: "100%",
