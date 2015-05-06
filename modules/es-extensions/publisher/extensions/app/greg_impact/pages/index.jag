@@ -145,7 +145,7 @@ else {
             legend = <%=application.get("mediaTypesToImages")%>;
 
         var force = d3.layout.force()
-            .linkDistance(200)
+            .linkDistance(400)
             .linkStrength(0.1)
             .charge(root.index * -200)
             .gravity(0)

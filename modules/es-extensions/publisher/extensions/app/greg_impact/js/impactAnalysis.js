@@ -323,13 +323,16 @@ function nodeIcon(getType) {
             return "uri.svg";
             break;
         case "application/vnd.wso2-site+xml":
-            return "site.svg";
+            return "website.svg";
             break;
         case "application/vnd.wso2-servicex+xml":
-            return "soap.svg";
+            return "service.svg";
             break;
         case "application/vnd.wso2-service+xml":
             return "service.svg";
+            break;
+        case "application/vnd.wso2-soap-service+xml":
+            return "soap.svg";
             break;
         case "application/vnd.wso2-sequence+xml":
             return "sequence.svg";
@@ -341,7 +344,7 @@ function nodeIcon(getType) {
             return "proxy.svg";
             break;
         case "application/vnd.wso2-provider+xml":
-            return "service_provider.svg";
+            return "service-provider.svg";
             break;
         case "application/policy+xml":
             return "policy.svg";
@@ -352,23 +355,23 @@ function nodeIcon(getType) {
         case "application/vnd.wso2-endpoint+xml":
             return "endpoint.svg";
             break;
-        case "application/vnd.wso2-ebook+xml":
-            return "pdf.svg";
-            break;
-        case "application/vnd.wso2-document+xml":
-            return "ms_document.svg";
-            break;
-        case "application/vnd.wso2-api+xml":
-            return "api.svg";
-            break;
         case "application/vnd.wso2.endpoint":
             return "endpoint.svg";
             break;
+        case "application/vnd.wso2-ebook+xml":
+            return "ebook.svg";
+            break;
+        case "application/vnd.wso2-document+xml":
+            return "document.svg";
+            break;
+        case "application/vnd.wso2-api+xml":
+            return "api.svg";
+            break;   
         case "application/vnd.wso2-application+xml":
             return "application.svg";
             break;
         default:
-            return "resource.svg";
+            return "blank-document.svg";
     }
 }
 

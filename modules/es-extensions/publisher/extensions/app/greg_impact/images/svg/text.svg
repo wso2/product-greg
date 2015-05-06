@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="iso-8859-1"?>
+<?xml version="1.0" encoding="utf-8"?>
 
 <!--
  * Copyright (c) 2015, WSO2 Inc. (http://www.wso2.org) All Rights Reserved.
@@ -18,19 +18,11 @@
  * under the License.
 -->
 
-<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
-<svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="48px"
-	 height="48px" viewBox="0 0 48 48" style="enable-background:new 0 0 48 48;" xml:space="preserve">
-<g id="Text">
-	<path id="Doc_2_" d="M31.583,0.018h-1.836L29.738,0.01v0.008H8.225c-1.363,0-2.473,1.109-2.473,2.473v43.027
-		c0,1.363,1.109,2.473,2.473,2.473h31.551c1.363,0,2.473-1.109,2.473-2.473V10.243L31.583,0.018z M39.775,46.556H8.225
-		c-0.573,0-1.038-0.466-1.038-1.038V2.49c0-0.571,0.465-1.038,1.038-1.038h21.514v8.184c0,1.302,1.06,2.361,2.361,2.361h8.714
-		v33.521C40.813,46.09,40.348,46.556,39.775,46.556z"/>
-	<g>
-		<rect x="11.5" y="25.5" width="25" height="1"/>
-		<rect x="11.5" y="30.5" width="25" height="1"/>
-		<rect x="11.5" y="35.5" width="25" height="1"/>
-		<rect x="11.5" y="20.5" width="25" height="1"/>
-	</g>
-</g>
+<svg version="1.1" id="text" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+	 viewBox="24.427 17 10.649 14" enable-background="new 24.427 17 10.649 14" xml:space="preserve">
+<path d="M31.964,17.003h-0.536L31.426,17v0.002h-6.277c-0.398,0-0.722,0.324-0.722,0.722v12.555c0,0.398,0.324,0.722,0.722,0.722
+	h9.206c0.398,0,0.722-0.324,0.722-0.722V19.986L31.964,17.003z M34.355,30.582h-9.206c-0.167,0-0.303-0.136-0.303-0.303V17.724
+	c0-0.167,0.136-0.303,0.303-0.303h6.277v2.388c0,0.38,0.309,0.689,0.689,0.689h2.543v9.781
+	C34.658,30.446,34.522,30.582,34.355,30.582z M26.105,24.438h7.295v0.292h-7.295V24.438z M26.105,25.897h7.295v0.292h-7.295V25.897z
+	 M26.105,27.356h7.295v0.292h-7.295V27.356z M26.105,22.979h7.295v0.292h-7.295V22.979z"/>
 </svg>

@@ -22,21 +22,21 @@
     text-decoration: none;
     width: 120px;
     height: 120px;
-    padding: 20px;
+    /*padding: 20px;*/
     background: #237bd5;
     display: block;
     overflow: hidden;
     text-align: center;
+    text-transform: capitalize;
 }
 
 .tile-buttons li a.selected,.tile-buttons li a.selected:hover {
     background: #237bd5;
 }
 
-.tile-buttons li a.disabled,.tile-buttons li a.disabled:hover {
-    opacity: 0.1;
+.tile-buttons li a.disabled {
+    opacity: 0.6;
     background: #237bd5;
-    cursor: default;
 }
 
 .tile-buttons li a:hover {
@@ -117,4 +117,8 @@
 .wr-configurations-table td {
     padding:5px 2px;
     vertical-align: text-top;
+}
+
+#addAssociation {
+    display: none;
 }
