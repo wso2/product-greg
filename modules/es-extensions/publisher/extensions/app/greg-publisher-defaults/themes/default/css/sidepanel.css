@@ -6,7 +6,7 @@
     transition: right 0.4s ease 0s;
     overflow-y: auto;
     overflow-x: hidden;
-    background: #444;
+    background: #696969;
     color: #333;
     padding: 0;
 }
@@ -16,7 +16,7 @@
 }
 
 .wr-side-notifiactions {
-    background-color: #444;
+    background-color: #696969;
     color: #fff;
 }
 
@@ -104,13 +104,13 @@ a.cu-btn.wr-side-panel-toggle-btn.selected:visited {
 a.cu-btn.wr-side-panel-toggle-btn.selected,
 a.cu-btn.wr-side-panel-toggle-btn.selected:hover,
 a.cu-btn.wr-side-panel-toggle-btn.selected:focus {
-    background-color: #444 !important;
+    background-color: #696969 !important;
 }
 
 .wr-side-panel .panel-title a {
     display: block;
     padding: 10px;
-    background: #444;
+    background: #696969;
     color: #fff;
     border-bottom: 1px solid #e4e4e4;
 }
@@ -291,4 +291,14 @@ a.wr-panel-msg-visibility {
 .wr-panel-notes .more-link {
     display: inline-block;
     margin-bottom: 8px;
+}
+
+.wr-configurations-table th {
+    font-weight: 400;
+    text-transform: uppercase;
+    padding: 10px 2px;
+}
+
+.wr-configurations-table td {
+    vertical-align: text-top;
 }
