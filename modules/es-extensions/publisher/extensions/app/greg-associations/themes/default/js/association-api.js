@@ -1,7 +1,11 @@
-var SELECT_CONTAINER = '.select-resource';
+var SELECT_CONTAINER = '.select-resource',
+    SELECT_CONTAINER_CSS = 'select-resource';
 
 $(document).ready(function(){
-    $(SELECT_CONTAINER).select2();
+    $(SELECT_CONTAINER).select2({
+        dropdownCssClass: SELECT_CONTAINER_CSS,
+        containerCssClass: SELECT_CONTAINER_CSS
+    });
 });
 
 $(function() {
@@ -139,6 +143,8 @@ $(function() {
 			templateSelection: function(result) {
 				return template(result)
 			},
+            dropdownCssClass: SELECT_CONTAINER_CSS,
+            containerCssClass: SELECT_CONTAINER_CSS,
 			escapeMarkup: function(m) {
 				return m;
 			}
