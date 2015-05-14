@@ -42,7 +42,7 @@
                 <exclude>**/INSTALL*</exclude>
                 <exclude>**/release-notes*</exclude>
                 <exclude>**/carbon.xml</exclude>
-                <exclude>**/axis2.xml</exclude>
+                <exclude>**/conf/axis2/axis2.xml</exclude>
                 <exclude>**/build.xml</exclude>
                 <exclude>**/resources/clientRepository/modules/rampart*</exclude>
                 <exclude>**/log4j.properties</exclude>
@@ -547,6 +547,14 @@
                 <include>**/identity.xml</include>
             </includes>
         </fileSet>
+        <!--copying axis2.xml-->
+        <fileSet>
+            <directory>src/main/resources/carbon-home/conf</directory>
+            <outputDirectory>${pom.artifactId}-${build.version}/repository/conf/axis2</outputDirectory>
+            <includes>
+                <include>**/axis2.xml</include>
+            </includes>
+        </fileSet>
         <!--copying runtimes-->
         <fileSet>
             <directory>../p2-profile-gen/target/wso2carbon-core-${carbon.kernel.version}/lib/runtimes</directory>
@@ -730,12 +738,6 @@
         <file>
             <source>../../INSTALL.txt</source>
             <outputDirectory>${pom.artifactId}-${build.version}/</outputDirectory>
-            <filtered>true</filtered>
-            <fileMode>644</fileMode>
-        </file>
-        <file>
-            <source>target/wso2carbon-core-${carbon.kernel.version}/repository/conf/axis2/axis2.xml</source>
-            <outputDirectory>${pom.artifactId}-${build.version}/repository/conf/axis2</outputDirectory>
             <filtered>true</filtered>
             <fileMode>644</fileMode>
         </file>
