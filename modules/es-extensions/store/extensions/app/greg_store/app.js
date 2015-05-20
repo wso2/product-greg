@@ -16,12 +16,12 @@
  *  under the License.
  *
  */
-app.dependencies=['store_common'];
+app.dependencies=['store-common'];
 //override store_common and enable 'service' & 'wsdl' in store.
 app.server = function(ctx) {
     return {
         configs: {
-            disabledAssets: ['ebook','proxy','sequence','service','servicex','uri',
+            disabledAssets: ['comments', 'ebook','proxy','sequence','service','servicex','uri',
                              'site','provider','gadget','document','endpoint']
         }
     }
