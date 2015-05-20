@@ -214,3 +214,19 @@ asset.renderer =  function (ctx){
         }
     };
 };
+
+asset.renderer = function(ctx){
+    return {
+        pageDecorators:{
+            documents:function(page){
+                for(index in page.leftNav) {
+                    var button = page.leftNav[index];
+
+                    if(button.iconClass === "btn-edit") {
+                        page.leftNav.splice(index, 1);
+                    }
+                }
+            }
+        }
+    }
+};
