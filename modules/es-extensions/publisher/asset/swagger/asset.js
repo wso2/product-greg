@@ -174,8 +174,8 @@ asset.server = function(ctx) {
     return {
         endpoints: {
             apis: [{
-                       url: 'wsdls',
-                       path: 'wsdls.jag'
+                       url: 'swaggers',
+                       path: 'swaggers.jag'
                    }]
         }
     };
@@ -226,15 +226,7 @@ asset.renderer = function(ctx) {
                     }
                     info.hasMultipleVersions = (info.versions.length > 0) ? true : false;
                 }
-            }
-        }
-    };
-};
 
-asset.renderer = function(ctx){
-    return {
-        pageDecorators:{
-            documents:function(page){
                 for(index in page.leftNav) {
                     var button = page.leftNav[index];
 
@@ -244,5 +236,5 @@ asset.renderer = function(ctx){
                 }
             }
         }
-    }
+    };
 };
