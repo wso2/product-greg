@@ -773,11 +773,11 @@
 
 
         <!-- copy thrift-authentication.xml -->
-        <file>
+        <!--<file>
             <source>../p2-profile-gen/target/wso2carbon-core-${carbon.kernel.version}/repository/conf/thrift-authentication.xml</source>
             <outputDirectory>${pom.artifactId}-${pom.version}/repository/conf</outputDirectory>
             <fileMode>644</fileMode>
-        </file>
+        </file>-->
 
         <!-- copy claim-config.xml -->
         <file>
