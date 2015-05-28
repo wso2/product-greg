@@ -19,7 +19,7 @@ asset.manager = function(ctx) {
         var userRegistry = userMod.userRegistry(cSession);
         return userRegistry;
     };
-    var soapAssetManager = function(session){
+    var restAssetManager = function(session){
 		var rxt = require('rxt');
 		var am = rxt.asset.createUserAssetManager(session, 'restservice');
 		return am;
@@ -47,7 +47,8 @@ asset.manager = function(ctx) {
 
                 var q = {};
                 q.overview_name = serviceName;
-                var artifacts = soapAssetManager(ctx.session).search(q);
+                // Change the name to rest Asset Manager
+                var artifacts = restAssetManager(ctx.session).search(q);
 
                 if(artifacts.length < 1) {
                     associatedService.addProperty("default", "true");
@@ -63,6 +64,8 @@ asset.manager = function(ctx) {
         var artifacts = am.search(q);
 
         if(artifacts.length < 1) {
+            // Property named default with value true is needed for exactly one asset
+            // of all types. This is important for asset grouping.
             wsdlResource.addProperty("default", "true");
             registry.put(path, wsdlResource);
         }
@@ -227,6 +230,8 @@ asset.renderer = function(ctx) {
                     info.hasMultipleVersions = (info.versions.length > 0) ? true : false;
                 }
 
+                // Following is to remove the edit button in the detail page since for asset types
+                // wsdl, wadl, swagger, policy, schema, the edit operations are not allowed
                 for(index in page.leftNav) {
                     var button = page.leftNav[index];
 
