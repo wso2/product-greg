@@ -456,13 +456,15 @@ function filter(elem){
                 
                 for(var i = 0; i < node.length; i++) {
                     if($("svg").find("#"+node[i]).css('display') == 'none'){
-                        $(this).hide();
+                        $("#"+node[i]).show();
                     }
                 }
             }
         });
 
     });
+    
+    clearSearchOperation();
 
     $("#search").select2("enable", false);
     $('#filters .tag').each(function(){
@@ -562,20 +564,6 @@ function click(d) {
             d3.select(self).attr("active-status", "groupselect");
             selectedNode = d.index;
 
-
-            d3.selectAll("[group=node].active").each(function(){
-                if ($(this).css('display') !== 'none') {
-                    var edges = $(this).attr("edges"),
-                        edge = edges.split(';');
-
-                    $(this).attr('class', 'inactive');
-                    for(var i = 0; i < edge.length; i++) {
-                        if(($("#"+edge[i]+"").css('display') !== 'none') && ($("#"+edge[i]+"").attr('class') !== 'inactive')){
-                            $(this).attr('class', 'active');
-                        }
-                    }
-                }
-            });
         }
         else{
             // Reset relation highlight
