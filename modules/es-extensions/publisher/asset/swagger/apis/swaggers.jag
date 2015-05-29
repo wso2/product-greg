@@ -31,7 +31,7 @@ require('/modules/publisher.js').exec(function (ctx) {
     //request contains the version & name of the zip file
     var version=req.getParameter('file_version');
     var swaggerFileName=req.getParameter('swagger_file_name');
-    var path="/_system/governance/trunk/wsdls/".concat(version).concat('/').concat(swaggerFileName);
+    var path="/_system/governance/apimgt/applicationdata/api-docs/".concat(version).concat('/').concat(swaggerFileName);
 
     //get the uploaded zip file.
     var files=req.getAllFiles();
