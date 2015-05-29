@@ -325,6 +325,9 @@
                                 <featureArtifactDef>
                                     org.wso2.carbon.identity:org.wso2.carbon.idp.mgt.feature:${carbon.identity.version}
                                 </featureArtifactDef>
+                                <featureArtifactDef>
+                                    org.wso2.carbon.commons:org.wso2.carbon.tenant.mgt.common.feature:${carbon.commons.version}
+                                </featureArtifactDef>
                                 <!-- End of SSO Fixes -->
 
                                 <!--Monitoring feature list -->
@@ -380,8 +383,7 @@
                                 <featureArtifactDef>
                                     org.wso2.carbon.identity:org.wso2.carbon.identity.application.authenticator.basicauth.server.feature:${carbon.identity.version}
                                 </featureArtifactDef>
-                                <featureArtifactDef>org.wso2.carbon.identity:org.wso2.carbon.identity.thrift.authentication.feature:${carbon.identity.version}
-                                </featureArtifactDef>
+
 				                <featureArtifactDef>
                                     org.wso2.carbon.identity:org.wso2.carbon.identity.mgt.feature:${carbon.identity.version}
                                 </featureArtifactDef>
@@ -626,6 +628,10 @@
                                     <id>org.wso2.carbon.identity.core.feature.group</id>
                                     <version>${carbon.identity.version}</version>
                                 </feature>
+                                 <feature>
+                                     <id>org.wso2.carbon.tenant.mgt.common.feature.group</id>
+                                     <version>${carbon.commons.version}</version>
+                                 </feature>
                                 <feature>
                                     <id>org.wso2.carbon.identity.user.profile.ui.feature.group</id>
                                     <version>${carbon.identity.version}</version>
@@ -680,10 +686,7 @@
                                     </id>
                                     <version>${carbon.identity.version}</version>
                                 </feature>
-                                <feature>
-                                    <id>org.wso2.carbon.identity.thrift.authentication.feature.group</id>
-                                    <version>${carbon.identity.version}</version>
-                                </feature>
+
 				                <feature>
                                     <id>org.wso2.carbon.identity.mgt.feature.group</id>
                                     <version>${carbon.identity.version}</version>
@@ -1065,10 +1068,6 @@
                                     </id>
                                     <version>${carbon.identity.version}</version>
                                 </feature>
-                                <feature>
-                                    <id>org.wso2.carbon.identity.thrift.authentication.feature.group</id>
-                                    <version>${carbon.identity.version}</version>
-                                </feature>
 
                                 <!-- repository features -->
                                 <feature>
@@ -1132,6 +1131,10 @@
                                     <id>org.wso2.carbon.identity.authenticator.saml2.sso.ui.feature.group</id>
                                     <version>${carbon.identity.version}</version>
                                 </feature>
+                                 <feature>
+                                     <id>org.wso2.carbon.tenant.mgt.common.feature.group</id>
+                                     <version>${carbon.commons.version}</version>
+                                 </feature>
                                 <!--feature>
                                     <id>org.wso2.carbon.identity.sso.saml.feature.group</id>
                                     <version>${carbon.identity.version}</version>
@@ -1406,6 +1409,10 @@
 
                                 <!-- User management feature -->
                                 <feature>
+                                     <id>org.wso2.carbon.tenant.mgt.common.feature.group</id>
+                                     <version>${carbon.commons.version}</version>
+                                 </feature>
+                                <feature>
                                     <id>org.wso2.carbon.identity.core.feature.group</id>
                                     <version>${carbon.identity.version}</version>
                                 </feature>
@@ -1461,10 +1468,6 @@
                                     <id>
                                         org.wso2.carbon.identity.application.authenticator.basicauth.server.feature.group
                                     </id>
-                                    <version>${carbon.identity.version}</version>
-                                </feature>
-                                <feature>
-                                    <id>org.wso2.carbon.identity.thrift.authentication.feature.group</id>
                                     <version>${carbon.identity.version}</version>
                                 </feature>
 

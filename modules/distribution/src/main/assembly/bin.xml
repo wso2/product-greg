@@ -42,7 +42,7 @@
                 <exclude>**/INSTALL*</exclude>
                 <exclude>**/release-notes*</exclude>
                 <exclude>**/carbon.xml</exclude>
-                <exclude>**/axis2.xml</exclude>
+                <exclude>**/conf/axis2/axis2.xml</exclude>
                 <exclude>**/build.xml</exclude>
                 <exclude>**/resources/clientRepository/modules/rampart*</exclude>
                 <exclude>**/log4j.properties</exclude>
@@ -413,6 +413,11 @@
             <directory>../p2-profile-gen/target/wso2carbon-core-${carbon.kernel.version}/repository/resources/publisher/asset/swagger</directory>
             <outputDirectory>${pom.artifactId}-${pom.version}/repository/deployment/server/jaggeryapps/publisher/extensions/assets/swagger</outputDirectory>
         </fileSet>
+
+        <fileSet>
+            <directory>../p2-profile-gen/target/wso2carbon-core-${carbon.kernel.version}/repository/resources/publisher/asset/restservice</directory>
+            <outputDirectory>${pom.artifactId}-${pom.version}/repository/deployment/server/jaggeryapps/publisher/extensions/assets/restservice</outputDirectory>
+        </fileSet>
         
         <fileSet>
             <directory>../p2-profile-gen/target/wso2carbon-core-${carbon.kernel.version}/repository/resources/store/asset/soapservice</directory>
@@ -545,6 +550,14 @@
             <outputDirectory>${pom.artifactId}-${build.version}/repository/conf</outputDirectory>
             <includes>
                 <include>**/identity.xml</include>
+            </includes>
+        </fileSet>
+        <!--copying axis2.xml-->
+        <fileSet>
+            <directory>src/main/resources/carbon-home/conf</directory>
+            <outputDirectory>${pom.artifactId}-${build.version}/repository/conf/axis2</outputDirectory>
+            <includes>
+                <include>**/axis2.xml</include>
             </includes>
         </fileSet>
         <!--copying runtimes-->
@@ -734,12 +747,6 @@
             <fileMode>644</fileMode>
         </file>
         <file>
-            <source>target/wso2carbon-core-${carbon.kernel.version}/repository/conf/axis2/axis2.xml</source>
-            <outputDirectory>${pom.artifactId}-${build.version}/repository/conf/axis2</outputDirectory>
-            <filtered>true</filtered>
-            <fileMode>644</fileMode>
-        </file>
-        <file>
             <source>target/wso2carbon-core-${carbon.kernel.version}/repository/conf/carbon.xml</source>
             <outputDirectory>${pom.artifactId}-${build.version}/repository/conf/</outputDirectory>
             <filtered>true</filtered>
@@ -766,11 +773,11 @@
 
 
         <!-- copy thrift-authentication.xml -->
-        <file>
+        <!--<file>
             <source>../p2-profile-gen/target/wso2carbon-core-${carbon.kernel.version}/repository/conf/thrift-authentication.xml</source>
             <outputDirectory>${pom.artifactId}-${pom.version}/repository/conf</outputDirectory>
             <fileMode>644</fileMode>
-        </file>
+        </file>-->
 
         <!-- copy claim-config.xml -->
         <file>
@@ -876,6 +883,12 @@
         <file>
             <source>../p2-profile-gen/target/wso2carbon-core-${carbon.kernel.version}/repository/conf/association-config.xml</source>
             <outputDirectory>${pom.artifactId}-${build.version}/repository/conf/etc</outputDirectory>
+            <filtered>true</filtered>
+            <fileMode>644</fileMode>
+        </file>
+        <file>
+            <source>../p2-profile-gen/target/wso2carbon-core-${carbon.kernel.version}/repository/conf/governance.xml</source>
+            <outputDirectory>${pom.artifactId}-${build.version}/repository/conf</outputDirectory>
             <filtered>true</filtered>
             <fileMode>644</fileMode>
         </file>
