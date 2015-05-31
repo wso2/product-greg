@@ -250,6 +250,8 @@ asset.renderer =  function (ctx){
                     info.hasMultipleVersions = (info.versions.length > 0) ? true : false;
                 }
 
+                // Following is to remove the edit button in the detail page since for asset types
+                // wsdl, wadl, swagger, policy, schema, the edit operations are not allowed
                 for(index in page.leftNav) {
                     var button = page.leftNav[index];
 
