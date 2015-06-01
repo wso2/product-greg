@@ -31,7 +31,7 @@ require('/modules/publisher.js').exec(function (ctx) {
     //request contains the version & name of the zip file
     var version=req.getParameter('file_version');
     var swaggerFileName=req.getParameter('swagger_file_name');
-    var path="/_system/governance/trunk/wsdls/".concat(version).concat('/').concat(swaggerFileName);
+    var path="/_system/governance/apimgt/applicationdata/api-docs/".concat(version).concat('/').concat(swaggerFileName);
 
     //get the uploaded zip file.
     var files=req.getAllFiles();
@@ -50,18 +50,18 @@ require('/modules/publisher.js').exec(function (ctx) {
     //It requires constructor parameters byte[].
     var byteDataSource;
     if(extension == 'zip'){
-        //mediatype for wsdl zip file.
+        //mediatype for swagger zip file.
         mediaType="application/vnd.wso2.governance-archive";
         byteDataSource = new ByteArrayDataSource(bytes,"application/zip");
         content = new DataHandler(byteDataSource);
         properties = Array.newInstance(java.lang.String, 2, 2);
         //use JS array
         properties[0][0] = 'registry.mediaType';
-        properties[0][1] = 'application/wsdl+xml';
+        properties[0][1] = 'application/swagger+json';
         properties[1][0] = 'version';
         properties[1][1] = version;
-    }else if(extension == 'wsdl'){
-        mediaType = "application/wsdl+xml";
+    }else if(extension == 'json'){
+        mediaType = "application/swagger+json";
         byteDataSource = new ByteArrayDataSource(bytes,"text/xml");
         content = new DataHandler(byteDataSource);
         properties = Array.newInstance(java.lang.String, 1, 2);
