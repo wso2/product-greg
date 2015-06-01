@@ -54,7 +54,7 @@ public class ReportSchedulingTestCases extends ReportingTestCaseSuper {
      *
      * @throws Exception
      */
-    @Test(groups = "wso2.greg", description = "Schedule a report and verify", enabled = false)
+    @Test(groups = "wso2.greg", description = "Schedule a report and verify", enabled = true)
     public void testScheduleReport() throws Exception {
 
         ReportConfigurationBean configurationBean = new ReportConfigurationBean();
@@ -133,7 +133,7 @@ public class ReportSchedulingTestCases extends ReportingTestCaseSuper {
      * @throws Exception
      */
     @Test(groups = "wso2.greg", description = "Schedule a report with non-existing user details",
-            dependsOnMethods = "testScheduleReport", enabled = false)
+            dependsOnMethods = "testScheduleReport", enabled = true)
     public void testScheduleReportNonExistingUser() throws Exception {
         ReportConfigurationBean configurationBean = reportAdminServiceClient
                 .getSavedReport("schedule");
@@ -189,7 +189,7 @@ public class ReportSchedulingTestCases extends ReportingTestCaseSuper {
      * @throws Exception
      */
     @Test(groups = "wso2.greg", description = "schedule a report with an invalid registry URL",
-            dependsOnMethods = "testScheduleReport", enabled = false)
+            dependsOnMethods = "testScheduleReport", enabled = true)
     public void testScheduleReportInvalidRegistryURL() throws Exception {
         ReportConfigurationBean configurationBean = reportAdminServiceClient
                 .getSavedReport("schedule");
@@ -212,9 +212,10 @@ public class ReportSchedulingTestCases extends ReportingTestCaseSuper {
         int month = calLower.get(Calendar.MONTH) + 1;
         int year = calLower.get(Calendar.YEAR);
 
-        String cronExpression = seconds + " " + minutes + " " + hours + " "
-                                + dayOfMonth + " " + month + " ? " + year;
-        configurationBean.setCronExpression(cronExpression);
+        StringBuilder stringBuilder = new StringBuilder(seconds).append(" ").append(minutes).append(" ").append(hours)
+                               .append(" ").append(dayOfMonth).append(" ").append(month).append(" ? ").append(year);
+
+        configurationBean.setCronExpression(stringBuilder.toString());
 
         reportAdminServiceClient.scheduleReport(configurationBean);
         Thread.sleep(waitTime);
@@ -239,7 +240,7 @@ public class ReportSchedulingTestCases extends ReportingTestCaseSuper {
      * @throws Exception
      */
     @Test(groups = "wso2.greg", description = "Schedule a reort with an invalid registry path",
-            dependsOnMethods = "testScheduleReport", enabled = false)
+            dependsOnMethods = "testScheduleReport", enabled = true)
     public void testScheduleReportInvalidPath() throws Exception {
         ReportConfigurationBean configurationBean = reportAdminServiceClient
                 .getSavedReport("schedule");
@@ -262,9 +263,9 @@ public class ReportSchedulingTestCases extends ReportingTestCaseSuper {
         int month = calLower.get(Calendar.MONTH) + 1;
         int year = calLower.get(Calendar.YEAR);
 
-        String cronExpression = seconds + " " + minutes + " " + hours + " "
-                                + dayOfMonth + " " + month + " ? " + year;
-        configurationBean.setCronExpression(cronExpression);
+        StringBuilder cronExpression = new StringBuilder(seconds).append(" ").append(minutes).append(" ").append(hours)
+                                   .append(" ").append(dayOfMonth).append(" ").append(month).append(" ? ").append(year);
+        configurationBean.setCronExpression(cronExpression.toString());
 
         reportAdminServiceClient.scheduleReport(configurationBean);
         Thread.sleep(waitTime);
