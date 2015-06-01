@@ -1,0 +1,92 @@
+<!--
+  ~ Copyright (c) 2015, WSO2 Inc. (http://wso2.com) All Rights Reserved.
+  ~
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~ http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  -->
+
+  {{dump .}}
+<div class="table-responsive">
+    <table class="table table-striped table-hover">
+        <thead>
+        <h4>Overview</h4>
+        </thead>
+        <tbody>
+        <tr>
+            <td>Service Name</td>
+            <td>
+                {{name}}
+            </td>
+        </tr>
+        <tr>
+            <td>Service Version</td>
+            <td>
+                {{attributes.overview_version}}
+            </td>
+        </tr>
+        <tr>
+            <td>Context</td>
+            <td>
+                {{attributes.overview_context}}
+            </td>
+        </tr>
+        </tbody>
+    </table>
+    <table class="table table-striped table-hover">
+        <thead>
+        <h4>Lifecycle</h4>
+        </thead>
+        <tbody>
+        <tr>
+            <th>Name :</th>
+            <td>{{lifecycle}}</td>
+        </tr>
+        <tr>
+            <th>State :</th>
+            <td>{{lifecycleState}}</td>
+        </tr>
+        </tbody>
+    </table>
+    <table class="table table-striped table-hover">
+        <thead>
+        <h4>Associations</h4>
+        </thead>
+        <tbody>
+        <tr>
+            <th>Dependencies :</th>
+        {{#each dependencies}}
+            <tr>
+                <td><a href="../../../asts/{{this.associationType}}/details/{{this.associationUUID}}">{{this.associationName}}</td>
+            </tr>
+        {{/each}}
+        </tr>
+        <tr>
+            <th>Dependents :</th>
+        {{#each dependents}}
+            <tr>
+                <td><a href="../../../asts/{{this.associationType}}/details/{{this.associationUUID}}">{{this.associationName}}</td>
+            </tr>
+        {{/each}}
+        </tr>
+
+        </tbody>
+    </table>
+    <div id='wsdl-viewer'>
+        <legend><h4>WADL</h4></legend>
+        {{#if wadlContent}}
+            <textarea id="wadlcontent" name="wadlcontent">{{../wadlContent}}</textarea>
+        {{else}}
+            <p>No WADL Content To Display</p>
+        {{/if}}
+    </div>
+
+</div>
