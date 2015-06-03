@@ -85,7 +85,7 @@
             var hasAdminRole;
             var userRole;
             for (var i = 0; i < allRoles.length; i++) {
-                log.info(allRoles[i]);
+                //log.info(allRoles[i]);
                 if (String(allRoles[i]) === 'admin') {
                     log.info('hasAdminRole');
                     hasAdminRole = true;
@@ -93,7 +93,7 @@
                     userRole = allRoles[i];
                 }
             };
-            log.info(hasAdminRole);
+            //log.info(hasAdminRole);
             if (notiMethod === "work") {
                 if (hasAdminRole) {
                     notiMethod = notiMethod + "://admin";
@@ -123,11 +123,11 @@
                 return;
             }
             var result = [];
-            log.info('sdfsdsdfsfd');
+            //log.info('sdfsdsdfsfd');
             var SubscriptionPopulator = Packages.org.wso2.carbon.registry.info.services.utils.SubscriptionBeanPopulator;
-            for (var key in SubscriptionPopulator){
-                log.info(key);
-            }
+            //for (var key in SubscriptionPopulator){
+            //    log.info(key);
+            //}
             try{
                 var subcriptions = SubscriptionPopulator.subscribeAndPopulate(userRegistry.registry, registryPath, notiMethod, notiType).getSubscriptionInstances();
                 var length = subcriptions.length;
@@ -138,11 +138,11 @@
                     subOptions.id = subcription.getId();
                     subOptions.topic = subcription.getTopic();
                     subOptions.address = subcription.getAddress();
-                    log.info("A"+ subOptions);
+                    //log.info("A"+ subOptions);
                     result.push(subOptions);
                 }
             } catch (e) {
-                var message = {'error': 'error occured'};
+                var message = {'error': 'error occurred'};
                 print(message);
                 log.info(e);
                 return;
@@ -152,7 +152,7 @@
         case 'DELETE':
             options = matcher.match(SUB_LIST) || matcher.match(SUB_ITEM);
             var parms = getParameters(request);
-            log.info(parms.subcriptionid);
+            //log.info(parms.subcriptionid);
             try{
               var assert = assetManager(session, options.type);
             var registryPath = assert.get(options.id).path;
@@ -160,14 +160,14 @@
             InfoUtil.unsubscribe(userRegistry.registry, registryPath, parms.subcriptionid, null);
 
             } catch (e) {
-              var message = {'error': 'error occured'};
+              var message = {'error': 'error occurred'};
                 print(message);
                 log.info(e);
                 return;
             }
             //print('This is a DELETE');
-            var message = { 'status': 'sucess'};
-            log.info(message);
+            var message = { 'status': 'success'};
+            //log.info(message);
             print(message);
             break;
         default:
