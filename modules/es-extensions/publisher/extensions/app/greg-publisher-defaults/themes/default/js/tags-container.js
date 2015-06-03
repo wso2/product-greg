@@ -16,11 +16,61 @@
  * under the License.
  */
 
-$('select.select2').select2({
-    placeholder: 'Select..'
-});
+$(function () {
 
-$('select.select2[multiple=multiple]').select2({
-    placeholder: 'Select..',
-    tags: true
+    var tags = [];
+    var formattedTags = [];
+
+    // Get Tags related to an asset.
+    $.ajax({
+        url: caramel.context + '/apis/asset/' + store.publisher.assetId + '/tags?type=' + store.publisher.type,
+        type: 'GET',
+        async: false,
+        success: function (response) {
+            tags = response.data;
+        },
+        error: function () {
+            console.log("Error getting tags.");
+        }
+    });
+
+    for (var i = 0; i < tags.length; i++) {
+        var formattedTag = {};
+        formattedTag.id = i;
+        formattedTag.text = tags[i];
+        formattedTags.push(formattedTag);
+    }
+
+    $('#select-tags').select2({
+        tags: true,
+        placeholder: 'NO TAGS FOUND',
+        data: tags,
+        multiple: true,
+        cache: true
+    }).on("select2:select", function (e) {
+        var data = {};
+        data.tags = e.params.data.text;
+        $.ajax({
+            url: caramel.context + '/apis/asset/' + store.publisher.assetId + '/add-tags?type=' + store.publisher.type,
+            type: 'POST',
+            async: false,
+            data: JSON.stringify(data),
+            contentType: 'application/json',
+            error: function () {
+                console.log("Error adding tags.");
+            }
+        });
+    }).on("select2:unselect", function (e) {
+        var data = {};
+        data.tags = e.params.data.text;
+        $.ajax({
+            url: caramel.context + '/apis/asset/' + store.publisher.assetId + '/remove-tags?type=' + store.publisher.type,
+            type: 'DELETE',
+            contentType: 'application/json',
+            data: JSON.stringify(data),
+            error: function () {
+                console.log("Error removing tags.");
+            }
+        });
+    }).select2("val", tags);
 });

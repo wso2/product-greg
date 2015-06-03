@@ -385,7 +385,7 @@ select.select2 {
 
 .select2-container--default .select2-selection--multiple, .select2-container--default .select2-selection--single {
     border-radius: 0;
-    height: 34px;
+    min-height: 34px;
     border: 1px solid #999;
 }
 
@@ -402,7 +402,7 @@ select.select2 {
 }
 
 .select2-container--default .select2-selection--multiple .select2-selection__choice {
-    margin-bottom: 0;
+    margin-bottom: 2px;
     margin-top: 0;
     color: #ffffff;
     background: #526A84;
