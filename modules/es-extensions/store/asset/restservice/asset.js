@@ -19,7 +19,6 @@
 asset.manager = function(ctx) {   
     var setCustomAssetAttributes = function(asset, userRegistry) {
         var wadlUrl=asset.attributes.overview_wadl;
-        log.info("wadl url = " + wadlUrl);
         if (wadlUrl != null) {
             var resource = userRegistry.registry.get(wadlUrl);
             var wadlContent = getInterfaceTypeContent(resource);
@@ -56,7 +55,6 @@ asset.manager = function(ctx) {
         if (genericArtifacts != null) {
             for (var index in genericArtifacts) {
                 var deps = {};
-                //extract the association name via the path.
                 var path = genericArtifacts[index].getPath();
                 var resource = userRegistry.registry.get('/_system/governance/'+ path);
                 var mediaType = resource.getMediaType();
