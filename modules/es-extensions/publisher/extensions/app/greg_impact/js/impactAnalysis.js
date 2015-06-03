@@ -190,6 +190,9 @@ function update(d) {
                 result += (loop !== 0 ? ";" : "") + root.relations[root.edges[i].relations[loop]].relation;
             }
             return result;
+        })
+        .attr("nodes", function(d,i){
+            return ("node_"+ root.edges[i].source.id +";node_"+ root.edges[i].target.id);
         });
 
     link = linkg.append("line")
@@ -223,12 +226,12 @@ function update(d) {
                 var relationTarget = root.relations[root.nodes[i].relations[loop]].target,
                     relationSource = root.relations[root.nodes[i].relations[loop]].source;
 
-                    for (innerloop = 0; innerloop < root.edges.length; innerloop++) {
-                        if( ((relationTarget == root.edges[innerloop].target.index) && (relationSource == root.edges[innerloop].source.index)) ||
-                            ((relationTarget == root.edges[innerloop].source.index) && (relationSource == root.edges[innerloop].target.index)) ){
-                            result += (loop !== 0 ? ";" : "") + "link_"+[innerloop];
-                        }
+                for (innerloop = 0; innerloop < root.edges.length; innerloop++) {
+                    if( ((relationTarget == root.edges[innerloop].target.index) && (relationSource == root.edges[innerloop].source.index)) ||
+                        ((relationTarget == root.edges[innerloop].source.index) && (relationSource == root.edges[innerloop].target.index)) ){
+                        result += (loop !== 0 ? ";" : "") + "link_"+[innerloop];
                     }
+                }
 
             }
             return result;
@@ -445,8 +448,23 @@ function filter(elem){
             }
             zoomFit();
         });
+        
+        d3.selectAll("[group=link]").each(function(){
+            if(!($(this).css('display') == 'none')) {
+                var nodes = $(this).attr("nodes"),
+                    node = nodes.split(';');
+                
+                for(var i = 0; i < node.length; i++) {
+                    if($("svg").find("#"+node[i]).css('display') == 'none'){
+                        $("#"+node[i]).show();
+                    }
+                }
+            }
+        });
 
     });
+    
+    clearSearchOperation();
 
     $("#search").select2("enable", false);
     $('#filters .tag').each(function(){
@@ -546,20 +564,6 @@ function click(d) {
             d3.select(self).attr("active-status", "groupselect");
             selectedNode = d.index;
 
-
-            d3.selectAll("[group=node].active").each(function(){
-                if ($(this).css('display') !== 'none') {
-                    var edges = $(this).attr("edges"),
-                        edge = edges.split(';');
-
-                    $(this).attr('class', 'inactive');
-                    for(var i = 0; i < edge.length; i++) {
-                        if(($("#"+edge[i]+"").css('display') !== 'none') && ($("#"+edge[i]+"").attr('class') !== 'inactive')){
-                            $(this).attr('class', 'active');
-                        }
-                    }
-                }
-            });
         }
         else{
             // Reset relation highlight
