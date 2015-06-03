@@ -5,6 +5,7 @@
     <test name="metadata" preserve-order="true" parallel="false">
         <packages>
             <package name="org.wso2.carbon.registry.soapservice.test.*"/>
+            <package name="org.wso2.carbon.registry.notifications.test.*"/>
         </packages>
 
         <classes>
