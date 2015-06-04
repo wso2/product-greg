@@ -21,6 +21,7 @@ app.dependencies=['store-common'];
 app.server = function(ctx) {
     return {
         configs: {
+        	landingPage:'/asts/soapservice/list',
             disabledAssets: ['comments', 'ebook','proxy','sequence','service','servicex','uri',
                              'site','provider','gadget','document','endpoint','topic','reply']
         }
