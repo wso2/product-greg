@@ -63,19 +63,42 @@ $(function() {
 		return $('.select2-selection__rendered .item').data();
 	};
 	var invokeAssociationAPI = function(data){
-		$.ajax({
-			url:associateURL(),
-			data:JSON.stringify(data),
-			type:'POST',
-			contentType:'application/json',
-			success:function(){
-				alert('association added successfully');
-			},
-			error:function(){
-				alert('Error')
-			}
-		});
-	};
+        $.ajax({
+            url: associateURL(),
+            data: JSON.stringify(data),
+            type: 'POST',
+            contentType: 'application/json',
+            success: function () {
+                BootstrapDialog.show({
+                    type: BootstrapDialog.TYPE_SUCCESS,
+                    title: 'Success!',
+                    message: '<div><i class="fa fa-check"></i> Association added successfully</div>',
+                    buttons: [{
+                        label: 'OK',
+                        action: function (dialogItself) {
+                            dialogItself.close();
+                        }
+                    }]
+
+                });
+            },
+            error: function () {
+                BootstrapDialog.show({
+                    type: BootstrapDialog.TYPE_DANGER,
+                    title: 'Error!',
+                    message: '<div><i class="fa fa-warning"></i> Error occurred while adding association</div>',
+                    buttons: [{
+                        label: 'Close',
+                        action: function (dialogItself) {
+                            dialogItself.close();
+                        }
+
+                    }]
+
+                });
+            }
+        });
+    };
 	var initAddAssociationLogic = function(){
 		var fromAssetId = getCurrentAssetId();
 		var toAssetId;

@@ -19,7 +19,9 @@
 var resources = function(){
     return {
         css:['association-base.css'],
-        code:['greg-association-meta.hbs'],
-        js:['association-api.js']
+        code:['greg-association-meta.hbs','bootstrap/bootstrap-editable.css', 'bootstrap-dialog.min.css',
+            'bootstrap/bootstrap-tagsinput.css', 'bootstrap-multiselect.css'],
+        js:['association-api.js', 'bootstrap-dialog.min.js', 'bootstrap-editable.js',
+            'bootstrap-multiselect.js']
     }
 };
