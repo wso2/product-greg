@@ -111,7 +111,7 @@ public class Carbon6014TestCase extends GREGIntegrationBaseTest {
         resourceAdminServiceClient.addResource("/_system/governance/service1", mediaType, description, dataHandler);
 
         ResourceData[] resourceDataArray =  resourceAdminServiceClient.getResource(
-                "/_system/governance" + NEW_SERVICE_PATH + "com/abb/1.0.0-SNAPSHOT/IntergalacticService");
+                "/_system/governance" + OLD_SERVICE_PATH + "com/abb/1.0.0-SNAPSHOT/IntergalacticService");
 
         assertTrue(resourceDataArray.length == 1, "Service path not changed");
 
