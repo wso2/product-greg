@@ -34,4 +34,11 @@
             <package name="org.wso2.carbon.registry.capp.deployment.test"/>
         </packages>
     </test>
+
+    <test name="Search Tags" preserve-order="true" parallel="false">
+        <classes>
+            <class name="org.wso2.carbon.registry.search.tags.test.TagsSearchTestCase"/>
+        </classes>
+    </test>
+
 </suite>

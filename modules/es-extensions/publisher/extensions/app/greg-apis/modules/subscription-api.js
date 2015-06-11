@@ -15,7 +15,7 @@ var api = {};
         }*/
         while(iter.hasNext()){
         	item = iter.next();
-        	log.info(item.getId());
+        	/*log.info(item.getId());
         	log.info(item.getTopicName());
         	log.info(item.getEventSinkURL());
         	log.info(item.getExpires());
@@ -24,7 +24,7 @@ var api = {};
         	log.info(item.getTenantDomain());
         	log.info(item.getTenantId());
         	log.info(item.getMode());
-        	log.info(item.getCreatedTime().toString());
+        	log.info(item.getCreatedTime().toString());*/
 
         }
         return listOfEvent;

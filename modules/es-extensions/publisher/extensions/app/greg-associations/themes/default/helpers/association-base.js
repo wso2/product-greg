@@ -18,8 +18,8 @@
  */
 var resources = function(){
     return {
-        css:['select2.min.css','association-base.css'],
+        css:['association-base.css'],
         code:['greg-association-meta.hbs'],
-        js:['select2.full.min.js','association-api.js']
+        js:['association-api.js']
     }
 };

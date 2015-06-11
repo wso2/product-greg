@@ -212,8 +212,8 @@ public class ReportSchedulingTestCases extends ReportingTestCaseSuper {
         int month = calLower.get(Calendar.MONTH) + 1;
         int year = calLower.get(Calendar.YEAR);
 
-        StringBuilder stringBuilder = new StringBuilder(seconds).append(" ").append(minutes).append(" ").append(hours)
-                               .append(" ").append(dayOfMonth).append(" ").append(month).append(" ? ").append(year);
+        StringBuilder stringBuilder =  new StringBuilder().append(seconds).append(" ").append(minutes).append(" ")
+                     .append(hours).append(" ").append(dayOfMonth).append(" ").append(month).append(" ? ").append(year);
 
         configurationBean.setCronExpression(stringBuilder.toString());
 
@@ -263,8 +263,8 @@ public class ReportSchedulingTestCases extends ReportingTestCaseSuper {
         int month = calLower.get(Calendar.MONTH) + 1;
         int year = calLower.get(Calendar.YEAR);
 
-        StringBuilder cronExpression = new StringBuilder(seconds).append(" ").append(minutes).append(" ").append(hours)
-                                   .append(" ").append(dayOfMonth).append(" ").append(month).append(" ? ").append(year);
+        StringBuilder cronExpression = new StringBuilder().append(seconds).append(" ").append(minutes).append(" ")
+                     .append(hours).append(" ").append(dayOfMonth).append(" ").append(month).append(" ? ").append(year);
         configurationBean.setCronExpression(cronExpression.toString());
 
         reportAdminServiceClient.scheduleReport(configurationBean);

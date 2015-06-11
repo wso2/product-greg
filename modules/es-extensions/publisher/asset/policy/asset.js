@@ -143,6 +143,9 @@ asset.manager = function(ctx) {
             }
             return results;
         },
+        postCreate:function(){
+
+        },
         getName: function(asset) {
             return asset.name;
         },

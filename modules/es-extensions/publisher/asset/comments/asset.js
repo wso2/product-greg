@@ -28,6 +28,9 @@ asset.manager = function (ctx) {
                 log.error(e);
                 throw e;
             }
+        },
+        postCreate:function(){
+            
         }
     };
 };

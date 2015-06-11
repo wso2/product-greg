@@ -19,6 +19,7 @@
 
 var resources = function(){
     return {
-        css:['common.css']
+        css:['select2.min.css','common.css'],
+        js:['select2.full.min.js']
     }
 };

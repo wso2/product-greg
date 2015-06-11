@@ -72,14 +72,14 @@ asset.manager = function(ctx) {
                 var deps = {};
                 //extract the association name via the path.
                 var path = genericArtifacts[index].getPath();
-                var mediaType = genericArtifacts[index].getMediaType();
+                var resource = userRegistry.registry.get(configs.depends_asset_path_prefix+path);
+                var mediaType = resource.getMediaType();
                 var name = genericArtifacts[index].getQName().getLocalPart();
                 var govUtils = Packages.org.wso2.carbon.governance.api.util.GovernanceUtils
                 var keyName = govUtils.getArtifactConfigurationByMediaType(getRegistry(ctx.session).registry, mediaType).getKey();
                 var subPaths = path.split('/');
                 var associationTypePlural = subPaths[2];
                 var associationName = name;
-                var resource = userRegistry.registry.get(configs.depends_asset_path_prefix+path);
                 var associationUUID = resource.getUUID();
                 deps.associationName = associationName;
                 deps.associationType = keyName;

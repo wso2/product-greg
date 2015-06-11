@@ -166,6 +166,9 @@ asset.manager = function(ctx) {
         },
         update: function(){
 
+        },
+        postCreate:function(){
+            
         }
     };
 };

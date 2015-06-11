@@ -335,6 +335,9 @@ asset.manager = function(ctx) {
             if(isDefault){
                 this.setAsDefaultAsset(asset);
             }
+        },
+        postCreate:function(){
+            
         }
     }
 };
