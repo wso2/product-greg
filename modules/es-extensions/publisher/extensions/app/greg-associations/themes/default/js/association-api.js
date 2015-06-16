@@ -29,6 +29,10 @@ $(function() {
 	var associateURL = function(){
 		return caramel.context+'/apis/association';
 	};
+
+	var removeAssociationURL = function(){
+		return caramel.context+'/apis/association/remove';
+	};
 	var getAssetType = function() {
 		return store.publisher.type;
 	};
@@ -76,6 +80,21 @@ $(function() {
 			}
 		});
 	};
+
+	var invokeRemoveAssociationAPI = function(data){
+		$.ajax({
+			url:removeAssociationURL(),
+			data:JSON.stringify(data),
+			type:'DELETE',
+			contentType:'application/json',
+			success:function(){
+				alert('association removed successfully');
+			},
+			error:function(){
+				alert('Error')
+			}
+		});
+	};
 	var initAddAssociationLogic = function(){
 		var fromAssetId = getCurrentAssetId();
 		var toAssetId;
@@ -89,6 +108,22 @@ $(function() {
 			data.destType = targetDetails.type;
 			data.associationType = $('#association-type-container > li > a.selected').closest('li').data('association-type');
 			invokeAssociationAPI(data);
+		});
+	};
+
+	var initRemoveAssociationLogic = function(){
+		var REMOVE_ASSOCIATION_BUTTON_ID = '.wr-association-operations [data-operation=delete]';
+		var fromAssetId = getCurrentAssetId();
+		var toAssetId;
+		var data = {};
+		var targetDetails = {};
+		$(REMOVE_ASSOCIATION_BUTTON_ID).on('click',function(){
+			data.sourceUUID = fromAssetId;
+			data.destUUID = $(this).data('uuid');
+			data.sourceType = getAssetType();
+			data.destType = $(this).data('resource-shortname');
+			data.associationType = $(this).data('resource-associationtype');
+			invokeRemoveAssociationAPI(data);
 		});
 	};
 	var init = function() {
@@ -155,4 +190,5 @@ $(function() {
 
 	init();
 	initAddAssociationLogic();
+	initRemoveAssociationLogic();
 });

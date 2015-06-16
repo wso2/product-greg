@@ -46,9 +46,6 @@ var gregAPI = {};
         		resultEntry[entry.notificationMethod].id = entry.id;
         	}
         }
-        //log.info('### results ###');
-        //log.info(results);
-        //log.info('################');
         return results;
     };
     gregAPI.subscriptions.list = function(am, assetId) {
@@ -308,7 +305,6 @@ var gregAPI = {};
         var sourcePath = srcam.get(sourceUUID).path;
         var destam = assetManager(session, destType);
         var destPath = destam.get(destUUID).path;
-        //log.info(sourcePath + '....................'+destPath+"----------"+associationType);
         srcam.registry.registry.addAssociation(sourcePath,destPath,associationType);
     }
 
@@ -333,6 +329,8 @@ var gregAPI = {};
             }
             assetJson.type = am.registry.registry.get(path).getMediaType();
             assetJson.associationType = results[i].type;
+            assetJson.uuid = uuid;
+            assetJson.shortName = key;
             resultList.results.push(assetJson);
         }
         return resultList
@@ -348,6 +346,7 @@ var gregAPI = {};
 
     }
     gregAPI.associations.remove = function(session, sourceType, sourceUUID, destType, destUUID, associationType) {
+
         var srcam = assetManager(session, sourceType);
         var sourcePath = srcam.get(sourceUUID).path;
         var destam = assetManager(session, destType);
