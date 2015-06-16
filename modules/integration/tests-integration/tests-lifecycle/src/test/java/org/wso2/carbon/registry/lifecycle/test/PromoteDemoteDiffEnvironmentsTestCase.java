@@ -311,7 +311,7 @@ public class PromoteDemoteDiffEnvironmentsTestCase extends GREGIntegrationBaseTe
         String[] info =
                 {
                         "/_system/governance/branches/testing/schemas/org/bar/purchasing/1.0.0/purchasing.xsd created",
-                        "/_system/governance/branches/testing/endpoints/localhost/axis2/1.0.0/ep-BizService created",
+                        "/_system/governance/branches/testing/1.0.0/ep-localhost.axis2.services-BizService created",
                         "/_system/governance/branches/testing/wsdls/com/foo/1.0.0/IntergalacticService12.wsdl created",
                         "/_system/governance/branches/testing/services/com/abb/1.0.0/IntergalacticService12 created"};
         String INFO = "info";
