@@ -75,7 +75,7 @@ public class WsdlImportTestCase extends GREGIntegrationBaseTest{
         assertTrue(resourceExists(registry, schemaLocation2), "ComplexDataTypesRpcLit2.xsd not found");
         assertTrue(resourceExists(registry, schemaLocation3), "ComplexDataTypesRpcLit3.xsd not found");
 
-        String endPointPath = "/_system/governance/trunk/endpoints/localhost/services/ep-BizService";
+        String endPointPath = "/_system/governance/trunk/endpoints/ep-localhost.services-BizService";
         assertTrue(resourceExists(registry, endPointPath), "ep-ComplexDataTypesRpcLit-svc endpoint not found");
 
         assertTrue(associationPathExists(wsdlPath, servicePath), "association Destination path not exist");
