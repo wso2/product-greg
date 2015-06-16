@@ -269,25 +269,33 @@ var gregAPI = {};
         return am;
     };
 
-    gregAPI.associations.listPossible = function(type, association) {
+    gregAPI.associations.listPossible = function (type, association, id) {
         var resultList = new Object();
         resultList.results = [];
         var map = CommonUtil.getAssociationConfig(type);
-        if(!map){
+        if (!map) {
             map = CommonUtil.getAssociationConfig("default");
         }
         var assetsTypes = (map.get(association)).split(",");
-
-        for(var i=0; i < assetsTypes.length; i++){
-            var manager = assetManager(session, assetsTypes[i]).am;
-            var artifacts = manager.search();
-            for(var j=0; j < artifacts.length; j++){
-                var assetJson = new Object();
-                assetJson.text = artifacts[j].attributes.overview_name;
-                assetJson.type = artifacts[j].mediaType;
-                assetJson.shortName = artifacts[j].type;
-                assetJson.uuid = manager.registry.registry.get(artifacts[j].path).getUUID();
-                resultList.results.push(assetJson);
+        for (var i = 0; i < assetsTypes.length; i++) {
+            try {
+                var manager = assetManager(session, assetsTypes[i]).am;
+                var artifacts = manager.search();
+                for (var j = 0; j < artifacts.length; j++) {
+                    var assetJson = new Object();
+                    assetJson.text = artifacts[j].attributes.overview_name;
+                    if(assetJson.text == null){
+                        var subPaths =  artifacts[j].path.split('/');
+                        assetJson.text = subPaths[subPaths.length - 1]
+                    }
+                    assetJson.type = artifacts[j].mediaType;
+                    assetJson.shortName = artifacts[j].type;
+                    assetJson.uuid = manager.registry.registry.get(artifacts[j].path).getUUID();
+                    resultList.results.push(assetJson);
+                }
+            } catch (e) {
+                log.warn('Artifact type ' + assetsTypes[i]
+                + ' defined in the association-config.xml is not in registry or unable to find relevant configuration.' + e);
             }
 
         }
@@ -339,6 +347,14 @@ var gregAPI = {};
         return results;
 
     }
+    gregAPI.associations.remove = function(session, sourceType, sourceUUID, destType, destUUID, associationType) {
+        var srcam = assetManager(session, sourceType);
+        var sourcePath = srcam.get(sourceUUID).path;
+        var destam = assetManager(session, destType);
+        var destPath = destam.get(destUUID).path;
+        srcam.registry.registry.removeAssociation(sourcePath,destPath,associationType);
+    }
+
 
     gregAPI.notifications.remove = function(registry, notificationId) {};
     gregAPI.notes.reply = function() {};

@@ -1,7 +1,7 @@
 <% require('/modules/publisher.js').exec(function(ctx) {
   var matcher = new URIMatcher(request.getRequestURI());
   var options;
-  var ASSOCIATION_LIST = '/{context}/apis/association/{type}/{association}';
+  var ASSOCIATION_LIST = '/{context}/apis/association/{type}/{association}/{id}';
   var ASSOCIATION_TYPE_LIST = '/{context}/apis/association/{type}';
   var ASSOCIATION_ADD = '/{context}/apis/association';
   var gregAPI = require('/modules/greg-publisher-api.js').gregAPI;
@@ -33,11 +33,12 @@
 
   switch (httpMethod) {
     case 'GET':
+      log.info(request,getRequestURI());
       options = matcher.match(ASSOCIATION_LIST) || matcher.match(ASSOCIATION_TYPE_LIST);
 
 
       if (options.association) {
-        var restuls = gregAPI.associations.listPossible(options.type, options.association);
+        var restuls = gregAPI.associations.listPossible(options.type, options.association, options.id);
         print(restuls);
       } else if (options) {
         var restuls = gregAPI.associations.listTypes(options.type);
@@ -59,6 +60,7 @@
       }
       break;
     case 'DELETE':
+
       break;
     default:
       break;

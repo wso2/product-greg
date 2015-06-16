@@ -23,8 +23,8 @@ $(function() {
 		"";
 	var ADD_ASSOCIATION_BUTTON_ID = '#addAssociation';
 
-	var associatableURL = function(assetType, associationType) {
-		return caramel.context + '/apis/association/' + assetType + "/" + associationType;
+	var associatableURL = function(assetType, associationType, id) {
+		return caramel.context + '/apis/association/' + assetType + "/" + associationType + "/" + id;
 	};
 	var associateURL = function(){
 		return caramel.context+'/apis/association';
@@ -35,9 +35,9 @@ $(function() {
 	var getCurrentAssetId = function(){
 		return store.publisher.assetId;
 	};
-	var loadAssociationTargets = function(assetType, associationType) {
+	var loadAssociationTargets = function(assetType, associationType, id) {
 		var promise = $.ajax({
-			url: associatableURL(assetType, associationType)
+			url: associatableURL(assetType, associationType, id)
 		});
 		promise.done(function(data) {
 			renderSelect2Box(data);
@@ -102,11 +102,12 @@ $(function() {
 
 				var meta = associationData(this);
 				var assetType = getAssetType();
+				var id = getCurrentAssetId();
 				if (!meta.associationType) {
 					throw 'Unable to locate the association type for the selected association';
 				}
 				//Make the API call here
-				loadAssociationTargets(assetType, meta.associationType);
+				loadAssociationTargets(assetType, meta.associationType, id);
                 
 				$('a', this).addClass('selected');
 				$(this).siblings('li').find('a').addClass('disabled');
