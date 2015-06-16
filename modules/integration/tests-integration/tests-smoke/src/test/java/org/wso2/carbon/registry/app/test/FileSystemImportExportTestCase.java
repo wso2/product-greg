@@ -48,7 +48,7 @@ public class FileSystemImportExportTestCase extends GREGIntegrationBaseTest{
 
     @BeforeClass(alwaysRun = true)
     public void init() throws Exception{
-
+        Thread.sleep(10000);
         super.init(TestUserMode.SUPER_TENANT_ADMIN);
         registry = new RegistryProviderUtil().getRemoteRegistry(automationContext);
     }

@@ -66,8 +66,8 @@ public class SwaggerAdditionTestCase extends GREGIntegrationBaseTest {
 		String resourceName = "swagger.json";
 		resourceAdminServiceClient.addSwagger(resourceName, "adding From URL", resourceUrl);
 		Assert.assertNotNull(resourceAdminServiceClient.getResourceContent(
-				swaggerCommonPath + "admin/SwaggerPetstore/1.0.0/" + resourceName));
-		Assert.assertTrue(deleteResource(swaggerCommonPath + "admin/SwaggerPetstore/1.0.0/" + resourceName));
+				swaggerCommonPath + "admin/1.0.0/" + resourceName));
+		Assert.assertTrue(deleteResource(swaggerCommonPath + "admin/1.0.0/" + resourceName));
 	}
 
 	/**
@@ -82,17 +82,17 @@ public class SwaggerAdditionTestCase extends GREGIntegrationBaseTest {
 		String resourceName = "api-docs.json";
 		resourceAdminServiceClient.addSwagger(resourceName, "adding From URL", resourceUrl);
 		Assert.assertNotNull(resourceAdminServiceClient.getResourceContent(
-				swaggerCommonPath + "admin/SwaggerSampleApp/1.0.0/" + resourceName));
+				swaggerCommonPath + "admin/1.0.0/" + resourceName));
 		Assert.assertNotNull(
-				resourceAdminServiceClient.getResourceContent(swaggerCommonPath + "admin/SwaggerSampleApp/1.0.0/pet"));
+				resourceAdminServiceClient.getResourceContent(swaggerCommonPath + "admin/1.0.0/pet"));
 		Assert.assertNotNull(resourceAdminServiceClient
-				                     .getResourceContent(swaggerCommonPath + "admin/SwaggerSampleApp/1.0.0/store"));
+				                     .getResourceContent(swaggerCommonPath + "admin/1.0.0/store"));
 		Assert.assertNotNull(
-				resourceAdminServiceClient.getResourceContent(swaggerCommonPath + "admin/SwaggerSampleApp/1.0.0/user"));
-		Assert.assertTrue(deleteResource(swaggerCommonPath + "admin/SwaggerSampleApp/1.0.0/" + resourceName));
-		Assert.assertTrue(deleteResource(swaggerCommonPath + "admin/SwaggerSampleApp/1.0.0/pet"));
-		Assert.assertTrue(deleteResource(swaggerCommonPath + "admin/SwaggerSampleApp/1.0.0/store"));
-		Assert.assertTrue(deleteResource(swaggerCommonPath + "admin/SwaggerSampleApp/1.0.0/user"));
+				resourceAdminServiceClient.getResourceContent(swaggerCommonPath + "admin/1.0.0/user"));
+		Assert.assertTrue(deleteResource(swaggerCommonPath + "admin/1.0.0/" + resourceName));
+		Assert.assertTrue(deleteResource(swaggerCommonPath + "admin/1.0.0/pet"));
+		Assert.assertTrue(deleteResource(swaggerCommonPath + "admin/1.0.0/store"));
+		Assert.assertTrue(deleteResource(swaggerCommonPath + "admin/1.0.0/user"));
 	}
 
 	/**
@@ -119,8 +119,8 @@ public class SwaggerAdditionTestCase extends GREGIntegrationBaseTest {
 			Assert.fail(msg);
 		}
 		Assert.assertNotNull(resourceAdminServiceClient.getResourceContent(
-				swaggerCommonPath + "admin/SwaggerPetstore/1.0.0/" + fileName));
-		Assert.assertTrue(deleteResource(swaggerCommonPath + "admin/SwaggerPetstore/1.0.0/" + fileName));
+				swaggerCommonPath + "admin/1.0.0/" + fileName));
+		Assert.assertTrue(deleteResource(swaggerCommonPath + "admin/1.0.0/" + fileName));
 	}
 
 	/**
@@ -147,8 +147,8 @@ public class SwaggerAdditionTestCase extends GREGIntegrationBaseTest {
 			Assert.fail(msg);
 		}
 		Assert.assertNotNull(resourceAdminServiceClient.getResourceContent(
-				swaggerCommonPath + "admin/SwaggerSampleApp/1.0.0/" + fileName));
-		Assert.assertTrue(deleteResource(swaggerCommonPath + "admin/SwaggerSampleApp/1.0.0/" + fileName));
+				swaggerCommonPath + "admin/1.0.0/" + fileName));
+		Assert.assertTrue(deleteResource(swaggerCommonPath + "admin/1.0.0/" + fileName));
 	}
 
 	/**
@@ -162,8 +162,8 @@ public class SwaggerAdditionTestCase extends GREGIntegrationBaseTest {
 		deleteResource(restServiceCommonPath + "admin/SwaggerPetstore/1.0.0/SwaggerPetstore-rest_service");
 		deleteResource(restServiceCommonPath + "admin/SwaggerPetstore/2.1.1/SwaggerPetstore-rest_service");
 		deleteResource(restServiceCommonPath + "admin/SwaggerSampleApp/1.0.0/SwaggerSampleApp-rest_service");
-		deleteResource("/_system/governance/trunk/endpoints/io/swagger/petstore/ep-api");
-		deleteResource("/_system/governance/trunk/endpoints/io/swagger/petstore/ep-v2");
+		//deleteResource("/_system/governance/trunk/endpoints/io/swagger/petstore/ep-api");
+		deleteResource("/_system/governance/trunk/endpoints/ep-io.swagger.petstore-v2");
 		resourceAdminServiceClient = null;
 		swaggerCommonPath = null;
 	}
