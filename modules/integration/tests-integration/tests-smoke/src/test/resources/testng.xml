@@ -2,15 +2,27 @@
 
 <suite name="greg-smoke-test-suite">
     <parameter name="useDefaultListeners" value="false"/>
-    <test name="test-greg-smoke-0" preserve-order="true" parallel="false">
+    <test name="test-greg-smoke-pagination" preserve-order="true" parallel="false">
         <packages>
            <package name="org.wso2.carbon.registry.pagination.test"/>
-           <package name="org.wso2.carbon.registry.properties.test.old"/>
-           <package name="org.wso2.carbon.registry.search.metadata.test.bean"/>
-           <package name="org.wso2.carbon.registry.extensions.test"/>
         </packages>
     </test>
-    <test name="test-greg-smoke-1" preserve-order="true" parallel="false">
+    <test name="test-greg-smoke-properties" preserve-order="true" parallel="false">
+        <packages>
+            <package name="org.wso2.carbon.registry.properties.test.old"/>
+        </packages>
+    </test>
+    <test name="test-greg-smoke-metadata" preserve-order="true" parallel="false">
+        <packages>
+            <package name="org.wso2.carbon.registry.search.metadata.test.bean"/>
+        </packages>
+    </test>
+    <test name="test-greg-smoke-extensions" preserve-order="true" parallel="false">
+        <packages>
+            <package name="org.wso2.carbon.registry.extensions.test"/>
+        </packages>
+    </test>
+    <test name="test-greg-smoke-app" preserve-order="true" parallel="false">
         <packages>
             <package name="org.wso2.carbon.registry.app.test"/>
         </packages>
