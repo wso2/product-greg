@@ -64,7 +64,7 @@ public class ContinuousOperationsWSTestCase extends GREGIntegrationBaseTest {
             assertFalse(value, "Resoruce not found at the path");
             res1.discard();
             resource1.discard();
-            Thread.sleep(100);
+            Thread.sleep(1000);
         }
     }
 
@@ -92,7 +92,7 @@ public class ContinuousOperationsWSTestCase extends GREGIntegrationBaseTest {
             res1.discard();
             resource1.discard();
             resource2.discard();
-            Thread.sleep(100);
+            Thread.sleep(1000);
         }
     }
 

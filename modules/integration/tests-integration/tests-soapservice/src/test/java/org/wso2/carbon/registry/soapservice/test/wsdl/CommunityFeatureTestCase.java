@@ -173,7 +173,7 @@ public class CommunityFeatureTestCase extends GREGIntegrationBaseTest {
         //check dependency information is in position
         AssociationTreeBean associationTreeBean = relationAdminServiceClient.getAssociationTree(wsdlPath, "depends");
         assertTrue(associationTreeBean.getAssociationTree().contains
-                ("/_system/governance/trunk/endpoints/net/restfulwebservices/www/wcf/ep-GeoIPService-svc"));
+                ("/_system/governance/trunk/endpoints/ep-net.restfulwebservices.www.wcf-GeoIPService-svc"));
     }
 
     /**
