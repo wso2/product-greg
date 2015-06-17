@@ -52,7 +52,8 @@
                                 </span>
                                 <span>
                                     <a class="btn btn-default btn-lg active pull-right" id="diff-view-button"
-                                       href='javascript:void(viewDiffView("{{url ""}}"))' target="_blank">Show Diff</a>
+                                       href="{{url ""}}/pages/diff?type=wsdl&path={{../../assetVersions.0.path}},{{../path}}"
+                                       target="_blank">Show Diff</a>
                                 </span>
                                 {{/if}}
                             </div>
