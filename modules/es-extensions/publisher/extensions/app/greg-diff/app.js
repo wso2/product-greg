@@ -19,24 +19,17 @@
 app.server = function(ctx){
     return {
         endpoints:{
-            apis:[ {
-                    url:'subscriptions',
-                    path:'subscriptions.jag',
+            pages:[
+                {
+                    title:'Diff',
+                    url:'diff',
+                    path:'diff-view.jag',
                     secured:true
                 },
                 {
-                    url:'notification',
-                    path:'notification.jag',
-                    secured:true
-                },
-                {
-                    url:'association',
-                    path:'association.jag',
-                    secured:true
-                },
-                {
-                    url:'governance-artifacts',
-                    path:'governance-artifacts.jag',
+                    title:'Code',
+                    url:'select',
+                    path:'diff-select.jag',
                     secured:true
                 }
             ]
@@ -44,16 +37,14 @@ app.server = function(ctx){
     };
 };
 
-
-app.apiHandlers = function(ctx) {
+app.pageHandlers = function(ctx) {
     return {
-        onApiLoad: function() {
+        onPageLoad: function() {
             if ((ctx.isAnonContext) && (ctx.endpoint.secured)) {
-                print('{ error:"Authentication error" }'); //TODO: Fix this to return a proper status code
+                ctx.res.sendRedirect(ctx.appContext+'/login');
                 return false;
             }
             return true;
         }
     };
 };
-

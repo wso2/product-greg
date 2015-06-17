@@ -45,3 +45,13 @@ $(function() {
         }
     });
 });
+function viewDiffView(path) {
+    var diff_view_url = path + "/pages/diff?type=wsdl&path=" + $("#diff-view-version").val() + ',' +
+        $("#diff-view-version").find(':selected').data('base_path');
+    window.open(diff_view_url, "_blank");
+}
+
+$('select.select2').select2({
+    dropdownCssClass: 'version-select-drop',
+    containerCssClass: 'version-select'
+});
