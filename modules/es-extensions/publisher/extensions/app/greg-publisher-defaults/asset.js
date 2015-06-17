@@ -96,7 +96,7 @@ asset.renderer = function(ctx) {
                 }
 
                 var type = page.assets.type;
-                page.assetVersions = gregAPI.getAssetVersions(ctx.session, ctx.assetType, page.assets.path, page.assets.attributes.overview_name);
+                page.assetVersions = gregAPI.getAssetVersions(ctx.session, ctx.assetType, page.assets.path, page.assets.name);
             }
         }
     };
