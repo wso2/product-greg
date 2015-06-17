@@ -280,6 +280,8 @@ var gregAPI = {};
                 var artifacts = manager.search();
                 for (var j = 0; j < artifacts.length; j++) {
                     var assetJson = new Object();
+                    assetJson.uuid = manager.registry.registry.get(artifacts[j].path).getUUID();
+                    if(assetJson.uuid == id ) { continue; }
                     assetJson.text = artifacts[j].attributes.overview_name;
                     if(assetJson.text == null){
                         var subPaths =  artifacts[j].path.split('/');
@@ -287,7 +289,6 @@ var gregAPI = {};
                     }
                     assetJson.type = artifacts[j].mediaType;
                     assetJson.shortName = artifacts[j].type;
-                    assetJson.uuid = manager.registry.registry.get(artifacts[j].path).getUUID();
                     resultList.results.push(assetJson);
                 }
             } catch (e) {
