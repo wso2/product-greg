@@ -88,7 +88,6 @@ asset.renderer = function(ctx) {
                 q.overview_resourcepath = page.assets.path;
                 var items = getAssetCommentManager(ctx).search(q);
                 page.comments = items;
-                log.info(page.comments);
             },
             versions: function (page) {
                 if (page.meta.pageName !== 'details') {
