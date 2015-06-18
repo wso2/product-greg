@@ -77,6 +77,9 @@ public class GenericArtifactTestCase extends GREGIntegrationBaseTest {
         assertTrue(wsRegistry.resourceExists(rxtLocation + "event.rxt"),
                 "rxt resource doesn't exists");
 
+        GovernanceUtils.loadGovernanceArtifacts((UserRegistry) governance, GovernanceUtils.findGovernanceArtifactConfigurations(governance));
+
+
         GovernanceArtifactConfiguration governanceArtifactConfiguration =
                 GovernanceUtils.findGovernanceArtifactConfiguration("events", governance);
 

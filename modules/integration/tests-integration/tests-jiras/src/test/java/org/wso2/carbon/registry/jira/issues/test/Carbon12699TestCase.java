@@ -25,7 +25,9 @@ import org.wso2.carbon.governance.custom.lifecycles.checklist.stub.CustomLifecyc
 import org.wso2.carbon.governance.lcm.stub.LifeCycleManagementServiceExceptionException;
 import org.wso2.carbon.governance.list.stub.beans.xsd.WSDLBean;
 import org.wso2.carbon.integration.common.utils.FileManager;
+import org.wso2.carbon.registry.core.Registry;
 import org.wso2.carbon.registry.core.exceptions.RegistryException;
+import org.wso2.carbon.registry.core.session.UserRegistry;
 import org.wso2.carbon.registry.resource.stub.ResourceAdminServiceExceptionException;
 import org.wso2.carbon.registry.ws.client.registry.WSRegistryServiceClient;
 import org.wso2.greg.integration.common.clients.LifeCycleAdminServiceClient;
@@ -60,6 +62,7 @@ public class Carbon12699TestCase extends GREGIntegrationBaseTest{
     private String wsdlPathLeaf;
     private int wsdlCount;
     private ServiceManager serviceManager;
+    private Registry governance;
 
 
     @BeforeClass(alwaysRun = true)
@@ -81,8 +84,9 @@ public class Carbon12699TestCase extends GREGIntegrationBaseTest{
 
         lifeCycleAdminServiceClient =
                 new LifeCycleAdminServiceClient(backendURL, sessionCookie);
+        governance = registryProviderUtil.getGovernanceRegistry(wsRegistryServiceClient, automationContext);
 
-        serviceManager = new ServiceManager(wsRegistryServiceClient);
+        serviceManager = new ServiceManager((UserRegistry)governance);
 
     }
 

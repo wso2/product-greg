@@ -1,0 +1,19 @@
+<%
+var caramel;
+require('/modules/publisher.js').exec(function (ctx) {
+    var ref = require('utils').request;
+    caramel = require('caramel');
+    var asset = require('rxt').asset;
+
+    var ui = require('rxt').ui;
+    var page = ui.buildPage(ctx.session, ctx.request);
+    var options = ref.getQueryOptions(ctx.request.getQueryString());
+
+    if (!options.type) {
+        ctx.response.sendError(404, 'Unable to locate the asset without a valid Type');
+        return;
+    }
+    var am = asset.createUserAssetManager(ctx.session, options.type); //appAPI.createUserAppManager(ctx.session);
+    var output = am.render(page)._custom(); //appManager.render([],page);
+    caramel.render(output);
+}, request, response, session); %>

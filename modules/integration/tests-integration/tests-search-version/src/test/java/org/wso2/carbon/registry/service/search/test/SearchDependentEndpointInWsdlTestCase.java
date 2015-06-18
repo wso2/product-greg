@@ -62,12 +62,12 @@ public class SearchDependentEndpointInWsdlTestCase extends GREGIntegrationBaseTe
     private WSRegistryServiceClient wsRegistry;
 
     private String[] endpointArtifactPaths = {
-            "/_system/governance/trunk/endpoints/localhost/services/ep-echo-yu-echoHttpEndpoint",
-            "/_system/governance/trunk/endpoints/localhost/services/ep-echo-yu-echoHttpsEndpoint",
-            "/_system/governance/trunk/endpoints/localhost/services/ep-echo-yu-echoHttpSoap11Endpoint",
-            "/_system/governance/trunk/endpoints/localhost/services/ep-echo-yu-echoHttpSoap12Endpoint",
-            "/_system/governance/trunk/endpoints/localhost/services/ep-echo-yu-echoHttpsSoap11Endpoint",
-            "/_system/governance/trunk/endpoints/localhost/services/ep-echo-yu-echoHttpsSoap12Endpoint" };
+            "/_system/governance/trunk/endpoints/ep-localhost.services-echo-yu-echoHttpEndpoint",
+            "/_system/governance/trunk/endpoints/ep-localhost.services-echo-yu-echoHttpsEndpoint",
+            "/_system/governance/trunk/endpoints/ep-localhost.services-echo-yu-echoHttpSoap11Endpoint",
+            "/_system/governance/trunk/endpoints/ep-localhost.services-echo-yu-echoHttpSoap12Endpoint",
+            "/_system/governance/trunk/endpoints/ep-localhost.services-echo-yu-echoHttpsSoap11Endpoint",
+            "/_system/governance/trunk/endpoints/ep-localhost.services-echo-yu-echoHttpsSoap12Endpoint" };
 
     @BeforeClass(groups = { "wso2.greg" })
     public void init() throws Exception {

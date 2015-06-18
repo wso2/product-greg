@@ -16,6 +16,7 @@
 
 package org.wso2.carbon.registry.app.test;
 
+import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 import org.wso2.carbon.automation.engine.context.TestUserMode;
@@ -145,5 +146,8 @@ public class TestMoveTestCase extends GREGIntegrationBaseTest{
         assertTrue(failed, "Moved resource should not be accessible from the old path.");
     }
 
-
+    @AfterClass(alwaysRun = true)
+    public void cleanArtifact() throws RegistryException {
+        registry = null;
+    }
 }

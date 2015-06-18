@@ -16,6 +16,7 @@
 
 package org.wso2.carbon.registry.app.test;
 
+import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 import org.wso2.carbon.automation.engine.context.TestUserMode;
@@ -371,6 +372,11 @@ public class TestTaggingTestCase extends GREGIntegrationBaseTest{
         TaggedResourcePath[] paths2 = registry.getResourcePathsWithTag("jsp");
 
         assertEquals(paths2.length, 0, "Tag based search should not return paths of deleted resources.");
+    }
+
+    @AfterClass(alwaysRun = true)
+    public void cleanArtifact() throws RegistryException {
+        registry = null;
     }
 
 }

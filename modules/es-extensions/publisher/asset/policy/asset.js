@@ -19,10 +19,43 @@ asset.manager = function(ctx) {
         var userRegistry = userMod.userRegistry(cSession);
         return userRegistry;
     };
+    var delayTillIndexed = function(milliSec) {
+        var date = Date.now();
+        var curDate = null;
+        do {
+            curDate = Date.now();
+        } while (curDate-date < milliSec);
+    };
+    var addDefaultPropertyIfNotExist = function(registry, name, am) {
+        var q = {};
+        q.overview_name = name;
+        var artifacts = am.search(q);
+
+        while(artifacts.length == 0) {
+            delayTillIndexed(3000);
+            artifacts = am.search(q);
+        }
+
+        if(artifacts.length == 1) {
+            var id = artifacts[0].id;
+            var artifactObject = am.am.manager.getGenericArtifact(id);
+            var policyRelativePath = artifactObject.getPath();
+            var policyPath = "/_system/governance" + policyRelativePath;
+            var policyResource = registry.get(policyPath);
+            policyResource.addProperty("default", "true");
+
+            try{
+                registry.put(policyPath, policyResource);
+            } catch (e){
+                log.error(e);
+                throw e;
+            }
+        } 
+    };
     return {
     	//without this 'create' method does not work.('options' object not retrieved.)
     	importAssetFromHttpRequest: function(options) {
-            log.info('Importing asset from request');
+            log.debug('Importing asset from request');
             return options;
         },
         combineWithRxt: function(asset) {
@@ -40,24 +73,54 @@ asset.manager = function(ctx) {
             var properties = javaArray.newInstance(java.lang.String, 1, 2);
             properties[0][0] = 'version';
             properties[0][1] = version;
-            utils.importResource(parentPath, name, mediaType, '', url, '', userRegistry.registry, properties);
+            var path = utils.importResource(parentPath, name, mediaType, '', url, '', userRegistry.registry, properties);
+
+            if(!this.rxtManager.isGroupingEnabled(this.type)){
+                log.debug('Omitted grouping');
+                return;
+            } else {
+                log.debug("Grouping seems to be enabled");
+            }
+
+            addDefaultPropertyIfNotExist(userRegistry.registry, name, this);
         },
         get: function(id) {
-            var item = this._super.get.call(this, id);
-            var subPaths = item.path.split('/');
-            item.name = subPaths[subPaths.length - 1];
-            item.version = subPaths[subPaths.length - 2];
-            var userRegistry = getRegistry(ctx.session);
-            var ByteArrayInputStream = Packages.java.io.ByteArrayInputStream;
-            var resource = userRegistry.registry.get(item.path);
-            item.authorUserName = resource.getAuthorUserName();
-            var content = resource.getContent();
-            var value = '' + new Stream(new ByteArrayInputStream(content));
-            item.content = value;
+            var item ;
+            try {
+                item = this._super.get.call(this, id);
+                var subPaths = item.path.split('/');
+                item.name = subPaths[subPaths.length - 1];
+                item.attributes.overview_name = item.name;
+                item.version = subPaths[subPaths.length - 2];
+                item.attributes.overview_version = item.version;
+                var userRegistry = getRegistry(ctx.session);
+                var ByteArrayInputStream = Packages.java.io.ByteArrayInputStream;
+                var resource = userRegistry.registry.get(item.path);
+                item.authorUserName = resource.getAuthorUserName();
+                var content = resource.getContent();
+                var value = '' + new Stream(new ByteArrayInputStream(content));
+                item.content = value;
+            } catch(e) {
+                log.error(e);
+                return null;
+            }
+            
             return item;
         },
         list: function(paging) {
             var items = this._super.list.call(this, paging);
+            for (var index = 0; index < items.length; index++) {
+                var result = items[index];
+                var path = result.path;
+                var subPaths = path.split('/');
+                var name = subPaths[subPaths.length - 1];
+                result.name = name;
+                result.version = subPaths[subPaths.length - 2];
+            }
+            return items;
+        },
+        searchByGroup: function(paging) {
+            var items = this._super.searchByGroup.call(this, paging);
             for (var index = 0; index < items.length; index++) {
                 var result = items[index];
                 var path = result.path;
@@ -80,6 +143,9 @@ asset.manager = function(ctx) {
             }
             return results;
         },
+        postCreate:function(){
+
+        },
         getName: function(asset) {
             return asset.name;
         },
@@ -88,9 +154,6 @@ asset.manager = function(ctx) {
          * */
         update: function(){
 
-        },
-        getAssetGroup:function(){
-            return [];
         }
     };
 };
@@ -106,9 +169,62 @@ asset.server = function(ctx) {
     };
 };
 asset.renderer =  function (ctx){
+    var assetManager = function(ctx) {
+        var rxt = require('rxt');
+        var type = ctx.assetType;
+        var am = rxt.asset.createUserAssetManager(ctx.session, type);
+        return am;
+    };
     return {
         details:function(page,meta){
             return page;
+        },
+        pageDecorators: {
+            populateAssetVersionDetails: function(page) {
+                if ((page.assets) && (page.assets.id)) {
+                    var am = assetManager(ctx);
+                    var info = page.assets;
+                    info.versions = [];
+                    var versions;
+                    var asset;
+                    var assetInstance = am.get(page.assets.id);
+                    var entry;
+                    versions = am.getAssetGroup(assetInstance || {});
+                    versions.sort(function(a1, a2) {
+                        return am.compareVersions(a1, a2);
+                    });
+                    info.isDefault = am.isDefaultAsset(page.assets);
+
+                    for (var index = 0; index < versions.length; index++) {
+                        asset = versions[index];
+                        entry = {};
+                        entry.id = asset.id;
+                        entry.name = asset.name;
+                        entry.version = asset.attributes.version;
+                        entry.isDefault = am.isDefaultAsset(asset);
+
+                        if (asset.id == page.assets.id) {
+                            entry.selected = true;
+                            info.version = asset.attributes.version;
+                        } else {
+                            entry.selected = false;
+                        }
+                        entry.assetURL = this.buildAssetPageUrl(ctx.assetType, '/details/' + entry.id);
+                        info.versions.push(entry);
+                    }
+                    info.hasMultipleVersions = (info.versions.length > 0) ? true : false;
+                }
+
+                // Following is to remove the edit button in the detail page since for asset types
+                // wsdl, wadl, swagger, policy, schema, the edit operations are not allowed
+                for(index in page.leftNav) {
+                    var button = page.leftNav[index];
+
+                    if(button.iconClass === "btn-edit") {
+                        page.leftNav.splice(index, 1);
+                    }
+                }
+            }
         }
     };
 };

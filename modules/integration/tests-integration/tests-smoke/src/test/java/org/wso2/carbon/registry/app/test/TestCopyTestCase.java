@@ -16,6 +16,7 @@
 
 package org.wso2.carbon.registry.app.test;
 
+import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 import org.wso2.carbon.automation.engine.context.TestUserMode;
@@ -91,5 +92,10 @@ public class TestCopyTestCase extends GREGIntegrationBaseTest{
         Resource oldR1 = registry.get("/test1/copy/copy3/c3/resource1");
         assertEquals(oldR1.getProperty("test"), "copy",
                      "Original resource should have a property named 'test' with value 'copy'.");
+    }
+
+    @AfterClass(alwaysRun = true)
+    public void cleanArtifact() throws RegistryException {
+        registry = null;
     }
 }

@@ -1,0 +1,56 @@
+<!--<h1>Associations of </h1>-->
+
+<div class="row">
+    <div class="col-lg-8 col-centered">
+
+        <div class="row wr-tile-buttons-list">
+            <div class="col-lg-7">
+                <h4>
+                    <span class="fw-stack fw-lg">
+                        <i class="fw fw-circle fw-stack-2x"></i>
+                        <i class="fw fw-stack-1x fw-inverse fw-number">1</i>
+                    </span> SELECT AN ASSOCIATION TYPE
+                </h4>
+                <div class="wr-input-control">
+                    <ul class="tile-buttons" id='association-type-container'>
+                        {{#each associationsTypes}}
+                        <li data-association-type='{{this}}'><a href="#"><i class="fw"></i>{{this}}</a></li>
+                        {{/each}}
+                    </ul>
+                </div>
+            </div>
+            <div id="step2" class="col-lg-5 disabled-area">
+                <h4>
+                    <span class="fw-stack fw-lg">
+                        <i class="fw fw-circle fw-stack-2x"></i>
+                        <i class="fw fw-stack-1x fw-inverse fw-number">2</i>
+                    </span> SELECT ASSET
+                </h4>
+                <div class="wr-input-control">
+                    <select class="select2 select-resource" disabled>
+                        <!-- Dynamic content loads here -->
+                    </select>
+                </div>
+                <div class="wr-input-control">
+                    <a href="javascript:void(0)" class="cu-btn-inner inverse" id='addAssociation'>
+                        <span class="fw-stack">
+                            <i class="fw fw-ring fw-stack-2x"></i>
+                            <i class="fw fw-add fw-stack-1x"></i>
+                        </span> Add
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <div class="row wr-associations-list">
+
+            <div class="col-lg-12">
+                {{#each associations.results}}
+                    {{> association-entry .}} 
+                {{/each}}
+            </div>
+
+        </div>
+
+    </div>
+</div>

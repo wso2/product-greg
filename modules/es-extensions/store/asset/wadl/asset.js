@@ -59,6 +59,7 @@ asset.manager = function(ctx) {
             var value = '' + new Stream(new ByteArrayInputStream(content));
             //since this is wsdlcontent.
             asset.wadlname = wadlname;
+            asset.assetName = wadlname;
             asset.version = version;
             asset.authorUserName = authorUserName;
             asset.wadlContent = value;
@@ -72,13 +73,17 @@ asset.manager = function(ctx) {
                 var deps = {};
                 //extract the association name via the path.
                 var path = genericArtifacts[index].getPath();
+                var resource = userRegistry.registry.get(configs.depends_asset_path_prefix+path);
+                var mediaType = resource.getMediaType();
+                var name = genericArtifacts[index].getQName().getLocalPart();
+                var govUtils = Packages.org.wso2.carbon.governance.api.util.GovernanceUtils
+                var keyName = govUtils.getArtifactConfigurationByMediaType(getRegistry(ctx.session).registry, mediaType).getKey();
                 var subPaths = path.split('/');
                 var associationTypePlural = subPaths[2];
-                var associationName = subPaths[subPaths.length - 1];
-                var resource = userRegistry.registry.get(configs.depends_asset_path_prefix+path);
+                var associationName = name;
                 var associationUUID = resource.getUUID();
                 deps.associationName = associationName;
-                deps.associationType = associationTypePlural.substring(0,associationTypePlural.lastIndexOf('s'));
+                deps.associationType = keyName;
                 deps.associationUUID = associationUUID;
                 associations.push(deps);
             }

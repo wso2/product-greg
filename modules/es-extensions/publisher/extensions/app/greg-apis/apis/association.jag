@@ -1,0 +1,78 @@
+<% require('/modules/publisher.js').exec(function(ctx) {
+  var matcher = new URIMatcher(request.getRequestURI());
+  var options;
+  var ASSOCIATION_LIST = '/{context}/apis/association/{type}/{association}/{id}';
+  var ASSOCIATION_TYPE_LIST = '/{context}/apis/association/{type}';
+  var ASSOCIATION_ADD = '/{context}/apis/association';
+  var ASSOCIATION_REMOVE = '/{context}/apis/association/remove';
+  var gregAPI = require('/modules/greg-publisher-api.js').gregAPI;
+
+  var SUB_ITEM = '/{context}/apis/subscriptions/{id}';
+  var SUB_ITEM = '/{context}/apis/subscriptions/{type}/{id}';
+  var httpMethod = request.getMethod();
+
+
+  var CommonUtil = Packages.org.wso2.carbon.governance.registry.extensions.utils.CommonUtil;
+  var events;
+  var responseProcessor = require('utils').response;
+  response.contentType = 'application/json';
+  var carbon = require('carbon');
+  var user = require('store').user;
+  var server = require('store').server;
+  var tenantId = server.current(session).tenantId;
+  var um = server.userManager(tenantId);
+  var userRegistry = user.userRegistry(session);
+
+  var resultList = new Object();
+  resultList.results = [];
+
+  var assetManager = function(session, type) {
+    var rxt = require('rxt');
+    var am = rxt.asset.createUserAssetManager(session, type);
+    return am;
+  };
+
+  switch (httpMethod) {
+    case 'GET':
+      options = matcher.match(ASSOCIATION_LIST) || matcher.match(ASSOCIATION_TYPE_LIST);
+
+
+      if (options.association) {
+        var restuls = gregAPI.associations.listPossible(options.type, options.association, options.id);
+        print(restuls);
+      } else if (options) {
+        var restuls = gregAPI.associations.listTypes(options.type);
+        print(restuls);
+      }
+      break;
+    case 'POST':
+
+      options = matcher.match(ASSOCIATION_ADD);
+      if (options) {
+        var params = ctx.request.getContent();
+        var sourceUUID = params.sourceUUID;
+        var destUUID = params.destUUID;
+        var sourceType = params.sourceType;
+        var destType = params.destType;
+        var associationType = params.associationType;
+        var restuls = gregAPI.associations.add(ctx.session, sourceType, sourceUUID, destType, destUUID, associationType);
+        print({});
+      }
+      break;
+    case 'DELETE':
+      options = matcher.match(ASSOCIATION_REMOVE);
+      if (options) {
+        var params = ctx.request.getContent();
+        var sourceUUID = params.sourceUUID;
+        var destUUID = params.destUUID;
+        var sourceType = params.sourceType;
+        var destType = params.destType;
+        var associationType = params.associationType;
+        var restuls = gregAPI.associations.remove(ctx.session, sourceType, sourceUUID, destType, destUUID, associationType);
+        print({});
+      }
+      break;
+    default:
+      break;
+  }
+}, request, response, session); %>

@@ -66,8 +66,36 @@ $(function() {
             uploadUI.hide();
         }
     });
+
+    var obtainFormMeta=function(formId){
+        return $(formId).data();
+    };
+
+    var doSubmit = function(action,container){
+        $('#form-asset-create').ajaxForm({
+            success:function(){
+                var options=obtainFormMeta('#form-asset-create');
+                window.location=options.redirectUrl;
+            },
+            error:function(){
+                alert('Unable to add the asset');
+                PublisherUtils.unblockButtons({
+                    container:container
+                });
+            }   
+        });
+    };
+
+    var styleFix = function(){
+        var item = $('#ui-asset-operations-overlay');
+        item.css('top','-15px');
+    };
+
     //function to call the custom schema api or default api.
     $('form[name="form-asset-create"] input[type="submit"]').click(function(event) {
+        var action = $(this).attr("name"); 
+        var container;
+        
         var $form = $('form[name="form-asset-create"]');
         if ($(this).attr("name") == 'addNewWadlFileAssetButton') {//upload via file browser
             //call the custom endpoint for processing schema upload via file browser.
@@ -78,11 +106,19 @@ $(function() {
             var fileName = wadlFilePath.split('\\').reverse()[0];
             //set the zip file name, to the hidden attribute.
             $('input[name="wadl_file_name"]').val(fileName);
-            $form.submit();
+            container = 'saveButtonsFile';
         } else if ($(this).attr("name") == 'addNewAssetButton') {//upload via url.
             //call the default endpoint.
             $form.attr('action', caramel.context + '/apis/assets?type=wadl');
-            $form.submit();
+            container = 'saveButtonsURL';
         }
+
+        PublisherUtils.blockButtons({
+            container:container,
+            msg:'Creating the '+PublisherUtils.resolveCurrentPageAssetType()+ ' instance'
+        });
+
+        styleFix();
+        doSubmit(action, container);
     });
 });

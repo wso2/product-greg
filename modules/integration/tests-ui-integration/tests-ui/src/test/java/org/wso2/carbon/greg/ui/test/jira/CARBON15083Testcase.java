@@ -93,8 +93,8 @@ public class CARBON15083Testcase extends GREGIntegrationUIBaseTest {
         ServicePage addService = new ServicePage(driver);
         //Add the service name and the namespace here
         String serviceName = "testServiceName";
-        String serviceNameSpace = "testNameSpace";
-        String version = "1.0.0";
+        String serviceNameSpace = "sampleNameSpace";
+        String version = "2.0.0";
         addService.uploadService(serviceName, serviceNameSpace, version);
         ServiceListPage serviceListPage = new ServiceListPage(driver);
 

@@ -1,0 +1,349 @@
+/*
+ * Copyright (c) 2015, WSO2 Inc. (http://www.wso2.org) All Rights Reserved.
+ *
+ * WSO2 Inc. licenses this file to you under the Apache License,
+ * Version 2.0 (the "License"); you may not use this file except
+ * in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing,
+ * software distributed under the License is distributed on an
+ * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ * KIND, either express or implied. See the License for the
+ * specific language governing permissions and limitations
+ * under the License.
+ */
+
+* { box-sizing: border-box; }
+
+*::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+    background: #34373D;
+    padding: 0 5px;
+    cursor: all-scroll;
+}
+
+*::-webkit-scrollbar-thumb { background: #007d85; }
+*::-webkit-scrollbar-thumb:hover { background: #007d85; }
+*::-webkit-scrollbar-thumb:active { background: #007d85; }
+
+
+html, body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    background: #2c313b;
+}
+
+@media ( max-width: 768px ) {
+    html, body {
+        height: auto;
+        overflow-x: hidden;
+        overflow-y: auto;
+    }
+
+    body {
+        overflow-y: hidden;
+    }
+}
+
+body {
+    font-family: "Open Sans", "Helvetica Neue", Helvetica, sans-serif;
+    min-height: 100%;
+    font-size: 14px;
+    line-height: 1.42857;
+    color: #fff;
+}
+
+.container-fluid {
+    padding: 0;
+}
+
+.row.no-gutter {
+    margin-right: 0;
+    margin-left: 0;
+}
+
+/*.row.no-gutter [class*='col-']:not(:first-child), .row.no-gutter [class*='col-']:not(:last-child) {*/
+.row.no-gutter > [class*='col-']:first-child, .row.no-gutter > [class*='col-']:last-child {
+    padding-right:0;
+    padding-left:0;
+}
+
+.app-bar {
+    background: #161616;
+    color: #ffffff;
+    width:100%;
+    min-height: 50px;
+    white-space: nowrap;
+}
+
+.app-bar a {
+    color: #ffffff;
+    text-decoration: none;
+}
+
+.app-bar a:hover {
+    text-decoration: underline;
+}
+/*
+.app-bar span {
+    padding: 15px;
+    display: inline-block;
+    height: 50px;
+    overflow: hidden;
+}
+
+.app-bar span i {
+    opacity: 0.3;
+    font-weight: 100;
+}
+
+.app-bar span.label {
+    background: #007d85;
+}
+*/
+
+.app-bar .file-name {
+    background: #161616;
+    border-right:2px solid #20232A;
+}
+
+.app-bar .file-name .icon {
+    background: #007D85;
+    padding: 8px;
+    margin-right: 15px;
+    font-size: 34px;
+}
+
+.app-bar h1 {
+    font-weight: 400;
+    font-size: 16px;
+    margin: 0 10px 0 0;
+    line-height: 47px;
+    height: 50px;
+}
+
+.app-bar a {
+    height: 50px;
+    padding: 0 10px;
+    line-height: 50px;
+    color: #fff;
+    display: inline-block;
+    text-transform: uppercase;
+}
+
+.app-bar a.active, .app-bar a.active:hover {
+    background: #2C313B;
+}
+
+.app-bar a:hover {
+    text-decoration: none;
+    background: #1F2126;
+}
+
+.diff-view [class*='col-']:first-child {
+    position: relative;
+}
+
+.view-panel {
+    position: relative;
+    overflow-x: hidden;
+    overflow-y: auto;
+}
+
+.view-panel.list {
+    border-right:2px solid #20232A;
+}
+
+.view-panel.list ul, .view-panel.list ul li {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.view-panel.list ul {
+    margin: 30px 0;
+}
+
+.view-panel.list ul li a {
+    display: block;
+    padding: 8px 10px;
+    color: #fff;
+    text-decoration: none;
+}
+
+.view-panel.list ul li.code a {
+    font-size: 18px;
+    background: #161616;
+    margin-bottom: 10px;
+}
+
+.view-panel.list ul li a .icon  {
+    background: #2c313b;
+    font-size: 10px;
+    padding: 4px;
+    margin: -4px 10px 0 0;
+}
+
+.view-panel.list ul li.code a .icon {
+    font-size: 18px;
+    background: transparent;
+}
+
+
+.view-panel.list ul li.added a .icon {
+    background: #00bb8d;
+}
+
+.view-panel.list ul li.removed a .icon {
+    background: #9c2c36;
+}
+
+.view-panel.list ul li a:hover {
+    background: #424650;
+}
+
+.view-panel.list ul li.selected a {
+    background: #20232A;
+}
+
+.view-panel.list ul li .time-stamp {
+    color: #979797;
+    font-size: 11px;
+    margin-left: 2px;
+}
+
+.view-panel.list ul li .time-stamp:before {
+    content: "- ";
+}
+
+@media ( max-width: 768px ) {
+    .view-panel {
+        top: 0;
+        height: auto !important;
+        overflow-x: hidden;
+        overflow-y: auto;
+    }
+}
+
+/* Code mirror overides */
+.CodeMirror { line-height: 1.2; }
+
+@media screen and (min-width: 1300px) {
+      article { max-width: 1000px; }
+      #nav { border-right: 499px solid transparent; }
+    }
+    span.clicky {
+      cursor: pointer;
+      background: #d70;
+      color: white;
+      padding: 0 3px;
+      border-radius: 3px;
+}
+
+.code-container {
+    margin: 50px 30px 30px;
+}
+
+.CodeMirror-merge {
+    border: none;
+}
+
+.CodeMirror-merge-gap {
+    border: none;
+    background: transparent;
+}
+
+.cm-s-ambiance.CodeMirror {
+    -webkit-box-shadow: none;
+    -moz-box-shadow: none;
+    box-shadow: none;
+}
+
+.cm-s-ambiance.CodeMirror, .cm-s-ambiance .CodeMirror-gutters {
+    background-image: none;
+    background-color: #20232A;
+}
+
+.CodeMirror {
+    height: 100%;
+}
+
+.CodeMirror-merge-r-chunk-end, .CodeMirror-merge-r-chunk-start, .CodeMirror-merge-r-chunk {
+    /*border-top-color: #161616;*/
+    border-top-color: #9C2C36;
+}
+
+.CodeMirror-merge-r-chunk-end, .CodeMirror-merge-r-chunk-start, .CodeMirror-merge-r-chunk {
+    /*border-bottom-color: #161616;*/
+    border-bottom-color: #9C2C36;
+}
+
+.CodeMirror-merge-r-chunk {
+    /*background-color: #161616;*/
+    background-color: #9C2C36;
+}
+
+.cm-s-ambiance .cm-comment {
+    color: #757575;
+}
+
+.CodeMirror-merge-r-connect {
+    /*fill: #161616;*/
+    fill: #9C2C36;
+    stroke: transparent;
+}
+
+.CodeMirror-merge-scrolllock {
+    color: #fff;
+}
+
+.CodeMirror-merge-copy {
+    color: #FFA112;
+}
+
+.cm-s-ambiance .CodeMirror-linenumber {
+    text-shadow: none;
+    color: #7E7E7E;
+}
+
+.cm-s-ambiance .CodeMirror-gutters {
+    box-shadow: none;
+    border-color: #007D85;
+}
+
+.CodeMirror-merge-copy {
+    display: none;
+}
+
+.CodeMirror-merge .title {
+    background: #424650;
+    padding: 0 100px 0 70px;
+    line-height: 30px;
+    height: 30px;
+    position: absolute;
+    margin-top: -30px;
+}
+
+.CodeMirror-merge .title:before {
+    position:absolute; 
+    right:-1px; 
+    top:-1px; 
+    content:'';
+    border-top: 80px solid #2c313b;
+    border-left: 30px solid transparent;
+}
+
+.CodeMirror-merge .title:after {
+    position:absolute; 
+    right:-2px; 
+    top:-2px; 
+    content:'';
+    border-top: 30px solid #2c313b;
+    border-left: 30px solid transparent;
+}

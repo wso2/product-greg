@@ -318,6 +318,7 @@ public class AddRxtTest extends GREGIntegrationBaseTest {
         governance.put("repository/components/org.wso2.carbon.governance/types/person.rxt", rxt);
         assertTrue(governance.resourceExists("repository/components/org.wso2.carbon.governance/types/person.rxt"),
                 "rxt resource doesn't exists");
+        Thread.sleep(5000);
         GovernanceUtils.loadGovernanceArtifacts((UserRegistry) governance);
         GenericArtifactManager artifactManager = new GenericArtifactManager(governance, "person");
         removeGenericArtifactByQName(artifactManager, "newPerson4");
@@ -351,8 +352,11 @@ public class AddRxtTest extends GREGIntegrationBaseTest {
         rxt.setMediaType("application/vnd.wso2.registry-ext-type+xml");
         governance.put("repository/components/org.wso2.carbon.governance/types/groups.rxt", rxt);
         assertTrue(governance.resourceExists("repository/components/org.wso2.carbon.governance/types/groups.rxt"),
-                "rxt resource doesn't exists");
-        GovernanceUtils.loadGovernanceArtifacts((UserRegistry) governance);
+                   "rxt resource doesn't exists");
+        Thread.sleep(10000);
+        GovernanceUtils.loadGovernanceArtifacts((UserRegistry) governance,
+                                                GovernanceUtils.findGovernanceArtifactConfigurations(governance));
+
         GenericArtifactManager artifactManager = new GenericArtifactManager(governance, "groups");
         removeGenericArtifactByQName(artifactManager, "projectGroupName");
         GenericArtifact artifact = artifactManager.newGovernanceArtifact(new QName("projectGroupName"));
@@ -364,7 +368,8 @@ public class AddRxtTest extends GREGIntegrationBaseTest {
         assertTrue(artifact.getAttributes("groupMembers_member")[0].equals("Junior:path1"), "artifact Group Member1 not found");
         assertTrue(artifact.getAttributes("groupMembers_member")[1].equals("Senior:path2"), "artifact Group Member2 not found");
         //removing the generic artifact created above
-        removeGenericArtifactByQName(artifactManager, "projectGroupName");
+        artifactManager.removeGenericArtifact(artifact.getId());
+        //removeGenericArtifactByQName(artifactManager, "projectGroupName");
         if (governance.resourceExists("repository/components/org.wso2.carbon.governance/types/groups.rxt")) {
             governance.delete("repository/components/org.wso2.carbon.governance/types/groups.rxt");
         }

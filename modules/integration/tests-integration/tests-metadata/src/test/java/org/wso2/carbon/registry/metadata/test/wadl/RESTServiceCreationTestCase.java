@@ -68,7 +68,7 @@ public class RESTServiceCreationTestCase extends GREGIntegrationBaseTest{
 	@AfterClass(groups = { "wso2.greg" })
 	public void cleanup() throws RemoteException, ResourceAdminServiceExceptionException {
 		deleteResource(restServiceCommonPath + "admin/SearchSearvice/1.0.0/SearchSearvice-rest_service");
-		deleteResource("/_system/governance/trunk/endpoints/com/yahoo/search/api/newssearchservice/ep-V1");
+		deleteResource("/_system/governance/trunk/endpoints/ep-com.yahoo.search.api.newssearchservice-V1");
 		deleteResource("/_system/governance/trunk/wadls/net/java/dev/wadl/_2009/_02/1.0.0/SearchSearvice.wadl");
 		resourceAdminServiceClient = null;
 		restServiceCommonPath = null;

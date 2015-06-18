@@ -190,6 +190,9 @@ function update(d) {
                 result += (loop !== 0 ? ";" : "") + root.relations[root.edges[i].relations[loop]].relation;
             }
             return result;
+        })
+        .attr("nodes", function(d,i){
+            return ("node_"+ root.edges[i].source.id +";node_"+ root.edges[i].target.id);
         });
 
     link = linkg.append("line")
@@ -223,12 +226,12 @@ function update(d) {
                 var relationTarget = root.relations[root.nodes[i].relations[loop]].target,
                     relationSource = root.relations[root.nodes[i].relations[loop]].source;
 
-                    for (innerloop = 0; innerloop < root.edges.length; innerloop++) {
-                        if( ((relationTarget == root.edges[innerloop].target.index) && (relationSource == root.edges[innerloop].source.index)) ||
-                            ((relationTarget == root.edges[innerloop].source.index) && (relationSource == root.edges[innerloop].target.index)) ){
-                            result += (loop !== 0 ? ";" : "") + "link_"+[innerloop];
-                        }
+                for (innerloop = 0; innerloop < root.edges.length; innerloop++) {
+                    if( ((relationTarget == root.edges[innerloop].target.index) && (relationSource == root.edges[innerloop].source.index)) ||
+                        ((relationTarget == root.edges[innerloop].source.index) && (relationSource == root.edges[innerloop].target.index)) ){
+                        result += (loop !== 0 ? ";" : "") + "link_"+[innerloop];
                     }
+                }
 
             }
             return result;
@@ -323,13 +326,16 @@ function nodeIcon(getType) {
             return "uri.svg";
             break;
         case "application/vnd.wso2-site+xml":
-            return "site.svg";
+            return "website.svg";
             break;
         case "application/vnd.wso2-servicex+xml":
-            return "soap.svg";
+            return "service.svg";
             break;
         case "application/vnd.wso2-service+xml":
             return "service.svg";
+            break;
+        case "application/vnd.wso2-soap-service+xml":
+            return "soap.svg";
             break;
         case "application/vnd.wso2-sequence+xml":
             return "sequence.svg";
@@ -341,7 +347,7 @@ function nodeIcon(getType) {
             return "proxy.svg";
             break;
         case "application/vnd.wso2-provider+xml":
-            return "service_provider.svg";
+            return "service-provider.svg";
             break;
         case "application/policy+xml":
             return "policy.svg";
@@ -352,23 +358,23 @@ function nodeIcon(getType) {
         case "application/vnd.wso2-endpoint+xml":
             return "endpoint.svg";
             break;
-        case "application/vnd.wso2-ebook+xml":
-            return "pdf.svg";
-            break;
-        case "application/vnd.wso2-document+xml":
-            return "ms_document.svg";
-            break;
-        case "application/vnd.wso2-api+xml":
-            return "api.svg";
-            break;
         case "application/vnd.wso2.endpoint":
             return "endpoint.svg";
             break;
+        case "application/vnd.wso2-ebook+xml":
+            return "ebook.svg";
+            break;
+        case "application/vnd.wso2-document+xml":
+            return "document.svg";
+            break;
+        case "application/vnd.wso2-api+xml":
+            return "api.svg";
+            break;   
         case "application/vnd.wso2-application+xml":
             return "application.svg";
             break;
         default:
-            return "resource.svg";
+            return "blank-document.svg";
     }
 }
 
@@ -442,8 +448,23 @@ function filter(elem){
             }
             zoomFit();
         });
+        
+        d3.selectAll("[group=link]").each(function(){
+            if(!($(this).css('display') == 'none')) {
+                var nodes = $(this).attr("nodes"),
+                    node = nodes.split(';');
+                
+                for(var i = 0; i < node.length; i++) {
+                    if($("svg").find("#"+node[i]).css('display') == 'none'){
+                        $("#"+node[i]).show();
+                    }
+                }
+            }
+        });
 
     });
+    
+    clearSearchOperation();
 
     $("#search").select2("enable", false);
     $('#filters .tag').each(function(){
@@ -543,20 +564,6 @@ function click(d) {
             d3.select(self).attr("active-status", "groupselect");
             selectedNode = d.index;
 
-
-            d3.selectAll("[group=node].active").each(function(){
-                if ($(this).css('display') !== 'none') {
-                    var edges = $(this).attr("edges"),
-                        edge = edges.split(';');
-
-                    $(this).attr('class', 'inactive');
-                    for(var i = 0; i < edge.length; i++) {
-                        if(($("#"+edge[i]+"").css('display') !== 'none') && ($("#"+edge[i]+"").attr('class') !== 'inactive')){
-                            $(this).attr('class', 'active');
-                        }
-                    }
-                }
-            });
         }
         else{
             // Reset relation highlight
@@ -580,8 +587,14 @@ function click(d) {
 function displayInfo(resource){
     $('#name').text(resource.name);
     $('#mediaType').text(resource.mediaType);
-    var linkString = '<a href = "../../carbon/resources/resource.jsp?region=region3&item=resource_browser_menu&path=' +
-        encodeURIComponent(resource.path) + '">' + resource.path + '</a>';
+    var linkString;
+    if (resource.activatedAssetsType){
+        linkString = '<a href = "../asts/' + resource.activatedAssetsType + '/details/' +
+            encodeURIComponent(resource.uuid) + '">' + resource.path + '</a>';
+    } else {
+        linkString = '<a href = "../../carbon/resources/resource.jsp?region=region3&item=resource_browser_menu&path=' +
+            encodeURIComponent(resource.path) + '">' + resource.path + '</a>';
+    }
     $('#path').html(linkString);
     if(resource.lcState==null){
         $('#lcState').text("Not defined");

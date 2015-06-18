@@ -1,0 +1,39 @@
+{{#with assets}}
+        <div class="well asset-well">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-lg-2">
+                        <img src='{{url ""}}/extensions/app/greg-publisher-defaults/themes/default/imgs/thumbnail.png' class="" alt="Thumb"/>
+                    </div>
+                    <div class="col-lg-10">
+                        <h1>{{name}}</h1>
+                        {{#if lifecycleState}} 
+                        <i class="fa fa-circle"></i> {{lifecycleState}}
+                        {{/if}}
+                        <div class="well-description">{{tables.0.fields.createdtime.value}}</div>
+                        <div class="well-description">{{tables.0.fields.description.value}}</div>
+                        <div> 
+                            {{> asset-version-info ..}}
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+
+        {{#each tables}}
+            {{renderTablePreview .}}
+        {{/each}}
+
+        {{#if tags}}
+            <a data-toggle="collapse" href="#collapseTags" class="collapsing-h2"><h2>Tags</h2></a>
+            <div class="collapse" id="collapseTags">
+            {{#each tags}}
+                <span class="view-tag">{{this}}</span>
+            {{/each}}
+            </div>
+        {{/if}}
+
+
+{{/with}}

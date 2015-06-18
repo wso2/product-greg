@@ -20,16 +20,20 @@ import org.apache.axiom.om.util.AXIOMUtil;
 import org.apache.axis2.context.ConfigurationContext;
 import org.apache.axis2.context.ConfigurationContextFactory;
 import org.apache.axis2.transport.http.HTTPConstants;
+import org.testng.Assert;
+import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 import org.wso2.carbon.automation.engine.context.TestUserMode;
 import org.wso2.carbon.automation.engine.frameworkutils.FrameworkPathUtil;
 import org.wso2.carbon.automation.engine.frameworkutils.TestFrameworkUtils;
+import org.wso2.carbon.governance.api.common.dataobjects.GovernanceArtifact;
 import org.wso2.carbon.governance.api.generic.GenericArtifactManager;
 import org.wso2.carbon.governance.api.generic.dataobjects.GenericArtifact;
 import org.wso2.carbon.governance.api.util.GovernanceUtils;
 import org.wso2.carbon.governance.client.WSRegistrySearchClient;
 import org.wso2.carbon.registry.core.Registry;
+import org.wso2.carbon.registry.core.Resource;
 import org.wso2.carbon.registry.core.exceptions.RegistryException;
 import org.wso2.carbon.registry.core.pagination.PaginationContext;
 import org.wso2.carbon.registry.core.session.UserRegistry;
@@ -49,9 +53,14 @@ import static org.testng.Assert.assertTrue;
 public class PaginationWSTest extends GREGIntegrationBaseTest {
 
     private WSRegistryServiceClient registry;
-    private static String cookie;
-    private static final int TIME_OUT_VALUE = 1000 * 60;
 
+    private Registry governance;
+    private GenericArtifactManager genericArtifactManager;
+    private GenericArtifact genericArtifact1;
+    private GenericArtifact genericArtifact2;
+    private String mediaType = "application/vnd.wso2-soap-service+xml";
+    private static final int TIME_OUT_VALUE = 1000 * 60;
+    private static String cookie;
 
     @BeforeClass(alwaysRun = true)
     public void initTest() throws Exception {
@@ -60,8 +69,9 @@ public class PaginationWSTest extends GREGIntegrationBaseTest {
         cookie = getSessionCookie();
         RegistryProviderUtil registryProviderUtil = new RegistryProviderUtil();
         registry = registryProviderUtil.getWSRegistry(automationContext);
-    }
 
+        initSearchQueryResources();
+    }
 
     @Test(groups = {"wso2.greg"})
     public void testPaginate() throws Exception {
@@ -100,7 +110,6 @@ public class PaginationWSTest extends GREGIntegrationBaseTest {
             listMap.put("lcState", new ArrayList<String>() {{
                 add("Development");
             }});
-            Thread.sleep(60000);
             //Find the results.
             GenericArtifact[] genericArtifacts = artifactManager.findGenericArtifacts(listMap);
             assertTrue(genericArtifacts.length > 0, "No any service found");
@@ -111,6 +120,97 @@ public class PaginationWSTest extends GREGIntegrationBaseTest {
             PaginationContext.destroy();
         }
     }
+
+    @Test(groups = {"wso2.greg"}, description = "Search by name", dependsOnMethods = {"testPaginate"})
+    public void testSearchByName() throws RegistryException {
+        try {
+            PaginationContext.init(0, 5, "DES", "overview_name", 100);
+            List<GovernanceArtifact> searchResults = GovernanceUtils.findGovernanceArtifacts("GenericArtifactSearchService", governance, mediaType);
+            Assert.assertEquals(searchResults.size(), 2, "Wrong number of artifacts returned by search");
+
+            for (GovernanceArtifact artifact : searchResults) {
+                Assert.assertEquals(artifact.getQName().getLocalPart(), "GenericArtifactSearchService", "Wrong number of artifacts returned by search");
+            }
+        } finally {
+            PaginationContext.destroy();
+        }
+    }
+
+    @Test(groups = {"wso2.greg"}, description = "Search by name and version", dependsOnMethods = {"testSearchByName"})
+    public void testSearchByNameAndVersion() throws RegistryException {
+        try {
+            PaginationContext.init(0, 5, "DES", "overview_name", 100);
+            List<GovernanceArtifact> searchResults = GovernanceUtils.findGovernanceArtifacts("GenericArtifactSearchService&version=4.5.6", governance, mediaType);
+            Assert.assertEquals(searchResults.size(), 1, "Wrong number of artifacts returned by search");
+
+            for (GovernanceArtifact artifact : searchResults) {
+                Assert.assertEquals(artifact.getQName().getLocalPart(), "GenericArtifactSearchService", "Wrong number of artifacts returned by search");
+            }
+        } finally {
+            PaginationContext.destroy();
+        }
+    }
+
+    @Test(groups = {"wso2.greg"}, description = "Search by name and property", dependsOnMethods = {"testSearchByNameAndVersion"})
+    public void testSearchByNameAndProperty() throws RegistryException {
+        try {
+            PaginationContext.init(0, 5, "DES", "overview_name", 100);
+            List<GovernanceArtifact> searchResults = GovernanceUtils.findGovernanceArtifacts("GenericArtifactSearchService&country=usa", governance, mediaType);
+            Assert.assertEquals(searchResults.size(), 1, "Wrong number of artifacts returned by search");
+
+            for (GovernanceArtifact artifact : searchResults) {
+                Assert.assertEquals(artifact.getQName().getLocalPart(), "GenericArtifactSearchService", "Wrong number of artifacts returned by search");
+            }
+        } finally {
+            PaginationContext.destroy();
+        }
+    }
+
+    private void initSearchQueryResources() throws Exception {
+        governance = GovernanceUtils.getGovernanceUserRegistry(registry, "admin");
+        // Should be load the governance artifact.
+        GovernanceUtils.loadGovernanceArtifacts((UserRegistry) governance);
+
+        genericArtifactManager = new GenericArtifactManager(governance, "soapservice");
+        String content = "<serviceMetaData xmlns=\"http://www.wso2.org/governance/metadata\">" + "<overview><name>" + "GenericArtifactSearchService"
+                + "</name><namespace>" + "https://www.wso2.com/greg/store" + "</namespace><version>4.5.6</version></overview>" + "</serviceMetaData>";
+        org.apache.axiom.om.OMElement XMLContent = AXIOMUtil.stringToOM(content);
+        genericArtifact1 = genericArtifactManager.newGovernanceArtifact(XMLContent);
+        genericArtifactManager.addGenericArtifact(genericArtifact1);
+
+        String path = genericArtifact1.getPath();
+        Resource resource = governance.get(path);
+        resource.addProperty("country", "usa");
+        governance.put(path, resource);
+
+        content = "<serviceMetaData xmlns=\"http://www.wso2.org/governance/metadata\">" + "<overview><name>" + "GenericArtifactSearchService"
+                + "</name><namespace>" + "https://www.wso2.com/greg/store" + "</namespace><version>4.5.7</version></overview>" + "</serviceMetaData>";
+        XMLContent = AXIOMUtil.stringToOM(content);
+        genericArtifact2 = genericArtifactManager.newGovernanceArtifact(XMLContent);
+        genericArtifactManager.addGenericArtifact(genericArtifact2);
+
+        cookie = getSessionCookie();
+
+        ConfigurationContext configContext;
+        String axis2Repo = FrameworkPathUtil.getSystemResourceLocation() + "client";
+        String axis2Conf = FrameworkPathUtil.getSystemResourceLocation() + "axis2config" +
+                File.separator + "axis2_client.xml";
+        TestFrameworkUtils.setKeyStoreProperties(automationContext);
+        configContext = ConfigurationContextFactory.
+                createConfigurationContextFromFileSystem(axis2Repo, axis2Conf);
+        configContext.setProperty(HTTPConstants.CONNECTION_TIMEOUT, TIME_OUT_VALUE);
+
+        WSRegistrySearchClient wsRegistrySearchClient = new WSRegistrySearchClient();
+        //This should be execute to initialize the AttributeSearchService.
+        wsRegistrySearchClient.init(cookie, backendURL, configContext);
+    }
+
+    @AfterClass(alwaysRun = true)
+    public void cleanUp() throws RegistryException {
+        genericArtifactManager.removeGenericArtifact(genericArtifact1.getId());
+        genericArtifactManager.removeGenericArtifact(genericArtifact2.getId());
+    }
+
     private static void addServices(Registry govRegistry) throws RegistryException, XMLStreamException {
         GenericArtifactManager artifactManager = new GenericArtifactManager(govRegistry, "service");
         for(int i = 1; i < 10; i++) {
@@ -125,7 +225,7 @@ public class PaginationWSTest extends GREGIntegrationBaseTest {
         }
         //Services need to be index before search.
         try {
-            Thread.sleep(2 * 60 * 1000);
+            Thread.sleep(60 * 1000);
         } catch(InterruptedException e) {
             e.printStackTrace();
         }

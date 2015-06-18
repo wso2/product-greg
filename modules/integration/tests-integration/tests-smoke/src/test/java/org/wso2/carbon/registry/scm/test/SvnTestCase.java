@@ -87,6 +87,8 @@ public class SvnTestCase extends GREGIntegrationBaseTest {
     @Test(groups = "wso2.greg")
     @SetEnvironment(executionEnvironments = {ExecutionEnvironment.STANDALONE})
     public void testSCMResourceExists() throws InterruptedException {
+        Thread.sleep(70000);
+        //Waiting for policy load after startup
         boolean status = waitForPolicyFile();
         assertTrue("policy file not found ", status);
     }
