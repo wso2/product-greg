@@ -1,0 +1,11 @@
+.social-button{
+    width: 32px;
+    height:32px;
+}
+.asset-details-wrapper{
+    border-left:none;
+}
+.action-sub-container{
+    background:#e2e2e2;
+    padding-right:0px;
+}

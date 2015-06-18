@@ -12,29 +12,31 @@
                 </div>
             </div>
             <!-- asset details folder-->
-            <div class="asset-detailss-header ">
+            <div class="asset-details-header ">
                 <!-- aset details -->
              <div class="col-xs-12 col-sm-12 col-md-5 col-lg-5 white-bg">
                 <div class=" details-image white-bg">
                    {{> asset-thumbnail ..}}
                 </div>
                 <div class="details-container">
-                    <div class="col-lg-9">
+                    <div class="col-lg-12">
                     {{> asset-details ..}}
                     </div>
-                    <div class="col-lg-5  padding-top right asset-rating margin-left-double">
+                    <div class="col-lg-12 padding-top">
+                        <div class="asset-rating"></div>
+                    </div>
+                    <div class="col-lg-12 padding-top">
+                        {{>share ../..}}
                     </div>
                 </div>
-                 {{>asset-utilization ../..}}
-                 {{> asset-version-info ../..}}
+
              </div>
                 <!-- end of asset details-->
             </div>
             <div class="asset-details-wrapper ">
                 <div class="white-bg padding-double">
-                    <h4>{{overview_name}}</h4>
-                    <hr>
-                    {{>tags ../../.}}
+                    {{> asset-utilization ../..}}
+                    {{> asset-version-info ../..}}
 
                 </div>
             </div><!-- description column-->
@@ -48,9 +50,6 @@
                         <li>
                             <a href="#tab-reviews" data-toggle="tab" data-type="comments">{{t "User Reviews"}}</a>
                         </li>
-                        <li>
-                            <a href="#tab-share" data-toggle="tab" data-type="basic">{{t "Share"}}</a>
-                        </li>
                     </ul>
 
                     <div class="tab-content">
@@ -59,11 +58,7 @@
                                 {{>overview ..}}
                             </div>
                         </div>
-                        <div class="tab-pane" id="tab-share">
-                            <div class="content">
-                                {{>share ../..}}
-                            </div>
-                        </div>
+
                         <div class="tab-pane" id="tab-reviews">
                              {{#if ../../features.social.enabled}}
                                 <iframe name="socialIfr" id="socialIfr"
