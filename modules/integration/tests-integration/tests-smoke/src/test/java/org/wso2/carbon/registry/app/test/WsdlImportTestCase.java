@@ -16,6 +16,7 @@
 
 package org.wso2.carbon.registry.app.test;
 
+import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 import org.wso2.carbon.automation.engine.context.TestUserMode;
@@ -75,7 +76,7 @@ public class WsdlImportTestCase extends GREGIntegrationBaseTest{
         assertTrue(resourceExists(registry, schemaLocation2), "ComplexDataTypesRpcLit2.xsd not found");
         assertTrue(resourceExists(registry, schemaLocation3), "ComplexDataTypesRpcLit3.xsd not found");
 
-        String endPointPath = "/_system/governance/trunk/endpoints/localhost/services/ep-BizService";
+        String endPointPath = "/_system/governance/trunk/endpoints/ep-localhost.services-BizService";
         assertTrue(resourceExists(registry, endPointPath), "ep-ComplexDataTypesRpcLit-svc endpoint not found");
 
         assertTrue(associationPathExists(wsdlPath, servicePath), "association Destination path not exist");
@@ -176,5 +177,10 @@ public class WsdlImportTestCase extends GREGIntegrationBaseTest{
             }
         }
         return found;
+    }
+
+    @AfterClass(alwaysRun = true)
+    public void cleanArtifact() throws RegistryException {
+        registry = null;
     }
 }

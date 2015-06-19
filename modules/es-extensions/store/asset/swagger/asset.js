@@ -36,6 +36,7 @@ asset.manager = function(ctx) {
             var content = resource.getContent();
             var value = '' + new Stream(new ByteArrayInputStream(content));
             asset.swaggerName = swaggerName;
+            asset.assetName = swaggerName;
             asset.attributes.overview_name = swaggerName;
             asset.version = version;
             asset.attributes.overview_version = version;

@@ -83,6 +83,9 @@ public class SearchServiceByParamTestCase extends GREGIntegrationBaseTest {
 
         GovernanceUtils.loadGovernanceArtifacts((UserRegistry) governance);
         serviceManager = new ServiceManager(governance);
+        //delete servcies which are created by other test cases
+        delete("/_system/governance/sites/");
+        delete("/_system/governance/gadgets/");
         addResources();
         Thread.sleep(30000);
     }

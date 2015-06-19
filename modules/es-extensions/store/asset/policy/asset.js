@@ -59,6 +59,7 @@ asset.manager = function(ctx) {
             var value = '' + new Stream(new ByteArrayInputStream(content));
             //since this is wsdlcontent.
             asset.policyname = policyname;
+            asset.assetName = policyname;
             asset.version = version;
             asset.authorUserName = authorUserName;
             asset.policyContent = value;

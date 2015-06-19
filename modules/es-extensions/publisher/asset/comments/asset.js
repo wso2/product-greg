@@ -21,7 +21,6 @@ asset.manager = function (ctx) {
     return {
         create: function (options) {
             options.attributes.overview_hash = Math.random();
-            log.info(options);
             try {
                 this._super.create.call(this, options);
             } catch (e) {

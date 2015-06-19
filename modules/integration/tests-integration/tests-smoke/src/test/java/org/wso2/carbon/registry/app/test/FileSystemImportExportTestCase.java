@@ -18,6 +18,7 @@ package org.wso2.carbon.registry.app.test;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 import org.wso2.carbon.automation.engine.context.TestUserMode;
@@ -48,7 +49,7 @@ public class FileSystemImportExportTestCase extends GREGIntegrationBaseTest{
 
     @BeforeClass(alwaysRun = true)
     public void init() throws Exception{
-
+        Thread.sleep(10000);
         super.init(TestUserMode.SUPER_TENANT_ADMIN);
         registry = new RegistryProviderUtil().getRemoteRegistry(automationContext);
     }
@@ -61,6 +62,7 @@ public class FileSystemImportExportTestCase extends GREGIntegrationBaseTest{
 
         File file = new File(filePath);
         RegistryClientUtils.importToRegistry(file, "/framework", registry);
+        Thread.sleep(30000L);
         assertTrue(registry.resourceExists("/framework/apptestresources/db2.sql"), "Resource not found.");
         assertTrue(registry.resourceExists("/framework/apptestresources/mysql.sql"), "Resource not found.");
         assertTrue(registry.resourceExists("/framework/apptestresources/mssql.sql"), "Resource not found.");
@@ -248,5 +250,10 @@ public class FileSystemImportExportTestCase extends GREGIntegrationBaseTest{
             valuefile = true;
         }
         return valuefile;
+    }
+
+    @AfterClass(alwaysRun = true)
+    public void cleanArtifact() throws RegistryException {
+        registry = null;
     }
 }

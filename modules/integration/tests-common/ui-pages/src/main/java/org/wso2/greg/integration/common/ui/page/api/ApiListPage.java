@@ -43,11 +43,11 @@ public class ApiListPage {
         driver.findElement(By.id(uiElementMapper.getElement("carbon.Main.tab"))).click();
         driver.findElement(By.linkText(uiElementMapper.getElement("api.list.link"))).click();
 
-        log.info("API List Page");
+        log.info("REST Services List Page");
         if (!driver.findElement(By.id(uiElementMapper.getElement("api.dashboard.middle.text"))).
-                getText().contains("API List")) {
+                getText().contains("REST Service List")) {
 
-            throw new IllegalStateException("This is not the API  Add Page");
+            throw new IllegalStateException("This is not the REST Services  Add Page");
         }
     }
 

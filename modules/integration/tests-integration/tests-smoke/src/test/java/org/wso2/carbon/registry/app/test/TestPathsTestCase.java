@@ -16,6 +16,7 @@
 
 package org.wso2.carbon.registry.app.test;
 
+import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 import org.wso2.carbon.automation.engine.context.TestUserMode;
@@ -84,5 +85,10 @@ public class TestPathsTestCase extends GREGIntegrationBaseTest{
         assertTrue(registry.resourceExists("/testkrishantha1/paths2/r2"), "Resource not found.");
         assertTrue(registry.resourceExists("/testkrishantha1/paths2/c1"), "Resource not found.");
         assertTrue(registry.resourceExists("/testkrishantha1/paths2/c2"), "Resource not found.");
+    }
+
+    @AfterClass(alwaysRun = true)
+    public void cleanArtifact() throws RegistryException {
+        registry = null;
     }
 }

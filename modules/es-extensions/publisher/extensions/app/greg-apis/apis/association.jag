@@ -1,9 +1,10 @@
 <% require('/modules/publisher.js').exec(function(ctx) {
   var matcher = new URIMatcher(request.getRequestURI());
   var options;
-  var ASSOCIATION_LIST = '/{context}/apis/association/{type}/{association}';
+  var ASSOCIATION_LIST = '/{context}/apis/association/{type}/{association}/{id}';
   var ASSOCIATION_TYPE_LIST = '/{context}/apis/association/{type}';
   var ASSOCIATION_ADD = '/{context}/apis/association';
+  var ASSOCIATION_REMOVE = '/{context}/apis/association/remove';
   var gregAPI = require('/modules/greg-publisher-api.js').gregAPI;
 
   var SUB_ITEM = '/{context}/apis/subscriptions/{id}';
@@ -37,7 +38,7 @@
 
 
       if (options.association) {
-        var restuls = gregAPI.associations.listPossible(options.type, options.association);
+        var restuls = gregAPI.associations.listPossible(options.type, options.association, options.id);
         print(restuls);
       } else if (options) {
         var restuls = gregAPI.associations.listTypes(options.type);
@@ -59,6 +60,17 @@
       }
       break;
     case 'DELETE':
+      options = matcher.match(ASSOCIATION_REMOVE);
+      if (options) {
+        var params = ctx.request.getContent();
+        var sourceUUID = params.sourceUUID;
+        var destUUID = params.destUUID;
+        var sourceType = params.sourceType;
+        var destType = params.destType;
+        var associationType = params.associationType;
+        var restuls = gregAPI.associations.remove(ctx.session, sourceType, sourceUUID, destType, destUUID, associationType);
+        print({});
+      }
       break;
     default:
       break;

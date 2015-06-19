@@ -209,6 +209,7 @@
 
     <handler class="org.wso2.carbon.registry.extensions.handlers.EndpointMediaTypeHandler" profiles="default,uddi-registry">
         <property name="endpointMediaType">application/vnd.wso2-endpoint+xml</property>
+        <property name="includeNamespaceInName">true</property>
         <property name="endpointLocationConfiguration" type="xml">
             <location>/trunk/endpoints/</location>
         </property>
@@ -287,8 +288,8 @@
     <!-- This defines index cofiguration which is used in meta data search feature of the registry -->
 		
     <indexingConfiguration>
-        <startingDelayInSeconds>60</startingDelayInSeconds>
-        <indexingFrequencyInSeconds>5</indexingFrequencyInSeconds>
+        <startingDelayInSeconds>40</startingDelayInSeconds>
+        <indexingFrequencyInSeconds>4</indexingFrequencyInSeconds>
         <!--number of resources submit for given indexing thread -->
         <batchSize>50</batchSize>
          <!--number of worker threads for indexing -->

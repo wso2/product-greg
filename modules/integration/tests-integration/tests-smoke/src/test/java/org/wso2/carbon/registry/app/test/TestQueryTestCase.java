@@ -16,6 +16,7 @@
 
 package org.wso2.carbon.registry.app.test;
 
+import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 import org.wso2.carbon.automation.engine.context.TestUserMode;
@@ -116,5 +117,10 @@ public class TestQueryTestCase extends GREGIntegrationBaseTest{
         q1.addProperty(RegistryConstants.RESULT_TYPE_PROPERTY_NAME,
                        RegistryConstants.RESOURCES_RESULT_TYPE);
         registry.put(path, q1);
+    }
+
+    @AfterClass(alwaysRun = true)
+    public void cleanArtifact() throws RegistryException {
+        registry = null;
     }
 }

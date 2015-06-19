@@ -88,7 +88,14 @@ asset.renderer = function(ctx) {
                 q.overview_resourcepath = page.assets.path;
                 var items = getAssetCommentManager(ctx).search(q);
                 page.comments = items;
-                log.info(page.comments);
+            },
+            versions: function (page) {
+                if (page.meta.pageName !== 'details') {
+                    return;
+                }
+
+                var type = page.assets.type;
+                page.assetVersions = gregAPI.getAssetVersions(ctx.session, ctx.assetType, page.assets.path, page.assets.name);
             }
         }
     };

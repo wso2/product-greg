@@ -16,6 +16,7 @@
 
 package org.wso2.carbon.registry.app.test;
 
+import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 import org.wso2.carbon.automation.engine.context.TestUserMode;
@@ -41,6 +42,7 @@ public class TestAssociationTestCase extends GREGIntegrationBaseTest {
 
         super.init(TestUserMode.SUPER_TENANT_ADMIN);
         registry = new RegistryProviderUtil().getRemoteRegistry(automationContext);
+        Thread.sleep(30000);
     }
 
     @Test(groups = {"wso2.greg"})
@@ -562,6 +564,11 @@ public class TestAssociationTestCase extends GREGIntegrationBaseTest {
             }
         }
         return found;
+    }
+
+    @AfterClass(alwaysRun = true)
+    public void cleanArtifact() throws RegistryException {
+        registry = null;
     }
 
 }

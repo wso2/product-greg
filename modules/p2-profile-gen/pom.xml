@@ -208,6 +208,9 @@
                                     org.wso2.carbon.governance-extensions:org.wso2.carbon.governance.platform.extensions.feature:${carbon.governance.ext.version}
                                 </featureArtifactDef>
                                 <featureArtifactDef>
+                                    org.wso2.carbon.governance-extensions:org.wso2.carbon.governance.comparator.server.feature:${carbon.governance.ext.version}
+                                </featureArtifactDef>
+                                <featureArtifactDef>
                                     org.wso2.carbon.analytics-common:org.wso2.carbon.event.output.adapter.server.feature:${carbon.analytics.common.version}
                                 </featureArtifactDef>
                                 <featureArtifactDef>
@@ -218,9 +221,9 @@
                                 </featureArtifactDef>
                                 <featureArtifactDef>org.wso2.carbon.commons:org.wso2.carbon.ntask.feature:${carbon.commons.version}
                                 </featureArtifactDef>
-                                <!--<featureArtifactDef>-->
-                                    <!--org.wso2.greg:org.wso2.stratos.governance.ui.feature:${product.greg.version}-->
-                                <!--</featureArtifactDef>-->
+                                <featureArtifactDef>
+                                    org.wso2.greg:org.wso2.stratos.governance.ui.feature:${product.greg.version}
+                                </featureArtifactDef>
 
                                 <!--Asset Store Feature list -->
                                 <featureArtifactDef>org.jaggeryjs:org.jaggeryjs.feature:${jaggery.version}
@@ -707,6 +710,10 @@
                                     <version>${carbon.governance.ext.version}</version>
                                 </feature>
                                 <feature>
+                                    <id>org.wso2.carbon.governance.comparator.server.feature.group</id>
+                                    <version>${carbon.governance.ext.version}</version>
+                                </feature>
+                                <feature>
                                     <id>org.wso2.carbon.ntask.feature.group</id>
                                     <version>${carbon.commons.version}</version>
                                 </feature>
@@ -760,10 +767,10 @@
                                     <version>${product.greg.version}</version>
                                 </feature>
 
-                                <!--<feature>-->
-                                    <!--<id>org.wso2.stratos.governance.ui.feature.group</id>-->
-                                    <!--<version>${product.greg.version}</version>-->
-                                <!--</feature>-->
+                                <feature>
+                                    <id>org.wso2.stratos.governance.ui.feature.group</id>
+                                    <version>${product.greg.version}</version>
+                                </feature>
 
                                 <!-- reporting features -->
                                 <feature>
@@ -1102,10 +1109,10 @@
                                     <version>${product.greg.version}</version>
                                 </feature>
 
-                                <!--<feature>-->
-                                    <!--<id>org.wso2.stratos.governance.ui.feature.group</id>-->
-                                    <!--<version>${product.greg.version}</version>-->
-                                <!--</feature>-->
+                                <feature>
+                                    <id>org.wso2.stratos.governance.ui.feature.group</id>
+                                    <version>${product.greg.version}</version>
+                                </feature>
 
                                 <!-- reporting features -->
                                 <feature>
@@ -1506,10 +1513,10 @@
                                     <version>${product.greg.version}</version>
                                 </feature>
 
-                                <!--<feature>-->
-                                    <!--<id>org.wso2.stratos.governance.ui.feature.group</id>-->
-                                    <!--<version>${product.greg.version}</version>-->
-                                <!--</feature>-->
+                                <feature>
+                                    <id>org.wso2.stratos.governance.ui.feature.group</id>
+                                    <version>${product.greg.version}</version>
+                                </feature>
 
                                 <!-- reporting features -->
                                 <feature>

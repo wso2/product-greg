@@ -587,8 +587,14 @@ function click(d) {
 function displayInfo(resource){
     $('#name').text(resource.name);
     $('#mediaType').text(resource.mediaType);
-    var linkString = '<a href = "../../carbon/resources/resource.jsp?region=region3&item=resource_browser_menu&path=' +
-        encodeURIComponent(resource.path) + '">' + resource.path + '</a>';
+    var linkString;
+    if (resource.activatedAssetsType){
+        linkString = '<a href = "../asts/' + resource.activatedAssetsType + '/details/' +
+            encodeURIComponent(resource.uuid) + '">' + resource.path + '</a>';
+    } else {
+        linkString = '<a href = "../../carbon/resources/resource.jsp?region=region3&item=resource_browser_menu&path=' +
+            encodeURIComponent(resource.path) + '">' + resource.path + '</a>';
+    }
     $('#path').html(linkString);
     if(resource.lcState==null){
         $('#lcState').text("Not defined");

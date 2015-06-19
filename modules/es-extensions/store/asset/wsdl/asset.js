@@ -59,6 +59,7 @@ asset.manager = function(ctx) {
             var value = '' + new Stream(new ByteArrayInputStream(content));
             //since this is wsdlcontent.
             asset.wsdlname = wsdlname;
+            asset.assetName = wsdlname;
             asset.version = version;
             asset.authorUserName = authorUserName;
             asset.wsdlContent = value;
