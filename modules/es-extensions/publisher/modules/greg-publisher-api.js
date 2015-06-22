@@ -321,7 +321,7 @@ var gregAPI = {};
 
             var attifact = Packages.org.wso2.carbon.governance.api.util.GovernanceUtils.findGovernanceArtifactConfigurationByMediaType(am.registry.registry.get(path).getMediaType(),am.registry.registry);
             var key = String(attifact.getKey());
-            if (key === 'wsdl' || key === 'wadl' || key === 'policy' || key === 'schema' || key === 'endpoint'){
+            if (key === 'wsdl' || key === 'wadl' || key === 'policy' || key === 'schema' || key === 'endpoint' || key === 'swagger'){
                 var subPaths = path.split('/');
             	assetJson.text = subPaths[subPaths.length - 1];
             } else {
