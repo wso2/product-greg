@@ -26,8 +26,38 @@ asset.manager = function(ctx) {
 };
 
 asset.renderer = function(ctx) {
+    var gregAPI = require('/modules/greg-publisher-api.js').gregAPI;
+    var rxt = require('rxt');
+    var assetManager = function(session, type) {
+        var am = rxt.asset.createUserAssetManager(session, type);
+        return am;
+    };
 	return {
         pageDecorators: {
+            sidebarPopulator: function(page) {
+                if (page.meta.pageName === 'details') {
+                    page.isSidebarEnabled = true;
+                }
+            },
+            subscriptionPopulator: function(page) {
+                if (page.meta.pageName === 'details') {
+                    var am = assetManager(ctx.session,ctx.assetType);
+                    log.info('### obtaining subscriptions ###');
+                    page.subscriptions = gregAPI.subscriptions.list(am,page.assets.id);
+                    log.info('### done ###');
+                }
+            },
+            notificationPopulator: function(page) {
+                if (page.meta.pageName === 'details') {
+                    page.notificationsCount = gregAPI.notifications.count();
+                }
+            },
+            notificationListPopulator: function(page) {
+                if (page.meta.pageName === 'details') {
+                    var am = assetManager(ctx.session,ctx.assetType);
+                    page.notifications = gregAPI.notifications.list(am);
+                }
+            },
         	checkDependents:function(page) {
         		if(page.assets){
         			var dependencies  = page.assets.dependencies || [];

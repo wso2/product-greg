@@ -39,6 +39,11 @@ var resources = function(page, meta) {
     if(!o.code){
         o.code = [];
     }
+    o.css.push('sidepanel.css');
     o.css.push('asset-styles.css');
+    o.code.push('view-details-meta.hbs');
+    o.js.push('sidepanel.js');
+    o.js.push('greg-page-api.js');
+    o.js.push('greg-subscriptions-api.js');
     return o;
 };
