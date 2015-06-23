@@ -32,6 +32,10 @@ $(window).load(function(){
     setSidePanelHeight();
     $(sidePanel).css('top', offset);
     sidePanelPositionFix();
+    
+    if($(toggleButton + ' .wr-notification-bubble').html() == 0){
+        $(toggleButton + ' .wr-notification-bubble').closest(toggleButton).hide();
+    }
 });
 
 /*

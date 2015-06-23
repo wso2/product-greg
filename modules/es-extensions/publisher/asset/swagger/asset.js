@@ -258,3 +258,12 @@ asset.renderer = function(ctx) {
         }
     };
 };
+asset.configure = function() {
+    return {
+        meta: {
+            ui: {
+                icon: 'fw fw-swagger'
+            }
+        }
+    }
+};
