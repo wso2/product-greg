@@ -117,16 +117,20 @@ asset.configure = function() {
         }
     };
 };
-// asset.configure = function(){
-//  return {
-//      meta:{
-//          lifecycle:{
-//              lifecycleViewEnabled:false,
-//              lifecycleEnabled:false
-//          },
-//          grouping:{
-//              groupingEnabled:true
-//          }
-//      }
-//  };
-// };
+
+asset.renderer = function(ctx) {
+    return {
+        pageDecorators: {
+            decoratingAssetListing: function(page) {
+                // Following is to remove the statistics button in the list page
+                for(index in page.leftNav) {
+                    var button = page.leftNav[index];
+
+                    if(button.iconClass === "btn-stats") {
+                        page.leftNav.splice(index, 1);
+                    }
+                }
+            }
+        }
+    };
+};
