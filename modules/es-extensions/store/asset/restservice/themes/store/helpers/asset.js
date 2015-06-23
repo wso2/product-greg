@@ -17,14 +17,14 @@
  *
  */
 var name;
-var hps = require('/themes/store/helpers/asset.js');
+var custom = require('/extensions/app/greg-store-defaults/themes/store/helpers/asset.js');
 var that = this;
 /*
 In order to inherit all variables in the default helper
 */
-for (name in hps) {
-    if (hps.hasOwnProperty(name)) {
-        that[name] = hps[name];
+for (name in custom) {
+    if (custom.hasOwnProperty(name)) {
+        that[name] = custom[name];
     }
 }
 var fn = that.resources;

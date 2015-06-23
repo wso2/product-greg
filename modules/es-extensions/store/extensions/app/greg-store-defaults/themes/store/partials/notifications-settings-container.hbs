@@ -1,0 +1,37 @@
+<table class="wr-configurations-table">
+    <tr>
+        <th></th>
+        <th>Email</th>
+        <th>Console</th>
+    </tr>
+    <tr>
+        <td>LifeCycle State Change</td>
+        <td>
+            <label class="wr-input-control switch">
+                <input type="checkbox" id="lifeCycleStateChangedEmail" {{#if subscriptions.StoreLifeCycleStateChanged.email.checked}}checked{{/if}} data-id="{{subscriptions.StoreLifeCycleStateChanged.email.id}}"  data-method='StoreLifeCycleStateChanged' data-type="email" >
+                <span class="helper"></span>
+            </label>
+        </td>
+        <td>
+            <label class="wr-input-control switch">
+                <input type="checkbox" id="lifeCycleStateChangedWork" {{#if subscriptions.StoreLifeCycleStateChanged.work.checked}}checked{{/if}} data-id="{{subscriptions.StoreLifeCycleStateChanged.work.id}}" data-method='StoreLifeCycleStateChanged' data-type="work" >
+                <span class="helper"></span>
+            </label>
+        </td>
+    </tr>
+    <tr>
+        <td>Information Update</td>
+        <td>
+            <label class="wr-input-control switch">
+                <input type="checkbox"  id="resourceUpdatedEmail" {{#if subscriptions.StoreResourceUpdated.email.checked}}checked{{/if}} data-id="{{subscriptions.StoreResourceUpdated.email.id}}" data-method='StoreResourceUpdated' data-type="email" >
+                <span class="helper"></span>
+            </label>
+        </td>
+        <td>
+            <label class="wr-input-control switch">
+                <input type="checkbox"  id="resourceUpdatedWork" {{#if subscriptions.StoreResourceUpdated.work.checked}}checked{{/if}} data-id="{{subscriptions.StoreResourceUpdated.work.id}}" data-method='StoreResourceUpdated' data-type="work" >
+                <span class="helper"></span>
+            </label>
+        </td>
+    </tr>
+</table>
