@@ -57,3 +57,80 @@ a.ast-type-item:hover {
 .nav-tabs > li.active > a, .nav-tabs > li.active > a:hover, .nav-tabs > li.active > a:focus {
     background-color: #2c313b;
 }
+
+.footer {
+    background: #161616;
+    color: #fff;
+}
+
+.footer .fw {
+    font-size: 21px;
+}
+
+.footer p {
+    margin: 5px 0;
+}
+
+.footer a {
+    text-decoration: none;
+    color: #fff;
+}
+
+.thumbnail {
+    border-radius: 0;
+    border: none;
+    padding: 0;
+    display: inline-block;
+    width: 200px;
+    height: 260px;
+    background: transparent;
+    margin: 0 5px 10px;
+    vertical-align: top;
+}
+
+.thumbnail a, .thumbnail a:focus, .thumbnail a:hover {
+    display: block;
+    color: #fff;
+}
+
+.thumbnail .icon { 
+    text-align: center;
+    font-size: 120px;
+    line-height: 150px;
+    height: 130px;
+    background: #4f5050;
+    
+    width: 180px;
+    height: 180px;
+    
+    -webkit-transition: all 0.5s ease;
+    -moz-transition: all 0.5s ease;
+    -o-transition: all 0.5s ease;
+    -ms-transition: all 0.5s ease;
+    transition: all 0.5s ease;
+}
+
+.thumbnail:hover > a .icon {
+    color: #fff; 
+    width: 190px;
+    height: 190px;
+}
+
+.thumbnail .title {
+    padding-right: 20px;
+    margin: 20px 0;
+}
+
+.thumbnail .title h1, .thumbnail .title h2 {
+    font-weight: 300;
+    padding: 0;
+    margin: 0;
+    font-size: 20px;
+    color: #fff;
+    margin-bottom: 5px;
+}
+
+.thumbnail .title h2 {
+    font-size: 13px;
+    opacity: 0.8;
+}
