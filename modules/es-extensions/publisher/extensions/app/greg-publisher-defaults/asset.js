@@ -110,6 +110,9 @@ asset.configure = function() {
                 defaultLifecycleEnabled: false,
                 publishedStates: ['Published']
             },
+            ui:{
+                icon:'fw fw-resource'
+            },
             grouping: {
                 groupingEnabled: false,
                 groupingAttributes: ['overview_name']

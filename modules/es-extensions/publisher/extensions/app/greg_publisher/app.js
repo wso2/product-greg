@@ -21,8 +21,16 @@ app.dependencies=['publisher-common'];
 //change the landing page to 'service'.
 app.server = function(ctx) {
     return {
+    	endpoints:{
+	    	pages:[{
+		    		title:'GREG landing page',
+	    		url:'gc-landing',
+	    		path:'greg-landing.jag',
+	    		secured:true  		
+	    	}]
+    	},
         configs: {
-            landingPage: '/asts/soapservice/list',
+            landingPage: '/pages/gc-landing',
             disabledAssets: ['ebook','proxy','sequence','service','servicex','uri',
                              'site','provider','gadget','document','endpoint','comments','topic','reply']
         }
