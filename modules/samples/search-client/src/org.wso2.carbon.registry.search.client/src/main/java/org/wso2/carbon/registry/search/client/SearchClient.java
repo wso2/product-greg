@@ -76,10 +76,10 @@ public class SearchClient {
             //Initialize the pagination context.
             //Top five services, sortBy name , and sort order descending.
             PaginationContext.init(0, 5, "DES", "overview_name", 100);
-            WSRegistrySearchClient wsRegistrySearchClient =
-                    new WSRegistrySearchClient(serverURL, username, password, configContext);
+            WSRegistrySearchClient wsRegistrySearchClient = new WSRegistrySearchClient();
+            String cookie = wsRegistrySearchClient.authenticate(configContext, serverURL, username, password);
             //This should be execute to initialize the AttributeSearchService.
-            wsRegistrySearchClient.init();
+            wsRegistrySearchClient.init(cookie, serverURL, configContext);
             //Initialize the GenericArtifactManager
             GenericArtifactManager artifactManager =
                     new GenericArtifactManager(gov, "service");
