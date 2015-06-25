@@ -1,0 +1,53 @@
+<div class="wrapper home">
+      
+      <div class="container-fluid wr-main-content">
+         <div class="row">
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 ">
+               <!-- content -->
+               <div class="ast-container" id="list_assets_table_body">
+                   
+                  <div class="row">
+
+                      {{#each assets}}
+                        <div class="thumbnail">
+                        <a href='{{url ""}}/asts/{{type}}/list'>
+                            <div class="icon"><i class="{{icon}}"></i></div>
+                            <div class="title">
+                                <h1>{{details.pluralLabel}}</h1>
+                            </div>
+                        </a>
+                        </div> 
+                      {{/each}}
+                  </div>
+
+               </div>
+            </div>
+         </div>
+      </div>
+   </div>
+   <!-- /content/body -->
+   
+   
+   <script src="js/jquery-1.10.2.min.js"></script>
+   <script src="js/bootstrap.min.js"></script>
+   <script src="js/discover.js"></script>
+   <script type="text/javascript">
+      $( document ).ready(function() {
+          $("[data-toggle=popover]").popover();
+          $(".ctrl-asset-type-switcher").popover({
+              html : true,
+              content: function() {
+                  return $('#content-asset-types').html();
+              }
+          });
+          $('#nav').affix({
+              offset: {
+                  top: $('header').height()
+              }
+          });
+      });
+       
+      $(function () {
+            $('#pageTab a:first').tab('show');
+      })
+   </script>
