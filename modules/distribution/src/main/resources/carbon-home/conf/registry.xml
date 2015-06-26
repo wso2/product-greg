@@ -38,6 +38,7 @@
         <property name="disableWSDLValidation">true</property-->
         <property name="disableSymlinkCreation">true</property>
         <property name="createSOAPService">true</property>
+        <!-- Deprecated xml configuration : start-->
         <property name="schemaLocationConfiguration" type="xml">
             <location>/trunk/schemas/</location>            
         </property>
@@ -47,6 +48,7 @@
             <property name="policyLocationConfiguration" type="xml">
                 <location>/trunk/policies/</location>
         </property>
+        <!-- Deprecated xml configuration : end-->
 
         <filter class="org.wso2.carbon.registry.core.jdbc.handlers.filters.MediaTypeMatcher">
             <property name="mediaType">application/wsdl+xml</property>
@@ -71,6 +73,8 @@
         <property name="archiveExtension">.gar</property>
         <property name="tempFilePrefix">wsdl</property-->
         <property name="numberOfRetry">3</property>
+
+        <!-- Deprecated xml configuration : start-->
         <property name="schemaLocationConfiguration" type="xml">
             <location>/trunk/schemas/</location>
         </property>
@@ -80,6 +84,7 @@
         <property name="wadlLocationConfiguration" type="xml">
             <location>/trunk/wadls/</location>
         </property>
+        <!-- Deprecated xml configuration : end-->
 	    <filter class="org.wso2.carbon.registry.core.jdbc.handlers.filters.MediaTypeMatcher">
             <property name="mediaType">application/vnd.wso2.governance-archive</property>
         </filter>
@@ -88,6 +93,7 @@
     <!-- This handler processes the swagger documents being added to the registry -->
 
     <handler class="org.wso2.carbon.registry.extensions.handlers.SwaggerMediaTypeHandler" profiles="default,uddi-registry">
+        <!-- Deprecated xml configuration : start-->
         <property name="swaggerLocationConfiguration" type="xml">
             <location>/apimgt/applicationdata/api-docs/</location>
         </property>
@@ -100,6 +106,7 @@
         <filter class="org.wso2.carbon.registry.core.jdbc.handlers.filters.MediaTypeMatcher">
             <property name="mediaType">application/swagger+json</property>
         </filter>
+        <!-- Deprecated xml configuration : end-->
     </handler>
 
     <!-- This handler processes the services being added to the registry -->
@@ -210,9 +217,11 @@
     <handler class="org.wso2.carbon.registry.extensions.handlers.EndpointMediaTypeHandler" profiles="default,uddi-registry">
         <property name="endpointMediaType">application/vnd.wso2-endpoint+xml</property>
         <property name="includeNamespaceInName">true</property>
+        <!-- Deprecated xml configuration : start-->
         <property name="endpointLocationConfiguration" type="xml">
             <location>/trunk/endpoints/</location>
         </property>
+        <!-- Deprecated xml configuration : end-->
         <filter class="org.wso2.carbon.registry.extensions.filters.EndpointMediaTypeMatcher">
         </filter>
     </handler>
@@ -225,12 +234,15 @@
     
     <handler class="org.wso2.carbon.registry.extensions.handlers.WADLMediaTypeHandler" profiles="default,uddi-registry">
        <!--<property name="disableWADLValidation">true</property>-->
+
+        <!-- Deprecated xml configuration : start-->
        <property name="wadlLocationConfiguration" type="xml">
             <location>/trunk/wadls/</location>
        </property>
        <property name="schemaLocationConfiguration" type="xml">
             <location>/trunk/schemas/</location>
        </property>
+        <!-- Deprecated xml configuration : end-->
        <filter class="org.wso2.carbon.registry.core.jdbc.handlers.filters.MediaTypeMatcher">
             <property name="mediaType">application/wadl+xml</property>
        </filter>
