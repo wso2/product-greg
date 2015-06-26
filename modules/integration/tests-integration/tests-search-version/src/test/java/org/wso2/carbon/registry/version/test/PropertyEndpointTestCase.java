@@ -157,7 +157,7 @@ public class PropertyEndpointTestCase extends GREGIntegrationBaseTest {
         return endpoint1;
     }
 
-    @Test(groups = {"wso2.greg"}, description = "Add a property to an Endpoint,version it and check it")
+    @Test(groups = {"wso2.greg"}, description = "Add a property to an Endpoint,version it and check it", enabled = false)
     public void testVersionPropertyRoot()
             throws ResourceAdminServiceExceptionException, RegistryException,
                    PropertiesAdminServiceRegistryExceptionException, RemoteException {
@@ -208,7 +208,7 @@ public class PropertyEndpointTestCase extends GREGIntegrationBaseTest {
     }
 
 
-    @Test(groups = {"wso2.greg"}, description = "Add a association to an endpoint,version it and check that association")
+    @Test(groups = {"wso2.greg"}, description = "Add a association to an endpoint,version it and check that association", enabled = false)
     public void testVersionAssociation()
             throws ResourceAdminServiceExceptionException, RemoteException, GovernanceException,
                    AddAssociationRegistryExceptionException {
@@ -230,7 +230,7 @@ public class PropertyEndpointTestCase extends GREGIntegrationBaseTest {
     }
 
 
-    @Test(groups = {"wso2.greg"}, description = "Add a dependency to an endpoint ,version it and check for that dependency")
+    @Test(groups = {"wso2.greg"}, description = "Add a dependency to an endpoint ,version it and check for that dependency", enabled = false)
     public void testVersionDependency()
             throws ResourceAdminServiceExceptionException, RemoteException, GovernanceException,
                    AddAssociationRegistryExceptionException {
@@ -247,7 +247,7 @@ public class PropertyEndpointTestCase extends GREGIntegrationBaseTest {
     }
 
 
-    @Test(groups = {"wso2.greg"}, description = "Add a tag to an endpoint ,version it and check that tag ")
+    @Test(groups = {"wso2.greg"}, description = "Add a tag to an endpoint ,version it and check that tag ", enabled = false)
     public void testVersionTag()
             throws RegistryException, RemoteException, ResourceAdminServiceExceptionException,
                    RegistryExceptionException {
@@ -283,7 +283,7 @@ public class PropertyEndpointTestCase extends GREGIntegrationBaseTest {
     }
 
 
-    @Test(groups = {"wso2.greg"}, description = "Add a comment to an endpoint,version it and check that comment ")
+    @Test(groups = {"wso2.greg"}, description = "Add a comment to an endpoint,version it and check that comment ", enabled = false)
     public void testVersionCommentR()
             throws RegistryException, RemoteException, RegistryExceptionException,
                    ResourceAdminServiceExceptionException {
@@ -300,7 +300,7 @@ public class PropertyEndpointTestCase extends GREGIntegrationBaseTest {
         assertNull(deleteVersion(PATH_CONSTANT + endpoint.getPath()));
     }
 
-    @Test(groups = {"wso2.greg"}, description = "Add ratings to an endpoint ,version it and check ratings ")
+    @Test(groups = {"wso2.greg"}, description = "Add ratings to an endpoint ,version it and check ratings ", enabled = false)
     public void testVersionRatingR() throws RegistryException, RegistryExceptionException,
                                             ResourceAdminServiceExceptionException,
                                             RemoteException {
@@ -318,7 +318,7 @@ public class PropertyEndpointTestCase extends GREGIntegrationBaseTest {
     }
 
 
-    @Test(groups = {"wso2.greg"}, description = "Add retention to an endpoint,version it and check retention ")
+    @Test(groups = {"wso2.greg"}, description = "Add retention to an endpoint,version it and check retention ", enabled = false)
     public void testVersionRetentionRoot()
             throws PropertiesAdminServiceRegistryExceptionException, RemoteException,
                    ResourceAdminServiceExceptionException, GovernanceException {
@@ -350,7 +350,7 @@ public class PropertyEndpointTestCase extends GREGIntegrationBaseTest {
         Assert.assertTrue(lcStatus);
     }
 
-    @Test(groups = "wso2.greg", description = "Add lifecycle to an endpoint")
+    @Test(groups = "wso2.greg", description = "Add lifecycle to an endpoint", enabled = false)
     public void testAddLc() throws RegistryException, IOException,
                                    CustomLifecyclesChecklistAdminServiceExceptionException,
                                    ListMetadataServiceRegistryExceptionException,
