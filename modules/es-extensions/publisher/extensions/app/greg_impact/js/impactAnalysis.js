@@ -589,7 +589,7 @@ function displayInfo(resource){
     $('#mediaType').text(resource.mediaType);
     var linkString;
     if (resource.activatedAssetsType){
-        linkString = '<a href = "../asts/' + resource.activatedAssetsType + '/details/' +
+        linkString = '<a href = "../assets/' + resource.activatedAssetsType + '/details/' +
             encodeURIComponent(resource.uuid) + '">' + resource.path + '</a>';
     } else {
         linkString = '<a href = "../../carbon/resources/resource.jsp?region=region3&item=resource_browser_menu&path=' +

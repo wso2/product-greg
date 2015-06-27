@@ -97,7 +97,7 @@ $(function() {
         var $form = $('form[name="form-asset-create"]');
         if ( action === 'addNewWsdlFileAssetButton') {//upload via file browser
             //call the custom endpoint for processing wsdls upload via file browser.
-            $form.attr('action', caramel.context + '/asts/wsdl/apis/wsdls');
+            $form.attr('action', caramel.context + '/assets/wsdl/apis/wsdls');
             var $wsdlFileInput = $('input[name="wsdl_file"]');
             var wsdlFileInputValue = $wsdlFileInput.val();
             var wsdlFilePath = wsdlFileInputValue;
