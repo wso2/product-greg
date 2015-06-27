@@ -43,6 +43,7 @@ public class VersionHandlingTestCase extends GREGIntegrationBaseTest{
 
         super.init(TestUserMode.SUPER_TENANT_ADMIN);
         registry = new RegistryProviderUtil().getRemoteRegistry(automationContext);
+        Thread.sleep(20000);
     }
 
     @Test(groups = {"wso2.greg"})

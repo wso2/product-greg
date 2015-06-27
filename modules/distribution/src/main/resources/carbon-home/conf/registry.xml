@@ -263,6 +263,12 @@
         </filter>
     </handler>
 
+    <handler class="org.wso2.carbon.registry.indexing.IndexingHandler" profiles="default,uddi-registry">
+        <filter class="org.wso2.carbon.registry.indexing.filter.MediaTypeFilter">
+            <property name="mediaTypeRegEx">application*</property>
+        </filter>
+    </handler>
+
     <!--remoteInstance url="https://localhost:9443/registry">
 	<id>instanceid</id>
 	    <username>username</username>
@@ -300,8 +306,8 @@
     <!-- This defines index cofiguration which is used in meta data search feature of the registry -->
 		
     <indexingConfiguration>
-        <startingDelayInSeconds>40</startingDelayInSeconds>
-        <indexingFrequencyInSeconds>4</indexingFrequencyInSeconds>
+        <startingDelayInSeconds>35</startingDelayInSeconds>
+        <indexingFrequencyInSeconds>3</indexingFrequencyInSeconds>
         <!--number of resources submit for given indexing thread -->
         <batchSize>50</batchSize>
          <!--number of worker threads for indexing -->
