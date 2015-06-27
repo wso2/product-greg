@@ -203,10 +203,10 @@ public class RegistryConfiguratorTestCase extends GREGIntegrationBaseTest {
             indexConfigNode1.setText("5");
             AXIOMXPath xpathExpression2 = new AXIOMXPath("/wso2registry/indexingConfiguration/batchSize");
             OMElement indexConfigNode2 = (OMElement) xpathExpression2.selectSingleNode(documentElement);
-            indexConfigNode2.setText("70");
+            indexConfigNode2.setText("60");
             AXIOMXPath xpathExpression3 = new AXIOMXPath("/wso2registry/indexingConfiguration/indexerPoolSize");
             OMElement indexConfigNode3 = (OMElement) xpathExpression3.selectSingleNode(documentElement);
-            indexConfigNode3.setText("50");
+            indexConfigNode3.setText("70");
 
             fileOutputStream = new FileOutputStream(getRegistryXMLPath());
             writer = XMLOutputFactory.newInstance().createXMLStreamWriter(fileOutputStream);

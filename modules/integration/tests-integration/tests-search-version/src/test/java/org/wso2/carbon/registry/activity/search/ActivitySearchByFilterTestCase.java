@@ -134,7 +134,7 @@ public class ActivitySearchByFilterTestCase extends GREGIntegrationBaseTest{
 
         // wait for sometime until the resource has been added. The activity logs are written
         // every 10 seconds, so you'll need to wait until that's done.
-        Thread.sleep(10000);
+        Thread.sleep(20000);
         assertTrue(resourceAdminServiceClient.getResource(wsdlPath + resourceName)[0].
                 getAuthorUserName().contains(userNameWithoutDomain));
 
