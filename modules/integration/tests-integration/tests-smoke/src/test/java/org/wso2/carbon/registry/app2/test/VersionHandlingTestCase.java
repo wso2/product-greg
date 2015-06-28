@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.wso2.carbon.registry.app.test;
+package org.wso2.carbon.registry.app2.test;
 
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;

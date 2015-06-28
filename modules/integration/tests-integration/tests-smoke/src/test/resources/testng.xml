@@ -22,9 +22,14 @@
             <package name="org.wso2.carbon.registry.extensions.test"/>
         </packages>
     </test>
-    <test name="test-greg-smoke-app" preserve-order="true" parallel="false">
+    <test name="test-greg-smoke-app1" preserve-order="true" parallel="false">
         <packages>
             <package name="org.wso2.carbon.registry.app.test"/>
+        </packages>
+    </test>
+    <test name="test-greg-smoke-app2" preserve-order="true" parallel="false">
+        <packages>
+            <package name="org.wso2.carbon.registry.app2.test"/>
         </packages>
     </test>
     <test name="test-greg-smoke-2" preserve-order="true" parallel="false">
