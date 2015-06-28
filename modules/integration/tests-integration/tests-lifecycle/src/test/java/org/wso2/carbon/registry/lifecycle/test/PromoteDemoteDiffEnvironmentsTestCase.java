@@ -395,7 +395,7 @@ public class PromoteDemoteDiffEnvironmentsTestCase extends GREGIntegrationBaseTe
         String EXECUTOR =
                 "org.wso2.carbon.governance.registry.extensions.executors.ServiceVersionExecutor";
         String[] info =
-                {"/_system/governance/trunk/endpoints/localhost/axis2/1.0.0 created",
+                {"/_system/governance/trunk/1.0.0 created",
                  "/_system/governance/trunk/wsdls/com/foo/1.0.0 created",
                  "/_system/governance/trunk/services/com/abb/1.0.0 created"};
 
