@@ -96,6 +96,16 @@ asset.renderer = function(ctx) {
 
                 var type = page.assets.type;
                 page.assetVersions = gregAPI.getAssetVersions(ctx.session, ctx.assetType, page.assets.path, page.assets.name);
+            },
+            decoratingAssetListing: function(page) {
+                // Following is to remove the statistics button in the list page
+                for(index in page.leftNav) {
+                    var button = page.leftNav[index];
+
+                    if(button.iconClass === "btn-stats") {
+                        page.leftNav.splice(index, 1);
+                    }
+                }
             }
         }
     };
@@ -121,19 +131,3 @@ asset.configure = function() {
     };
 };
 
-asset.renderer = function(ctx) {
-    return {
-        pageDecorators: {
-            decoratingAssetListing: function(page) {
-                // Following is to remove the statistics button in the list page
-                for(index in page.leftNav) {
-                    var button = page.leftNav[index];
-
-                    if(button.iconClass === "btn-stats") {
-                        page.leftNav.splice(index, 1);
-                    }
-                }
-            }
-        }
-    };
-};
