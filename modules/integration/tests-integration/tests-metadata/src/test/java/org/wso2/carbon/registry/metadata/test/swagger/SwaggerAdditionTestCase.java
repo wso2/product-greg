@@ -39,7 +39,7 @@ import java.rmi.RemoteException;
 public class SwaggerAdditionTestCase extends GREGIntegrationBaseTest {
 	private ResourceAdminServiceClient resourceAdminServiceClient;
 	private String swaggerCommonPath = "/_system/governance/apimgt/applicationdata/api-docs/";
-	private String restServiceCommonPath = "/_system/governance/apimgt/applicationdata/provider/";
+	private String restServiceCommonPath = "/_system/governance/trunk/restservices/";
 
 	/**
 	 * This method used to init the swagger addition test cases.
@@ -159,9 +159,9 @@ public class SwaggerAdditionTestCase extends GREGIntegrationBaseTest {
 	 */
 	@AfterClass(groups = { "wso2.greg" })
 	public void cleanup() throws ResourceAdminServiceExceptionException, RemoteException {
-		deleteResource(restServiceCommonPath + "admin/SwaggerPetstore/1.0.0/SwaggerPetstore-rest_service");
-		deleteResource(restServiceCommonPath + "admin/SwaggerPetstore/2.1.1/SwaggerPetstore-rest_service");
-		deleteResource(restServiceCommonPath + "admin/SwaggerSampleApp/1.0.0/SwaggerSampleApp-rest_service");
+		deleteResource(restServiceCommonPath + "1.0.0/SwaggerPetstore");
+		deleteResource(restServiceCommonPath + "2.1.1/SwaggerPetstore");
+		deleteResource(restServiceCommonPath + "1.0.0/SwaggerSampleApp");
 		//deleteResource("/_system/governance/trunk/endpoints/io/swagger/petstore/ep-api");
 		deleteResource("/_system/governance/trunk/endpoints/ep-io.swagger.petstore-v2");
 		resourceAdminServiceClient = null;

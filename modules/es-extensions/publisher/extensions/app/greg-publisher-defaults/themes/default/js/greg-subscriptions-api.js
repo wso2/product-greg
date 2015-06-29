@@ -14,16 +14,40 @@ $(function() {
             contentType: 'application/json',
             success: function(data) {
                 if (data.error != null) {
-                    alert(data.error);
-                    $(element).prop("checked", false);
-                    $(element).change(function() {
-                        addSubscription(element, id, type, method, option);
+                    BootstrapDialog.show({
+                        type: BootstrapDialog.TYPE_DANGER,
+                        title: 'Error!',
+                        message: '<div><i class="fa fa-warning"></i> ' + data.error + '</div>',
+                        buttons: [{
+                            label: 'Close',
+                            action: function (dialogItself) {
+                                $(element).prop("checked", false);
+                                $(element).change(function() {
+                                    addSubscription(element, id, type, method, option);
+                                });
+                                dialogItself.close();
+                                location.reload(true);
+                            }
+                        }]
                     });
                 } else {
                     var subcriptionid = data[0].id;
-                    $(element).prop("checked", true);
-                    $(element).change(function() {
-                        removeSubscription(element, id, subcriptionid, method, option);
+                    BootstrapDialog.show({
+                        type: BootstrapDialog.TYPE_SUCCESS,
+                        title: 'Success!',
+                        message: '<div><i class="fa fa-check"></i> Subscriptions added successfully</div>',
+                        buttons: [{
+                            label: 'OK',
+                            action: function (dialogItself) {
+                                $(element).prop("checked", true);
+                                $(element).change(function() {
+                                    removeSubscription(element, id, subcriptionid, method, option);
+                                });
+                                dialogItself.close();
+                                location.reload(true);
+                            }
+                        }]
+
                     });
                 }
             },
@@ -44,15 +68,38 @@ $(function() {
             contentType: 'application/json',
             success: function(data) {
                 if (data.error != null) {
-                    alert(data.error);
-                    $(element).prop("checked", true);
-                    $(element).change(function() {
-                        removeSubscription(element, id, type, subcriptionid, method, option);
+                    BootstrapDialog.show({
+                        type: BootstrapDialog.TYPE_DANGER,
+                        title: 'Error!',
+                        message: '<div><i class="fa fa-warning"></i> ' + data.error + '</div>',
+                        buttons: [{
+                            label: 'Close',
+                            action: function (dialogItself) {
+                                $(element).prop("checked", true);
+                                $(element).change(function () {
+                                    removeSubscription(element, id, type, subcriptionid, method, option);
+                                });
+                                dialogItself.close();
+                                location.reload(true);
+                            }
+                        }]
                     });
                 } else {
-                    $(element).prop("checked", false);
-                    $(element).change(function() {
-                        addSubscription(element, id, type, method, option);
+                    BootstrapDialog.show({
+                        type: BootstrapDialog.TYPE_SUCCESS,
+                        title: 'Success!',
+                        message: '<div><i class="fa fa-check"></i> Subscriptions removed successfully</div>',
+                        buttons: [{
+                            label: 'OK',
+                            action: function (dialogItself) {
+                                $(element).prop("checked", false);
+                                $(element).change(function () {
+                                    addSubscription(element, id, type, method, option);
+                                });
+                                dialogItself.close();
+                                location.reload(true);
+                            }
+                        }]
                     });
                 }
             },
@@ -70,10 +117,34 @@ $(function() {
         $.ajax({
             url: urlSub,
             success: function(data) {
-                alert(data);
+                BootstrapDialog.show({
+                    type: BootstrapDialog.TYPE_SUCCESS,
+                    title: 'Success!',
+                    message: '<div><i class="fa fa-check"></i> ' + data + '</div>',
+                    buttons: [{
+                        label: 'OK',
+                        action: function (dialogItself) {
+                            $(element).prop("checked", false);
+                            $(element).change(function () {
+                                addSubscription(element, id, type, method, option);
+                            });
+                            dialogItself.close();
+                        }
+                    }]
+                });
             },
             error: function() {
-                alert('Error while loading notification');
+                BootstrapDialog.show({
+                    type: BootstrapDialog.TYPE_DANGER,
+                    title: 'Error!',
+                    message: '<div><i class="fa fa-warning"></i> Error while loading notification</div>',
+                    buttons: [{
+                        label: 'Close',
+                        action: function (dialogItself) {
+                            dialogItself.close();
+                        }
+                    }]
+                });
             }
         })
     };
@@ -94,7 +165,17 @@ $(function() {
                 }
             },
             error: function() {
-                alert('Error while removing notification');
+                BootstrapDialog.show({
+                    type: BootstrapDialog.TYPE_DANGER,
+                    title: 'Error!',
+                    message: '<div><i class="fa fa-warning"></i> Error while removing notification</div>',
+                    buttons: [{
+                        label: 'Close',
+                        action: function (dialogItself) {
+                            dialogItself.close();
+                        }
+                    }]
+                });
             }
         })
     };
