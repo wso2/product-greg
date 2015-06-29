@@ -88,14 +88,15 @@
             <outputDirectory>${pom.artifactId}-${build.version}/dbscripts/apimgt</outputDirectory>
         </fileSet>
 
-        <!--copy web app for OAuth feature-->
+        <!--copy web app for OAuth feature--><!--Removing oauth2 web app - REGISTRY-2577 -->
+        <!--
         <fileSet>
             <directory>../p2-profile-gen/target/wso2carbon-core-${carbon.kernel.version}/repository/deployment/server/webapps</directory>
             <outputDirectory>${pom.artifactId}-${build.version}/repository/deployment/server/webapps</outputDirectory>
             <includes>
                 <include>oauth2.war</include>
             </includes>
-        </fileSet>
+        </fileSet> -->
         <fileSet>
             <directory>../jaxwebapps</directory>
             <outputDirectory>${pom.artifactId}-${build.version}/repository/deployment/server/webapps</outputDirectory>
@@ -360,10 +361,11 @@
             <directory>../p2-profile-gen/target/wso2carbon-core-${carbon.kernel.version}/repository/deployment/server/jaggeryapps/greg-bam</directory>
             <outputDirectory>${pom.artifactId}-${pom.version}/repository/deployment/server/jaggeryapps/greg-bam</outputDirectory>
         </fileSet-->
-        <fileSet>
+        <!-- Removing greg-impact jaggery app- REGISTRY-2577 -->
+        <!--<fileSet>
             <directory>../p2-profile-gen/target/wso2carbon-core-${carbon.kernel.version}/repository/deployment/server/jaggeryapps/greg-impact</directory>
             <outputDirectory>${pom.artifactId}-${pom.version}/repository/deployment/server/jaggeryapps/greg-impact</outputDirectory>
-        </fileSet>
+        </fileSet>-->
         <!--fileSet>
             <directory>../p2-profile-gen/target/wso2carbon-core-${carbon.kernel.version}/repository/deployment/server/jaggeryapps/greg-publisher</directory>
             <outputDirectory>${pom.artifactId}-${pom.version}/repository/deployment/server/jaggeryapps/greg-publisher</outputDirectory>
