@@ -26,6 +26,7 @@ $(function() {
                                     addSubscription(element, id, type, method, option);
                                 });
                                 dialogItself.close();
+                                location.reload(true);
                             }
                         }]
                     });
@@ -43,6 +44,7 @@ $(function() {
                                     removeSubscription(element, id, subcriptionid, method, option);
                                 });
                                 dialogItself.close();
+                                location.reload(true);
                             }
                         }]
 
@@ -78,6 +80,7 @@ $(function() {
                                     removeSubscription(element, id, type, subcriptionid, method, option);
                                 });
                                 dialogItself.close();
+                                location.reload(true);
                             }
                         }]
                     });
@@ -94,6 +97,7 @@ $(function() {
                                     addSubscription(element, id, type, method, option);
                                 });
                                 dialogItself.close();
+                                location.reload(true);
                             }
                         }]
                     });
