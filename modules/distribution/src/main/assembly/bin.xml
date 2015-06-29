@@ -1049,5 +1049,13 @@
             <filtered>true</filtered>
             <fileMode>644</fileMode>
         </file>
+
+        <!-- copying edition.properties file -->
+        <file>
+            <source>${basedir}/src/main/resources/carbon-home//conf/edition.properties</source>
+            <outputDirectory>${pom.artifactId}-${pom.version}/</outputDirectory>
+            <filtered>true</filtered>
+            <fileMode>644</fileMode>
+        </file>
       </files>
 </assembly>
