@@ -1,5 +1,7 @@
 body {
     background: #fff;
+    width: 100%;
+    overflow-x: hidden;
 }
 
 .app-logo {
@@ -133,4 +135,49 @@ a.ast-type-item:hover {
 .thumbnail .title h2 {
     font-size: 13px;
     opacity: 0.8;
+}
+
+a.cu-btn {
+  padding: 13px 10px !important;
+}
+
+.advance-search-btn {
+    white-space: nowrap;
+}
+
+#social-button-div img {
+    width: inherit;
+}
+
+.nav-tabs > li {
+    margin-right: 2px;
+}
+
+.nav-tabs > li > a {
+    margin-right: 0;
+}
+
+.wr-asset-type-switcher span {
+    float: none;
+}
+
+.wr-asset-type-switcher {
+    position: static;
+}
+
+.wr-app-bar {
+    width: 100%;
+    z-index: 10;
+    top: 0;
+    left: 0;
+    margin: 0;
+}
+
+.wr-side-panel .panel-heading {
+    padding: 0;
+}
+
+.wr-side-panel .panel {
+    border-radius: 0;
+    border: none;
 }

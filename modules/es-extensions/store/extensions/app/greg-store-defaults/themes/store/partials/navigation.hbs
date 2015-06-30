@@ -14,8 +14,8 @@
   ~ limitations under the License.
   -->
 <!-- secondary header - app bar -->
-<div id="nav" class="row wr-app-bar">
-    <div class="col-sm-9 col-md-7 col-lg-9 wr-action-container">
+<div id="nav" class="wr-app-bar row">
+    <div class="wr-action-container col-md-8">
         <div class="wr-asset-type-switcher">
             <a id="popoverExampleTwo" data-placement="bottom" class="ctrl-asset-type-switcher pull-left" href="#" data-original-title="" title="">
                 <span class="btn-asset"></span>
@@ -38,7 +38,7 @@
                     {{/with}}
                 </div>
             </div>
-        </div><! menu Button -->
+        </div><!-- menu Button -->
         <div class="search">
             {{#with searchBar}}
                 {{>search .}}
@@ -46,34 +46,28 @@
             <a href="{{url ""}}/pages/advanced-search" class="pull-left advance-search-btn">Advanced Search</a>
         </div><!--search--->
     </div>
-    <div class="col-sm-3 col-md-5 col-lg-3 top-menu-right-custom right">
-        <div class="inline-block margin-top-sm">
-            {{#hasAppPermission . key="APP_MYITEMS" username=cuser.username tenantId=cuser.tenantId}}
-                <a href="{{url "/pages/my-items"}}" class="bookmark-link">
-                    My bookmarks <i class="fw fw-store fw-inverse fw-lg"></i>
+    <div class="top-menu-right-custom pull-right">
+        {{#hasAppPermission . key="APP_MYITEMS" username=cuser.username tenantId=cuser.tenantId}}
+            <a href="{{url "/pages/my-items"}}" class="bookmark-link" style="display:none;">
+                My bookmarks <i class="fw fw-store fw-inverse fw-lg"></i>
+            </a>
+        {{/hasAppPermission}}
+        {{#if isSidebarEnabled}}
+                <a href="javascript:void(0)" onclick="toggleSidePanel('notifications',this)"  class="cu-btn wr-side-panel-toggle-btn wr-notification-toggle-btn">
+                        <span class="fw-stack-md">
+                            <i class="fw fw-bell fw-stack-1-5x"></i>
+                        </span>
+                    <span class="wr-notification-bubble" id="notificationCount" >{{notificationsCount.count}}</span>
                 </a>
-            {{/hasAppPermission}}
-            {{#if isSidebarEnabled}}
-                <li class="pull-right">
-                        <a href="javascript:void(0)" onclick="toggleSidePanel('notifications',this)"  class="cu-btn wr-side-panel-toggle-btn wr-notification-toggle-btn">
-                                <span class="fw-stack-md">
-                                    <i class="fw fw-bell fw-stack-1-5x"></i>
-                                </span>
-                            <span class="wr-notification-bubble" id="notificationCount" >{{notificationsCount.count}}</span>
-                        </a>
-                    {{#hasAppPermission . key="GREG_COMMUNITY_FEATURES" username=cuser.username tenantId=cuser.tenantId}}
-                        <a href="javascript:void(0)" onclick="toggleSidePanel('options',this)" class="cu-btn wr-side-panel-toggle-btn">
-                                <span class="fw-stack-md">
-                                    <i class="fw fw-left-arrow fw-stack-1-5x"></i>
-                                </span>
-                            Options
-                        </a>
-                    {{/hasAppPermission}}
-                    </li>
-            {{/if}}
-
-
-        </div>
+                {{#hasAppPermission . key="GREG_COMMUNITY_FEATURES" username=cuser.username tenantId=cuser.tenantId}}
+                <a href="javascript:void(0)" onclick="toggleSidePanel('options',this)" class="cu-btn wr-side-panel-toggle-btn">
+                        <span class="fw-stack-md">
+                            <i class="fw fw-left-arrow fw-stack-1-5x"></i>
+                        </span>
+                    Options
+                </a>
+                {{/hasAppPermission}}
+        {{/if}}
     </div>
 </div>
 <!-- secondary header - app bar -->
@@ -96,12 +90,6 @@
         {{/with}}
     </div>
 </div>
-<div class="row">
+<div class="row" style="display:none;">
   {{> action-bar .}}
 </div>
-
-
-
-
-
-
