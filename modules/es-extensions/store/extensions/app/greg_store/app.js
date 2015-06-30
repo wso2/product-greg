@@ -29,7 +29,7 @@ app.server = function(ctx) {
 	    	}]
     	},
         configs: {
-        	landingPage:'/assets/soapservice/list',
+        	landingPage: '/pages/gc-landing',
             disabledAssets: ['comments', 'ebook','proxy','sequence','service','servicex','uri',
                              'site','provider','gadget','document','endpoint','topic','reply']
         }
