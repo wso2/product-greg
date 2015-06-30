@@ -20,7 +20,7 @@
  * Setting-up global variables.
  */
 var sidePanel = '.wr-side-panel',
-    navHeight = $('nav.navbar').height(),
+    navHeight = $('#nav').height(),
     headerHeight = $('header').height(),
     offset = (headerHeight + navHeight),
     toggleButton = 'a.wr-side-panel-toggle-btn';
@@ -32,6 +32,10 @@ $(window).load(function(){
     setSidePanelHeight();
     $(sidePanel).css('top', offset);
     sidePanelPositionFix();
+    
+    if($(toggleButton + ' .wr-notification-bubble').html() == 0){
+        $(toggleButton + ' .wr-notification-bubble').closest(toggleButton).hide();
+    }
 });
 
 /*
