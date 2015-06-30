@@ -99,7 +99,7 @@ $(function() {
         var $form = $('form[name="form-asset-create"]');
         if (action === 'addNewPolicyFileAssetButton') {//upload via file browser
             //call the custom endpoint for processing policy upload via file browser.
-            $form.attr('action', caramel.context + '/asts/policy/apis/policies');
+            $form.attr('action', caramel.context + '/assets/policy/apis/policies');
             var $policyFileInput = $('input[name="policy_file"]');
             var policyFileInputValue = $policyFileInput.val();
             var policyFilePath = policyFileInputValue;

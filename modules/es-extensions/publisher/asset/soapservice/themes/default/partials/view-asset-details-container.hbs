@@ -57,7 +57,7 @@
                                         <tr>
                                             <td>{{t "WSDL URL"}}</td>
                                             <!-- Assuming service can have only one dependency, WSDL.WADL will be shown in REST Service-->
-                                            <td><a href="../../../asts/wsdl/details/{{wsdl_uuid}}" target="_blank">{{wsdl_url}}</a></td>
+                                            <td><a href="../../../assets/wsdl/details/{{wsdl_uuid}}" target="_blank">{{wsdl_url}}</a></td>
                                         </tr>
                                         <tr>
                                             <td>{{t "Transport Protocols"}}</td>
@@ -97,7 +97,7 @@
                                     <th>Dependencies :</th>
                                 {{#each dependencies}}
                                     <tr>
-                                        <td><a href="../../../asts/{{this.associationType}}/details/{{this.associationUUID}}">{{this.associationName}}</a></td>
+                                        <td><a href="../../../assets/{{this.associationType}}/details/{{this.associationUUID}}">{{this.associationName}}</a></td>
                                     </tr>
                                 {{/each}}
                                 </tr>
@@ -105,7 +105,7 @@
                                     <th>Dependents :</th>
                                 {{#each dependents}}
                                     <tr>
-                                        <td><a href="../../../asts/{{this.associationType}}/details/{{this.associationUUID}}">{{this.associationName}}</a></td>
+                                        <td><a href="../../../assets/{{this.associationType}}/details/{{this.associationUUID}}">{{this.associationName}}</a></td>
                                     </tr>
                                 {{/each}}
                                 </tr>
