@@ -139,10 +139,6 @@ a.cu-btn:hover {
     margin-bottom: 20px;
 }
 
-.wr-asset-type-switcher .popover {
-    min-width: 362px !important;
-}
-
 .disabled-area {
     opacity: 0.5;
 }
@@ -600,4 +596,8 @@ a.cu-btn:hover, .wr-asset-type-switcher a.switcher-link:hover {
 .thumbnail .title h2 {
     font-size: 13px;
     opacity: 0.8;
+}
+
+.wr-asset-type-switcher .popover.bottom {
+    min-width: 384px;
 }

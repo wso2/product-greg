@@ -17,28 +17,27 @@
 <div id="nav" class="row wr-app-bar">
     <div class="col-sm-9 col-md-7 col-lg-9 wr-action-container">
         <div class="wr-asset-type-switcher">
-            <a id="popoverExampleTwo" data-placement="bottom" class="ctrl-asset-type-switcher pull-left" href="#" data-original-title="" title="">
+            <a id="popoverExampleTwo" data-placement="bottom" class="ctrl-asset-type-switcher pull-left" href="javascript:void(0)" data-click-event="popover">
                 <span class="btn-asset"></span>
             </a>
-
-            <div class="popover menu fade bottom in">
-                <div class="arrow"></div>
+            <div class="popover bottom right fade clearfix">
+                <div class="arrow left"></div>
                 <div class="popover-content">
-                    {{#with navigationBar}}
-                        {{#each types}}
-                            <a class="ast-type-item {{#if selected}} selected {{/if}}" href="{{tenantedUrl ""}}{{this.listingUrl}}">
-                                {{#if value.icon}}
-                                <div style="background-image:url({{url ""}}{{ui.icon}})"></div>
-                                {{else}}
-                                <i class="{{ui.icon}}"></i>
-                                {{/if}}
-                                {{singularLabel}}
-                            </a>
-                        {{/each}}
-                    {{/with}}
+                    <ul class="tiles clearfix">
+                        {{#with navigationBar}}
+                            {{#each types}}
+                                <li>
+                                    <a target="_self" href='{{tenantedUrl ""}}{{this.listingUrl}}'>
+                                        <i class="icon {{ui.icon}}"></i>
+                                        <span class="name">{{singularLabel}}</span>
+                                    </a>
+                                </li>
+                            {{/each}}
+                        {{/with}}
+                    </ul>
                 </div>
             </div>
-        </div><! menu Button -->
+        </div>
         <div class="search">
             {{#with searchBar}}
                 {{>search .}}
@@ -49,59 +48,32 @@
     <div class="col-sm-3 col-md-5 col-lg-3 top-menu-right-custom right">
         <div class="inline-block margin-top-sm">
             {{#hasAppPermission . key="APP_MYITEMS" username=cuser.username tenantId=cuser.tenantId}}
-                <a href="{{url "/pages/my-items"}}" class="bookmark-link">
-                    My bookmarks <i class="fw fw-store fw-inverse fw-lg"></i>
-                </a>
+            <a href="{{url "/pages/my-items"}}" class="bookmark-link">{{t "My bookmarks "}}<i class="fw fw-store fw-inverse fw-lg"></i></a>
             {{/hasAppPermission}}
+
             {{#if isSidebarEnabled}}
                 <li class="pull-right">
-                        <a href="javascript:void(0)" onclick="toggleSidePanel('notifications',this)"  class="cu-btn wr-side-panel-toggle-btn wr-notification-toggle-btn">
-                                <span class="fw-stack-md">
-                                    <i class="fw fw-bell fw-stack-1-5x"></i>
-                                </span>
-                            <span class="wr-notification-bubble" id="notificationCount" >{{notificationsCount.count}}</span>
-                        </a>
-                    {{#hasAppPermission . key="GREG_COMMUNITY_FEATURES" username=cuser.username tenantId=cuser.tenantId}}
-                        <a href="javascript:void(0)" onclick="toggleSidePanel('options',this)" class="cu-btn wr-side-panel-toggle-btn">
-                                <span class="fw-stack-md">
-                                    <i class="fw fw-left-arrow fw-stack-1-5x"></i>
-                                </span>
-                            Options
-                        </a>
-                    {{/hasAppPermission}}
-                    </li>
+                    <a href="javascript:void(0)" onclick="toggleSidePanel('notifications',this)"  class="cu-btn wr-side-panel-toggle-btn wr-notification-toggle-btn">
+                            <span class="fw-stack-md">
+                                <i class="fw fw-bell fw-stack-1-5x"></i>
+                            </span>
+                        <span class="wr-notification-bubble" id="notificationCount" >{{notificationsCount.count}}</span>
+                    </a>
+                {{#hasAppPermission . key="GREG_COMMUNITY_FEATURES" username=cuser.username tenantId=cuser.tenantId}}
+                    <a href="javascript:void(0)" onclick="toggleSidePanel('options',this)" class="cu-btn wr-side-panel-toggle-btn">
+                            <span class="fw-stack-md">
+                                <i class="fw fw-left-arrow fw-stack-1-5x"></i>
+                            </span>
+                        Options
+                    </a>
+                {{/hasAppPermission}}
+                </li>
             {{/if}}
-
-
         </div>
     </div>
 </div>
 <!-- secondary header - app bar -->
 
-<!--Need to delete these sections down-->
-<div  style="display: none" id="content-asset-types">
-    <div>
-        {{#with navigationBar}}
-            {{#each types}}
-                <a class="ast-type-item" target="_self" href="{{tenantedUrl ""}}{{this.listingUrl}}">
-                    {{#if value.icon}}
-                        <div style="background-image:url({{url ""}}{{ui.icon}})">
-                        </div>
-                    {{else}}
-                        <i class="{{ui.icon}}"></i>
-                    {{/if}}
-                    {{singularLabel}}
-                </a>
-            {{/each}}
-        {{/with}}
-    </div>
-</div>
 <div class="row">
   {{> action-bar .}}
 </div>
-
-
-
-
-
-
