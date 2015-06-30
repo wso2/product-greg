@@ -121,3 +121,13 @@ asset.manager = function(ctx) {
         }
     };
 };
+
+asset.configure = function() {
+    return {
+        meta: {
+            ui: {
+                icon: 'fw fw-wsdl'
+            }
+        }
+    }
+};
