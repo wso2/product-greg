@@ -28,8 +28,19 @@ asset.manager = function(ctx) {
 asset.renderer = function(ctx) {
     var gregAPI = require('/modules/greg-publisher-api.js').gregAPI;
     var rxt = require('rxt');
+    var server = require('store').server;
+
     var assetManager = function(session, type) {
-        var am = rxt.asset.createUserAssetManager(session, type);
+        var am;
+        var user = server.current(ctx.session);
+        //Create asset manager depend on whether there is a loggedIn user or not.
+        if (user) {
+            am = rxt.asset.createUserAssetManager(ctx.session, type);
+        } else {
+            var carbon = require('carbon');
+            var tenantId = carbon.server.superTenant.tenantId;
+            am = rxt.asset.createAnonAssetManager(ctx.session, type, tenantId);
+        }
         return am;
     };
 	return {
