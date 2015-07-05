@@ -240,7 +240,7 @@ asset.manager = function(ctx) {
                 var q = {};
                 q.overview_name = wsdlName;
                 var artifacts = wsdlAssetManager(ctx.session).search(q);
-                log.info(artifacts.length);
+                log.debug(artifacts.length);
                 if(artifacts.length < 2) {
                     associatedWSDL.addProperty("default", "true");
                     registry.put(associatedResourcePath, associatedWSDL);
@@ -326,7 +326,7 @@ asset.manager = function(ctx) {
             var asset = this.get(options.id);
             var artifact = createArtifact(manager, options);
             manager.updateGenericArtifact(artifact);
-            log.info('Service successfully updated');
+            log.debug('Service successfully updated');
             options.id = artifact.getId();
             if(!this.rxtManager.isGroupingEnabled(this.type)){
                 log.debug('Omitting grouping step');

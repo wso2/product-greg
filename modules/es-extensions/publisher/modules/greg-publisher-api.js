@@ -167,7 +167,7 @@ var gregAPI = {};
                 'status': 'error occured'
             };
             print(message);
-            log.info(e);
+            log.warn(e);
             return;
         }
         //print('This is a DELETE');

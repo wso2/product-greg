@@ -35,14 +35,14 @@ asset.manager = function(ctx) {
         var associations = registry.getAllAssociations(path);
 
         for(var index = 0; index< associations.length; index++){
-            log.info(associations[index].getDestinationPath());
+            log.debug(associations[index].getDestinationPath());
         }
         for(var index = 0; index< associations.length; index++){
             var associatedResourcePath = associations[index].getDestinationPath();
 
             if(!(associatedResourcePath.indexOf("schemas") > -1) && !(associatedResourcePath.indexOf("wadls") > -1)){     
                 var associatedService = registry.get(associatedResourcePath);
-                log.info(associatedResourcePath);
+                log.debug(associatedResourcePath);
 
                 var serviceName = null;
                 var indexVal = name.indexOf(".wadl");

@@ -34,7 +34,7 @@ var resources = function(page, meta) {
         o.css = [];
     }
     var log = new Log();
-    log.info('Overidden by soap service!!!');
+    log.debug('Overidden by soap service!!!');
     //code-mirror third party library to support syntax highlighting & formatting for WSDL content.
     o.css.push('codemirror.css');
     o.js.push('codemirror.js');

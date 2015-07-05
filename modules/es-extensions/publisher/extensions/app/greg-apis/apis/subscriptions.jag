@@ -87,7 +87,7 @@
             for (var i = 0; i < allRoles.length; i++) {
                 //log.info(allRoles[i]);
                 if (String(allRoles[i]) === 'admin') {
-                    log.info('hasAdminRole');
+                    log.debug('hasAdminRole');
                     hasAdminRole = true;
                 } else if (allRoles[i].startsWith('Internal') && !allRoles[i].endsWith('everyone')) {
                     userRole = allRoles[i];
@@ -144,7 +144,7 @@
             } catch (e) {
                 var message = {'error': 'error occurred'};
                 print(message);
-                log.info(e);
+                //log.info(e);
                 return;
             }
             print(result);
@@ -162,7 +162,7 @@
             } catch (e) {
               var message = {'error': 'error occurred'};
                 print(message);
-                log.info(e);
+                log.warn(e);
                 return;
             }
             //print('This is a DELETE');

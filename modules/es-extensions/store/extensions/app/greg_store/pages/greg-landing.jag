@@ -21,7 +21,7 @@ require('/modules/store.js').exec(function(ctx) {
 	}
 
 	var log = new Log();
-	log.info("Printing user ############" + stringify(user));
+	log.debug("Printing user ############" + stringify(user));
 	var tenantId = user.tenantId;
 
 	var activatedAssets = rxtAPI.app.getActivatedAssets(tenantId);
@@ -40,7 +40,7 @@ require('/modules/store.js').exec(function(ctx) {
 		entry.type = activatedAssets[index];
 		entry.details = rxtManager.listRxtTypeDetails(entry.type);
 		entry.icon = entry.details.ui.icon || DEFAULT_ICON;
-		log.info(entry.icon);
+		log.debug(entry.icon);
 		assets.push(entry);
 	}
 	output = appManager.render([],page);

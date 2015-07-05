@@ -53,9 +53,9 @@ asset.renderer = function(ctx) {
             subscriptionPopulator: function(page) {
                 if (page.meta.pageName === 'details') {
                     var am = assetManager(ctx.session,ctx.assetType);
-                    log.info('### obtaining subscriptions ###');
+                    log.debug('### obtaining subscriptions ###');
                     page.subscriptions = gregAPI.subscriptions.list(am,page.assets.id);
-                    log.info('### done ###');
+                    log.debug('### done ###');
                 }
             },
             notificationPopulator: function(page) {

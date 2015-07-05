@@ -46,9 +46,9 @@ asset.renderer = function(ctx) {
             subscriptionPopulator: function(page) {
                 if (page.meta.pageName === 'details') {
                     var am = assetManager(ctx.session,ctx.assetType);
-                    log.info('### obtaining subscriptions ###');
+                    log.debug('### obtaining subscriptions ###');
                     page.subscriptions = gregAPI.subscriptions.list(am,page.assets.id);
-                    log.info('### done ###');
+                    log.debug('### done ###');
                 }
             },
             notificationPopulator: function(page) {
@@ -69,10 +69,10 @@ asset.renderer = function(ctx) {
                 var ptr = page.leftNav || [];
                 var entry;
                 var allowedPages = ['details','lifecycle','update'];
-                log.info('Association populator ' + page.meta.pageName);
+                log.debug('Association populator ' + page.meta.pageName);
                 //if (((page.meta.pageName !== 'associations') && (page.meta.pageName !== 'list')) &&(page.meta.pageName !== 'create')) {
                 if(allowedPages.indexOf(page.meta.pageName)>-1){
-                    log.info('adding link');
+                    log.debug('adding link');
                     entry = {};
                     entry.name = 'Associations';
                     entry.iconClass = 'btn-lifecycle';

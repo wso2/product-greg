@@ -30,7 +30,7 @@ require('/modules/publisher.js').exec(function(ctx) {
 		entry.type = activatedAssets[index];
 		entry.details = rxtManager.listRxtTypeDetails(entry.type);
 		entry.icon = entry.details.ui.icon || DEFAULT_ICON;
-		log.info(entry.icon);
+		log.debug(entry.icon);
 		assets.push(entry);
 	}
 	output = appManager.render([],page);
