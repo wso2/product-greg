@@ -1181,8 +1181,48 @@ SwaggerClient.prototype.initialize = function (url, options) {
 
   if (typeof options.success === 'function') {
     this.ready = true;
-    this.build();
+    //this.build();
   }
+};
+
+SwaggerClient.prototype.buildLocal = function (mock) {
+if (this.isBuilt) {
+    return this;
+  }
+  var self = this;
+this.progress('fetching resource list: ' + this.url);
+console.log("window.swaggerUi.options.swaggerContent");
+  console.log(window.swaggerUi.options.swaggerContent);
+        var responseObj = window.swaggerUi.options.swaggerContent;
+        console.log("^^^^^^^^^^^^^^^^^^^ success LOCAL RESPONSE object ^^^^^^^^^^^^^^^^^^^");
+        console.log(responseObj);
+
+        if(!responseObj) {
+          return self.fail('failed to parse JSON/YAML response');
+        }
+
+        self.swaggerVersion = responseObj.swaggerVersion;
+
+console.log("^^^^^^^^^^^^^^^^^^^ BEFORE logic success RESPONSE object ^^^^^^^^^^^^^^^^^^^");
+        if (responseObj.swagger && parseInt(responseObj.swagger) === 2) {
+        console.log("IF ^^^^^^^^^^^^^^^^^^^ success LOCAL RESPONSE object ^^^^^^^^^^^^^^^^^^^");
+          self.swaggerVersion = responseObj.swagger;
+
+          new Resolver().resolve(responseObj, /*self.url*/ "http://" + responseObj.host + responseObj.basePath , this.buildFromSpec, this);
+
+          self.isValid = true;
+        } else {
+          console.log("ELSE ^^^^^^^^^^^^^^^^^^^ success LOCAL RESPONSE object ^^^^^^^^^^^^^^^^^^^");
+          var converter = new SwaggerSpecConverter();
+          converter.setDocumentationLocation(self.url);
+          converter.convert(responseObj, self.clientAuthorizations, function(spec) {
+            new Resolver().resolve(spec, self.url, self.buildFromSpec, self);
+            self.isValid = true;
+          });
+        }
+
+        console.log("self.apisArray" + self.apisArray);
+        return this;
 };
 
 SwaggerClient.prototype.build = function (mock) {
@@ -30672,6 +30712,7 @@ window.SwaggerUi = Backbone.Router.extend({
     this.headerView.update(url);
 
     this.api = new SwaggerClient(this.options);
+    this.api.buildLocal();
   },
 
   // collapse all sections

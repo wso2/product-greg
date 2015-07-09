@@ -23,7 +23,7 @@ app.server = function(ctx){
                 {
                     title:'Swagger',
                     url:'swagger',
-                    path:'index.html',
+                    path:'index.jag',
                     secured:true
                 }
             ]
