@@ -63,10 +63,9 @@ else {
 
         var inputParameters = request.getAllParameters("UTF-8");
         var obj;
+        var childAPIs;
 
         if(util.isNotNullOrEmpty(inputParameters.path)){
-            var dataPopulator = require("../modules/dataPopulator.js");
-
             var ByteArrayInputStream = Packages.java.io.ByteArrayInputStream;
             var governanceUtils = Packages.org.wso2.carbon.governance.api.util.GovernanceUtils;
 
@@ -76,19 +75,57 @@ else {
 
             var artifact = governanceUtils.retrieveGovernanceArtifactByPath(
                 govRegistry, artifactPath);
-            log.info("govRegistry-path = " + artifact.getPath());
+            // log.info("govRegistry-path = " + artifact.getPath());
 
             var resource = registry.registry.get("/_system/governance" + artifact.getPath());
             var content = resource.getContent();
             var value = '' + new Stream(new ByteArrayInputStream(content));
 
 
-            obj = value;
+            obj = parse(value);
+            childAPIs = new Object();
+            childAPIs.baseCollection = resource.path.substr(0, resource.path.lastIndexOf("/"));
+            //log.info("childAPIs.baseCollection = " + childAPIs.baseCollection);
+
+            // see if this is a single-file swagger definition
+            var isSingleFileSwagger = false;
+            // if swagger content version not equlas to 2.0
+            if (!(obj.swagger && parseInt(obj.swagger) === 2)){
+            var i;
+            for(i = 0; i < obj.apis.length; i++) {
+              var api = obj.apis[i];
+              if(Array.isArray(api.operations)) {
+                isSingleFileSwagger = true;
+              }
+              else{
+                var childResourcePath = childAPIs.baseCollection + api.path;
+                //log.info("childResourcePath = " + childResourcePath);
+
+                var childResource = registry.registry.get(childResourcePath);
+                var childResourceContent = childResource.getContent();
+                var childResourceContentvalue = '' + new Stream(new ByteArrayInputStream(childResourceContent));
+
+                childAPIs[api.path] = parse(childResourceContentvalue);
+
+              }
+            }
+            }
+            //log.info("isSingleFileSwagger = " + isSingleFileSwagger);
+            //log.info(childAPIs);
+            /*if(!isSingleFileSwagger) {
+              this.declaration(obj, swagger);
+              this.finish(callback, swagger);
+
+              api.
+            }
+            else {
+              this.resourceListing(obj, swagger, callback);
+            }*/
         }
         else{
             obj = require('../data/swagger.json');
             //obj = stringify(obj)
-            log.info("../data/swagger.json = " + obj);
+            // log.info("../data/swagger.json = " + obj);
         }
       %>  
 
@@ -100,6 +137,7 @@ else {
       }
       window.swaggerUi = new SwaggerUi({
         swaggerContent: <%=obj%>,
+        swaggerChildren: <%=childAPIs%>,
         url: url,
         dom_id: "swagger-ui-container",
         supportedSubmitMethods: ['get', 'post', 'put', 'delete', 'patch'],

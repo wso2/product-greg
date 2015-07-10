@@ -1191,11 +1191,11 @@ if (this.isBuilt) {
   }
   var self = this;
 this.progress('fetching resource list: ' + this.url);
-console.log("window.swaggerUi.options.swaggerContent");
-  console.log(window.swaggerUi.options.swaggerContent);
+  // console.log("window.swaggerUi.options.swaggerContent");
+  // console.log(window.swaggerUi.options.swaggerContent);
         var responseObj = window.swaggerUi.options.swaggerContent;
-        console.log("^^^^^^^^^^^^^^^^^^^ success LOCAL RESPONSE object ^^^^^^^^^^^^^^^^^^^");
-        console.log(responseObj);
+        // console.log("^^^^^^^^^^^^^^^^^^^ success LOCAL RESPONSE object ^^^^^^^^^^^^^^^^^^^");
+        // console.log(responseObj);
 
         if(!responseObj) {
           return self.fail('failed to parse JSON/YAML response');
@@ -1203,16 +1203,16 @@ console.log("window.swaggerUi.options.swaggerContent");
 
         self.swaggerVersion = responseObj.swaggerVersion;
 
-console.log("^^^^^^^^^^^^^^^^^^^ BEFORE logic success RESPONSE object ^^^^^^^^^^^^^^^^^^^");
+// console.log("^^^^^^^^^^^^^^^^^^^ BEFORE logic success RESPONSE object ^^^^^^^^^^^^^^^^^^^");
         if (responseObj.swagger && parseInt(responseObj.swagger) === 2) {
-        console.log("IF ^^^^^^^^^^^^^^^^^^^ success LOCAL RESPONSE object ^^^^^^^^^^^^^^^^^^^");
+        // console.log("IF ^^^^^^^^^^^^^^^^^^^ success LOCAL RESPONSE object ^^^^^^^^^^^^^^^^^^^");
           self.swaggerVersion = responseObj.swagger;
 
           new Resolver().resolve(responseObj, /*self.url*/ "http://" + responseObj.host + responseObj.basePath , this.buildFromSpec, this);
 
           self.isValid = true;
         } else {
-          console.log("ELSE ^^^^^^^^^^^^^^^^^^^ success LOCAL RESPONSE object ^^^^^^^^^^^^^^^^^^^");
+          // console.log("ELSE ^^^^^^^^^^^^^^^^^^^ success LOCAL RESPONSE object ^^^^^^^^^^^^^^^^^^^");
           var converter = new SwaggerSpecConverter();
           converter.setDocumentationLocation(self.url);
           converter.convert(responseObj, self.clientAuthorizations, function(spec) {
@@ -1221,7 +1221,7 @@ console.log("^^^^^^^^^^^^^^^^^^^ BEFORE logic success RESPONSE object ^^^^^^^^^^
           });
         }
 
-        console.log("self.apisArray" + self.apisArray);
+        // console.log("self.apisArray" + self.apisArray);
         return this;
 };
 
@@ -2484,6 +2484,11 @@ SwaggerSpecConverter.prototype.setDocumentationLocation = function (location) {
  **/
 SwaggerSpecConverter.prototype.convert = function (obj, clientAuthorizations, callback) {
   // not a valid spec
+
+    // console.log(">>>>>>>>>>>>>>>>>>. convert.obj");
+    // console.log(obj);
+
+
   if(!obj || !Array.isArray(obj.apis)) {
     return this.finish(callback, null);
   }
@@ -2515,15 +2520,20 @@ SwaggerSpecConverter.prototype.convert = function (obj, clientAuthorizations, ca
   var i;
   for(i = 0; i < obj.apis.length; i++) {
     var api = obj.apis[i];
+    // console.log("@@@@@@@@@@@@@@@@@@@ convert.isSingleFileSwagger");
+    // console.log(api);
     if(Array.isArray(api.operations)) {
       isSingleFileSwagger = true;
     }
   }
+
   if(isSingleFileSwagger) {
     this.declaration(obj, swagger);
     this.finish(callback, swagger);
   }
   else {
+    // console.log("@@@@@@@@@@@@@@@@@@@ resourceListing(obj");
+    // console.log(obj);
     this.resourceListing(obj, swagger, callback);
   }
 };
@@ -2583,12 +2593,18 @@ SwaggerSpecConverter.prototype.declaration = function(obj, swagger) {
   for(i = 0; i < obj.apis.length; i++) {
     var api = obj.apis[i];
     var path = api.path;
+
+  // console.log("++++++++++++++++++++++++++++ api.path = " + path);
     var operations = api.operations;
     this.operations(path, obj.resourcePath, operations, resourceLevelAuth, swagger);
   }
+  // console.log("++++++++++++++++++++++++++++ prototype.declaration.obj");
+  // console.log(obj);
 
   var models = obj.models || {};
   this.models(models, swagger);
+  // console.log("++++++++++++++++++++++++++++ prototype.declaration.END &&&&&&&&&&&&&&&&&");
+
 };
 
 SwaggerSpecConverter.prototype.models = function(obj, swagger) {
@@ -2643,6 +2659,8 @@ SwaggerSpecConverter.prototype.extractTag = function(resourcePath) {
 };
 
 SwaggerSpecConverter.prototype.operations = function(path, resourcePath, obj, resourceLevelAuth, swagger) {
+  // console.log("======================== prototype.operations.path = " + path);
+  //console.log();
   if(!Array.isArray(obj)) {
     return;
   }
@@ -2729,7 +2747,7 @@ SwaggerSpecConverter.prototype.operations = function(path, resourcePath, obj, re
 
     pathObj[method] = operation;
   }
-
+// console.log("======================== prototype.operations.obj = " + obj);
   swagger.paths[path] = pathObj;
 };
 
@@ -2915,6 +2933,9 @@ SwaggerSpecConverter.prototype.toJsonSchema = function(source) {
 };
 
 SwaggerSpecConverter.prototype.resourceListing = function(obj, swagger, callback) {
+// console.log("...................resourceListing.obj = ");
+// console.log(obj);
+
   var i;
   var processedCount = 0;   // jshint ignore:line
   var self = this;          // jshint ignore:line
@@ -2926,9 +2947,13 @@ SwaggerSpecConverter.prototype.resourceListing = function(obj, swagger, callback
   }
 
   for(i = 0; i < expectedCount; i++) {
+    // console.log(">>>>>>>>>>>>>>>>>>>>>>>>>>>> expectedCount = " + expectedCount);
+    // console.log(">>>>>>>>>>>>>>>>>>>>>>>>>>>> processedCount = " + processedCount);
     var api = obj.apis[i];
     var path = api.path;
+    // console.log("api.path = " + path);
     var absolutePath = this.getAbsolutePath(obj.swaggerVersion, this.docLocation, path);
+    // console.log("absolutePath = " + absolutePath);
 
     if(api.description) {
       swagger.tags = swagger.tags || [];
@@ -2937,16 +2962,40 @@ SwaggerSpecConverter.prototype.resourceListing = function(obj, swagger, callback
         description : api.description || ''
       });
     }
-    var http = {
+
+   // if (window.swaggerUi.options.swaggerChildren[path]){
+
+      processedCount += 1;
+      // console.log("window.swaggerUi.options.swaggerChildren");
+      // console.log(window.swaggerUi.options.swaggerChildren);
+      var swaggerChilObj = window.swaggerUi.options.swaggerChildren[path];
+      // console.log("data.swaggerChilObj");
+      // console.log(swaggerChilObj);
+      
+      if(swaggerChilObj) {
+
+    // console.log(">>>>>>>>>>>>>>>>>>>>>>>>>>>> into declaration part = ");
+       // console.log(swaggerChilObj);
+        self.declaration(swaggerChilObj, _swagger);
+    // console.log("<<<<<<<<<<<<<<<<<<<<<<<<<<<< END of declaration part = ");
+      }
+      if(processedCount === expectedCount) {
+        self.finish(callback, _swagger);
+      }
+    //}
+
+    /*var http = {
       url: absolutePath,
       headers: {accept: 'application/json'},
       on: {},
       method: 'get'
-    };
+    };*/
     /* jshint ignore:start */
-    http.on.response = function(data) {
+    /*http.on.response = function(data) {
       processedCount += 1;
       var obj = data.obj;
+      console.log("data.obj");
+      console.log(obj);
       if(obj) {
         self.declaration(obj, _swagger);
       }
@@ -2960,14 +3009,14 @@ SwaggerSpecConverter.prototype.resourceListing = function(obj, swagger, callback
       if(processedCount === expectedCount) {
         self.finish(callback, _swagger);
       }
-    };
+    };*/
     /* jshint ignore:end */
 
-    if(this.clientAuthorizations && typeof this.clientAuthorizations.apply === 'function') {
+    /*if(this.clientAuthorizations && typeof this.clientAuthorizations.apply === 'function') {
       this.clientAuthorizations.apply(http);
     }
 
-    new SwaggerHttp().execute(http);
+    new SwaggerHttp().execute(http);*/
   }
 };
 
