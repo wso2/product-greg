@@ -235,6 +235,10 @@ asset.renderer =  function (ctx){
                     if(button.iconClass === "btn-edit") {
                         page.leftNav.splice(index, 1);
                     }
+
+                    if(button.iconClass === "btn-copy") {
+                        page.leftNav.splice(index, 1);
+                    }
                 }
             }
         }
