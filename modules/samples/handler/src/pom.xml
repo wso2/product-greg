@@ -108,6 +108,7 @@
                         </Private-Package>
                         <Export-Package>
                             org.wso2.carbon.registry.samples.handler.*,
+                            org.wso2.carbon.registry.samples.task.*,
                         </Export-Package>
                         <Import-Package>
                             org.wso2.carbon.registry.core.*,
