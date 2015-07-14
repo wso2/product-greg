@@ -1,53 +1,121 @@
-<div class="wrapper home">
+<div class="wrapper home inverse">
       
-      <div class="container-fluid wr-main-content">
-         <div class="row">
-            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 ">
-               <!-- content -->
-               <div class="ast-container" id="list_assets_table_body">
-                   
-                  <div class="row">
+     <div class="row">
+        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 ">
+            
+            <form class="form-group" id="assetSearchForm" action="/publisher/asts/restservice/list" style="display: none;">
+                <label class="search-label">Search for Resources</label>
+                <div class="form-group has-feedback form-search">
+                    <input type="text" name="query" id="inp_searchAsset" class="form-control" placeholder="Search..">
+                    <a href="javascript:void(0)" id="searchButton" class="form-control-feedback search" title="Search">
+                        <i class="fw fw-search" aria-hidden="true"></i>
+                    </a>
+                    <a href="/publisher/pages/advanced-search" class="form-control-feedback advance" title="Advance Search">
+                        <i class="fw fw-settings" aria-hidden="true"></i>
+                        <span>Advanced Search</span>
+                    </a>
+                    <input type="hidden" name="sortby" value=""/>
+                    <input type="hidden" name="sort" value=""/>
+                </div>
+            </form>
 
-                      {{#each assets}}
-                        <div class="thumbnail">
-                        <a href='{{url ""}}/assets/{{type}}/list'>
-                            <div class="icon"><i class="{{icon}}"></i></div>
-                            <div class="title">
-                                <h1>{{details.pluralLabel}}</h1>
-                            </div>
-                        </a>
-                        </div> 
-                      {{/each}}
-                  </div>
-
-               </div>
+            <div class="page-header no-border">
+                <h1>Add service</h1>
+                <p class="lead">Click "Add" button to add new service</p>
             </div>
-         </div>
-      </div>
-   </div>
-   <!-- /content/body -->
+
+            <div class="row">
+
+                <div class="col-md-6 col-lg-4">
+                    <div class="tile color1">
+                        <h1>SOAP Service</h1>
+                        <h2>
+                            You can add a SOAP service manually or automatically by importing a <br /><a href="/publisher/asts/wsdl/create">WSDL</a> file.
+                        </h2>
+                        <div class="action-group">
+                            <span class="icons">
+                                <i class="tile-icon fw fw-soap"></i>
+                            </span>
+                            <span class="actions">
+                                <a href="/publisher/asts/soapservice/list" class="btn btn-default secondary">
+                                    <span class="icon fw-stack">
+                                        <i class="fw fw-view fw-stack-1x"></i>
+                                        <i class="fw fw-ring fw-stack-2x"></i>
+                                    </span>
+                                    View
+                                </a>
+                                <a href="/publisher/asts/soapservice/create" class="btn btn-default primary">
+                                    <span class="icon fw-stack">
+                                        <i class="fw fw-add fw-stack-1x"></i>
+                                        <i class="fw fw-ring fw-stack-2x"></i>
+                                    </span>
+                                    Add
+                                </a>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-6 col-lg-4">
+                    <div class="tile color2">
+                        <h1>Add REST Service</h1>
+                        <h2>
+                            You can add a REST service manually or automatically by importing a <br /><a href="/publisher/asts/wadl/create">WADL</a> or <a href="/publisher/asts/swagger/create">Swagger</a> file.
+                        </h2>
+                        <div class="action-group">
+                            <span class="icons">
+                                <i class="tile-icon fw fw-rest-service"></i>
+                            </span>
+                            <span class="actions">
+                                <a href="/publisher/asts/restservice/list" class="btn btn-default secondary">
+                                    <span class="icon fw-stack">
+                                        <i class="fw fw-view fw-stack-1x"></i>
+                                        <i class="fw fw-ring fw-stack-2x"></i>
+                                    </span>
+                                    View
+                                </a>
+                                <a href="/publisher/asts/restservice/create" class="btn btn-default primary">
+                                    <span class="icon fw-stack">
+                                        <i class="fw fw-add fw-stack-1x"></i>
+                                        <i class="fw fw-ring fw-stack-2x"></i>
+                                    </span>
+                                    Add
+                                </a>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <hr>
+
+            <div class="page-header no-border">
+                <h1>Resources</h1>
+                <p class="lead">Select asset type to view available resources or to add a resource</p>
+            </div>
+
+           <!-- content -->
+           <div class="ast-container" id="list_assets_table_body">
+
+              <div class="clearfix">
+
+                  {{#each assets}}
+                  <div class="thumbnail">
+                    <a href='{{url ""}}/asts/{{type}}/list'>
+                        <div class="icon"><i class="{{icon}}"></i></div>
+                        <div class="title">
+                            <h1>{{details.pluralLabel}}</h1>
+                            <h2 style="display: none;"><!-- desc --></h2>
+                        </div>
+                    </a>
+                  </div> 
+                  {{/each}}
+
+              </div>
+
+           </div>
+
+        </div>
+     </div>
    
-   
-   <script src="js/jquery-1.10.2.min.js"></script>
-   <script src="js/bootstrap.min.js"></script>
-   <script src="js/discover.js"></script>
-   <script type="text/javascript">
-      $( document ).ready(function() {
-          $("[data-toggle=popover]").popover();
-          $(".ctrl-asset-type-switcher").popover({
-              html : true,
-              content: function() {
-                  return $('#content-asset-types').html();
-              }
-          });
-          $('#nav').affix({
-              offset: {
-                  top: $('header').height()
-              }
-          });
-      });
-       
-      $(function () {
-            $('#pageTab a:first').tab('show');
-      })
-   </script>
+</div>
