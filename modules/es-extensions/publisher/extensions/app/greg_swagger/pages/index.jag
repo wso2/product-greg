@@ -93,19 +93,14 @@ else {
             obj = parse(value);
             childAPIs = new Object();
             childAPIs.baseCollection = resource.path.substr(0, resource.path.lastIndexOf("/"));
-            //log.info("childAPIs.baseCollection = " + childAPIs.baseCollection);
 
-            // see if this is a single-file swagger definition
-            var isSingleFileSwagger = false;
             // if swagger content version not equlas to 2.0
             if (!(obj.swagger && parseInt(obj.swagger) === 2)){
             var i;
               for(i = 0; i < obj.apis.length; i++) {
                 var api = obj.apis[i];
-                if(Array.isArray(api.operations)) {
-                  isSingleFileSwagger = true;
-                }
-                else{
+                // see if this is a single-file swagger definition
+                if(!Array.isArray(api.operations)) {
                   var childResourcePath = childAPIs.baseCollection + api.path;
 
                   var childResource = registry.registry.get(childResourcePath);
@@ -167,8 +162,6 @@ else {
             log("added key " + key);
         }
       }
-      
-      console.log(" created swagger ui object");
 
       $('#input_apiKey').change(addApiKeyAuthorization);
 
