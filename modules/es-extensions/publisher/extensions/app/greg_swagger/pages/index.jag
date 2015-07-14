@@ -162,8 +162,6 @@ else {
             log("added key " + key);
         }
       }
-      
-      console.log(" created swagger ui object");
 
       $('#input_apiKey').change(addApiKeyAuthorization);
 

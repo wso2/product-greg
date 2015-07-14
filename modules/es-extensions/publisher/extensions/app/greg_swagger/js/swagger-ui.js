@@ -1181,48 +1181,43 @@ SwaggerClient.prototype.initialize = function (url, options) {
 
   if (typeof options.success === 'function') {
     this.ready = true;
-    //this.build();
+    //this.build();  // removing code line to prevent swagger UI from trying to load
+                     // swagger file over network
   }
 };
 
+/* method to use swagger resource content loaded from registry
+   in place of using network loaded data*/
 SwaggerClient.prototype.buildLocal = function (mock) {
-if (this.isBuilt) {
+  if (this.isBuilt) {
     return this;
   }
   var self = this;
-this.progress('fetching resource list: ' + this.url);
-  // console.log("window.swaggerUi.options.swaggerContent");
-  // console.log(window.swaggerUi.options.swaggerContent);
-        var responseObj = window.swaggerUi.options.swaggerContent;
-        // console.log("^^^^^^^^^^^^^^^^^^^ success LOCAL RESPONSE object ^^^^^^^^^^^^^^^^^^^");
-        // console.log(responseObj);
+  this.progress('fetching resource list: ' + this.url);
+  var responseObj = window.swaggerUi.options.swaggerContent;
 
-        if(!responseObj) {
-          return self.fail('failed to parse JSON/YAML response');
-        }
+  if(!responseObj) {
+    return self.fail('failed to parse JSON/YAML response');
+  }
 
-        self.swaggerVersion = responseObj.swaggerVersion;
+  self.swaggerVersion = responseObj.swaggerVersion;
 
-// console.log("^^^^^^^^^^^^^^^^^^^ BEFORE logic success RESPONSE object ^^^^^^^^^^^^^^^^^^^");
-        if (responseObj.swagger && parseInt(responseObj.swagger) === 2) {
-        // console.log("IF ^^^^^^^^^^^^^^^^^^^ success LOCAL RESPONSE object ^^^^^^^^^^^^^^^^^^^");
-          self.swaggerVersion = responseObj.swagger;
+  if (responseObj.swagger && parseInt(responseObj.swagger) === 2) {
+    self.swaggerVersion = responseObj.swagger;
 
-          new Resolver().resolve(responseObj, /*self.url*/ "http://" + responseObj.host + responseObj.basePath , this.buildFromSpec, this);
+    new Resolver().resolve(responseObj, /*self.url*/ "http://" + responseObj.host + responseObj.basePath , this.buildFromSpec, this);
 
-          self.isValid = true;
-        } else {
-          // console.log("ELSE ^^^^^^^^^^^^^^^^^^^ success LOCAL RESPONSE object ^^^^^^^^^^^^^^^^^^^");
-          var converter = new SwaggerSpecConverter();
-          converter.setDocumentationLocation(self.url);
-          converter.convert(responseObj, self.clientAuthorizations, function(spec) {
-            new Resolver().resolve(spec, self.url, self.buildFromSpec, self);
-            self.isValid = true;
-          });
-        }
+    self.isValid = true;
+  } else {
+    var converter = new SwaggerSpecConverter();
+    converter.setDocumentationLocation(self.url);
+    converter.convert(responseObj, self.clientAuthorizations, function(spec) {
+      new Resolver().resolve(spec, self.url, self.buildFromSpec, self);
+      self.isValid = true;
+    });
+  }
 
-        // console.log("self.apisArray" + self.apisArray);
-        return this;
+  return this;
 };
 
 SwaggerClient.prototype.build = function (mock) {
@@ -2483,11 +2478,6 @@ SwaggerSpecConverter.prototype.setDocumentationLocation = function (location) {
  * converts a resource listing OR api declaration
  **/
 SwaggerSpecConverter.prototype.convert = function (obj, clientAuthorizations, callback) {
-  // not a valid spec
-
-    // console.log(">>>>>>>>>>>>>>>>>>. convert.obj");
-    // console.log(obj);
-
 
   if(!obj || !Array.isArray(obj.apis)) {
     return this.finish(callback, null);
@@ -2520,8 +2510,6 @@ SwaggerSpecConverter.prototype.convert = function (obj, clientAuthorizations, ca
   var i;
   for(i = 0; i < obj.apis.length; i++) {
     var api = obj.apis[i];
-    // console.log("@@@@@@@@@@@@@@@@@@@ convert.isSingleFileSwagger");
-    // console.log(api);
     if(Array.isArray(api.operations)) {
       isSingleFileSwagger = true;
     }
@@ -2532,8 +2520,6 @@ SwaggerSpecConverter.prototype.convert = function (obj, clientAuthorizations, ca
     this.finish(callback, swagger);
   }
   else {
-    // console.log("@@@@@@@@@@@@@@@@@@@ resourceListing(obj");
-    // console.log(obj);
     this.resourceListing(obj, swagger, callback);
   }
 };
@@ -2594,16 +2580,13 @@ SwaggerSpecConverter.prototype.declaration = function(obj, swagger) {
     var api = obj.apis[i];
     var path = api.path;
 
-  // console.log("++++++++++++++++++++++++++++ api.path = " + path);
+
     var operations = api.operations;
     this.operations(path, obj.resourcePath, operations, resourceLevelAuth, swagger);
   }
-  // console.log("++++++++++++++++++++++++++++ prototype.declaration.obj");
-  // console.log(obj);
 
   var models = obj.models || {};
   this.models(models, swagger);
-  // console.log("++++++++++++++++++++++++++++ prototype.declaration.END &&&&&&&&&&&&&&&&&");
 
 };
 
@@ -2659,8 +2642,6 @@ SwaggerSpecConverter.prototype.extractTag = function(resourcePath) {
 };
 
 SwaggerSpecConverter.prototype.operations = function(path, resourcePath, obj, resourceLevelAuth, swagger) {
-  // console.log("======================== prototype.operations.path = " + path);
-  //console.log();
   if(!Array.isArray(obj)) {
     return;
   }
@@ -2747,7 +2728,6 @@ SwaggerSpecConverter.prototype.operations = function(path, resourcePath, obj, re
 
     pathObj[method] = operation;
   }
-// console.log("======================== prototype.operations.obj = " + obj);
   swagger.paths[path] = pathObj;
 };
 
@@ -2980,8 +2960,6 @@ SwaggerSpecConverter.prototype.resourceListing = function(obj, swagger, callback
     /*http.on.response = function(data) {
       processedCount += 1;
       var obj = data.obj;
-      console.log("data.obj");
-      console.log(obj);
       if(obj) {
         self.declaration(obj, _swagger);
       }
