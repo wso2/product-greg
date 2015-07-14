@@ -13,7 +13,7 @@
     <property name="port" value="9443"/>
     <property name="version" value="4.6.0"/>
 
-    <!-- Run all targets --> 
+    <!-- Run all targets -->
 
     <target name="run-all">
         <antcall target="run-people"/>
@@ -21,25 +21,25 @@
         <antcall target="run-testplan"/>
         <antcall target="run-application"/>
         <antcall target="run-project"/>
-    </target> 
+    </target>
 
-    <!-- People target -->   
+    <!-- People target -->
 
-    <target name="run-people" depends="jar-people, jar">        
+    <target name="run-people" depends="jar-people, jar">
         <java classname="org.wso2.carbon.registry.samples.populator.Main" classpathref="javac.classpath"
-              fork="true">             
-            <sysproperty key="carbon.home"  value="${registry.home}"/>
-            <arg value="-ch" />
+              fork="true">
+            <sysproperty key="carbon.home" value="${registry.home}"/>
+            <arg value="-ch"/>
             <arg value="${registry.home}"/>
             <arg value="-h"/>
             <arg value="${host}"/>
-            <arg value="-p" />
+            <arg value="-p"/>
             <arg value="${port}"/>
-            <arg value="-u" />
+            <arg value="-u"/>
             <arg value="${username}"/>
-            <arg value="-pw" />
+            <arg value="-pw"/>
             <arg value="${password}"/>
-            <arg value="-l" />
+            <arg value="-l"/>
             <arg value="${people.dir}"/>
         </java>
     </target>
@@ -47,18 +47,18 @@
     <target name="run-esb" depends="jar">
         <java classname="org.wso2.carbon.registry.samples.populator.Main" classpathref="javac.classpath"
               fork="true">
-            <sysproperty key="carbon.home"  value="${registry.home}"/>
-            <arg value="-ch" />
+            <sysproperty key="carbon.home" value="${registry.home}"/>
+            <arg value="-ch"/>
             <arg value="${registry.home}"/>
             <arg value="-h"/>
             <arg value="${host}"/>
-            <arg value="-p" />
+            <arg value="-p"/>
             <arg value="${port}"/>
-            <arg value="-u" />
+            <arg value="-u"/>
             <arg value="${username}"/>
-            <arg value="-pw" />
+            <arg value="-pw"/>
             <arg value="${password}"/>
-            <arg value="-l" />
+            <arg value="-l"/>
             <arg value="${esb.dir}"/>
         </java>
         <echo message="Restart the server with uncommenting the ESB task configuration in registry.xml and govern ESB artifacts from G-Reg"/>
@@ -90,18 +90,18 @@
     <target name="run-process" depends="jar-process, jar">
         <java classname="org.wso2.carbon.registry.samples.populator.Main" classpathref="javac.classpath"
               fork="true">
-            <sysproperty key="carbon.home"  value="${registry.home}"/>
-            <arg value="-ch" />
+            <sysproperty key="carbon.home" value="${registry.home}"/>
+            <arg value="-ch"/>
             <arg value="${registry.home}"/>
             <arg value="-h"/>
             <arg value="${host}"/>
-            <arg value="-p" />
+            <arg value="-p"/>
             <arg value="${port}"/>
-            <arg value="-u" />
+            <arg value="-u"/>
             <arg value="${username}"/>
-            <arg value="-pw" />
+            <arg value="-pw"/>
             <arg value="${password}"/>
-            <arg value="-l" />
+            <arg value="-l"/>
             <arg value="${process.dir}"/>
         </java>
     </target>
@@ -131,18 +131,18 @@
     <target name="run-testplan" depends="jar-test, jar">
         <java classname="org.wso2.carbon.registry.samples.populator.Main" classpathref="javac.classpath"
               fork="true">
-            <sysproperty key="carbon.home"  value="${registry.home}"/>
-            <arg value="-ch" />
+            <sysproperty key="carbon.home" value="${registry.home}"/>
+            <arg value="-ch"/>
             <arg value="${registry.home}"/>
             <arg value="-h"/>
             <arg value="${host}"/>
-            <arg value="-p" />
+            <arg value="-p"/>
             <arg value="${port}"/>
-            <arg value="-u" />
+            <arg value="-u"/>
             <arg value="${username}"/>
-            <arg value="-pw" />
+            <arg value="-pw"/>
             <arg value="${password}"/>
-            <arg value="-l" />
+            <arg value="-l"/>
             <arg value="${test.plan.dir}"/>
         </java>
     </target>
@@ -172,18 +172,18 @@
     <target name="run-application" depends="jar-application, jar">
         <java classname="org.wso2.carbon.registry.samples.populator.Main" classpathref="javac.classpath"
               fork="true">
-            <sysproperty key="carbon.home"  value="${registry.home}"/>
-            <arg value="-ch" />
+            <sysproperty key="carbon.home" value="${registry.home}"/>
+            <arg value="-ch"/>
             <arg value="${registry.home}"/>
             <arg value="-h"/>
             <arg value="${host}"/>
-            <arg value="-p" />
+            <arg value="-p"/>
             <arg value="${port}"/>
-            <arg value="-u" />
+            <arg value="-u"/>
             <arg value="${username}"/>
-            <arg value="-pw" />
+            <arg value="-pw"/>
             <arg value="${password}"/>
-            <arg value="-l" />
+            <arg value="-l"/>
             <arg value="${application.dir}"/>
         </java>
     </target>
@@ -208,23 +208,23 @@
         </javac>
     </target>
 
-   <!-- Project target -->
+    <!-- Project target -->
 
     <target name="run-project" depends="jar-project, jar">
         <java classname="org.wso2.carbon.registry.samples.populator.Main" classpathref="javac.classpath"
               fork="true">
-            <sysproperty key="carbon.home"  value="${registry.home}"/>
-            <arg value="-ch" />
+            <sysproperty key="carbon.home" value="${registry.home}"/>
+            <arg value="-ch"/>
             <arg value="${registry.home}"/>
             <arg value="-h"/>
             <arg value="${host}"/>
-            <arg value="-p" />
+            <arg value="-p"/>
             <arg value="${port}"/>
-            <arg value="-u" />
+            <arg value="-u"/>
             <arg value="${username}"/>
-            <arg value="-pw" />
+            <arg value="-pw"/>
             <arg value="${password}"/>
-            <arg value="-l" />
+            <arg value="-l"/>
             <arg value="${project.dir}"/>
         </java>
     </target>
@@ -253,7 +253,7 @@
         <mkdir dir="${class.dir}"/>
         <path id="javac.classpath">
             <pathelement path="${class.dir}"/>
-             <fileset dir="${registry.home}/repository/components/plugins">
+            <fileset dir="${registry.home}/repository/components/plugins">
                 <include name="axis2_*.jar"/>
                 <include name="axiom_*.jar"/>
                 <include name="org.wso2.carbon.core_*.jar"/>
@@ -287,7 +287,7 @@
                 <include name="org.wso2.carbon.governance.lcm.stub_*.jar"/>
                 <include name="org.wso2.carbon.governance.notifications.stub_*.jar"/>
                 <include name="XmlSchema_*.jar"/>
-                <include name="javax.servlet_*.jar"/>
+                <include name="tomcat-servlet-api_*.jar"/>
                 <include name="org.wso2.carbon.logging_*.jar"/>
                 <include name="org.wso2.carbon.utils_*.jar"/>
                 <include name="org.wso2.carbon.base_*.jar"/>
@@ -321,17 +321,17 @@
                 <include name="**/*.class"/>
             </fileset>
         </jar>
-        <copy file="target/${ant.project.name}-${version}.jar" todir="dist" overwrite="true" />
+        <copy file="target/${ant.project.name}-${version}.jar" todir="dist" overwrite="true"/>
     </target>
-    
-    <target name="init-ext">        
+
+    <target name="init-ext">
         <path id="javac.classpath">
-             <fileset dir="${registry.home}/repository/components/plugins">
+            <fileset dir="${registry.home}/repository/components/plugins">
                 <include name="axis2_*.jar"/>
-		<include name="axiom_*.jar"/>
-		<include name="org.wso2.carbon.logging_*.jar"/>
-		<include name="org.wso2.carbon.governance.api_*.jar"/>
- 		<include name="org.wso2.carbon.registry.api_*.jar"/>
+                <include name="axiom_*.jar"/>
+                <include name="org.wso2.carbon.logging_*.jar"/>
+                <include name="org.wso2.carbon.governance.api_*.jar"/>
+                <include name="org.wso2.carbon.registry.api_*.jar"/>
                 <include name="org.wso2.carbon.registry.core_*.jar"/>
                 <include name="org.wso2.carbon.registry.reporting_*.jar"/>
                 <include name="org.wso2.carbon.reporting.util_*.jar"/>
