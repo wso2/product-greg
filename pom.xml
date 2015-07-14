@@ -931,7 +931,7 @@
         <!--<claims.feature.version>1.0.0</claims.feature.version>-->
 
         <maven-resources-plugin.version>2.5</maven-resources-plugin.version>
-        <jaggery.version>0.10.1</jaggery.version>
+        <jaggery.version>0.10.2</jaggery.version>
 	    <jaggery-test.feature.version>1.2.2</jaggery-test.feature.version>
         <eclipse.version>3.2.0</eclipse.version>
 
@@ -987,7 +987,7 @@
         <carbon.kernel.registry.imp.pkg.version>[1.0.1, 2.0.0)</carbon.kernel.registry.imp.pkg.version>
         
         <!-- Carbon Registry -->
-        <carbon.registry.version>4.4.4-SNAPSHOT</carbon.registry.version>
+        <carbon.registry.version>4.4.5-SNAPSHOT</carbon.registry.version>
         <carbon.registry.package.import.version.range>[4.4.0, 4.5.0)
         </carbon.registry.package.import.version.range>
         

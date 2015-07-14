@@ -17,7 +17,7 @@
  *
  */
 var name;
-custom
+var custom = require('/extensions/app/greg-store-defaults/themes/store/helpers/asset.js');
 var that = this;
 /*
 In order to inherit all variables in the default helper
