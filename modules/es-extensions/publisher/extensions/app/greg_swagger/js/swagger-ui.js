@@ -2933,8 +2933,6 @@ SwaggerSpecConverter.prototype.toJsonSchema = function(source) {
 };
 
 SwaggerSpecConverter.prototype.resourceListing = function(obj, swagger, callback) {
-// console.log("...................resourceListing.obj = ");
-// console.log(obj);
 
   var i;
   var processedCount = 0;   // jshint ignore:line
@@ -2947,13 +2945,9 @@ SwaggerSpecConverter.prototype.resourceListing = function(obj, swagger, callback
   }
 
   for(i = 0; i < expectedCount; i++) {
-    // console.log(">>>>>>>>>>>>>>>>>>>>>>>>>>>> expectedCount = " + expectedCount);
-    // console.log(">>>>>>>>>>>>>>>>>>>>>>>>>>>> processedCount = " + processedCount);
     var api = obj.apis[i];
     var path = api.path;
-    // console.log("api.path = " + path);
     var absolutePath = this.getAbsolutePath(obj.swaggerVersion, this.docLocation, path);
-    // console.log("absolutePath = " + absolutePath);
 
     if(api.description) {
       swagger.tags = swagger.tags || [];
@@ -2963,26 +2957,18 @@ SwaggerSpecConverter.prototype.resourceListing = function(obj, swagger, callback
       });
     }
 
-   // if (window.swaggerUi.options.swaggerChildren[path]){
 
       processedCount += 1;
-      // console.log("window.swaggerUi.options.swaggerChildren");
-      // console.log(window.swaggerUi.options.swaggerChildren);
       var swaggerChilObj = window.swaggerUi.options.swaggerChildren[path];
-      // console.log("data.swaggerChilObj");
-      // console.log(swaggerChilObj);
       
       if(swaggerChilObj) {
-
-    // console.log(">>>>>>>>>>>>>>>>>>>>>>>>>>>> into declaration part = ");
-       // console.log(swaggerChilObj);
         self.declaration(swaggerChilObj, _swagger);
-    // console.log("<<<<<<<<<<<<<<<<<<<<<<<<<<<< END of declaration part = ");
       }
       if(processedCount === expectedCount) {
         self.finish(callback, _swagger);
       }
-    //}
+
+      //deactivating code for retreving swagger files over network
 
     /*var http = {
       url: absolutePath,
