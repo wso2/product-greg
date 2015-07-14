@@ -650,6 +650,15 @@ a.cu-btn:hover, .wr-asset-type-switcher a.switcher-link:hover {
     min-width: 384px;
 }
 
+.search-label {
+  font-weight: 300;
+  font-size: 18px;
+}
+
+.inverse .search-label {
+    color: #fff;
+}
+
 .form-search {
     max-width: 100%;
 }

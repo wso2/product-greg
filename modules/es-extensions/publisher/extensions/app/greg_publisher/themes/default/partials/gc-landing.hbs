@@ -2,17 +2,22 @@
       
      <div class="row">
         <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 ">
-
-            <div class="form-group has-feedback form-search">
-                <input type="text" id="#search-input" class="form-control" placeholder="Search..">
-                <a href="#" id="#search-btn" class="form-control-feedback search" title="Search">
-                    <i class="fw fw-search" aria-hidden="true"></i>
-                </a>
-                <a href="/publisher/pages/advanced-search" class="form-control-feedback advance" title="Advance Search">
-                    <i class="fw fw-settings" aria-hidden="true"></i>
-                    <span>Advance Search</span>
-                </a>
-            </div>
+            
+            <form class="form-group" id="assetSearchForm" action="/publisher/asts/restservice/list" style="display: none;">
+                <label class="search-label">Search for Resources</label>
+                <div class="form-group has-feedback form-search">
+                    <input type="text" name="query" id="inp_searchAsset" class="form-control" placeholder="Search..">
+                    <a href="javascript:void(0)" id="searchButton" class="form-control-feedback search" title="Search">
+                        <i class="fw fw-search" aria-hidden="true"></i>
+                    </a>
+                    <a href="/publisher/pages/advanced-search" class="form-control-feedback advance" title="Advance Search">
+                        <i class="fw fw-settings" aria-hidden="true"></i>
+                        <span>Advanced Search</span>
+                    </a>
+                    <input type="hidden" name="sortby" value=""/>
+                    <input type="hidden" name="sort" value=""/>
+                </div>
+            </form>
 
             <div class="page-header no-border">
                 <h1>Add service</h1>
@@ -23,9 +28,9 @@
 
                 <div class="col-md-6 col-lg-4">
                     <div class="tile color1">
-                        <h1>Add SOAP Service</h1>
+                        <h1>SOAP Service</h1>
                         <h2>
-                            You can add a SOAP service manually by using the "Add" method or by adding a <a href="/publisher/asts/wsdl/create">WSDL</a> file automatically.
+                            You can add a SOAP service manually or automatically by importing a <br /><a href="/publisher/asts/wsdl/create">WSDL</a> file.
                         </h2>
                         <div class="action-group">
                             <span class="icons">
@@ -37,7 +42,7 @@
                                         <i class="fw fw-view fw-stack-1x"></i>
                                         <i class="fw fw-ring fw-stack-2x"></i>
                                     </span>
-                                    List
+                                    View
                                 </a>
                                 <a href="/publisher/asts/soapservice/create" class="btn btn-default primary">
                                     <span class="icon fw-stack">
@@ -55,7 +60,7 @@
                     <div class="tile color2">
                         <h1>Add REST Service</h1>
                         <h2>
-                            You can add a REST service manually by using the "Add" method or by adding a <a href="/publisher/asts/wadl/create">WADL</a> file or <a href="/publisher/asts/swagger/create">Swagger</a> automatically.
+                            You can add a REST service manually or automatically by importing a <br /><a href="/publisher/asts/wadl/create">WADL</a> or <a href="/publisher/asts/swagger/create">Swagger</a> file.
                         </h2>
                         <div class="action-group">
                             <span class="icons">
@@ -114,4 +119,3 @@
      </div>
    
 </div>
-<!-- /content/body -->
