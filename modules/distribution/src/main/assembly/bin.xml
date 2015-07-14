@@ -266,6 +266,13 @@
             </includes>
         </fileSet>
         <fileSet>
+            <directory>../p2-profile-gen/target/wso2carbon-core-${carbon.kernel.version}/repository/conf/multitenancy/</directory>
+            <outputDirectory>${pom.artifactId}-${pom.version}/repository/conf</outputDirectory>
+            <includes>
+                <include>**/tenant-mgt.xml</include>
+            </includes>
+        </fileSet>
+        <fileSet>
             <directory>../../config/reports</directory>
             <outputDirectory>wso2greg-${pom.version}/repository/resources/reports</outputDirectory>
             <includes>
