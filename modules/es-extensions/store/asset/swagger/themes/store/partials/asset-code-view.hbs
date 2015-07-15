@@ -1,4 +1,8 @@
 <div id='swagger-viewer'>
+    <span class="asset-show-dependency">
+        <a class="btn btn-default btn-lg active pull-right" href='{{url ""}}/pages/swagger?path={{path}}' target="_blank">
+            Show Swagger UI</a>
+    </span>
     <legend><h4>Swagger</h4></legend>
     {{#if content}}
         <textarea id="swaggercontent" name="swaggercontent">{{../content}}</textarea>
