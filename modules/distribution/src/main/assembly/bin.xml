@@ -354,6 +354,10 @@
             <directory>../p2-profile-gen/target/wso2carbon-core-${carbon.kernel.version}/repository/deployment/server/jaggeryapps/es-store</directory>
             <outputDirectory>${pom.artifactId}-${pom.version}/repository/deployment/server/jaggeryapps/store</outputDirectory>
         </fileSet>
+        <fileSet>
+            <directory>../p2-profile-gen/target/wso2carbon-core-${carbon.kernel.version}/repository/deployment/server/jaggeryapps/es-social</directory>
+            <outputDirectory>${pom.artifactId}-${pom.version}/repository/deployment/server/jaggeryapps/social</outputDirectory>
+        </fileSet>
 
         <!-- Jaggery Apps used by Greg-->
         <!--fileSet>
@@ -1020,5 +1024,17 @@
             <filtered>true</filtered>
             <fileMode>644</fileMode>
         </file>
+        <file>
+		<source>../p2-profile-gen/target/wso2carbon-core-${carbon.kernel.version}/repository/conf/datasources/social-datasources.xml</source>
+		<outputDirectory>${pom.artifactId}-${build.version}/repository/conf/datasources/</outputDirectory>
+		<filtered>true</filtered>
+		<fileMode>644</fileMode>
+	</file>
+        <file>
+		<source>../p2-profile-gen/target/wso2carbon-core-${carbon.kernel.version}/repository/conf/social.xml</source>
+		<outputDirectory>${pom.artifactId}-${build.version}/repository/conf/</outputDirectory>
+		<filtered>true</filtered>
+		<fileMode>644</fileMode>
+	</file>
       </files>
 </assembly>
