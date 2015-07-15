@@ -123,7 +123,7 @@ else {
       if (url && url.length > 1) {
         url = decodeURIComponent(url[1]);
       } else {
-        url = "https://localhost:9443/publisher/extensions/app/greg_swagger/data/swagger.json";
+        url = "<%=user.um.server.url%>";
       }
       window.swaggerUi = new SwaggerUi({
         swaggerContent: <%=obj%>,
