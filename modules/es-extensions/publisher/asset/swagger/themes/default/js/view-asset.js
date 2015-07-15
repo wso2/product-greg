@@ -17,8 +17,6 @@
  *
  */
 
-var editor;
-
 $(function() {
     $(document).ready(function() {
         //Get the parent of the viewer,which may not exist
@@ -35,7 +33,7 @@ $(function() {
         var canvasArea = $(swaggerRenderingCanvas) ? $(swaggerRenderingCanvas)[0] : null;
         //Only try to render the editor if the canvas is found
         if (canvasArea) {
-            editor = CodeMirror.fromTextArea(canvasArea, {
+            var editor = CodeMirror.fromTextArea(canvasArea, {
                 mode: "application/json",
                 lineNumbers: false,
                 readOnly: true,
@@ -61,4 +59,3 @@ $('select.select2').select2({
     dropdownCssClass: 'version-select-drop',
     containerCssClass: 'version-select'
 });
-
