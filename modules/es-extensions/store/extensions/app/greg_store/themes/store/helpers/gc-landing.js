@@ -19,6 +19,7 @@
 
 var resources = function(){
     return {
-        css:['home.css']
+        css:['home.css'],
+        js:['home.js']
     }
 };

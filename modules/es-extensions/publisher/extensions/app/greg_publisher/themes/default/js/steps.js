@@ -17,9 +17,18 @@
  *
  */
 
-var resources = function(){
-    return {
-        css:['home.css'],
-        js:['home.js', 'steps.js']
-    }
-};
+/*
+ * Setting-up global variables.
+ */
+var btnNext = '[data-click-event=next]',
+    btnPrevious = '[data-click-event=prev]';
+
+/* button next function */
+$('[data-click-event=steps] ' + btnNext).click(function(){
+    $(this).closest('[data-step]').hide().next('[data-step]').show();
+});
+
+/* button previous function */
+$('[data-click-event=steps] ' + btnPrevious).click(function(){
+    $(this).closest('[data-step]').hide().prev('[data-step]').show();
+});
