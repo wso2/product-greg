@@ -46,7 +46,8 @@ public class TestCopyTestCase extends GREGIntegrationBaseTest{
 
 
     @Test(groups = {"wso2.greg"})
-    public void ResourceCopyTest() throws RegistryException {
+    public void ResourceCopyTest() throws RegistryException, InterruptedException {
+        Thread.sleep(10000);
 
         Resource r1 = registry.newResource();
         r1.setProperty("test", "copy");
@@ -73,7 +74,8 @@ public class TestCopyTestCase extends GREGIntegrationBaseTest{
     }
 
     @Test(groups = {"wso2.greg"})
-    public void CollectionCopyTest() throws RegistryException {
+    public void CollectionCopyTest() throws RegistryException, InterruptedException {
+        Thread.sleep(10000);
 
         Resource r1 = registry.newResource();
         r1.setProperty("test", "copy");

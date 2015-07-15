@@ -86,6 +86,7 @@ public class TestResourcesTestCase extends GREGIntegrationBaseTest{
 
     @Test(groups = {"wso2.greg"})
     public void UpdateResouceContentTest() throws Exception {
+        Thread.sleep(10000);
 
         Resource r1 = registry.newResource();
         String content = "this is my content1";
@@ -141,6 +142,7 @@ public class TestResourcesTestCase extends GREGIntegrationBaseTest{
 
     @Test(groups = {"wso2.greg"})
     public void AddAnotherResourceTest() throws Exception {
+        Thread.sleep(10000);
         Resource r1 = registry.newResource();
         String content = "this is my content2";
         r1.setContent(content.getBytes());
@@ -176,6 +178,7 @@ public class TestResourcesTestCase extends GREGIntegrationBaseTest{
 
     @Test(groups = {"wso2.greg"})
     public void SetResourceDetailsTest() throws Exception {
+        Thread.sleep(10000);
         Resource r1 = registry.newResource();
         r1.setDescription("R4 collection description");
         r1.setMediaType("jpg/image");
@@ -211,6 +214,7 @@ public class TestResourcesTestCase extends GREGIntegrationBaseTest{
 
     @Test(groups = {"wso2.greg"})
     public void CollectionDetailsTest() throws Exception {
+        Thread.sleep(10000);
         Resource r1 = registry.newResource();
         String content = "this is my content4";
         r1.setContent(content.getBytes());
@@ -271,7 +275,7 @@ public class TestResourcesTestCase extends GREGIntegrationBaseTest{
 
     @Test(groups = {"wso2.greg"})
     public void DeleteResourceTest() throws Exception {
-
+        Thread.sleep(10000);
         Resource r1 = registry.newResource();
         r1.setContent("this is file for deleting");
         r1.setDescription("this is the description of deleted file");
@@ -332,7 +336,7 @@ public class TestResourcesTestCase extends GREGIntegrationBaseTest{
 
     @Test(groups = {"wso2.greg"})
     public void DeleteCollectionTest() throws Exception {
-
+        Thread.sleep(10000);
         Resource r1 = registry.newCollection();
         r1.setDescription("this is a collection for deleting");
         r1.setMediaType("text/plain");
@@ -455,7 +459,7 @@ public class TestResourcesTestCase extends GREGIntegrationBaseTest{
 
     @Test(groups = {"wso2.greg"})
     public void AddResourceFromURLTest() throws Exception {
-
+        Thread.sleep(10000);
         String path = "/d25/d21/d23/d24/r1";
         String url = "http://shortwaveapp.com/waves.txt";
 
@@ -495,7 +499,7 @@ public class TestResourcesTestCase extends GREGIntegrationBaseTest{
 
     @Test(groups = {"wso2.greg"})
     public void RenameResourceTest() throws Exception {
-
+        Thread.sleep(10000);
         Resource r1 = registry.newResource();
         String content = "this is my content";
         r1.setContent(content.getBytes());
@@ -605,7 +609,7 @@ public class TestResourcesTestCase extends GREGIntegrationBaseTest{
 
     @Test(groups = {"wso2.greg"})
     public void ResourcemultiplePropertiesTest() throws Exception {
-
+        Thread.sleep(10000);
         try {
             String path = "/m11/m12/r1";
             Resource r1 = registry.newResource();
@@ -646,7 +650,7 @@ public class TestResourcesTestCase extends GREGIntegrationBaseTest{
 
     @Test(groups = {"wso2.greg"})
     public void CollectionmultiplePropertiesTest() throws Exception {
-
+        Thread.sleep(10000);
         try {
             String path = "/m15/m16/m17";
             Resource r1 = registry.newCollection();

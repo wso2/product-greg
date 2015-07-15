@@ -47,6 +47,7 @@ public class GarFileImportServiceWSTestCase extends GREGIntegrationBaseTest {
         RegistryProviderUtil registryProviderUtil = new RegistryProviderUtil();
         registry = registryProviderUtil.getWSRegistry(automationContext);
         resourcePath = getTestArtifactLocation() + "artifacts" + File.separator + "GREG" + File.separator;
+        Thread.sleep(8000);
     }
 
     @Test(groups = {"wso2.greg"}, description = "GAR file uploader - Axis2Service")
