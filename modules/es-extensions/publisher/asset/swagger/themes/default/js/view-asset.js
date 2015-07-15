@@ -16,6 +16,7 @@
  *  under the License.
  *
  */
+
 $(function() {
     $(document).ready(function() {
         //Get the parent of the viewer,which may not exist
@@ -33,12 +34,15 @@ $(function() {
         //Only try to render the editor if the canvas is found
         if (canvasArea) {
             var editor = CodeMirror.fromTextArea(canvasArea, {
-                mode: "application/xml",
+                mode: "application/json",
                 lineNumbers: false,
                 readOnly: true,
                 lineWrapping: true
             });
             editor.setSize(widthOfSwaggerViewer, heightOfSwaggerViewer);
+            var totalLines = editor.lineCount();
+            var totalChars = editor.getTextArea().value.length;
+            editor.autoFormatRange({line:0, ch:0}, {line:totalLines, ch:totalChars});
         }
         else{
         	alert('Error: could not render the swagger code mirror editor since a rendering canavas area was not defined.');
