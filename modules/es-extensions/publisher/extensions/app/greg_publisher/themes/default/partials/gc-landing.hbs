@@ -3,8 +3,8 @@
      <div class="row">
         <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 ">
             
-            <form class="form-group" id="assetSearchForm" action="/publisher/asts/restservice/list">
-                <label class="search-label">Search for Resources</label>
+            <form class="form-group" id="assetSearchForm" action="/publisher/assets/restservice/list">
+                <label class="search-label">Search for Assets</label>
                 <div class="form-group has-feedback form-search">
                     <input type="text" name="query" id="inp_searchAsset" class="form-control" placeholder="Search..">
                     <a href="javascript:void(0)" id="searchButton" class="form-control-feedback search" title="Search">
@@ -31,14 +31,14 @@
                         <div data-step="1">
                             <h1>SOAP Service</h1>
                             <h2>
-                                You can add a SOAP service manually or automatically by importing a <br /><a href="/publisher/asts/wsdl/create">WSDL</a> file.
+                                You can add a SOAP service manually or automatically by importing a <br /><a href="/publisher/assets/wsdl/create">WSDL</a> file.
                             </h2>
                             <div class="action-group">
                                 <span class="icons">
                                     <i class="tile-icon fw fw-soap"></i>
                                 </span>
                                 <span class="actions">
-                                    <a href="/publisher/asts/soapservice/list" class="btn btn-default secondary">
+                                    <a href="/publisher/assets/soapservice/list" class="btn btn-default secondary">
                                         <span class="icon fw-stack">
                                             <i class="fw fw-view fw-stack-1x"></i>
                                             <i class="fw fw-ring fw-stack-2x"></i>
@@ -61,13 +61,13 @@
                                 <div class="action-options" data-radio-group="soap-add-radio-group">
                                     <div>
                                         <label class="radio">
-                                            <input id="soap-wsdl-radio" type="radio" name="soap-add" value="/publisher/asts/wsdl/create" checked>
+                                            <input id="soap-wsdl-radio" type="radio" name="soap-add" value="/publisher/assets/wsdl/create" checked>
                                             <span class="helper">Add a SOAP Service using a <b>"WSDL"</b></span>
                                         </label>
                                     </div>
                                     <div>
                                         <label class="radio">
-                                            <input id="soap-manual-radio" type="radio" name="soap-add" value="/publisher/asts/soapservice/create">
+                                            <input id="soap-manual-radio" type="radio" name="soap-add" value="/publisher/assets/soapservice/create">
                                             <span class="helper">Add a SOAP Service manually</span>
                                         </label>
                                     </div>
@@ -93,14 +93,14 @@
                         <div data-step="1">
                             <h1>REST Service</h1>
                             <h2>
-                                You can add a REST service manually or automatically by importing a <br /><a href="/publisher/asts/wadl/create">WADL</a> or <a href="/publisher/asts/swagger/create">Swagger</a> file.
+                                You can add a REST service manually or automatically by importing a <br /><a href="/publisher/assets/wadl/create">WADL</a> or <a href="/publisher/assets/swagger/create">Swagger</a> file.
                             </h2>
                             <div class="action-group">
                                 <span class="icons">
                                     <i class="tile-icon fw fw-rest-service"></i>
                                 </span>
                                 <span class="actions">
-                                    <a href="/publisher/asts/restservice/list" class="btn btn-default secondary">
+                                    <a href="/publisher/assets/restservice/list" class="btn btn-default secondary">
                                         <span class="icon fw-stack">
                                             <i class="fw fw-view fw-stack-1x"></i>
                                             <i class="fw fw-ring fw-stack-2x"></i>
@@ -123,19 +123,19 @@
                                 <div class="action-options" data-radio-group="rest-add-radio-group">
                                     <div>
                                         <label class="radio">
-                                            <input id="rest-wadl-radio" type="radio" name="rest-add" value="/publisher/asts/wadl/create" checked>
+                                            <input id="rest-wadl-radio" type="radio" name="rest-add" value="/publisher/assets/wadl/create" checked>
                                             <span class="helper">Add a REST Service using a <b>"WADL"</b></span>
                                         </label>
                                     </div>
                                     <div>
                                         <label class="radio">
-                                            <input id="rest-swagger-radio" type="radio" name="rest-add" value="/publisher/asts/swagger/create">
+                                            <input id="rest-swagger-radio" type="radio" name="rest-add" value="/publisher/assets/swagger/create">
                                             <span class="helper">Add a REST Service using a <b>"Swagger"</b></span>
                                         </label>
                                     </div>
                                     <div>
                                         <label class="radio">
-                                            <input id="rest-manual-radio" type="radio" name="rest-add" value="/publisher/asts/restservice/create">
+                                            <input id="rest-manual-radio" type="radio" name="rest-add" value="/publisher/assets/restservice/create">
                                             <span class="helper">Add a REST Service manually</span>
                                         </label>
                                     </div>
@@ -160,7 +160,7 @@
             <hr>
 
             <div class="page-header no-border">
-                <h1>Resources</h1>
+                <h1>Assets</h1>
                 <p class="lead">Select asset type to view available resources or to add a resource</p>
             </div>
 
@@ -171,7 +171,7 @@
 
                   {{#each assets}}
                   <div class="thumbnail">
-                    <a href='{{url ""}}/asts/{{type}}/list'>
+                    <a href='{{url ""}}/assets/{{type}}/list'>
                         <div class="icon"><i class="{{icon}}"></i></div>
                         <div class="title">
                             <h1>{{details.pluralLabel}}</h1>
