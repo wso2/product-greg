@@ -287,7 +287,7 @@
                 <include name="org.wso2.carbon.governance.lcm.stub_*.jar"/>
                 <include name="org.wso2.carbon.governance.notifications.stub_*.jar"/>
                 <include name="XmlSchema_*.jar"/>
-                <include name="javax.servlet_*.jar"/>
+                <include name="tomcat-servlet-api_*.jar"/>
                 <include name="org.wso2.carbon.logging_*.jar"/>
                 <include name="org.wso2.carbon.utils_*.jar"/>
                 <include name="org.wso2.carbon.base_*.jar"/>
