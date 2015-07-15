@@ -13,24 +13,38 @@
         <div id="navbar" class="navbar-collapse collapse">
             
             <div class="wr-action-btn-bar">
-                <ul class="nav navbar-nav" id="nav">
-                    
+                <ul class="nav navbar-nav">
+
                     <li>
                         <div class="wr-asset-type-switcher">
-                            <a id="popoverExampleTwo" data-placement="bottom" class="ctrl-asset-type-switcher pull-left" href="#" data-original-title="" title="">
+                            <a id="popoverExampleTwo" data-placement="bottom" class="ctrl-asset-type-switcher pull-left" href="javascript:void(0)" data-click-event="popover">
                                 <span class="btn-asset"></span>
                             </a>
-
-                            <a class="pull-left switcher-link" href='{{url ""}}{{currentUrl}}{{ribbon.currentUrl}}'>{{rxt.pluralLabel}}</a>
+                            <div class="popover bottom right fade clearfix">
+                                <div class="arrow left"></div>
+                                <div class="popover-content">
+                                    <ul class="tiles clearfix">
+                                        {{#each ribbon.breadcrumb}}
+                                            <li>
+                                                <a target="_self" href='{{url ""}}{{this.url}}'>
+                                                    <i class="icon {{this.assetIcon}}"></i>
+                                                    <span class="name">{{assetTitle}}</span>
+                                                </a>
+                                            </li>
+                                        {{/each}}
+                                    </ul>
+                                </div>
+                            </div>
+                            {{#if rxt.pluralLabel}}<a class="pull-left switcher-link" href='{{url ""}}{{currentUrl}}{{ribbon.currentUrl}}'>{{rxt.pluralLabel}}</a>{{/if}}
                         </div>
                     </li>
 
                     {{#each leftNav}}
-                    <li>
-                        <a href='{{url ""}}{{this.url}}' class="cu-btn {{this.iconClass}}">                     
-                            {{this.name}}
-                        </a>
-                    </li>
+                        <li>
+                            <a id="{{this.id}}" href='{{url ""}}{{this.url}}' class="cu-btn {{this.iconClass}}">
+                                {{this.name}}
+                            </a>
+                        </li>
                     {{/each}}
 
                     {{#if isSidebarEnabled}}
@@ -50,22 +64,12 @@
                             </a>
                         </li>
                     {{/if}}
-
-                </ul> 
+                </ul>
             </div> 
 
         </div><!--/.nav-collapse -->
     </div>
 </nav>
-
-<!--Need to delete these sections down-->
-<div id="content-asset-types" style="display: none">
-    <div>
-        {{#each ribbon.breadcrumb}}
-            <a class="ast-type-item" target="_self" href='{{url ""}}{{this.url}}'><i class="{{this.assetIcon}}"></i><div>{{assetTitle}}</div></a>
-        {{/each}}
-    </div>
-</div>
 
 <div id="modal-redirect" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
     <div class="modal-body">

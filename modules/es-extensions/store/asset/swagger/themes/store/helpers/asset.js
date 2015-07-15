@@ -17,14 +17,14 @@
  *
  */
 var name;
-var hps = require('/themes/store/helpers/asset.js');
+var custom = require('/extensions/app/greg-store-defaults/themes/store/helpers/asset.js');
 var that = this;
 /*
 In order to inherit all variables in the default helper
 */
-for (name in hps) {
-    if (hps.hasOwnProperty(name)) {
-        that[name] = hps[name];
+for (name in custom) {
+    if (custom.hasOwnProperty(name)) {
+        that[name] = custom[name];
     }
 }
 var fn = that.resources;
@@ -36,6 +36,8 @@ var resources = function(page, meta) {
     //code-mirror third party library to support syntax highlighting & formatting for WSDL content.
     o.css.push('codemirror.css');
     o.js.push('codemirror.js');
+    o.js.push('javascript.js');
+    o.js.push('formatting.js');
     o.js.push('xml.js'); //codemirror file to provide 'xml' type formatting.
     o.js.push('asset-view.js');//renders the wsdl content with codemirror supported formatting.
     return o;

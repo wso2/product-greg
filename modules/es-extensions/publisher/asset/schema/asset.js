@@ -142,6 +142,18 @@ asset.manager = function(ctx) {
             }
             return results;
         },
+        advanceSearch: function(q, paging) {
+            var results = this._super.advanceSearch.call(this, q, paging);
+            for (var index = 0; index < results.length; index++) {
+                var result = results[index];
+                var path = result.path;
+                var subPaths = path.split('/');
+                var name = subPaths[subPaths.length - 1];
+                result.name = name;
+                result.version = subPaths[subPaths.length - 2];
+            }
+            return results;
+        },
         getName: function(asset) {
             return asset.name;
         },
@@ -150,6 +162,9 @@ asset.manager = function(ctx) {
         * */
         update: function(){
 
+        },
+        postCreate:function(){
+            
         }
     };
 };
@@ -219,8 +234,21 @@ asset.renderer =  function (ctx){
                     if(button.iconClass === "btn-edit") {
                         page.leftNav.splice(index, 1);
                     }
+
+                    if(button.iconClass === "btn-copy") {
+                        page.leftNav.splice(index, 1);
+                    }
                 }
             }
         }
     };
+};
+asset.configure = function() {
+    return {
+        meta: {
+            ui: {
+                icon: 'fw fw-schema'
+            }
+        }
+    }
 };

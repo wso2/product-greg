@@ -1,0 +1,51 @@
+<div class="wrapper home inverse">
+      
+     <div class="row">
+        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 ">
+            
+            <form class="form-group" id="assetSearchForm" action="/store/assets/restservice/list">
+                <label class="search-label">Search for Assets</label>
+                <div class="form-group has-feedback form-search">
+                    <input type="text" name="query" id="inp_searchAsset" class="form-control" placeholder="Search..">
+                    <a href="javascript:void(0)" id="searchButton" class="form-control-feedback search" title="Search">
+                        <i class="fw fw-search" aria-hidden="true"></i>
+                    </a>
+                    <a href="/store/pages/advanced-search" class="form-control-feedback advance" title="Advance Search">
+                        <i class="fw fw-settings" aria-hidden="true"></i>
+                        <span>Advanced Search</span>
+                    </a>
+                    <input type="hidden" name="sortby" value=""/>
+                    <input type="hidden" name="sort" value=""/>
+                </div>
+            </form>
+
+            <div class="page-header no-border">
+                <h1>Assets</h1>
+                <p class="lead">Select asset type to view available resources or to add a resource</p>
+            </div>
+
+           <!-- content -->
+           <div class="ast-container" id="list_assets_table_body">
+
+              <div class="clearfix">
+
+                  {{#each assets}}
+                  <div class="thumbnail">
+                    <a href='{{url ""}}/assets/{{type}}/list'>
+                        <div class="icon"><i class="{{icon}}"></i></div>
+                        <div class="title">
+                            <h1>{{details.pluralLabel}}</h1>
+                            <h2 style="display: none;"><!-- desc --></h2>
+                        </div>
+                    </a>
+                  </div> 
+                  {{/each}}
+
+              </div>
+
+           </div>
+
+        </div>
+     </div>
+   
+</div>

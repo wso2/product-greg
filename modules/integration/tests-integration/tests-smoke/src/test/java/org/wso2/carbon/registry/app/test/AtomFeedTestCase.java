@@ -20,6 +20,7 @@ import org.apache.abdera.model.AtomDate;
 import org.apache.axiom.om.OMElement;
 import org.apache.axiom.om.util.AXIOMUtil;
 import org.apache.axiom.util.base64.Base64Utils;
+import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 import org.wso2.carbon.automation.engine.configurations.UrlGenerationUtil;
@@ -152,6 +153,11 @@ public class AtomFeedTestCase extends GREGIntegrationBaseTest{
             fail("Unable to convert the content to OMElement");
         }
         return null;
+    }
+
+    @AfterClass(alwaysRun = true)
+    public void cleanArtifact() throws RegistryException {
+        registry = null;
     }
 
 }

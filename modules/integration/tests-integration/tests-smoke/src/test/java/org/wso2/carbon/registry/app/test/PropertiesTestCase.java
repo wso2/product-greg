@@ -16,6 +16,7 @@
 
 package org.wso2.carbon.registry.app.test;
 
+import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 import org.wso2.carbon.automation.engine.context.TestUserMode;
@@ -40,6 +41,7 @@ public class PropertiesTestCase extends GREGIntegrationBaseTest {
 
         super.init(TestUserMode.SUPER_TENANT_ADMIN);
         registry = new RegistryProviderUtil().getRemoteRegistry(automationContext);
+        Thread.sleep(20000);
     }
 
     @Test(groups = {"wso2.greg"})
@@ -186,5 +188,10 @@ public class PropertiesTestCase extends GREGIntegrationBaseTest {
         assertTrue(r1e2.getPropertyValues("p1").contains("v2"), "Wrong property is removed.");
 
 
+    }
+
+    @AfterClass(alwaysRun = true)
+    public void cleanArtifact() throws RegistryException {
+        registry = null;
     }
 }

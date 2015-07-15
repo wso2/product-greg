@@ -99,7 +99,7 @@ $(function() {
         var $form = $('form[name="form-asset-create"]');
         if ($(this).attr("name") == 'addNewWadlFileAssetButton') {//upload via file browser
             //call the custom endpoint for processing schema upload via file browser.
-            $form.attr('action', caramel.context + '/asts/wadl/apis/wadls');
+            $form.attr('action', caramel.context + '/assets/wadl/apis/wadls');
             var $wadlFileInput = $('input[name="wadl_file"]');
             var wadlFileInputValue = $wadlFileInput.val();
             var wadlFilePath = wadlFileInputValue;

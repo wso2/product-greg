@@ -1,0 +1,70 @@
+<div class="table-responsive">
+    <table class="table table-striped table-hover">
+        <thead>
+            <h4>Overview</h4>
+        </thead>
+        <tbody>
+            <tr>
+                <td>Name</td>
+                {{#if name}}
+                <td>
+                    {{name}}
+                </td>
+                {{else}}
+                <td>
+                	{{assetName}}
+                </td>
+                {{/if}}
+            </tr>
+            <tr>
+                <td>Version</td>
+                <td>
+                    {{version}}
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    {{#if lifecycle}}
+    <table class="table table-striped table-hover">
+        <thead>
+        <h4>Lifecycle</h4>
+        </thead>
+        <tbody>
+        <tr>
+            <th>Name :</th>
+            <td>{{lifecycle}}</td>
+        </tr>
+        <tr>
+            <th>State :</th>
+            <td>{{lifecycleState}}</td>
+        </tr>
+        </tbody>
+    </table>
+    {{/if}}
+    {{#if isDependentsPresent}} 
+    <table class="table table-striped table-hover">
+        <thead>
+        <h4>Associations</h4>
+        </thead>
+        <tbody>
+        <tr>
+            <th>Dependencies :</th>
+            {{#each dependencies}}
+            <tr>
+            <td><a href="../../../assets/{{this.associationType}}/details/{{this.associationUUID}}">{{this.associationName}}</td>
+            </tr>
+            {{/each}}
+        </tr>
+        <tr>
+            <th>Dependents :</th>
+            {{#each dependents}}
+            <tr>
+            <td><a href="../../../assets/{{this.associationType}}/details/{{this.associationUUID}}">{{this.associationName}}</td>
+            </tr>
+            {{/each}}
+        </tr>
+        
+        </tbody>
+    </table>
+    {{/if}}
+</div>

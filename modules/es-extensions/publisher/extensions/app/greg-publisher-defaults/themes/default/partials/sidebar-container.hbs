@@ -41,12 +41,13 @@
             </div>
             <div id="collapseTags" class="panel-collapse collapse" aria-labelledby="headingTags">
                 <div class="panel-body">
-
+                    {{> tags-container . }}
                 </div>
             </div>
         </div>
         <!-- /tags -->
 
+        {{#hasAppPermission . key="GREG_COMMUNITY_FEATURES" username=cuser.username tenantId=cuser.tenantId}}
         <!-- notifications settings -->
         <div class="panel panel-default">
             <div class="panel-heading" role="tab" id="headingNotificationsSettings">
@@ -67,6 +68,7 @@
             </div>
         </div>
         <!-- /notifications settings -->
+        {{/hasAppPermission}}
     </div>
 
 </div>

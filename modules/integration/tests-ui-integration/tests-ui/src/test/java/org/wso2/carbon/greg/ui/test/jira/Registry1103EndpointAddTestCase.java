@@ -75,7 +75,7 @@ public class Registry1103EndpointAddTestCase extends GREGIntegrationUIBaseTest {
             HomePage homePage = loginPage.loginAs(userInfo.getUserName(), userInfo.getPassword());
 
             // Add endpoint
-            driver.findElement(By.linkText("ESB Endpoint")).click();
+            driver.findElement(By.linkText("Endpoint")).click();
             driver.findElement(By.id("id_Overview_Name")).sendKeys("myendpoint");
             driver.findElement(By.id("id_Overview_Version")).sendKeys("1.0.0");
             driver.findElement(By.id("id_Overview_Address"))

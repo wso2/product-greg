@@ -45,6 +45,14 @@ var resources = function(page, meta) {
     o.js.push('greg-page-api.js');
     o.js.push('greg-subscriptions-api.js');
     o.js.push('notes-api.js');
+    o.js.push('tags-container.js');
+    o.js.push('bootstrap-dialog.min.js');
+    o.js.push('bootstrap-editable.js');
+    o.js.push('bootstrap-multiselect.js');
+    o.css.push('bootstrap/bootstrap-editable.css');
+    o.css.push('bootstrap-dialog.min.css');
+    o.css.push('bootstrap/bootstrap-tagsinput.css');
+    o.css.push('bootstrap-multiselect.css');
     //o.css.push('styles.css');
     //o.css.push('assets.css');
     //o.js.push('jquery.event.mousestop.js');

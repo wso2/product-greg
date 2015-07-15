@@ -88,14 +88,15 @@
             <outputDirectory>${pom.artifactId}-${build.version}/dbscripts/apimgt</outputDirectory>
         </fileSet>
 
-        <!--copy web app for OAuth feature-->
+        <!--copy web app for OAuth feature--><!--Removing oauth2 web app - REGISTRY-2577 -->
+        <!--
         <fileSet>
             <directory>../p2-profile-gen/target/wso2carbon-core-${carbon.kernel.version}/repository/deployment/server/webapps</directory>
             <outputDirectory>${pom.artifactId}-${build.version}/repository/deployment/server/webapps</outputDirectory>
             <includes>
                 <include>oauth2.war</include>
             </includes>
-        </fileSet>
+        </fileSet> -->
         <fileSet>
             <directory>../jaxwebapps</directory>
             <outputDirectory>${pom.artifactId}-${build.version}/repository/deployment/server/webapps</outputDirectory>
@@ -108,7 +109,6 @@
             <outputDirectory>${pom.artifactId}-${build.version}/repository/conf</outputDirectory>
             <includes>
                 <include>**/registry.xml</include>
-                <include>**/datasources.properties</include>
                 <include>**/notifications-email-verification.xml</include>
                 <!--<include>**/api-manager.xml</include>-->
             </includes>
@@ -231,6 +231,9 @@
             <includes>
                 <include>**/*</include>
             </includes>
+            <excludes>
+                <exclude>**/servicex.rxt</exclude>
+            </excludes>
         </fileSet>
         <fileSet>
             <directory>../p2-profile-gen/target/wso2carbon-core-${carbon.kernel.version}/repository/conf/advanced/</directory>
@@ -259,6 +262,13 @@
                 <include>**/multitenancy-packages.xml</include>
                 <include>**/usage-throttling-agent-config.xml</include>
                 <include>**/cloud-services-desc.xml</include>
+            </includes>
+        </fileSet>
+        <fileSet>
+            <directory>../p2-profile-gen/target/wso2carbon-core-${carbon.kernel.version}/repository/conf/multitenancy/</directory>
+            <outputDirectory>${pom.artifactId}-${pom.version}/repository/conf</outputDirectory>
+            <includes>
+                <include>**/tenant-mgt.xml</include>
             </includes>
         </fileSet>
         <fileSet>
@@ -364,10 +374,11 @@
             <directory>../p2-profile-gen/target/wso2carbon-core-${carbon.kernel.version}/repository/deployment/server/jaggeryapps/greg-bam</directory>
             <outputDirectory>${pom.artifactId}-${pom.version}/repository/deployment/server/jaggeryapps/greg-bam</outputDirectory>
         </fileSet-->
-        <fileSet>
+        <!-- Removing greg-impact jaggery app- REGISTRY-2577 -->
+        <!--<fileSet>
             <directory>../p2-profile-gen/target/wso2carbon-core-${carbon.kernel.version}/repository/deployment/server/jaggeryapps/greg-impact</directory>
             <outputDirectory>${pom.artifactId}-${pom.version}/repository/deployment/server/jaggeryapps/greg-impact</outputDirectory>
-        </fileSet>
+        </fileSet>-->
         <!--fileSet>
             <directory>../p2-profile-gen/target/wso2carbon-core-${carbon.kernel.version}/repository/deployment/server/jaggeryapps/greg-publisher</directory>
             <outputDirectory>${pom.artifactId}-${pom.version}/repository/deployment/server/jaggeryapps/greg-publisher</outputDirectory>
@@ -459,6 +470,11 @@
         </fileSet>
 
         <fileSet>
+            <directory>../p2-profile-gen/target/wso2carbon-core-${carbon.kernel.version}/repository/resources/store/asset/swagger</directory>
+            <outputDirectory>${pom.artifactId}-${pom.version}/repository/deployment/server/jaggeryapps/store/extensions/assets/swagger</outputDirectory>
+        </fileSet>
+
+        <fileSet>
             <directory>../p2-profile-gen/target/wso2carbon-core-${carbon.kernel.version}/repository/resources/publisher/test</directory>
             <outputDirectory>${pom.artifactId}-${pom.version}/repository/deployment/server/jaggeryapps/publisher/test</outputDirectory>
         </fileSet>
@@ -475,10 +491,21 @@
             <outputDirectory>${pom.artifactId}-${pom.version}/repository/deployment/server/jaggeryapps/store/extensions/app/greg_store</outputDirectory>
         </fileSet>
 
+        <fileSet>
+            <directory>../p2-profile-gen/target/wso2carbon-core-${carbon.kernel.version}/repository/resources/store/extensions/app/greg-store-defaults</directory>
+            <outputDirectory>${pom.artifactId}-${pom.version}/repository/deployment/server/jaggeryapps/store/extensions/app/greg-store-defaults</outputDirectory>
+        </fileSet>
+
         <!-- ES Extensions for G-Reg impact analysis UI-->
         <fileSet>
             <directory>../p2-profile-gen/target/wso2carbon-core-${carbon.kernel.version}/repository/resources/publisher/extensions/app/greg_impact</directory>
             <outputDirectory>${pom.artifactId}-${pom.version}/repository/deployment/server/jaggeryapps/publisher/extensions/app/greg_impact</outputDirectory>
+        </fileSet>
+
+        <!-- ES Extensions for G-Reg swagger UI-->
+        <fileSet>
+            <directory>../p2-profile-gen/target/wso2carbon-core-${carbon.kernel.version}/repository/resources/publisher/extensions/app/greg_swagger</directory>
+            <outputDirectory>${pom.artifactId}-${pom.version}/repository/deployment/server/jaggeryapps/publisher/extensions/app/greg_swagger</outputDirectory>
         </fileSet>
 
         <fileSet>
@@ -494,8 +521,20 @@
             <outputDirectory>${pom.artifactId}-${pom.version}/repository/deployment/server/jaggeryapps/publisher/extensions/app/greg-apis</outputDirectory>
         </fileSet>
         <fileSet>
+            <directory>../p2-profile-gen/target/wso2carbon-core-${carbon.kernel.version}/repository/resources/store/extensions/app/greg-apis</directory>
+            <outputDirectory>${pom.artifactId}-${pom.version}/repository/deployment/server/jaggeryapps/store/extensions/app/greg-apis</outputDirectory>
+        </fileSet>
+        <fileSet>
+            <directory>../p2-profile-gen/target/wso2carbon-core-${carbon.kernel.version}/repository/resources/publisher/extensions/app/greg-diff</directory>
+            <outputDirectory>${pom.artifactId}-${pom.version}/repository/deployment/server/jaggeryapps/publisher/extensions/app/greg-diff</outputDirectory>
+        </fileSet>
+        <fileSet>
             <directory>../p2-profile-gen/target/wso2carbon-core-${carbon.kernel.version}/repository/resources/publisher/modules</directory>
             <outputDirectory>${pom.artifactId}-${pom.version}/repository/deployment/server/jaggeryapps/publisher/modules</outputDirectory>
+        </fileSet>
+        <fileSet>
+            <directory>../p2-profile-gen/target/wso2carbon-core-${carbon.kernel.version}/repository/resources/store/modules</directory>
+            <outputDirectory>${pom.artifactId}-${pom.version}/repository/deployment/server/jaggeryapps/store/modules</outputDirectory>
         </fileSet>
 
     <!--End of ES Extensions for service UI-->
@@ -1036,5 +1075,12 @@
 		<filtered>true</filtered>
 		<fileMode>644</fileMode>
 	</file>
+        <!-- copying edition.properties file -->
+        <file>
+            <source>${basedir}/src/main/resources/carbon-home//conf/edition.properties</source>
+            <outputDirectory>${pom.artifactId}-${pom.version}/</outputDirectory>
+            <filtered>true</filtered>
+            <fileMode>644</fileMode>
+        </file>
       </files>
 </assembly>

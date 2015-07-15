@@ -42,7 +42,7 @@ public class Log4jConfigurationTestCase extends GREGIntegrationUIBaseTest{
         driver.get(getLoginURL());
     }
 
-    @Test(groups = "wso2.greg", description = "verify log4j configuration")
+    @Test(groups = "wso2.greg", description = "verify log4j configuration", enabled = false)
     public void testLog4jConfiguration() throws Exception {
 
         LoginPage test = new LoginPage(driver);

@@ -104,12 +104,12 @@ public class AddWADLTestCase extends GREGIntegrationBaseTest{
     public void deleteResources()
             throws ResourceAdminServiceExceptionException, RemoteException {
 	    resourceAdminServiceClient.deleteResource(
-			    "/_system/governance/apimgt/applicationdata/provider/admin/StorageService/1.0.0/StorageService-rest_service");
-	    resourceAdminServiceClient.deleteResource("/_system/governance/trunk/endpoints/localhost/ep-storage");
+			    "/_system/governance/trunk/restservices/1.0.0/StorageService");
+	    resourceAdminServiceClient.deleteResource("/_system/governance/trunk/endpoints/ep-localhost-storage");
 	    resourceAdminServiceClient.deleteResource(
-			    "/_system/governance/apimgt/applicationdata/provider/admin/SearchSearvice/1.0.0/SearchSearvice-rest_service");
+			    "/_system/governance/trunk/restservices/1.0.0/SearchSearvice");
 	    resourceAdminServiceClient
-			    .deleteResource("/_system/governance/trunk/endpoints/com/yahoo/search/api/newssearchservice/ep-V1");
+			    .deleteResource("/_system/governance/trunk/endpoints/ep-com.yahoo.search.api.newssearchservice-V1");
 	    resourceAdminServiceClient
 			    .deleteResource("/_system/governance/trunk/wadls/com/sun/research/wadl/_2006/_10/1.0.0/StorageService");
 	    resourceAdminServiceClient

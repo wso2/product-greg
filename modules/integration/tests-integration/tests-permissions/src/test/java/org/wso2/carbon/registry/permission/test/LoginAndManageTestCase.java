@@ -85,7 +85,7 @@ public class LoginAndManageTestCase extends GREGIntegrationBaseTest{
     }
 
     @Test(groups = "wso2.greg", description = "Test whether a non admin can view others profiles",
-          expectedExceptions = org.wso2.carbon.identity.user.profile.stub.UserProfileMgtServiceUserProfileExceptionException.class)
+          expectedExceptions = {org.wso2.carbon.user.core.UserStoreException.class,java.rmi.RemoteException.class})
     public void testProfile() throws UserProfileMgtServiceUserProfileExceptionException, RemoteException {
         UserProfileDTO userProfileDTO = new UserProfileDTO();
         userProfileDTO.setProfileName(userProfileName);

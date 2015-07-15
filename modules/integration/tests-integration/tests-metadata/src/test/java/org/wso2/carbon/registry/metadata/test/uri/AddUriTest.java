@@ -318,6 +318,7 @@ public class AddUriTest extends GREGIntegrationBaseTest {
         }
 	
         governance.delete("trunk/endpoints");
+        governance.delete("uris");
         governance = null;
 
     }

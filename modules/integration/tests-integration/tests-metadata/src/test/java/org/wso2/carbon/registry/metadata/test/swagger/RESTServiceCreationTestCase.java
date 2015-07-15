@@ -36,7 +36,7 @@ import java.rmi.RemoteException;
 public class RESTServiceCreationTestCase extends GREGIntegrationBaseTest{
 	private ResourceAdminServiceClient resourceAdminServiceClient;
 	private String swaggerCommonPath = "/_system/governance/apimgt/applicationdata/api-docs/";
-	private String restServiceCommonPath = "/_system/governance/apimgt/applicationdata/provider/";
+	private String restServiceCommonPath = "/_system/governance/trunk/restservices/";
 
 	/**
 	 * This method used to init the rest service creation test cases.
@@ -63,9 +63,9 @@ public class RESTServiceCreationTestCase extends GREGIntegrationBaseTest{
 		String resourceName = "swagger.json";
 		resourceAdminServiceClient.addSwagger(resourceName, "adding From URL", resourceUrl);
 		Assert.assertNotNull(resourceAdminServiceClient.getResourceContent(
-				swaggerCommonPath + "admin/SwaggerSampleApp/1.0.0/" + resourceName));
+				swaggerCommonPath + "admin/1.0.0/" + resourceName));
 		Assert.assertNotNull(resourceAdminServiceClient.getResourceContent(
-				restServiceCommonPath + "admin/SwaggerSampleApp/1.0.0/SwaggerSampleApp-rest_service"));
+				restServiceCommonPath + "/1.0.0/SwaggerSampleApp"));
 	}
 
 	/**
@@ -86,9 +86,9 @@ public class RESTServiceCreationTestCase extends GREGIntegrationBaseTest{
 		                                      new DataHandler(new URL("file:///" + swaggerPath)));
 
 		Assert.assertNotNull(resourceAdminServiceClient
-				                     .getResourceContent(swaggerCommonPath + "admin/SwaggerPetstore/1.0.0/" + fileName));
+				                     .getResourceContent(swaggerCommonPath + "admin/1.0.0/" + fileName));
 		Assert.assertNotNull(resourceAdminServiceClient.getResourceContent(
-				restServiceCommonPath + "admin/SwaggerPetstore/2.1.1/SwaggerPetstore-rest_service"));
+				restServiceCommonPath + "/2.1.1/SwaggerPetstore"));
 	}
 
 	/**
@@ -96,15 +96,15 @@ public class RESTServiceCreationTestCase extends GREGIntegrationBaseTest{
 	 */
 	@AfterClass(groups = { "wso2.greg" })
 	public void cleanup() throws RemoteException, ResourceAdminServiceExceptionException {
-		deleteResource(restServiceCommonPath + "admin/SwaggerPetstore/2.1.1/SwaggerPetstore-rest_service");
-		deleteResource(restServiceCommonPath + "admin/SwaggerSampleApp/1.0.0/SwaggerSampleApp-rest_service");
-		deleteResource(swaggerCommonPath + "admin/SwaggerSampleApp/1.0.0/swagger.json");
-		deleteResource(swaggerCommonPath + "admin/SwaggerSampleApp/1.0.0/pet");
-		deleteResource(swaggerCommonPath + "admin/SwaggerSampleApp/1.0.0/store");
-		deleteResource(swaggerCommonPath + "admin/SwaggerSampleApp/1.0.0/user");
-		deleteResource(swaggerCommonPath + "admin/SwaggerPetstore/1.0.0/swagger2.json");
-		deleteResource("/_system/governance/trunk/endpoints/io/swagger/petstore/ep-api");
-		deleteResource("/_system/governance/trunk/endpoints/io/swagger/petstore/ep-v2");
+        deleteResource(restServiceCommonPath + "/2.1.1/SwaggerPetstore");
+        deleteResource(restServiceCommonPath + "1.0.0/SwaggerSampleApp");
+		deleteResource(swaggerCommonPath + "admin/1.0.0/swagger.json");
+		deleteResource(swaggerCommonPath + "admin/1.0.0/pet");
+		deleteResource(swaggerCommonPath + "admin/1.0.0/store");
+		deleteResource(swaggerCommonPath + "admin/1.0.0/user");
+		deleteResource(swaggerCommonPath + "admin/1.0.0/swagger2.json");
+		deleteResource("/_system/governance/trunk/endpoints/ep-io.swagger.petstore-api");
+		deleteResource("/_system/governance/trunk/endpoints/ep-io.swagger.petstore-v2");
 		resourceAdminServiceClient = null;
 		swaggerCommonPath = null;
 		restServiceCommonPath = null;

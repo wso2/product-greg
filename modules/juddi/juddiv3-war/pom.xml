@@ -281,6 +281,11 @@
                     <artifactId>geronimo-javamail_1.4_mail</artifactId>
                     <version>1.8.2</version>
                 </dependency>
+                <dependency>
+                    <groupId>org.apache.geronimo.specs</groupId>
+                    <artifactId>geronimo-jpa_2.0_spec</artifactId>
+                    <version>1.1</version>
+                </dependency>
             </dependencies>
         </profile>
         <profile>

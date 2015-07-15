@@ -59,6 +59,7 @@ asset.manager = function(ctx) {
             var value = '' + new Stream(new ByteArrayInputStream(content));
             //since this is wsdlcontent.
             asset.wadlname = wadlname;
+            asset.assetName = wadlname;
             asset.version = version;
             asset.authorUserName = authorUserName;
             asset.wadlContent = value;
@@ -122,4 +123,14 @@ asset.manager = function(ctx) {
             return asset;
         }
     };
+};
+
+asset.configure = function() {
+    return {
+        meta: {
+            ui: {
+                icon: 'fw fw-wadl'
+            }
+        }
+    }
 };

@@ -54,6 +54,7 @@ public class EndpointTestCase extends GREGIntegrationBaseTest {
     private String backEndUrl;
     private String userName;
     private String userNameWithoutDomain;
+    private String endpointPath;
 
 
     @BeforeClass
@@ -91,6 +92,7 @@ public class EndpointTestCase extends GREGIntegrationBaseTest {
 
         Endpoint endpoint = createEndpoint(endpoint_url);
         assertTrue(registry.resourceExists(PATH_CONSTANT + endpoint.getPath()), "Endpoint Resource Does not exists :");
+        endpointPath = PATH_CONSTANT + endpoint.getPath();
         VersionUtils.deleteAllVersions(resourceAdminClient, PATH_CONSTANT + endpoint.getPath());
         registry.createVersion(PATH_CONSTANT + endpoint.getPath());
         VersionPath[] vp = resourceAdminClient.getVersionPaths(PATH_CONSTANT + endpoint.getPath());
@@ -117,10 +119,14 @@ public class EndpointTestCase extends GREGIntegrationBaseTest {
 
 
     @AfterClass
-    public void clear() throws GovernanceException {
+    public void clear() throws RegistryException {
         EndpointManager endpointManager = new EndpointManager(governance);
         Endpoint endpoint = endpointManager.getEndpointByUrl("http://ws.strikeiron.com/StrikeIron/donotcall2_5/DoNotCallRegistryUnique");
-        endpointManager.removeEndpoint(endpoint.getId());
+        System.out.println(endpointPath);
+        registry.delete(endpointPath);
+        //System.out.println(endpoint.getId());
+        //System.out.println(endpoint.getPath());
+        //endpointManager.removeEndpoint(endpoint.getId());
         governance = null;
         resourceAdminClient = null;
         registry = null;

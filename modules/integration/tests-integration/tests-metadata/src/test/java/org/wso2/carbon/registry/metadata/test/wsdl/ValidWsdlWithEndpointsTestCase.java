@@ -55,12 +55,12 @@ public class ValidWsdlWithEndpointsTestCase extends GREGIntegrationBaseTest {
     private ResourceAdminServiceClient resourceAdminServiceClient;
     private String sessionCookie;
     private String[] endpointArtifactPaths = {
-            "/trunk/endpoints/localhost/services/ep-echo-yu-echoHttpsSoap11Endpoint",
-            "/trunk/endpoints/localhost/services/ep-echo-yu-echoHttpSoap11Endpoint",
-            "/trunk/endpoints/localhost/services/ep-echo-yu-echoHttpsSoap12Endpoint",
-            "/trunk/endpoints/localhost/services/ep-echo-yu-echoHttpSoap12Endpoint",
-            "/trunk/endpoints/localhost/services/ep-echo-yu-echoHttpEndpoint",
-            "/trunk/endpoints/localhost/services/ep-echo-yu-echoHttpsEndpoint" };
+            "/trunk/endpoints/ep-localhost.services-echo-yu-echoHttpsSoap11Endpoint",
+            "/trunk/endpoints/ep-localhost.services-echo-yu-echoHttpSoap11Endpoint",
+            "/trunk/endpoints/ep-localhost.services-echo-yu-echoHttpsSoap12Endpoint",
+            "/trunk/endpoints/ep-localhost.services-echo-yu-echoHttpSoap12Endpoint",
+            "/trunk/endpoints/ep-localhost.services-echo-yu-echoHttpEndpoint",
+            "/trunk/endpoints/ep-localhost.services-echo-yu-echoHttpsEndpoint" };
 
     @BeforeClass(groups = "wso2.greg", alwaysRun = true)
     public void initialize() throws Exception {

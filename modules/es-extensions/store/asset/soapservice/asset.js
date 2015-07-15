@@ -48,11 +48,16 @@ asset.manager = function(ctx) {
     var setCustomAssetAttributes = function(asset, userRegistry) {
         var interfaceUrl=asset.attributes.interface_wsdlURL;
         if (interfaceUrl != null) {
-            var resource = userRegistry.registry.get(interfaceUrl);
-            var wsdlContent = getInterfaceTypeContent(resource);
-            asset.wsdlContent = wsdlContent;
-            var wsdlUUID = getInterfaceTypeUUID(resource);
-            asset.wsdl_uuid = wsdlUUID;
+            try {
+                var resource = userRegistry.registry.get(interfaceUrl);
+                var wsdlContent = getInterfaceTypeContent(resource);
+                asset.wsdlContent = wsdlContent;
+                var wsdlUUID = getInterfaceTypeUUID(resource);
+                asset.wsdl_uuid = wsdlUUID;
+            } catch(e) {
+                asset.wsdl_uuid = "";
+                asset.wsdlContent = "";
+            }
         }
     };
     var getInterfaceTypeContent = function (resource) {
@@ -117,4 +122,14 @@ asset.manager = function(ctx) {
             return asset;
         }
     };
+};
+
+asset.configure = function() {
+    return {
+        meta: {
+            ui: {
+                icon: 'fw fw-soap'
+            }
+        }
+    }
 };

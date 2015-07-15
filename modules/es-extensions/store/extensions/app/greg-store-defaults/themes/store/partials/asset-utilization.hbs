@@ -1,0 +1,57 @@
+<!--
+  Asset utilization icons if the user has subscribed to this asset
+-->
+
+<div class="action-container right float-right" style="display: none;">
+    {{#if assets.isSubscribed}}
+        <a id="btn-add-gadget" class="btn disabled" href="#modal-add-gadget"
+           data-toggle="modal"
+           data-aid="{{assets.id}}" data-type="{{assets.type}}"> {{>processed-asset-text}}</a>
+    {{else}}
+
+        {{#if cuser.username}}
+            <a id="btn-view-diff" class="blue-button margin-left float-left" href="#modal-view-difft"
+               data-toggle="modal"
+               data-aid="{{assets.id}}"
+               data-type="{{assets.type}}"><i class="fa fa-files-o"></i> View Diff</a>
+
+            <a id="btn-view-diff" class="blue-button margin-left float-left" href="#modal-view-difft"
+               data-toggle="modal"
+               data-aid="{{assets.id}}"
+               data-type="{{assets.type}}"><i class="fa fa-link"></i> Dependency Graph</a>
+
+            <a id="btn-add-gadget" class="blue-button margin-left float-left" href="#modal-add-gadget"
+               data-toggle="modal"
+               data-aid="{{assets.id}}"
+               data-type="{{assets.type}}"><i class="fa fa-bookmark-o"></i> {{>process-asset-text }}</a>
+        {{else}}
+
+            <a id="btn-add-gadget" class="blue-button margin-left float-left" href='{{url ""}}{{getLoginUrl .}}'
+               data-toggle="modal"
+               data-aid="{{assets.id}}" data-type="{{assets.type}}"> {{>process-asset-text }}</a>
+        {{/if}}
+
+
+    {{/if}}
+
+</div>
+
+
+
+<!--
+  Asset utilization icons that do not need to be secured
+-->
+{{#with assets}}
+    <div class="action-container float-right right">
+        {{#attributes }}
+            <div class="action-sub-container left">
+      <span class="action-icon-button">
+          <span class="find-text">
+        <a class="" href="{{overview_url}}" target="_blank" data-placement="bottom" data-toggle="tooltip" title="{{>asset-overview-text}}"><img src="{{../../rxt.meta.ui.icon_src}}" class="circle"  align="middle"></a>
+          </span>
+      </span>
+            </div>
+
+        {{/attributes}}
+    </div>
+{{/with}}

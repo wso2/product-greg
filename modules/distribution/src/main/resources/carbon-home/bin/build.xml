@@ -91,6 +91,7 @@
                 <include name="org.wso2.carbon.registry.jcr*.jar"/><!-- used by the g-reg ws jcr api-->
                 <include name="org.wso2.carbon.dataservices.core*.jar"/> <!-- Required by DSS for custom validators etc.. -->
                 <include name="org.wso2.carbon.governance.api*.jar"/>
+                <include name="org.wso2.carbon.governance.client*.jar"/>
                 <include name="org.wso2.carbon.registry.extensions*.jar"/>
                 <include name="jettison*.jar"/><!-- used by the JSON sample client in appserver -->
                 <include name="org.wso2.carbon.user.api*.jar"/>

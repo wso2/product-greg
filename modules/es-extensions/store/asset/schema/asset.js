@@ -59,6 +59,7 @@ asset.manager = function(ctx) {
             var value = '' + new Stream(new ByteArrayInputStream(content));
             //since this is wsdlcontent.
             asset.schemaname = schemaname;
+            asset.assetName = schemaname;
             asset.version = version;
             asset.authorUserName = authorUserName;
             asset.schemaContent = value;
@@ -118,4 +119,14 @@ asset.manager = function(ctx) {
             return asset;
         }
     };
+};
+
+asset.configure = function() {
+    return {
+        meta: {
+            ui: {
+                icon: 'fw fw-schema'
+            }
+        }
+    }
 };

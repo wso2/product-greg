@@ -105,8 +105,11 @@
                         <Bundle-Name>${project.artifactId}</Bundle-Name>
                         <Private-Package>
                             common.*,
-                            org.wso2.carbon.registry.samples.handler.*,
                         </Private-Package>
+                        <Export-Package>
+                            org.wso2.carbon.registry.samples.handler.*,
+                            org.wso2.carbon.registry.samples.task.*,
+                        </Export-Package>
                         <Import-Package>
                             org.wso2.carbon.registry.core.*,
                             !javax.xml.namespace,

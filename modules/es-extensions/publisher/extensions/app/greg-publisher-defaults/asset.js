@@ -46,9 +46,9 @@ asset.renderer = function(ctx) {
             subscriptionPopulator: function(page) {
                 if (page.meta.pageName === 'details') {
                     var am = assetManager(ctx.session,ctx.assetType);
-                    log.info('### obtaining subscriptions ###');
+                    log.debug('### obtaining subscriptions ###');
                     page.subscriptions = gregAPI.subscriptions.list(am,page.assets.id);
-                    log.info('### done ###');
+                    log.debug('### done ###');
                 }
             },
             notificationPopulator: function(page) {
@@ -69,10 +69,10 @@ asset.renderer = function(ctx) {
                 var ptr = page.leftNav || [];
                 var entry;
                 var allowedPages = ['details','lifecycle','update'];
-                log.info('Association populator ' + page.meta.pageName);
+                log.debug('Association populator ' + page.meta.pageName);
                 //if (((page.meta.pageName !== 'associations') && (page.meta.pageName !== 'list')) &&(page.meta.pageName !== 'create')) {
                 if(allowedPages.indexOf(page.meta.pageName)>-1){
-                    log.info('adding link');
+                    log.debug('adding link');
                     entry = {};
                     entry.name = 'Associations';
                     entry.iconClass = 'btn-lifecycle';
@@ -88,7 +88,24 @@ asset.renderer = function(ctx) {
                 q.overview_resourcepath = page.assets.path;
                 var items = getAssetCommentManager(ctx).search(q);
                 page.comments = items;
-                log.info(page.comments);
+            },
+            versions: function (page) {
+                if (page.meta.pageName !== 'details') {
+                    return;
+                }
+
+                var type = page.assets.type;
+                page.assetVersions = gregAPI.getAssetVersions(ctx.session, ctx.assetType, page.assets.path, page.assets.name);
+            },
+            decoratingAssetListing: function(page) {
+                // Following is to remove the statistics button in the list page
+                for(index in page.leftNav) {
+                    var button = page.leftNav[index];
+
+                    if(button.iconClass === "btn-stats") {
+                        page.leftNav.splice(index, 1);
+                    }
+                }
             }
         }
     };
@@ -103,6 +120,9 @@ asset.configure = function() {
                 defaultLifecycleEnabled: false,
                 publishedStates: ['Published']
             },
+            ui:{
+                icon:'fw fw-resource'
+            },
             grouping: {
                 groupingEnabled: false,
                 groupingAttributes: ['overview_name']
@@ -110,16 +130,4 @@ asset.configure = function() {
         }
     };
 };
-// asset.configure = function(){
-//  return {
-//      meta:{
-//          lifecycle:{
-//              lifecycleViewEnabled:false,
-//              lifecycleEnabled:false
-//          },
-//          grouping:{
-//              groupingEnabled:true
-//          }
-//      }
-//  };
-// };
+

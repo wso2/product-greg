@@ -16,27 +16,30 @@
  *  under the License.
  *
  */
-
 asset.manager = function (ctx) {
     return {
         create: function (options) {
             options.attributes.overview_hash = Math.random();
-            log.info(options);
             try {
                 this._super.create.call(this, options);
             } catch (e) {
                 log.error(e);
                 throw e;
             }
+        },
+        postCreate:function(){
+            
         }
     };
 };
-
 asset.configure = function () {
     return {
         meta: {
             lifecycle: {
                 defaultLifecycleEnabled: false
+            },
+            ui: {
+                icon: 'fw fw-wsdl'
             }
         }
     }

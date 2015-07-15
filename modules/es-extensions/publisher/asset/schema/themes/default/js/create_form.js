@@ -99,7 +99,7 @@ $(function() {
         var $form = $('form[name="form-asset-create"]');
         if (action === 'addNewSchemaFileAssetButton') {//upload via file browser
             //call the custom endpoint for processing schema upload via file browser.
-            $form.attr('action', caramel.context + '/asts/schema/apis/schemas');
+            $form.attr('action', caramel.context + '/assets/schema/apis/schemas');
             var $schemaFileInput = $('input[name="schema_file"]');
             var schemaFileInputValue = $schemaFileInput.val();
             var schemaFilePath = schemaFileInputValue;

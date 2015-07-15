@@ -97,7 +97,7 @@ $(function() {
         var $form = $('form[name="form-asset-create"]');
         if ( action === 'addNewSwaggerFileAssetButton') {//upload via file browser
             //call the custom endpoint for processing Swaggers upload via file browser.
-            $form.attr('action', caramel.context + '/asts/swagger/apis/swaggers');
+            $form.attr('action', caramel.context + '/assets/swagger/apis/swaggers');
             var $swaggerFileInput = $('input[name="swagger_file"]');
             var swaggerFileInputValue = $swaggerFileInput.val();
             var swaggerFilePath = swaggerFileInputValue;

@@ -67,6 +67,40 @@ asset.manager = function(ctx) {
             registry.put(path, wsdlResource);
         }
     };
+
+    var getAssociations = function(associatedResources, userRegistry){
+        //Array to store the association names.
+        var associations = [];
+
+        for(var index = 0; index< associatedResources.length; index++){
+            var deps = {};
+            var path = associatedResources[index].getDestinationPath();
+            var subPaths = path.split('/');
+            var associationTypePlural = subPaths[4];
+            var associationName = subPaths[subPaths.length - 1];
+            var resource = userRegistry.registry.get(path);
+            var associationUUID = resource.getUUID();
+            deps.associationName = associationName;
+            deps.associationType = associationTypePlural.substring(0, associationTypePlural.lastIndexOf('s'));
+            deps.associationUUID = associationUUID;
+
+            if(deps.associationType == "soapservice") {
+                associations.push(deps);
+            }
+        }
+        return associations;
+    };
+
+    var setDependencies = function(asset,userRegistry) {
+        try {
+            //get dependencies of the artifact.
+            var associatedResources = userRegistry.registry.getAllAssociations(asset.path);
+            asset.dependencies = getAssociations(associatedResources, userRegistry);
+        } catch(e) {
+            asset.dependencies = [];
+        }
+    };
+
     return {
         importAssetFromHttpRequest: function(options) {
             log.debug('Importing asset from request');
@@ -110,6 +144,7 @@ asset.manager = function(ctx) {
                 item.name = subPaths[subPaths.length - 1];
                 item.attributes.overview_name = item.name;
                 item.version = subPaths[subPaths.length - 2];
+                item.overview_version = item.version;
                 item.attributes.overview_version = item.version;
                 var userRegistry = getRegistry(ctx.session);
                 var ByteArrayInputStream = Packages.java.io.ByteArrayInputStream;
@@ -118,6 +153,9 @@ asset.manager = function(ctx) {
                 var content = resource.getContent();
                 var value = '' + new Stream(new ByteArrayInputStream(content));
                 item.content = value;
+
+                var userRegistry = getRegistry(ctx.session);
+                setDependencies(item, userRegistry);
             } catch(e) {
                 log.error(e);
                 return null;
@@ -133,7 +171,11 @@ asset.manager = function(ctx) {
                 var subPaths = path.split('/');
                 var name = subPaths[subPaths.length - 1];
                 result.name = name;
+                result.attributes.overview_name = name;
                 result.version = subPaths[subPaths.length - 2];
+                result.overview_version = result.version;
+                result.attributes.overview_version = result.version;
+                result.attributes.version = result.version;
             }
             return items;
         },
@@ -146,6 +188,10 @@ asset.manager = function(ctx) {
                 var name = subPaths[subPaths.length - 1];
                 result.name = name;
                 result.version = subPaths[subPaths.length - 2];
+                result.attributes.overview_name = name;
+                result.overview_version = result.version;
+                result.attributes.overview_version = result.version;
+                result.attributes.version = result.version;
             }
             return items;
         },
@@ -158,6 +204,26 @@ asset.manager = function(ctx) {
                 var name = subPaths[subPaths.length - 1];
                 result.name = name;
                 result.version = subPaths[subPaths.length - 2];
+                result.attributes.overview_name = name;
+                result.overview_version = result.version;
+                result.attributes.overview_version = result.version;
+                result.attributes.version = result.version;
+            }
+            return results;
+        },
+        advanceSearch: function(q, paging) {
+            var results = this._super.advanceSearch.call(this, q, paging);
+            for (var index = 0; index < results.length; index++) {
+                var result = results[index];
+                var path = result.path;
+                var subPaths = path.split('/');
+                var name = subPaths[subPaths.length - 1];
+                result.name = name;
+                result.version = subPaths[subPaths.length - 2];
+                result.attributes.overview_name = name;
+                result.overview_version = result.version;
+                result.attributes.overview_version = result.version;
+                result.attributes.version = result.version;
             }
             return results;
         },
@@ -166,6 +232,9 @@ asset.manager = function(ctx) {
         },
         update: function(){
 
+        },
+        postCreate:function(){
+            
         }
     };
 };
@@ -235,8 +304,21 @@ asset.renderer = function(ctx) {
                     if(button.iconClass === "btn-edit") {
                         page.leftNav.splice(index, 1);
                     }
+
+                    if(button.iconClass === "btn-copy") {
+                        page.leftNav.splice(index, 1);
+                    }
                 }
             }
         }
     };
+};
+asset.configure = function() {
+    return {
+        meta: {
+            ui: {
+                icon: 'fw fw-wsdl'
+            }
+        }
+    }
 };

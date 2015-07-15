@@ -58,11 +58,11 @@ public class WsdlAssociationVerificationTestCase extends GREGIntegrationBaseTest
     private final String associatedServicePathAutomated =
             "/_system/governance/trunk/services/com/strikeiron/www/1.0.0/DoNotCallRegistry";
     private final String associatedEndpointPathAutomated =
-            "/_system/governance/trunk/endpoints/com/strikeiron/ws/strikeiron/donotcall2_5/ep-DoNotCallRegistry";
+            "/_system/governance/trunk/endpoints/ep-com.strikeiron.ws.strikeiron.donotcall2_5-DoNotCallRegistry";
     private final String associatedServicePathAmazon =
             "/_system/governance/trunk/services/com/amazon/soap/1.0.0/AmazonSearchService";
     private final String associatedEndpointPathAmazon =
-            "/_system/governance/trunk/endpoints/com/amazon/soap/onca/ep-soap2";
+            "/_system/governance/trunk/endpoints/ep-com.amazon.soap.onca-soap2";
     private String sessionCookie;
 
     @BeforeClass (groups = "wso2.greg", alwaysRun = true)

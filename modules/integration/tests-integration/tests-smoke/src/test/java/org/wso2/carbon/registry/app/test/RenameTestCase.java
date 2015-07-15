@@ -16,6 +16,7 @@
 
 package org.wso2.carbon.registry.app.test;
 
+import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 import org.wso2.carbon.automation.engine.context.TestUserMode;
@@ -132,5 +133,10 @@ public class RenameTestCase extends GREGIntegrationBaseTest{
         Resource newR1 = registry.get("/c2/rename4/c1/dummy");
         assertEquals(newR1.getProperty("test"), "rename",
                      "Resource should contain a property with name test and value rename.");
+    }
+
+    @AfterClass(alwaysRun = true)
+    public void cleanArtifact() throws RegistryException {
+        registry = null;
     }
 }

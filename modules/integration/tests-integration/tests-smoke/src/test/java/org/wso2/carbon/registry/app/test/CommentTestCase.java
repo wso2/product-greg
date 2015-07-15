@@ -379,5 +379,6 @@ public class CommentTestCase extends GREGIntegrationBaseTest {
         registry.delete("/d11");
         registry.delete("/c101");
         registry.delete("/_c1d1");
+        registry = null;
     }
 }

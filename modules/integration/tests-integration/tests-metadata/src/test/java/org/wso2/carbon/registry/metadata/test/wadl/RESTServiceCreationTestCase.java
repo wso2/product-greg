@@ -30,7 +30,7 @@ import java.rmi.RemoteException;
 
 public class RESTServiceCreationTestCase extends GREGIntegrationBaseTest{
 	private ResourceAdminServiceClient resourceAdminServiceClient;
-	private String restServiceCommonPath = "/_system/governance/apimgt/applicationdata/provider/";
+	private String restServiceCommonPath = "/_system/governance/trunk/restservices/";
 
 	/**
 	 * This method used to init the rest service creation test cases.
@@ -59,7 +59,7 @@ public class RESTServiceCreationTestCase extends GREGIntegrationBaseTest{
 		Assert.assertNotNull(resourceAdminServiceClient.getResourceContent(
 				"/_system/governance/trunk/wadls/net/java/dev/wadl/_2009/_02/1.0.0/" + resourceName));
 		Assert.assertNotNull(resourceAdminServiceClient.getResourceContent(
-				restServiceCommonPath + "admin/SearchSearvice/1.0.0/SearchSearvice-rest_service"));
+				restServiceCommonPath + "1.0.0/SearchSearvice"));
 	}
 
 	/**
@@ -67,8 +67,8 @@ public class RESTServiceCreationTestCase extends GREGIntegrationBaseTest{
 	 */
 	@AfterClass(groups = { "wso2.greg" })
 	public void cleanup() throws RemoteException, ResourceAdminServiceExceptionException {
-		deleteResource(restServiceCommonPath + "admin/SearchSearvice/1.0.0/SearchSearvice-rest_service");
-		deleteResource("/_system/governance/trunk/endpoints/com/yahoo/search/api/newssearchservice/ep-V1");
+		deleteResource(restServiceCommonPath + "1.0.0/SearchSearvice");
+		deleteResource("/_system/governance/trunk/endpoints/ep-com.yahoo.search.api.newssearchservice-V1");
 		deleteResource("/_system/governance/trunk/wadls/net/java/dev/wadl/_2009/_02/1.0.0/SearchSearvice.wadl");
 		resourceAdminServiceClient = null;
 		restServiceCommonPath = null;
