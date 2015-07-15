@@ -40,6 +40,8 @@ var resources = function(page, meta) {
     o.css.push('codemirror.css');
     o.css.push('es_codemirror.css');
     o.js.push('codemirror.js');
+    o.js.push('javascript.js');
+    o.js.push('formatting.js');
     o.js.push('xml.js');
     o.js.push('view-asset.js');
     return o;
