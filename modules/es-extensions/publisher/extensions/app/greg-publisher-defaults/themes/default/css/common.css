@@ -17,6 +17,53 @@ body {
     min-height: 100%;
 }
 
+b, strong {
+    font-weight: 500;
+}
+
+h1 {
+    font-size: 27px;
+    margin-bottom:20px;
+    padding-bottom:20px;
+    font-weight: 300;
+    font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+    border-bottom:0px solid #f0f0f0;
+}
+
+.inverse h1 {
+    color: #fff;
+}
+
+.page-header.no-border {
+    border-bottom: none;
+    padding-bottom: 0;
+}
+
+.inverse .page-header {
+    border-bottom-color: #bbb;
+}
+
+.page-header > h1 {
+    margin-bottom: 0;
+    padding-bottom: 0;
+}
+
+.page-header > .lead {
+    font-size: 16px;
+    color: #bbb;
+    margin-bottom: 5px;
+}
+
+@media (min-width: 768px) {
+    .page-header > .lead {
+        font-size: 19px;
+    }
+}
+
+.inverse hr {
+    opacity: 0.1;
+}
+
 .wr-auth a {
     color: #fff;
     text-decoration: none;
@@ -544,8 +591,8 @@ a.cu-btn:hover, .wr-asset-type-switcher a.switcher-link:hover {
     border: none;
     padding: 0;
     display: inline-block;
-    width: 200px;
-    height: 260px;
+    width: 192px;
+    height: 300px;
     background: transparent;
     margin: 0 5px 10px;
     vertical-align: top;
@@ -554,6 +601,7 @@ a.cu-btn:hover, .wr-asset-type-switcher a.switcher-link:hover {
 .thumbnail a, .thumbnail a:focus, .thumbnail a:hover {
     display: block;
     color: #fff;
+    text-decoration: none;
 }
 
 .thumbnail .icon { 
@@ -595,9 +643,263 @@ a.cu-btn:hover, .wr-asset-type-switcher a.switcher-link:hover {
 
 .thumbnail .title h2 {
     font-size: 13px;
-    opacity: 0.8;
+    color: #222;
+}
+
+.inverse .thumbnail .title h2 {
+    color: #bbb;
 }
 
 .wr-asset-type-switcher .popover.bottom {
     min-width: 384px;
+}
+
+.search-label {
+  font-weight: 300;
+  font-size: 18px;
+}
+
+.inverse .search-label {
+    color: #fff;
+}
+
+.form-search {
+    max-width: 100%;
+}
+
+.form-search input.form-control {
+    background: #bbb;
+    height: 40px;    
+    border: none;
+    color: #fff;
+    line-height: 40px;
+    font-size: 18px;
+    padding: 0 45px 0 15px;
+}
+
+.form-search a {
+    cursor: pointer;
+    display: block;
+    color: #fff;
+    font-size: 20px;
+    height: 40px;
+    width: 40px;
+    pointer-events: all;
+}
+
+.form-search a:hover {
+    background: #949494;
+    text-decoration: none;
+}
+
+.form-search a.search {
+    right: 40px;
+}
+
+.form-search a.advance {
+    white-space: nowrap;
+    font-size: 16px;
+    background: #2C313B;
+    width: 40px;
+    right: 0;
+}
+
+.inverse .form-search a.advance {
+    background: #4B525F;
+}
+
+.form-search a.advance i, .form-search a.advance span {
+    line-height: 40px;
+}
+
+.form-search a.advance span {
+    display: none;
+}
+
+.form-search input.form-control::-webkit-input-placeholder { color: #e4e4e4; }
+.form-search input.form-control:-moz-placeholder { color: #e4e4e4; }
+.form-search input.form-control::-moz-placeholder { color: #e4e4e4; }
+.form-search input.form-control:-ms-input-placeholder { color: #e4e4e4; }
+
+@media (min-width: 992px){
+    .form-search { max-width: 500px; }
+    .form-search a.search { right: 0; }
+    .form-search a.advance { width: 170px; right: -170px; }
+    .form-search a.advance i { line-height: 35px; padding-bottom: 5px; }
+    .form-search a.advance span { display: inline-block; }
+}
+
+.tile {
+    color: #fff;
+    background: #4f5050;
+    padding: 20px;
+    margin-bottom: 20px;
+    min-height: 180px;
+}
+
+.tile.color1 {
+    background: #017d85;
+}
+
+.tile.color2 {
+    background: #00bc8e;
+}
+
+.tile h1, .tile h2 {
+    font-size: 28px;
+    font-weight: 300;
+    color: #fff;
+    margin: 0 0 10px;
+    padding: 0;
+}
+
+.tile h2 {
+    font-size: 14px;
+    min-height: 30px;
+}
+
+.tile a {
+    color: #fff;
+    text-decoration: underline;
+    font-weight: 400;
+}
+
+.tile a:hover {
+    text-decoration: none;
+}
+
+.tile .action-group {
+    min-height: 60px;
+    display: block;
+    width: 100%;
+    position: relative;
+}
+
+.tile .action-group .actions {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    width: auto;
+}
+
+.tile .action-group .action-options {
+    height: 100px;
+}
+
+.tile .tile-icon {
+    font-size: 60px;
+}
+
+.tile .btn {
+    font-size: 14px;
+    font-weight: 200;
+    padding: 0 10px;
+    text-decoration: none;
+    height: 40px;
+    line-height: 40px;
+}
+
+.tile.color1 .btn.btn-default.secondary {
+    background: #38979d !important;
+}
+
+.tile.color2 .btn.btn-default.secondary {
+    background: #158f68 !important;
+}
+
+.tile .btn.btn-default.tertiary {
+    background: transparent !important;
+}
+
+.tile button .icon {
+    font-size: 12px;
+}
+
+.tile .btn.btn-default.icon-only .icon {
+    font-size: 18px;
+}
+
+/* radio button style*/
+.radio {
+    display: inline-block;
+    margin: 0 10px 8px 0;
+    cursor: pointer;
+    font-weight: 100;
+}
+
+.radio  > input[type=radio] {
+    position: absolute;
+    opacity: 0;
+}
+
+.radio .helper {
+    padding-left: 25px;
+    position: relative;
+}
+
+.radio .helper:before {
+    position: absolute;
+    display: block;
+    height: 20px;
+    width: 20px;
+    content: "";
+    text-indent: -9999px;
+    border: 2px #d9d9d9 solid;
+    z-index: 1;
+    opacity: 1;
+    top: 0;
+    left: 0;
+    border-radius: 100%;
+}
+
+.radio input[type="radio"]:checked + .helper:after {
+    position: absolute;
+    display: block;
+    content: "";
+    color: #1a1a1a;
+    z-index: 2;
+    font-size: 16px;
+    font-weight: bold;
+    left: 5px;
+    margin-left: 0;
+    top: 50%;
+    margin-top: -5px;
+    background-color: #1a1a1a;
+    width: 10px;
+    height: 10px;
+    border-radius: 100%;
+}
+
+.inverse .radio input[type="radio"]:checked + .helper:after {
+    color: #fff;
+    background-color: #fff;
+}
+
+.radio input[type="radio"]:disabled + .helper:before {
+    cursor: default;
+    background: #e6e6e6;
+}
+
+.radio input[type="radio"]:disabled + .helper:after {
+    background-color: #8a8a8a;
+}
+
+.radio:hover input:not(:disabled) + .helper:before {
+    border-color: #919191;
+}
+
+.inverse .radio:hover input:not(:disabled) + .helper:before {
+    border-color: #fff;
+}
+
+.radio:active input:not(:disabled) + .helper:before {
+    border-color: #919191;
+}
+
+[data-step] {
+    display: none;
+}
+
+[data-step]:first-child {
+    display: block;
 }

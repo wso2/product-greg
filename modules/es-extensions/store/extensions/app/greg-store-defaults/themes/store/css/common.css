@@ -4,6 +4,49 @@ body {
     overflow-x: hidden;
 }
 
+h1 {
+    font-size: 27px;
+    margin-bottom:20px;
+    padding-bottom:20px;
+    font-weight: 300;
+    font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+    border-bottom:0px solid #f0f0f0;
+}
+
+.inverse h1 {
+    color: #fff;
+}
+
+.page-header.no-border {
+    border-bottom: none;
+    padding-bottom: 0;
+}
+
+.inverse .page-header {
+    border-bottom-color: #bbb;
+}
+
+.page-header > h1 {
+    margin-bottom: 0;
+    padding-bottom: 0;
+}
+
+.page-header > .lead {
+    font-size: 16px;
+    color: #bbb;
+    margin-bottom: 5px;
+}
+
+@media (min-width: 768px) {
+    .page-header > .lead {
+        font-size: 19px;
+    }
+}
+
+.inverse hr {
+    opacity: 0.1;
+}
+
 .app-logo {
   padding: 12px 20px 12px 16px;
 }
@@ -83,8 +126,8 @@ a.ast-type-item:hover {
     border: none;
     padding: 0;
     display: inline-block;
-    width: 200px;
-    height: 260px;
+    width: 192px;
+    height: 300px;
     background: transparent;
     margin: 0 5px 10px;
     vertical-align: top;
@@ -93,6 +136,7 @@ a.ast-type-item:hover {
 .thumbnail a, .thumbnail a:focus, .thumbnail a:hover {
     display: block;
     color: #fff;
+    text-decoration: none;
 }
 
 .thumbnail .icon { 
@@ -134,7 +178,11 @@ a.ast-type-item:hover {
 
 .thumbnail .title h2 {
     font-size: 13px;
-    opacity: 0.8;
+    color: #222;
+}
+
+.inverse .thumbnail .title h2 {
+    color: #bbb;
 }
 
 a.cu-btn {
@@ -257,4 +305,80 @@ a.cu-btn {
     cursor: default !important;
     background: #e0e0e0 !important;
     outline: 2px #ccc solid !important;
+}
+
+.search-label {
+  font-weight: 300;
+  font-size: 18px;
+}
+
+.inverse .search-label {
+    color: #fff;
+}
+
+.form-search {
+    max-width: 100%;
+}
+
+.form-search input.form-control {
+    background: #bbb;
+    height: 40px;    
+    border: none;
+    color: #fff;
+    line-height: 40px;
+    font-size: 18px;
+    padding: 0 45px 0 15px;
+    border-radius: 0;
+}
+
+.form-search a {
+    cursor: pointer;
+    display: block;
+    color: #fff;
+    font-size: 20px;
+    height: 40px;
+    width: 40px;
+    pointer-events: all;
+}
+
+.form-search a:hover {
+    background: #949494;
+    text-decoration: none;
+}
+
+.form-search a.search {
+    right: 40px;
+}
+
+.form-search a.advance {
+    white-space: nowrap;
+    font-size: 16px;
+    background: #2C313B;
+    width: 40px;
+    right: 0;
+}
+
+.inverse .form-search a.advance {
+    background: #4B525F;
+}
+
+.form-search a.advance i, .form-search a.advance span {
+    line-height: 40px;
+}
+
+.form-search a.advance span {
+    display: none;
+}
+
+.form-search input.form-control::-webkit-input-placeholder { color: #e4e4e4; }
+.form-search input.form-control:-moz-placeholder { color: #e4e4e4; }
+.form-search input.form-control::-moz-placeholder { color: #e4e4e4; }
+.form-search input.form-control:-ms-input-placeholder { color: #e4e4e4; }
+
+@media (min-width: 992px){
+    .form-search { max-width: 500px; }
+    .form-search a.search { right: 0; }
+    .form-search a.advance { width: 170px; right: -170px; }
+    .form-search a.advance i { line-height: 35px; padding-bottom: 5px; }
+    .form-search a.advance span { display: inline-block; }
 }
