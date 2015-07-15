@@ -134,3 +134,8 @@ var initSearch = function() {
 $(window).load(function() {
     initSearch();
 });
+
+/* tile continue button function */
+$('[data-click-event=continue]').click(function(){
+    window.location.href = $('[data-radio-group='+$(this).attr('data-url')+'] input[type=radio]:checked').val();
+});
