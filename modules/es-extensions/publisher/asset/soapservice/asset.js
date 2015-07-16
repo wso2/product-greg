@@ -398,6 +398,31 @@ asset.configure = function() {
             ui: {
                 icon: 'fw fw-soap'
             }
+        },
+        table: {
+            overview: {
+                fields: {
+                    name: {
+                        placeholder: "WeatherService"
+                    },
+                    namespace: {
+                        placeholder: "http://example.namespace.com"
+                    },
+                    version: {
+                        placeholder: "1.0.0"
+                    },
+                    description: {
+                        placeholder: "This is a sample service"
+                    }
+                }
+            },
+            interface: {
+                fields: {
+                    wsdlUrl: {
+                        placeholder: "https://www.example.com/sample.wsdl"
+                    }
+                }
+            }
         }
     }
 };
