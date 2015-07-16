@@ -23,11 +23,17 @@ app.server = function(ctx) {
     return {
     	endpoints:{
 	    	pages:[{
-		    		title:'GREG landing page',
+		    	title:'GREG landing page',
 	    		url:'gc-landing',
 	    		path:'greg-landing.jag',
 	    		secured:true  		
-	    	}]
+	    	},
+            {
+                title:'GREG search results',
+                url:'search-results',
+                path:'search-results.jag',
+                secured:true        
+            }]
     	},
         configs: {
             landingPage: '/pages/gc-landing',
