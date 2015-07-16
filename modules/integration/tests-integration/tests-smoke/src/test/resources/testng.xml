@@ -22,22 +22,12 @@
             <package name="org.wso2.carbon.registry.extensions.test"/>
         </packages>
     </test>
-    <test name="test-greg-smoke-app1" preserve-order="true" parallel="false">
-        <packages>
-            <package name="org.wso2.carbon.registry.app.test"/>
-        </packages>
-    </test>
-    <test name="test-greg-smoke-app2" preserve-order="true" parallel="false">
-        <packages>
-            <package name="org.wso2.carbon.registry.app2.test"/>
-        </packages>
-    </test>
-    <test name="test-greg-smoke-2" preserve-order="true" parallel="false">
+    <test name="test-greg-smoke-old" preserve-order="true" parallel="false">
         <packages>
             <package name="org.wso2.carbon.registry.handler.test.old"/>
         </packages>
     </test>
-    <test name="test-greg-smoke-3" preserve-order="true" parallel="false">
+    <test name="test-greg-smoke-scm" preserve-order="true" parallel="false">
         <packages>
             <package name="org.wso2.carbon.registry.scm.test"/>
             <package name="org.wso2.carbon.registry.smoke.test.old"/>
@@ -46,7 +36,17 @@
             <package name="org.wso2.carbon.registry.ws.client.test.general.old"/>
         </packages>
     </test>
-    
+    <!--test name="test-greg-smoke-zapp1" preserve-order="true" parallel="false">
+        <packages>
+            <package name="org.wso2.carbon.registry.app.test"/>
+        </packages>
+    </test>
+    <test name="test-greg-smoke-zapp2" preserve-order="true" parallel="false">
+        <packages>
+            <package name="org.wso2.carbon.registry.app2.test"/>
+        </packages>
+    </test-->
+
     
     <!--<test name="test-greg-smoke" preserve-order="true" parallel="false">-->
         <!--<classes>-->

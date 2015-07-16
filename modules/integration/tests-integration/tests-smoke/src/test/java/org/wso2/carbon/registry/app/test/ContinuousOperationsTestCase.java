@@ -49,7 +49,7 @@ public class ContinuousOperationsTestCase extends GREGIntegrationBaseTest{
         registry = new RegistryProviderUtil().getRemoteRegistry(automationContext);
     }
 
-    @Test(groups = {"wso2.greg"})
+    @Test(groups = {"wso2.greg"}, priority = 99999)
     public void ContinuousDelete() throws RegistryException, InterruptedException {
         int iterations = 100;
 
