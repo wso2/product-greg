@@ -48,7 +48,8 @@ public class TestQueryTestCase extends GREGIntegrationBaseTest{
     }
 
     @Test(groups = {"wso2.greg"})
-    public void putRegistryQueriesTest() throws RegistryException {
+    public void putRegistryQueriesTest() throws RegistryException, InterruptedException {
+        Thread.sleep(10000);
 
         String QUERY_EPR_BY_PATH = "/Queries1/EPRByPath-new";
         Resource resource1 = null;
@@ -79,7 +80,8 @@ public class TestQueryTestCase extends GREGIntegrationBaseTest{
     }
 
     @Test(groups = {"wso2.greg"})
-    public void executeQueriesTest() throws RegistryException {
+    public void executeQueriesTest() throws RegistryException, InterruptedException {
+        Thread.sleep(10000);
         String QUERY_EPR_BY_PATH = "/Queries1/EPRByPath-new";
         Resource resource1 = null;
 

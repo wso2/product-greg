@@ -47,8 +47,8 @@ public class VersionHandlingTestCase extends GREGIntegrationBaseTest{
     }
 
     @Test(groups = {"wso2.greg"})
-    public void CreateVersionsTest() throws RegistryException {
-
+    public void CreateVersionsTest() throws RegistryException, InterruptedException {
+        Thread.sleep(6000);
         Resource r1 = registry.newResource();
         r1.setContent("some content");
         clearResource("/version/r1");
@@ -146,8 +146,8 @@ public class VersionHandlingTestCase extends GREGIntegrationBaseTest{
     }
 
     @Test(groups = {"wso2.greg"})
-    public void SimpleCollectionVersioningTest() throws RegistryException {
-
+    public void SimpleCollectionVersioningTest() throws RegistryException, InterruptedException {
+        Thread.sleep(6000);
         Collection c1 = registry.newCollection();
         clearResource("/v3/c1");
 
@@ -215,8 +215,8 @@ public class VersionHandlingTestCase extends GREGIntegrationBaseTest{
     }
 
     @Test(groups = {"wso2.greg"})
-    public void SimpleCollectionRestoreTest() throws RegistryException {
-
+    public void SimpleCollectionRestoreTest() throws RegistryException, InterruptedException {
+        Thread.sleep(10000);
         Collection c1 = registry.newCollection();
         clearResource("/test/v11/c1");
         registry.put("/test/v11/c1", c1);
@@ -291,7 +291,8 @@ public class VersionHandlingTestCase extends GREGIntegrationBaseTest{
     }
 
     @Test(groups = {"wso2.greg"})
-    public void AdvancedCollectionRestoreTest() throws RegistryException {
+    public void AdvancedCollectionRestoreTest() throws RegistryException, InterruptedException {
+        Thread.sleep(10000);
 
         Collection c1 = registry.newCollection();
         clearResource("/test/v12/c1");

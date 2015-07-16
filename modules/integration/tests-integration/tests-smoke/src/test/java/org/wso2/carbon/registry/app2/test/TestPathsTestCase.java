@@ -45,7 +45,8 @@ public class TestPathsTestCase extends GREGIntegrationBaseTest{
     }
 
     @Test(groups = {"wso2.greg"})
-    public void GetOnPathsTest() throws RegistryException {
+    public void GetOnPathsTest() throws RegistryException, InterruptedException {
+        Thread.sleep(10000);
 
         Resource r1 = registry.newResource();
         // r1.setContent("some content");
@@ -65,7 +66,8 @@ public class TestPathsTestCase extends GREGIntegrationBaseTest{
 
 
     @Test(groups = {"wso2.greg"})
-    public void PutOnPathsTest() throws RegistryException {
+    public void PutOnPathsTest() throws RegistryException, InterruptedException {
+        Thread.sleep(10000);
 
         Resource r1 = registry.newResource();
         r1.setContent("some content");
