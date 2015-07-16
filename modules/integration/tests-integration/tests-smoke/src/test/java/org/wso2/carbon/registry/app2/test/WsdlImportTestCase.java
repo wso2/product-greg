@@ -48,7 +48,8 @@ public class WsdlImportTestCase extends GREGIntegrationBaseTest{
 
 
     @Test(groups = {"wso2.greg"})
-    public void WsdlimportTest() throws RegistryException {
+    public void WsdlimportTest() throws RegistryException, InterruptedException {
+        Thread.sleep(6000);
 
         String url =
                 "https://svn.wso2.org/repos/wso2/trunk/commons/qa/qa-artifacts/greg/xsd/complextypedoclit.wsdl";

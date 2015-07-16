@@ -46,8 +46,8 @@ public class TestAssociationTestCase extends GREGIntegrationBaseTest {
     }
 
     @Test(groups = {"wso2.greg"})
-    public void AddAssociationToResourceTest() throws RegistryException {
-
+    public void AddAssociationToResourceTest() throws RegistryException, InterruptedException {
+        Thread.sleep(10000);
         Resource r2 = registry.newResource();
         String path = "/testk12/testa/testbsp/test.txt";
         r2.setContent(new String("this is the content").getBytes());
@@ -84,7 +84,8 @@ public class TestAssociationTestCase extends GREGIntegrationBaseTest {
     }
 
     @Test(groups = {"wso2.greg"})
-    public void AddAssociationToCollectionTest() throws RegistryException {
+    public void AddAssociationToCollectionTest() throws RegistryException , InterruptedException {
+        Thread.sleep(10000);
 
         Resource r2 = registry.newCollection();
         String path = "/assocol1/assocol2/assoclo3";
@@ -114,7 +115,8 @@ public class TestAssociationTestCase extends GREGIntegrationBaseTest {
     }
 
     @Test(groups = {"wso2.greg"})
-    public void AddAssociationToRootTest() throws RegistryException {
+    public void AddAssociationToRootTest() throws RegistryException , InterruptedException {
+        Thread.sleep(10000);
 
         Resource r2 = registry.newCollection();
 
@@ -172,7 +174,8 @@ public class TestAssociationTestCase extends GREGIntegrationBaseTest {
     }
 
     @Test(groups = {"wso2.greg"})
-    public void GetCollectionAssociationTest() throws RegistryException {
+    public void GetCollectionAssociationTest() throws RegistryException, InterruptedException {
+        Thread.sleep(10000);
 
         Resource r2 = registry.newCollection();
         String path = "/getcol1/getcol2/getcol3";
@@ -200,7 +203,8 @@ public class TestAssociationTestCase extends GREGIntegrationBaseTest {
     }
 
     @Test(groups = {"wso2.greg"})
-    public void GetRootAssociationTest() throws RegistryException {
+    public void GetRootAssociationTest() throws RegistryException , InterruptedException {
+        Thread.sleep(10000);
 
         Resource r2 = registry.newCollection();
         String path = "/";
@@ -227,7 +231,8 @@ public class TestAssociationTestCase extends GREGIntegrationBaseTest {
     }
 
     @Test(groups = {"wso2.greg"})
-    public void RemoveResourceAssociationTest() throws RegistryException {
+    public void RemoveResourceAssociationTest() throws RegistryException , InterruptedException {
+        Thread.sleep(10000);
 
         Resource r2 = registry.newResource();
         String path = "/testk1234/testa/testbsp/test.txt";
@@ -274,7 +279,8 @@ public class TestAssociationTestCase extends GREGIntegrationBaseTest {
     }
 
     @Test(groups = {"wso2.greg"})
-    public void RemoveCollectionAssociationTest() throws RegistryException {
+    public void RemoveCollectionAssociationTest() throws RegistryException , InterruptedException {
+        Thread.sleep(10000);
 
         Resource r2 = registry.newCollection();
         String path = "/assoColremove1/assoColremove2/assoColremove3";
@@ -321,7 +327,8 @@ public class TestAssociationTestCase extends GREGIntegrationBaseTest {
     }
 
     @Test(groups = {"wso2.greg"})
-    public void RemoveRootAssociationTest() throws RegistryException {
+    public void RemoveRootAssociationTest() throws RegistryException , InterruptedException {
+        Thread.sleep(10000);
 
         Resource r2 = registry.newCollection();
         String path = "/";

@@ -46,7 +46,8 @@ public class TestMoveTestCase extends GREGIntegrationBaseTest{
     }
 
     @Test(groups = {"wso2.greg"})
-    public void ResourceMoveFromRootTest() throws RegistryException {
+    public void ResourceMoveFromRootTest() throws RegistryException, InterruptedException {
+        Thread.sleep(10000);
 
         Resource r1 = registry.newResource();
         r1.setProperty("test", "move");
@@ -72,7 +73,8 @@ public class TestMoveTestCase extends GREGIntegrationBaseTest{
     }
 
     @Test(groups = {"wso2.greg"})
-    public void ResourceMoveToRootTest() throws RegistryException {
+    public void ResourceMoveToRootTest() throws RegistryException, InterruptedException {
+        Thread.sleep(10000);
 
         Resource r1 = registry.newResource();
         r1.setProperty("test", "move");
@@ -95,7 +97,8 @@ public class TestMoveTestCase extends GREGIntegrationBaseTest{
     }
 
     @Test(groups = {"wso2.greg"})
-    public void GeneralResourceMoveTest() throws RegistryException {
+    public void GeneralResourceMoveTest() throws RegistryException, InterruptedException {
+        Thread.sleep(10000);
 
         Resource r1 = registry.newResource();
         r1.setProperty("test", "move");
@@ -121,7 +124,8 @@ public class TestMoveTestCase extends GREGIntegrationBaseTest{
     }
 
     @Test(groups = {"wso2.greg"})
-    public void GeneralCollectionMoveTest() throws RegistryException {
+    public void GeneralCollectionMoveTest() throws RegistryException, InterruptedException {
+        Thread.sleep(10000);
 
         Resource r1 = registry.newResource();
         r1.setProperty("test", "move");
