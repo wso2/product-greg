@@ -22,6 +22,40 @@ asset.configure = function () {
             ui: {
                 icon: 'fw fw-rest-service'
             }
+        },
+        table: {
+            overview: {
+                fields: {
+                    name: {
+                        placeholder: "WeatherService"
+                    },
+                    context: {
+                        placeholder: "/test"
+                    },
+                    version: {
+                        placeholder: "1.0.0"
+                    },
+                    description: {
+                        placeholder: "This is a sample service"
+                    }
+                }
+            },
+            interface: {
+                fields: {
+                    transports: {
+                        placeholder: "https,http"
+                    },
+                    wsdl: {
+                    	placeholder: "htts://example.com/sample.wsdl"
+                    },
+                    wadl: {
+                    	placeholder: "https://example.com/sample.wadl"
+                    },
+                    swagger: {
+                    	placeholder: "https://example.com/sample-doc"
+                    }
+                }
+            }
         }
     }
 };
