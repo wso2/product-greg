@@ -154,7 +154,7 @@ public class ActivitySearchSearchResultsTestCase extends GREGIntegrationBaseTest
     public void verifySearchResultsPagination() throws InterruptedException, MalformedURLException,
                                                        ResourceAdminServiceExceptionException,
                                                        RemoteException, RegistryExceptionException {
-        for (int k = 0; k < 100; k++) {
+        for (int k = 0; k < 10; k++) {
             addResource();
         }
         assertNotNull(activityAdminServiceClient.getActivities(sessionCookie, "", "", "", "",
