@@ -467,6 +467,15 @@
 				   <outputDirectory>../jaxwebapps</outputDirectory>
                                    <destFileName>resource.war</destFileName>
                                </artifactItem>
+                               <artifactItem>
+                                   <groupId>org.wso2.carbon.governance</groupId>
+                                   <artifactId>org.wso2.carbon.governance.rest.api</artifactId>
+                                   <version>${carbon.governance.version}</version>
+                                   <type>war</type>
+                                   <overWrite>true</overWrite>
+                                   <outputDirectory>../jaxwebapps</outputDirectory>
+                                   <destFileName>governance.war</destFileName>
+                               </artifactItem>
                            </artifactItems>
                        </configuration>
                    </execution>
