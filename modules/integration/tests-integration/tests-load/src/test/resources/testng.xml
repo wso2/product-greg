@@ -17,5 +17,10 @@
             <package name="org.wso2.carbon.registry.volume.test"/>
         </packages>
     </test>
+    <test name="test-greg-load-scm" preserve-order="true" parallel="false">
+        <packages>
+            <package name="org.wso2.carbon.registry.scm.test"/>
+        </packages>
+    </test>
 
 </suite>
