@@ -102,6 +102,7 @@
             <outputDirectory>${pom.artifactId}-${build.version}/repository/deployment/server/webapps</outputDirectory>
             <includes>
                 <include>resource.war</include>
+                <include>governance.war</include>
             </includes>
         </fileSet>
         <fileSet>
@@ -662,8 +663,8 @@
             <includes>
                 <include>org.codehaus.woodstox:wstx-asl:jar</include>
                 <include>javax.jcr:jcr:jar</include>
-                <include>org.wso2.carbon:org.wso2.carbon.governance.client:jar</include>
-                <include>org.wso2.carbon:org.wso2.carbon.registry.indexing.stub:jar</include>
+                <include>org.wso2.carbon.governance:org.wso2.carbon.governance.client:jar</include>
+                <include>org.wso2.carbon.registry:org.wso2.carbon.registry.indexing.stub:jar</include>
             </includes>
         </dependencySet>
         <dependencySet>
