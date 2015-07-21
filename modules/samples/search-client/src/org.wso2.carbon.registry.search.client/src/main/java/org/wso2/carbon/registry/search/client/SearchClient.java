@@ -17,6 +17,7 @@
 */
 package org.wso2.carbon.registry.search.client;
 
+import org.apache.axiom.om.util.AXIOMUtil;
 import org.apache.axis2.context.ConfigurationContext;
 import org.apache.axis2.context.ConfigurationContextFactory;
 import org.wso2.carbon.base.ServerConfiguration;
@@ -30,6 +31,7 @@ import org.wso2.carbon.registry.core.pagination.PaginationContext;
 import org.wso2.carbon.registry.core.session.UserRegistry;
 import org.wso2.carbon.registry.ws.client.registry.WSRegistryServiceClient;
 
+import javax.xml.stream.XMLStreamException;
 import javax.xml.namespace.QName;
 import java.io.File;
 import java.util.ArrayList;
@@ -114,12 +116,18 @@ public class SearchClient {
 
     }
 
-    private static void addServices(Registry govRegistry) throws RegistryException {
+    private static void addServices(Registry govRegistry) throws RegistryException, XMLStreamException {
         GenericArtifactManager artifactManager = new GenericArtifactManager(govRegistry, "service");
         System.out.println("#############################################\n");
-        for (int i = 1; i < 10; i++) {
+        for (int i = 0; i < 10; i++) {
             System.out.println("Adding FlightService" + i + " ....");
-            GenericArtifact artifact = artifactManager.newGovernanceArtifact(new QName("ns", "FlightService" + i));
+            StringBuilder builder = new StringBuilder();
+            builder.append("<serviceMetaData xmlns=\"http://www.wso2.org/governance/metadata\">");
+            builder.append("<overview><name>FlightService" + i + "</name><namespace>ns</namespace>");
+            builder.append("<version>1.0.0-SNAPSHOT</version></overview>");
+            builder.append("</serviceMetaData>");
+            org.apache.axiom.om.OMElement XMLContent = AXIOMUtil.stringToOM(builder.toString());
+            GenericArtifact artifact = artifactManager.newGovernanceArtifact(XMLContent);
             artifactManager.addGenericArtifact(artifact);
         }
         //Services need to be index before search.
