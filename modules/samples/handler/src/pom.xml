@@ -107,8 +107,7 @@
                             common.*,
                         </Private-Package>
                         <Export-Package>
-                            org.wso2.carbon.registry.samples.handler.*,
-                            org.wso2.carbon.registry.samples.task.*,
+                            org.wso2.carbon.registry.samples.*,
                         </Export-Package>
                         <Import-Package>
                             org.wso2.carbon.registry.core.*,
