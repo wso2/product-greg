@@ -42,3 +42,15 @@ app.server = function(ctx) {
         }
     }
 };
+
+app.pageHandlers = function(ctx) {
+    return {
+        onPageLoad: function() {
+            if((ctx.isAnonContext)&&(ctx.endpoint.secured)){
+                ctx.res.sendRedirect(ctx.appContext+'/login');
+                return false;
+            }
+            return true;
+        }
+    };
+};
