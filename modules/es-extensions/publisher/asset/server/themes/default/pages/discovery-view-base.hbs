@@ -133,10 +133,9 @@
                     <ul class="nav nav-tabs" role="tablist" id="pageTab">
                         {{#with  listassets.[0].context}}
                             {{#each discoveryData}}
-                                <li role="presentation"><a href="#{{this.[0]}}" aria-controls="{{this.[0]}}"
+                                <li role="presentation"><a href="#{{originalKey}}" aria-controls="{{originalKey}}"
                                                            role="tab" data-toggle="tab"><i
-                                        class="{{this.[3]}}"></i><span class="name">{{this
-                                .[1]}}</span></a></li>
+                                        class="{{icon}}"></i><span class="name">{{key}}</span></a></li>
                             {{/each}}
                         {{/with}}
                     </ul>
@@ -144,32 +143,24 @@
                     <div class="tab-content">
                         {{#with  listassets.[0].context}}
                             {{#each discoveryData}}
-                                {{#if this.[3]}}
-                                    <div role="tabpanel" class="tab-pane active" id="{{this.[0]}}">
-                                {{else}}
-                                    <div role="tabpanel" class="tab-pane" id="{{this.[0]}}">
-                                {{/if}}
-                                {{#each this.[2]}}
+                                <div role="tabpanel" class="tab-pane" id="{{originalKey}}">
+                                    {{#each data}}
                                         <div class="ctrl-wr-asset" id="{{id}}" data-content="{{dump this}}">
                                             <div class="itm-ast">
-                                                <span class="ast-img"><i class="icon {{../this
-                                                .[3]}}"></i></span>
+                                                <span class="ast-img"><i class="icon {{../this.icon}}"></i></span>
+
                                                 <div class="ast-desc">
                                                     <a href='#'>
                                                         <h3 class="ast-name">{{attributes.[overview_name]}}</h3>
                                                     </a>
                                                     <span class="ast-ver">{{attributes.[overview_version]}}</span>
-                                                    <!--<span class="ast-published">Testing</span>
-                                                    <span class="lifecycle-state"><small><i class="icon-circle
-                                                    lc-state-Development"></i> Development</small></span>-->
                                                 </div>
-                                                <br class="c-both" />
+                                                <br class="c-both"/>
                                             </div>
-                                            <br class="c-both" />
+                                            <br class="c-both"/>
                                         </div>
-
-                                {{/each}}
-                                <br class="c-both" />
+                                    {{/each}}
+                                    <br class="c-both"/>
                                 </div>
                             {{/each}}
                         {{/with}}

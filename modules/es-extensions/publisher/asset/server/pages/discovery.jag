@@ -46,7 +46,7 @@ require('/modules/publisher.js').exec(function (ctx) {
     var discoveryDataArray = [];
     for (var key in result) {
         if (result.hasOwnProperty(key)) {
-            var discoveryService = [];
+            var discoveryService = {};
             var originalKey = key,
                     icon = "fw fw-resource";
 
@@ -61,10 +61,10 @@ require('/modules/publisher.js').exec(function (ctx) {
                 originalKey = "otherservice";
             }
 
-            discoveryService.push(originalKey);
-            discoveryService.push(key);
-            discoveryService.push(result[originalKey]);
-            discoveryService.push(icon);
+            discoveryService.originalKey = originalKey;
+            discoveryService.key = key;
+            discoveryService.data = result[originalKey];
+            discoveryService.icon = icon;
             discoveryDataArray.push(discoveryService);
         }
     }
