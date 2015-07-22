@@ -700,6 +700,11 @@
                 <artifactId>org.wso2.carbon.event.output.adapter.core</artifactId>
                 <version>${carbon.analytics.common.version}</version>
             </dependency>
+            <dependency>
+                <groupId>jasperreports.wso2</groupId>
+                <artifactId>jasperreports</artifactId>
+                <version>${jasperreports.wso2.version}</version>
+            </dependency>
         </dependencies>
     </dependencyManagement>
 
@@ -934,6 +939,7 @@
         <jaggery.version>0.10.2</jaggery.version>
 	    <jaggery-test.feature.version>1.2.2</jaggery-test.feature.version>
         <eclipse.version>3.2.0</eclipse.version>
+        <jasperreports.wso2.version>4.5.0.wso2v1</jasperreports.wso2.version>
 
 
         <!--Apache Geronimo-->
