@@ -110,12 +110,13 @@ $(function() {
             container = 'saveButtonsURL';
             $form.attr('action', caramel.context + '/apis/assets?type=wsdl');
         }
-        PublisherUtils.blockButtons({
-            container:container,
-            msg:'Creating the '+PublisherUtils.resolveCurrentPageAssetType()+ ' instance'
-        });
-        styleFix();
+
         doSubmit(action,container);
+
+        var createButton = $('#btn-create-asset');
+        createButton.hide();
+        createButton.next().hide();
+        createButton.parent().append($('<div style="font-size: 16px;margin-top: 10px;"><i class="fa fa-spinner fa-pulse"></i> Creating the wsdl instance...</div>'));
     });
 
 });
