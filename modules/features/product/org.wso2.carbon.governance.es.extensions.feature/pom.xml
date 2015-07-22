@@ -50,6 +50,7 @@
 									<directory>resources</directory>
 									<includes>
 										<include>p2.inf</include>
+										<include>**/*</include>
 									</includes>
 								</resource>
 								<resource>
