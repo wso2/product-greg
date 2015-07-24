@@ -69,5 +69,6 @@ require('/modules/publisher.js').exec(function (ctx) {
         }
     }
     output.discoveryData = discoveryDataArray;
+    output.serverId = req.getParameter('id');
     caramel.render(output);
 }, request, response, session); %>

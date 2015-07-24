@@ -139,7 +139,9 @@
                             {{/each}}
                         {{/with}}
                     </ul>
-
+                    {{#with  listassets.[0].context}}
+                        <div id="serverId" data-serverId="{{serverId}}"></div>
+                    {{/with}}
                     <div class="tab-content">
                         {{#with  listassets.[0].context}}
                             {{#each discoveryData}}

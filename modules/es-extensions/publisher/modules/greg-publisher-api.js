@@ -409,7 +409,7 @@ var gregAPI = {};
         return testDiscoveryService.discoverArtifacts(genericArtifact);
     }
 
-    gregAPI.serviceDiscovery.save = function (discoveryServicesData) {
+    gregAPI.serviceDiscovery.save = function (session, type, serverId, discoveryServicesData) {
         var HashMap = java.util.HashMap;
         var ArrayList = java.util.ArrayList;
         var discoveryServiceDataMap = new HashMap();
@@ -424,6 +424,10 @@ var gregAPI = {};
         var ServiceDiscovery = Packages.org.wso2.carbon.governance.registry.extensions.discoveryagents.
             ServiceDiscovery;
         var testDiscoveryService = new ServiceDiscovery();
-        return testDiscoveryService.save(discoveryServiceDataMap);
+
+        var rxt = require('rxt');
+        var assetManager = rxt.asset.createUserAssetManager(session, type);
+        var serverArtifact = assetManager.am.manager.getGenericArtifact(serverId);
+        return testDiscoveryService.save(discoveryServiceDataMap, serverArtifact);
     }
 }(gregAPI));

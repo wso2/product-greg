@@ -37,7 +37,10 @@
 
             if (uriMatcher.match(SAVE_URL)) {
                 var discoveryServicesData = req.getContent();
-                var discoveryDataSaveResponse = gregAPI.serviceDiscovery.save(discoveryServicesData);
+                var rxtType = req.getParameter('type');
+                var serverId = req.getParameter('serverId');
+                var discoveryDataSaveResponse = gregAPI.serviceDiscovery.save(session, rxtType, serverId,
+                        discoveryServicesData);
                 var Gson = Packages.com.google.gson.Gson;
                 var gson = new Gson();
                 var result = gson.toJson(discoveryDataSaveResponse);

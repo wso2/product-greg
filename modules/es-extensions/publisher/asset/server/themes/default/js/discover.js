@@ -47,7 +47,7 @@ $(function () {
                 'class="sub-heading">' + selectedAssetType + '</h2><hr><div><div class="row">' +
                 '<div class="col-lg-12 ctrl-wr-asset-list" data-type="' + selectedAssetType + '"></div></div></div>');
 
-                selectedService.serviceType = selectedAssetType;
+                selectedService.serviceType = $(this).attr('aria-controls');
                 var selectedServiceData = [];
                 $.each(selectedAssets, function (i, val) {
                     $(val).appendTo($(html).find('[data-type="' + selectedAssetType + '"]'));
@@ -64,8 +64,9 @@ $(function () {
 
     $("#saveServices").click(function(event){
         event.preventDefault();
+        var serverId = $('#serverId').attr('data-serverId');
         $.ajax({
-            url: caramel.context + '/assets/server/apis/servers/save?type=server',
+            url: caramel.context + '/assets/server/apis/servers/save?type=server&serverId=' + serverId,
             type: 'POST',
             contentType: "application/json",
             dataType: "json",
