@@ -420,7 +420,7 @@ var gregAPI = {};
                     .DetachedGenericArtifactImpl;
                 var Gson = Packages.com.google.gson.Gson;
                 var gson = new Gson();
-                var result = gson.fromJson(stringify(discoveryServicesData[key].data[key2]),DetachedGenericArtifact);
+                var result = gson.fromJson(stringify(discoveryServicesData[key].data[key2]), DetachedGenericArtifact);
                 detachedGenericArtifactList.add(result);
             }
             discoveryServiceDataMap.put(discoveryServicesData[key].serviceType, detachedGenericArtifactList);
