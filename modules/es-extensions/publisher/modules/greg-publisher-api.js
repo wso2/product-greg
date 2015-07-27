@@ -416,7 +416,12 @@ var gregAPI = {};
         for (var key in discoveryServicesData) {
             var detachedGenericArtifactList = new ArrayList();
             for (var key2 in discoveryServicesData[key].data) {
-                detachedGenericArtifactList.add(discoveryServicesData[key].data[key2]);
+                var DetachedGenericArtifact = Packages.org.wso2.carbon.governance.api.generic.dataobjects
+                    .DetachedGenericArtifactImpl;
+                var Gson = Packages.com.google.gson.Gson;
+                var gson = new Gson();
+                var result = gson.fromJson(stringify(discoveryServicesData[key].data[key2]),DetachedGenericArtifact);
+                detachedGenericArtifactList.add(result);
             }
             discoveryServiceDataMap.put(discoveryServicesData[key].serviceType, detachedGenericArtifactList);
         }
