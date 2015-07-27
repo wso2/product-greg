@@ -32,13 +32,21 @@
                     </div>
                 </div>
                 <div class="row">
+                    <div class="col-lg-2">
                      <span>
                         <a class="btn btn-default btn-lg active pull-left" id="diff-view-button"
                            href="{{url ""}}/assets/server/discovery?type=server&id={{id}}"
                            target="_blank">Discover Services</a>
                       </span>
+                    </div>
+                    <div class="col-lg-3">
+                        <div class="asset-show-dependency">
+                            <a class="btn btn-default btn-lg active" href='{{url ""}}/pages/impact?path={{path}}' target="_blank">
+                                Show Dependency</a>
+                        </div>
+                        <div class="clearfix"></div>
+                    </div>
                 </div>
-
             </div>
         </div>
     </div>
