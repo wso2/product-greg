@@ -399,14 +399,21 @@ var gregAPI = {};
         return versions;
     };
 
-    gregAPI.serviceDiscovery.discovery = function(session, type, id){
+    gregAPI.serviceDiscovery.discovery = function (session, type, id) {
         var rxt = require('rxt');
         var assetManager = rxt.asset.createUserAssetManager(session, type);
         var genericArtifact = assetManager.am.manager.getGenericArtifact(id);
-        var ServiceDiscovery = Packages.org.wso2.carbon.governance.registry.extensions.discoveryagents.
-            ServiceDiscovery;
-        var testDiscoveryService = new ServiceDiscovery();
-        return testDiscoveryService.discoverArtifacts(genericArtifact);
+        var ServerDiscoveryService = Packages.org.wso2.carbon.governance.registry.extensions.discoveryagents.
+            ServerDiscoveryService;
+        var serverDiscoveryService = new ServerDiscoveryService();
+        try {
+            return serverDiscoveryService.discoverArtifacts(genericArtifact);
+        } catch (e) {
+            log.error('Message - ' + e.message);
+            log.error('File name - ' + e.fileName);
+            log.error('Line number - ' + e.lineNumber);
+            throw 'Discovery agent is not configured properly.';
+        }
     }
 
     gregAPI.serviceDiscovery.save = function (session, type, serverId, discoveryServicesData) {
@@ -426,13 +433,13 @@ var gregAPI = {};
             discoveryServiceDataMap.put(discoveryServicesData[key].serviceType, detachedGenericArtifactList);
         }
 
-        var ServiceDiscovery = Packages.org.wso2.carbon.governance.registry.extensions.discoveryagents.
-            ServiceDiscovery;
-        var testDiscoveryService = new ServiceDiscovery();
+        var ServerDiscoveryService = Packages.org.wso2.carbon.governance.registry.extensions.discoveryagents.
+            ServerDiscoveryService;
+        var serverDiscoveryService = new ServerDiscoveryService();
 
         var rxt = require('rxt');
         var assetManager = rxt.asset.createUserAssetManager(session, type);
         var serverArtifact = assetManager.am.manager.getGenericArtifact(serverId);
-        return testDiscoveryService.save(discoveryServiceDataMap, serverArtifact);
+        return serverDiscoveryService.save(discoveryServiceDataMap, serverArtifact);
     }
 }(gregAPI));
