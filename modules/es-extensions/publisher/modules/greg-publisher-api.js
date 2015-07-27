@@ -12,6 +12,7 @@ var gregAPI = {};
     gregAPI.subscriptions = {};
     gregAPI.notes = {};
     gregAPI.associations = {};
+    gregAPI.serviceDiscovery = {};
     var formatResultSet = function(output) {
         var results = {};
         var entry;
@@ -396,5 +397,37 @@ var gregAPI = {};
         }
 
         return versions;
+    };
+
+    gregAPI.serviceDiscovery.discovery = function(session, type, id){
+        var rxt = require('rxt');
+        var assetManager = rxt.asset.createUserAssetManager(session, type);
+        var genericArtifact = assetManager.am.manager.getGenericArtifact(id);
+        var ServiceDiscovery = Packages.org.wso2.carbon.governance.registry.extensions.discoveryagents.
+            ServiceDiscovery;
+        var testDiscoveryService = new ServiceDiscovery();
+        return testDiscoveryService.discoverArtifacts(genericArtifact);
+    }
+
+    gregAPI.serviceDiscovery.save = function (session, type, serverId, discoveryServicesData) {
+        var HashMap = java.util.HashMap;
+        var ArrayList = java.util.ArrayList;
+        var discoveryServiceDataMap = new HashMap();
+        for (var key in discoveryServicesData) {
+            var detachedGenericArtifactList = new ArrayList();
+            for (var key2 in discoveryServicesData[key].data) {
+                detachedGenericArtifactList.add(discoveryServicesData[key].data[key2]);
+            }
+            discoveryServiceDataMap.put(discoveryServicesData[key].serviceType, detachedGenericArtifactList);
+        }
+
+        var ServiceDiscovery = Packages.org.wso2.carbon.governance.registry.extensions.discoveryagents.
+            ServiceDiscovery;
+        var testDiscoveryService = new ServiceDiscovery();
+
+        var rxt = require('rxt');
+        var assetManager = rxt.asset.createUserAssetManager(session, type);
+        var serverArtifact = assetManager.am.manager.getGenericArtifact(serverId);
+        return testDiscoveryService.save(discoveryServiceDataMap, serverArtifact);
     }
 }(gregAPI));
