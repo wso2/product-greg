@@ -414,9 +414,10 @@ var gregAPI = {};
             log.error('Line number - ' + e.lineNumber);
             throw 'Discovery agent is not configured properly.';
         }
-    }
+    };
 
-    gregAPI.serviceDiscovery.save = function (session, type, serverId, discoveryServicesData) {
+    gregAPI.serviceDiscovery.save = function (session, type, serverId, discoveryServicesData, existArtifactStrategy,
+                                              orphanArtifactStrategy) {
         var HashMap = java.util.HashMap;
         var ArrayList = java.util.ArrayList;
         var discoveryServiceDataMap = new HashMap();
@@ -440,6 +441,25 @@ var gregAPI = {};
         var rxt = require('rxt');
         var assetManager = rxt.asset.createUserAssetManager(session, type);
         var serverArtifact = assetManager.am.manager.getGenericArtifact(serverId);
-        return serverDiscoveryService.save(discoveryServiceDataMap, serverArtifact);
+        return serverDiscoveryService.save(discoveryServiceDataMap, serverArtifact, existArtifactStrategy,
+            orphanArtifactStrategy);
+    };
+
+    gregAPI.serviceDiscovery.getDiscoveryEnumData = function () {
+        var discoveryEnumData = {};
+        var ExistArtifactStrategy = org.wso2.carbon.governance.registry.extensions.discoveryagents.
+            ExistArtifactStrategy;
+        discoveryEnumData.existArtifactStrategy = [];
+        for(var index = 0; index < ExistArtifactStrategy.values().length; index++){
+            discoveryEnumData.existArtifactStrategy.push(ExistArtifactStrategy.values()[index].name());
+        }
+
+        var OrphanArtifactStrategy = org.wso2.carbon.governance.registry.extensions.discoveryagents.
+            OrphanArtifactStrategy;
+        discoveryEnumData.orphanArtifactStrategy = [];
+        for(var index = 0; index < OrphanArtifactStrategy.values().length; index++){
+            discoveryEnumData.orphanArtifactStrategy.push(OrphanArtifactStrategy.values()[index].name());
+        }
+        return discoveryEnumData;
     }
 }(gregAPI));

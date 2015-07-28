@@ -39,8 +39,12 @@
                 var discoveryServicesData = req.getContent();
                 var rxtType = req.getParameter('type');
                 var serverId = req.getParameter('serverId');
+
+                var existArtifactStrategy = req.getParameter('existArtifactStrategy');
+                var orphanArtifactStrategy = req.getParameter('orphanArtifactStrategy');
+
                 var discoveryDataSaveResponse = gregAPI.serviceDiscovery.save(session, rxtType, serverId,
-                        discoveryServicesData);
+                        discoveryServicesData, existArtifactStrategy, orphanArtifactStrategy);
                 var Gson = Packages.com.google.gson.Gson;
                 var gson = new Gson();
                 var result = gson.toJson(discoveryDataSaveResponse);
