@@ -49,6 +49,7 @@ var resources = function(page, meta) {
     o.js.push('bootstrap-dialog.min.js');
     o.js.push('bootstrap-editable.js');
     o.js.push('bootstrap-multiselect.js');
+    o.js.push('diff-view.js');
     o.css.push('bootstrap/bootstrap-editable.css');
     o.css.push('bootstrap-dialog.min.css');
     o.css.push('bootstrap/bootstrap-tagsinput.css');
