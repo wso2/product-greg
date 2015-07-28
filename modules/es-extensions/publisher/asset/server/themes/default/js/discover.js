@@ -62,18 +62,22 @@ $(function () {
         $('#list_assets_table_summary').closest('.ctrl-wr-asset-list').show();
     });
 
-    $("#saveServices").click(function(event){
+    $("#saveServices").click(function (event) {
         event.preventDefault();
         var serverId = $('#serverId').attr('data-serverId');
+        var existArtifactStrategy = $('#existArtifactStrategy').val();
+        var orphanArtifactStrategy = $('#orphanArtifactStrategy').val();
         $.ajax({
-            url: caramel.context + '/assets/server/apis/servers/save?type=server&serverId=' + serverId,
+            url: caramel.context + '/assets/server/apis/servers/save?type=server&serverId=' + serverId +
+            '&existArtifactStrategy=' + existArtifactStrategy + '&orphanArtifactStrategy=' + orphanArtifactStrategy,
             type: 'POST',
             contentType: "application/json",
             dataType: "json",
-            data:JSON.stringify(selectedServices),
+            data: JSON.stringify(selectedServices),
             success: function (response) {
                 $('#list_assets_table_summary').hide();
                 $('#saveServices').hide();
+                $('#discoveryStratergy').hide();
                 var html = '<h2 class="sub-heading">Services saved successfully</h2>';
                 $('#parent-container').append(html);
             },
