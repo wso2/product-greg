@@ -49,7 +49,7 @@ $(document).ready(function() {
             return  '<div class="item" id="search_' + object.id + '">' +
                         '<div class="text">' +
                             '<div class="resource-name">' + object.text + '</div>' +
-                            '<div class="media-type">' + object.mediaType + '</div>' +
+                            '<div class="media-type">' + object.shortName + '</div>' +
                         '</div>' +
                         '<div class="icon">' +
                             '<img class="svg" src="' + svgIconsFolder + nodeIcon(object.mediaType) + '" />' +
@@ -278,7 +278,7 @@ function update(d) {
         .attr("class", "media-type")
         .attr("dy", 78)
         .attr("dx", -40)
-        .text(function(d) { return d.mediaType; });
+        .text(function(d) { return d.shortName; });
 
     nodeEnter.select("[nodetype=parent] text.resource-name")
         .attr("dy", 100)
@@ -588,8 +588,8 @@ function displayInfo(resource){
     $('#name').text(resource.name);
     $('#mediaType').text(resource.mediaType);
     var linkString;
-    if (resource.activatedAssetsType){
-        linkString = '<a href = "../assets/' + resource.activatedAssetsType + '/details/' +
+    if (resource.isActivatedAssetsType){
+        linkString = '<a href = "../assets/' + resource.shortName + '/details/' +
             encodeURIComponent(resource.uuid) + '">' + resource.path + '</a>';
     } else {
         linkString = '<a href = "../../carbon/resources/resource.jsp?region=region3&item=resource_browser_menu&path=' +
