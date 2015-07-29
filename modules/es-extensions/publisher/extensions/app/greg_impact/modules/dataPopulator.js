@@ -48,11 +48,12 @@ function getNodesAndEdges(registry, userName, resourcePath, graph){
             var governanceArtifactConfiguration = governanceUtils.findGovernanceArtifactConfigurationByMediaType(graphDataObject.mediaType, govRegistry);
             
             var shortName = governanceArtifactConfiguration.getKey();
+            graphDataObject.shortName = shortName;
 
             if (isActivatedAssetsType(shortName)){
-                graphDataObject.activatedAssetsType = shortName;
+                graphDataObject.isActivatedAssetsType = true;
             } else {
-                graphDataObject.activatedAssetsType = null;
+                graphDataObject.isActivatedAssetsType = false;
             }
 
             graph.index++;
