@@ -651,6 +651,33 @@
                 <include>**/sso_redirect.html</include>
             </includes>
         </fileSet>
+
+	<!-- Cipher Tool resources -->
+        <fileSet>
+            <directory>../p2-profile-gen/target/wso2carbon-core-${carbon.kernel.version}/repository/conf/security</directory>
+            <outputDirectory>${project.artifactId}-${product.greg.version}/repository/conf/security/</outputDirectory>
+            <includes>
+                <include>**/cipher-text.properties</include>
+                <include>**/cipher-tool.properties</include>
+                <include>**/cipher-standalone-config.properties</include>
+            </includes>
+        </fileSet>
+        <fileSet>
+            <directory>../p2-profile-gen/target/wso2carbon-core-${carbon.kernel.version}/bin</directory>
+            <outputDirectory>${project.artifactId}-${product.greg.version}/bin/</outputDirectory>
+            <includes>
+                <include>**/ciphertool.sh</include>
+                <include>**/ciphertool.bat</include>
+            </includes>
+	    <fileMode>755</fileMode>
+        </fileSet>
+        <fileSet>
+            <directory>../p2-profile-gen/target/wso2carbon-core-${carbon.kernel.version}/lib</directory>
+            <outputDirectory>${project.artifactId}-${product.greg.version}/lib/</outputDirectory>
+            <includes>
+                <include>**/org.wso2.ciphertool-1.0.0-wso2v3.jar</include>
+            </includes>
+        </fileSet>
     </fileSets>
 
     <dependencySets>

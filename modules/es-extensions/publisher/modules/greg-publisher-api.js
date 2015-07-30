@@ -57,31 +57,38 @@ var gregAPI = {};
         var populator = Packages.org.wso2.carbon.registry.info.services.utils.SubscriptionBeanPopulator;
         var SubscriptionPopulator = Packages.org.wso2.carbon.registry.info.services.utils.SubscriptionBeanPopulator;
         var GovernanceUtils = Packages.org.wso2.carbon.governance.api.util.GovernanceUtils; //Used to obtain Asset Types
-        var subcriptions = SubscriptionPopulator.populate(userRegistry.registry, registryPath).getSubscriptionInstances();
-        var length = subcriptions.length;
         var result = [];
-        for (var i = 0; i < length; i++) {
-            var subOptions = {};
-            var subcription = subcriptions[i];
-            //print(subcription.getEventName() + "\n");
-            subOptions.eventName = subcription.getEventName();
-            //print(subcription.getTopic() + "\n");
-            subOptions.topic = subcription.getTopic();
-            //print(subcription.getAddress() + "\n");
-            subOptions.address = subcription.getAddress();
-            //print(subcription.getDigestType() + "\n");
-            subOptions.digestType = subcription.getDigestType();
-            //print(subcription.getOwner() + "\n");
-            subOptions.owner = subcription.getOwner();
-            //print(subcription.getSubManUrl() + "\n");
-            subOptions.eventName = subcription.getEventName();
-            //print(subcription.getId() + "\n");
-            subOptions.id = subcription.getId();
-            //print(subcription.getNotificationMethod() + "\n");
-            subOptions.notificationMethod = subcription.getNotificationMethod();
-            //output +=  subOptions;
-            result.push(subOptions);
+
+        try {
+            var subcriptions = SubscriptionPopulator.populate(userRegistry.registry, registryPath).getSubscriptionInstances();
+            var length = subcriptions.length;
+
+            for (var i = 0; i < length; i++) {
+                var subOptions = {};
+                var subcription = subcriptions[i];
+                //print(subcription.getEventName() + "\n");
+                subOptions.eventName = subcription.getEventName();
+                //print(subcription.getTopic() + "\n");
+                subOptions.topic = subcription.getTopic();
+                //print(subcription.getAddress() + "\n");
+                subOptions.address = subcription.getAddress();
+                //print(subcription.getDigestType() + "\n");
+                subOptions.digestType = subcription.getDigestType();
+                //print(subcription.getOwner() + "\n");
+                subOptions.owner = subcription.getOwner();
+                //print(subcription.getSubManUrl() + "\n");
+                subOptions.eventName = subcription.getEventName();
+                //print(subcription.getId() + "\n");
+                subOptions.id = subcription.getId();
+                //print(subcription.getNotificationMethod() + "\n");
+                subOptions.notificationMethod = subcription.getNotificationMethod();
+                //output +=  subOptions;
+                result.push(subOptions);
+            }
+        } catch(e) {
+            log.error(e);
         }
+
         return formatResultSet(result);
     };
     gregAPI.subscriptions.add = function(am, assetId, username, subscriptionType, notificationMethod) {
