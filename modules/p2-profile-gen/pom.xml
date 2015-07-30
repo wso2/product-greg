@@ -442,6 +442,10 @@
                                     org.apache.axis2.transport:org.apache.axis2.transport.mail.feature:${axis2-transports.wso2.version}
                                 </featureArtifactDef>
 
+				<!-- Cipher tool feature -->
+                                <feaureArtifactDef>
+                                    org.wso2.ciphertool:org.wso2.ciphertool.feature:${ciphertool.version}
+                                </feaureArtifactDef>
                             </featureArtifacts>
                         </configuration>
                     </execution>
@@ -955,6 +959,10 @@
                                     <id>org.apache.axis2.transport.mail.feature.group</id>
                                     <version>${axis2-transports.wso2.version}</version>
                                 </feature>
+                                <feature>
+                                    <id>org.wso2.ciphertool.feature.group</id>
+                                    <version>${ciphertool.version}</version>
+                                </feature>
                             </features>
                         </configuration>
                     </execution>
@@ -1281,6 +1289,10 @@
                                     <id>org.apache.axis2.transport.mail.feature.group</id>
                                     <version>${axis2-transports.wso2.version}</version>
                                 </feature>
+                                <!--<feature>
+                                    <id>org.wso2.ciphertool.feature.group</id>
+                                    <version>${ciphertool.version}</version>
+                                </feature>-->
                             </features>
                         </configuration>
                     </execution>
@@ -1684,6 +1696,12 @@
                                     <id>org.apache.axis2.transport.mail.feature.group</id>
                                     <version>${axis2-transports.wso2.version}</version>
                                 </feature>
+
+				<!--
+                                <feature>
+                                    <id>org.wso2.ciphertool.feature.group</id>
+                                    <version>${ciphertool.version}</version>
+                                </feature>-->
                             </features>
                         </configuration>
                     </execution>
