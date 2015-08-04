@@ -127,8 +127,8 @@ $(document).ready(function() {
  */
 $(window).resize(function() {
     d3.select("svg").attr("width", $(window).width());
-    d3.select("svg").attr("height", ($(window).height()-footerHeight));
-    d3.select("svg").attr("viewBox", "0 0 " + $(window).width() + " " + ($(window).height()-footerHeight));
+    d3.select("svg").attr("height", $(window).height());
+    d3.select("svg").attr("viewBox", "0 0 " + $(window).width() + " " + $(window).height());
 });
 
 /*
@@ -217,6 +217,7 @@ function update(d) {
         .attr("class", function (d) {
             return "node" + ('image' in d ? ' imagenode' : '')  + " nodeCircle";
         })
+        .on("dblclick", doubleclick)
         .on("click", click)
         .attr("group", "node")
         .attr("edges", function(d, i){
@@ -523,61 +524,52 @@ function click(d) {
         return d.id;
     });
 
-    // if single click
-    if (timer == null) {
-        timer = setTimeout(function() {
-            clicks = 0;
-            timer = null;
+    if(selectedNode == -1 || selectedNode != d.index){
+        selectedNode = d.index;
 
-            // single click function
-            if ((self === isSame) && ($("#wrapper").hasClass("toggled"))) {
-                resetPath();
-                d3.selectAll("g").select("circle").classed("active", false);
-            }
-            isSame = self;
-        }, delay);
+        // highlight links if they are connected to source
+        linkg.attr("class", function(o) {
+            return (d.index == o.target.index) || (d.index == o.source.index) ? "active" : "inactive";
+        });
 
+        // highlight nodes if they are connected to source
+        node.attr("class", function(o) {
+            return neighboring(o, d) || neighboring(d, o) ? "active" : "inactive";
+        });
+
+    }
+    else{
         // Reset relation highlight
         node.attr("class", "");
         linkg.attr("class", "");
+        selectedNode = -1;
+    }
+}
+
+/*
+ * Function to run on resource node double click.
+ * @param d: data
+ */
+function doubleclick(d) {
+//     if (d3.event.defaultPrevented) return; // ignore drag
+
+    var linkString;
+    if (d.isActivatedAssetsType){
+        linkString = '../assets/' + d.shortName + '/details/' +
+            encodeURIComponent(d.uuid);
+    } else {
+        linkString = '../../carbon/resources/resource.jsp?region=region3&item=resource_browser_menu&path=' +
+            encodeURIComponent(d.path);
     }
 
-    // if double click
-    if(clicks === 1) {
-        clearTimeout(timer);
-        timer = null;
-        clicks = -1;
-
-        // double click function
-        if(selectedNode == -1 || selectedNode != d.index){
-
-            // highlight links if they are connected to source
-            linkg.attr("class", function(o) {
-                return (d.index == o.target.index) || (d.index == o.source.index) ? "active" : "inactive";
-            });
-
-            // highlight nodes if they are connected to source
-            node.attr("class", function(o) {
-                return neighboring(o, d) || neighboring(d, o) ? "active" : "inactive";
-            });
-
-            d3.select(self).attr("active-status", "groupselect");
-            selectedNode = d.index;
-
-        }
-        else{
-            // Reset relation highlight
-            node.attr("class", "");
-            linkg.attr("class", "");
-
-            isSame = self;
-            selectedNode = -1;
-        }
+    var win = window.open(linkString, '_blank');
+    if(win){
+        //Browser has allowed it to be opened
+        win.focus();
+    }else{
+        //Broswer has blocked it
+        alert('Please allow popups for this site');
     }
-    clicks++;
-
-    displayInfo(d);
-    return false;
 }
 
 /*
