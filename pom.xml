@@ -705,6 +705,11 @@
                 <artifactId>jasperreports</artifactId>
                 <version>${jasperreports.wso2.version}</version>
             </dependency>
+            <dependency>
+                <groupId>org.wso2.ciphertool</groupId>
+                <artifactId>org.wso2.ciphertool</artifactId>
+                <version>${ciphertool.version}</version>
+            </dependency>
         </dependencies>
     </dependencyManagement>
 
@@ -986,7 +991,7 @@
 
         <!-- Carbon Kernel -->
 
-        <carbon.kernel.version>4.4.0</carbon.kernel.version>
+        <carbon.kernel.version>4.4.1</carbon.kernel.version>
         <carbon.kernel.package.import.version.range>[4.4.0, 4.5.0)
         </carbon.kernel.package.import.version.range>
 
@@ -1053,6 +1058,8 @@
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 
         <axis2-transports.wso2.version>1.1.0-wso2v12</axis2-transports.wso2.version>
+
+	<ciphertool.version>1.0.0-wso2v3</ciphertool.version>
 
     </properties>
 </project>

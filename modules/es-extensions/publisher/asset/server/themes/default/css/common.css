@@ -597,7 +597,6 @@ h2.sub-heading {
 
 .tab-content {
     padding: 20px;
-    background: #2c313b;
 }
 
 .tab-content h3.ast-name {
@@ -611,5 +610,9 @@ h2.sub-heading {
 
 .tab-content h3.ast-name:after {
     background: linear-gradient(to right, rgba(255, 255, 255, 0), rgba(44, 49, 59, 1) 50%);
+}
+
+.tab-content-services {
+    background: #2c313b;
 }
 

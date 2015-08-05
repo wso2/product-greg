@@ -62,20 +62,43 @@ $(function () {
         $('#list_assets_table_summary').closest('.ctrl-wr-asset-list').show();
     });
 
-    $("#saveServices").click(function(event){
+    $("#saveServices").click(function (event) {
         event.preventDefault();
         var serverId = $('#serverId').attr('data-serverId');
+        var existArtifactStrategy = $('#existArtifactStrategy').val();
+        var orphanArtifactStrategy = $('#orphanArtifactStrategy').val();
         $.ajax({
-            url: caramel.context + '/assets/server/apis/servers/save?type=server&serverId=' + serverId,
+            url: caramel.context + '/assets/server/apis/servers/save?type=server&serverId=' + serverId +
+            '&existArtifactStrategy=' + existArtifactStrategy + '&orphanArtifactStrategy=' + orphanArtifactStrategy,
             type: 'POST',
             contentType: "application/json",
             dataType: "json",
-            data:JSON.stringify(selectedServices),
+            data: JSON.stringify(selectedServices),
             success: function (response) {
                 $('#list_assets_table_summary').hide();
                 $('#saveServices').hide();
-                var html = '<h2 class="sub-heading">Services saved successfully</h2>';
-                $('#parent-container').append(html);
+                $('#discoveryStratergy').hide();
+                var html1 = '<h2 class="sub-heading">DISCOVERY SERVICES SUMMARY</h2></br>';
+
+                var html2 = '';
+                for (var key in response) {
+                    if (response.hasOwnProperty(key)) {
+                        if (response[key].length > 0) {
+                            html2 = html2 + '<h4 class="sub-heading" style="text-transform: uppercase;">' + key + '</h4>';
+                            html2 = html2 + '<ul>';
+                            for (var i = 0; i < response[key].length; i++) {
+                                var serviceName = response[key][i].split(":");
+                                html2 = html2 + '<li>' + serviceName[1] + ' (' + serviceName[0] + ')</li></br>';
+                            }
+                            html2 = html2 + '</ul></br>';
+                        }
+                    }
+                }
+
+                var html3 = '<a href="javascript:window.close();" class="cu-btn-inner inverse">OK</a>';
+                $('#parent-container').append(html1);
+                $('#parent-container').append(html2);
+                $('#parent-container').append(html3);
             },
             error: function () {
                 console.log("Error loading services.");
