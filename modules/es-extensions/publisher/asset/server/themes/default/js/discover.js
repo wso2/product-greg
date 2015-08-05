@@ -35,6 +35,7 @@ $('#list_assets_table_body').on('click', '.ctrl-wr-asset', function(){
 
 $(function () {
     var selectedServices = [];
+    var url = "";
     $("#submitServices").click(function(event){
         event.preventDefault();
         $('ul#pageTab li a').each(function() {
@@ -60,6 +61,12 @@ $(function () {
 
         $('#list_assets_table_body').hide();
         $('#list_assets_table_summary').closest('.ctrl-wr-asset-list').show();
+        url = window.location.href;
+    });
+
+    $("#backButton").click(function (event) {
+        event.preventDefault();
+        window.location.replace(url);
     });
 
     $("#saveServices").click(function (event) {
@@ -77,6 +84,7 @@ $(function () {
             success: function (response) {
                 $('#list_assets_table_summary').hide();
                 $('#saveServices').hide();
+                $("#backButton").hide();
                 $('#discoveryStratergy').hide();
                 var html1 = '<h2 class="sub-heading">DISCOVERY SERVICES SUMMARY</h2></br>';
 
@@ -104,5 +112,5 @@ $(function () {
                 console.log("Error loading services.");
             }
         });
-    })
+    });
 })
