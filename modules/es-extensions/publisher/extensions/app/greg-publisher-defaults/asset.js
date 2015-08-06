@@ -31,9 +31,9 @@ asset.renderer = function(ctx) {
         var am = rxt.asset.createUserAssetManager(session, type);
         return am;
     };
-    var getAssetCommentManager = function (ctx) {
+    var getAssetNoteManager = function (ctx) {
         var rxt = require('rxt');
-        var am = rxt.asset.createUserAssetManager(ctx.session, 'comments');
+        var am = rxt.asset.createUserAssetManager(ctx.session, 'note');
         return am;
     };
     return {
@@ -80,14 +80,14 @@ asset.renderer = function(ctx) {
                     ptr.push(entry);
                 }
             },
-            comments: function (page) {
+            notes: function (page) {
                 if (!page.assets.id) {
                     return;
                 }
                 var q = {};
                 q.overview_resourcepath = page.assets.path;
-                var items = getAssetCommentManager(ctx).search(q);
-                page.comments = items;
+                var items = getAssetNoteManager(ctx).search(q);
+                page.notes = items;
             },
             versions: function (page) {
                 if (page.meta.pageName !== 'details') {
