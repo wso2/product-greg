@@ -1,10 +1,10 @@
-<artifactType type="application/vnd.wso2-comments+xml" shortName="comments" singularLabel="Comment" pluralLabel="Comments" hasNamespace="false" iconSet="9">
-    <storagePath>/publisher_comments/@{overview_hash}</storagePath>
+<artifactType type="application/vnd.wso2-notes+xml" shortName="note" singularLabel="Note" pluralLabel="Notes" hasNamespace="false" iconSet="9">
+    <storagePath>/publisher_notes/@{overview_hash}</storagePath>
     <nameAttribute>overview_resourcepath</nameAttribute>
     <ui>
         <list>
             <column name="resourcepath">
-                <data type="path" value="overview_resourcepath" href="/publisher_comments/@{overview_hash}"/>
+                <data type="path" value="overview_resourcepath" href="/publisher_notes/@{overview_hash}"/>
             </column>
         </list>
     </ui>
@@ -17,13 +17,13 @@
                 <name>hash</name>
             </field>
             <field type="text-area" required="true">
-                <name>comment</name>
+                <name>note</name>
             </field>
             <field type="text" required="false">
                 <name>replypath</name>
             </field>
             <field type="options">
-                <name label="Comment Visibility">visibility</name>
+                <name label="Note Visibility">visibility</name>
                 <values>
                     <value>Owner</value>
                     <value>role</value>
@@ -31,7 +31,7 @@
                 </values>
             </field>
             <field type="options">
-                <name label="Comment Status">status</name>
+                <name label="Note Status">status</name>
                 <values>
                     <value>Open</value>
                     <value>Resolved</value>
