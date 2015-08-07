@@ -17,7 +17,8 @@
 package org.wso2.carbon.registry.pagination.test;
 
 
-import org.apache.axis2.AxisFault;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 import org.wso2.carbon.automation.engine.context.TestUserMode;
@@ -40,6 +41,7 @@ import static org.testng.Assert.assertTrue;
 public class APIPaginationTestCase extends GREGIntegrationBaseTest {
 
     private WSRegistryServiceClient registry;
+    private static final Log log = LogFactory.getLog(APIPaginationTestCase.class);
 
     @BeforeClass(alwaysRun = true)
     public void initTest() throws Exception {
@@ -100,7 +102,17 @@ public class APIPaginationTestCase extends GREGIntegrationBaseTest {
         try {
             PaginationContext.init(0, 60, "", "", 100);
 
-            LogEntry[] logEntries = registry.getLogs(null, -1, "admin", null, null, false);
+            LogEntry[] logEntries = new LogEntry[0];
+
+            for (int i = 0; i < 10; i++) {
+                logEntries = registry.getLogs(null, -1, "admin", null, null, false);
+                if (logEntries.length > 0){
+                    break;
+                }
+                log.warn("Could not retrieve log entries in attempt number : " + (i + 1));
+                Thread.sleep(1000);
+            }
+
             assertTrue((logEntries.length) > 40, "Log entries   should be more than 40 records ");
 
             PaginationContext.init(0, 5, "", "", 100);
