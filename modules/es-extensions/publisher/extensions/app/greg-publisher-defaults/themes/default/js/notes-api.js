@@ -47,22 +47,22 @@ $(function () {
     $('#add-note').on('click', function () {
         var data = {};
         data.overview_resourcepath = store.publisher.assetPath;
-        data.overview_comment = $('#add-note-content').val();
+        data.overview_note = $('#add-note-content').val();
         data.overview_visibility = "public";
         data.overview_status = "Open";
 
         $.ajax({
-            url: caramel.context + "/apis/assets?type=comments",
+            url: caramel.context + "/apis/assets?type=note",
             type: 'POST',
             data: JSON.stringify(data),
             contentType: "application/json",
             dataType: 'json',
             success: function (response) {
                 var input = {};
-                input.comments = [];
-                input.comments.push(response.data);
-                    renderPartial('notes-comment',{},function(result){
-                        renderPartial('notes-comment-container',input,function(result){
+                input.notes = [];
+                input.notes.push(response.data);
+                    renderPartial('notes-note',{},function(result){
+                        renderPartial('notes-note-container',input,function(result){
                             $('#collapseNotes .wr-panel-notes').append(result);
                         });
                     });
@@ -92,19 +92,19 @@ $(function () {
         var noteContainer = this;
         var data = {};
         data.overview_resourcepath = this.dataset.path;
-        data.overview_comment = $(replyContainerId(id)).val();
+        data.overview_note = $(replyContainerId(id)).val();
         data.overview_replypath = this.dataset.path;
         data.overview_visibility = "public";
         data.overview_status = "Open";
 
         $.ajax({
-            url: caramel.context + "/apis/assets?type=comments",
+            url: caramel.context + "/apis/assets?type=note",
             type: 'POST',
             data: JSON.stringify(data),
             contentType: "application/json",
             dataType: 'json',
             success: function (response) {
-                renderPartial('notes-comment',response.data,function(result){
+                renderPartial('notes-note',response.data,function(result){
                     $(noteContainer).closest('div.well').siblings('.wr-panel-sub-note').append(result);
                 });
                 $(replyContainerId(id)).val('');
@@ -124,12 +124,12 @@ $(function () {
         var id = $(this).closest('.wr-panel-note').attr('href');
 
         $.ajax({
-            url: caramel.context + '/apis/assets?type=comments&q="overview_replypath":"' + path + '"',
+            url: caramel.context + '/apis/assets?type=note&q="overview_replypath":"' + path + '"',
             type: 'GET',
             success: function (response) {
                 $(id + "> .wr-panel-sub-note").html("");
                 $.each(response.data, function(key, value){
-                    renderPartial('notes-comment',value,function(result){
+                    renderPartial('notes-note',value,function(result){
                         $(id + "> .wr-panel-sub-note").append(result);
                     });
                 });
