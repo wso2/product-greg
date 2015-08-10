@@ -454,7 +454,7 @@ a.ast-type-item:hover {
 }
 
 .ctrl-wr-asset {
-    width:140px;
+    width:120px;
     height:250px;
     float:left;
     margin-right:22px;
@@ -483,8 +483,8 @@ br.c-both {
 .ctrl-wr-asset .itm-ast .text-tile {
     display: block;
     position: relative;
-    width: 140px;
-    height: 140px;
+    width: 120px;
+    height: 120px;
 
     -webkit-transition: all 0.5s ease;
     -moz-transition: all 0.5s ease;
@@ -508,7 +508,7 @@ br.c-both {
     color: #fff;
     width: 100%;
     height: 100%;
-    font-size: 95px;
+    font-size: 80px;
     text-align: center;
     vertical-align: middle;
     line-height: 1.45;
@@ -529,8 +529,8 @@ br.c-both {
 
 .ctrl-wr-asset .itm-ast .ast-img:hover,
 .ctrl-wr-asset .itm-ast .text-tile:hover {
-    width: 150px;
-    height: 150px;
+    width: 130px;
+    height: 130px;
 }
 
 .ctrl-wr-asset.selected .itm-ast .ast-img,
