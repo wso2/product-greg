@@ -44,7 +44,10 @@ require('/modules/publisher.js').exec(function (ctx) {
             log.error(e);
         }
 
+
         var discoveryDataArray = [];
+        var discoveryDataNewArray = [];
+        var discoveryDataExistingArray = [];
         for (var key in result) {
             if (result.hasOwnProperty(key)) {
                 var discoveryService = {};
@@ -56,7 +59,7 @@ require('/modules/publisher.js').exec(function (ctx) {
                     icon = "fw fw-soap";
                 } else if (key == "restservice") {
                     key = "REST Services";
-                    icon = "fw fw-rest-service";
+                    icon = "fw  fw-rest-service";
                 } else {
                     key = "Other Services";
                     originalKey = "otherservice";
@@ -64,15 +67,41 @@ require('/modules/publisher.js').exec(function (ctx) {
 
                 discoveryService.originalKey = originalKey;
                 discoveryService.key = key;
-                discoveryService.data = result[originalKey];
+
+                var dataNewArray = [];
+                var dataExistingArray = [];
+                for (var key2 in result[originalKey]) {
+                    if (result[originalKey].hasOwnProperty(key2)) {
+                        if (result[originalKey][key2].attributes.discovery_status == "new") {
+                            dataNewArray.push(result[originalKey][key2]);
+                        } else if (result[originalKey][key2].attributes.discovery_status == "existing") {
+                            dataExistingArray.push(result[originalKey][key2]);
+                        }
+                    }
+                }
+
                 discoveryService.icon = icon;
+
+
+                discoveryService.data = result[originalKey];
                 discoveryDataArray.push(discoveryService);
+
+                var discoveryServiceNew = discoveryService;
+                discoveryServiceNew.dataNew = dataNewArray;
+                discoveryDataNewArray.push(discoveryServiceNew);
+
+                var discoveryServiceExisting  = discoveryService;
+                discoveryServiceExisting.dataExisting = dataExistingArray;
+                discoveryDataExistingArray.push(discoveryServiceExisting);
             }
         }
 
         output.discoveryData = discoveryDataArray;
+        output.discoveryDataNew = discoveryDataNewArray;
+        output.discoveryDataExisting = discoveryDataExistingArray;
         output.serverId = req.getParameter('id');
         output.discoveryEnumData = gregAPI.serviceDiscovery.getDiscoveryEnumData();
+
     } catch (e) {
         log.error(e);
         output.error = e;
