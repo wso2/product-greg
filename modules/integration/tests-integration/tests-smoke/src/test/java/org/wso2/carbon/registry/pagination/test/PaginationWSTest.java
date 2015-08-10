@@ -137,10 +137,10 @@ public class PaginationWSTest extends GREGIntegrationBaseTest {
     }
 
     @Test(groups = {"wso2.greg"}, description = "Search by name and version", dependsOnMethods = {"testSearchByName"})
-    public void testSearchByNameAndVersion() throws RegistryException {
+    public void testSearchByVersion() throws RegistryException {
         try {
             PaginationContext.init(0, 5, "DES", "overview_name", 100);
-            List<GovernanceArtifact> searchResults = GovernanceUtils.findGovernanceArtifacts("GenericArtifactSearchService&version=4.5.6", governance, mediaType);
+            List<GovernanceArtifact> searchResults = GovernanceUtils.findGovernanceArtifacts("version=4.5.6", governance, mediaType);
             Assert.assertEquals(searchResults.size(), 1, "Wrong number of artifacts returned by search");
 
             for (GovernanceArtifact artifact : searchResults) {
@@ -151,11 +151,11 @@ public class PaginationWSTest extends GREGIntegrationBaseTest {
         }
     }
 
-    @Test(groups = {"wso2.greg"}, description = "Search by name and property", dependsOnMethods = {"testSearchByNameAndVersion"})
-    public void testSearchByNameAndProperty() throws RegistryException {
+    @Test(groups = {"wso2.greg"}, description = "Search by name and property", dependsOnMethods = {"testSearchByVersion"})
+    public void testSearchByProperty() throws RegistryException {
         try {
             PaginationContext.init(0, 5, "DES", "overview_name", 100);
-            List<GovernanceArtifact> searchResults = GovernanceUtils.findGovernanceArtifacts("GenericArtifactSearchService&country=usa", governance, mediaType);
+            List<GovernanceArtifact> searchResults = GovernanceUtils.findGovernanceArtifacts("country=usa", governance, mediaType);
             Assert.assertEquals(searchResults.size(), 1, "Wrong number of artifacts returned by search");
 
             for (GovernanceArtifact artifact : searchResults) {
