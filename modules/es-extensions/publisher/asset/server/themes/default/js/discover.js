@@ -28,17 +28,22 @@ $('.more-toggle-btn').click(function(){
     });
 });
 
-$('#list_assets_table_body').on('click', '.ctrl-wr-asset', function(){
+$('#list_assets_table_body #pageTab1').on('click', '.ctrl-wr-asset', function(){
     $(this).toggleClass('selected');
 });
 
+$('#parent-container').on('click', '#closeWindow', function(){
+    var win = window.open('', '_self');
+    window.close();
+    win.close(); return false;
+});
 
 $(function () {
     var selectedServices = [];
     var url = "";
     $("#submitServices").click(function(event){
         event.preventDefault();
-        $('ul#pageTab li a').each(function() {
+        $('div#pageTab1 > ul li a').each(function() {
             var selectedService = {};
             var selectedAssetType = $('.name', this).html(),
                 selectedAssets = $('.tab-content ' + $(this).attr('href')).find('.selected');
@@ -56,14 +61,47 @@ $(function () {
                 });
                 selectedService.data = selectedServiceData;
             }
-            selectedServices.push(selectedService);
+            if (selectedService.serviceType != null) {
+                selectedServices.push(selectedService);
+            }
         });
 
+        $('div#pageTab2 > ul li a').each(function () {
+            var existingService = {};
+            var existingServices = $('.tab-content ' + $(this).attr('href')).children();
+            var existingServiceData = [];
+            existingService.serviceType = $(this).attr('aria-controls');
+
+            var keyExisting = null;
+            for (var key in selectedServices) {
+                if (selectedServices.hasOwnProperty(key)) {
+                    if (selectedServices[key].serviceType == existingService.serviceType) {
+                        for (var key2 in selectedServices[key].data) {
+                            if (selectedServices[key].data.hasOwnProperty(key2)) {
+                                existingServiceData.push(selectedServices[key].data[key2]);
+                            }
+                        }
+                        keyExisting = key;
+                        break;
+                    }
+                }
+            }
+
+            $.each(existingServices, function (i, val2) {
+                existingServiceData.push($(val2).data('content'));
+            });
+            existingService.data = existingServiceData;
+            if (keyExisting != null) {
+                delete selectedServices[keyExisting];
+            }
+            selectedServices.push(existingService);
+        });
+
+        selectedServices = selectedServices.filter(Object);
         $('#list_assets_table_body').hide();
         $('#list_assets_table_summary').closest('.ctrl-wr-asset-list').show();
         url = window.location.href;
     });
-
     $("#backButton").click(function (event) {
         event.preventDefault();
         window.location.replace(url);
@@ -103,7 +141,7 @@ $(function () {
                     }
                 }
 
-                var html3 = '<a href="javascript:window.close();" class="cu-btn-inner inverse">OK</a>';
+                var html3 = '<a href="javascript:void(0);" id="closeWindow" class="cu-btn-inner inverse">OK</a>';
                 $('#parent-container').append(html1);
                 $('#parent-container').append(html2);
                 $('#parent-container').append(html3);
