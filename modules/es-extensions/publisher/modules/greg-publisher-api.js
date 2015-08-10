@@ -448,7 +448,7 @@ var gregAPI = {};
         var rxt = require('rxt');
         var assetManager = rxt.asset.createUserAssetManager(session, type);
         var serverArtifact = assetManager.am.manager.getGenericArtifact(serverId);
-        return serverDiscoveryService.save(discoveryServiceDataMap, serverArtifact, existArtifactStrategy,
+        return serverDiscoveryService.persistArtifacts(discoveryServiceDataMap, serverArtifact, existArtifactStrategy,
             orphanArtifactStrategy);
     };
 
