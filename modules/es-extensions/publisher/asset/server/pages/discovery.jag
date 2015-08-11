@@ -102,6 +102,15 @@ require('/modules/publisher.js').exec(function (ctx) {
         output.serverId = req.getParameter('id');
         output.discoveryEnumData = gregAPI.serviceDiscovery.getDiscoveryEnumData();
 
+        output.newDataEmpty = false;
+        output.existingDataEmpty = false;
+        if (0 == discoveryServiceNew.dataNew.length) {
+            output.newDataEmpty = true;
+        }
+        if (0 == discoveryServiceExisting.dataExisting.length) {
+            output.existingDataEmpty = true;
+        }
+
     } catch (e) {
         log.error(e);
         output.error = e;
