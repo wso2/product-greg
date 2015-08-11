@@ -132,7 +132,6 @@
                     <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 col-lg-offset-3 col-md-offset-3 col-sm-offset-3
                 col-xs-offset-3">
                         <div class="alert alert-warning" role="alert">
-                            <h1 class="sub-heading">{{error}}</h1>
                             <blockquote>
                                 <p>If you see this message for the first time check DiscoveryAgent configuration for
                                     this server.</p>
@@ -144,96 +143,116 @@
                     <div class="ast-container" id="list_assets_table_body">
                         <h2 class="sub-heading">Select artifacts</h2>
                         <hr>
-                        <div id="pageTab1">
-                            <ul class="nav nav-tabs" role="tablist">
-                                {{#each discoveryDataNew}}
-                                    {{#if dataNew }}
-                                        <li role="presentation"><a href="#{{originalKey}}"
-                                                                   aria-controls="{{originalKey}}" role="tab"
-                                                                   data-toggle="tab">
-                                            <i class="{{icon}}"></i><span class="name">{{key}}</span></a></li>
-                                    {{/if}}
-                                {{/each}}
-                            </ul>
-                            <div id="serverId" data-serverId="{{serverId}}"></div>
-                            <div class="tab-content tab-content-services">
-                                {{#each discoveryDataNew}}
-                                    <div role="tabpanel" class="tab-pane" id="{{originalKey}}">
-                                        {{#each dataNew}}
-                                            <div class="ctrl-wr-asset selected" id="{{id}}" data-content="{{dump
-                                            this}}">
-                                                <div class="itm-ast">
+                        {{#if newDataEmpty}}
+                            <div class="alert alert-warning" role="alert">
+                                <blockquote>
+                                    <p>There aren't any newly discovered artifacts found.</p>
+                                </blockquote>
+                            </div>
+                        {{else}}
+                            <div id="pageTab1">
+                                <ul class="nav nav-tabs" role="tablist">
+                                    {{#each discoveryDataNew}}
+                                        {{#if dataNew }}
+                                            <li role="presentation"><a href="#{{originalKey}}"
+                                                                       aria-controls="{{originalKey}}" role="tab"
+                                                                       data-toggle="tab">
+                                                <i class="{{icon}}"></i><span class="name">{{key}}</span></a></li>
+                                        {{/if}}
+                                    {{/each}}
+                                </ul>
+                                <div id="serverId" data-serverId="{{serverId}}"></div>
+                                <div class="tab-content tab-content-services">
+                                    {{#each discoveryDataNew}}
+                                        <div role="tabpanel" class="tab-pane" id="{{originalKey}}">
+                                            {{#each dataNew}}
+                                                <div class="ctrl-wr-asset selected" id="{{id}}" data-content="{{dump
+                                                this}}">
+                                                    <div class="itm-ast">
                                                         <span class="ast-img"><i
                                                                 class="icon {{../this.icon}}"></i></span>
 
-                                                    <div class="ast-desc">
-                                                        <a href='#'>
-                                                            <h3 class="ast-name">{{attributes.[overview_name]}}</h3>
-                                                        </a>
-                                                        <span class="ast-ver">{{attributes.[overview_version]}}</span>
+                                                        <div class="ast-desc">
+                                                            <a href='#'>
+                                                                <h3 class="ast-name">{{attributes.[overview_name]}}</h3>
+                                                            </a>
+                                                            <span class="ast-ver">{{attributes.[overview_version]}}</span>
+                                                        </div>
+                                                        <br class="c-both"/>
                                                     </div>
                                                     <br class="c-both"/>
                                                 </div>
-                                                <br class="c-both"/>
-                                            </div>
-                                        {{/each}}
-                                        <br class="c-both"/>
-                                    </div>
-                                {{/each}}
+                                            {{/each}}
+                                            <br class="c-both"/>
+                                        </div>
+                                    {{/each}}
+                                </div>
                             </div>
-                        </div>
+                        {{/if}}
                         <br/>
 
                         <h2 class="sub-heading">Existing artifacts</h2>
                         <hr>
-                        <div id="pageTab2">
-                            <ul class="nav nav-tabs" role="tablist">
-                                {{#each discoveryDataExisting}}
-                                    {{#if dataExisting }}
-                                        <li role="presentation"><a href="#{{originalKey}}Existing"
-                                                                   aria-controls="{{originalKey}}"
-                                                                   role="tab" data-toggle="tab"><i
-                                                class="{{icon}}"></i><span class="name">{{key}}</span></a></li>
-                                    {{/if}}
-                                {{/each}}
-                            </ul>
+                        {{#if existingDataEmpty}}
+                            <div class="alert alert-warning" role="alert">
+                                <blockquote>
+                                    <p>There aren't any existing discovered artifacts found.</p>
+                                </blockquote>
+                            </div>
+                        {{else}}
+                            <div id="pageTab2">
+                                <ul class="nav nav-tabs" role="tablist">
+                                    {{#each discoveryDataExisting}}
+                                        {{#if dataExisting }}
+                                            <li role="presentation"><a href="#{{originalKey}}Existing"
+                                                                       aria-controls="{{originalKey}}"
+                                                                       role="tab" data-toggle="tab"><i
+                                                    class="{{icon}}"></i><span class="name">{{key}}</span></a></li>
+                                        {{/if}}
+                                    {{/each}}
+                                </ul>
 
-                            <div class="tab-content tab-content-services">
-                                {{#each discoveryDataExisting}}
-                                    <div role="tabpanel" class="tab-pane" id="{{originalKey}}Existing">
-                                        {{#each dataExisting}}
-                                            <div class="ctrl-wr-asset asset-existing" id="{{id}}" data-content="{{dump
-                                            this}}">
-                                                <div class="itm-ast">
+                                <div class="tab-content tab-content-services">
+                                    {{#each discoveryDataExisting}}
+                                        <div role="tabpanel" class="tab-pane" id="{{originalKey}}Existing">
+                                            {{#each dataExisting}}
+                                                <div class="ctrl-wr-asset asset-existing" id="{{id}}"
+                                                     data-content="{{dump
+                                                     this}}">
+                                                    <div class="itm-ast">
                                                         <span class="ast-img"><i
                                                                 class="icon {{../this.icon}}"></i></span>
 
-                                                    <div class="ast-desc">
-                                                        <a href='#'>
-                                                            <h3 class="ast-name">{{attributes.[overview_name]}}</h3>
-                                                        </a>
-                                                        <span class="ast-ver">{{attributes.[overview_version]}}</span>
+                                                        <div class="ast-desc">
+                                                            <a href='#'>
+                                                                <h3 class="ast-name">{{attributes.[overview_name]}}</h3>
+                                                            </a>
+                                                            <span class="ast-ver">{{attributes.[overview_version]}}</span>
+                                                        </div>
+                                                        <br class="c-both"/>
                                                     </div>
                                                     <br class="c-both"/>
                                                 </div>
-                                                <br class="c-both"/>
-                                            </div>
-                                        {{/each}}
-                                    </div>
-                                    <br class="c-both"/>
-                                {{/each}}
+                                            {{/each}}
+                                        </div>
+                                        <br class="c-both"/>
+                                    {{/each}}
+                                </div>
                             </div>
-                        </div>
+                        {{/if}}
                         <br/>
-
-                        <div class="wr-input-control">
-                            <a id="submitServices" href="javascript:void(0)" class="cu-btn-inner inverse">
+                        {{#if newDataEmpty}}
+                            <a href="javascript:void(0);" id="closeWindow" class="cu-btn-inner inverse">Close</a>
+                        {{else}}
+                            <div class="wr-input-control">
+                                <a id="submitServices" href="javascript:void(0)" class="cu-btn-inner inverse">
                             <span class="fw-stack">
                                 <i class="fw fw-ring fw-stack-2x"></i>
                                 <i class="fw fw-right-arrow fw-stack-1x"></i>
                             </span> Continue
-                            </a>
-                        </div>
+                                </a>
+                            </div>
+                        {{/if}}
                     </div>
                 </div>
                 <div class="ctrl-wr-asset-list" style="display: none;">
