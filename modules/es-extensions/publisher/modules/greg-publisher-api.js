@@ -476,60 +476,35 @@ var gregAPI = {};
         var registry = am.registry.registry;
         var path = "/_system/config/repository/components/secure-vault";
         var resource;
-        //var resourcePath = path + "/" + key ;
 
-        log.error("resourcePath = "+ path);
         if(registry.resourceExists(path)){
             resource = registry.get(path);
         }
         else {
             resource = registry.newCollection();
         }
-        log.error("Value = "+ value);
-        log.error("Key = "+ key);
+
         var securityService =  carbon.server.osgiService('org.wso2.carbon.registry.security.vault.service.RegistrySecurityService');
         if (key != null && value != null){
 
-            var bytes = [];
-
-            for (var i = 0; i < value.length; ++i) {
-                bytes.push(value.charCodeAt(i));
-            }
-//                var CryptoUtil = Packages.org.wso2.carbon.core.util.CryptoUtil;
-//                var cryptoUtil = CryptoUtil.getDefaultCryptoUtil()
-//                var encryptedText = cryptoUtil.encryptAndBase64Encode(bytes);
-//                log.error(" crypto #################################" +encryptedText);
-//                var decryptText = cryptoUtil.base64DecodeAndDecrypt(encryptedText);
-//                log.error(" crypto decrypt #################################" +decryptText);
-//                var decryptTextNew = GovernanceUtils.decrypt(encryptedText);
-//                log.error(" crypto decrypt new #################################" +decryptTextNew);
 
             var encryptedText = securityService.doEncrypt(value);
-            log.error(" encrypted #################################" +encryptedText);
-
             resource.setProperty(key, encryptedText);
             registry.beginTransaction();
             registry.put(path, resource);
             registry.commitTransaction();
             var test = resource.getProperty(key);
 
-            //log.error("Key = "+ test);
         }
 
-        //var collection= org.wso2.carbon.registry.core.ResourceImpl;
-        var decrypt = securityService.doDecrypt("ESB");
-        log.error(" decrypted #################################" +decrypt);
-        var collection = registry.get(path);
-        var child= collection.getProperties();
-        log.error("########## child = "+ child);
-        //var props= collection.getContent().toString();
-        log.error("########## = "+ collection);
-//            var Gson = Packages.com.google.gson.Gson;
-//            var gson = new Gson();
-//            var result = gson.toJson(child);
-//            log.error("########## = "+ result);
-        //log.info("test new method ##################################### "+GovernanceUtils.getPasswordFromKey("IS"));
-        return child;
+
+        var properties;
+        if(registry.resourceExists(path)){
+            var collection = registry.get(path);
+            properties= collection.getProperties();
+        }
+
+        return properties;
 
     }
 }(gregAPI));

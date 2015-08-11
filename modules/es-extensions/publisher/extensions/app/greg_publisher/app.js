@@ -39,7 +39,8 @@ app.server = function(ctx) {
                 url: 'password',
                 path: 'password.jag',
                 secured: true
-            }],
+            }]
+        },
         configs: {
             landingPage: '/pages/gc-landing',
             disabledAssets: ['ebook','proxy','sequence','service','servicex','uri',
