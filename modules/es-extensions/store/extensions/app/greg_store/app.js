@@ -30,7 +30,7 @@ app.server = function(ctx) {
     	},
         configs: {
         	landingPage: '/pages/gc-landing',
-            disabledAssets: ['comments', 'ebook','proxy','sequence','service','servicex','uri',
+            disabledAssets: ['note', 'ebook','proxy','sequence','service','servicex','uri',
                              'site','provider','gadget','document','endpoint','topic','reply']
         }
     }
