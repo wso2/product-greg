@@ -141,7 +141,7 @@ $(function () {
                     }
                 }
 
-                var html3 = '<a href="javascript:void(0);" id="closeWindow" class="cu-btn-inner inverse">OK</a>';
+                var html3 = '<a href="javascript:void(0);" id="closeWindow" class="cu-btn-inner inverse">Close</a>';
                 $('#parent-container').append(html1);
                 $('#parent-container').append(html2);
                 $('#parent-container').append(html3);
