@@ -33,8 +33,13 @@ app.server = function(ctx) {
                 url:'search-results',
                 path:'search-results.jag',
                 secured:true        
-            }]
-    	},
+            },
+            {
+                title: 'password',
+                url: 'password',
+                path: 'password.jag',
+                secured: true
+            }],
         configs: {
             landingPage: '/pages/gc-landing',
             disabledAssets: ['ebook','proxy','sequence','service','servicex','uri',
