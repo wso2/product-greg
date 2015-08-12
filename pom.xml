@@ -1013,7 +1013,7 @@
         <carbon.commons.version>4.4.4</carbon.commons.version>
         
         <!-- Carbon Identity -->
-        <carbon.identity.version>4.5.4-SNAPSHOT</carbon.identity.version>
+        <carbon.identity.version>4.5.4</carbon.identity.version>
 
         <carbon.deployment.version>4.4.1</carbon.deployment.version>
 
