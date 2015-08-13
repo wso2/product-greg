@@ -106,6 +106,13 @@ asset.renderer = function(ctx) {
                         page.leftNav.splice(index, 1);
                     }
                 }
+            },
+            checkDependents:function(page) {
+                if(page.assets){
+                    var dependencies  = page.assets.dependencies || [];
+                    var isDependentsPresent =  ( dependencies.length > 0 );
+                    page.assets.isDependentsPresent = isDependentsPresent;
+                }
             }
         }
     };
