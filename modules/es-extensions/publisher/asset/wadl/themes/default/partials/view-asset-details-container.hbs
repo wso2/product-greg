@@ -40,6 +40,23 @@
                                 </tr>
                                 </tbody>
                             </table>
+
+                            <table class="table table-striped table-hover">
+                                <thead>
+                                <h4>Associations</h4>
+                                </thead>
+                                <tbody>
+                                <tr>
+                                    <th>Associated REST services :</th>
+                                {{#each dependencies}}
+                                    <tr>
+                                        <td><a href="../../../assets/{{this.associationType}}/details/{{this.associationUUID}}">{{this.associationName}}</a></td>
+                                    </tr>
+                                {{/each}}
+                                </tr>
+                                </tbody>
+                            </table>
+                            
                             <div id='wadl-viewer'>
                                 <legend><h4>{{t "Content"}}</h4></legend>
                                 <textarea id="wadlcontent" name="wadlcontent">{{content}}</textarea>
