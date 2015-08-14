@@ -122,7 +122,7 @@ asset.manager = function(ctx) {
                 var value = '' + new Stream(new ByteArrayInputStream(content));
                 item.content = value;
             } catch(e) {
-                log.error(e);
+                log.debug(e);
                 return null;
             }
 
@@ -184,6 +184,9 @@ asset.manager = function(ctx) {
         },
         postCreate:function(){
             
+        },
+        addTags: function(){
+
         }
     };
 };
