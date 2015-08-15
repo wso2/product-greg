@@ -182,7 +182,9 @@
                                 <featureArtifactDef>
                                     org.wso2.carbon.registry:org.wso2.carbon.registry.task.feature:${carbon.registry.version}
                                 </featureArtifactDef>
-
+                                <featureArtifactDef>
+                                    org.wso2.carbon.registry:org.wso2.carbon.registry.security.feature:${carbon.registry.version}
+                                </featureArtifactDef>
                                 <!--Repository Feature list -->
                                 <featureArtifactDef>
                                     org.wso2.carbon.registry:org.wso2.carbon.registry.ui.menu.feature:${carbon.registry.version}
@@ -618,6 +620,10 @@
                                 </feature>
                                 <feature>
                                     <id>org.wso2.carbon.registry.task.feature.group</id>
+                                    <version>${carbon.registry.version}</version>
+                                </feature>
+                                <feature>
+                                    <id>org.wso2.carbon.registry.security.feature.group</id>
                                     <version>${carbon.registry.version}</version>
                                 </feature>
                                 <feature>
@@ -1422,6 +1428,10 @@
                                 </feature>
                                 <feature>
                                     <id>org.wso2.carbon.registry.task.feature.group</id>
+                                    <version>${carbon.registry.version}</version>
+                                </feature>
+                                <feature>
+                                    <id>org.wso2.carbon.registry.security.feature.group</id>
                                     <version>${carbon.registry.version}</version>
                                 </feature>
 

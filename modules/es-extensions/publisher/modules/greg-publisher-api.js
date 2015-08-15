@@ -474,6 +474,7 @@ var gregAPI = {};
     gregAPI.password.addNewPassword = function (session, type, key, value) {
         var am = assetManager(session, type);
         var registry = am.registry.registry;
+        // Collection path used to store key and encrypted password value.
         var path = "/_system/config/repository/components/secure-vault";
         var resource;
 
@@ -484,27 +485,25 @@ var gregAPI = {};
             resource = registry.newCollection();
         }
 
+        // Osgi service used to encrypt password.
         var securityService =  carbon.server.osgiService('org.wso2.carbon.registry.security.vault.service.RegistrySecurityService');
+        var properties = [];
+        properties[1] = "";
         if (key != null && value != null){
-
-
             var encryptedText = securityService.doEncrypt(value);
             resource.setProperty(key, encryptedText);
             registry.beginTransaction();
             registry.put(path, resource);
             registry.commitTransaction();
-            var test = resource.getProperty(key);
-
+            properties[1] = "Password Saved Successfully";
         }
-
 
         var properties;
         if(registry.resourceExists(path)){
             var collection = registry.get(path);
-            properties= collection.getProperties();
+            properties[0] = collection.getProperties();
         }
 
         return properties;
-
     }
 }(gregAPI));
