@@ -718,7 +718,7 @@
         <repository>
             <id>wso2-nexus3</id>
             <name>WSO2 internal Repository</name>
-            <url>http://maven.wso2.org/nexus/content/repositories/orgwso2carbonstore-027/</url>
+            <url>http://maven.wso2.org/nexus/content/repositories/orgwso2carbonstore-028/</url>
             <releases>
                 <enabled>true</enabled>
                 <updatePolicy>daily</updatePolicy>
