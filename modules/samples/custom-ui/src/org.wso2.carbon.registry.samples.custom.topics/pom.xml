@@ -48,8 +48,14 @@
                         <Bundle-SymbolicName>${project.artifactId}</Bundle-SymbolicName>
                         <Bundle-Name>${project.artifactId}</Bundle-Name>
                         <Private-Package>
-                            org.wso2.carbon.registry.samples.custom.topics.*,
+                            org.wso2.carbon.registry.samples.custom.topics.internal.*,
+                            !org.wso2.carbon.registry.samples.custom.topics.util.*,
                         </Private-Package>
+                        <Export-Package>
+                            org.wso2.carbon.registry.samples.custom.topics.beans.*,
+                            org.wso2.carbon.registry.samples.custom.topics.util.*,
+                            org.wso2.carbon.registry.samples.custom.topics.services.*,
+                        </Export-Package>
                         <Import-Package>
                             org.wso2.carbon.registry.core.*,
                             org.wso2.carbon.registry.common.*;

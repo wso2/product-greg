@@ -15,6 +15,10 @@
     <packaging>jar</packaging>
 
     <dependencies>
+            <dependency>
+                <groupId>jasperreports.wso2</groupId>
+                <artifactId>jasperreports</artifactId>
+            </dependency>
         <dependency>
             <groupId>org.wso2.carbon.registry</groupId>
             <artifactId>org.wso2.carbon.registry.activities.stub</artifactId>
@@ -64,6 +68,12 @@
             <groupId>org.wso2.carbon.registry</groupId>
             <artifactId>org.wso2.carbon.registry.reporting.stub</artifactId>
             <scope>compile</scope>
+            <exclusions>
+                <exclusion>
+                    <artifactId>*</artifactId>
+                    <groupId>*</groupId>
+                </exclusion>
+            </exclusions>
         </dependency>
         <dependency>
             <groupId>org.wso2.carbon.registry</groupId>

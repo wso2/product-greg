@@ -49,7 +49,7 @@ $(document).ready(function() {
             return  '<div class="item" id="search_' + object.id + '">' +
                         '<div class="text">' +
                             '<div class="resource-name">' + object.text + '</div>' +
-                            '<div class="media-type">' + object.mediaType + '</div>' +
+                            '<div class="media-type">' + object.shortName + '</div>' +
                         '</div>' +
                         '<div class="icon">' +
                             '<img class="svg" src="' + svgIconsFolder + nodeIcon(object.mediaType) + '" />' +
@@ -127,8 +127,8 @@ $(document).ready(function() {
  */
 $(window).resize(function() {
     d3.select("svg").attr("width", $(window).width());
-    d3.select("svg").attr("height", ($(window).height()-footerHeight));
-    d3.select("svg").attr("viewBox", "0 0 " + $(window).width() + " " + ($(window).height()-footerHeight));
+    d3.select("svg").attr("height", $(window).height());
+    d3.select("svg").attr("viewBox", "0 0 " + $(window).width() + " " + $(window).height());
 });
 
 /*
@@ -190,6 +190,9 @@ function update(d) {
                 result += (loop !== 0 ? ";" : "") + root.relations[root.edges[i].relations[loop]].relation;
             }
             return result;
+        })
+        .attr("nodes", function(d,i){
+            return ("node_"+ root.edges[i].source.id +";node_"+ root.edges[i].target.id);
         });
 
     link = linkg.append("line")
@@ -214,6 +217,7 @@ function update(d) {
         .attr("class", function (d) {
             return "node" + ('image' in d ? ' imagenode' : '')  + " nodeCircle";
         })
+        .on("dblclick", doubleclick)
         .on("click", click)
         .attr("group", "node")
         .attr("edges", function(d, i){
@@ -223,12 +227,12 @@ function update(d) {
                 var relationTarget = root.relations[root.nodes[i].relations[loop]].target,
                     relationSource = root.relations[root.nodes[i].relations[loop]].source;
 
-                    for (innerloop = 0; innerloop < root.edges.length; innerloop++) {
-                        if( ((relationTarget == root.edges[innerloop].target.index) && (relationSource == root.edges[innerloop].source.index)) ||
-                            ((relationTarget == root.edges[innerloop].source.index) && (relationSource == root.edges[innerloop].target.index)) ){
-                            result += (loop !== 0 ? ";" : "") + "link_"+[innerloop];
-                        }
+                for (innerloop = 0; innerloop < root.edges.length; innerloop++) {
+                    if( ((relationTarget == root.edges[innerloop].target.index) && (relationSource == root.edges[innerloop].source.index)) ||
+                        ((relationTarget == root.edges[innerloop].source.index) && (relationSource == root.edges[innerloop].target.index)) ){
+                        result += (loop !== 0 ? ";" : "") + "link_"+[innerloop];
                     }
+                }
 
             }
             return result;
@@ -275,7 +279,7 @@ function update(d) {
         .attr("class", "media-type")
         .attr("dy", 78)
         .attr("dx", -40)
-        .text(function(d) { return d.mediaType; });
+        .text(function(d) { return d.shortName; });
 
     nodeEnter.select("[nodetype=parent] text.resource-name")
         .attr("dy", 100)
@@ -323,13 +327,16 @@ function nodeIcon(getType) {
             return "uri.svg";
             break;
         case "application/vnd.wso2-site+xml":
-            return "site.svg";
+            return "website.svg";
             break;
         case "application/vnd.wso2-servicex+xml":
-            return "soap.svg";
+            return "service.svg";
             break;
         case "application/vnd.wso2-service+xml":
             return "service.svg";
+            break;
+        case "application/vnd.wso2-soap-service+xml":
+            return "soap.svg";
             break;
         case "application/vnd.wso2-sequence+xml":
             return "sequence.svg";
@@ -341,7 +348,7 @@ function nodeIcon(getType) {
             return "proxy.svg";
             break;
         case "application/vnd.wso2-provider+xml":
-            return "service_provider.svg";
+            return "service-provider.svg";
             break;
         case "application/policy+xml":
             return "policy.svg";
@@ -352,23 +359,23 @@ function nodeIcon(getType) {
         case "application/vnd.wso2-endpoint+xml":
             return "endpoint.svg";
             break;
-        case "application/vnd.wso2-ebook+xml":
-            return "pdf.svg";
-            break;
-        case "application/vnd.wso2-document+xml":
-            return "ms_document.svg";
-            break;
-        case "application/vnd.wso2-api+xml":
-            return "api.svg";
-            break;
         case "application/vnd.wso2.endpoint":
             return "endpoint.svg";
             break;
+        case "application/vnd.wso2-ebook+xml":
+            return "ebook.svg";
+            break;
+        case "application/vnd.wso2-document+xml":
+            return "document.svg";
+            break;
+        case "application/vnd.wso2-api+xml":
+            return "api.svg";
+            break;   
         case "application/vnd.wso2-application+xml":
             return "application.svg";
             break;
         default:
-            return "resource.svg";
+            return "blank-document.svg";
     }
 }
 
@@ -442,8 +449,23 @@ function filter(elem){
             }
             zoomFit();
         });
+        
+        d3.selectAll("[group=link]").each(function(){
+            if(!($(this).css('display') == 'none')) {
+                var nodes = $(this).attr("nodes"),
+                    node = nodes.split(';');
+                
+                for(var i = 0; i < node.length; i++) {
+                    if($("svg").find("#"+node[i]).css('display') == 'none'){
+                        $("#"+node[i]).show();
+                    }
+                }
+            }
+        });
 
     });
+    
+    clearSearchOperation();
 
     $("#search").select2("enable", false);
     $('#filters .tag').each(function(){
@@ -502,75 +524,52 @@ function click(d) {
         return d.id;
     });
 
-    // if single click
-    if (timer == null) {
-        timer = setTimeout(function() {
-            clicks = 0;
-            timer = null;
+    if(selectedNode == -1 || selectedNode != d.index){
+        selectedNode = d.index;
 
-            // single click function
-            if ((self === isSame) && ($("#wrapper").hasClass("toggled"))) {
-                resetPath();
-                d3.selectAll("g").select("circle").classed("active", false);
-            }
-            isSame = self;
-        }, delay);
+        // highlight links if they are connected to source
+        linkg.attr("class", function(o) {
+            return (d.index == o.target.index) || (d.index == o.source.index) ? "active" : "inactive";
+        });
 
+        // highlight nodes if they are connected to source
+        node.attr("class", function(o) {
+            return neighboring(o, d) || neighboring(d, o) ? "active" : "inactive";
+        });
+
+    }
+    else{
         // Reset relation highlight
         node.attr("class", "");
         linkg.attr("class", "");
+        selectedNode = -1;
+    }
+}
+
+/*
+ * Function to run on resource node double click.
+ * @param d: data
+ */
+function doubleclick(d) {
+//     if (d3.event.defaultPrevented) return; // ignore drag
+
+    var linkString;
+    if (d.isActivatedAssetsType){
+        linkString = '../assets/' + d.shortName + '/details/' +
+            encodeURIComponent(d.uuid);
+    } else {
+        linkString = '../../carbon/resources/resource.jsp?region=region3&item=resource_browser_menu&path=' +
+            encodeURIComponent(d.path);
     }
 
-    // if double click
-    if(clicks === 1) {
-        clearTimeout(timer);
-        timer = null;
-        clicks = -1;
-
-        // double click function
-        if(selectedNode == -1 || selectedNode != d.index){
-
-            // highlight links if they are connected to source
-            linkg.attr("class", function(o) {
-                return (d.index == o.target.index) || (d.index == o.source.index) ? "active" : "inactive";
-            });
-
-            // highlight nodes if they are connected to source
-            node.attr("class", function(o) {
-                return neighboring(o, d) || neighboring(d, o) ? "active" : "inactive";
-            });
-
-            d3.select(self).attr("active-status", "groupselect");
-            selectedNode = d.index;
-
-
-            d3.selectAll("[group=node].active").each(function(){
-                if ($(this).css('display') !== 'none') {
-                    var edges = $(this).attr("edges"),
-                        edge = edges.split(';');
-
-                    $(this).attr('class', 'inactive');
-                    for(var i = 0; i < edge.length; i++) {
-                        if(($("#"+edge[i]+"").css('display') !== 'none') && ($("#"+edge[i]+"").attr('class') !== 'inactive')){
-                            $(this).attr('class', 'active');
-                        }
-                    }
-                }
-            });
-        }
-        else{
-            // Reset relation highlight
-            node.attr("class", "");
-            linkg.attr("class", "");
-
-            isSame = self;
-            selectedNode = -1;
-        }
+    var win = window.open(linkString, '_blank');
+    if(win){
+        //Browser has allowed it to be opened
+        win.focus();
+    }else{
+        //Broswer has blocked it
+        alert('Please allow popups for this site');
     }
-    clicks++;
-
-    displayInfo(d);
-    return false;
 }
 
 /*
@@ -580,8 +579,14 @@ function click(d) {
 function displayInfo(resource){
     $('#name').text(resource.name);
     $('#mediaType').text(resource.mediaType);
-    var linkString = '<a href = "../../carbon/resources/resource.jsp?region=region3&item=resource_browser_menu&path=' +
-        encodeURIComponent(resource.path) + '">' + resource.path + '</a>';
+    var linkString;
+    if (resource.isActivatedAssetsType){
+        linkString = '<a href = "../assets/' + resource.shortName + '/details/' +
+            encodeURIComponent(resource.uuid) + '">' + resource.path + '</a>';
+    } else {
+        linkString = '<a href = "../../carbon/resources/resource.jsp?region=region3&item=resource_browser_menu&path=' +
+            encodeURIComponent(resource.path) + '">' + resource.path + '</a>';
+    }
     $('#path').html(linkString);
     if(resource.lcState==null){
         $('#lcState').text("Not defined");

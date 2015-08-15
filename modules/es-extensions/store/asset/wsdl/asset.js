@@ -59,6 +59,7 @@ asset.manager = function(ctx) {
             var value = '' + new Stream(new ByteArrayInputStream(content));
             //since this is wsdlcontent.
             asset.wsdlname = wsdlname;
+            asset.assetName = wsdlname;
             asset.version = version;
             asset.authorUserName = authorUserName;
             asset.wsdlContent = value;
@@ -80,7 +81,10 @@ asset.manager = function(ctx) {
                 deps.associationName = associationName;
                 deps.associationType = associationTypePlural.substring(0,associationTypePlural.lastIndexOf('s'));
                 deps.associationUUID = associationUUID;
-                associations.push(deps);
+
+                if(deps.associationType == "soapservice") {
+                    associations.push(deps);
+                }
             }
         }
         return associations;
@@ -104,6 +108,16 @@ asset.manager = function(ctx) {
             for (var index in assets) {
                 var asset = assets[index];
                 setCustomAssetAttributes(asset, userRegistry);
+
+                var path = asset.path;
+                var subPaths = path.split('/');
+                var name = subPaths[subPaths.length - 1];
+                asset.name = name;
+                asset.version = subPaths[subPaths.length - 2];
+                asset.attributes.overview_name = name;
+                asset.overview_version = asset.version;
+                asset.attributes.overview_version = asset.version;
+                asset.attributes.version = asset.version;
             }
             return assets;
         },
@@ -119,4 +133,14 @@ asset.manager = function(ctx) {
             return asset;
         }
     };
+};
+
+asset.configure = function() {
+    return {
+        meta: {
+            ui: {
+                icon: 'fw fw-wsdl'
+            }
+        }
+    }
 };

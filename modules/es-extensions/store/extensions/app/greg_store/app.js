@@ -16,13 +16,34 @@
  *  under the License.
  *
  */
-app.dependencies=['store_common'];
+app.dependencies=['store-common'];
 //override store_common and enable 'service' & 'wsdl' in store.
 app.server = function(ctx) {
     return {
+    	endpoints:{
+	    	pages:[{
+		    		title:'GREG landing page',
+	    		url:'gc-landing',
+	    		path:'greg-landing.jag',
+	    		secured:true  		
+	    	}]
+    	},
         configs: {
-            disabledAssets: ['ebook','proxy','sequence','service','servicex','uri',
-                             'site','provider','gadget','document','endpoint']
+        	landingPage: '/pages/gc-landing',
+            disabledAssets: ['note', 'ebook','proxy','sequence','service','servicex','uri',
+                             'site','provider','gadget','document','endpoint','topic','reply']
         }
     }
+};
+
+app.pageHandlers = function(ctx) {
+    return {
+        onPageLoad: function() {
+            if((ctx.isAnonContext)&&(ctx.endpoint.secured)){
+                ctx.res.sendRedirect(ctx.appContext+'/login');
+                return false;
+            }
+            return true;
+        }
+    };
 };

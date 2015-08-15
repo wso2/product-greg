@@ -40,11 +40,13 @@ public class ApiPage {
         this.uiElementMapper = UIElementMapper.getInstance();
         // Check that we're on the right page.
         driver.findElement(By.id(uiElementMapper.getElement("carbon.Main.tab"))).click();
+
+        //driver.findElement(By.xpath("//a[contains(.,'REST Service')]")).click();
         driver.findElement(By.linkText(uiElementMapper.getElement("api.add.link"))).click();
 
         log.info("API Add Page");
         if (!driver.findElement(By.id(uiElementMapper.getElement("api.dashboard.middle.text"))).
-                getText().contains("API")) {
+                getText().contains("REST Service")) {
 
             throw new IllegalStateException("This is not the API  Add Page");
         }
@@ -53,7 +55,7 @@ public class ApiPage {
     public ResourceBrowsePage uploadApi(String provider, String name, String context,
                                         String version)
             throws InterruptedException, IOException {
-
+        Thread.sleep(1000);
         WebElement apiProvider = driver.findElement(By.id(uiElementMapper.getElement("api.provider.id")));
         apiProvider.sendKeys(provider);
 

@@ -1,0 +1,203 @@
+<%
+/*
+ * Copyright (c) 2015, WSO2 Inc. (http://www.wso2.org) All Rights Reserved.
+ *
+ * WSO2 Inc. licenses this file to you under the Apache License,
+ * Version 2.0 (the "License"); you may not use this file except
+ * in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing,
+ * software distributed under the License is distributed on an
+ * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ * KIND, either express or implied. See the License for the
+ * specific language governing permissions and limitations
+ * under the License.
+ */
+
+var user = require('store').server.current(session);
+var log = new Log();
+
+/*
+ * query parameters of the original request should be passed to the
+ * login jag in order to redirect to the correct place
+ */
+if (!user) {
+    response.sendRedirect('./login?' + request.getQueryString());
+}
+else {
+%>
+
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Swagger UI</title>
+  <link rel="icon" type="image/png" href="../extensions/app/greg_swagger/images/favicon-32x32.png" sizes="32x32" />
+  <link rel="icon" type="image/png" href="../extensions/app/greg_swagger/images/favicon-16x16.png" sizes="16x16" />
+  <link href='../extensions/app/greg_swagger/css/typography.css' media='screen' rel='stylesheet' type='text/css'/>
+  <link href='../extensions/app/greg_swagger/css/reset.css' media='screen' rel='stylesheet' type='text/css'/>
+  <link href='../extensions/app/greg_swagger/css/screen.css' media='screen' rel='stylesheet' type='text/css'/>
+  <link href='../extensions/app/greg_swagger/css/reset.css' media='print' rel='stylesheet' type='text/css'/>
+  <link href='../extensions/app/greg_swagger/css/print.css' media='print' rel='stylesheet' type='text/css'/>
+  <script src='../extensions/app/greg_swagger/lib/jquery-1.8.0.min.js' type='text/javascript'></script>
+  <script src='../extensions/app/greg_swagger/lib/jquery.slideto.min.js' type='text/javascript'></script>
+  <script src='../extensions/app/greg_swagger/lib/jquery.wiggle.min.js' type='text/javascript'></script>
+  <script src='../extensions/app/greg_swagger/lib/jquery.ba-bbq.min.js' type='text/javascript'></script>
+  <script src='../extensions/app/greg_swagger/lib/handlebars-2.0.0.js' type='text/javascript'></script>
+  <script src='../extensions/app/greg_swagger/lib/underscore-min.js' type='text/javascript'></script>
+  <script src='../extensions/app/greg_swagger/lib/backbone-min.js' type='text/javascript'></script>
+  <script src='../extensions/app/greg_swagger/js/swagger-ui.js' type='text/javascript'></script>
+  <script src='../extensions/app/greg_swagger/lib/highlight.7.3.pack.js' type='text/javascript'></script>
+  <script src='../extensions/app/greg_swagger/lib/marked.js' type='text/javascript'></script>
+  <script src='../extensions/app/greg_swagger/lib/swagger-oauth.js' type='text/javascript'></script>
+
+  <script type="text/javascript">
+    $(function () {
+
+      <%
+        var util = require('../modules/utility.js');
+        var carbon = require('carbon');
+        var registry = new carbon.registry.Registry(user.um.server.url,user);
+
+        var inputParameters = request.getAllParameters("UTF-8");
+        var obj;
+        var childAPIs;
+
+        if(util.isNotNullOrEmpty(inputParameters.path)){
+          var ByteArrayInputStream = Packages.java.io.ByteArrayInputStream,
+            governanceUtils = Packages.org.wso2.carbon.governance.api.util.GovernanceUtils,
+            commonConstants = Packages.org.wso2.carbon.registry.extensions.utils.CommonConstants;
+
+          var govRegistry = governanceUtils.getGovernanceUserRegistry(registry.registry, "admin");
+
+          var artifactPath = inputParameters.path.replace("/_system/governance", "");
+
+
+          var resource = registry.registry.get(inputParameters.path);
+          var artifact = governanceUtils.retrieveGovernanceArtifactByPath(
+              govRegistry, artifactPath);
+
+          if (artifact && commonConstants.SWAGGER_MEDIA_TYPE.equals(resource.getMediaType())){
+            /*log.info("wrong content type");
+            response.status = 400;
+            print("swagger UI generation is only avaialable for swagger artifacts," +
+            " Please specify a registry path of a swagger artifact!");
+            return;*/
+
+            var content = resource.getContent();
+            var value = '' + new Stream(new ByteArrayInputStream(content));
+
+
+            obj = parse(value);
+            childAPIs = new Object();
+            childAPIs.baseCollection = resource.path.substr(0, resource.path.lastIndexOf("/"));
+
+            // if swagger content version not equlas to 2.0
+            if (!(obj.swagger && parseInt(obj.swagger) === 2)){
+            var i;
+              for(i = 0; i < obj.apis.length; i++) {
+                var api = obj.apis[i];
+                // see if this is a single-file swagger definition
+                if(!Array.isArray(api.operations)) {
+                  var childResourcePath = childAPIs.baseCollection + api.path;
+
+                  var childResource = registry.registry.get(childResourcePath);
+                  var childResourceContent = childResource.getContent();
+                  var childResourceContentvalue = '' + new Stream(new ByteArrayInputStream(childResourceContent));
+
+                  childAPIs[api.path] = parse(childResourceContentvalue);
+
+                }
+              }
+            }
+          }
+        }
+        else{
+            obj = require('../data/swagger.json');
+        }
+      %>  
+
+      var url = window.location.search.match(/url=([^&]+)/);
+      if (url && url.length > 1) {
+        url = decodeURIComponent(url[1]);
+      } else {
+        url = "<%=user.um.server.url%>";
+      }
+      window.swaggerUi = new SwaggerUi({
+        swaggerContent: <%=obj%>,
+        swaggerChildren: <%=childAPIs%>,
+        url: url,
+        dom_id: "swagger-ui-container",
+        supportedSubmitMethods: ['get', 'post', 'put', 'delete', 'patch'],
+        onComplete: function(swaggerApi, swaggerUi){
+          if(typeof initOAuth == "function") {
+            initOAuth({
+              clientId: "your-client-id",
+              realm: "your-realms",
+              appName: "your-app-name"
+            });
+          }
+
+          $('pre code').each(function(i, e) {
+            hljs.highlightBlock(e)
+          });
+
+          addApiKeyAuthorization();
+        },
+        onFailure: function(data) {
+          log("Unable to Load SwaggerUI");
+        },
+        docExpansion: "none",
+        apisSorter: "alpha",
+        showRequestHeaders: false
+      });
+
+      function addApiKeyAuthorization(){
+        var key = encodeURIComponent($('#input_apiKey')[0].value);
+        if(key && key.trim() != "") {
+            var apiKeyAuth = new SwaggerClient.ApiKeyAuthorization("api_key", key, "query");
+            window.swaggerUi.api.clientAuthorizations.add("api_key", apiKeyAuth);
+            log("added key " + key);
+        }
+      }
+
+      $('#input_apiKey').change(addApiKeyAuthorization);
+
+      // if you have an apiKey you would like to pre-populate on the page for demonstration purposes...
+      /*
+        var apiKey = "myApiKeyXXXX123456789";
+        $('#input_apiKey').val(apiKey);
+      */
+
+      window.swaggerUi.load();
+
+      function log() {
+        if ('console' in window) {
+          console.log.apply(console, arguments);
+        }
+      }
+  });
+  </script>
+</head>
+
+<body class="swagger-section">
+<!--Header div was removed to disable swagger file loading over network-->
+<!--<div id='header'>
+  <div class="swagger-ui-wrap">
+    <a id="logo" href="http://swagger.io">swagger</a>
+    <form id='api_selector'>
+      <div class='input'><input placeholder="http://example.com/api" id="input_baseUrl" name="baseUrl" type="text"/></div>
+      <div class='input'><input placeholder="api_key" id="input_apiKey" name="apiKey" type="text"/></div>
+      <div class='input'><a id="explore" href="#">Explore</a></div>
+    </form>
+  </div>
+</div>-->
+
+<div id="message-bar" class="swagger-ui-wrap">&nbsp;</div>
+<div id="swagger-ui-container" class="swagger-ui-wrap"></div>
+</body>
+</html>
+
+<% } %>

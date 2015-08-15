@@ -66,23 +66,58 @@ $(function() {
             uploadUI.hide();
         }
     });
+
+    var obtainFormMeta=function(formId){
+        return $(formId).data();
+    };
+
+    var doSubmit = function(action,container){
+        $('#form-asset-create').ajaxForm({
+            success:function(){
+                var options=obtainFormMeta('#form-asset-create');
+                window.location=options.redirectUrl;
+            },
+            error:function(){
+                alert('Unable to add the asset');
+                PublisherUtils.unblockButtons({
+                    container:container
+                });
+            }   
+        });
+    };
+
+    var styleFix = function(){
+        var item = $('#ui-asset-operations-overlay');
+        item.css('top','-15px');
+    };
+
     //function to call the custom policy api or default api.
     $('form[name="form-asset-create"] input[type="submit"]').click(function(event) {
+        var action = $(this).attr("name"); 
+        var container;
+        
         var $form = $('form[name="form-asset-create"]');
-        if ($(this).attr("name") == 'addNewPolicyFileAssetButton') {//upload via file browser
+        if (action === 'addNewPolicyFileAssetButton') {//upload via file browser
             //call the custom endpoint for processing policy upload via file browser.
-            $form.attr('action', caramel.context + '/asts/policy/apis/policies');
+            $form.attr('action', caramel.context + '/assets/policy/apis/policies');
             var $policyFileInput = $('input[name="policy_file"]');
             var policyFileInputValue = $policyFileInput.val();
             var policyFilePath = policyFileInputValue;
             var fileName = policyFilePath.split('\\').reverse()[0];
             //set the zip file name, to the hidden attribute.
             $('input[name="policy_file_name"]').val(fileName);
-            $form.submit();
-        } else if ($(this).attr("name") == 'addNewAssetButton') {//upload via url.
+            container = 'saveButtonsFile';
+        } else if (action === 'addNewAssetButton') {//upload via url.
             //call the default endpoint.
             $form.attr('action', caramel.context + '/apis/assets?type=policy');
-            $form.submit();
+            container = 'saveButtonsURL';
         }
+
+        doSubmit(action, container);
+
+        var createButton = $('#btn-create-asset');
+        createButton.hide();//attr('disabled','disabled');
+        createButton.next().hide();//attr('disabled','disabled');
+        createButton.parent().append($('<div style="font-size: 16px;margin-top: 10px;"><i class="fa fa-spinner fa-pulse"></i> Creating the policy instance...</div>'));
     });
 });

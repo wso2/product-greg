@@ -1,0 +1,24 @@
+<a href="javascript:void(0)" class="cu-btn-inner add-btn" id="newThreadBtn" style="display:none;">
+    <span class="fw-stack">
+        <i class="fw fw-ring fw-stack-2x"></i>
+        <i class="fw fw-add fw-stack-1x"></i>
+    </span>
+    <span class="btn-text">New</span>
+</a>
+
+<div class="well" id="newThread" style="display:none;">
+    <textarea id="add-note-content" placeholder="reply..."></textarea>
+    <a href="javascript:void(0)" id="add-note" class="cu-btn-inner">
+        <span class="fw-stack">
+            <i class="fw fw-ring fw-stack-2x"></i>
+            <i class="fw fw-message fw-stack-1x"></i>
+        </span>
+        Add
+    </a>
+</div>
+
+<div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+    <div class="panel">
+        {{> notes-note-container . }}
+    </div>
+</div>

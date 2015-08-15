@@ -1,0 +1,50 @@
+<%
+var caramel;
+require('/modules/store.js').exec(function(ctx) {
+	caramel = require('caramel');
+	var rxtAPI = require('rxt');
+	// var appManager = rxtAPI.app.createUserAppManager(ctx.session);
+
+	var tenantApi = require('/modules/tenant-api.js').api;
+    var tenantResources = tenantApi.createTenantAwareAppResources(ctx.session);
+    appManager = tenantResources.appManager;
+
+	var page = rxtAPI.ui.buildPage(ctx.session,ctx.request);
+	var output;
+	var server = require('store').server;
+	var carbon = require('carbon');
+	var user = server.current(ctx.session);
+
+	if(!user) {
+		user ={};
+        user.tenantId = carbon.server.superTenant.tenantId;
+	}
+
+	var log = new Log();
+	log.debug("Printing user ############" + stringify(user));
+	var tenantId = user.tenantId;
+
+	var activatedAssets = rxtAPI.app.getActivatedAssets(tenantId);
+	var assets = [];
+	var entry;
+	var details;
+	// var rxtManager = rxtAPI.core.rxtManager(tenantId);
+	var rxtManager = tenantResources.context.rxtManager;
+	// var rxtManager = appManager.ctx.rxtManager;
+	// log.info("&&&&&&&&&&&&&&&&&&&&&&&&&& " + stringify(rxtManager));
+	var DEFAULT_ICON = 'fw fw-resource';
+	//Obtain the meta information for each asset type
+	//We need this to resolve the default icons
+	for(var index = 0; index < activatedAssets.length; index++){
+		entry = {};
+		entry.type = activatedAssets[index];
+		entry.details = rxtManager.listRxtTypeDetails(entry.type);
+		entry.icon = entry.details.ui.icon || DEFAULT_ICON;
+		log.debug(entry.icon);
+		assets.push(entry);
+	}
+	output = appManager.render([],page);
+	output.assets = assets;
+	caramel.render(output);
+},request,response,session);
+%>

@@ -1,0 +1,81 @@
+<%
+/*
+ * Copyright (c) 2014, WSO2 Inc. (http://wso2.com) All Rights Reserved.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+/*
+ Description: Invoke custom wsdl api endpoint to handle file upload.
+ Filename : swagger.jag
+ */
+require('/modules/publisher.js').exec(function (ctx) {
+    var utils = require('utils');
+    var req = ctx.request;
+    var ref = utils.file;
+    var inputStream = Packages.java.io.InputStream;
+    var ByteArrayDataSource = Packages.org.apache.axiom.attachments.ByteArrayDataSource;
+    var IOUtils = Packages.org.apache.commons.io.IOUtils;
+    var DataHandler = Packages.javax.activation.DataHandler;
+    var Array = Packages.java.lang.reflect.Array;
+    var addResourceUtils=Packages.org.wso2.carbon.registry.resource.services.utils.AddResourceUtil;
+    //request contains the version & name of the zip file
+    var version=req.getParameter('file_version');
+    var swaggerFileName=req.getParameter('swagger_file_name');
+    var path="/_system/governance/apimgt/applicationdata/api-docs/".concat(version).concat('/').concat(swaggerFileName);
+
+    //get the uploaded zip file.
+    var files=req.getAllFiles();
+    //get the file with entry 'swagger_zip'
+    var file=files["swagger_file"];
+    var extension = ref.getExtension(file);
+    var mediaType;
+    var content;
+    var properties;
+    //open the file for 'read' operation.
+    file.open("r");
+    //get the fileinput stream
+    inputStream = file.getStream().getStream();
+    var bytes = IOUtils.toByteArray(inputStream);
+    //use ByteArrayDataSource to pass to datahandler.
+    //It requires constructor parameters byte[].
+    var byteDataSource;
+    if(extension == 'zip' || extension == 'gar'){
+        //mediatype for swagger zip file.
+        mediaType="application/vnd.wso2.governance-archive";
+        byteDataSource = new ByteArrayDataSource(bytes,"application/zip");
+        content = new DataHandler(byteDataSource);
+        properties = Array.newInstance(java.lang.String, 2, 2);
+        //use JS array
+        properties[0][0] = 'registry.mediaType';
+        properties[0][1] = 'application/swagger+json';
+        properties[1][0] = 'version';
+        properties[1][1] = version;
+    }else if(extension == 'json'){
+        mediaType = "application/swagger+json";
+        byteDataSource = new ByteArrayDataSource(bytes,"text/xml");
+        content = new DataHandler(byteDataSource);
+        properties = Array.newInstance(java.lang.String, 1, 2);
+        properties[0][0] = 'version';
+        properties[0][1] = version;
+    }
+    //close the file.
+    file.close();
+    var description="";
+    var symlinkLocation = '';
+    var userMod = require('store').user;
+    var userRegistry = userMod.userRegistry(ctx.session);
+    var registry = userRegistry.registry;
+    //use AddResourceUtil in carbon-registry to add the zip file.
+    addResourceUtils.addResource(path,mediaType,description,content,symlinkLocation,registry,properties);
+}, request, response, session);
+%>

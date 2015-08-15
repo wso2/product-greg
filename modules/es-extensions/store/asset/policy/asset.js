@@ -59,6 +59,7 @@ asset.manager = function(ctx) {
             var value = '' + new Stream(new ByteArrayInputStream(content));
             //since this is wsdlcontent.
             asset.policyname = policyname;
+            asset.assetName = policyname;
             asset.version = version;
             asset.authorUserName = authorUserName;
             asset.policyContent = value;
@@ -104,6 +105,16 @@ asset.manager = function(ctx) {
             for (var index in assets) {
                 var asset = assets[index];
                 setCustomAssetAttributes(asset, userRegistry);
+
+                var path = asset.path;
+                var subPaths = path.split('/');
+                var name = subPaths[subPaths.length - 1];
+                asset.name = name;
+                asset.version = subPaths[subPaths.length - 2];
+                asset.attributes.overview_name = name;
+                asset.overview_version = asset.version;
+                asset.attributes.overview_version = asset.version;
+                asset.attributes.version = asset.version;
             }
             return assets;
         },
@@ -118,4 +129,14 @@ asset.manager = function(ctx) {
             return asset;
         }
     };
+};
+
+asset.configure = function() {
+    return {
+        meta: {
+            ui: {
+                icon: 'fw fw-policy'
+            }
+        }
+    }
 };

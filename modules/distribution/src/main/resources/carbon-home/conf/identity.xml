@@ -84,7 +84,13 @@
 		<!-- Configure the security measures needs to be done prior to store the 
 			token in the database, such as hashing, encrypting, etc. -->
 		<TokenPersistencePreprocessor>org.wso2.carbon.identity.oauth.preprocessor.PlainTextTokenPersistencePreprocessor</TokenPersistencePreprocessor>
-		<!-- Supported Response Types -->
+        <!-- Supported client authenticate handlers -->
+        <ClientAuthHandlers>
+            <ClientAuthHandler Class="org.wso2.carbon.identity.oauth2.token.handlers.clientauth.BasicAuthClientAuthHandler">
+                <Property Name="StrictClientCredentialValidation">false</Property>
+            </ClientAuthHandler>
+        </ClientAuthHandlers>
+        <!-- Supported Response Types -->
 		<SupportedResponseTypes>token,code</SupportedResponseTypes>
 		<!-- Supported Grant Types -->
 		<SupportedGrantTypes>authorization_code,password,refresh_token,client_credentials,urn:ietf:params:oauth:grant-type:saml2-bearer</SupportedGrantTypes>
@@ -166,7 +172,7 @@
 		<!-- SAML Token validity period in minutes -->
                 <SAMLResponseValidityPeriod>5</SAMLResponseValidityPeriod>
 		<SAMLSSOSigner>org.wso2.carbon.identity.sso.saml.builders.signature.DefaultSSOSigner</SAMLSSOSigner>
-            	<UseAuthenticatedUserDomainCrypto>true</UseAuthenticatedUserDomainCrypto>
+            	<UseAuthenticatedUserDomainCrypto>false</UseAuthenticatedUserDomainCrypto>
 	</SSOService>
 
 	<EntitlementSettings>

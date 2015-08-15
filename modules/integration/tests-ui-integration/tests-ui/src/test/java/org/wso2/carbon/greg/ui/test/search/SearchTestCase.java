@@ -48,8 +48,9 @@ public class SearchTestCase extends GREGIntegrationUIBaseTest{
         test.loginAs(userInfo.getUserName(), userInfo.getPassword());
         SearchHomePage searchHomePage = new SearchHomePage(driver);
       //add the Item to search
-        String element = "My Document";
+        String element = "service.rxt";
         searchHomePage.search(element);
+        Thread.sleep(5000);
       //check for the availability of the element
         searchHomePage.checkForTheUploadedElement(element);
         driver.close();

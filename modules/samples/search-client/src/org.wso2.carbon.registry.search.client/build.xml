@@ -24,6 +24,7 @@
     </target>
 
     <target name="init">
+        <mkdir dir="${lib.dir}"/>
         <mkdir dir="${class.dir}"/>
         <path id="javac.classpath">
             <pathelement path="${class.dir}"/>
@@ -32,6 +33,9 @@
             </fileset>
             <fileset dir="${greg.home}/repository/lib">
                 <include name="*.jar"/>
+            </fileset>
+            <fileset dir="${greg.home}/repository/components/plugins">
+                <include name="javax.cache.wso2_*.jar"/>
             </fileset>
         </path>
     </target>

@@ -70,10 +70,9 @@ public class SampleWSRegistrySearchClient {
             GovernanceUtils.loadGovernanceArtifacts((UserRegistry) gov);
             //Initialize the pagination context.
             PaginationContext.init(0, 20, "", "", 10);
-            WSRegistrySearchClient wsRegistrySearchClient =
-                    new WSRegistrySearchClient(serverURL, username, password, configContext);
-            //This should be execute to initialize the AttributeSearchService.
-            wsRegistrySearchClient.init();
+            WSRegistrySearchClient wsRegistrySearchClient = new WSRegistrySearchClient();
+            String cookie = wsRegistrySearchClient.authenticate(configContext, serverURL, username, password);
+            wsRegistrySearchClient.init(cookie, serverURL, configContext);
             //Initialize the GenericArtifactManager
             GenericArtifactManager artifactManager =
                     new GenericArtifactManager(gov, "service");

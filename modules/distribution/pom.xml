@@ -467,6 +467,15 @@
 				   <outputDirectory>../jaxwebapps</outputDirectory>
                                    <destFileName>resource.war</destFileName>
                                </artifactItem>
+                               <artifactItem>
+                                   <groupId>org.wso2.carbon.governance</groupId>
+                                   <artifactId>org.wso2.carbon.governance.rest.api</artifactId>
+                                   <version>${carbon.governance.version}</version>
+                                   <type>war</type>
+                                   <overWrite>true</overWrite>
+                                   <outputDirectory>../jaxwebapps</outputDirectory>
+                                   <destFileName>governance.war</destFileName>
+                               </artifactItem>
                            </artifactItems>
                        </configuration>
                    </execution>
@@ -489,6 +498,12 @@
                                 <path id="h2.classpath">
                                     <path refid="maven.compile.classpath"/>
                                 </path>
+                                <!-- commenting "GetAllRolesOfUserEnabled" property to fix 
+                                https://wso2.org/jira/browse/IDENTITY-3489 -->
+                                <replace
+                                        file="target/wso2carbon-core-${carbon.kernel.version}/repository/conf/user-mgt.xml"
+                                        token="&lt;Property name=&quot;GetAllRolesOfUserEnabled&quot;&gt;true&lt;/Property&gt;"
+                                        value="&lt;!--Property name=&quot;GetAllRolesOfUserEnabled&quot;&gt;true&lt;/Property--&gt;"/>
 
                                 <echo
                                         message="########### Create HT H2 Database ##############"/>
@@ -535,8 +550,7 @@
                                     <classpath>
                                         <path refid="h2.classpath"/>
                                     </classpath>
-                                    <fileset
-                                            file="target/wso2carbon-core-${carbon.kernel.version}/dbscripts/identity/application-mgt/h2.sql"/>
+                                    <fileset file="target/wso2carbon-core-${carbon.kernel.version}/dbscripts/identity/h2.sql"/>
                                 </sql>
                                 <sql
                                         driver="org.h2.Driver"

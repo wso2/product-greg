@@ -1,0 +1,32 @@
+<!-- header -->
+<header>
+    <div class="wr-global-header clearfix">
+        <div class="col-xs-8 col-sm-6 col-lg-8 app-logo">
+            <a href="{{tenantedUrl ""}}{{meta.landingPage}}"><img src="{{url "/themes/store/img/logo.png"}}" /><h2 class="app-title">Governance Center - Store</h2></a>
+        </div>
+        <div class="col-xs-4 col-sm-6 col-lg-4 wr-auth-container top-menu-right-custom">
+            <ul class="nav navbar-nav navbar-right">
+                {{#if cuser.username}}
+                <li>
+                    <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                        <span id="logedInUser">{{cuser.username}}</span> <i class="fw fw-user"></i>
+                    </a>
+                    <ul class="dropdown-menu dropdown-account" role="menu" aria-labelledby="dLabel">
+                        <li>
+                            {{signout .}}
+                        </li>
+                    </ul>
+
+                </li>
+                {{else}}
+                    {{authentication .}}
+                {{/if}}
+            </ul>
+        </div>
+    </div>
+</header>
+<!-- /header -->
+
+{{>login login}}
+
+{{>register}}

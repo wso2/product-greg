@@ -85,7 +85,7 @@
                                     org.wso2.carbon:org.wso2.carbon.core.feature:${carbon.kernel.version}
                                 </featureArtifactDef>
                                 <featureArtifactDef>
-                                    org.wso2.carbon.identity:org.wso2.carbon.idp.mgt.feature:${carbon.identity.version}
+                                    org.wso2.carbon.identity:org.wso2.carbon.idp.mgt.server.feature:${carbon.identity.version}
                                 </featureArtifactDef>
                                 <featureArtifactDef>
                                     org.wso2.carbon:org.wso2.carbon.core.runtime.feature:${carbon.kernel.version}
@@ -182,7 +182,9 @@
                                 <featureArtifactDef>
                                     org.wso2.carbon.registry:org.wso2.carbon.registry.task.feature:${carbon.registry.version}
                                 </featureArtifactDef>
-
+                                <featureArtifactDef>
+                                    org.wso2.carbon.registry:org.wso2.carbon.registry.security.feature:${carbon.registry.version}
+                                </featureArtifactDef>
                                 <!--Repository Feature list -->
                                 <featureArtifactDef>
                                     org.wso2.carbon.registry:org.wso2.carbon.registry.ui.menu.feature:${carbon.registry.version}
@@ -208,6 +210,12 @@
                                     org.wso2.carbon.governance-extensions:org.wso2.carbon.governance.platform.extensions.feature:${carbon.governance.ext.version}
                                 </featureArtifactDef>
                                 <featureArtifactDef>
+                                    org.wso2.carbon.governance-extensions:org.wso2.carbon.governance.comparator.server.feature:${carbon.governance.ext.version}
+                                </featureArtifactDef>
+                                <featureArtifactDef>
+                                    org.wso2.carbon.analytics-common:org.wso2.carbon.event.output.adapter.server.feature:${carbon.analytics.common.version}
+                                </featureArtifactDef>
+                                <featureArtifactDef>
                                     org.wso2.carbon.business-process:org.wso2.carbon.humantask.server.feature:${carbon.business.process.version}
                                 </featureArtifactDef>
                                 <featureArtifactDef>
@@ -215,9 +223,9 @@
                                 </featureArtifactDef>
                                 <featureArtifactDef>org.wso2.carbon.commons:org.wso2.carbon.ntask.feature:${carbon.commons.version}
                                 </featureArtifactDef>
-                                <!--<featureArtifactDef>-->
-                                    <!--org.wso2.greg:org.wso2.stratos.governance.ui.feature:${product.greg.version}-->
-                                <!--</featureArtifactDef>-->
+                                <featureArtifactDef>
+                                    org.wso2.greg:org.wso2.stratos.governance.ui.feature:${product.greg.version}
+                                </featureArtifactDef>
 
                                 <!--Asset Store Feature list -->
                                 <featureArtifactDef>org.jaggeryjs:org.jaggeryjs.feature:${jaggery.version}
@@ -264,6 +272,9 @@
                                 <featureArtifactDef>
                                     org.jaggeryjs.modules:sso.feature:${sso.feature.version}
                                 </featureArtifactDef>
+				<featureArtifactDef>
+				    org.jaggeryjs.modules:jaggery-test.feature:${jaggery-test.feature.version}
+				</featureArtifactDef>
                                 <featureArtifactDef>org.wso2.carbon.store:event.feature:${es.feature.version}
                                 </featureArtifactDef>
                                 <featureArtifactDef>org.wso2.carbon.store:login.feature:${es.feature.version}
@@ -288,7 +299,7 @@
                                  <featureArtifactDef>org.wso2.carbon.store:utils.feature:${es.feature.version}
                                 </featureArtifactDef>
                                 <featureArtifactDef>
-                                    org.wso2.carbon.store:org.wso2.es.feature:${es.feature.version}
+                                    org.wso2.carbon.store:org.wso2.carbon.es.feature:${es.feature.version}
                                 </featureArtifactDef>
                                 <featureArtifactDef>
                                     org.wso2.carbon.store:org.wso2.carbon.social.feature:${carbon.social.version}
@@ -307,17 +318,20 @@
                                     org.wso2.carbon.identity:org.wso2.carbon.identity.sso.saml.feature:${carbon.identity.version}
                                 </feaureArtifactDef>
 				<featureArtifactDef>
-                                    org.wso2.carbon.identity:org.wso2.carbon.identity.application.mgt.feature:${carbon.identity.version}
+                                    org.wso2.carbon.identity:org.wso2.carbon.identity.application.mgt.server.feature:${carbon.identity.version}
                                 </featureArtifactDef>
 				<!-- SSO Fix-->
                                 <featureArtifactDef>
                                     org.wso2.carbon.identity:org.wso2.carbon.identity.user.profile.feature:${carbon.identity.version}
                                 </featureArtifactDef>
                                 <featureArtifactDef>
-                                    org.wso2.carbon.identity:org.wso2.carbon.identity.application.mgt.feature:${carbon.identity.version}
+                                    org.wso2.carbon.identity:org.wso2.carbon.identity.application.mgt.server.feature:${carbon.identity.version}
                                 </featureArtifactDef>
                                 <featureArtifactDef>
-                                    org.wso2.carbon.identity:org.wso2.carbon.idp.mgt.feature:${carbon.identity.version}
+                                    org.wso2.carbon.identity:org.wso2.carbon.idp.mgt.server.feature:${carbon.identity.version}
+                                </featureArtifactDef>
+                                <featureArtifactDef>
+                                    org.wso2.carbon.commons:org.wso2.carbon.tenant.mgt.common.feature:${carbon.commons.version}
                                 </featureArtifactDef>
                                 <!-- End of SSO Fixes -->
 
@@ -348,7 +362,7 @@
                                 <featureArtifactDef>
                                     org.wso2.carbon.identity:org.wso2.carbon.identity.oauth.common.feature:${carbon.identity.version}
                                 </featureArtifactDef>
-                                <featureArtifactDef>org.wso2.carbon.commons:org.wso2.carbon.user.mgt.feature:${carbon.commons.version}
+                                <featureArtifactDef>org.wso2.carbon.identity:org.wso2.carbon.user.mgt.feature:${carbon.identity.version}
                                 </featureArtifactDef>
                                 <featureArtifactDef>
                                     org.wso2.carbon.commons:org.wso2.carbon.um.ws.service.server.feature:${carbon.commons.version}
@@ -374,10 +388,16 @@
                                 <featureArtifactDef>
                                     org.wso2.carbon.identity:org.wso2.carbon.identity.application.authenticator.basicauth.server.feature:${carbon.identity.version}
                                 </featureArtifactDef>
-                                <featureArtifactDef>org.wso2.carbon.identity:org.wso2.carbon.identity.thrift.authentication.feature:${carbon.identity.version}
-                                </featureArtifactDef>
-				                <featureArtifactDef>
+
+				<featureArtifactDef>
                                     org.wso2.carbon.identity:org.wso2.carbon.identity.mgt.feature:${carbon.identity.version}
+                                </featureArtifactDef>
+
+                                <featureArtifactDef>
+                                    org.wso2.carbon.identity:org.wso2.carbon.directory.service.mgr.feature:${carbon.identity.version}
+                                </featureArtifactDef>
+                                <featureArtifactDef>
+                                    org.wso2.carbon.identity:org.wso2.carbon.identity.notification.mgt.feature:${carbon.identity.version}
                                 </featureArtifactDef>
                                 <!--Reporting feature list -->
                                 <featureArtifactDef>
@@ -430,7 +450,11 @@
                                 <featureArtifactDef>
                                     org.apache.axis2.transport:org.apache.axis2.transport.mail.feature:${axis2-transports.wso2.version}
                                 </featureArtifactDef>
-                                
+
+				<!-- Cipher tool feature -->
+                                <feaureArtifactDef>
+                                    org.wso2.ciphertool:org.wso2.ciphertool.feature:${ciphertool.version}
+                                </feaureArtifactDef>
                             </featureArtifacts>
                         </configuration>
                     </execution>
@@ -606,6 +630,10 @@
                                     <version>${carbon.registry.version}</version>
                                 </feature>
                                 <feature>
+                                    <id>org.wso2.carbon.registry.security.feature.group</id>
+                                    <version>${carbon.registry.version}</version>
+                                </feature>
+                                <feature>
                                     <id>org.wso2.carbon.registry.webdav.feature.group</id>
                                     <version>${carbon.registry.version}</version>
                                 </feature>
@@ -620,6 +648,10 @@
                                     <id>org.wso2.carbon.identity.core.feature.group</id>
                                     <version>${carbon.identity.version}</version>
                                 </feature>
+                                 <feature>
+                                     <id>org.wso2.carbon.tenant.mgt.common.feature.group</id>
+                                     <version>${carbon.commons.version}</version>
+                                 </feature>
                                 <feature>
                                     <id>org.wso2.carbon.identity.user.profile.ui.feature.group</id>
                                     <version>${carbon.identity.version}</version>
@@ -638,7 +670,7 @@
                                 </feature>
                                 <feature>
                                     <id>org.wso2.carbon.user.mgt.feature.group</id>
-                                    <version>${carbon.commons.version}</version>
+                                    <version>${carbon.identity.version}</version>
                                 </feature>
                                 <feature>
                                     <id>org.wso2.carbon.um.ws.service.server.feature.group</id>
@@ -674,12 +706,18 @@
                                     </id>
                                     <version>${carbon.identity.version}</version>
                                 </feature>
-                                <feature>
-                                    <id>org.wso2.carbon.identity.thrift.authentication.feature.group</id>
+
+				<feature>
+                                    <id>org.wso2.carbon.identity.mgt.feature.group</id>
                                     <version>${carbon.identity.version}</version>
                                 </feature>
-				                <feature>
-                                    <id>org.wso2.carbon.identity.mgt.feature.group</id>
+
+                                <feature>
+                                    <id>org.wso2.carbon.directory.service.mgr.feature.group</id>
+                                    <version>${carbon.identity.version}</version>
+                                </feature>
+                                <feature>
+                                    <id>org.wso2.carbon.identity.notification.mgt.feature.group</id>
                                     <version>${carbon.identity.version}</version>
                                 </feature>
 
@@ -698,8 +736,16 @@
                                     <version>${carbon.governance.ext.version}</version>
                                 </feature>
                                 <feature>
+                                    <id>org.wso2.carbon.governance.comparator.server.feature.group</id>
+                                    <version>${carbon.governance.ext.version}</version>
+                                </feature>
+                                <feature>
                                     <id>org.wso2.carbon.ntask.feature.group</id>
                                     <version>${carbon.commons.version}</version>
+                                </feature>
+                                <feature>
+                                    <id>org.wso2.carbon.event.output.adapter.server.feature.group</id>
+                                    <version>${carbon.analytics.common.version}</version>
                                 </feature>
                                 <feature>
                                     <id>org.wso2.carbon.humantask.server.feature.group</id>
@@ -747,10 +793,10 @@
                                     <version>${product.greg.version}</version>
                                 </feature>
 
-                                <!--<feature>-->
-                                    <!--<id>org.wso2.stratos.governance.ui.feature.group</id>-->
-                                    <!--<version>${product.greg.version}</version>-->
-                                <!--</feature>-->
+                                <feature>
+                                    <id>org.wso2.stratos.governance.ui.feature.group</id>
+                                    <version>${product.greg.version}</version>
+                                </feature>
 
                                 <!-- reporting features -->
                                 <feature>
@@ -785,11 +831,11 @@
                                     <version>${carbon.identity.version}</version>
                                 </feature>
                                 <feature>
-                                    <id>org.wso2.carbon.identity.application.mgt.feature.group</id>
+                                    <id>org.wso2.carbon.identity.application.mgt.server.feature.group</id>
                                     <version>${carbon.identity.version}</version>
                                 </feature>
                                 <feature>
-                                    <id>org.wso2.carbon.idp.mgt.feature.group</id>
+                                    <id>org.wso2.carbon.idp.mgt.server.feature.group</id>
                                     <version>${carbon.identity.version}</version>
                                 </feature>
                                 <!-- End of SSO Fix -->
@@ -798,6 +844,10 @@
                                 <feature>
                                     <id>org.jaggeryjs.feature.group</id>
                                     <version>${jaggery.version}</version>
+                                </feature>
+                                <feature>
+                                    <id>org.jaggeryjs.modules.jaggery-test.feature.group</id>
+                                    <version>${jaggery-test.feature.version}</version>
                                 </feature>
                                <!--<feature>
                                     <id>org.wso2.carbon.apimgt.core.feature.group</id>
@@ -892,7 +942,7 @@
                                     <version>${es.feature.version}</version>
                                 </feature>
                                 <feature>
-                                    <id>org.wso2.es.feature.group</id>
+                                    <id>org.wso2.carbon.es.feature.group</id>
                                     <version>${es.feature.version}</version>
                                 </feature>
                                 <feature>
@@ -930,6 +980,10 @@
                                 <feature>
                                     <id>org.apache.axis2.transport.mail.feature.group</id>
                                     <version>${axis2-transports.wso2.version}</version>
+                                </feature>
+                                <feature>
+                                    <id>org.wso2.ciphertool.feature.group</id>
+                                    <version>${ciphertool.version}</version>
                                 </feature>
                             </features>
                         </configuration>
@@ -1011,7 +1065,7 @@
                                 </feature>
                                 <feature>
                                     <id>org.wso2.carbon.user.mgt.feature.group</id>
-                                    <version>${carbon.commons.version}</version>
+                                    <version>${carbon.identity.version}</version>
                                 </feature>
                                 <feature>
                                     <id>org.wso2.carbon.um.ws.service.server.feature.group</id>
@@ -1046,13 +1100,17 @@
                                     <version>${carbon.identity.version}</version>
                                 </feature>
                                 <feature>
-                                    <id>
-                                        org.wso2.carbon.identity.application.authenticator.basicauth.server.feature.group
-                                    </id>
+                                    <id>org.wso2.carbon.directory.service.mgr.feature.group</id>
                                     <version>${carbon.identity.version}</version>
                                 </feature>
                                 <feature>
-                                    <id>org.wso2.carbon.identity.thrift.authentication.feature.group</id>
+                                    <id>org.wso2.carbon.identity.notification.mgt.feature.group</id>
+                                    <version>${carbon.identity.version}</version>
+                                </feature>
+                                <feature>
+                                    <id>
+                                        org.wso2.carbon.identity.application.authenticator.basicauth.server.feature.group
+                                    </id>
                                     <version>${carbon.identity.version}</version>
                                 </feature>
 
@@ -1089,10 +1147,10 @@
                                     <version>${product.greg.version}</version>
                                 </feature>
 
-                                <!--<feature>-->
-                                    <!--<id>org.wso2.stratos.governance.ui.feature.group</id>-->
-                                    <!--<version>${product.greg.version}</version>-->
-                                <!--</feature>-->
+                                <feature>
+                                    <id>org.wso2.stratos.governance.ui.feature.group</id>
+                                    <version>${product.greg.version}</version>
+                                </feature>
 
                                 <!-- reporting features -->
                                 <feature>
@@ -1118,6 +1176,10 @@
                                     <id>org.wso2.carbon.identity.authenticator.saml2.sso.ui.feature.group</id>
                                     <version>${carbon.identity.version}</version>
                                 </feature>
+                                 <feature>
+                                     <id>org.wso2.carbon.tenant.mgt.common.feature.group</id>
+                                     <version>${carbon.commons.version}</version>
+                                 </feature>
                                 <!--feature>
                                     <id>org.wso2.carbon.identity.sso.saml.feature.group</id>
                                     <version>${carbon.identity.version}</version>
@@ -1128,11 +1190,11 @@
                                     <version>${carbon.identity.version}</version>
                                 </feature>
                                 <feature>
-                                    <id>org.wso2.carbon.identity.application.mgt.feature.group</id>
+                                    <id>org.wso2.carbon.identity.application.mgt.server.feature.group</id>
                                     <version>${carbon.identity.version}</version>
                                 </feature>
                                 <feature>
-                                    <id>org.wso2.carbon.idp.mgt.feature.group</id>
+                                    <id>org.wso2.carbon.idp.mgt.server.feature.group</id>
                                     <version>${carbon.identity.version}</version>
                                 </feature>
                                 <!-- End of SSO Fix -->
@@ -1227,7 +1289,7 @@
                                     <version>${es.feature.version}</version>
                                 </feature>
                                 <feature>
-                                    <id>org.wso2.es.feature.group</id>
+                                    <id>org.wso2.carbon.es.feature.group</id>
                                     <version>${es.feature.version}</version>
                                 </feature>
 
@@ -1257,6 +1319,10 @@
                                     <id>org.apache.axis2.transport.mail.feature.group</id>
                                     <version>${axis2-transports.wso2.version}</version>
                                 </feature>
+                                <!--<feature>
+                                    <id>org.wso2.ciphertool.feature.group</id>
+                                    <version>${ciphertool.version}</version>
+                                </feature>-->
                             </features>
                         </configuration>
                     </execution>
@@ -1388,9 +1454,17 @@
                                     <id>org.wso2.carbon.registry.task.feature.group</id>
                                     <version>${carbon.registry.version}</version>
                                 </feature>
+                                <feature>
+                                    <id>org.wso2.carbon.registry.security.feature.group</id>
+                                    <version>${carbon.registry.version}</version>
+                                </feature>
 
 
                                 <!-- User management feature -->
+                                <feature>
+                                     <id>org.wso2.carbon.tenant.mgt.common.feature.group</id>
+                                     <version>${carbon.commons.version}</version>
+                                 </feature>
                                 <feature>
                                     <id>org.wso2.carbon.identity.core.feature.group</id>
                                     <version>${carbon.identity.version}</version>
@@ -1413,7 +1487,7 @@
                                 </feature>
                                 <feature>
                                     <id>org.wso2.carbon.user.mgt.feature.group</id>
-                                    <version>${carbon.commons.version}</version>
+                                    <version>${carbon.identity.version}</version>
                                 </feature>
                                 <feature>
                                     <id>org.wso2.carbon.um.ws.service.server.feature.group</id>
@@ -1447,10 +1521,6 @@
                                     <id>
                                         org.wso2.carbon.identity.application.authenticator.basicauth.server.feature.group
                                     </id>
-                                    <version>${carbon.identity.version}</version>
-                                </feature>
-                                <feature>
-                                    <id>org.wso2.carbon.identity.thrift.authentication.feature.group</id>
                                     <version>${carbon.identity.version}</version>
                                 </feature>
 
@@ -1489,10 +1559,10 @@
                                     <version>${product.greg.version}</version>
                                 </feature>
 
-                                <!--<feature>-->
-                                    <!--<id>org.wso2.stratos.governance.ui.feature.group</id>-->
-                                    <!--<version>${product.greg.version}</version>-->
-                                <!--</feature>-->
+                                <feature>
+                                    <id>org.wso2.stratos.governance.ui.feature.group</id>
+                                    <version>${product.greg.version}</version>
+                                </feature>
 
                                 <!-- reporting features -->
                                 <feature>
@@ -1528,7 +1598,7 @@
                                     <version>${carbon.identity.version}</version>
                                 </feature>
                                 <feature>
-                                    <id>org.wso2.carbon.identity.application.mgt.feature.group</id>
+                                    <id>org.wso2.carbon.identity.application.mgt.server.feature.group</id>
                                     <version>${carbon.identity.version}</version>
                                 </feature>
 				 <feature>
@@ -1536,7 +1606,15 @@
                                     <version>${carbon.identity.version}</version>
                                 </feature>
                                 <feature>
-                                    <id>org.wso2.carbon.idp.mgt.feature.group</id>
+                                    <id>org.wso2.carbon.directory.service.mgr.feature.group</id>
+                                    <version>${carbon.identity.version}</version>
+                                </feature>
+                                <feature>
+                                    <id>org.wso2.carbon.identity.notification.mgt.feature.group</id>
+                                    <version>${carbon.identity.version}</version>
+                                </feature>
+                                <feature>
+                                    <id>org.wso2.carbon.idp.mgt.server.feature.group</id>
                                     <version>${carbon.identity.version}</version>
                                 </feature>
                                 <!-- End of SSO Fix -->
@@ -1630,7 +1708,7 @@
                                     <version>${es.feature.version}</version>
                                 </feature>
                                 <feature>
-                                    <id>org.wso2.es.feature.group</id>
+                                    <id>org.wso2.carbon.es.feature.group</id>
                                     <version>${es.feature.version}</version>
                                 </feature>
                                 <feature>
@@ -1660,6 +1738,12 @@
                                     <id>org.apache.axis2.transport.mail.feature.group</id>
                                     <version>${axis2-transports.wso2.version}</version>
                                 </feature>
+
+				<!--
+                                <feature>
+                                    <id>org.wso2.ciphertool.feature.group</id>
+                                    <version>${ciphertool.version}</version>
+                                </feature>-->
                             </features>
                         </configuration>
                     </execution>

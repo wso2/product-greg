@@ -1,0 +1,178 @@
+<% require('/modules/publisher.js').exec(function(ctx) {
+    var matcher = new URIMatcher(request.getRequestURI());
+    var options;
+    var SUB_LIST = '/{context}/apis/subscriptions';
+    var SUB_ITEM = '/{context}/apis/subscriptions/{id}';
+    var SUB_ITEM = '/{context}/apis/subscriptions/{type}/{id}';
+    var httpMethod = request.getMethod();
+    var subscriptionAPI = require('/extensions/app/greg-apis/modules/subscription-api.js').api;
+    var events;
+    var responseProcessor = require('utils').response;
+    response.contentType = 'application/json';
+    var carbon = require('carbon');
+    var user = require('store').user;
+    var server = require('store').server;
+    var tenantId = server.current(session).tenantId;
+    var um = server.userManager(tenantId);
+    var userRegistry = user.userRegistry(session);
+    var assetManager = function(session, type) {
+        var rxt = require('rxt');
+        var am = rxt.asset.createUserAssetManager(session, type);
+        return am;
+    };
+    var getParameters = function(req) {
+        var queryParams = req.getAllParameters();
+        var contentParams = req.getContent();
+        var output = contentParams || {};
+        for (var key in queryParams) {
+            output[key] = queryParams[key];
+        }
+        return output;
+    }
+    switch (httpMethod) {
+        case 'GET':
+            options = matcher.match(SUB_LIST) || matcher.match(SUB_ITEM);
+            //print(options.id + "\n");
+            if (options.id) {
+                var assert = assetManager(session, options.type);
+                var registryPath = assert.get(options.id).path;
+                events = subscriptionAPI.getSubscriptions();
+                var registryService = carbon.server.osgiService('org.wso2.carbon.registry.core.service.RegistryService');
+                var populator = Packages.org.wso2.carbon.registry.info.services.utils.SubscriptionBeanPopulator;
+                var SubscriptionPopulator = Packages.org.wso2.carbon.registry.info.services.utils.SubscriptionBeanPopulator;
+                var GovernanceUtils = Packages.org.wso2.carbon.governance.api.util.GovernanceUtils; //Used to obtain Asset Types
+                var subcriptions = SubscriptionPopulator.populate(userRegistry.registry, registryPath).getSubscriptionInstances();
+                var length = subcriptions.length;
+                var result = [];
+                for (var i = 0; i < length; i++) {
+                    var subOptions = {};
+                    var subcription = subcriptions[i];
+                    //print(subcription.getEventName() + "\n");
+                    subOptions.eventName = subcription.getEventName();
+                    //print(subcription.getTopic() + "\n");
+                    subOptions.topic = subcription.getTopic();
+                    //print(subcription.getAddress() + "\n");
+                    subOptions.address = subcription.getAddress();
+                    //print(subcription.getDigestType() + "\n");
+                    subOptions.digestType = subcription.getDigestType();
+                    //print(subcription.getOwner() + "\n");
+                    subOptions.owner = subcription.getOwner();
+                    //print(subcription.getSubManUrl() + "\n");
+                    subOptions.eventName = subcription.getEventName();
+                    //print(subcription.getId() + "\n");
+                    subOptions.id = subcription.getId();
+                    //print(subcription.getNotificationMethod() + "\n");
+                    subOptions.notificationMethod = subcription.getNotificationMethod();
+                    //output +=  subOptions;
+                    result.push(subOptions);
+                }
+                //print(stringify(output[0].eventName));
+                print(result);
+            }
+            break;
+        case 'POST':
+            options = matcher.match(SUB_LIST) || matcher.match(SUB_ITEM);
+            var assert = assetManager(session, options.type);
+            var registryPath = assert.get(options.id).path;
+            var parms = getParameters(request);
+            var notiType = parms.notificationType;
+            var notiMethod = parms.notificationMethod;
+            var username = server.current(session).username;
+            var realmService = carbon.server.osgiService('org.wso2.carbon.user.core.service.RealmService');
+            var realm = realmService.getTenantUserRealm(server.current(session).tenantId);
+            var allRoles = realm.getUserStoreManager().getRoleListOfUser(username);
+            var emailAdd = realm.getUserStoreManager().getUserClaimValue(username, org.wso2.carbon.user.core.UserCoreConstants.ClaimTypeURIs.EMAIL_ADDRESS, org.wso2.carbon.user.core.UserCoreConstants.DEFAULT_PROFILE);
+            var hasAdminRole;
+            var userRole;
+            for (var i = 0; i < allRoles.length; i++) {
+                //log.info(allRoles[i]);
+                if (String(allRoles[i]) === 'admin') {
+                    log.debug('hasAdminRole');
+                    hasAdminRole = true;
+                } else if (allRoles[i].startsWith('Internal') && !allRoles[i].endsWith('everyone')) {
+                    userRole = allRoles[i];
+                }
+            };
+            //log.info(hasAdminRole);
+            if (notiMethod === "work") {
+                if (hasAdminRole) {
+                    notiMethod = notiMethod + "://admin";
+                } else if (userRole != null) {
+                    notiMethod = notiMethod + "://" + userRole;
+                } else {
+                    var message = {
+                        'error': 'User Profile doesn\'t have validate profile'
+                    };
+                    print(message);
+                    return;
+                }
+            } else if (notiMethod === "email") {
+                if (emailAdd == null) {
+                    var message = {
+                        'error': 'User Profile doesn\'t have email address'
+                    };
+                    print(message);
+                    return;
+                }
+                notiMethod = "mailto:" + emailAdd;
+            } else {
+                var message = {
+                    'error': 'unsuported method'
+                };
+                print(message);
+                return;
+            }
+            var result = [];
+            //log.info('sdfsdsdfsfd');
+            var SubscriptionPopulator = Packages.org.wso2.carbon.registry.info.services.utils.SubscriptionBeanPopulator;
+            //for (var key in SubscriptionPopulator){
+            //    log.info(key);
+            //}
+            try{
+                var subcriptions = SubscriptionPopulator.subscribeAndPopulate(userRegistry.registry, registryPath, notiMethod, notiType).getSubscriptionInstances();
+                var length = subcriptions.length;
+                for (var i = 0; i < length; i++) {
+                    var subOptions = {};
+                    var subcription = subcriptions[i];
+                    subOptions.eventName = subcription.getEventName();
+                    subOptions.id = subcription.getId();
+                    subOptions.topic = subcription.getTopic();
+                    subOptions.address = subcription.getAddress();
+                    //log.info("A"+ subOptions);
+                    result.push(subOptions);
+                }
+            } catch (e) {
+                var message = {'error': 'error occurred'};
+                print(message);
+                //log.info(e);
+                return;
+            }
+            print(result);
+            break;
+        case 'DELETE':
+            options = matcher.match(SUB_LIST) || matcher.match(SUB_ITEM);
+            var parms = getParameters(request);
+            //log.info(parms.subcriptionid);
+            try{
+              var assert = assetManager(session, options.type);
+            var registryPath = assert.get(options.id).path;
+            var InfoUtil = Packages.org.wso2.carbon.registry.info.services.utils.InfoUtil;  
+            InfoUtil.unsubscribe(userRegistry.registry, registryPath, parms.subcriptionid, null);
+
+            } catch (e) {
+              var message = {'error': 'error occurred'};
+                print(message);
+                log.warn(e);
+                return;
+            }
+            //print('This is a DELETE');
+            var message = { 'status': 'success'};
+            //log.info(message);
+            print(message);
+            break;
+        default:
+            var message = {'error': 'Not supported'};
+            print(message);
+            break;
+    }
+}, request, response, session); %>

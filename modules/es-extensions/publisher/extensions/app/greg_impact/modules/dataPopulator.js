@@ -45,6 +45,17 @@ function getNodesAndEdges(registry, userName, resourcePath, graph){
 
             graphDataObject = createNode(resourcePath, artifact, graph.index);
 
+            var governanceArtifactConfiguration = governanceUtils.findGovernanceArtifactConfigurationByMediaType(graphDataObject.mediaType, govRegistry);
+            
+            var shortName = governanceArtifactConfiguration.getKey();
+            graphDataObject.shortName = shortName;
+
+            if (isActivatedAssetsType(shortName)){
+                graphDataObject.isActivatedAssetsType = true;
+            } else {
+                graphDataObject.isActivatedAssetsType = false;
+            }
+
             graph.index++;
 
             graph.nodes[resourcePath] = graphDataObject;
@@ -178,6 +189,23 @@ function createNode(resourcePath, artifact, nodeID){
     graphDataObject.path = resourcePath;
     graphDataObject.relations = [];
     graphDataObject.id = nodeID;
+    graphDataObject.uuid = artifact.getId();
 
     return graphDataObject;
+}
+
+function isActivatedAssetsType(assetType) {
+    var app = require('rxt').app;
+    var server = require('carbon').server;
+    var tenantId = server.superTenant.tenantId;
+    var activatedAssets = app.getActivatedAssets(tenantId); //ctx.tenantConfigs.assets;
+    if (!activatedAssets) {
+        throw 'Unable to load all activated assets for current tenant: ' + tenantId + '.Make sure that the assets property is present in the tenant config';
+    }
+    for (var index in activatedAssets) {
+        if (activatedAssets[index] == assetType) {
+            return true;
+        }
+    }
+    return false;
 }

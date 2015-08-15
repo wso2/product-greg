@@ -1,0 +1,77 @@
+<!-- Copyright (c) 2014, WSO2 Inc. (http://www.wso2.org) All Rights Reserved.
+*
+* Licensed under the Apache License, Version 2.0 (the "License");
+* you may not use this file except in compliance with the License.
+* You may obtain a copy of the License at
+*
+* http://www.apache.org/licenses/LICENSE-2.0
+*
+* Unless required by applicable law or agreed to in writing, software
+* distributed under the License is distributed on an "AS IS" BASIS,
+* WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+* See the License for the specific language governing permissions and
+* limitations under the License.
+-->
+<form  method='post' class="form-horizontal" id="form-asset-create" name ="form-asset-create" data-redirect-url='{{url ""}}/assets/{{rxt.shortName}}/list' >
+        <div class="form-group">
+            <label class="custom-form-label col-lg-2 col-md-2 col-sm-12 col-xs-12">&nbsp;</label>
+            <div class="custom-form-right col-lg-5 col-md-8 col-sm-8 col-xs-12">
+                <select id="addMethodSelector" class="input-large">
+                    <option value="import" selected="selected">{{t "Import Swagger from a url"}}</option>
+                    <option value="upload">{{t "Upload Swagger from a file"}}</option>
+                </select>
+            </div>
+        </div>
+    <div id="importUI" style="display: none;">
+        <div class="form-group">
+            <label class="custom-form-label col-lg-2 col-md-2 col-sm-12 col-xs-12" for="overview_url">{{t "Swagger Url"}}</label>
+            <div class="custom-form-right col-lg-5 col-md-8 col-sm-8 col-xs-12">
+                <input type='text' name='overview_url' id='overview_url' class="form-control" placeholder="https://example.com/abc/someswagger"/>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="custom-form-label col-lg-2 col-md-2 col-sm-12 col-xs-12" for="overview_name">{{t "Name"}}</label>
+            <div class="custom-form-right col-lg-5 col-md-8 col-sm-8 col-xs-12">
+                <input type='text' name='overview_name' id='overview_name' class="form-control" placeholder="ExampleSwagger"/>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="custom-form-label col-lg-2 col-md-2 col-sm-12 col-xs-12" for="overview_version">{{t "Version"}}</label>
+            <div class="custom-form-right col-lg-5 col-md-8 col-sm-8 col-xs-12">
+                <input type='text' name='overview_version' id='overview_version' class="form-control" placeholder="1.0.0"/>
+            </div>
+        </div>
+        <div id="saveButtonsURL" class="form-group" >
+            <div class="col-sm-offset-2 col-sm-10">
+                <input type='submit' id="btn-create-asset" class="btn btn-primary" name="addNewAssetButton" value='{{t "Create"}}'>
+                <button class="btn btn-default" type="reset">{{t "Reset"}}</button>
+                <input type="hidden" value="{{rxt.shortName}}" name="{{rxt.shortName}}" id="meta-asset-type">
+            </div>
+        </div>
+    </div>
+    <div id="uploadUI" style="display: none;">
+        <div class="form-group">
+            <label class="custom-form-label col-lg-2 col-md-2 col-sm-12 col-xs-12" for="swagger_zip">{{t "Swagger/Zip file"}}</label>
+            <div class="custom-form-right col-lg-5 col-md-8 col-sm-8 col-xs-12">
+                <input type='file' name='swagger_file' id='swagger_file' class="form-control"/>
+                <!--Use a hidden field to save the zip name and pass it to request, as 'file' 
+                    attribute is not passed to the request unless it is defined in the rxt.-->
+                <input type='hidden' name='swagger_file_name' id='swagger_file_name' />
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="custom-form-label col-lg-2 col-md-2 col-sm-12 col-xs-12" for="file_version">{{t "Version"}}</label>
+            <div class="custom-form-right col-lg-5 col-md-8 col-sm-8 col-xs-12">
+                <input type='text' name='file_version' id='file_version' class="form-control" placeholder="1.0.0"/>
+            </div>
+        </div>
+        <div id="saveButtonsFile" class="form-group">
+            <div class="col-sm-offset-2 col-sm-10">
+                <input type='submit' id="btn-create-asset" class="btn btn-primary" name="addNewSwaggerFileAssetButton" value='{{t "Create"}}'>
+                <button class="btn btn-default" type="reset">{{t "Reset"}}</button>
+                <input type="hidden" value="{{rxt.shortName}}" name="{{rxt.shortName}}" id="meta-asset-type">
+            </div>
+        </div>
+    </div>
+
+</form>

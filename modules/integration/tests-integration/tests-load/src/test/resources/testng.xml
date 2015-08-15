@@ -1,0 +1,26 @@
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
+
+<suite name="greg-load-test-suite">
+    <parameter name="useDefaultListeners" value="false"/>
+    <test name="test-greg-load-zapp1" preserve-order="true" parallel="false">
+        <packages>
+            <package name="org.wso2.carbon.registry.app.test"/>
+        </packages>
+    </test>
+    <test name="test-greg-load-zapp2" preserve-order="true" parallel="false">
+        <packages>
+            <package name="org.wso2.carbon.registry.app2.test"/>
+        </packages>
+    </test>
+    <test name="test-greg-load-volume" preserve-order="true" parallel="false">
+        <packages>
+            <package name="org.wso2.carbon.registry.volume.test"/>
+        </packages>
+    </test>
+    <test name="test-greg-load-scm" preserve-order="true" parallel="false">
+        <packages>
+            <package name="org.wso2.carbon.registry.scm.test"/>
+        </packages>
+    </test>
+
+</suite>

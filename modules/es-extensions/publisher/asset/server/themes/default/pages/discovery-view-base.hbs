@@ -1,0 +1,353 @@
+<!--
+~   Copyright (c) 2015, WSO2 Inc. (http://wso2.com) All Rights Reserved.
+~
+~   Licensed under the Apache License, Version 2.0 (the "License");
+~   you may not use this file except in compliance with the License.
+~   You may obtain a copy of the License at
+~
+~        http://www.apache.org/licenses/LICENSE-2.0
+~
+~   Unless required by applicable law or agreed to in writing, software
+~   distributed under the License is distributed on an "AS IS" BASIS,
+~   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+~   See the License for the specific language governing permissions and
+~   limitations under the License.
+-->
+
+<!DOCTYPE html>
+<!--[if lt IE 7]><html class="no-js lt-ie9 lt-ie8 lt-ie7"><![endif]-->
+<!--[if IE 7]><html class="no-js lt-ie9 lt-ie8"><![endif]-->
+<!--[if IE 8]><html class="no-js lt-ie9"><![endif]-->
+<!--[if gt IE 8]><!-->
+<html class="no-js"><!--<![endif]-->
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Asset | WSO2 Enterprise Store back-office</title>
+    <!-- Bootstrap -->
+    <link href="/publisher/themes/default/css/bootstrap.min.css" rel="stylesheet" media="screen">
+    <link href="/publisher/extensions/assets/server/themes/default/css/custom.css" rel="stylesheet">
+    <link href="/publisher/extensions/assets/server/themes/default/css/custom-theme.css" rel="stylesheet">
+    <link href="/publisher/extensions/assets/server/themes/default/css/common.css" rel="stylesheet">
+    <!-- fontawesome -->
+    <link rel="stylesheet" href="/publisher/themes/default/css/font-awesome.min.css">
+    <!-- fontwso2 -->
+    <link rel="stylesheet" href="/publisher/themes/default/css/fontwso2.css">
+    <link rel="stylesheet" href="/publisher/themes/default/css/fontwso2-extend.css">
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+    <script src="/publisher/themes/default/js/html5shiv.min.js"></script>
+    <script src="/publisher/themes/default/js/respond.min.js"></script>
+    <![endif]-->
+</head>
+
+<body>
+
+<div class="wrapper">
+    <div class="container-fluid">
+        <!-- header -->
+        <header>
+            <div class="row wr-global-header">
+                <div class="col-xs-8 col-sm-6 col-lg-8 app-logo">
+                    <a href="/publisher/">
+                        <img src="/publisher/extensions/assets/server/themes/default/imgs/logo.png"/>
+
+                        <h2 class="app-title">Governance Center</h2>
+                    </a>
+                </div>
+                <div class="col-xs-4 col-sm-6 col-lg-4 wr-auth-container">
+                    <div class="wr-auth pull-right">
+                        <a href="#" data-toggle="dropdown">
+                            <div class="auth-img">
+                                admin
+                           <span class="fw-stack-md fw-lg">
+                           <i class="fw fw-user fw-stack-1-5x"></i>
+                           </span>
+                            </div>
+                        </a>
+
+                        <div class="dropdown-menu">
+                            <div class="cu-arrow"></div>
+                            <div class="dropdown-menu-content">
+                                <a class="filter-item" onclick="window.location.href='/publisher/logout'">Sign out</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </header>
+        <!-- /header -->
+    </div>
+    <div class="container-fluid ribbon-container">
+        <!-- secondary header - app bar -->
+        <nav class="navbar navbar-default navbar-themed">
+            <div>
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar"
+                            aria-expanded="false" aria-controls="navbar">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                </div>
+                <div id="navbar" class="navbar-collapse collapse">
+                    <div class="wr-action-btn-bar">
+                        <ul class="nav navbar-nav" id="nav">
+                            <li>
+                                <div class="wr-asset-type-switcher">
+                                    <a class="pull-left switcher-link" href='#'>Discover</a>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <!--/.nav-collapse -->
+            </div>
+        </nav>
+
+
+        <div id="modal-redirect" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+             aria-hidden="true">
+            <div class="modal-body">
+                <div class="modal-loading"></div>
+                <p>
+                    Redirecting you to the new Asset Version...
+                </p>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-primary">
+                    Redirect now
+                </button>
+            </div>
+        </div>
+    </div>
+    <div class="container-fluid wr-main-content">
+        <div class="row" id="parent-container">
+        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 ">
+            {{#with  listassets.[0].context}}
+                {{#if error}}
+                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 col-lg-offset-3 col-md-offset-3 col-sm-offset-3
+                col-xs-offset-3">
+                        <div class="alert alert-warning" role="alert">
+                            <blockquote>
+                                <p>If you see this message for the first time check DiscoveryAgent configuration for
+                                    this server.</p>
+                            </blockquote>
+                        </div>
+                    </div>
+                {{else}}
+                    <!-- content -->
+                    <div class="ast-container" id="list_assets_table_body">
+                        <h2 class="sub-heading">Select artifacts</h2>
+                        <hr>
+                        {{#if newDataEmpty}}
+                            <div class="alert alert-warning" role="alert">
+                                <blockquote>
+                                    <p>There aren't any newly discovered artifacts found.</p>
+                                </blockquote>
+                            </div>
+                        {{else}}
+                            <div id="pageTab1">
+                                <ul class="nav nav-tabs" role="tablist">
+                                    {{#each discoveryDataNew}}
+                                        {{#if dataNew }}
+                                            <li role="presentation"><a href="#{{originalKey}}"
+                                                                       aria-controls="{{originalKey}}" role="tab"
+                                                                       data-toggle="tab">
+                                                <i class="{{icon}}"></i><span class="name">{{key}}</span></a></li>
+                                        {{/if}}
+                                    {{/each}}
+                                </ul>
+                                <div id="serverId" data-serverId="{{serverId}}"></div>
+                                <div class="tab-content tab-content-services">
+                                    {{#each discoveryDataNew}}
+                                        <div role="tabpanel" class="tab-pane" id="{{originalKey}}">
+                                            {{#each dataNew}}
+                                                <div class="ctrl-wr-asset selected" id="{{id}}" data-content="{{dump
+                                                this}}">
+                                                    <div class="itm-ast">
+                                                        <span class="ast-img"><i
+                                                                class="icon {{../this.icon}}"></i></span>
+
+                                                        <div class="ast-desc">
+                                                            <a href='#'>
+                                                                <h3 class="ast-name">{{attributes.[overview_name]}}</h3>
+                                                            </a>
+                                                            <span class="ast-ver">{{attributes.[overview_version]}}</span>
+                                                        </div>
+                                                        <br class="c-both"/>
+                                                    </div>
+                                                    <br class="c-both"/>
+                                                </div>
+                                            {{/each}}
+                                            <br class="c-both"/>
+                                        </div>
+                                    {{/each}}
+                                </div>
+                            </div>
+                        {{/if}}
+                        <br/>
+
+                        <h2 class="sub-heading">Existing artifacts</h2>
+                        <hr>
+                        {{#if existingDataEmpty}}
+                            <div class="alert alert-warning" role="alert">
+                                <blockquote>
+                                    <p>There aren't any existing discovered artifacts found.</p>
+                                </blockquote>
+                            </div>
+                        {{else}}
+                            <div id="pageTab2">
+                                <ul class="nav nav-tabs" role="tablist">
+                                    {{#each discoveryDataExisting}}
+                                        {{#if dataExisting }}
+                                            <li role="presentation"><a href="#{{originalKey}}Existing"
+                                                                       aria-controls="{{originalKey}}"
+                                                                       role="tab" data-toggle="tab"><i
+                                                    class="{{icon}}"></i><span class="name">{{key}}</span></a></li>
+                                        {{/if}}
+                                    {{/each}}
+                                </ul>
+
+                                <div class="tab-content tab-content-services">
+                                    {{#each discoveryDataExisting}}
+                                        <div role="tabpanel" class="tab-pane" id="{{originalKey}}Existing">
+                                            {{#each dataExisting}}
+                                                <div class="ctrl-wr-asset asset-existing" id="{{id}}"
+                                                     data-content="{{dump
+                                                     this}}">
+                                                    <div class="itm-ast">
+                                                        <span class="ast-img"><i
+                                                                class="icon {{../this.icon}}"></i></span>
+
+                                                        <div class="ast-desc">
+                                                            <a href='#'>
+                                                                <h3 class="ast-name">{{attributes.[overview_name]}}</h3>
+                                                            </a>
+                                                            <span class="ast-ver">{{attributes.[overview_version]}}</span>
+                                                        </div>
+                                                        <br class="c-both"/>
+                                                    </div>
+                                                    <br class="c-both"/>
+                                                </div>
+                                            {{/each}}
+                                        </div>
+                                        <br class="c-both"/>
+                                    {{/each}}
+                                </div>
+                            </div>
+                        {{/if}}
+                        <br/>
+                        {{#if newDataEmpty}}
+                            <a href="javascript:void(0);" id="closeWindow" class="cu-btn-inner inverse">Close</a>
+                        {{else}}
+                            <div class="wr-input-control">
+                                <a id="submitServices" href="javascript:void(0)" class="cu-btn-inner inverse">
+                            <span class="fw-stack">
+                                <i class="fw fw-ring fw-stack-2x"></i>
+                                <i class="fw fw-right-arrow fw-stack-1x"></i>
+                            </span> Continue
+                                </a>
+                            </div>
+                        {{/if}}
+                    </div>
+                </div>
+                <div class="ctrl-wr-asset-list" style="display: none;">
+                    <div id="list_assets_table_summary"></div>
+                    </br>
+                    <div class="row" id="discoveryStratergy">
+                        <div class="wr-input-control">
+                            <h5 class="sub-heading">Existing Artifact Strategy</h5>
+                            <select id="existArtifactStrategy">
+                                {{#each discoveryEnumData.existArtifactStrategy}}
+                                    <option value="{{this}}">{{this}}</option>
+                                {{/each}}
+                            </select>
+                        </div>
+                        <div class="wr-input-control">
+                            <h5 class="sub-heading">Orphan Artifact Strategy</h5>
+                            <select id="orphanArtifactStrategy">
+                                {{#each discoveryEnumData.orphanArtifactStrategy}}
+                                    <option value="{{this}}">{{this}}</option>
+                                {{/each}}
+                            </select>
+                        </div>
+                    </div>
+                    <div class="wr-input-control">
+                        <div class="col-lg-1 col-md-1 col-sm-1 col-xs-1">
+                            <a href="javascript:void(0)" id="backButton" class="cu-btn-inner inverse">
+                        <span class="fw-stack">
+                            <i class="fw fw-ring fw-stack-2x"></i>
+                            <i class="fw fw-add fw-stack-1x"></i>
+                        </span> Back
+                            </a>
+                        </div>
+                        <div class="col-lg-1 col-md-1 col-sm-1 col-xs-1">
+                            <a href="javascript:void(0)" id="saveServices" class="cu-btn-inner inverse">
+                        <span class="fw-stack">
+                            <i class="fw fw-ring fw-stack-2x"></i>
+                            <i class="fw fw-add fw-stack-1x"></i>
+                        </span> Save
+                            </a>
+                        </div>
+                    </div>
+                {{/if}}
+            {{/with}}
+        </div>
+        </div>
+    </div>
+</div>
+<!-- /content/body -->
+
+<!-- footer -->
+<footer class="footer">
+    <p>
+        Governance Center | &copy;
+        <script>document.write(new Date().getFullYear());</script>
+        <a href="http://wso2.com/" target="_blank"><i class="fw fw-wso2"></i> Inc</a>. All Rights Reserved.
+    </p>
+</footer>
+<!-- /footer -->
+
+<script src="/publisher/themes/default/js/jquery-1.10.2.min.js"></script>
+<script src="/publisher/themes/default/js/bootstrap.min.js"></script>
+<script src="{{url "/themes/default/js/publisher.commons.js"}}"></script>
+<script src="{{url "/themes/default/js/handlebars.js"}}"></script>
+<script src="{{url "/themes/default/js/caramel.handlebars.client.js"}}"></script>
+<script src="/publisher/extensions/assets/server/themes/default/js/discover.js"></script>
+
+{{js}}
+{{code}}
+<script type="text/javascript">
+    $(document).ready(function () {
+        $("[data-toggle=popover]").popover();
+
+        $(".ctrl-asset-type-switcher").popover({
+            html: true,
+            content: function () {
+                return $('#content-asset-types').html();
+            }
+        });
+
+        $('#nav').affix({
+            offset: {
+                top: $('header').height()
+            }
+        });
+
+    });
+
+    $(function () {
+        $('#pageTab1 a:first').addClass('active');
+        $('#pageTab1 a:first').tab('show');
+        $('#pageTab2 a:first').addClass('active');
+        $('#pageTab2 a:first').tab('show');
+    })
+
+</script>
+
+</body>
+</html>

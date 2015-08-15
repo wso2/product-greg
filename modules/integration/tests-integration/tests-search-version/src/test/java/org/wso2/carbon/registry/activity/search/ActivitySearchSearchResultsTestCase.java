@@ -133,7 +133,7 @@ public class ActivitySearchSearchResultsTestCase extends GREGIntegrationBaseTest
 
         // wait for sometime until the resource has been added. The activity logs are written
         // every 10 seconds, so you'll need to wait until that's done.
-        // Thread.sleep(20000);
+        Thread.sleep(20000);
         // Assert.assertTrue(resourceAdminServiceClient.getResource("/_system/governance/trunk/wsdls/eu/dataaccess/footballpool/"+
         // resourceName )[0].getAuthorUserName().contains(userInfo.getUserName()));
 
@@ -154,7 +154,7 @@ public class ActivitySearchSearchResultsTestCase extends GREGIntegrationBaseTest
     public void verifySearchResultsPagination() throws InterruptedException, MalformedURLException,
                                                        ResourceAdminServiceExceptionException,
                                                        RemoteException, RegistryExceptionException {
-        for (int k = 0; k < 100; k++) {
+        for (int k = 0; k < 10; k++) {
             addResource();
         }
         assertNotNull(activityAdminServiceClient.getActivities(sessionCookie, "", "", "", "",

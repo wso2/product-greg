@@ -1,0 +1,80 @@
+<%
+require('/modules/publisher.js').exec(function(ctx) {
+  var matcher = new URIMatcher(request.getRequestURI());
+  var options;
+  var SUB_LIST = '/{context}/apis/notification';
+  var SUB_ITEM = '/{context}/apis/notification/{id}';
+  //var SUB_ITEM = '/{context}/apis/notification/{type}/{id}';
+  var httpMethod = request.getMethod();
+  var subscriptionAPI = require('/extensions/app/greg-apis/modules/subscription-api.js').api;
+  var events;
+
+  var responseProcessor = require('utils').response;
+  response.contentType = 'application/json';
+
+
+  var carbon = require('carbon');
+  var user = require('store').user;
+  var userRegistry = user.userRegistry(session);
+
+  var assetManager = function(session, type) {
+     var rxt = require('rxt');
+     var am = rxt.asset.createUserAssetManager(session, type);
+     return am;
+  };
+  options = matcher.match(SUB_LIST) || matcher.match(SUB_ITEM);
+  var taskOperationService = carbon.server.osgiService('org.wso2.carbon.humantask.core.TaskOperationService');
+          
+  switch (httpMethod) {
+      case 'GET':
+      
+              if (matcher.match(SUB_LIST)) {
+                var queryInput = new org.wso2.carbon.humantask.client.api.types.TSimpleQueryInput();
+                queryInput.setPageNumber(0);
+                queryInput.setSimpleQueryCategory(org.wso2.carbon.humantask.client.api.types.TSimpleQueryCategory.ASSIGNED_TO_ME);
+                //var length = taskOperationService.simpleQuery(queryInput).getRow().length;
+                var result = [];
+                var resultSet;
+                var rows;
+                resultSet = taskOperationService.simpleQuery(queryInput);
+                rows = resultSet.getRow();
+                if (rows != null) {
+                  for (var i = 0; i < rows.length; i++) {
+                    var workList = {};
+                    var row =  rows[i];
+                    workList.id = String(row.getId());
+                    workList.presentationSubject = String(row.getPresentationSubject());
+                    workList.presentationName = String(row.getPresentationName());
+                    workList.priority = String(row.getPriority());
+                    workList.status = String(row.getStatus());
+                    //workList.createdTime = String(row.getCreatedTime());
+                    workList.user = String(taskOperationService.loadTask(row.getId()).getActualOwner().getTUser());
+                    result.push(workList);
+                  }
+                }
+                
+                print(result);
+              }
+          break;
+      case 'POST':
+          var message= {'error':'Not supported'};
+          print(message);
+          break;
+      case 'DELETE':
+          try{
+              taskOperationService.start(new org.apache.axis2.databinding.types.URI(options.id));
+              taskOperationService.complete(new org.apache.axis2.databinding.types.URI(options.id), "<WorkResponse>true</WorkResponse>");
+            } catch (e){
+              var message= {'error':'Not supported'};
+              print(message);
+              return;
+            }
+          //log.info(options.id)
+          print(options.id);
+          break;
+      default:
+          print('This is a default');
+          break;
+  }
+}, request, response, session);
+%>

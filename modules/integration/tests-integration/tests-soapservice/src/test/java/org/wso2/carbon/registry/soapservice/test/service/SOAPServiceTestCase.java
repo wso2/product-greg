@@ -31,6 +31,7 @@ import org.wso2.carbon.governance.custom.lifecycles.checklist.stub.beans.xsd.Lif
 import org.wso2.carbon.governance.custom.lifecycles.checklist.stub.util.xsd.Property;
 import org.wso2.carbon.integration.common.utils.LoginLogoutClient;
 import org.wso2.carbon.registry.core.Registry;
+import org.wso2.carbon.registry.core.Resource;
 import org.wso2.carbon.registry.core.exceptions.RegistryException;
 import org.wso2.carbon.registry.core.session.UserRegistry;
 import org.wso2.carbon.registry.info.stub.RegistryExceptionException;
@@ -137,6 +138,58 @@ public class SOAPServiceTestCase extends GREGIntegrationBaseTest {
         GenericArtifact receivedArtifact = artifactManager.getGenericArtifact(artifact.getId());
         assertNotNull(receivedArtifact.getDependencies());
         assertEquals(receivedArtifact.getDependencies().length, 2, "Expecting 2 dependencies : WSDL and Endpoint");
+
+        artifactManager.removeGenericArtifact(artifact.getId());
+    }
+
+    @Test(groups = { "wso2.greg" }, description = "create SOAP Service using GenericArtifact",
+          dependsOnMethods = "createSOAPServiceWithWSDL")
+    public void validateProperty() throws RegistryException {
+        GenericArtifact artifact = artifactManager.newGovernanceArtifact(new QName("SOAPService1"));
+
+        artifact.setAttribute("overview_name", "SOAPService1");
+        artifact.setAttribute("overview_version", "4.5.0");
+        artifact.setAttribute("overview_description", "Description");
+
+        artifactManager.addGenericArtifact(artifact);
+
+        GenericArtifact receivedArtifact = artifactManager.getGenericArtifact(artifact.getId());
+        assertEquals(artifact.getAttribute("overview_name"), receivedArtifact.getAttribute("overview_name"),
+                     " Service name must be equal");
+
+        Resource resource = governance.get(receivedArtifact.getPath());
+        assertEquals(resource.getProperty("resource.source").toString(),"remote");
+
+        artifactManager.removeGenericArtifact(artifact.getId());
+    }
+
+    @Test(groups = { "wso2.greg" }, description = "try add SOAP service without version",
+          dependsOnMethods = "validateProperty")
+    public void validatePropertyWithWSDL() throws RegistryException {
+        GenericArtifact artifact =
+                artifactManager.newGovernanceArtifact(new QName("http://com.wso2.sample", "SOAPService2"));
+
+        artifact.setAttribute("overview_name", "SOAPService2");
+        artifact.setAttribute("overview_version", "4.5.0");
+        artifact.setAttribute("overview_namespace", "com.wso2.sample");
+        artifact.setAttribute("interface_wsdlURL",
+                              "http://graphical.weather.gov/xml/SOAP_server/ndfdXMLserver.php?wsdl");
+        artifact.setAttribute("overview_description", "Description");
+
+        artifactManager.addGenericArtifact(artifact);
+
+        GenericArtifact receivedArtifact = artifactManager.getGenericArtifact(artifact.getId());
+        assertNotNull(receivedArtifact.getDependencies());
+        assertEquals(receivedArtifact.getDependencies().length, 2, "Expecting 2 dependencies : WSDL and Endpoint");
+
+        Resource resource = governance.get(receivedArtifact.getDependencies()[0].getPath());
+        assertEquals(resource.getProperty("resource.source").toString(),"Auto");
+
+        resource = governance.get(receivedArtifact.getDependencies()[1].getPath());
+        assertEquals(resource.getProperty("resource.source").toString(),"Auto");
+
+        resource = governance.get(receivedArtifact.getPath());
+        assertEquals(resource.getProperty("resource.source").toString(),"remote");
 
         artifactManager.removeGenericArtifact(artifact.getId());
     }

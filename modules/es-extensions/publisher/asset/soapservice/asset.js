@@ -37,6 +37,11 @@ asset.manager = function(ctx) {
             artifact.id = id;
         }
     }
+    var wsdlAssetManager = function(session){
+        var rxt = require('rxt');
+        var am = rxt.asset.createUserAssetManager(session, 'wsdl');
+        return am;
+    };
     var setContent = function(artifact, content) {
         if (content) {
             if (content instanceof Stream) {
@@ -152,7 +157,7 @@ asset.manager = function(ctx) {
         var attributes = options.attributes;
         var omContent = createOMContent(attributes);
         var artifact = manager.newGovernanceArtifact(omContent);
-        log.info('Finished creating Governance Artifact');
+        log.debug('Finished creating Governance Artifact');
         setAttributes(artifact, attributes);
         setId(artifact, options.id);
         setContent(artifact, options.content);
@@ -163,16 +168,21 @@ asset.manager = function(ctx) {
                 artifact.attachLifeCycle(lc[i]);
             }
         }
-        log.info('lifecycle is attached');
+        log.debug('lifecycle is attached');
         return artifact;
     };
     var setCustomAssetAttributes = function(asset, userRegistry) {
         var interfaceUrl=asset.attributes.interface_wsdlURL;
         if (interfaceUrl != null) {
-            var resource = userRegistry.registry.get(interfaceUrl);
-            var wsdlUUID = resource.getUUID();
-            asset.wsdl_uuid = wsdlUUID;
-            asset.wsdl_url = asset.attributes.interface_wsdlURL;
+            try {
+                var resource = userRegistry.registry.get(interfaceUrl);
+                var wsdlUUID = resource.getUUID();
+                asset.wsdl_uuid = wsdlUUID;
+                asset.wsdl_url = asset.attributes.interface_wsdlURL;
+            } catch(e) {
+                asset.wsdl_uuid = "";
+                asset.wsdl_url = "";
+            }
         }
     };
     var getAssociations = function(genericArtifacts, userRegistry){
@@ -181,39 +191,82 @@ asset.manager = function(ctx) {
         if (genericArtifacts != null) {
             for (var index in genericArtifacts) {
                 var deps = {};
-                //extract the association name via the path.
-                var path = genericArtifacts[index].getPath();
-                var subPaths = path.split('/');
-                var associationTypePlural = subPaths[2];
-                var associationName = subPaths[subPaths.length - 1];
-                var resource = userRegistry.registry.get(configs.depends_asset_path_prefix+path);
-                var associationUUID = resource.getUUID();
-                deps.associationName = associationName;
-                deps.associationType = associationTypePlural.substring(0,associationTypePlural.lastIndexOf('s'));
-                deps.associationUUID = associationUUID;
-                associations.push(deps);
+                if (genericArtifacts[index] != null) {
+                    //extract the association name via the path.
+                    var path = genericArtifacts[index].getPath();
+                    var subPaths = path.split('/');
+                    var associationTypePlural = subPaths[2];
+                    var associationName = subPaths[subPaths.length - 1];
+                    var resource = userRegistry.registry.get(configs.depends_asset_path_prefix + path);
+                    var associationUUID = resource.getUUID();
+                    deps.associationName = associationName;
+                    deps.associationType = associationTypePlural.substring(0, associationTypePlural.lastIndexOf('s'));
+                    deps.associationUUID = associationUUID;
+
+                    if(deps.associationType == "wsdl") {
+                        associations.push(deps);
+                    }
+                }
             }
         }
         return associations;
     };
+
     var setDependencies = function(genericArtifact, asset ,userRegistry) {
-        //get dependencies of the artifact.
-        var dependencyArtifacts = genericArtifact.getDependencies();
-        asset.dependencies = getAssociations(dependencyArtifacts, userRegistry);
+        try {
+            //get dependencies of the artifact.
+            var dependencyArtifacts = genericArtifact.getDependencies();
+            asset.dependencies = getAssociations(dependencyArtifacts, userRegistry);
+        } catch(e) {
+            asset.dependencies = [];
+        }
     };
+
     var setDependents = function(genericArtifact, asset, userRegistry) {
-        var dependentArtifacts = genericArtifact.getDependents();
-        asset.dependents = getAssociations(dependentArtifacts, userRegistry);
+        try {
+            var dependentArtifacts = genericArtifact.getDependents();
+            asset.dependents = getAssociations(dependentArtifacts, userRegistry);
+        } catch(e) {
+            asset.dependents = [];
+        }
     };
+
+    var addDefaultPropertyIfNotExist = function(registry, path, name){
+        var associations = registry.getAllAssociations(path);
+
+        for(var index = 0; index< associations.length; index++){
+            var associatedResourcePath = associations[index].getDestinationPath();
+            if(associatedResourcePath.indexOf("wsdl") > -1){     
+                var associatedWSDL = registry.get(associatedResourcePath);
+
+                var wsdlName = name + ".wsdl";
+                var q = {};
+                q.overview_name = wsdlName;
+                var artifacts = wsdlAssetManager(ctx.session).search(q);
+                log.debug(artifacts.length);
+                if(artifacts.length < 2) {
+                    associatedWSDL.addProperty("default", "true");
+                    registry.put(associatedResourcePath, associatedWSDL);
+                }
+            }
+        }
+    };
+
     return {
         get: function(id) {
-            var asset = this._super.get.call(this, id);
-            var userRegistry = getRegistry(ctx.session);
-            setCustomAssetAttributes(asset, userRegistry);
-            //get the GenericArtifactManager
-            var rawArtifact = this.am.manager.getGenericArtifact(id);
-            setDependencies(rawArtifact, asset, userRegistry);
-            setDependents(rawArtifact, asset, userRegistry);
+            var asset;
+            try {
+                asset = this._super.get.call(this, id); 
+                var userRegistry = getRegistry(ctx.session);
+                setCustomAssetAttributes(asset, userRegistry);
+                var rawArtifact = this.am.manager.getGenericArtifact(id);
+                setDependencies(rawArtifact, asset, userRegistry);
+                setDependents(rawArtifact, asset, userRegistry);
+            } catch(e) {
+                log.error(e);
+                return null;
+            }
+
             return asset;
         },
         combineWithRxt: function(asset) {
@@ -251,16 +304,20 @@ asset.manager = function(ctx) {
                 isDefault = true;
             }
             manager.addGenericArtifact(artifact);
-            log.info('Service successfully created');
+            log.debug('Service successfully created');
             options.id = artifact.getId();
             var asset = this.get(options.id);
             if(!this.rxtManager.isGroupingEnabled(this.type)){
-                log.info('Omitted grouping');
+                log.debug('Omitted grouping');
                 return;
             }
             if ( (isDefault) || (isOnlyAssetVersion(asset,this)) ){
                 this.setAsDefaultAsset(asset);
             }
+
+            var wsdlRelativePath = artifact.getPath();
+            var wsdlPath = "/_system/governance" + wsdlRelativePath;
+            addDefaultPropertyIfNotExist(getRegistry(ctx.session).registry, wsdlPath, options.attributes.overview_name);
         },
         update: function(options) {
             var log = new Log();
@@ -272,7 +329,7 @@ asset.manager = function(ctx) {
             var asset = this.get(options.id);
             var artifact = createArtifact(manager, options);
             manager.updateGenericArtifact(artifact);
-            log.info('Service successfully updated');
+            log.debug('Service successfully updated');
             options.id = artifact.getId();
             if(!this.rxtManager.isGroupingEnabled(this.type)){
                 log.debug('Omitting grouping step');
@@ -281,6 +338,9 @@ asset.manager = function(ctx) {
             if(isDefault){
                 this.setAsDefaultAsset(asset);
             }
+        },
+        postCreate:function(){
+            
         }
     }
 };
@@ -291,9 +351,13 @@ asset.configure = function() {
                 commentRequired: false,
                 defaultAction: '',
                 deletableStates: [],
+		        defaultLifecycleEnabled:false,
                 publishedStates: ['Published']
             },
-            groupingEnabled : true
+            grouping: {
+                groupingEnabled: false,
+                groupingAttributes: ['overview_name']
+            }
         }
     };
 };
@@ -330,4 +394,38 @@ asset.renderer = function(ctx) {
             return hideTables(page);
         }
     };
+};
+asset.configure = function() {
+    return {
+        meta: {
+            ui: {
+                icon: 'fw fw-soap'
+            }
+        },
+        table: {
+            overview: {
+                fields: {
+                    name: {
+                        placeholder: "WeatherService"
+                    },
+                    namespace: {
+                        placeholder: "http://example.namespace.com"
+                    },
+                    version: {
+                        placeholder: "1.0.0"
+                    },
+                    description: {
+                        placeholder: "This is a sample service"
+                    }
+                }
+            },
+            interface: {
+                fields: {
+                    wsdlUrl: {
+                        placeholder: "https://www.example.com/sample.wsdl"
+                    }
+                }
+            }
+        }
+    }
 };

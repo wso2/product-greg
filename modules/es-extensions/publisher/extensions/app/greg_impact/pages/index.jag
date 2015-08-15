@@ -56,10 +56,11 @@ else {
                 </div>
             </div>
 
-            <div id="urlView">
-                <span class="label">Path:</span>
-                <span id="path"><!-- dynamic content --></span>
-            </div>
+       <!-- Removing path URL -->
+            <!-- <div id="urlView"> -->
+                <!-- <span class="label">Path:</span> -->
+                <!-- <span id="path"> --><!-- dynamic content --><!-- </span> -->
+            <!-- </div> -->
 
             <div class="ui-widget left searchfield">
                 <button type="button" class="btn btn-default download" onclick="svgDownload()" title="Save screen for print" disabled="disabled"><i class="fa fa-save" aria-hidden="true"></i> <span>Save</span></button>
@@ -140,12 +141,12 @@ else {
         var imageScale = 0.9,
             footerHeight = 50,
             width = ($(window).width()),
-            height = ($(window).height()-footerHeight),
+            height = ($(window).height()),
             root = <%=obj%>,
             legend = <%=application.get("mediaTypesToImages")%>;
 
         var force = d3.layout.force()
-            .linkDistance(200)
+            .linkDistance(400)
             .linkStrength(0.1)
             .charge(root.index * -200)
             .gravity(0)

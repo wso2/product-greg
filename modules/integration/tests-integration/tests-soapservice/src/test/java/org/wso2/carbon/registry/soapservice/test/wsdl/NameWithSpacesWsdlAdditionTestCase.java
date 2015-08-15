@@ -25,7 +25,7 @@ public class NameWithSpacesWsdlAdditionTestCase extends GREGIntegrationBaseTest 
 
     private final String associatedSchemaPath = "/_system/governance/trunk/schemas/org/bar/purchasing/1.0.0/purchasing.xsd";
     private final String associatedServicePath = "/_system/governance/trunk/soapservices/com/foo/1.0.0/BizService";
-    private final String associatedEndpointPath = "/_system/governance/trunk/endpoints/com/wso2/people/services/ep-BizService";
+    private final String associatedEndpointPath = "/_system/governance/trunk/endpoints/ep-com.wso2.people.services-BizService";
     private ResourceAdminServiceClient resourceAdminServiceClient;
     private final String wsdlPath = "/_system/governance/trunk/wsdls/com/foo/1.0.0/Wsdl with spaces in the name.wsdl";
     private String sessionCookie;

@@ -1,0 +1,86 @@
+<!-- secondary header - app bar -->
+<nav class="navbar navbar-default navbar-themed">
+    <div>
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+        </div>
+        
+        <div id="navbar" class="navbar-collapse collapse">
+            
+            <div class="wr-action-btn-bar">
+                <ul class="nav navbar-nav">
+
+                    <li>
+                        <div class="wr-asset-type-switcher">
+                            <a id="popoverExampleTwo" data-placement="bottom" class="ctrl-asset-type-switcher pull-left" href="javascript:void(0)" data-click-event="popover">
+                                <span class="btn-asset"></span>
+                            </a>
+                            <div class="popover bottom right fade clearfix">
+                                <div class="arrow left"></div>
+                                <div class="popover-content">
+                                    <ul class="tiles clearfix">
+                                        {{#each ribbon.breadcrumb}}
+                                            <li>
+                                                <a target="_self" href='{{url ""}}{{this.url}}'>
+                                                    <i class="icon {{this.assetIcon}}"></i>
+                                                    <span class="name">{{assetTitle}}</span>
+                                                </a>
+                                            </li>
+                                        {{/each}}
+                                    </ul>
+                                </div>
+                            </div>
+                            {{#if rxt.pluralLabel}}<a class="pull-left switcher-link" href='{{url ""}}{{currentUrl}}{{ribbon.currentUrl}}'>{{rxt.pluralLabel}}</a>{{/if}}
+                        </div>
+                    </li>
+
+                    {{#each leftNav}}
+                        <li>
+                            <a id="{{this.id}}" href='{{url ""}}{{this.url}}' class="cu-btn {{this.iconClass}}">
+                                {{this.name}}
+                            </a>
+                        </li>
+                    {{/each}}
+
+                    {{#if isSidebarEnabled}}
+
+                        <li class="pull-right">
+                            <a href="javascript:void(0)" onclick="toggleSidePanel('notifications',this)"  class="cu-btn wr-side-panel-toggle-btn wr-notification-toggle-btn">
+                            <span class="fw-stack-md">
+                                <i class="fw fw-bell fw-stack-1-5x"></i>
+                            </span>
+                                <span class="wr-notification-bubble" id="notificationCount" >{{notificationsCount.count}}</span>
+                            </a>
+                            <a href="javascript:void(0)" onclick="toggleSidePanel('options',this)" class="cu-btn wr-side-panel-toggle-btn">
+                            <span class="fw-stack-md">
+                                <i class="fw fw-left-arrow fw-stack-1-5x"></i>
+                            </span>
+                                Options
+                            </a>
+                        </li>
+                    {{/if}}
+                </ul>
+            </div> 
+
+        </div><!--/.nav-collapse -->
+    </div>
+</nav>
+
+<div id="modal-redirect" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-body">
+        <div class="modal-loading"></div>
+        <p>
+            Redirecting you to the new Asset Version...
+        </p>
+    </div>
+    <div class="modal-footer">
+        <button class="btn btn-primary">
+            Redirect now
+        </button>
+    </div>
+</div>

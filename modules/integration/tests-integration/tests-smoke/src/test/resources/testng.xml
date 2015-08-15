@@ -2,22 +2,51 @@
 
 <suite name="greg-smoke-test-suite">
     <parameter name="useDefaultListeners" value="false"/>
-    <test name="test-greg-smoke" preserve-order="true" parallel="false">
+    <test name="test-greg-smoke-pagination" preserve-order="true" parallel="false">
+        <classes>
+            <class name="org.wso2.carbon.registry.pagination.test.PaginationWSTest"/>
+            <class name="org.wso2.carbon.registry.pagination.test.APIPaginationTestCase"/>
+        </classes>
+    </test>
+    <test name="test-greg-smoke-properties" preserve-order="true" parallel="false">
         <packages>
-           <package name="org.wso2.carbon.registry.app.test"/>
-           <package name="org.wso2.carbon.registry.extensions.test"/>
-           <package name="org.wso2.carbon.registry.handler.test.old"/>
-           <package name="org.wso2.carbon.registry.pagination.test"/>
-           <package name="org.wso2.carbon.registry.properties.test.old"/>
-           <package name="org.wso2.carbon.registry.scm.test"/>
-           <package name="org.wso2.carbon.registry.search.metadata.test.bean"/>
-           <package name="org.wso2.carbon.registry.smoke.test.old"/>
-           <package name="org.wso2.carbon.registry.subscription.test"/>
-           <package name="org.wso2.carbon.registry.uddi.test"/>
-           <package name="org.wso2.carbon.registry.ws.client.test.general.old"/>
+            <package name="org.wso2.carbon.registry.properties.test.old"/>
         </packages>
     </test>
-    
+    <test name="test-greg-smoke-metadata" preserve-order="true" parallel="false">
+        <packages>
+            <package name="org.wso2.carbon.registry.search.metadata.test.bean"/>
+        </packages>
+    </test>
+    <test name="test-greg-smoke-extensions" preserve-order="true" parallel="false">
+        <packages>
+            <package name="org.wso2.carbon.registry.extensions.test"/>
+        </packages>
+    </test>
+    <test name="test-greg-smoke-old" preserve-order="true" parallel="false">
+        <packages>
+            <package name="org.wso2.carbon.registry.handler.test.old"/>
+        </packages>
+    </test>
+    <test name="test-greg-smoke-scm" preserve-order="true" parallel="false">
+        <packages>
+            <package name="org.wso2.carbon.registry.smoke.test.old"/>
+            <package name="org.wso2.carbon.registry.subscription.test"/>
+            <package name="org.wso2.carbon.registry.uddi.test"/>
+            <package name="org.wso2.carbon.registry.ws.client.test.general.old"/>
+        </packages>
+    </test>
+    <!--test name="test-greg-smoke-zapp1" preserve-order="true" parallel="false">
+        <packages>
+            <package name="org.wso2.carbon.registry.app.test"/>
+        </packages>
+    </test>
+    <test name="test-greg-smoke-zapp2" preserve-order="true" parallel="false">
+        <packages>
+            <package name="org.wso2.carbon.registry.app2.test"/>
+        </packages>
+    </test-->
+
     
     <!--<test name="test-greg-smoke" preserve-order="true" parallel="false">-->
         <!--<classes>-->
