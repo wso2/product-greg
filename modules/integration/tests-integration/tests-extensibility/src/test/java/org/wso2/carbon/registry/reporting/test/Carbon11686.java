@@ -253,7 +253,7 @@ public class Carbon11686 extends ReportingTestCaseSuper {
         parsedText = parsedText.replace("\n", "");
 
         assertTrue(parsedText.contains(userNameRandom));
-        assertTrue(parsedText.contains("has added the resource"));
+        assertTrue(parsedText.contains("hasadded the resource"));
         assertTrue(parsedText.contains(testGovernanceLCtemplate));
         assertTrue(parsedText.contains(testGovernanceLCRXT));
     }
