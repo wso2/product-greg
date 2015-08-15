@@ -505,6 +505,11 @@
                                         token="&lt;Property name=&quot;GetAllRolesOfUserEnabled&quot;&gt;true&lt;/Property&gt;"
                                         value="&lt;!--Property name=&quot;GetAllRolesOfUserEnabled&quot;&gt;true&lt;/Property--&gt;"/>
 
+                                <replace
+                                        file="../../modules/p2-profile-gen/target/wso2carbon-core-${carbon.kernel.version}/repository/conf/identity.xml"
+                                        token="&lt;SessionIdleTimeout&gt;15&lt;/SessionIdleTimeout&gt;&lt;!-- Minutes --&gt;"
+                                        value="&lt;SessionIdleTimeout&gt;120&lt;/SessionIdleTimeout&gt;&lt;!-- Minutes --&gt;"/>
+
                                 <echo
                                         message="########### Create HT H2 Database ##############"/>
                                 <sql
