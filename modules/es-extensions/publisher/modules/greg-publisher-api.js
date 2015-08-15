@@ -13,6 +13,7 @@ var gregAPI = {};
     gregAPI.notes = {};
     gregAPI.associations = {};
     gregAPI.serviceDiscovery = {};
+    gregAPI.password = {};
     var formatResultSet = function(output) {
         var results = {};
         var entry;
@@ -468,5 +469,41 @@ var gregAPI = {};
             discoveryEnumData.orphanArtifactStrategy.push(OrphanArtifactStrategy.values()[index].name());
         }
         return discoveryEnumData;
+    };
+
+    gregAPI.password.addNewPassword = function (session, type, key, value) {
+        var am = assetManager(session, type);
+        var registry = am.registry.registry;
+        // Collection path used to store key and encrypted password value.
+        var path = "/_system/config/repository/components/secure-vault";
+        var resource;
+
+        if(registry.resourceExists(path)){
+            resource = registry.get(path);
+        }
+        else {
+            resource = registry.newCollection();
+        }
+
+        // Osgi service used to encrypt password.
+        var securityService =  carbon.server.osgiService('org.wso2.carbon.registry.security.vault.service.RegistrySecurityService');
+        var properties = [];
+        properties[1] = "";
+        if (key != null && value != null){
+            var encryptedText = securityService.doEncrypt(value);
+            resource.setProperty(key, encryptedText);
+            registry.beginTransaction();
+            registry.put(path, resource);
+            registry.commitTransaction();
+            properties[1] = "Password Saved Successfully";
+        }
+
+        var properties;
+        if(registry.resourceExists(path)){
+            var collection = registry.get(path);
+            properties[0] = collection.getProperties();
+        }
+
+        return properties;
     }
 }(gregAPI));
