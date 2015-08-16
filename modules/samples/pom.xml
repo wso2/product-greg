@@ -35,6 +35,11 @@
         <module>custom-ui/src/org.wso2.carbon.registry.samples.custom.topics.ui</module>
         <module>handler/src</module>
         <module>jcr-client/src</module>
+        <module>asset-models/ApplicationModel</module>
+        <module>asset-models/BusinessProcessModel</module>
+        <module>asset-models/PeopleModel</module>
+        <module>asset-models/ProjectModel</module>
+        <module>asset-models/TestPlanModel</module>
     </modules>
     <repositories>
         <repository>

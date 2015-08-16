@@ -107,6 +107,7 @@
             <groupId>org.wso2.carbon.commons</groupId>
             <artifactId>org.wso2.carbon.reporting.util</artifactId>
             <version>${carbon.commons.version}</version>
+            <scope>compile</scope>
         </dependency>
 
         <dependency>
