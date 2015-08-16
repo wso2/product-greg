@@ -74,9 +74,18 @@ asset.manager = function(ctx) {
             omContent += "</description>";
         }
         omContent += "</overview>";
-        //TODO:Need to add OMElement for 'contacts' & 'endpoints'.
-        //It is delayed due to ES not retreiving values given to 'options-text'
-        //But, values get added to 'attributes' if created from mgt console.
+
+        if(attributes.contacts_entry) {
+            omContent += "<contacts>";
+            for(var index = 0; index< attributes.contacts_entry.length; index++){
+                omContent += "<entry>";
+                omContent += attributes.contacts_entry[index];
+                omContent += "</entry>";
+            }
+
+            omContent += "</contacts>";
+        }
+
         omContent += "<interface>";
         if (attributes.interface_wsdlURL || attributes.interface_wsdlUrl) {
             omContent += "<wsdlURL>";
