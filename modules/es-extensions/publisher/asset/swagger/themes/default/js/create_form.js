@@ -91,11 +91,16 @@ $(function() {
 
     //function to call the custom Swagger api or default api.
     $('form[name="form-asset-create"] input[type="submit"]').click(function(event) {
+        var action = "";
+        if ($('#importUI').is(":visible")) {
+            action = "addNewAssetButton";
+        } else if ($('#uploadUI').is(":visible")) {
+            action = "addNewSwaggerFileAssetButton";
+        }
 
-        var action = $(this).attr("name"); 
         var container;
         var $form = $('form[name="form-asset-create"]');
-        if ( action === 'addNewSwaggerFileAssetButton') {//upload via file browser
+        if (action === 'addNewSwaggerFileAssetButton') {//upload via file browser
             //call the custom endpoint for processing Swaggers upload via file browser.
             $form.attr('action', caramel.context + '/assets/swagger/apis/swaggers');
             var $swaggerFileInput = $('input[name="swagger_file"]');
@@ -113,7 +118,13 @@ $(function() {
 
         doSubmit(action,container);
 
-        var createButton = $('#btn-create-asset');
+        var createButton = "";
+        if(action === 'addNewSwaggerFileAssetButton') {
+            createButton = $('#btn-create-asset-file');
+        } else if(action === 'addNewAssetButton') {
+            createButton = $('#btn-create-asset');
+        }
+        
         createButton.hide();
         createButton.next().hide();
         createButton.parent().append($('<div style="font-size: 16px;margin-top: 10px;"><i class="fa fa-spinner fa-pulse"></i> Creating the swagger instance...</div>'));

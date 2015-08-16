@@ -93,7 +93,13 @@ $(function() {
 
     //function to call the custom policy api or default api.
     $('form[name="form-asset-create"] input[type="submit"]').click(function(event) {
-        var action = $(this).attr("name"); 
+        var action = "";
+        if ($('#importUI').is(":visible")) {
+            action = "addNewAssetButton";
+        } else if ($('#uploadUI').is(":visible")) {
+            action = "addNewPolicyFileAssetButton";
+        }
+
         var container;
         
         var $form = $('form[name="form-asset-create"]');
@@ -115,7 +121,13 @@ $(function() {
 
         doSubmit(action, container);
 
-        var createButton = $('#btn-create-asset');
+        var createButton = "";
+        if(action === 'addNewPolicyFileAssetButton') {
+            createButton = $('#btn-create-asset-file');
+        } else if(action === 'addNewAssetButton') {
+            createButton = $('#btn-create-asset');
+        }
+
         createButton.hide();//attr('disabled','disabled');
         createButton.next().hide();//attr('disabled','disabled');
         createButton.parent().append($('<div style="font-size: 16px;margin-top: 10px;"><i class="fa fa-spinner fa-pulse"></i> Creating the policy instance...</div>'));
