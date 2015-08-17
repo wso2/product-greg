@@ -123,7 +123,7 @@ asset.configure = function() {
             lifecycle: {
                 commentRequired: false,
                 defaultAction: '',
-                deletableStates: [],
+                deletableStates: ['*'],
                 defaultLifecycleEnabled: false,
                 publishedStates: ['Published']
             },

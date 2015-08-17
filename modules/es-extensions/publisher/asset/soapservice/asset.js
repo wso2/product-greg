@@ -353,23 +353,7 @@ asset.manager = function(ctx) {
         }
     }
 };
-asset.configure = function() {
-    return {
-        meta: {
-            lifecycle: {
-                commentRequired: false,
-                defaultAction: '',
-                deletableStates: [],
-		        defaultLifecycleEnabled:false,
-                publishedStates: ['Published']
-            },
-            grouping: {
-                groupingEnabled: false,
-                groupingAttributes: ['overview_name']
-            }
-        }
-    };
-};
+
 asset.renderer = function(ctx) {
     var hideTables = function(page) {
         var tables = [];
@@ -409,6 +393,17 @@ asset.configure = function() {
         meta: {
             ui: {
                 icon: 'fw fw-soap'
+            },
+            lifecycle: {
+                commentRequired: false,
+                defaultAction: '',
+                deletableStates: ['*'],
+                defaultLifecycleEnabled:false,
+                publishedStates: ['Published']
+            },
+            grouping: {
+                groupingEnabled: false,
+                groupingAttributes: ['overview_name']
             }
         },
         table: {
