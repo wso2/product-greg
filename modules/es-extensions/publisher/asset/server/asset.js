@@ -32,3 +32,22 @@ asset.server = function (ctx) {
         }
     };
 };
+
+asset.configure = function() {
+    return {
+        meta: {
+            ui: {
+                icon: 'fw fw-servers'
+            }
+        },
+        table: {
+            overview: {
+                fields: {
+                    name: {
+                        placeholder: "SampleServer"
+                    }
+                }
+            }
+        }
+    }
+};
