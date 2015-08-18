@@ -88,7 +88,10 @@ asset.manager = function(ctx) {
                 deps.associationName = associationName;
                 deps.associationType = associationTypePlural.substring(0,associationTypePlural.lastIndexOf('s'));
                 deps.associationUUID = associationUUID;
-                associations.push(deps);
+
+                if(deps.associationType == "wsdl") {
+                    associations.push(deps);
+                }
             }
         }
         return associations;

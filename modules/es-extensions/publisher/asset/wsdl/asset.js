@@ -157,7 +157,7 @@ asset.manager = function(ctx) {
                 var userRegistry = getRegistry(ctx.session);
                 setDependencies(item, userRegistry);
             } catch(e) {
-                log.error(e);
+                log.debug(e);
                 return null;
             }
 
@@ -235,6 +235,9 @@ asset.manager = function(ctx) {
         },
         postCreate:function(){
             
+        },
+        addTags: function(){
+
         }
     };
 };

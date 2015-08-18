@@ -21,6 +21,13 @@ asset.configure = function () {
         meta: {
             ui: {
                 icon: 'fw fw-rest-service'
+            },
+            lifecycle: {
+                commentRequired: false,
+                defaultAction: '',
+                deletableStates: ['*'],
+                defaultLifecycleEnabled: false,
+                publishedStates: ['Published']
             }
         },
         table: {

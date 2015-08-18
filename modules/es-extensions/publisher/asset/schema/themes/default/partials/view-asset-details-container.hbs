@@ -40,6 +40,25 @@
                                 </tr>
                                 </tbody>
                             </table>
+
+                            {{#if isDependentsPresent}} 
+                            <table class="table table-striped table-hover">
+                                <thead>
+                                <h4>Associations</h4>
+                                </thead>
+                                <tbody>
+                                <tr>
+                                    <th>Dependent WADLs :</th>
+                                {{#each dependencies}}
+                                    <tr>
+                                        <td><a href="../../../assets/{{this.associationType}}/details/{{this.associationUUID}}">{{this.associationName}}</a></td>
+                                    </tr>
+                                {{/each}}
+                                </tr>
+                                </tbody>
+                            </table>
+                            {{/if}} 
+
                             <div id='schema-viewer'>
                                 <legend><h4>{{t "Content"}}</h4></legend>
                                 <textarea id="schemacontent" name="schemacontent">{{content}}</textarea>
