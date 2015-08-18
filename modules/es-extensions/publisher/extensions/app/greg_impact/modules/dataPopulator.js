@@ -198,7 +198,7 @@ function isActivatedAssetsType(assetType) {
     var app = require('rxt').app;
     var server = require('carbon').server;
     var tenantId = server.superTenant.tenantId;
-    var activatedAssets = app.getActivatedAssets(tenantId); //ctx.tenantConfigs.assets;
+    var activatedAssets = app.getUIActivatedAssets(tenantId); //ctx.tenantConfigs.assets;
     if (!activatedAssets) {
         throw 'Unable to load all activated assets for current tenant: ' + tenantId + '.Make sure that the assets property is present in the tenant config';
     }

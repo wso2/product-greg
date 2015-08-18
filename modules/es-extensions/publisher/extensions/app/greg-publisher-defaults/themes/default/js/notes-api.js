@@ -104,7 +104,7 @@ $(function () {
             contentType: "application/json",
             dataType: 'json',
             success: function (response) {
-                renderPartial('notes-note',response.data,function(result){
+                renderPartial('notes-note',response.list,function(result){
                     $(noteContainer).closest('div.well').siblings('.wr-panel-sub-note').append(result);
                 });
                 $(replyContainerId(id)).val('');
@@ -128,7 +128,7 @@ $(function () {
             type: 'GET',
             success: function (response) {
                 $(id + "> .wr-panel-sub-note").html("");
-                $.each(response.data, function(key, value){
+                $.each(response.list, function(key, value){
                     renderPartial('notes-note',value,function(result){
                         $(id + "> .wr-panel-sub-note").append(result);
                     });
