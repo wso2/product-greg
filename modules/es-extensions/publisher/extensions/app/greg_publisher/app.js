@@ -44,7 +44,8 @@ app.server = function(ctx) {
         configs: {
             landingPage: '/pages/gc-landing',
             disabledAssets: ['ebook','proxy','sequence','service','servicex','uri',
-                             'site','provider','gadget','document','endpoint','note','topic','reply']
+                             'site','provider','gadget','document','endpoint','topic','reply'],
+            uiDisabledAssets: ['note']
         }
     }
 };

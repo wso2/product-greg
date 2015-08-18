@@ -17,7 +17,7 @@ require('/modules/publisher.js').exec(function(ctx) {
 	var user = server.current(ctx.session);
 	var tenantId = user.tenantId;
 	var log = new Log();
-	var activatedAssets = rxtAPI.app.getActivatedAssets(tenantId);
+	var activatedAssets = rxtAPI.app.getUIActivatedAssets(tenantId);
 	var assets = [];
 	var entry;
 	var details;
