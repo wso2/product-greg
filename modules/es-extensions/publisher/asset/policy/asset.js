@@ -73,7 +73,7 @@ asset.manager = function(ctx) {
             var properties = javaArray.newInstance(java.lang.String, 1, 2);
             properties[0][0] = 'version';
             properties[0][1] = version;
-            var path = utils.importResource(parentPath, name, mediaType, '', url, '', userRegistry.registry, properties);
+            var path = utils.importResource(parentPath, name, mediaType, '', url, null, userRegistry.registry, properties);
 
             if(!this.rxtManager.isGroupingEnabled(this.type)){
                 log.debug('Omitted grouping');
