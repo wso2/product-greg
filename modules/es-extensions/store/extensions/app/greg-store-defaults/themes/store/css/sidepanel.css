@@ -85,7 +85,8 @@
 }
 
 .wr-notification-toggle-btn, .wr-side-panel-toggle-btn {
-    float: left;
+    float: right;
+    display: block;
 }
 
 .wr-notification-bubble {

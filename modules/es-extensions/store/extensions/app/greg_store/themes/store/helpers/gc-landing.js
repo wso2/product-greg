@@ -19,7 +19,7 @@
 
 var resources = function(){
     return {
-        css:['home.css'],
+        css:['navigation.css', 'common.css', 'home.css'],
         js:['home.js']
     }
 };
