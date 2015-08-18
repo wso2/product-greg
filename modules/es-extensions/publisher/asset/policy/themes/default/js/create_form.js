@@ -76,12 +76,21 @@ $(function() {
             success:function(){
                 var options=obtainFormMeta('#form-asset-create');
                 window.location=options.redirectUrl;
+                messages.alertSuccess("Successfully created the policy");
             },
             error:function(){
-                alert('Unable to add the asset');
-                PublisherUtils.unblockButtons({
-                    container:container
-                });
+                messages.alertError("Error occurred while adding the policy");
+
+                var createButton = "";
+                if(action === 'addNewPolicyFileAssetButton') {
+                    createButton = $('#btn-create-asset-file');
+                } else if(action === 'addNewAssetButton') {
+                    createButton = $('#btn-create-asset');
+                }
+
+                createButton.show();
+                createButton.next().show();
+                $('.fa-spinner').parent().remove();
             }   
         });
     };

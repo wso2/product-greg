@@ -76,12 +76,21 @@ $(function() {
             success:function(){
                 var options=obtainFormMeta('#form-asset-create');
                 window.location=options.redirectUrl;
+                messages.alertSuccess("Successfully created the wadl");
             },
             error:function(){
-                alert('Unable to add the asset');
-                PublisherUtils.unblockButtons({
-                    container:container
-                });
+                messages.alertError("Error occurred while adding the wadl");
+
+                var createButton = "";
+                if(action === 'addNewWadlFileAssetButton') {
+                    createButton = $('#btn-create-asset-file');
+                } else if(action === 'addNewAssetButton') {
+                    createButton = $('#btn-create-asset');
+                }
+
+                createButton.show();
+                createButton.next().show();
+                $('.fa-spinner').parent().remove();
             }   
         });
     };
