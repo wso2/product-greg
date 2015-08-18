@@ -1,0 +1,66 @@
+<% require('/modules/publisher.js').exec(function (ctx) {
+    var log = new Log('Service_discovery');
+    var rxtModule = require('rxt');
+    var responseProcessor = require('utils').response;
+    var gregAPI = require('/modules/greg-publisher-api.js').gregAPI;
+    var req = ctx.request;
+    var session = ctx.session;
+
+    var uriMatcher = new URIMatcher(req.getRequestURI());
+
+    var DISCOVER_SERVER_URL = '/{context}/assets/server/apis/servers';
+    var SAVE_URL = '/{context}/assets/server/apis/servers/save';
+
+    var method = req.getMethod();
+    var response = ctx.response;
+    response.contentType = 'application/json';
+
+    var constants = rxtModule.constants;
+
+    switch (method) {
+
+        case 'POST':
+            var rxtType = req.getParameter('type');
+            var assetId = req.getParameter('id');
+            if (uriMatcher.match(DISCOVER_SERVER_URL)) {
+                var discoveryData = gregAPI.serviceDiscovery.discovery(session, rxtType, assetId);
+                var Gson = Packages.com.google.gson.Gson;
+                var gson = new Gson();
+                var result = gson.toJson(discoveryData);
+                try {
+                    result = parse(String(result));
+                } catch (e) {
+                    log.error(e);
+                }
+                print(result);
+            }
+
+            if (uriMatcher.match(SAVE_URL)) {
+                var discoveryServicesData = req.getContent();
+                var rxtType = req.getParameter('type');
+                var serverId = req.getParameter('serverId');
+
+                var existArtifactStrategy = req.getParameter('existArtifactStrategy');
+                var orphanArtifactStrategy = req.getParameter('orphanArtifactStrategy');
+
+                var discoveryDataSaveResponse = gregAPI.serviceDiscovery.save(session, rxtType, serverId,
+                        discoveryServicesData, existArtifactStrategy, orphanArtifactStrategy);
+                var Gson = Packages.com.google.gson.Gson;
+                var gson = new Gson();
+                var result = gson.toJson(discoveryDataSaveResponse);
+                try {
+                    result = parse(String(result));
+                } catch (e) {
+                    log.error(e);
+                }
+                print(result);
+            }
+            break;
+
+        default://other un-implemented endpoints
+            response = responseProcessor.buildErrorResponse(response, constants.STATUS_CODES.NOT_IMPLEMENTED,
+                    'The endpoint that you have requested is not implemented for the ' + method +
+                    ' method.Try making the request with the appropriate verb' +
+                    '(hint: create/update operations use POST).');
+    }
+}, request, response, session); %>

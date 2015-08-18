@@ -1,0 +1,119 @@
+<!-- Copyright (c) 2015, WSO2 Inc. (http://www.wso2.org) All Rights Reserved.
+*
+* Licensed under the Apache License, Version 2.0 (the "License");
+* you may not use this file except in compliance with the License.
+* You may obtain a copy of the License at
+*
+* http://www.apache.org/licenses/LICENSE-2.0
+*
+* Unless required by applicable law or agreed to in writing, software
+* distributed under the License is distributed on an "AS IS" BASIS,
+* WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+* See the License for the specific language governing permissions and
+* limitations under the License.
+-->
+<%
+var caramel;
+require('/modules/publisher.js').exec(function (ctx) {
+    var log = new Log('Service_discovery');
+    var req = require('utils').request;
+    caramel = require('caramel');
+    var asset = require('rxt').asset;
+    var gregAPI = require('/modules/greg-publisher-api.js').gregAPI;
+
+    var ui = require('rxt').ui;
+    var page = ui.buildPage(ctx.session, ctx.request);
+    var options = req.getQueryOptions(ctx.request.getQueryString());
+
+    if (!options.type) {
+        ctx.response.sendError(404, 'Unable to locate the asset without a valid Type');
+        return;
+    }
+    var am = asset.createUserAssetManager(ctx.session, options.type);
+    var output = am.render(page)._custom();
+
+    try {
+        var discoveryDataResult = gregAPI.serviceDiscovery.discovery(ctx.session, options.type, req.getParameter('id'));
+
+        var Gson = Packages.com.google.gson.Gson;
+        var gson = new Gson();
+        var result = gson.toJson(discoveryDataResult);
+        try {
+            result = parse(String(result));
+        } catch (e) {
+            log.error(e);
+        }
+
+
+        var discoveryDataArray = [];
+        var discoveryDataNewArray = [];
+        var discoveryDataExistingArray = [];
+        for (var key in result) {
+            if (result.hasOwnProperty(key)) {
+                var discoveryService = {};
+                var originalKey = key,
+                        icon = "fw fw-resource";
+
+                if (key == "soapservice") {
+                    key = "SOAP Services";
+                    icon = "fw fw-soap";
+                } else if (key == "restservice") {
+                    key = "REST Services";
+                    icon = "fw  fw-rest-service";
+                } else {
+                    key = "Other Services";
+                    originalKey = "otherservice";
+                }
+
+                discoveryService.originalKey = originalKey;
+                discoveryService.key = key;
+
+                var dataNewArray = [];
+                var dataExistingArray = [];
+                for (var key2 in result[originalKey]) {
+                    if (result[originalKey].hasOwnProperty(key2)) {
+                        if (result[originalKey][key2].attributes.discovery_status == "new") {
+                            dataNewArray.push(result[originalKey][key2]);
+                        } else if (result[originalKey][key2].attributes.discovery_status == "existing") {
+                            dataExistingArray.push(result[originalKey][key2]);
+                        }
+                    }
+                }
+
+                discoveryService.icon = icon;
+
+
+                discoveryService.data = result[originalKey];
+                discoveryDataArray.push(discoveryService);
+
+                var discoveryServiceNew = discoveryService;
+                discoveryServiceNew.dataNew = dataNewArray;
+                discoveryDataNewArray.push(discoveryServiceNew);
+
+                var discoveryServiceExisting  = discoveryService;
+                discoveryServiceExisting.dataExisting = dataExistingArray;
+                discoveryDataExistingArray.push(discoveryServiceExisting);
+            }
+        }
+
+        output.discoveryData = discoveryDataArray;
+        output.discoveryDataNew = discoveryDataNewArray;
+        output.discoveryDataExisting = discoveryDataExistingArray;
+        output.serverId = req.getParameter('id');
+        output.discoveryEnumData = gregAPI.serviceDiscovery.getDiscoveryEnumData();
+
+        output.newDataEmpty = false;
+        output.existingDataEmpty = false;
+        if (0 == discoveryServiceNew.dataNew.length) {
+            output.newDataEmpty = true;
+        }
+        if (0 == discoveryServiceExisting.dataExisting.length) {
+            output.existingDataEmpty = true;
+        }
+
+    } catch (e) {
+        log.error(e);
+        output.error = e;
+    }
+    caramel.render(output);
+}, request, response, session); %>

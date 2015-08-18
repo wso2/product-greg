@@ -31,9 +31,9 @@
     <!-- Helper css injections -->
 
     <!-- Custom css -->
-    <link href="https://codemirror.net/lib/codemirror.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://codemirror.net/theme/ambiance.css">
-    <link rel=stylesheet href="https://codemirror.net/addon/merge/merge.css">
+    <link href="{{url "/extensions/app/greg-diff/themes/default/css/codemirror.css"}}" rel="stylesheet">
+    <link rel="stylesheet" href="{{url "/extensions/app/greg-diff/themes/default/css/ambiance.css"}}">
+    <link rel=stylesheet href="{{url "/extensions/app/greg-diff/themes/default/css/merge.css"}}">
     {{css}}
 
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
@@ -41,17 +41,6 @@
     <script src="{{url "/themes/default/js/html5shiv.min.js"}}"></script>
     <script src="{{url "/themes/default/js/respond.min.js"}}"></script>
     <![endif]-->
-
-    <!-- Custom js -->
-    <script src="https://codemirror.net/lib/codemirror.js"></script>
-
-    <script src="https://codemirror.net/mode/xml/xml.js"></script>
-    <script src="https://codemirror.net/mode/css/css.js"></script>
-    <script src="https://codemirror.net/mode/javascript/javascript.js"></script>
-    <script src="https://codemirror.net/mode/htmlmixed/htmlmixed.js"></script>
-
-    <script src="//cdnjs.cloudflare.com/ajax/libs/diff_match_patch/20121119/diff_match_patch.js"></script>
-    <script src="https://codemirror.net/addon/merge/merge.js"></script>
 
 </head>
 
@@ -70,6 +59,14 @@
 <script src="{{url "/themes/default/js/graph.js"}}"></script>
 <script src="{{url "/themes/default/js/token.input/jquery.tokeninput.js"}}"></script>
 <script src="{{url "/themes/default/js/handlebars.js"}}"></script>
+<!-- Codemirror -->
+<script src="{{url "/extensions/app/greg-diff/themes/default/js/codemirror.js"}}"></script>
+<script src="{{url "/extensions/app/greg-diff/themes/default/js/xml.js"}}"></script>
+<script src="{{url "/extensions/app/greg-diff/themes/default/js/css.js"}}"></script>
+<script src="{{url "/extensions/app/greg-diff/themes/default/js/javascript.js"}}"></script>
+<script src="{{url "/extensions/app/greg-diff/themes/default/js/htmlmixed.js"}}"></script>
+<script src="{{url "/extensions/app/greg-diff/themes/default/js/diff_match_patch.js"}}"></script>
+<script src="{{url "/extensions/app/greg-diff/themes/default/js/merge.js"}}"></script>
 <!-- Helper files js injector -->
 {{js}}
 {{code}}

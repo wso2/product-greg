@@ -1,2 +1,4 @@
 instructions.configure = \
 org.eclipse.equinox.p2.touchpoint.natives.copy(source:${installFolder}/../features/org.wso2.carbon.governance.es.extensions_${feature.version}/es-extensions/,target:${installFolder}/../../resources/,overwrite:true);\
+org.eclipse.equinox.p2.touchpoint.natives.copy(source:${installFolder}/../features/org.wso2.carbon.governance.es.extensions_${feature.version}/rxts/note.rxt,target:${installFolder}/../../resources/rxts/note.rxt,overwrite:true);\
+org.eclipse.equinox.p2.touchpoint.natives.copy(source:${installFolder}/../features/org.wso2.carbon.governance.es.extensions_${feature.version}/rxts/server.rxt,target:${installFolder}/../../resources/rxts/server.rxt,overwrite:true);\

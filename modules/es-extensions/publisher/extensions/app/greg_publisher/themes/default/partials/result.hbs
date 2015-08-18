@@ -1,0 +1,15 @@
+<div class="ctrl-wr-asset">
+        <div class="itm-ast">
+            <a class="ast-img" href='{{url ""}}/assets/{{type}}/details/{{this.id}}'>{{>default-thumbnail .}}</a>
+            <div class="ast-desc">
+                <a href='{{url ""}}/assets/{{type}}/details/{{this.id}}'>
+                    <h3 class="ast-name">{{this.attributes.overview_name}}</h3>
+                </a>
+
+                <span class="ast-ver">V{{this.attributes.overview_version}}, </span><span class="ast-auth">{{this.attributes.overview_provider}}</span>
+                <span class="ast-published">{{this.attributes.overview_createdtime}}</span>
+                <span class="lifecycle-state"><small><i class="icon-circle lc-state-{{this.lifecycleState}}"></i> {{this.lifecycleState}}</small></span>
+            </div>
+            <br class="c-both" />
+        </div><br class="c-both" />
+    </div>

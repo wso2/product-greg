@@ -3,8 +3,8 @@
      <div class="row">
         <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 ">
             
-            <form class="form-group" id="assetSearchForm" action="/store/asts/restservice/list">
-                <label class="search-label">Search for Resources</label>
+            <form class="form-group" id="assetSearchForm" action="/store/assets/restservice/list">
+                <label class="search-label">Search for Assets</label>
                 <div class="form-group has-feedback form-search">
                     <input type="text" name="query" id="inp_searchAsset" class="form-control" placeholder="Search..">
                     <a href="javascript:void(0)" id="searchButton" class="form-control-feedback search" title="Search">
@@ -20,8 +20,8 @@
             </form>
 
             <div class="page-header no-border">
-                <h1>Resources</h1>
-                <p class="lead">Select asset type to view available resources or to add a resource</p>
+                <h1>Assets</h1>
+                <p class="lead">Select an asset type to view available assets or to add a new asset</p>
             </div>
 
            <!-- content -->
@@ -31,7 +31,7 @@
 
                   {{#each assets}}
                   <div class="thumbnail">
-                    <a href='{{url ""}}/asts/{{type}}/list'>
+                    <a href='{{url ""}}/assets/{{type}}/list'>
                         <div class="icon"><i class="{{icon}}"></i></div>
                         <div class="title">
                             <h1>{{details.pluralLabel}}</h1>

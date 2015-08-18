@@ -93,11 +93,16 @@ $(function() {
 
     //function to call the custom schema api or default api.
     $('form[name="form-asset-create"] input[type="submit"]').click(function(event) {
-        var action = $(this).attr("name"); 
+        var action = "";
+        if ($('#importUI').is(":visible")) {
+            action = "addNewAssetButton";
+        } else if ($('#uploadUI').is(":visible")) {
+            action = "addNewWadlFileAssetButton";
+        }
         var container;
         
         var $form = $('form[name="form-asset-create"]');
-        if ($(this).attr("name") == 'addNewWadlFileAssetButton') {//upload via file browser
+        if (action == 'addNewWadlFileAssetButton') {//upload via file browser
             //call the custom endpoint for processing schema upload via file browser.
             $form.attr('action', caramel.context + '/assets/wadl/apis/wadls');
             var $wadlFileInput = $('input[name="wadl_file"]');
@@ -107,18 +112,23 @@ $(function() {
             //set the zip file name, to the hidden attribute.
             $('input[name="wadl_file_name"]').val(fileName);
             container = 'saveButtonsFile';
-        } else if ($(this).attr("name") == 'addNewAssetButton') {//upload via url.
+        } else if (action == 'addNewAssetButton') {//upload via url.
             //call the default endpoint.
             $form.attr('action', caramel.context + '/apis/assets?type=wadl');
             container = 'saveButtonsURL';
         }
 
-        PublisherUtils.blockButtons({
-            container:container,
-            msg:'Creating the '+PublisherUtils.resolveCurrentPageAssetType()+ ' instance'
-        });
-
-        styleFix();
         doSubmit(action, container);
+
+        var createButton = "";
+        if(action === 'addNewWadlFileAssetButton') {
+            createButton = $('#btn-create-asset-file');
+        } else if(action === 'addNewAssetButton') {
+            createButton = $('#btn-create-asset');
+        }
+        
+        createButton.hide();
+        createButton.next().hide();
+        createButton.parent().append($('<div style="font-size: 16px;margin-top: 10px;"><i class="fa fa-spinner fa-pulse"></i> Creating the wadl instance...</div>'));
     });
 });

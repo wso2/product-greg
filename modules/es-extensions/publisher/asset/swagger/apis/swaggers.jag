@@ -49,7 +49,7 @@ require('/modules/publisher.js').exec(function (ctx) {
     //use ByteArrayDataSource to pass to datahandler.
     //It requires constructor parameters byte[].
     var byteDataSource;
-    if(extension == 'zip'){
+    if(extension == 'zip' || extension == 'gar'){
         //mediatype for swagger zip file.
         mediaType="application/vnd.wso2.governance-archive";
         byteDataSource = new ByteArrayDataSource(bytes,"application/zip");

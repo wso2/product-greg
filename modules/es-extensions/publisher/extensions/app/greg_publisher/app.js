@@ -23,16 +23,40 @@ app.server = function(ctx) {
     return {
     	endpoints:{
 	    	pages:[{
-		    		title:'GREG landing page',
+		    	title:'GREG landing page',
 	    		url:'gc-landing',
 	    		path:'greg-landing.jag',
 	    		secured:true  		
-	    	}]
-    	},
+	    	},
+            {
+                title:'GREG search results',
+                url:'search-results',
+                path:'search-results.jag',
+                secured:true        
+            },
+            {
+                title: 'password',
+                url: 'password',
+                path: 'password.jag',
+                secured: true
+            }]
+        },
         configs: {
             landingPage: '/pages/gc-landing',
             disabledAssets: ['ebook','proxy','sequence','service','servicex','uri',
-                             'site','provider','gadget','document','endpoint','comments','topic','reply']
+                             'site','provider','gadget','document','endpoint','note','topic','reply']
         }
     }
+};
+
+app.pageHandlers = function(ctx) {
+    return {
+        onPageLoad: function() {
+            if((ctx.isAnonContext)&&(ctx.endpoint.secured)){
+                ctx.res.sendRedirect(ctx.appContext+'/login');
+                return false;
+            }
+            return true;
+        }
+    };
 };

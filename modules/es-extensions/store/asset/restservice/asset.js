@@ -67,7 +67,10 @@ asset.manager = function(ctx) {
                 deps.associationName = associationName;
                 deps.associationType = keyName;
                 deps.associationUUID = associationUUID;
-                associations.push(deps);
+
+                if(deps.associationType == "wadl") {
+                    associations.push(deps);
+                }
             }
         }
         return associations;

@@ -1,0 +1,20 @@
+{{#with assets}}
+<div class="row-fluid asset-details-row">
+    <div class="span12 asset-content-box">
+        <div class="widget wlightblue">
+            <div class="widget-head">
+                <div class="pull-left">Asset Overview</div>
+                <div class="asset-actions pull-right">
+                    <span class="asset-show-dependency">
+                        <a class="btn btn-default btn-lg active pull-right" href='{{url ""}}/pages/impact?path={{path}}' target="_blank">
+                        Show Dependency</a>
+                    </span>
+                    {{> view-asset-top-custom-addons-container ..}}
+                    {{> view-asset-diff-view-container ..}}
+                </div>
+                <div class="clearfix"></div>
+            </div>
+        </div>
+    </div>
+</div>
+{{/with}}

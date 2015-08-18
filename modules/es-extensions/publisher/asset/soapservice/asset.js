@@ -74,9 +74,18 @@ asset.manager = function(ctx) {
             omContent += "</description>";
         }
         omContent += "</overview>";
-        //TODO:Need to add OMElement for 'contacts' & 'endpoints'.
-        //It is delayed due to ES not retreiving values given to 'options-text'
-        //But, values get added to 'attributes' if created from mgt console.
+
+        if(attributes.contacts_entry) {
+            omContent += "<contacts>";
+            for(var index = 0; index< attributes.contacts_entry.length; index++){
+                omContent += "<entry>";
+                omContent += attributes.contacts_entry[index];
+                omContent += "</entry>";
+            }
+
+            omContent += "</contacts>";
+        }
+
         omContent += "<interface>";
         if (attributes.interface_wsdlURL || attributes.interface_wsdlUrl) {
             omContent += "<wsdlURL>";
@@ -202,7 +211,10 @@ asset.manager = function(ctx) {
                     deps.associationName = associationName;
                     deps.associationType = associationTypePlural.substring(0, associationTypePlural.lastIndexOf('s'));
                     deps.associationUUID = associationUUID;
-                    associations.push(deps);
+
+                    if(deps.associationType == "wsdl") {
+                        associations.push(deps);
+                    }
                 }
             }
         }
@@ -341,23 +353,7 @@ asset.manager = function(ctx) {
         }
     }
 };
-asset.configure = function() {
-    return {
-        meta: {
-            lifecycle: {
-                commentRequired: false,
-                defaultAction: '',
-                deletableStates: [],
-		        defaultLifecycleEnabled:false,
-                publishedStates: ['Published']
-            },
-            grouping: {
-                groupingEnabled: false,
-                groupingAttributes: ['overview_name']
-            }
-        }
-    };
-};
+
 asset.renderer = function(ctx) {
     var hideTables = function(page) {
         var tables = [];
@@ -397,6 +393,42 @@ asset.configure = function() {
         meta: {
             ui: {
                 icon: 'fw fw-soap'
+            },
+            lifecycle: {
+                commentRequired: false,
+                defaultAction: '',
+                deletableStates: ['*'],
+                defaultLifecycleEnabled:false,
+                publishedStates: ['Published']
+            },
+            grouping: {
+                groupingEnabled: false,
+                groupingAttributes: ['overview_name']
+            }
+        },
+        table: {
+            overview: {
+                fields: {
+                    name: {
+                        placeholder: "WeatherService"
+                    },
+                    namespace: {
+                        placeholder: "http://example.namespace.com"
+                    },
+                    version: {
+                        placeholder: "1.0.0"
+                    },
+                    description: {
+                        placeholder: "This is a sample service"
+                    }
+                }
+            },
+            interface: {
+                fields: {
+                    wsdlUrl: {
+                        placeholder: "https://www.example.com/sample.wsdl"
+                    }
+                }
             }
         }
     }

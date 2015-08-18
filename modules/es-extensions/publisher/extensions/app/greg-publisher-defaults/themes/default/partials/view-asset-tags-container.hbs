@@ -1,0 +1,10 @@
+{{#with assets}}
+{{#if tags}}
+    <a data-toggle="collapse" href="#collapseTags" class="collapsing-h2"><h2>Tags</h2></a>
+    <div class="collapse" id="collapseTags">
+    {{#each tags}}
+        <span class="view-tag">{{this}}</span>
+    {{/each}}
+    </div>
+{{/if}}
+{{/with}}

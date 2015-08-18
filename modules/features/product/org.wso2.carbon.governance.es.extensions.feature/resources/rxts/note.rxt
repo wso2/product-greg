@@ -1,0 +1,42 @@
+<artifactType type="application/vnd.wso2-notes+xml" shortName="note" singularLabel="Note" pluralLabel="Notes" hasNamespace="false" iconSet="9">
+    <storagePath>/publisher_notes/@{overview_hash}</storagePath>
+    <nameAttribute>overview_resourcepath</nameAttribute>
+    <ui>
+        <list>
+            <column name="resourcepath">
+                <data type="path" value="overview_resourcepath" href="/publisher_notes/@{overview_hash}"/>
+            </column>
+        </list>
+    </ui>
+    <content>
+        <table name="Overview">
+            <field type="text" required="true" path="true">
+                <name>resourcepath</name>
+            </field>
+            <field type="text" required="true">
+                <name>hash</name>
+            </field>
+            <field type="text-area" required="true">
+                <name>note</name>
+            </field>
+            <field type="text" required="false">
+                <name>replypath</name>
+            </field>
+            <field type="options">
+                <name label="Note Visibility">visibility</name>
+                <values>
+                    <value>Owner</value>
+                    <value>role</value>
+                    <value>public</value>
+                </values>
+            </field>
+            <field type="options">
+                <name label="Note Status">status</name>
+                <values>
+                    <value>Open</value>
+                    <value>Resolved</value>
+                </values>
+            </field>
+        </table>
+    </content>
+</artifactType>

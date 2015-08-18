@@ -12,6 +12,8 @@ var gregAPI = {};
     gregAPI.subscriptions = {};
     gregAPI.notes = {};
     gregAPI.associations = {};
+    gregAPI.serviceDiscovery = {};
+    gregAPI.password = {};
     var formatResultSet = function(output) {
         var results = {};
         var entry;
@@ -56,31 +58,38 @@ var gregAPI = {};
         var populator = Packages.org.wso2.carbon.registry.info.services.utils.SubscriptionBeanPopulator;
         var SubscriptionPopulator = Packages.org.wso2.carbon.registry.info.services.utils.SubscriptionBeanPopulator;
         var GovernanceUtils = Packages.org.wso2.carbon.governance.api.util.GovernanceUtils; //Used to obtain Asset Types
-        var subcriptions = SubscriptionPopulator.populate(userRegistry.registry, registryPath).getSubscriptionInstances();
-        var length = subcriptions.length;
         var result = [];
-        for (var i = 0; i < length; i++) {
-            var subOptions = {};
-            var subcription = subcriptions[i];
-            //print(subcription.getEventName() + "\n");
-            subOptions.eventName = subcription.getEventName();
-            //print(subcription.getTopic() + "\n");
-            subOptions.topic = subcription.getTopic();
-            //print(subcription.getAddress() + "\n");
-            subOptions.address = subcription.getAddress();
-            //print(subcription.getDigestType() + "\n");
-            subOptions.digestType = subcription.getDigestType();
-            //print(subcription.getOwner() + "\n");
-            subOptions.owner = subcription.getOwner();
-            //print(subcription.getSubManUrl() + "\n");
-            subOptions.eventName = subcription.getEventName();
-            //print(subcription.getId() + "\n");
-            subOptions.id = subcription.getId();
-            //print(subcription.getNotificationMethod() + "\n");
-            subOptions.notificationMethod = subcription.getNotificationMethod();
-            //output +=  subOptions;
-            result.push(subOptions);
+
+        try {
+            var subcriptions = SubscriptionPopulator.populate(userRegistry.registry, registryPath).getSubscriptionInstances();
+            var length = subcriptions.length;
+
+            for (var i = 0; i < length; i++) {
+                var subOptions = {};
+                var subcription = subcriptions[i];
+                //print(subcription.getEventName() + "\n");
+                subOptions.eventName = subcription.getEventName();
+                //print(subcription.getTopic() + "\n");
+                subOptions.topic = subcription.getTopic();
+                //print(subcription.getAddress() + "\n");
+                subOptions.address = subcription.getAddress();
+                //print(subcription.getDigestType() + "\n");
+                subOptions.digestType = subcription.getDigestType();
+                //print(subcription.getOwner() + "\n");
+                subOptions.owner = subcription.getOwner();
+                //print(subcription.getSubManUrl() + "\n");
+                subOptions.eventName = subcription.getEventName();
+                //print(subcription.getId() + "\n");
+                subOptions.id = subcription.getId();
+                //print(subcription.getNotificationMethod() + "\n");
+                subOptions.notificationMethod = subcription.getNotificationMethod();
+                //output +=  subOptions;
+                result.push(subOptions);
+            }
+        } catch(e) {
+            log.error(e);
         }
+
         return formatResultSet(result);
     };
     gregAPI.subscriptions.add = function(am, assetId, username, subscriptionType, notificationMethod) {
@@ -396,5 +405,105 @@ var gregAPI = {};
         }
 
         return versions;
+    };
+
+    gregAPI.serviceDiscovery.discovery = function (session, type, id) {
+        var rxt = require('rxt');
+        var assetManager = rxt.asset.createUserAssetManager(session, type);
+        var genericArtifact = assetManager.am.manager.getGenericArtifact(id);
+        var ServerDiscoveryService = Packages.org.wso2.carbon.governance.registry.extensions.discoveryagents.
+            ServerDiscoveryService;
+        var serverDiscoveryService = new ServerDiscoveryService();
+        try {
+            return serverDiscoveryService.discoverArtifacts(genericArtifact);
+        } catch (e) {
+            log.error('Message - ' + e.message);
+            log.error('File name - ' + e.fileName);
+            log.error('Line number - ' + e.lineNumber);
+            throw 'Discovery agent is not configured properly.';
+        }
+    };
+
+    gregAPI.serviceDiscovery.save = function (session, type, serverId, discoveryServicesData, existArtifactStrategy,
+                                              orphanArtifactStrategy) {
+        var HashMap = java.util.HashMap;
+        var ArrayList = java.util.ArrayList;
+        var discoveryServiceDataMap = new HashMap();
+        for (var key in discoveryServicesData) {
+            var detachedGenericArtifactList = new ArrayList();
+            for (var key2 in discoveryServicesData[key].data) {
+                var DetachedGenericArtifact = Packages.org.wso2.carbon.governance.api.generic.dataobjects
+                    .DetachedGenericArtifactImpl;
+                var Gson = Packages.com.google.gson.Gson;
+                var gson = new Gson();
+                var result = gson.fromJson(stringify(discoveryServicesData[key].data[key2]), DetachedGenericArtifact);
+                detachedGenericArtifactList.add(result);
+            }
+            discoveryServiceDataMap.put(discoveryServicesData[key].serviceType, detachedGenericArtifactList);
+        }
+
+        var ServerDiscoveryService = Packages.org.wso2.carbon.governance.registry.extensions.discoveryagents.
+            ServerDiscoveryService;
+        var serverDiscoveryService = new ServerDiscoveryService();
+
+        var rxt = require('rxt');
+        var assetManager = rxt.asset.createUserAssetManager(session, type);
+        var serverArtifact = assetManager.am.manager.getGenericArtifact(serverId);
+        return serverDiscoveryService.persistArtifacts(discoveryServiceDataMap, serverArtifact, existArtifactStrategy,
+            orphanArtifactStrategy);
+    };
+
+    gregAPI.serviceDiscovery.getDiscoveryEnumData = function () {
+        var discoveryEnumData = {};
+        var ExistArtifactStrategy = org.wso2.carbon.governance.registry.extensions.discoveryagents.
+            ExistArtifactStrategy;
+        discoveryEnumData.existArtifactStrategy = [];
+        for(var index = 0; index < ExistArtifactStrategy.values().length; index++){
+            discoveryEnumData.existArtifactStrategy.push(ExistArtifactStrategy.values()[index].name());
+        }
+
+        var OrphanArtifactStrategy = org.wso2.carbon.governance.registry.extensions.discoveryagents.
+            OrphanArtifactStrategy;
+        discoveryEnumData.orphanArtifactStrategy = [];
+        for(var index = 0; index < OrphanArtifactStrategy.values().length; index++){
+            discoveryEnumData.orphanArtifactStrategy.push(OrphanArtifactStrategy.values()[index].name());
+        }
+        return discoveryEnumData;
+    };
+
+    gregAPI.password.addNewPassword = function (session, type, key, value) {
+        var am = assetManager(session, type);
+        var registry = am.registry.registry;
+        // Collection path used to store key and encrypted password value.
+        var path = "/_system/config/repository/components/secure-vault";
+        var resource;
+
+        if(registry.resourceExists(path)){
+            resource = registry.get(path);
+        }
+        else {
+            resource = registry.newCollection();
+        }
+
+        // Osgi service used to encrypt password.
+        var securityService =  carbon.server.osgiService('org.wso2.carbon.registry.security.vault.service.RegistrySecurityService');
+        var properties = [];
+        properties[1] = "";
+        if (key != null && value != null){
+            var encryptedText = securityService.doEncrypt(value);
+            resource.setProperty(key, encryptedText);
+            registry.beginTransaction();
+            registry.put(path, resource);
+            registry.commitTransaction();
+            properties[1] = "Password Saved Successfully";
+        }
+
+        var properties;
+        if(registry.resourceExists(path)){
+            var collection = registry.get(path);
+            properties[0] = collection.getProperties();
+        }
+
+        return properties;
     }
 }(gregAPI));

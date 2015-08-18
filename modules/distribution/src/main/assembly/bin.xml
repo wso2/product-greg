@@ -102,6 +102,7 @@
             <outputDirectory>${pom.artifactId}-${build.version}/repository/deployment/server/webapps</outputDirectory>
             <includes>
                 <include>resource.war</include>
+                <include>governance.war</include>
             </includes>
         </fileSet>
         <fileSet>
@@ -109,7 +110,6 @@
             <outputDirectory>${pom.artifactId}-${build.version}/repository/conf</outputDirectory>
             <includes>
                 <include>**/registry.xml</include>
-                <include>**/datasources.properties</include>
                 <include>**/notifications-email-verification.xml</include>
                 <!--<include>**/api-manager.xml</include>-->
             </includes>
@@ -365,6 +365,14 @@
             <directory>../p2-profile-gen/target/wso2carbon-core-${carbon.kernel.version}/repository/deployment/server/jaggeryapps/es-store</directory>
             <outputDirectory>${pom.artifactId}-${pom.version}/repository/deployment/server/jaggeryapps/store</outputDirectory>
         </fileSet>
+        <fileSet>
+            <directory>../p2-profile-gen/target/wso2carbon-core-${carbon.kernel.version}/repository/deployment/server/jaggeryapps/es-social</directory>
+            <outputDirectory>${pom.artifactId}-${pom.version}/repository/deployment/server/jaggeryapps/social</outputDirectory>
+        </fileSet>
+        <fileSet>
+            <directory>../p2-profile-gen/target/wso2carbon-core-${carbon.kernel.version}/repository/resources/sso/views/themes/theme-greg</directory>
+            <outputDirectory>${pom.artifactId}-${pom.version}/repository/deployment/server/jaggeryapps/sso/views/themes/theme-greg</outputDirectory>
+        </fileSet>
 
         <!-- Jaggery Apps used by Greg-->
         <!--fileSet>
@@ -389,6 +397,11 @@
         <fileSet>
             <directory>../p2-profile-gen/target/wso2carbon-core-${carbon.kernel.version}/repository/resources/publisher/asset/soapservice</directory>
             <outputDirectory>${pom.artifactId}-${pom.version}/repository/deployment/server/jaggeryapps/publisher/extensions/assets/soapservice</outputDirectory>
+        </fileSet>
+
+        <fileSet>
+            <directory>../p2-profile-gen/target/wso2carbon-core-${carbon.kernel.version}/repository/resources/publisher/asset/server</directory>
+            <outputDirectory>${pom.artifactId}-${pom.version}/repository/deployment/server/jaggeryapps/publisher/extensions/assets/server</outputDirectory>
         </fileSet>
 
         <fileSet>
@@ -417,8 +430,8 @@
         </fileSet>
 		
         <fileSet>
-            <directory>../p2-profile-gen/target/wso2carbon-core-${carbon.kernel.version}/repository/resources/publisher/asset/comments</directory>
-            <outputDirectory>${pom.artifactId}-${pom.version}/repository/deployment/server/jaggeryapps/publisher/extensions/assets/comments</outputDirectory>
+            <directory>../p2-profile-gen/target/wso2carbon-core-${carbon.kernel.version}/repository/resources/publisher/asset/note</directory>
+            <outputDirectory>${pom.artifactId}-${pom.version}/repository/deployment/server/jaggeryapps/publisher/extensions/assets/note</outputDirectory>
         </fileSet>
 
         <fileSet>
@@ -501,8 +514,12 @@
 
         <!-- ES Extensions for G-Reg swagger UI-->
         <fileSet>
-            <directory>../p2-profile-gen/target/wso2carbon-core-${carbon.kernel.version}/repository/resources/publisher/extensions/app/greg_swagger</directory>
+            <directory>../p2-profile-gen/target/wso2carbon-core-${carbon.kernel.version}/repository/resources/common/extensions/app/greg_swagger</directory>
             <outputDirectory>${pom.artifactId}-${pom.version}/repository/deployment/server/jaggeryapps/publisher/extensions/app/greg_swagger</outputDirectory>
+        </fileSet>
+        <fileSet>
+            <directory>../p2-profile-gen/target/wso2carbon-core-${carbon.kernel.version}/repository/resources/common/extensions/app/greg_swagger</directory>
+            <outputDirectory>${pom.artifactId}-${pom.version}/repository/deployment/server/jaggeryapps/store/extensions/app/greg_swagger</outputDirectory>
         </fileSet>
 
         <fileSet>
@@ -591,7 +608,7 @@
             </includes>
         </fileSet>
         <fileSet>
-            <directory>src/main/resources/carbon-home/conf</directory>
+            <directory>../p2-profile-gen/target/wso2carbon-core-${carbon.kernel.version}/repository/conf</directory>
             <outputDirectory>${pom.artifactId}-${build.version}/repository/conf</outputDirectory>
             <includes>
                 <include>**/identity.xml</include>
@@ -618,24 +635,52 @@
         <fileSet>
             <directory>../p2-profile-gen/target/wso2carbon-core-${carbon.kernel.version}/repository/conf/identity</directory>
             <outputDirectory>${pom.artifactId}-${build.version}/repository/conf/identity</outputDirectory>
-            <includes>
-                <include>*/**</include>
-            </includes>
+            <excludes>
+		<exclude>**/application-authentication.xml</exclude>
+       		<exclude>**/sso-idp-config.xml</exclude>
+            </excludes>
         </fileSet>
 	<fileSet>
             <directory>src/main/resources/carbon-home/conf</directory>
-            <outputDirectory>${project.artifactId}-${product.greg.version}/repository/conf/security/</outputDirectory>
+            <outputDirectory>${project.artifactId}-${product.greg.version}/repository/conf/identity/</outputDirectory>
             <includes>
-                <include>**/sso-idp-config.xml</include>
+		<include>**/sso-idp-config.xml</include>
             </includes>
         </fileSet>
 	<fileSet>
             <directory>
-                ../p2-profile-gen/target/wso2carbon-core-${carbon.kernel.version}/repository/resources/security/
+                ../p2-profile-gen/target/wso2carbon-core-${carbon.kernel.version}/repository/resources/identity/pages
             </directory>
-            <outputDirectory>${project.artifactId}-${product.greg.version}/repository/resources/security/</outputDirectory>
+            <outputDirectory>${project.artifactId}-${product.greg.version}/repository/resources/identity/pages/</outputDirectory>
             <includes>
-                <include>**/sso_redirect.html</include>
+                <include>**/samlsso_response.html</include>
+            </includes>
+        </fileSet>
+
+	<!-- Cipher Tool resources -->
+        <fileSet>
+            <directory>../p2-profile-gen/target/wso2carbon-core-${carbon.kernel.version}/repository/conf/security</directory>
+            <outputDirectory>${project.artifactId}-${product.greg.version}/repository/conf/security/</outputDirectory>
+            <includes>
+                <include>**/cipher-text.properties</include>
+                <include>**/cipher-tool.properties</include>
+                <include>**/cipher-standalone-config.properties</include>
+            </includes>
+        </fileSet>
+        <fileSet>
+            <directory>../p2-profile-gen/target/wso2carbon-core-${carbon.kernel.version}/bin</directory>
+            <outputDirectory>${project.artifactId}-${product.greg.version}/bin/</outputDirectory>
+            <includes>
+                <include>**/ciphertool.sh</include>
+                <include>**/ciphertool.bat</include>
+            </includes>
+	    <fileMode>755</fileMode>
+        </fileSet>
+        <fileSet>
+            <directory>../p2-profile-gen/target/wso2carbon-core-${carbon.kernel.version}/lib</directory>
+            <outputDirectory>${project.artifactId}-${product.greg.version}/lib/</outputDirectory>
+            <includes>
+                <include>**/org.wso2.ciphertool-1.0.0-wso2v3.jar</include>
             </includes>
         </fileSet>
     </fileSets>
@@ -655,8 +700,8 @@
             <includes>
                 <include>org.codehaus.woodstox:wstx-asl:jar</include>
                 <include>javax.jcr:jcr:jar</include>
-                <include>org.wso2.carbon:org.wso2.carbon.governance.client:jar</include>
-                <include>org.wso2.carbon:org.wso2.carbon.registry.indexing.stub:jar</include>
+                <include>org.wso2.carbon.governance:org.wso2.carbon.governance.client:jar</include>
+                <include>org.wso2.carbon.registry:org.wso2.carbon.registry.indexing.stub:jar</include>
             </includes>
         </dependencySet>
         <dependencySet>
@@ -812,7 +857,7 @@
             <source>
                 ../p2-profile-gen/target/wso2carbon-core-${carbon.kernel.version}/repository/conf/security/application-authentication.xml
             </source>
-            <outputDirectory>${pom.artifactId}-${pom.version}/repository/conf/security</outputDirectory>
+            <outputDirectory>${pom.artifactId}-${pom.version}/repository/conf/identity</outputDirectory>
             <fileMode>644</fileMode>
         </file>
 
@@ -845,9 +890,17 @@
         <!-- copy identity-mgt.properties-->
         <file>
             <source>
-                ../p2-profile-gen/target/wso2carbon-core-${carbon.kernel.version}/repository/conf/security/identity-mgt.properties
+                ../p2-profile-gen/target/wso2carbon-core-${carbon.kernel.version}/repository/conf/identity/identity-mgt.properties
             </source>
-            <outputDirectory>${pom.artifactId}-${pom.version}/repository/conf/security</outputDirectory>
+            <outputDirectory>${pom.artifactId}-${pom.version}/repository/conf/identity</outputDirectory>
+            <filtered>true</filtered>
+            <fileMode>644</fileMode>
+        </file>
+        <file>
+            <source>
+                ../p2-profile-gen/target/wso2carbon-core-${carbon.kernel.version}/repository/conf/msg-mgt.properties
+            </source>
+            <outputDirectory>${pom.artifactId}-${pom.version}/repository/conf</outputDirectory>
             <filtered>true</filtered>
             <fileMode>644</fileMode>
         </file>
@@ -1060,14 +1113,18 @@
             <filtered>true</filtered>
             <fileMode>644</fileMode>
         </file>
-        <!-- -->
         <file>
-            <source>../p2-profile-gen/target/wso2carbon-core-${carbon.kernel.version}/repository/conf/datasources/social-datasources.xml</source>
-            <outputDirectory>${pom.artifactId}-${pom.version}/repository/conf/datasources/</outputDirectory>
-            <filtered>true</filtered>
-            <fileMode>644</fileMode>
-        </file>
-
+		<source>../p2-profile-gen/target/wso2carbon-core-${carbon.kernel.version}/repository/conf/datasources/social-datasources.xml</source>
+		<outputDirectory>${pom.artifactId}-${build.version}/repository/conf/datasources/</outputDirectory>
+		<filtered>true</filtered>
+		<fileMode>644</fileMode>
+	</file>
+        <file>
+		<source>../p2-profile-gen/target/wso2carbon-core-${carbon.kernel.version}/repository/conf/social.xml</source>
+		<outputDirectory>${pom.artifactId}-${build.version}/repository/conf/</outputDirectory>
+		<filtered>true</filtered>
+		<fileMode>644</fileMode>
+	</file>
         <!-- copying edition.properties file -->
         <file>
             <source>${basedir}/src/main/resources/carbon-home//conf/edition.properties</source>

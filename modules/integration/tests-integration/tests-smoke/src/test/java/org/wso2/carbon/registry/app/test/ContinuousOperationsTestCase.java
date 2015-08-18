@@ -20,6 +20,7 @@ import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 import org.wso2.carbon.automation.engine.context.TestUserMode;
+import org.wso2.carbon.integration.common.utils.mgt.ServerConfigurationManager;
 import org.wso2.carbon.registry.app.RemoteRegistry;
 import org.wso2.carbon.registry.core.Resource;
 import org.wso2.carbon.registry.core.ResourceImpl;
@@ -42,9 +43,13 @@ public class ContinuousOperationsTestCase extends GREGIntegrationBaseTest{
 
         super.init(TestUserMode.SUPER_TENANT_ADMIN);
         registry = new RegistryProviderUtil().getRemoteRegistry(automationContext);
+        ServerConfigurationManager serverConfigurationManager = new ServerConfigurationManager
+                (automationContext);
+        serverConfigurationManager.restartGracefully();
+        registry = new RegistryProviderUtil().getRemoteRegistry(automationContext);
     }
 
-    @Test(groups = {"wso2.greg"})
+    @Test(groups = {"wso2.greg"}, priority = 99999)
     public void ContinuousDelete() throws RegistryException, InterruptedException {
         int iterations = 100;
 
@@ -74,14 +79,18 @@ public class ContinuousOperationsTestCase extends GREGIntegrationBaseTest{
 
             res1.discard();
             resource1.discard();
-            Thread.sleep(1000);
+            if (iterations ==50){
+                Thread.sleep(20000);
+            } else {
+                Thread.sleep(2000);
+            }
         }
         Thread.sleep(60000);
     }
 
     @Test(groups = {"wso2.greg"}, dependsOnMethods = "ContinuousDelete")
     public void ContinuousUpdate() throws RegistryException, InterruptedException {
-
+        Thread.sleep(30000);
         int iterations = 100;
 
         for (int i = 0; i < iterations; i++) {
@@ -114,6 +123,11 @@ public class ContinuousOperationsTestCase extends GREGIntegrationBaseTest{
             res1.discard();
             resource1.discard();
             resource2.discard();
+            if (iterations ==50){
+                Thread.sleep(20000);
+            } else {
+                Thread.sleep(2000);
+            }
             Thread.sleep(2000);
         }
         Thread.sleep(60000);

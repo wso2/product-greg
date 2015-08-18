@@ -395,7 +395,7 @@ svg .inactive svg path { fill: #3a424d; }
 }
 .preloader {
     position: absolute;
-    bottom: 80px;
+    bottom: 30px;
     left: 30px;
     color: #ffffff;
     z-index: 10001;

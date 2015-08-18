@@ -18,9 +18,10 @@
  */
 var resources = function () {
     return {
-        css: ['diff.css'],
+        css: ['ambiance.css', 'diff.css', 'codemirror.css', 'merge.css'],
         //code:['greg-association-meta.hbs'],
-        js: ['jquery-ui.js', 'diff.js', 'diff-api.js'],
+        js: ['codemirror.js', 'css.js', 'diff_match_patch.js', 'htmlmixed.js', 'javascript.js', 'jquery-ui.js',
+            'diff.js', 'diff-api.js', 'merge.js', 'xml.js'],
         code: ['greg-diff-meta.hbs']
     }
 };
