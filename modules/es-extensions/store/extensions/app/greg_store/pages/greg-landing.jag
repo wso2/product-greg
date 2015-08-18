@@ -24,7 +24,7 @@ require('/modules/store.js').exec(function(ctx) {
 	log.debug("Printing user ############" + stringify(user));
 	var tenantId = user.tenantId;
 
-	var activatedAssets = rxtAPI.app.getActivatedAssets(tenantId);
+	var activatedAssets = rxtAPI.app.getUIActivatedAssets(tenantId);
 	var assets = [];
 	var entry;
 	var details;
