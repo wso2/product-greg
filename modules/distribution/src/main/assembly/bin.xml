@@ -234,6 +234,8 @@
             </includes>
             <excludes>
                 <exclude>**/servicex.rxt</exclude>
+                <exclude>**/proxy.rxt</exclude>
+                <exclude>**/sequence.rxt</exclude>
             </excludes>
         </fileSet>
         <fileSet>

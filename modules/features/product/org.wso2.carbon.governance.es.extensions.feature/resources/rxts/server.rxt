@@ -31,6 +31,14 @@
 		        <value>WSO2 CEP</value>
 		    </values>
              </field>
+
+             <field type="text" tooltip="1.0.0" required="true">
+                 <name>Version</name>
+             </field>
+
+             <field type="text">
+             	<name>Environment</name>
+	     </field>
         </table>
 
 	<table name="Root URL" columns="1"  maxoccurs="unbounded">
