@@ -166,9 +166,6 @@ asset.manager = function(ctx) {
          * */
         update: function(){
 
-        },
-        addTags: function(){
-
         }
     };
 };

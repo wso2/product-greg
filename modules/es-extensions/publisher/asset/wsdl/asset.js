@@ -235,9 +235,6 @@ asset.manager = function(ctx) {
         },
         postCreate:function(){
             
-        },
-        addTags: function(){
-
         }
     };
 };
