@@ -20,9 +20,13 @@ asset.manager = function(ctx) {
     var setCustomAssetAttributes = function(asset, userRegistry) {
         var wadlUrl=asset.attributes.overview_wadl;
         if (wadlUrl != null) {
-            var resource = userRegistry.registry.get(wadlUrl);
-            var wadlContent = getInterfaceTypeContent(resource);
-            asset.wadlContent = wadlContent;
+            try {
+                var resource = userRegistry.registry.get(wadlUrl);
+                var wadlContent = getInterfaceTypeContent(resource);
+                asset.wadlContent = wadlContent;
+            } catch(e) {
+                asset.wadlContent = "";
+            }
         }
     }; 
 
