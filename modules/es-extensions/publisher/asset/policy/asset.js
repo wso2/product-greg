@@ -229,15 +229,17 @@ asset.renderer =  function (ctx){
 
                 // Following is to remove the edit button in the detail page since for asset types
                 // wsdl, wadl, swagger, policy, schema, the edit operations are not allowed
-                for(index in page.leftNav) {
+                for(var index = 0; index < page.leftNav.length; index++) {
                     var button = page.leftNav[index];
 
                     if(button.iconClass === "btn-edit") {
                         page.leftNav.splice(index, 1);
+                        index--;
                     }
 
                     if(button.iconClass === "btn-copy") {
                         page.leftNav.splice(index, 1);
+                        index--;
                     }
                 }
             }
