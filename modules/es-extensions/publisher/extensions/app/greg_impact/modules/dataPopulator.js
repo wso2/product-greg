@@ -24,9 +24,10 @@ param registry : user-registry instance create on the logged in user's session
 param resourcePath : Source path to start data structure
 param graph : is an json object having to attributes nodes and edges
  */
-function getNodesAndEdges(registry, userName, resourcePath, graph){
+function getNodesAndEdges(registry, userName, resourcePath, graph, depth){
     var util = require('/extensions/app/greg_impact/modules/utility.js');
     var governanceUtils = Packages.org.wso2.carbon.governance.api.util.GovernanceUtils;
+    var CommonUtil = Packages.org.wso2.carbon.governance.registry.extensions.utils.CommonUtil;
 
     var govRegistry = governanceUtils.getGovernanceUserRegistry(registry.registry, userName);
 
@@ -36,6 +37,7 @@ function getNodesAndEdges(registry, userName, resourcePath, graph){
         govRegistry, artifactPath);
 
     if (artifact){
+        depth++;
         var graphDataObject = new Object();
 
         if (graph.nodes[resourcePath]){
@@ -61,6 +63,11 @@ function getNodesAndEdges(registry, userName, resourcePath, graph){
             graph.nodes[resourcePath] = graphDataObject;
             graph.nodes.push(graphDataObject);
 
+            if (CommonUtil.getDependencyGraphMaxDepth() >= 0 && depth == CommonUtil.getDependencyGraphMaxDepth()){
+                depth--;
+                return true;
+            }
+
 
             var associations = registry.associations(resourcePath);
             for (var i = 0; i < associations.length; i++) {
@@ -68,7 +75,7 @@ function getNodesAndEdges(registry, userName, resourcePath, graph){
                     if (associations[i].src == resourcePath){
                         var resourceDest = associations[i].dest;
 
-                        if(getNodesAndEdges(registry, userName, resourceDest, graph)){
+                        if(getNodesAndEdges(registry, userName, resourceDest, graph, depth)){
                             
                             var relation = createRelation(graphDataObject.id, graph.nodes[resourceDest].id, associations[i].type, graph.relationIndex);
 
@@ -103,6 +110,7 @@ function getNodesAndEdges(registry, userName, resourcePath, graph){
             }
         }
 
+        depth--;
         return true;
 
     }
