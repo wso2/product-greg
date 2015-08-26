@@ -741,11 +741,11 @@
                         <plugin>
                             <groupId>org.apache.maven.plugins</groupId>
                             <artifactId>maven-project-info-reports-plugin</artifactId>
+                            <version>2.4</version>
                             <reportSets>
                                 <reportSet>
                                     <reports>
                                         <report>index</report>
-                                        <report>scm</report>
                                     </reports>
                                 </reportSet>
                             </reportSets>
@@ -762,7 +762,7 @@
                 </executions>
             </plugin>
 
-            <plugin>
+            <!--plugin>
                 <groupId>com.google.code.maven-svn-revision-number-plugin</groupId>
                 <artifactId>maven-svn-revision-number-plugin</artifactId>
                 <version>1.1</version>
@@ -778,7 +778,7 @@
                         </goals>
                     </execution>
                 </executions>
-            </plugin>
+            </plugin-->
             <plugin>
                 <groupId>org.codehaus.groovy.maven</groupId>
                 <artifactId>gmaven-plugin</artifactId>
