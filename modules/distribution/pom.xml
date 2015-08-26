@@ -1070,21 +1070,6 @@
         </plugins>
     </build>
 
-    <pluginRepositories>
-        <pluginRepository>
-            <id>wso2-maven2-repository</id>
-            <url>http://dist.wso2.org/maven2</url>
-        </pluginRepository>
-        <pluginRepository>
-            <id>maven-svn-revision-number-plugin-repo</id>
-            <url>http://oss.sonatype.org/content/repositories/googlecode-releases</url>
-        </pluginRepository>
-        <pluginRepository>
-            <id>codehaus</id>
-            <name>Codehaus Repository</name>
-            <url>http://repository.codehaus.org</url>
-        </pluginRepository>
-    </pluginRepositories>
     <profiles>
         <profile>
             <id>qa-build</id>
