@@ -7,9 +7,9 @@
 var installer = function () {
 
     var log = new Log();
-    var DESIRED_LIFECYCLE_STATE = 'Published';
-    var DEFAULT_LIFECYCLE = 'MobileAppLifeCycle';
-    var START_STATE='Initial';
+    var DESIRED_LIFECYCLE_STATE = 'Testing';
+    var DEFAULT_LIFECYCLE = 'ServiceLifeCycle';
+    var START_STATE='Development';
     var robot=require('/modules/automation/lifecycle.robot.js').robot();
 
     var lifeCycleRobot=new robot.LifeCycleRobot();

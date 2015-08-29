@@ -21,7 +21,7 @@
                 "action": "Promote"
             }
         },
-        "MobileAppLifeCycle":{
+        "ServiceLifeCycle":{
             "onAttach":{
                 "action":"Create"
             }
