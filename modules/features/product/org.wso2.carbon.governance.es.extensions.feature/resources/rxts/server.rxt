@@ -2,7 +2,7 @@
 <artifactType type="application/vnd.wso2-server+xml" shortName="server" singularLabel="Server" pluralLabel="Servers" hasNamespace="false" iconSet="20">
 	<storagePath>/trunk/servers/@{name}</storagePath>
 	<nameAttribute>overview_name</nameAttribute>
-
+    <lifecycle>ServerLifeCycle</lifecycle>
 	<ui>
 		<list>
 			<column name="Name">
