@@ -210,8 +210,7 @@ public  class LifeCyclePermissionTestCase extends GREGIntegrationBaseTest{
     public void testAllowListLifeCycles()
             throws LifeCycleManagementServiceExceptionException, RemoteException {
         String[] lifeCycles = deniedLifeCycleManagementClient.getLifecycleList();
-        assertEquals(lifeCycles.length,4,"Cannot view lifecycles for a logged in user with restricted permission");  //4 was 2 before
-        //There are 3 default LifeCycles in the pack. With the added lifecycle it becomes 4
+        assertEquals(lifeCycles.length,2,"Cannot view lifecycles for a logged in user with restricted permission");
     }
 
     @Test(groups = "wso2.greg", description = "Test permission to allow create a service")

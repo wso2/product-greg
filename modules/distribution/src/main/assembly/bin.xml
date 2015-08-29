@@ -201,7 +201,7 @@
             </includes>
         </fileSet>
         <fileSet>
-            <directory>src/main/resources/carbon-home/resources/lifecycles</directory>
+            <directory>../p2-profile-gen/target/wso2carbon-core-${carbon.kernel.version}/repository/resources/lifecycles</directory>
             <outputDirectory>${pom.artifactId}-${build.version}/repository/resources/lifecycles</outputDirectory>
             <includes>
                 <include>**/*</include>
