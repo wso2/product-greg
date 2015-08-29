@@ -448,7 +448,7 @@ public class CustomLifeCycleDemoteForWSDLLCTestCase extends GREGIntegrationBaseT
      * @throws org.wso2.carbon.registry.activities.stub.RegistryExceptionException
      *
      */
-    @Test (groups = "wso2.greg", description = "Promote Service to Development", dependsOnMethods = "promoteServiceAgainToCreation")
+    @Test (groups = "wso2.greg", description = "Promote Service to Development", dependsOnMethods = "promoteServiceAgainToCreation", enabled = false)
     public void promoteServiceToDevelopment ()
             throws InterruptedException, CustomLifecyclesChecklistAdminServiceExceptionException,
             RemoteException, RegistryException, RegistryExceptionException {
@@ -496,9 +496,8 @@ public class CustomLifeCycleDemoteForWSDLLCTestCase extends GREGIntegrationBaseT
 
         }
         parameters[7] = new ArrayOfString();
-        parameters[7].setArray(new String[]{"preserveOriginal", "true"});
-        lifeCycleAdminService.invokeAspectWithParams(servicePathTrunk, ASPECT_NAME,
-                ACTION_PROMOTE, null, parameters);
+        parameters[7].setArray(new String[]{"preserveOriginal", "false"});
+        lifeCycleAdminService.invokeAspectWithParams(servicePathTrunk, ASPECT_NAME, ACTION_PROMOTE, null, parameters);
         Thread.sleep(500);
         servicePathBranchDev = "/_system/governance/branches/development/services/org/wso2/carbon/core/services/echo/1.0.0/" + serviceName;
         lifeCycle = lifeCycleAdminService.getLifecycleBean(servicePathBranchDev);
@@ -555,7 +554,7 @@ public class CustomLifeCycleDemoteForWSDLLCTestCase extends GREGIntegrationBaseT
     /**
      * @throws Exception
      */
-    @Test (groups = "wso2.greg", description = "Demote Service Creation", dependsOnMethods = "promoteServiceToDevelopment")
+    @Test (groups = "wso2.greg", description = "Demote Service Creation", dependsOnMethods = "promoteServiceToDevelopment", enabled = false)
     public void demoteServiceToCommencementFromDevelopment ()
             throws Exception {
 
@@ -658,7 +657,7 @@ public class CustomLifeCycleDemoteForWSDLLCTestCase extends GREGIntegrationBaseT
      *
      * @throws java.rmi.RemoteException
      */
-    @Test (groups = "wso2.greg", description = "Delete added resources", dependsOnMethods = "demoteServiceToCommencementFromDevelopment")
+    @Test (groups = "wso2.greg", description = "Delete added resources", dependsOnMethods = "demoteServiceToCommencementFromDevelopment", enabled = false)
     public void deleteResources ()
             throws RegistryException, LifeCycleManagementServiceExceptionException,
             RemoteException {
@@ -711,6 +710,9 @@ public class CustomLifeCycleDemoteForWSDLLCTestCase extends GREGIntegrationBaseT
         }
         if (wsRegistry.resourceExists(wsdlPathDev)) {
             wsRegistry.delete(wsdlPathDev);
+        }
+        if (wsRegistry.resourceExists("/_system/governance/trunk/wsdls/org")) {
+            wsRegistry.delete("/_system/governance/trunk/wsdls/org");
         }
         LifeCycleUtils.deleteLifeCycleIfExist(ASPECT_NAME, lifeCycleManagementClient);
         deleteRolesIfExist();
