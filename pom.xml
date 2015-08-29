@@ -757,14 +757,6 @@
                 <enabled>false</enabled>
             </releases>
         </repository>
-        <repository>
-            <id>codehaus-mule-repo</id>
-            <name>codehaus-mule-repo</name>
-            <url>
-                https://repository-master.mulesoft.org/nexus/content/groups/public/
-            </url>
-            <layout>default</layout>
-        </repository>
         <!--moved to nexus
 
         <repository><id>m2-snapshot-repository</id><url>http://people.apache.org/repo/m2-snapshot-repository</url><releases><enabled>false</enabled></releases><snapshots><enabled>true</enabled></snapshots></repository><repository><id>wso2-maven2-repository</id><url>http://dist.wso2.org/maven2</url></repository><repository><id>tomcat-repository</id><url>http://tomcat.apache.org/dev/dist/m2-repository</url></repository><repository><id>ws-zones-repository</id><url>http://ws.zones.apache.org/repository2</url></repository><repository><id>wso2-maven2-snapshot-repository</id><name>WSO2 Maven2 SNAPSHOTS</name><url>http://dist.wso2.org/snapshots/maven2</url><snapshots><enabled>true</enabled><updatePolicy>always</updatePolicy><checksumPolicy>ignore</checksumPolicy></snapshots><releases><enabled>false</enabled></releases></repository><!&ndash;&ndash; Others are available from http://repo1.maven.org/maven2 &ndash;&ndash;>-->
