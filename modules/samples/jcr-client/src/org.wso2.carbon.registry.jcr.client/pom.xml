@@ -74,9 +74,8 @@
         <dependency>
             <groupId>org.wso2.carbon.registry</groupId>
             <artifactId>org.wso2.carbon.registry.jcr</artifactId>
-            <version>${carbon.registry.version}</version>
         </dependency>
-	 <dependency>
+	    <dependency>
             <groupId>org.wso2.carbon.registry</groupId>
             <artifactId>org.wso2.carbon.registry.common</artifactId>
         </dependency>
