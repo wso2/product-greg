@@ -202,10 +202,6 @@ svg .inactive svg path { fill: #3a424d; }
     cursor: pointer;
     padding: 3px 6px;
     margin: 3px 0;
-/*
-    border-radius: 2px;
-    box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
-*/
 }
 .filters .tag.hidden { background: #161616; opacity: 0.7; }
 
@@ -220,10 +216,6 @@ svg .inactive svg path { fill: #3a424d; }
 }
 
 .select2-drop {
-/*
-    border-radius: 2px;
-    box-shadow: 1px 2px 2px rgba(0, 0, 0, 0.3);
-*/
     border-radius: 0;   
     border: none;
     background: #cccccc;
@@ -235,7 +227,6 @@ svg .inactive svg path { fill: #3a424d; }
     padding:2px;
     border-bottom: 1px solid #B2B2B2;
 }
-/*.select2-results li div.resource-name, .select2-results li div.media-type { display: inline-block; }*/
 .select2-results li div.item:after { clear: both; content: " "; display: block; height: 0; }
 .select2-results li div.text { float: left; }
 .select2-results li div.icon { float: right; }
@@ -257,7 +248,6 @@ svg .inactive svg path { fill: #3a424d; }
 .select2-results .select2-highlighted .icon rect,
 .select2-results .select2-highlighted .icon circle { fill: #ffffff; }
 
-.select2-search input { /*width:400px;*/ }
 .select2-container { min-width:350px; }
 .select2-container .select2-choice {
     border-radius: 0;
@@ -266,12 +256,7 @@ svg .inactive svg path { fill: #3a424d; }
     margin-right:0;
 }
 
-/*.select2-container.searchbox,*/ .select2-container, .select2-drop, .select2-search { /*min-width:450px;*/ }
 .select2-container .select2-choice, .select2-container-multi .select2-choices {
-/*
-    border-radius: 2px;
-    box-shadow: 1px 2px 2px rgba(0, 0, 0, 0.3);
-*/
     border: none;
     background-image: none;
     background-color: #cccccc;
@@ -289,7 +274,7 @@ svg .inactive svg path { fill: #3a424d; }
     width:35px;
 }
 .select2-container .select2-choice .select2-arrow b:before,
-.select2-container-multi .select2-choices li.select2-search-field:after { font-family: "FontAwesome"; content: "\f002"; }
+.select2-container-multi .select2-choices li.select2-search-field:after { font-family: "FontAwesome"; content: "\f078"; }
 .select2-container .select2-choice .select2-arrow b {
     background: none;
     position: relative;
@@ -300,10 +285,24 @@ svg .inactive svg path { fill: #3a424d; }
 .select2-container-disabled {
     opacity: 0.3;
 }
-.select2-search { display: none; }
 .select2-search input {
     border: none;
-    background-color: #ffffff;
+    background: #f6f6f6;
+    margin-top: 5px;
+    height: 35px !important;
+    padding: 4px 35px 4px 10px;
+}
+.select2-search {
+    position: relative;
+}
+.select2-search:after {
+    font-family: "FontAwesome";
+    content: "\f002";
+    position: absolute;
+    right: 15px;
+    top: 10px;
+    font-size: 18px;
+    color: #696969;
 }
 .select2-results::-webkit-scrollbar{
     width: 6px;

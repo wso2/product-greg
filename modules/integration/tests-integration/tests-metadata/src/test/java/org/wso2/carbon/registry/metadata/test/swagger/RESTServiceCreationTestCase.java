@@ -63,7 +63,7 @@ public class RESTServiceCreationTestCase extends GREGIntegrationBaseTest{
 		String resourceName = "swagger.json";
 		resourceAdminServiceClient.addSwagger(resourceName, "adding From URL", resourceUrl);
 		Assert.assertNotNull(resourceAdminServiceClient.getResourceContent(
-				swaggerCommonPath + "admin/1.0.0/" + resourceName));
+				swaggerCommonPath + "1.0.0/" + resourceName));
 		Assert.assertNotNull(resourceAdminServiceClient.getResourceContent(
 				restServiceCommonPath + "/1.0.0/SwaggerSampleApp"));
 	}
@@ -86,7 +86,7 @@ public class RESTServiceCreationTestCase extends GREGIntegrationBaseTest{
 		                                      new DataHandler(new URL("file:///" + swaggerPath)));
 
 		Assert.assertNotNull(resourceAdminServiceClient
-				                     .getResourceContent(swaggerCommonPath + "admin/1.0.0/" + fileName));
+				                     .getResourceContent(swaggerCommonPath + "1.0.0/" + fileName));
 		Assert.assertNotNull(resourceAdminServiceClient.getResourceContent(
 				restServiceCommonPath + "/2.1.1/SwaggerPetstore"));
 	}
@@ -98,11 +98,11 @@ public class RESTServiceCreationTestCase extends GREGIntegrationBaseTest{
 	public void cleanup() throws RemoteException, ResourceAdminServiceExceptionException {
         deleteResource(restServiceCommonPath + "/2.1.1/SwaggerPetstore");
         deleteResource(restServiceCommonPath + "1.0.0/SwaggerSampleApp");
-		deleteResource(swaggerCommonPath + "admin/1.0.0/swagger.json");
-		deleteResource(swaggerCommonPath + "admin/1.0.0/pet");
-		deleteResource(swaggerCommonPath + "admin/1.0.0/store");
-		deleteResource(swaggerCommonPath + "admin/1.0.0/user");
-		deleteResource(swaggerCommonPath + "admin/1.0.0/swagger2.json");
+		deleteResource(swaggerCommonPath + "1.0.0/swagger.json");
+		deleteResource(swaggerCommonPath + "1.0.0/pet");
+		deleteResource(swaggerCommonPath + "1.0.0/store");
+		deleteResource(swaggerCommonPath + "1.0.0/user");
+		deleteResource(swaggerCommonPath + "1.0.0/swagger2.json");
 		deleteResource("/_system/governance/trunk/endpoints/ep-io.swagger.petstore-api");
 		deleteResource("/_system/governance/trunk/endpoints/ep-io.swagger.petstore-v2");
 		resourceAdminServiceClient = null;
