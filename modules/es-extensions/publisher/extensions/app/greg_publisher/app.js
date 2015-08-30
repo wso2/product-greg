@@ -61,3 +61,28 @@ app.pageHandlers = function(ctx) {
         }
     };
 };
+
+app.renderer = function(ctx){
+    return {
+        pageDecorators:{
+            advanceSearchPatch:function(page){
+                for(var index in page.assets) {
+                    var asset = page.assets[index] ;
+                    var attributes = asset.attributes || {};
+
+                    if(!attributes.hasOwnProperty("overview_name") && !attributes.hasOwnProperty("overview_version")) {
+                        var path = asset.path;
+                        var subPaths = path.split('/');
+                        var name = subPaths[subPaths.length - 1];
+                        asset.name = name;
+                        asset.version = subPaths[subPaths.length - 2];
+                        asset.attributes.overview_name = name;
+                        asset.overview_version = asset.version;
+                        asset.attributes.overview_version = asset.version;
+                        asset.attributes.version = asset.version;
+                    }
+                }
+            }
+        }
+    }
+};
