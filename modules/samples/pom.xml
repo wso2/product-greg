@@ -347,11 +347,11 @@
 
         <carbon.kernel.version>4.4.1</carbon.kernel.version>
         <!-- Carbon Registry -->
-        <carbon.registry.version>4.4.6-SNAPSHOT</carbon.registry.version>
+        <carbon.registry.version>4.4.7</carbon.registry.version>
         <!-- Carbon Governance -->
-        <carbon.governance.version>4.5.3-SNAPSHOT</carbon.governance.version>
+        <carbon.governance.version>4.5.5</carbon.governance.version>
 
-        <carbon.governance.ext.version>4.4.1-SNAPSHOT</carbon.governance.ext.version>
+        <carbon.governance.ext.version>4.4.3</carbon.governance.ext.version>
 
         <carbon.business.process.version>4.4.0</carbon.business.process.version>
         <!-- Carbon Commons -->
