@@ -850,7 +850,7 @@
                 <configuration>
 		    <arguments>-Dmaven.test.skip=true -Dmaven.javadoc.skip=true</arguments>
                     <preparationGoals>clean install</preparationGoals>
-                    <autoVersionSubmodules>false</autoVersionSubmodules>
+                    <autoVersionSubmodules>true</autoVersionSubmodules>
                 </configuration>
             </plugin>
             <plugin>
