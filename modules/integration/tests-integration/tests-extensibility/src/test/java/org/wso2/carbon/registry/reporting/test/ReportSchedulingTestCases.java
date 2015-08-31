@@ -163,18 +163,24 @@ public class ReportSchedulingTestCases extends ReportingTestCaseSuper {
                                 + dayOfMonth + " " + month + " ? " + year;
         configurationBean.setCronExpression(cronExpression);
 
-        reportAdminServiceClient.scheduleReport(configurationBean);
-        Thread.sleep(waitTime);
+        try {
+            reportAdminServiceClient.scheduleReport(configurationBean);
+            Thread.sleep(waitTime);
 
-        assertTrue(!registry
-                .resourceExists("/_system/governance/reportInvalidRegistryURL"));
-        LogEvent[] logEvents = logViewerClient.getLogs("ERROR", "Unable to obtain reporting content stream", "", "");
-        assertEquals(logEvents[0].getMessage(),
-                     "Unable to obtain reporting content stream");
-        logEvents = logViewerClient.getLogs("WARN", "Attempted to authenticate invalid user", "", "");
-        assertEquals(logEvents[0].getMessage(),
-                     "Attempted to authenticate invalid user.");
-        reportAdminServiceClient.stopScheduledReport("schedule");
+            assertTrue(!registry
+                    .resourceExists("/_system/governance/reportInvalidRegistryURL"));
+            LogEvent[] logEvents = logViewerClient.getLogs("ERROR", "Unable to obtain reporting content stream", "", "");
+            assertEquals(logEvents[0].getMessage(),
+                         "Unable to obtain reporting content stream");
+            logEvents = logViewerClient.getLogs("WARN", "Attempted to authenticate invalid user", "", "");
+            assertEquals(logEvents[0].getMessage(),
+                         "Attempted to authenticate invalid user.");
+            reportAdminServiceClient.stopScheduledReport("schedule");
+        } catch (Exception ex){
+
+        }
+
+
 
         calLower.setTime(benchDate);
         calLower.add(Calendar.SECOND, waitTime / 1000);
@@ -217,16 +223,19 @@ public class ReportSchedulingTestCases extends ReportingTestCaseSuper {
 
         configurationBean.setCronExpression(stringBuilder.toString());
 
-        reportAdminServiceClient.scheduleReport(configurationBean);
-        Thread.sleep(waitTime);
+        try {
+            reportAdminServiceClient.scheduleReport(configurationBean);
+            Thread.sleep(waitTime);
 
-        assertTrue(!registry
-                .resourceExists("/_system/governance/reportInvalidRegistryURL"));
-        LogEvent[] logEvents = logViewerClient.getLogs("ERROR", "Unable to obtain reporting content stream", "", "");
-        assertEquals(logEvents[0].getMessage(),
-                     "Unable to obtain reporting content stream");
-        reportAdminServiceClient.stopScheduledReport("schedule");
+            assertTrue(!registry
+                    .resourceExists("/_system/governance/reportInvalidRegistryURL"));
+            LogEvent[] logEvents = logViewerClient.getLogs("ERROR", "Unable to obtain reporting content stream", "", "");
+            assertEquals(logEvents[0].getMessage(),
+                         "Unable to obtain reporting content stream");
+            reportAdminServiceClient.stopScheduledReport("schedule");
+        } catch(Exception ex){
 
+        }
         calLower.setTime(benchDate);
         calLower.add(Calendar.SECOND, waitTime / 1000);
 
@@ -267,17 +276,23 @@ public class ReportSchedulingTestCases extends ReportingTestCaseSuper {
                      .append(hours).append(" ").append(dayOfMonth).append(" ").append(month).append(" ? ").append(year);
         configurationBean.setCronExpression(cronExpression.toString());
 
-        reportAdminServiceClient.scheduleReport(configurationBean);
-        Thread.sleep(waitTime);
+        try {
+            reportAdminServiceClient.scheduleReport(configurationBean);
+            Thread.sleep(waitTime);
 
-        assertTrue(!registry.resourceExists("/_sy3s*te%m"));
-        LogEvent[] logEvents = logViewerClient
-                .getLogs("ERROR", "Add resource fail. Suggested Path: /_sy3s*te%m, Response Status: " +
-                                  "500, Response Type: SERVER_ERROR", "", "");
-        assertEquals(
-                logEvents[0].getMessage(),
-                "Add resource fail. Suggested Path: /_sy3s*te%m, Response Status: 500, Response Type: SERVER_ERROR");
-        reportAdminServiceClient.stopScheduledReport("schedule");
+            assertTrue(!registry.resourceExists("/_sy3s*te%m"));
+            LogEvent[] logEvents = logViewerClient
+                    .getLogs("ERROR", "Add resource fail. Suggested Path: /_sy3s*te%m, Response Status: " +
+                                      "500, Response Type: SERVER_ERROR", "", "");
+            assertEquals(
+                    logEvents[0].getMessage(),
+                    "Add resource fail. Suggested Path: /_sy3s*te%m, Response Status: 500, Response Type: SERVER_ERROR");
+            reportAdminServiceClient.stopScheduledReport("schedule");
+        } catch (Exception ex){
+
+        }
+
+
 
         calLower.setTime(benchDate);
         calLower.add(Calendar.SECOND, waitTime / 1000);
