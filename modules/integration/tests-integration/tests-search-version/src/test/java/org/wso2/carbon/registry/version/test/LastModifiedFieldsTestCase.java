@@ -106,11 +106,11 @@ public class LastModifiedFieldsTestCase extends GREGIntegrationBaseTest {
         assertTrue(resourceAdminClient.getResource(RESOURCE_NAME_LEAF)[0].getAuthorUserName().contains(userNameWithoutDomain));
 
 
-        resourceAdminClient.addCollection(COLLECTION_NAME_ROOT, "dir1", "text/plain", "Description 1 for collection1");
-        resourceAdminClient.addCollection(COLLECTION_NAME_LEAF, "dir2", "text/plain", "Description 1 for collection2");
+        resourceAdminClient.addCollection(COLLECTION_NAME_ROOT, "dir10", "text/plain", "Description 1 for collection1");
+        resourceAdminClient.addCollection(COLLECTION_NAME_LEAF, "dir20", "text/plain", "Description 1 for collection2");
 
-        VersionUtils.deleteAllVersions(resourceAdminClient, COLLECTION_NAME_ROOT + "dir1");
-        VersionUtils.deleteAllVersions(resourceAdminClient, COLLECTION_NAME_LEAF + "dir2");
+        VersionUtils.deleteAllVersions(resourceAdminClient, COLLECTION_NAME_ROOT + "dir10");
+        VersionUtils.deleteAllVersions(resourceAdminClient, COLLECTION_NAME_LEAF + "dir20");
     }
 
     @Test(groups = {"wso2.greg"}, description = "Create new resource at root level and check accuracy of the last modified date")
@@ -193,15 +193,15 @@ public class LastModifiedFieldsTestCase extends GREGIntegrationBaseTest {
                    PropertiesAdminServiceRegistryExceptionException {
         boolean status = false;
         //Created time
-        Date createdTime = resourceAdminClient.getResource(COLLECTION_NAME_ROOT + "dir1")[0].getCreatedOn().getTime();
+        Date createdTime = resourceAdminClient.getResource(COLLECTION_NAME_ROOT + "dir10")[0].getCreatedOn().getTime();
         //get upper threshold by adding one minute
         long threshold = createdTime.getTime() + 60 * 1000;
         Date thresholdDate = new Date(threshold);
         //add a property to the resource
-        propertiesAdminServiceClient.setProperty(COLLECTION_NAME_ROOT + "dir1", "name1", "value1");
+        propertiesAdminServiceClient.setProperty(COLLECTION_NAME_ROOT + "dir10", "name1", "value1");
         //create a checkpoint
-        resourceAdminClient.createVersion(COLLECTION_NAME_ROOT + "dir1");
-        VersionsBean versionBean = resourceAdminClient.getVersionsBean(COLLECTION_NAME_ROOT + "dir1");
+        resourceAdminClient.createVersion(COLLECTION_NAME_ROOT + "dir10");
+        VersionsBean versionBean = resourceAdminClient.getVersionsBean(COLLECTION_NAME_ROOT + "dir10");
         Calendar calender = versionBean.getVersionPaths()[0].getUpdatedOn();
         //get the updated time
 
@@ -219,7 +219,7 @@ public class LastModifiedFieldsTestCase extends GREGIntegrationBaseTest {
 
         assertTrue(status);
         //delete the created version
-        assertNull(deleteVersion(COLLECTION_NAME_ROOT + "dir1"));
+        assertNull(deleteVersion(COLLECTION_NAME_ROOT + "dir10"));
 
 
     }
@@ -231,16 +231,16 @@ public class LastModifiedFieldsTestCase extends GREGIntegrationBaseTest {
                    PropertiesAdminServiceRegistryExceptionException {
         boolean status = false;
         //Created time
-        Date createdTime = resourceAdminClient.getResource(COLLECTION_NAME_LEAF + "dir2")[0].getCreatedOn().getTime();
+        Date createdTime = resourceAdminClient.getResource(COLLECTION_NAME_LEAF + "dir20")[0].getCreatedOn().getTime();
 
         //get upper threshold by adding one minute
         long threshold = createdTime.getTime() + 60 * 1000;
         Date thresholdDate = new Date(threshold);
         //add a property to the resource
-        propertiesAdminServiceClient.setProperty(COLLECTION_NAME_LEAF + "dir2", "name1", "value1");
+        propertiesAdminServiceClient.setProperty(COLLECTION_NAME_LEAF + "dir20", "name1", "value1");
         //create a checkpoint
-        resourceAdminClient.createVersion(COLLECTION_NAME_LEAF + "dir2");
-        VersionsBean versionBean = resourceAdminClient.getVersionsBean(COLLECTION_NAME_LEAF + "dir2");
+        resourceAdminClient.createVersion(COLLECTION_NAME_LEAF + "dir20");
+        VersionsBean versionBean = resourceAdminClient.getVersionsBean(COLLECTION_NAME_LEAF + "dir20");
         Calendar calender = versionBean.getVersionPaths()[0].getUpdatedOn();
         //get the updated time
         Date modifiedDate = calender.getTime();
@@ -257,7 +257,7 @@ public class LastModifiedFieldsTestCase extends GREGIntegrationBaseTest {
 
         assertTrue(status);
         //delete the created version
-        assertNull(deleteVersion(COLLECTION_NAME_LEAF + "dir2"));
+        assertNull(deleteVersion(COLLECTION_NAME_LEAF + "dir20"));
 
 
     }
@@ -336,19 +336,19 @@ public class LastModifiedFieldsTestCase extends GREGIntegrationBaseTest {
                    PropertiesAdminServiceRegistryExceptionException {
         String updatedBy;
         //add a new property to the collection by testuser1
-        propertiesAdminServiceClient.setProperty(COLLECTION_NAME_ROOT + "dir1", "collectionRootTestUser_first", "value1");
+        propertiesAdminServiceClient.setProperty(COLLECTION_NAME_ROOT + "dir10", "collectionRootTestUser_first", "value1");
         //create a checkpoint
-        resourceAdminClient.createVersion(COLLECTION_NAME_ROOT + "dir1");
-        updatedBy = resourceAdminClient.getVersionPaths(COLLECTION_NAME_ROOT + "dir1")[0].getUpdater();
+        resourceAdminClient.createVersion(COLLECTION_NAME_ROOT + "dir10");
+        updatedBy = resourceAdminClient.getVersionPaths(COLLECTION_NAME_ROOT + "dir10")[0].getUpdater();
         Assert.assertEquals(userNameWithoutDomain, updatedBy);
-        long verNo1 = resourceAdminClient.getVersionPaths(COLLECTION_NAME_ROOT + "dir1")[0].getVersionNumber();
+        long verNo1 = resourceAdminClient.getVersionPaths(COLLECTION_NAME_ROOT + "dir10")[0].getVersionNumber();
         //add another new property to the collection by testuser1
-        propertiesAdminServiceClient.setProperty(COLLECTION_NAME_ROOT + "dir1", "collectionRootTestUser_second", "value2");
+        propertiesAdminServiceClient.setProperty(COLLECTION_NAME_ROOT + "dir10", "collectionRootTestUser_second", "value2");
         //add another new property to the collection by admin
-        propertiesAdminServiceClientAdmin.setProperty(COLLECTION_NAME_ROOT + "dir1", "collectionRootAdmin_first", "value1");
+        propertiesAdminServiceClientAdmin.setProperty(COLLECTION_NAME_ROOT + "dir10", "collectionRootAdmin_first", "value1");
         //create a checkpoint
-        resourceAdminClient.createVersion(COLLECTION_NAME_ROOT + "dir1");
-        VersionPath[] versionsPaths = resourceAdminClient.getVersionPaths(COLLECTION_NAME_ROOT + "dir1");
+        resourceAdminClient.createVersion(COLLECTION_NAME_ROOT + "dir10");
+        VersionPath[] versionsPaths = resourceAdminClient.getVersionPaths(COLLECTION_NAME_ROOT + "dir10");
         //Check the last modified by field in last checkpoint
         for (VersionPath versionsPath : versionsPaths) {
             if (versionsPath.getVersionNumber() == verNo1 + 1) {
@@ -356,7 +356,7 @@ public class LastModifiedFieldsTestCase extends GREGIntegrationBaseTest {
             }
         }
         Assert.assertEquals(userNameWithoutDomain, updatedBy);
-        assertNull(deleteVersion(COLLECTION_NAME_ROOT + "dir1"));
+        assertNull(deleteVersion(COLLECTION_NAME_ROOT + "dir10"));
 
 
     }
@@ -368,20 +368,20 @@ public class LastModifiedFieldsTestCase extends GREGIntegrationBaseTest {
                    PropertiesAdminServiceRegistryExceptionException {
         String updatedBy;
         //add a new property to the collection by testuser1
-        propertiesAdminServiceClient.setProperty(COLLECTION_NAME_LEAF + "dir2", "collectionRootTestUser_first", "value1");
+        propertiesAdminServiceClient.setProperty(COLLECTION_NAME_LEAF + "dir20", "collectionRootTestUser_first", "value1");
         //create a check point
-        resourceAdminClient.createVersion(COLLECTION_NAME_LEAF + "dir2");
-        updatedBy = resourceAdminClient.getVersionPaths(COLLECTION_NAME_LEAF + "dir2")[0].getUpdater();
+        resourceAdminClient.createVersion(COLLECTION_NAME_LEAF + "dir20");
+        updatedBy = resourceAdminClient.getVersionPaths(COLLECTION_NAME_LEAF + "dir20")[0].getUpdater();
         Assert.assertEquals(userNameWithoutDomain, updatedBy);
         //get the last checkpoint's version number
-        long verNo1 = resourceAdminClient.getVersionPaths(COLLECTION_NAME_LEAF + "dir2")[0].getVersionNumber();
+        long verNo1 = resourceAdminClient.getVersionPaths(COLLECTION_NAME_LEAF + "dir20")[0].getVersionNumber();
         //add another new property to the collection by testuser1
-        propertiesAdminServiceClient.setProperty(COLLECTION_NAME_LEAF + "dir2", "collectionRootTestUser_second", "value2");
+        propertiesAdminServiceClient.setProperty(COLLECTION_NAME_LEAF + "dir20", "collectionRootTestUser_second", "value2");
         //add another new property to the collection by admin
-        propertiesAdminServiceClientAdmin.setProperty(COLLECTION_NAME_LEAF + "dir2", "collectionRootAdmin_first", "value1");
+        propertiesAdminServiceClientAdmin.setProperty(COLLECTION_NAME_LEAF + "dir20", "collectionRootAdmin_first", "value1");
         //create a checkpoint
-        resourceAdminClient.createVersion(COLLECTION_NAME_LEAF + "dir2");
-        VersionPath[] versionsPaths = resourceAdminClient.getVersionPaths(COLLECTION_NAME_LEAF + "dir2");
+        resourceAdminClient.createVersion(COLLECTION_NAME_LEAF + "dir20");
+        VersionPath[] versionsPaths = resourceAdminClient.getVersionPaths(COLLECTION_NAME_LEAF + "dir20");
         //Check the last modified by field in last checkpoint
         for (VersionPath versionsPath : versionsPaths) {
             if (versionsPath.getVersionNumber() == verNo1 + 1) {
@@ -389,7 +389,7 @@ public class LastModifiedFieldsTestCase extends GREGIntegrationBaseTest {
             }
         }
         Assert.assertEquals(userNameWithoutDomain, updatedBy);
-        assertNull(deleteVersion(COLLECTION_NAME_LEAF + "dir2"));
+        assertNull(deleteVersion(COLLECTION_NAME_LEAF + "dir20"));
 
 
     }
@@ -414,8 +414,8 @@ public class LastModifiedFieldsTestCase extends GREGIntegrationBaseTest {
         resourceAdminClient.deleteResource(RESOURCE_NAME_ROOT);
         resourceAdminClient.deleteResource(RESOURCE_NAME_LEAF);
         resourceAdminClient.deleteResource("/verBranch1");
-        resourceAdminClient.deleteResource(COLLECTION_NAME_ROOT + "dir1");
-        resourceAdminClient.deleteResource(COLLECTION_NAME_LEAF + "dir2");
+        resourceAdminClient.deleteResource(COLLECTION_NAME_ROOT + "dir10");
+        resourceAdminClient.deleteResource(COLLECTION_NAME_LEAF + "dir20");
         resourceAdminClient.deleteResource(COLLECTION_NAME_LEAF);
         resourceAdminClient = null;
         resourceAdminClientAdmin = null;

@@ -85,7 +85,7 @@ public class RetentionTestCase extends GREGIntegrationBaseTest {
         DataHandler dataHandler1 = new DataHandler(new URL("file:///" + path1));
         resourceAdminClient1.addResource(RESOURCE_NAME, "text/plain", "desc", dataHandler1);
         assertTrue(resourceAdminClient1.getResource(RESOURCE_NAME)[0].getAuthorUserName().contains(userNameWithoutDomain));
-        resourceAdminClient1.addCollection(COLLECTION_NAME, "dir1", "text/plain", "Description 1 for collection");
+        resourceAdminClient1.addCollection(COLLECTION_NAME, "dir100", "text/plain", "Description 1 for collection");
     }
 
     @Test(groups = {"wso2.greg"}, description = "Check whether a resource under retention can be restored from a previous version")

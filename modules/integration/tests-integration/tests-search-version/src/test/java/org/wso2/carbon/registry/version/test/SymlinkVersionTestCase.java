@@ -84,8 +84,8 @@ public class SymlinkVersionTestCase extends GREGIntegrationBaseTest {
         resourceAdminClient.addResource(RESOURCE_NAME_LEAF, "text/plain", "desc", dataHandler2);
         assertTrue(resourceAdminClient.getResource(RESOURCE_NAME_LEAF)[0].getAuthorUserName().contains(userNameWithoutDomain));
 
-        resourceAdminClient.addCollection(COLLECTION_NAME_ROOT, "dir1", "text/plain", "Description 1 for collection1");
-        resourceAdminClient.addCollection(COLLECTION_NAME_LEAF, "dir2", "text/plain", "Description 1 for collection2");
+        resourceAdminClient.addCollection(COLLECTION_NAME_ROOT, "dir12", "text/plain", "Description 1 for collection1");
+        resourceAdminClient.addCollection(COLLECTION_NAME_LEAF, "dir22", "text/plain", "Description 1 for collection2");
 
         RegistryProviderUtil registryProviderUtil = new RegistryProviderUtil();
         wsRegistryServiceClient =
@@ -240,9 +240,9 @@ public class SymlinkVersionTestCase extends GREGIntegrationBaseTest {
         // resourceAdminClient.addSymbolicLink(TARGET,"symlink_to_dir1",COLLECTION_NAME_ROOT+"dir1");
         boolean status = false;
 
-        String symlinkPath = TARGET + "/symlink_to_dir1";
+        String symlinkPath = TARGET + "/symlink_to_dir12";
         //add a symlink to a resource at root leevel
-        resourceAdminClient.addSymbolicLink(TARGET, "symlink_to_dir1", COLLECTION_NAME_ROOT + "dir1");
+        resourceAdminClient.addSymbolicLink(TARGET, "symlink_to_dir12", COLLECTION_NAME_ROOT + "dir12");
         // Check whether the description is there in sumlink
         ResourceData[] resource1 = resourceAdminClient.getResource(symlinkPath);
         for (ResourceData aResource1 : resource1) {
@@ -252,9 +252,9 @@ public class SymlinkVersionTestCase extends GREGIntegrationBaseTest {
         }
         assertTrue(status);
         //create a check point of the resource
-        resourceAdminClient.createVersion(COLLECTION_NAME_ROOT + "dir1");
+        resourceAdminClient.createVersion(COLLECTION_NAME_ROOT + "dir12");
         //edit resource description
-        resourceAdminClient.setDescription(COLLECTION_NAME_ROOT + "dir1", "Edited discription");
+        resourceAdminClient.setDescription(COLLECTION_NAME_ROOT + "dir12", "Edited discription");
         // Check whether the edited description is there in sumlink
         ResourceData[] resource2 = resourceAdminClient.getResource(symlinkPath);
         status = false;
@@ -266,7 +266,7 @@ public class SymlinkVersionTestCase extends GREGIntegrationBaseTest {
         assertTrue(status);
 
         // Check whether the edited description is there in resource
-        ResourceData[] resource3 = resourceAdminClient.getResource(COLLECTION_NAME_ROOT + "dir1");
+        ResourceData[] resource3 = resourceAdminClient.getResource(COLLECTION_NAME_ROOT + "dir12");
         status = false;
         for (ResourceData aResource3 : resource3) {
             if (aResource3.getDescription().equals("Edited discription")) {
@@ -275,7 +275,7 @@ public class SymlinkVersionTestCase extends GREGIntegrationBaseTest {
         }
         assertTrue(status);
         //restore to previous version
-        resourceAdminClient.restoreVersion(resourceAdminClient.getVersionPaths(COLLECTION_NAME_ROOT + "dir1")[0].getCompleteVersionPath());
+        resourceAdminClient.restoreVersion(resourceAdminClient.getVersionPaths(COLLECTION_NAME_ROOT + "dir12")[0].getCompleteVersionPath());
         //check whether the previous description is stored in simlink
         ResourceData[] resource4 = resourceAdminClient.getResource(symlinkPath);
         status = false;
@@ -286,7 +286,7 @@ public class SymlinkVersionTestCase extends GREGIntegrationBaseTest {
         }
         assertTrue(status);
         //check whether the previous description is stored in resource
-        ResourceData[] resource5 = resourceAdminClient.getResource(COLLECTION_NAME_ROOT + "dir1");
+        ResourceData[] resource5 = resourceAdminClient.getResource(COLLECTION_NAME_ROOT + "dir12");
         status = false;
         for (ResourceData aResource5 : resource5) {
             if (aResource5.getDescription().equals("Description 1 for collection1")) {
@@ -294,7 +294,7 @@ public class SymlinkVersionTestCase extends GREGIntegrationBaseTest {
             }
         }
         assertTrue(status);
-        assertEquals(null, deleteVersion(COLLECTION_NAME_ROOT + "dir1"));
+        assertEquals(null, deleteVersion(COLLECTION_NAME_ROOT + "dir12"));
 
 
     }
@@ -307,9 +307,9 @@ public class SymlinkVersionTestCase extends GREGIntegrationBaseTest {
         // resourceAdminClient.addSymbolicLink(TARGET,"symlink_to_dir1",COLLECTION_NAME_ROOT+"dir1");
         boolean status = false;
 
-        String symlinkPath = TARGET + "/symlink_to_dir2";
+        String symlinkPath = TARGET + "/symlink_to_dir22";
         //add a symlink to a resource at root leevel
-        resourceAdminClient.addSymbolicLink(TARGET, "symlink_to_dir2", COLLECTION_NAME_LEAF + "dir2");
+        resourceAdminClient.addSymbolicLink(TARGET, "symlink_to_dir22", COLLECTION_NAME_LEAF + "dir22");
         // Check whether the description is there in sumlink
         ResourceData[] resource1 = resourceAdminClient.getResource(symlinkPath);
         for (ResourceData aResource1 : resource1) {
@@ -319,9 +319,9 @@ public class SymlinkVersionTestCase extends GREGIntegrationBaseTest {
         }
         assertTrue(status);
         //create a check point of the resource
-        resourceAdminClient.createVersion(COLLECTION_NAME_LEAF + "dir2");
+        resourceAdminClient.createVersion(COLLECTION_NAME_LEAF + "dir22");
         //edit resource description
-        resourceAdminClient.setDescription(COLLECTION_NAME_LEAF + "dir2", "Edited discription");
+        resourceAdminClient.setDescription(COLLECTION_NAME_LEAF + "dir22", "Edited discription");
         // Check whether the edited description is there in sumlink
         ResourceData[] resource2 = resourceAdminClient.getResource(symlinkPath);
         status = false;
@@ -334,7 +334,7 @@ public class SymlinkVersionTestCase extends GREGIntegrationBaseTest {
 
 
         // Check whether the edited description is there in resource
-        ResourceData[] resource3 = resourceAdminClient.getResource(COLLECTION_NAME_LEAF + "dir2");
+        ResourceData[] resource3 = resourceAdminClient.getResource(COLLECTION_NAME_LEAF + "dir22");
         status = false;
         for (ResourceData aResource3 : resource3) {
             if (aResource3.getDescription().equals("Edited discription")) {
@@ -343,7 +343,7 @@ public class SymlinkVersionTestCase extends GREGIntegrationBaseTest {
         }
         assertTrue(status);
         //restore to previous version
-        resourceAdminClient.restoreVersion(resourceAdminClient.getVersionPaths(COLLECTION_NAME_LEAF + "dir2")[0].getCompleteVersionPath());
+        resourceAdminClient.restoreVersion(resourceAdminClient.getVersionPaths(COLLECTION_NAME_LEAF + "dir22")[0].getCompleteVersionPath());
         //check whether the previous description is stored in simlink
         ResourceData[] resource4 = resourceAdminClient.getResource(symlinkPath);
         status = false;
@@ -354,7 +354,7 @@ public class SymlinkVersionTestCase extends GREGIntegrationBaseTest {
         }
         assertTrue(status);
         //check whether the previous description is stored in resource
-        ResourceData[] resource5 = resourceAdminClient.getResource(COLLECTION_NAME_LEAF + "dir2");
+        ResourceData[] resource5 = resourceAdminClient.getResource(COLLECTION_NAME_LEAF + "dir22");
         status = false;
         for (ResourceData aResource5 : resource5) {
             if (aResource5.getDescription().equals("Description 1 for collection2")) {
@@ -362,7 +362,7 @@ public class SymlinkVersionTestCase extends GREGIntegrationBaseTest {
             }
         }
         assertTrue(status);
-        assertEquals(null, deleteVersion(COLLECTION_NAME_LEAF + "dir2"));
+        assertEquals(null, deleteVersion(COLLECTION_NAME_LEAF + "dir22"));
     }
 
 
@@ -388,8 +388,8 @@ public class SymlinkVersionTestCase extends GREGIntegrationBaseTest {
         deleteResource(RESOURCE_NAME_ROOT);
         deleteResource(RESOURCE_NAME_LEAF);
         deleteResource("/SymBranch1");
-        deleteResource(COLLECTION_NAME_ROOT + "dir1");
-        deleteResource(COLLECTION_NAME_LEAF + "dir2");
+        deleteResource(COLLECTION_NAME_ROOT + "dir12");
+        deleteResource(COLLECTION_NAME_LEAF + "dir22");
         deleteResource("/SymCol1");
     }
 

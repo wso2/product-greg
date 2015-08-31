@@ -160,7 +160,7 @@ public class CollectionTestCase extends GREGIntegrationBaseTest{
     @Test(groups = {"wso2.greg"}, description = "create a checkpoint for a collection at root level")
     public void testAddColRoot()
             throws MalformedURLException, ResourceAdminServiceExceptionException, RemoteException {
-
+        deleteVersion(COLLECTION_PATH_ROOT + "dir1");
         resourceAdminClient.createVersion(COLLECTION_PATH_ROOT + "dir1");
         VersionPath[] vp1 = resourceAdminClient.getVersionPaths(COLLECTION_PATH_ROOT + "dir1");
         assertEquals(1, vp1.length);

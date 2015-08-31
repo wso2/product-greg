@@ -77,7 +77,7 @@ public class SubscriptionTestCase extends GREGIntegrationBaseTest {
         userManagementClient =
                 new UserManagementClient(backEndUrl,
                                          sessionCookie);
-        resourceAdminClient.addCollection(COLLECTION_PATH_ROOT, "dir1", "text/plain", "Desc1");
+        resourceAdminClient.addCollection(COLLECTION_PATH_ROOT, "dir11", "text/plain", "Desc1");
 
         RegistryProviderUtil registryProviderUtil = new RegistryProviderUtil();
         wsRegistryServiceClient =
@@ -145,7 +145,7 @@ public class SubscriptionTestCase extends GREGIntegrationBaseTest {
     @Test(groups = {"wso2.greg"}, description = "Create a collection with subscriptions, version and restore to the previous version ")
     public void testSubscriptionRestore() throws Exception {
 
-        String PATH = COLLECTION_PATH_ROOT + "dir1";
+        String PATH = COLLECTION_PATH_ROOT + "dir11";
         SubscriptionInstance[] sb1;
         SubscriptionInstance[] sb2;
         SubscriptionInstance[] sb3;
@@ -212,7 +212,7 @@ public class SubscriptionTestCase extends GREGIntegrationBaseTest {
 
     @AfterClass
     public void clear() throws Exception {
-        deleteResource(COLLECTION_PATH_ROOT + "dir1");
+        deleteResource(COLLECTION_PATH_ROOT + "dir11");
         deleteResource(PATH1);
         deleteResource("/branch1");
         userManagementClient.deleteRole("SubscriptionTestRole1");

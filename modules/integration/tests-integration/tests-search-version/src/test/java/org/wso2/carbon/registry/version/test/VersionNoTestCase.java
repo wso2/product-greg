@@ -85,8 +85,8 @@ public class VersionNoTestCase extends GREGIntegrationBaseTest {
         resourceAdminClient.addResource(RESOURCE_NAME_LEAF, "text/plain", "desc", dataHandler2);
         assertTrue(resourceAdminClient.getResource(RESOURCE_NAME_LEAF)[0].getAuthorUserName().contains(userNameWithoutDomain));
 
-        resourceAdminClient.addCollection(COLLECTION_NAME_ROOT, "dir1", "text/plain", "Description 1 for collection1");
-        resourceAdminClient.addCollection(COLLECTION_NAME_LEAF, "dir2", "text/plain", "Description 1 for collection2");
+        resourceAdminClient.addCollection(COLLECTION_NAME_ROOT, "dir14", "text/plain", "Description 1 for collection1");
+        resourceAdminClient.addCollection(COLLECTION_NAME_LEAF, "dir24", "text/plain", "Description 1 for collection2");
     }
 
 
@@ -137,21 +137,21 @@ public class VersionNoTestCase extends GREGIntegrationBaseTest {
             throws ResourceAdminServiceExceptionException, RemoteException {
         //create a checkpoint of a resource and get the version number
 
-        resourceAdminClient.createVersion(COLLECTION_NAME_ROOT + "dir1");
-        VersionsBean versionsBean1 = resourceAdminClient.getVersionsBean(COLLECTION_NAME_ROOT + "dir1");
+        resourceAdminClient.createVersion(COLLECTION_NAME_ROOT + "dir14");
+        VersionsBean versionsBean1 = resourceAdminClient.getVersionsBean(COLLECTION_NAME_ROOT + "dir14");
         long versionNo1 = versionsBean1.getVersionPaths()[0].getVersionNumber();
         //create another checkpoint and compare the version number with the previous version number
 
-        resourceAdminClient.createVersion(COLLECTION_NAME_ROOT + "dir1");
+        resourceAdminClient.createVersion(COLLECTION_NAME_ROOT + "dir14");
 
         boolean accurate = false;
-        for (int i = 0; i < resourceAdminClient.getVersionsBean(COLLECTION_NAME_ROOT + "dir1").getVersionPaths().length; i++) {
-            if (resourceAdminClient.getVersionsBean(COLLECTION_NAME_ROOT + "dir1").getVersionPaths()[i].getVersionNumber() == (versionNo1 + 1)) {
+        for (int i = 0; i < resourceAdminClient.getVersionsBean(COLLECTION_NAME_ROOT + "dir14").getVersionPaths().length; i++) {
+            if (resourceAdminClient.getVersionsBean(COLLECTION_NAME_ROOT + "dir14").getVersionPaths()[i].getVersionNumber() == (versionNo1 + 1)) {
                 accurate = true;
             }
         }
         assertTrue(accurate);
-        assertNull(deleteVersion(COLLECTION_NAME_ROOT + "dir1"));
+        assertNull(deleteVersion(COLLECTION_NAME_ROOT + "dir14"));
     }
 
 
@@ -160,19 +160,19 @@ public class VersionNoTestCase extends GREGIntegrationBaseTest {
             throws ResourceAdminServiceExceptionException, RemoteException {
 
         //create a checkpoint of a resource and get the version number
-        resourceAdminClient.createVersion(COLLECTION_NAME_LEAF + "dir2");
-        VersionsBean versionsBean1 = resourceAdminClient.getVersionsBean(COLLECTION_NAME_LEAF + "dir2");
+        resourceAdminClient.createVersion(COLLECTION_NAME_LEAF + "dir24");
+        VersionsBean versionsBean1 = resourceAdminClient.getVersionsBean(COLLECTION_NAME_LEAF + "dir24");
         long versionNo1 = versionsBean1.getVersionPaths()[0].getVersionNumber();
         //create another checkpoint and compare the version number with the previous version number
-        resourceAdminClient.createVersion(COLLECTION_NAME_LEAF + "dir2");
+        resourceAdminClient.createVersion(COLLECTION_NAME_LEAF + "dir24");
         boolean accurate = false;
-        for (int i = 0; i < resourceAdminClient.getVersionsBean(COLLECTION_NAME_LEAF + "dir2").getVersionPaths().length; i++) {
-            if (resourceAdminClient.getVersionsBean(COLLECTION_NAME_LEAF + "dir2").getVersionPaths()[i].getVersionNumber() == (versionNo1 + 1)) {
+        for (int i = 0; i < resourceAdminClient.getVersionsBean(COLLECTION_NAME_LEAF + "dir24").getVersionPaths().length; i++) {
+            if (resourceAdminClient.getVersionsBean(COLLECTION_NAME_LEAF + "dir24").getVersionPaths()[i].getVersionNumber() == (versionNo1 + 1)) {
                 accurate = true;
             }
         }
         assertTrue(accurate);
-        assertNull(deleteVersion(COLLECTION_NAME_LEAF + "dir2"));
+        assertNull(deleteVersion(COLLECTION_NAME_LEAF + "dir24"));
     }
 
 
@@ -196,8 +196,8 @@ public class VersionNoTestCase extends GREGIntegrationBaseTest {
         resourceAdminClient.deleteResource(RESOURCE_NAME_ROOT);
         resourceAdminClient.deleteResource(RESOURCE_NAME_LEAF);
         resourceAdminClient.deleteResource("/verBranch1");
-        resourceAdminClient.deleteResource(COLLECTION_NAME_ROOT + "dir1");
-        resourceAdminClient.deleteResource(COLLECTION_NAME_LEAF + "dir2");
+        resourceAdminClient.deleteResource(COLLECTION_NAME_ROOT + "dir14");
+        resourceAdminClient.deleteResource(COLLECTION_NAME_LEAF + "dir24");
         resourceAdminClient.deleteResource("/barnch1");
         resourceAdminClient = null;
     }
