@@ -324,24 +324,26 @@ var gregAPI = {};
         resultList.results = [];
         var results = am.registry.associations(path);
         for(var i=0; i < results.length; i++){
-            var assetJson = new Object();
-            var destPath = results[i].dest
-            var uuid = am.registry.registry.get(destPath).getUUID();
+            if (results[i].src == path){
+                var assetJson = new Object();
+                var destPath = results[i].dest
+                var uuid = am.registry.registry.get(destPath).getUUID();
 
-            var attifact = Packages.org.wso2.carbon.governance.api.util.GovernanceUtils.findGovernanceArtifactConfigurationByMediaType(am.registry.registry.get(destPath).getMediaType(),am.registry.registry);
-            var key = String(attifact.getKey());
-            if (key === 'wsdl' || key === 'wadl' || key === 'policy' || key === 'schema' || key === 'endpoint' || key === 'swagger'){
-                var subPaths = destPath.split('/');
-            	assetJson.text = subPaths[subPaths.length - 1];
-            } else {
-                var govAttifact = Packages.org.wso2.carbon.governance.api.util.GovernanceUtils.retrieveGovernanceArtifactByPath(am.registry.registry,destPath);
-                assetJson.text = String(govAttifact.getAttribute('overview_name'));
+                var attifact = Packages.org.wso2.carbon.governance.api.util.GovernanceUtils.findGovernanceArtifactConfigurationByMediaType(am.registry.registry.get(destPath).getMediaType(),am.registry.registry);
+                var key = String(attifact.getKey());
+                if (key === 'wsdl' || key === 'wadl' || key === 'policy' || key === 'schema' || key === 'endpoint' || key === 'swagger'){
+                    var subPaths = destPath.split('/');
+                	assetJson.text = subPaths[subPaths.length - 1];
+                } else {
+                    var govAttifact = Packages.org.wso2.carbon.governance.api.util.GovernanceUtils.retrieveGovernanceArtifactByPath(am.registry.registry,destPath);
+                    assetJson.text = String(govAttifact.getAttribute('overview_name'));
+                }
+                assetJson.type = am.registry.registry.get(destPath).getMediaType();
+                assetJson.associationType = results[i].type;
+                assetJson.uuid = uuid;
+                assetJson.shortName = key;
+                resultList.results.push(assetJson);
             }
-            assetJson.type = am.registry.registry.get(destPath).getMediaType();
-            assetJson.associationType = results[i].type;
-            assetJson.uuid = uuid;
-            assetJson.shortName = key;
-            resultList.results.push(assetJson);
         }
         return resultList
 
