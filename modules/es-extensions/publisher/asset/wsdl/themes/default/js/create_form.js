@@ -77,7 +77,7 @@ $(function() {
                 messages.alertSuccess("Successfully created the wsdl");
 			},
 			error:function(){
-                messages.alertError("Error occurred whilw adding the wsdl");
+                messages.alertError("Error occurred while adding the wsdl");
 
                 var createButton = "";
                 if(action === 'addNewWsdlFileAssetButton') {
