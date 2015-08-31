@@ -325,19 +325,19 @@ var gregAPI = {};
         var results = am.registry.associations(path);
         for(var i=0; i < results.length; i++){
             var assetJson = new Object();
-            var path = results[i].dest
-            var uuid = am.registry.registry.get(path).getUUID();
+            var destPath = results[i].dest
+            var uuid = am.registry.registry.get(destPath).getUUID();
 
-            var attifact = Packages.org.wso2.carbon.governance.api.util.GovernanceUtils.findGovernanceArtifactConfigurationByMediaType(am.registry.registry.get(path).getMediaType(),am.registry.registry);
+            var attifact = Packages.org.wso2.carbon.governance.api.util.GovernanceUtils.findGovernanceArtifactConfigurationByMediaType(am.registry.registry.get(destPath).getMediaType(),am.registry.registry);
             var key = String(attifact.getKey());
             if (key === 'wsdl' || key === 'wadl' || key === 'policy' || key === 'schema' || key === 'endpoint' || key === 'swagger'){
-                var subPaths = path.split('/');
+                var subPaths = destPath.split('/');
             	assetJson.text = subPaths[subPaths.length - 1];
             } else {
-                var govAttifact = Packages.org.wso2.carbon.governance.api.util.GovernanceUtils.retrieveGovernanceArtifactByPath(am.registry.registry,path);
+                var govAttifact = Packages.org.wso2.carbon.governance.api.util.GovernanceUtils.retrieveGovernanceArtifactByPath(am.registry.registry,destPath);
                 assetJson.text = String(govAttifact.getAttribute('overview_name'));
             }
-            assetJson.type = am.registry.registry.get(path).getMediaType();
+            assetJson.type = am.registry.registry.get(destPath).getMediaType();
             assetJson.associationType = results[i].type;
             assetJson.uuid = uuid;
             assetJson.shortName = key;
