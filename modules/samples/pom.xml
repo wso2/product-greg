@@ -25,7 +25,7 @@
 
     <modelVersion>4.0.0</modelVersion>
     <groupId>org.wso2.greg</groupId>
-    <version>5.0.0</version>
+    <version>5.0.1-SNAPSHOT</version>
     <artifactId>governance-samples</artifactId>
     <packaging>pom</packaging>
     <name>WSO2 Governance Registry - Samples</name>
@@ -360,9 +360,4 @@
         <carbon.kernel.registry.imp.pkg.version>[1.0.1, 2.0.0)</carbon.kernel.registry.imp.pkg.version>
         <carbon.registry.package.import.version.range>[4.4.0, 4.5.0)</carbon.registry.package.import.version.range>
     </properties>
-
-
-  <scm>
-    <tag>v5.0.0-rc1</tag>
-  </scm>
 </project>
