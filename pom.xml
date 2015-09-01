@@ -718,7 +718,7 @@
         <repository>
             <id>wso2-nexus3</id>
             <name>WSO2 internal Repository</name>
-            <url>http://maven.wso2.org/nexus/content/repositories/orgwso2carbonstore-004/</url>
+            <url>http://maven.wso2.org/nexus/content/repositories/orgwso2carbonstore-014/</url>
             <releases>
                 <enabled>true</enabled>
                 <updatePolicy>daily</updatePolicy>
@@ -928,8 +928,8 @@
         <carbon.feature.version>1.4.0</carbon.feature.version>
         <uuid.feature.version>1.4.0</uuid.feature.version>
         <sso.feature.version>1.4.0</sso.feature.version>
-        <es.feature.version>2.3.3</es.feature.version>
-        <carbon.social.version>2.3.3</carbon.social.version>
+        <es.feature.version>2.3.4</es.feature.version>
+        <carbon.social.version>2.3.4</carbon.social.version>
         <i18n.feature.version>1.4.0</i18n.feature.version>
         <!--<event.feature.version>1.0.0</event.feature.version>-->
         <!--<login.feature.version>1.0.0</login.feature.version>-->
