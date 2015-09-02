@@ -174,8 +174,8 @@ public class Main {
         if (reportsDirectory.exists()) {
             ReportGeneratorServiceClient client =
                     new ReportGeneratorServiceClient(cookie, CommandHandler.getServiceURL(), configContext);
-            Workbook workbook = PopulatorUtil.getWorkbook(reportsDirectory, "list");
-            if (workbook != null) {
+            Workbook[] workbooks = PopulatorUtil.getWorkbooks(reportsDirectory, "list");
+            for(Workbook workbook : workbooks) {
                 Sheet sheet = workbook.getSheet(workbook.getSheetName(0));
                 if (sheet == null || sheet.getLastRowNum() == -1) {
                     throw new RuntimeException("The first sheet is empty");
