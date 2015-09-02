@@ -325,15 +325,18 @@ var gregAPI = {};
         var results = am.registry.associations(path);
         for(var i=0; i < results.length; i++){
             if (results[i].src == path){
-                var assetJson = new Object();
                 var destPath = results[i].dest
-                var uuid = am.registry.registry.get(destPath).getUUID();
+                var artifact = Packages.org.wso2.carbon.governance.api.util.GovernanceUtils.findGovernanceArtifactConfigurationByMediaType(am.registry.registry.get(destPath).getMediaType(),am.registry.registry);
+                if (!artifact){ //if given destination path does not contain a governance artifact
+                    continue;
+                }
 
-                var attifact = Packages.org.wso2.carbon.governance.api.util.GovernanceUtils.findGovernanceArtifactConfigurationByMediaType(am.registry.registry.get(destPath).getMediaType(),am.registry.registry);
-                var key = String(attifact.getKey());
+                var assetJson = new Object();
+                var uuid = am.registry.registry.get(destPath).getUUID();
+                var key = String(artifact.getKey());
                 if (key === 'wsdl' || key === 'wadl' || key === 'policy' || key === 'schema' || key === 'endpoint' || key === 'swagger'){
                     var subPaths = destPath.split('/');
-                	assetJson.text = subPaths[subPaths.length - 1];
+                    assetJson.text = subPaths[subPaths.length - 1];
                 } else {
                     var govAttifact = Packages.org.wso2.carbon.governance.api.util.GovernanceUtils.retrieveGovernanceArtifactByPath(am.registry.registry,destPath);
                     assetJson.text = String(govAttifact.getAttribute('overview_name'));
