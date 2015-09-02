@@ -38,14 +38,15 @@ function getNodesAndEdges(registry, userName, resourcePath, graph, depth){
 
     if (artifact){
         depth++;
-        var graphDataObject = new Object();
+        var graphDataObject = graph.nodes[resourcePath];
 
-        if (graph.nodes[resourcePath]){
+        if (graphDataObject && graphDataObject.finished){
             graphDataObject = graph.nodes[resourcePath]
         }
         else{
-
-            graphDataObject = createNode(resourcePath, artifact, graph.index);
+            if (!graphDataObject){
+                graphDataObject = createNode(resourcePath, artifact, graph.index);
+            }
 
             var governanceArtifactConfiguration = governanceUtils.findGovernanceArtifactConfigurationByMediaType(graphDataObject.mediaType, govRegistry);
             
@@ -67,7 +68,7 @@ function getNodesAndEdges(registry, userName, resourcePath, graph, depth){
                 depth--;
                 return true;
             }
-
+            graphDataObject.finished=true;
 
             var associations = registry.associations(resourcePath);
             for (var i = 0; i < associations.length; i++) {
@@ -198,6 +199,7 @@ function createNode(resourcePath, artifact, nodeID){
     graphDataObject.relations = [];
     graphDataObject.id = nodeID;
     graphDataObject.uuid = artifact.getId();
+    graphDataObject.finished=false;
 
     return graphDataObject;
 }
