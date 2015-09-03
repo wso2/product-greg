@@ -45,7 +45,10 @@ New Features In This Release
  * Out of the box versioning support for WSDL, WADL and XSD
  * Out of the box support for Swagger imports, with facility to upload via a file or import using a link
  * Ability to specify custom storage paths for any RXT
- * Improved notification support
+ * Improved notifications to support clustered deployments and tenants
+ * Multiple life-cycle associations for artifacts
+ * Improvement in performance by solr based advance search
+ * New SOAP and REST service artifacts to improve service categorization
  
 
 Issues Fixed in This Release
