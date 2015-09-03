@@ -52,7 +52,7 @@ Issues Fixed in This Release
 ============================
 
  * @product.name@ Issue Tracker -
-       https://wso2.org/jira/secure/IssueNavigator.jspa?mode=hide&requestId=11243
+       https://wso2.org/jira/secure/IssueNavigator.jspa?mode=hide&requestId=@fixed.issue.filter@
 
 
 Features
@@ -185,7 +185,7 @@ Known issues of @product.name@ @product.version@
 ==============================================
 
  * @product.name@ Issue Tracker -
-       https://wso2.org/jira/secure/IssueNavigator.jspa?mode=hide&requestId=11244
+       https://wso2.org/jira/secure/IssueNavigator.jspa?mode=hide&requestId=@known.issue.filter@
 
 
 Support
