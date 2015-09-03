@@ -25,7 +25,7 @@ app.server = function(ctx) {
 		    		title:'GREG landing page',
 	    		url:'gc-landing',
 	    		path:'greg-landing.jag',
-	    		secured:true  		
+	    		secured:false
 	    	}]
     	},
         configs: {
