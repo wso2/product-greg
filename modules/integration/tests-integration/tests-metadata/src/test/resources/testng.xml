@@ -11,7 +11,7 @@
             <package name="org.wso2.carbon.registry.metadata.test.util.*"/>
             <package name="org.wso2.carbon.registry.metadata.test.wadl.*"/>
             <package name="org.wso2.carbon.registry.metadata.test.wsdl.*"/>
-            <package name="org.wso2.carbon.registry.metadata.test.swagger.*"/>
+            <!--package name="org.wso2.carbon.registry.metadata.test.swagger.*"/-->
             <package name="org.wso2.carbon.registry.metadata.test.server.*"/>
         </packages>
 
