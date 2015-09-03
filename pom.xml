@@ -988,14 +988,14 @@
         <carbon.kernel.registry.imp.pkg.version>[1.0.1, 2.0.0)</carbon.kernel.registry.imp.pkg.version>
         
         <!-- Carbon Registry -->
-        <carbon.registry.version>4.4.7</carbon.registry.version>
+        <carbon.registry.version>4.4.8</carbon.registry.version>
         <carbon.registry.package.import.version.range>[4.4.0, 4.5.0)
         </carbon.registry.package.import.version.range>
         
         <!-- Carbon Governance -->
-        <carbon.governance.version>4.5.6</carbon.governance.version>
+        <carbon.governance.version>4.5.8</carbon.governance.version>
 
-        <carbon.governance.ext.version>4.4.4</carbon.governance.ext.version>
+        <carbon.governance.ext.version>4.4.6</carbon.governance.ext.version>
 
         <carbon.business.process.version>4.4.0</carbon.business.process.version>
         
@@ -1003,7 +1003,7 @@
         <carbon.commons.version>4.4.6</carbon.commons.version>
         
         <!-- Carbon Identity -->
-        <carbon.identity.version>4.5.5</carbon.identity.version>
+        <carbon.identity.version>4.5.6</carbon.identity.version>
 
         <carbon.deployment.version>4.4.1</carbon.deployment.version>
 
