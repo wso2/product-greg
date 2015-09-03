@@ -1000,7 +1000,7 @@
         <carbon.business.process.version>4.4.0</carbon.business.process.version>
         
         <!-- Carbon Commons -->
-        <carbon.commons.version>4.4.4</carbon.commons.version>
+        <carbon.commons.version>4.4.6</carbon.commons.version>
         
         <!-- Carbon Identity -->
         <carbon.identity.version>4.5.5</carbon.identity.version>
