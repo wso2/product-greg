@@ -141,18 +141,18 @@ Features
 System Requirements
 ===================
 
-1. Minimum memory - 1GB
+1. Minimum memory - 2GB
 
 2. Processor      - Pentium 800MHz or equivalent at minimum
 
-3. Java SE Development Kit 1.6.0_24 or higher
+3. Java SE Development Kit 1.7.x or higher
 
 4. The Management Console requires you to enable JavaScript of the Web browser,
-   with MS IE 7 and 8. In addition to JavaScript, ActiveX should also be enabled
+   with MS IE 10 or above. In addition to JavaScript, ActiveX should also be enabled
    with IE. This can be achieved by setting your security level to medium or lower.
 
 5. To build @product.name@ from the Source distribution, it is also necessary that you
-   have Maven 2.1.0 or later.
+   have Maven 3.0.5 or later.
 
 For more details see
    http://docs.wso2.org/display/Governance500/Installation+Prerequisites
