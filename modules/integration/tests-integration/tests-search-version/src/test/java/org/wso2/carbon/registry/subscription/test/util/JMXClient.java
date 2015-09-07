@@ -42,8 +42,8 @@ public class JMXClient implements NotificationListener {
     private static ObjectName nodeAgent;
     private boolean success = false;
 
-    private static final String RMIRegistryPort = "9999";
-    private static final String RMIServerPort = "11111";
+    private static final String RMIRegistryPort = "10899";
+    private static final String RMIServerPort = "12011";
     private static final String CONNECTION_NAME =
             "org.wso2.carbon:Type=Registry,ConnectorName=Events";
     private String path = "";

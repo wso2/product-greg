@@ -40,7 +40,7 @@ public class NotificationTestCase extends GREGIntegrationBaseTest{
 
     private static final Log log = LogFactory.getLog(NotificationTestCase.class);
 
-    private static final String END_POINT = "https://localhost:9443/services/EventBrokerService";
+    private static final String END_POINT = "https://localhost:10343/services/EventBrokerService";
     private static final String SYSTEM_FOLDER = "/_system";
     private static final String SYSTEM_FOLDER_CHILD = "config";
     private static final String EVENT_COLLECTION_UPDATED = "CollectionUpdated";

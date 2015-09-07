@@ -9,7 +9,7 @@
 				<description>Main jUDDI node</description>
 				<properties>
 					<property name="serverName" value="localhost" />
-					<property name="serverPort" value="9763" />
+					<property name="serverPort" value="10663" />
 				</properties>
 				<!-- JAX-WS Transport -->
 				<proxyTransport>org.apache.juddi.v3.client.transport.JAXWSTransport</proxyTransport>

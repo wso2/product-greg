@@ -708,6 +708,11 @@
                 <artifactId>org.wso2.ciphertool</artifactId>
                 <version>${ciphertool.version}</version>
             </dependency>
+            <dependency>
+                <groupId>org.jacoco</groupId>
+                <artifactId>org.jacoco.agent</artifactId>
+                <version>${jacoco.agent.version}</version>
+            </dependency>
         </dependencies>
     </dependencyManagement>
 
@@ -967,8 +972,8 @@
         <commons.logging.version>1.1</commons.logging.version>
         <emma.version>2.1.5320</emma.version>
 
-        <test.framwork.version>4.3.1</test.framwork.version>
-        <platform.integration.utils.version>4.3.0</platform.integration.utils.version>
+        <test.framwork.version>4.4.2</test.framwork.version>
+        <platform.integration.utils.version>4.4.0</platform.integration.utils.version>
 
 
         <operadriver.version>0.8.1</operadriver.version>
@@ -1048,6 +1053,7 @@
         <axis2-transports.wso2.version>1.1.0-wso2v12</axis2-transports.wso2.version>
 
 	<ciphertool.version>1.0.0-wso2v3</ciphertool.version>
+        <jacoco.agent.version>0.7.4.201502262128</jacoco.agent.version>
 
     </properties>
 </project>

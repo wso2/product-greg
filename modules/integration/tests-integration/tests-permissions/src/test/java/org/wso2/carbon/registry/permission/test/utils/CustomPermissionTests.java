@@ -23,6 +23,7 @@ import org.wso2.carbon.automation.engine.context.AutomationContext;
 import org.wso2.carbon.automation.engine.frameworkutils.FrameworkPathUtil;
 import org.wso2.carbon.automation.test.utils.common.FileManager;
 import org.wso2.carbon.integration.common.utils.LoginLogoutClient;
+import org.wso2.carbon.integration.common.utils.exceptions.AutomationUtilException;
 import org.wso2.carbon.registry.activities.stub.beans.xsd.ActivityBean;
 import org.wso2.carbon.registry.relations.stub.AddAssociationRegistryExceptionException;
 import org.wso2.carbon.registry.relations.stub.beans.xsd.AssociationTreeBean;
@@ -45,7 +46,8 @@ public class CustomPermissionTests {
 
     public static boolean canReadResource (AutomationContext autoCtx, String resourcePath)
             throws IOException, ResourceAdminServiceExceptionException, XPathExpressionException,
-            URISyntaxException, SAXException, XMLStreamException, LoginAuthenticationExceptionException {
+            URISyntaxException, SAXException, XMLStreamException, LoginAuthenticationExceptionException,
+            AutomationUtilException {
 
         String sessionCookie = new LoginLogoutClient(autoCtx).login();
         ResourceAdminServiceClient resourceClient =
@@ -56,7 +58,7 @@ public class CustomPermissionTests {
     public static boolean canAddAssociation (AutomationContext autoCtx) throws IOException,
             LoginAuthenticationExceptionException, ResourceAdminServiceExceptionException,
             AddAssociationRegistryExceptionException, XPathExpressionException, URISyntaxException,
-            SAXException, XMLStreamException {
+            SAXException, XMLStreamException, AutomationUtilException {
 
         String sessionCookie = new LoginLogoutClient(autoCtx).login();
         ResourceAdminServiceClient resourceAdminServiceClient =
@@ -84,7 +86,7 @@ public class CustomPermissionTests {
         }
     }
 
-    public static boolean canAddLifecycles (AutomationContext autoCtx) throws IOException, XPathExpressionException, URISyntaxException, SAXException, LoginAuthenticationExceptionException, XMLStreamException {
+    public static boolean canAddLifecycles (AutomationContext autoCtx) throws IOException, XPathExpressionException, URISyntaxException, SAXException, LoginAuthenticationExceptionException, XMLStreamException, AutomationUtilException {
         String sessionCookie = new LoginLogoutClient(autoCtx).login();
         String resourcePath =  FrameworkPathUtil.getSystemResourceLocation() + "artifacts" +
                 File.separator + "GREG" + File.separator + "lifecycle" + File.separator +

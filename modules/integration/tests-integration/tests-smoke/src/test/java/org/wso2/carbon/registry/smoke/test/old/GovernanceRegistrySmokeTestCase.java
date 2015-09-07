@@ -290,7 +290,7 @@ public class GovernanceRegistrySmokeTestCase extends GREGIntegrationBaseTest {
     private void smokeTestSubscriptions(String smokeTestCollection, String smokeTestResource)
             throws RemoteException, RegistryExceptionException, RegistryException {
         assertEquals(infoServiceAdminClient.subscribe(smokeTestCollection,
-                "https://localhost:9443/services/Hello", "CollectionUpdated",
+                "https://localhost:10343/services/Hello", "CollectionUpdated",
                 sessionCookie).getSubscriptionInstances().length, 1, "subscription failed");
 
         SubscriptionInstance[] instances =
@@ -300,7 +300,7 @@ public class GovernanceRegistrySmokeTestCase extends GREGIntegrationBaseTest {
 
         assertEquals(instances.length, 1, "subscription failed");
         assertEquals(infoServiceAdminClient.subscribe(smokeTestCollection,
-                "https://localhost:9443/services/RESTHello", "CollectionUpdated",
+                "https://localhost:10343/services/RESTHello", "CollectionUpdated",
                 sessionCookie).getSubscriptionInstances().length, 1, "subscription failed");
 
         assertEquals(instances[0].getDigestType(), "h", "invalid digest type");
@@ -321,7 +321,7 @@ public class GovernanceRegistrySmokeTestCase extends GREGIntegrationBaseTest {
                 sessionCookie).getSubscriptionInstances().length, 1, "failed to unsubscribe");
 
         assertEquals(infoServiceAdminClient.subscribe(smokeTestResource,
-                "https://localhost:9443/services/Hello", "ResourceUpdated",
+                "https://localhost:10343/services/Hello", "ResourceUpdated",
                 sessionCookie).getSubscriptionInstances().length, 1, "subscription failed");
 
         instances = infoServiceAdminClient.subscribe(smokeTestResource,
@@ -329,7 +329,7 @@ public class GovernanceRegistrySmokeTestCase extends GREGIntegrationBaseTest {
         assertEquals(instances.length, 1, "subscription failed");
 
         assertEquals(infoServiceAdminClient.subscribe(smokeTestResource,
-                "https://localhost:9443/services/RESTHello", "ResourceUpdated",
+                "https://localhost:10343/services/RESTHello", "ResourceUpdated",
                 sessionCookie).getSubscriptionInstances().length, 1, "subscription failed");
 
         assertEquals(instances[0].getDigestType(), "h", "invalid digest type");

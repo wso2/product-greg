@@ -350,7 +350,7 @@ public class ReportingTestCaseSuper extends GREGIntegrationBaseTest {
 
         artifact.setAttribute("functionalTestCases_feature", "REST API");
         artifact.setAttribute("functionalTestCases_url",
-                              "https://10.200.3.57:9443/carbon/REST");
+                              "https://10.200.3.57:10343/carbon/REST");
         artifact.setAttribute("functionalTestCases_comment",
                               "Created by Sameera");
 
