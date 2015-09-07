@@ -23,6 +23,7 @@ import org.wso2.carbon.automation.engine.context.AutomationContext;
 import org.wso2.carbon.automation.engine.frameworkutils.FrameworkPathUtil;
 import org.wso2.carbon.automation.test.utils.common.FileManager;
 import org.wso2.carbon.integration.common.utils.LoginLogoutClient;
+import org.wso2.carbon.integration.common.utils.exceptions.AutomationUtilException;
 import org.wso2.carbon.registry.activities.stub.RegistryExceptionException;
 import org.wso2.carbon.registry.activities.stub.beans.xsd.ActivityBean;
 import org.wso2.carbon.registry.properties.stub.PropertiesAdminServiceRegistryExceptionException;
@@ -51,7 +52,8 @@ public class CustomPermissionTests extends GREGIntegrationBaseTest {
 
     public static boolean canReadResource(AutomationContext automationContext, String resourcePath)
             throws IOException, ResourceAdminServiceExceptionException, XPathExpressionException,
-            URISyntaxException, SAXException, XMLStreamException, LoginAuthenticationExceptionException {
+            URISyntaxException, SAXException, XMLStreamException, LoginAuthenticationExceptionException,
+            AutomationUtilException {
 
         LoginLogoutClient loginLogoutClient = new LoginLogoutClient(automationContext);
         ResourceAdminServiceClient resourceClient =
@@ -65,7 +67,7 @@ public class CustomPermissionTests extends GREGIntegrationBaseTest {
             throws IOException, LoginAuthenticationExceptionException,
             ResourceAdminServiceExceptionException,
             AddAssociationRegistryExceptionException, XPathExpressionException,
-            URISyntaxException, SAXException, XMLStreamException {
+            URISyntaxException, SAXException, XMLStreamException, AutomationUtilException {
 
         LoginLogoutClient loginLogoutClient = new LoginLogoutClient(automationContext);
         String sessionCookie = loginLogoutClient.login();
@@ -100,7 +102,7 @@ public class CustomPermissionTests extends GREGIntegrationBaseTest {
 
     public static boolean canAddLifecycles(AutomationContext automationContext) throws IOException,
             URISyntaxException, SAXException, XPathExpressionException,
-            LoginAuthenticationExceptionException, XMLStreamException {
+            LoginAuthenticationExceptionException, XMLStreamException, AutomationUtilException {
 
         String resourcePath = FrameworkPathUtil.getSystemResourceLocation() + "artifacts" +
                               File.separator + "GREG" + File.separator + "lifecycle" + File.separator +
@@ -141,7 +143,7 @@ public class CustomPermissionTests extends GREGIntegrationBaseTest {
             ResourceAdminServiceExceptionException, RegistryExceptionException,
             PropertiesAdminServiceRegistryExceptionException,
             ResourceAdminServiceResourceServiceExceptionException, InterruptedException,
-            URISyntaxException, SAXException, XMLStreamException, XPathExpressionException {
+            URISyntaxException, SAXException, XMLStreamException, XPathExpressionException, AutomationUtilException{
 
         LoginLogoutClient loginLogoutClient = new LoginLogoutClient(automationContext);
         String sessionCookie = loginLogoutClient.login();

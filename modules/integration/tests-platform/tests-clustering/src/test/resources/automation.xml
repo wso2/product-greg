@@ -152,8 +152,8 @@
 					<host type="default">127.0.0.1</host>
 				</hosts>
 				<ports>
-					<port type="http">9763</port>
-					<port type="https">9443</port>
+					<port type="http">10663</port>
+					<port type="https">10343</port>
 <!-- 					<port type="amqp">5673</port> -->
 				</ports>
 				<properties>
@@ -165,8 +165,8 @@
 					<host type="default">127.0.0.1</host>
 				</hosts>
 				<ports>
-					<port type="http">9764</port>
-					<port type="https">9444</port>
+					<port type="http">10664</port>
+					<port type="https">10344</port>
 <!-- 					<port type="amqp">5674</port> -->
 				</ports>
 				<properties>
@@ -182,8 +182,8 @@
         <platformExecutionManager>
            <extentionClasses>
                <class>
-                   <name>org.wso2.carbon.integration.common.extensions.carbonserver.CarbonServerExtension</name>
-                   <!--<parameter name="DportOffset" value="0" />-->
+                   <name>org.wso2.carbon.automation.extensions.servers.carbonserver.CarbonServerExtension</name>
+                   <parameter name="-DportOffset" value="900" />
                    <!--<parameter name="cmdArg" value="debug 5005" />-->
                </class>
                <class>
