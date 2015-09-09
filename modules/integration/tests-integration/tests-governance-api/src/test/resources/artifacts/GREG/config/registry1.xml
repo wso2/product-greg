@@ -253,7 +253,7 @@
          and URL to connect to the remote instance (ex:- remote BPS server) if you are planning to use a Remote Human Task. You should
          provide credentials and URL to connect to the local instance if you simply want to use Work List notifications. -->
     
-    <workList username="admin" password="admin" serverURL="https://localhost:9443/services/" remote="false"/>
+    <workList username="admin" password="admin" serverURL="https://localhost:10343/services/" remote="false"/>
     
     <!-- Sample SCM configuration. Please note that checkOutURL, workingDir, and mountPoint are mandatory for each connection. 
          The update frequency is in minutes. Setting readOnly would disable checkIn even if the checkInURL is set. The credentials

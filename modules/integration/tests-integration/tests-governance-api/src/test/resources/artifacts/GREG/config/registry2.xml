@@ -1,4 +1,4 @@
-<wso2registry><workList username="admin" password="admin" serverURL="https://localhost:9443/services/" remote="false" />
+<wso2registry><workList username="admin" password="admin" serverURL="https://localhost:10343/services/" remote="false" />
 
     <!-- These are used to define the DB configuration and the basic parameters to be used for the registry -->
 
