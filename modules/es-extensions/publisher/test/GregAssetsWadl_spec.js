@@ -39,11 +39,12 @@ describe('Assets POST - Publisher API', function() {
             log.error(e);
         } finally {
             utils.logoutAuthorizedUser(header);
-            expect(result.data.data).not.toBe(undefined);
-            expect(result.data.data.overview_name).toEqual(asset.overview_name);
-            expect(result.data.data.overview_version).toEqual(asset.overview_version);
-            expect(result.data.data.overview_url).toEqual(asset.overview_url);
-            expect(result.data.data.type).toEqual("wadl");
+            
+            expect(result.data).not.toBe(undefined);
+            expect(result.data.overview_name).toEqual(asset.overview_name);
+            expect(result.data.overview_version).toEqual(asset.overview_version);
+            expect(result.data.overview_url).toEqual(asset.overview_url);
+            expect(result.data.type).toEqual("wadl");
         }
     });
 });
