@@ -23,7 +23,9 @@
                 </div>
                 <div class="col-lg-10">
                     <h1>{{name}}</h1>
+                    {{#if lifecycleState}}
                     <i class="fa fa-circle"></i> {{lifecycleState}}
+                    {{/if}}
                     <div class="well-description">{{tables.0.fields.createdtime.value}}</div>
                 </div>
             </div>
