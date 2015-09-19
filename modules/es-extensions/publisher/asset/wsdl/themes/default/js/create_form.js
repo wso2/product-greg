@@ -107,6 +107,8 @@ $(function() {
             action = "addNewWsdlFileAssetButton";
         }
 
+        var version;
+        var validateVersion = /^\d+\.\d+\.\d+$/;
         var container;
         var $form = $('form[name="form-asset-create"]');
         if (action === 'addNewWsdlFileAssetButton') {//upload via file browser
@@ -116,13 +118,25 @@ $(function() {
             var wsdlFileInputValue = $wsdlFileInput.val();
             var wsdlFilePath = wsdlFileInputValue;
             var fileName = wsdlFilePath.split('\\').reverse()[0];
+            version =  $('#file_version').val();
             //set the zip file name, to the hidden attribute.
             container = 'saveButtonsFile';
             $('input[name="wsdl_file_name"]').val(fileName);
         } else if (action === 'addNewAssetButton') {//upload via url.
+            version =  $('#overview_version').val();
             //call the default endpoint.
             container = 'saveButtonsURL';
             $form.attr('action', caramel.context + '/apis/assets?type=wsdl');
+        }
+
+        if(version.length===0){
+            messages.alertInfo("Please fill the version field");
+            return false;
+        }
+
+        if(version.match(validateVersion)==null){
+            messages.alertInfo("Version should be in the form of 1.0.0");
+            return false;
         }
 
         doSubmit(action,container);
