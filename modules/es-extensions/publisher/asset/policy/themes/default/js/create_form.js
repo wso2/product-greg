@@ -109,6 +109,8 @@ $(function() {
             action = "addNewPolicyFileAssetButton";
         }
 
+        var version;
+        var validateVersion = /^\d+\.\d+\.\d+$/;
         var container;
         
         var $form = $('form[name="form-asset-create"]');
@@ -119,13 +121,25 @@ $(function() {
             var policyFileInputValue = $policyFileInput.val();
             var policyFilePath = policyFileInputValue;
             var fileName = policyFilePath.split('\\').reverse()[0];
+            version =  $('#file_version').val();
             //set the zip file name, to the hidden attribute.
             $('input[name="policy_file_name"]').val(fileName);
             container = 'saveButtonsFile';
         } else if (action === 'addNewAssetButton') {//upload via url.
+            version =  $('#overview_version').val();
             //call the default endpoint.
             $form.attr('action', caramel.context + '/apis/assets?type=policy');
             container = 'saveButtonsURL';
+        }
+
+        if(version.length===0){
+            messages.alertInfo("Please fill the version field");
+            return false;
+        }
+
+        if(version.match(validateVersion)==null){
+            messages.alertInfo("Version should be in the form of 1.0.0");
+            return false;
         }
 
         doSubmit(action, container);
