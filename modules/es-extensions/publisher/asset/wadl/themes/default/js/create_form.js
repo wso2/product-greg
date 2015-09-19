@@ -77,6 +77,7 @@ $(function() {
                 var options=obtainFormMeta('#form-asset-create');
                 window.location=options.redirectUrl;
                 messages.alertSuccess("Successfully created the wadl");
+                $('form[name="form-asset-create"]').data('submitted', false);
             },
             error:function(){
                 messages.alertError("Error occurred while adding the wadl");
@@ -91,6 +92,7 @@ $(function() {
                 createButton.show();
                 createButton.next().show();
                 $('.fa-spinner').parent().remove();
+                $('form[name="form-asset-create"]').data('submitted', false);
             }   
         });
     };
@@ -117,11 +119,39 @@ $(function() {
             var $wadlFileInput = $('input[name="wadl_file"]');
             var wadlFileInputValue = $wadlFileInput.val();
             var wadlFilePath = wadlFileInputValue;
+
+            var wadlFileVersion = $('input[name="file_version"]').val();
+            if(wadlFileVersion == "" || wadlFilePath == "") {
+                messages.alertInfo("All required fields must be provided");
+                return false;
+            }
+
+            if($form.data('submitted') === true) {
+                return false;
+            } else {
+                $form.data('submitted', true);
+            }
+
             var fileName = wadlFilePath.split('\\').reverse()[0];
             //set the zip file name, to the hidden attribute.
             $('input[name="wadl_file_name"]').val(fileName);
             container = 'saveButtonsFile';
         } else if (action == 'addNewAssetButton') {//upload via url.
+            var wadlUrl = $('input[name="overview_url"]').val();
+            var wadlFileName = $('input[name="overview_name"]').val();
+            var wadlVersion = $('input[name="overview_version"]').val();
+
+            if(wadlUrl == "" || wadlFileName == "" || wadlVersion == "") {
+                messages.alertInfo("All required fields must be provided");
+                return false;
+            }
+
+            if($form.data('submitted') === true) {
+                return false;
+            } else {
+                $form.data('submitted', true);
+            }
+
             //call the default endpoint.
             $form.attr('action', caramel.context + '/apis/assets?type=wadl');
             container = 'saveButtonsURL';

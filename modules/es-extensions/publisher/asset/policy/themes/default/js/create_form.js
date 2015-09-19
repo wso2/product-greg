@@ -77,6 +77,7 @@ $(function() {
                 var options=obtainFormMeta('#form-asset-create');
                 window.location=options.redirectUrl;
                 messages.alertSuccess("Successfully created the policy");
+                $('form[name="form-asset-create"]').data('submitted', false);
             },
             error:function(){
                 messages.alertError("Error occurred while adding the policy");
@@ -91,6 +92,7 @@ $(function() {
                 createButton.show();
                 createButton.next().show();
                 $('.fa-spinner').parent().remove();
+                $('form[name="form-asset-create"]').data('submitted', false);
             }   
         });
     };
@@ -118,11 +120,39 @@ $(function() {
             var $policyFileInput = $('input[name="policy_file"]');
             var policyFileInputValue = $policyFileInput.val();
             var policyFilePath = policyFileInputValue;
+
+            var policyFileVersion = $('input[name="file_version"]').val();
+            if(policyFileVersion == "" || policyFilePath == "") {
+                messages.alertInfo("All required fields must be provided");
+                return false;
+            }
+
+            if($form.data('submitted') === true) {
+                return false;
+            } else {
+                $form.data('submitted', true);
+            }
+
             var fileName = policyFilePath.split('\\').reverse()[0];
             //set the zip file name, to the hidden attribute.
             $('input[name="policy_file_name"]').val(fileName);
             container = 'saveButtonsFile';
         } else if (action === 'addNewAssetButton') {//upload via url.
+            var policyUrl = $('input[name="overview_url"]').val();
+            var policyFileName = $('input[name="overview_name"]').val();
+            var policyVersion = $('input[name="overview_version"]').val();
+
+            if(policyUrl == "" || policyFileName == "" || policyVersion == "") {
+                messages.alertInfo("All required fields must be provided");
+                return false;
+            }
+
+            if($form.data('submitted') === true) {
+                return false;
+            } else {
+                $form.data('submitted', true);
+            }
+
             //call the default endpoint.
             $form.attr('action', caramel.context + '/apis/assets?type=policy');
             container = 'saveButtonsURL';

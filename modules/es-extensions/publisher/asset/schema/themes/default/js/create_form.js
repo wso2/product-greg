@@ -77,6 +77,7 @@ $(function() {
                 var options=obtainFormMeta('#form-asset-create');
                 window.location=options.redirectUrl;
                 messages.alertSuccess("Successfully created the schema");
+                $('form[name="form-asset-create"]').data('submitted', false);
             },
             error:function(){
                 messages.alertError("Error occurred whilw adding the schema");
@@ -91,6 +92,7 @@ $(function() {
                 createButton.show();
                 createButton.next().show();
                 $('.fa-spinner').parent().remove();
+                $('form[name="form-asset-create"]').data('submitted', false);
             }   
         });
     };
@@ -118,11 +120,39 @@ $(function() {
             var $schemaFileInput = $('input[name="schema_file"]');
             var schemaFileInputValue = $schemaFileInput.val();
             var schemaFilePath = schemaFileInputValue;
+
+            var schemaFileVersion = $('input[name="file_version"]').val();
+            if(schemaFileVersion == "" || schemaFilePath == "") {
+                messages.alertInfo("All required fields must be provided");
+                return false;
+            }
+
+            if($form.data('submitted') === true) {
+                return false;
+            } else {
+                $form.data('submitted', true);
+            }
+
             var fileName = schemaFilePath.split('\\').reverse()[0];
             //set the zip file name, to the hidden attribute.
             $('input[name="schema_file_name"]').val(fileName);
             container = 'saveButtonsFile';
         } else if (action === 'addNewAssetButton') {//upload via url.
+            var schemaUrl = $('input[name="overview_url"]').val();
+            var schemaName = $('input[name="overview_name"]').val();
+            var schemaVersion = $('input[name="overview_version"]').val();
+
+            if(schemaUrl == "" || schemaName == "" || schemaVersion == "") {
+                messages.alertInfo("All required fields must be provided");
+                return false;
+            }
+
+            if($form.data('submitted') === true) {
+                return false;
+            } else {
+                $form.data('submitted', true);
+            }
+
             //call the default endpoint.
             $form.attr('action', caramel.context + '/apis/assets?type=schema');
             container = 'saveButtonsURL';
