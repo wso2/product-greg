@@ -361,6 +361,9 @@
 	    <excludes>
                 <exclude>**/MobileAppLifeCycle.xml</exclude>
                 <exclude>**/SampleLifeCycle.xml</exclude>
+                <exclude>**/test/Assets_spec.js</exclude>
+                <exclude>**/test/Authentication_spec.js</exclude>
+                <exclude>**/test/Lifecycle_spec.js</exclude>
             </excludes>
         </fileSet>
         <fileSet>
