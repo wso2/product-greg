@@ -1,0 +1,11 @@
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
+
+<suite name="greg-smoke-test-suite">
+    <parameter name="useDefaultListeners" value="false"/>
+    <test name="test-greg-smoke-pagination" preserve-order="true" parallel="false">
+        <classes>
+            <class name="org.wso2.carbon.registry.pagination.test.PaginationWSTest"/>
+            <class name="org.wso2.carbon.registry.pagination.test.APIPaginationTestCase"/>
+        </classes>
+    </test>
+</suite>
