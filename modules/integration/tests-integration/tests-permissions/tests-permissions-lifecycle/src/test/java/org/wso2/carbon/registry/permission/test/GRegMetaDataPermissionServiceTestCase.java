@@ -89,7 +89,7 @@ public class GRegMetaDataPermissionServiceTestCase extends GREGIntegrationBaseTe
         resourceAdminServiceClient = new ResourceAdminServiceClient(automationContext
                 .getContextUrls().getBackEndUrl(), userName, userPassword);
         log.info("Newly Created User Loged in :" + userName);
-        Thread.sleep(20000); //wait 20 sec before import WSDL
+        Thread.sleep(30000); //wait 30 sec before import WSDL
         resourceAdminServiceClient.addWSDL(resourceName, "", fetchUrl);
         resourceAdminServiceClient.deleteResource("/_system/governance/trunk/services/" +
                 "org/wso2/carbon/core/services/echo/");
