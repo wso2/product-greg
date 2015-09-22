@@ -1,0 +1,9 @@
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
+
+<suite name="GregTestSuite">
+    <test name="UTF-Support" preserve-order="true" parallel="false">
+        <packages>
+            <package name="org.wso2.carbon.registry.utfsupport.test"/>
+        </packages>
+    </test>
+</suite>

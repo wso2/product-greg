@@ -1,0 +1,10 @@
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
+
+<suite name="greg-smoke-test-suite">
+    <parameter name="useDefaultListeners" value="false"/>
+    <test name="test-greg-smoke-scm" preserve-order="true" parallel="false">
+        <packages>
+            <package name="org.wso2.carbon.registry.ws.client.test.general.old"/>
+        </packages>
+    </test>
+</suite>
