@@ -11,6 +11,11 @@
                 <div class="span10 asset-details-box">
                     <h4>{{name}}</h4>
                 </div>
+                {{#if lifecycle}}
+                <div class="span10 asset-details-box">
+                    <h5>{{lifecycle}} : {{lifecycleState}}</h5>
+                </div>
+                {{/if}}
             </div>
             <div>
                 {{> asset-version-info ..}}
