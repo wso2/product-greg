@@ -251,6 +251,7 @@ public class Carbon11686 extends ReportingTestCaseSuper {
         }
 
         parsedText = parsedText.replace("\n", "");
+        log.info("testActivityReportPDF result : " + parsedText);
 
         assertTrue(parsedText.contains(userNameRandom));
         assertTrue(parsedText.contains("hasadded the resource"));
@@ -277,6 +278,8 @@ public class Carbon11686 extends ReportingTestCaseSuper {
         assertNotNull(report);
 
         String reportString = report.toString();
+
+        log.info("testActivityReportHTML result : " + reportString);
 
         assertTrue(reportString.contains(userNameRandom));
         assertTrue(reportString.contains("has added the resource"));

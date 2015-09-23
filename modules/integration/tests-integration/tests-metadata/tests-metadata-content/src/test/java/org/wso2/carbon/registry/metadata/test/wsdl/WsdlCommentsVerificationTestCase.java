@@ -121,21 +121,24 @@ public class WsdlCommentsVerificationTestCase extends GREGIntegrationBaseTest{
         
         GovernanceArtifact[] governanceArtifacts = wsdl.getDependents();
         for (GovernanceArtifact tmpGovernanceArtifact : governanceArtifacts) {
-            if (tmpGovernanceArtifact != null && tmpGovernanceArtifact.getPath() != null &&
-                !tmpGovernanceArtifact.getPath().contentEquals(previousGovernanceArtifactPath)) {
-                wsRegistry.delete(pathPrefix + tmpGovernanceArtifact.getPath());
+            if (tmpGovernanceArtifact != null && tmpGovernanceArtifact.getPath() != null) {
+                if (!tmpGovernanceArtifact.getPath().contentEquals(previousGovernanceArtifactPath)) {
+                    wsRegistry.delete(pathPrefix + tmpGovernanceArtifact.getPath());
+                }
+                previousGovernanceArtifactPath = tmpGovernanceArtifact.getPath();
             }
-            previousGovernanceArtifactPath = tmpGovernanceArtifact.getPath();
         }
 
         for (Endpoint tmpEndpoint : endpoints) {
-        	GovernanceArtifact[] dependentArtifacts =  tmpEndpoint.getDependents();
-        	for (GovernanceArtifact tmpGovernanceArtifact : dependentArtifacts) {
-                if (tmpGovernanceArtifact != null && tmpGovernanceArtifact.getPath() != null) {
-                    wsRegistry.delete(pathPrefix + tmpGovernanceArtifact.getPath());
+            if (tmpEndpoint != null && tmpEndpoint.getPath() != null) {
+                GovernanceArtifact[] dependentArtifacts =  tmpEndpoint.getDependents();
+                for (GovernanceArtifact tmpGovernanceArtifact : dependentArtifacts) {
+                    if (tmpGovernanceArtifact != null && tmpGovernanceArtifact.getPath() != null) {
+                        wsRegistry.delete(pathPrefix + tmpGovernanceArtifact.getPath());
+                    }
                 }
+                wsRegistry.delete(pathPrefix + tmpEndpoint.getPath());
             }
-            wsRegistry.delete(pathPrefix + tmpEndpoint.getPath());
         }
         wsRegistry = null;
         wsdl = null;
