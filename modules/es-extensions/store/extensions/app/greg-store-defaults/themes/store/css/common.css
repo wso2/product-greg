@@ -395,3 +395,16 @@ a.cu-btn {
 .wr-global-header .dropdown-menu li a {
    padding: 10px 15px;
 }
+
+a.ast-name {
+    font-weight:300;
+    font-size:18px;
+    color:#555;
+    margin-top:2px;
+    margin-bottom:2px;
+    display: block;
+    overflow: hidden;
+    white-space: nowrap;
+    height: 26px;
+    position: relative;
+}
