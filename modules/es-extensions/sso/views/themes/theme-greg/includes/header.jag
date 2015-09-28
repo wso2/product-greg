@@ -4,7 +4,7 @@ var themeModule = require('/modules/theme.js');
 <header>
     <div class="row wr-global-header">
         <div class="col-lg-12 app-logo">
-            <a class="login-link"><img src="<%=themeModule.getThemedUrl('views/images/logo.png')%>" /><h2 class="app-title">Governance Center</h2></a>
+            <a class="login-link"><img src="<%=themeModule.getThemedUrl('views/images/logo.png')%>" /><h2 class="app-title">Governance Registry</h2></a>
         </div>
     </div>
 </header>

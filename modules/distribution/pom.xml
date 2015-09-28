@@ -503,6 +503,8 @@
 
                                 <replace file="../../modules/p2-profile-gen/target/wso2carbon-core-${carbon.kernel.version}/repository/conf/identity.xml" token="&lt;SessionIdleTimeout&gt;15&lt;/SessionIdleTimeout&gt;&lt;!-- Minutes --&gt;" value="&lt;SessionIdleTimeout&gt;120&lt;/SessionIdleTimeout&gt;&lt;!-- Minutes --&gt;" />
 
+                                <replace file="../../modules/p2-profile-gen/target/wso2carbon-core-${carbon.kernel.version}/repository/deployment/server/jaggeryapps/es-sso/jaggery.conf" token="&quot;logLevel&quot;: &quot;info&quot;" value="&quot;logLevel&quot;: &quot;info&quot;,${line.separator}    &quot;theme&quot;: &quot;theme-greg&quot;" />
+
                                 <echo message="########### Create HT H2 Database ##############" />
                                 <sql driver="org.h2.Driver" url="jdbc:h2:${basedir}/target/database/jpadb;create=true" userid="wso2carbon" password="wso2carbon" autocommit="true" onerror="continue">
                                     <classpath>
