@@ -124,6 +124,7 @@ asset.manager = function(ctx) {
                 item.name = subPaths[subPaths.length - 1];
                 item.attributes.overview_name = item.name;
                 item.version = subPaths[subPaths.length - 2];
+                item.overview_version = item.version;
                 item.attributes.overview_version = item.version;
                 var userRegistry = getRegistry(ctx.session);
                 var ByteArrayInputStream = Packages.java.io.ByteArrayInputStream;
@@ -151,6 +152,10 @@ asset.manager = function(ctx) {
                 var name = subPaths[subPaths.length - 1];
                 result.name = name;
                 result.version = subPaths[subPaths.length - 2];
+                result.attributes.overview_name = name;
+                result.overview_version = result.version;
+                result.attributes.overview_version = result.version;
+                result.attributes.version = result.version;
             }
             return items;
         },
@@ -163,6 +168,10 @@ asset.manager = function(ctx) {
                 var name = subPaths[subPaths.length - 1];
                 result.name = name;
                 result.version = subPaths[subPaths.length - 2];
+                result.attributes.overview_name = name;
+                result.overview_version = result.version;
+                result.attributes.overview_version = result.version;
+                result.attributes.version = result.version;
             }
             return items;
         },
@@ -175,6 +184,10 @@ asset.manager = function(ctx) {
                 var name = subPaths[subPaths.length - 1];
                 result.name = name;
                 result.version = subPaths[subPaths.length - 2];
+                result.attributes.overview_name = name;
+                result.overview_version = result.version;
+                result.attributes.overview_version = result.version;
+                result.attributes.version = result.version;
             }
             return results;
         },
@@ -187,10 +200,17 @@ asset.manager = function(ctx) {
                 var name = subPaths[subPaths.length - 1];
                 result.name = name;
                 result.version = subPaths[subPaths.length - 2];
+                result.attributes.overview_name = name;
+                result.overview_version = result.version;
+                result.attributes.overview_version = result.version;
+                result.attributes.version = result.version;
             }
             return results;
         },
         getName: function(asset) {
+            if(asset.path){
+                return asset.path.substring(asset.path.lastIndexOf("/") + 1);
+            }
             return asset.name;
         },
         /*Default update method fails when updating
@@ -201,6 +221,10 @@ asset.manager = function(ctx) {
         },
         postCreate:function(){
             
+        },
+        getVersion: function(asset) {
+            asset.attributes["overview_version"] = asset.attributes["version"];
+            return asset.attributes["version"];
         }
     };
 };

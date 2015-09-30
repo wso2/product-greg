@@ -15,14 +15,12 @@
  ~ specific language governing permissions and limitations
  ~ under the License.
  -->
-<project xmlns="http://maven.apache.org/POM/4.0.0"
-         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 
     <parent>
 	<groupId>org.wso2.greg</groupId>
     	<artifactId>governance-styles-parent</artifactId>
-        <version>5.0.0-SNAPSHOT</version>
+        <version>5.0.1-SNAPSHOT</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
 
@@ -43,8 +41,8 @@
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
                 <configuration>
-                    <source>1.5</source>
-                    <target>1.5</target>
+                    <source>1.7</source>
+                    <target>1.7</target>
                 </configuration>
             </plugin>
 
@@ -58,19 +56,15 @@
                         <Bundle-SymbolicName>${project.artifactId}</Bundle-SymbolicName>
                         <Bundle-Name>${project.artifactId}</Bundle-Name>
                         <Private-Package>org.wso2.registry.styles.internal</Private-Package>
-                        <Bundle-Activator>org.wso2.registry.styles.internal.Activator</Bundle-Activator>
-                        <!--<Export-Package>-->
-                            <!--org.wso2.carbon.governance.styles.*-->
-                        <!--</Export-Package>-->
-                        <!--<Import-Package>-->
-                            <!--org.osgi.framework,-->
-                            <!--org.osgi.service.http,-->
-                            <!--org.wso2.carbon.ui,-->
-                            <!--javax.servlet.*;version="2.4.0",-->
-                            <!--*;resolution:=optional-->
-                        <!--</Import-Package>-->
+                        <Import-Package>
+                            org.osgi.framework,
+                            org.osgi.service.http,
+                            org.wso2.carbon.ui,
+                            javax.servlet.*;version="2.4.0",
+                            *;resolution:=optional
+                        </Import-Package>
                         <Fragment-Host>org.wso2.carbon.ui</Fragment-Host>
-                        <!--<Carbon-Component>UIBundle</Carbon-Component>-->
+                        <Carbon-Component>UIBundle</Carbon-Component>
                     </instructions>
                 </configuration>
             </plugin>

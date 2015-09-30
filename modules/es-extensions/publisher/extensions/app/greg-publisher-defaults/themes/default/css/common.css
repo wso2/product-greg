@@ -903,3 +903,16 @@ a.cu-btn:hover, .wr-asset-type-switcher a.switcher-link:hover {
 [data-step]:first-child {
     display: block;
 }
+
+h3.ast-name {
+        font-weight:300;
+        font-size:18px;
+        color:#555;
+        margin-top:12px;
+        margin-bottom:12px;
+    display: block;
+    overflow: hidden;
+    white-space: nowrap;
+    height: 26px;
+    position: relative;
+}

@@ -1,0 +1,57 @@
+<!--
+  ~ Copyright (c) 2014, WSO2 Inc. (http://wso2.com) All Rights Reserved.
+  ~
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~ http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  -->
+<!-- header -->
+<header>
+    <div class="row wr-global-header">
+        <div class="col-xs-8 col-sm-8 app-logo">
+            <a href="{{tenantedUrl ""}}{{meta.landingPage}}">
+                <img src="{{url "/themes/store/img/logo.png"}}" />
+                <h2 class="app-title hidden-xs-320">Governance Center - Store</h2>
+                <h2 class="app-title visible-xs-320">ES</h2>
+            </a>
+        </div>
+
+        <div class="col-xs-4 col-sm-4 wr-auth-container">
+            <div class="wr-auth pull-right fuck">
+            {{#if cuser.username}}
+                <a href="#" data-toggle="dropdown" class="">
+                    <div class="auth-img">
+                        <span id="logedInUser" class="hidden-xs-320">{{cuser.username}}&nbsp;&nbsp;</span><i class="fw fw-user"></i>
+                    </div>
+                </a>
+                <div class="dropdown-menu">
+                    <div class="cu-arrow"></div>
+                    <div class="dropdown-menu-content">
+                        <a class="filter-item" onclick="window.location.href='/store/logout'">Sign out</a>
+                    </div>
+                </div>
+            {{else}}
+                <a href="#" data-toggle="dropdown" class="" onclick="window.location.href='/store/login'">
+                    <div class="auth-img">
+                        <span id="logedInUser" class="hidden-xs-320">Sign in&nbsp;&nbsp;</span><i class="fw fw-user"></i>
+                    </div>
+                </a>
+            {{/if}}
+            </div>
+        </div>
+
+    </div>
+</header>
+<!-- /header -->
+
+{{>login login}}
+
+{{>register}}

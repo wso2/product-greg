@@ -228,6 +228,9 @@ asset.manager = function(ctx) {
             return results;
         },
         getName: function(asset) {
+            if(asset.path){
+                return asset.path.substring(asset.path.lastIndexOf("/") + 1);
+            }
             return asset.name;
         },
         update: function(){
@@ -235,6 +238,10 @@ asset.manager = function(ctx) {
         },
         postCreate:function(){
             
+        },
+        getVersion: function(asset) {
+            asset.attributes["overview_version"] = asset.attributes["version"];
+            return asset.attributes["version"];
         }
     };
 };

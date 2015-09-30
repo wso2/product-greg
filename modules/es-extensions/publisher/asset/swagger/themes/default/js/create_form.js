@@ -75,6 +75,7 @@ $(function() {
 				var options=obtainFormMeta('#form-asset-create');
 				window.location=options.redirectUrl;
                 messages.alertSuccess("Successfully created the swagger");
+                $('form[name="form-asset-create"]').data('submitted', false);
 			},
 			error:function(){
                 messages.alertError("Error occurred while adding the swagger");
@@ -89,6 +90,7 @@ $(function() {
                 createButton.show();
                 createButton.next().show();
                 $('.fa-spinner').parent().remove();
+                $('form[name="form-asset-create"]').data('submitted', false);
 			}	
 		});
 	};
@@ -115,11 +117,39 @@ $(function() {
             var $swaggerFileInput = $('input[name="swagger_file"]');
             var swaggerFileInputValue = $swaggerFileInput.val();
             var swaggerFilePath = swaggerFileInputValue;
+
+            var swaggerFileVersion = $('input[name="file_version"]').val();
+            if(swaggerFileVersion == "" || swaggerFilePath == "") {
+                messages.alertInfo("All required fields must be provided");
+                return false;
+            }
+
+            if($form.data('submitted') === true) {
+                return false;
+            } else {
+                $form.data('submitted', true);
+            }
+
             var fileName = swaggerFilePath.split('\\').reverse()[0];
             //set the zip file name, to the hidden attribute.
             container = 'saveButtonsFile';
             $('input[name="swagger_file_name"]').val(fileName);
         } else if (action === 'addNewAssetButton') {//upload via url.
+            var swaggerUrl = $('input[name="overview_url"]').val();
+            var swaggerName = $('input[name="overview_name"]').val();
+            var swaggerVersion = $('input[name="overview_version"]').val();
+
+            if(swaggerUrl == "" || swaggerName == "" || swaggerVersion == "") {
+                messages.alertInfo("All required fields must be provided");
+                return false;
+            }
+
+            if($form.data('submitted') === true) {
+                return false;
+            } else {
+                $form.data('submitted', true);
+            }
+
             //call the default endpoint.
             container = 'saveButtonsURL';
             $form.attr('action', caramel.context + '/apis/assets?type=swagger');

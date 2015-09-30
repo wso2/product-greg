@@ -17,10 +17,10 @@
  -->
 <product xmlns="http://products.wso2.org/carbon">
     <properties>
-       <property name="userforum">http://wso2.org/forum/351</property>
-       <property name="userguide">http://wso2.org/project/registry/3.5.0/docs/index.html</property>
+       <property name="userforum">http://stackoverflow.com/questions/tagged/wso2</property>
+       <property name="userguide">http://docs.wso2.org/wiki/display/Governance500/WSO2+Governance+Registry+Documentation</property>
        <property name="mailinglist">http://wso2.org/mail</property>
-       <property name="issuetracker">https://wso2.org/jira/browse/STRATOS</property>
+       <property name="issuetracker">https://wso2.org/jira/browse/REGISTRY</property>
        <property name="webAdminConsoleTitle">WSO2 Stratos Governance</property>
     </properties>
 </product>
