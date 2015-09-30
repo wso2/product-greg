@@ -287,7 +287,7 @@ asset.manager = function(ctx) {
             if (asset.wsdl_url) {
                 var wsdlURL = asset.wsdl_url;
                 modAsset.wsdl_url = wsdlURL;
-                modAsset.tables[2].fields.wsdlUrl.value = modAsset.wsdl_url;
+                modAsset.tables[2].fields.wsdlURL.value = modAsset.wsdl_url;
             }
             if (asset.interfaceType) {
                 var interfaceType = asset.interfaceType;
