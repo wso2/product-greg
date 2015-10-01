@@ -195,7 +195,7 @@ public class LCTransitionNotificationTestCase extends GREGIntegrationBaseTest {
      * @throws RegistryExceptionException
      */
     @Test (groups = "wso2.greg", description = "Check LC Approval Needed notification is recived",
-            dependsOnMethods = "testAddLcToService")
+            dependsOnMethods = "testAddLcToService", enabled = false)
     public void testLCApprovalNeededNotification () throws RemoteException, IllegalStateFault,
             IllegalAccessFault, IllegalArgumentFault, InterruptedException, RegistryException,
             RegistryExceptionException {
@@ -214,7 +214,7 @@ public class LCTransitionNotificationTestCase extends GREGIntegrationBaseTest {
      * @throws RegistryException
      * @throws RegistryExceptionException
      */
-    @Test (groups = "wso2.greg", description = "Subscribe LC Approved notification ", dependsOnMethods = "testLCApprovalNeededNotification")
+    @Test (groups = "wso2.greg", description = "Subscribe LC Approved notification ", dependsOnMethods = "testLCApprovalNeededNotification", enabled = false)
     public void testSubscribeLCApprovedNotification () throws RemoteException, IllegalStateFault, IllegalAccessFault, IllegalArgumentFault, InterruptedException, RegistryException, RegistryExceptionException {
 
         assertTrue(consoleSubscribe(absPath, "LifeCycleApproved"));
@@ -223,7 +223,7 @@ public class LCTransitionNotificationTestCase extends GREGIntegrationBaseTest {
     /**
      * @throws Exception
      */
-    @Test (groups = "wso2.greg", description = "LifeCycle Transition Event Approval(Tick)", dependsOnMethods = "testSubscribeLCApprovedNotification")
+    @Test (groups = "wso2.greg", description = "LifeCycle Transition Event Approval(Tick)", dependsOnMethods = "testSubscribeLCApprovedNotification", enabled = false)
     public void testLCTransitionApproval () throws Exception {
 
         lifeCycleAdminServiceClient.invokeAspect(absPath, LC_NAME, ACTION_VOTE_CLICK, new String[]{
@@ -250,7 +250,7 @@ public class LCTransitionNotificationTestCase extends GREGIntegrationBaseTest {
      * @throws RegistryException
      * @throws RegistryExceptionException
      */
-    @Test (groups = "wso2.greg", description = "Check LifeCycle Approved notification is recived", dependsOnMethods = "testLCTransitionApproval")
+    @Test (groups = "wso2.greg", description = "Check LifeCycle Approved notification is recived", dependsOnMethods = "testLCTransitionApproval", enabled = false)
     public void testLCApprovedNotification () throws RemoteException, IllegalStateFault, IllegalAccessFault, IllegalArgumentFault, InterruptedException, RegistryException, RegistryExceptionException {
 
         assertTrue(getNotification("LifeCycle State 'Commencement', transitions event 'Abort' was approved for resource at " + absPath));
@@ -266,7 +266,7 @@ public class LCTransitionNotificationTestCase extends GREGIntegrationBaseTest {
      * @throws RegistryException
      * @throws RegistryExceptionException
      */
-    @Test (groups = "wso2.greg", description = "Subscribe LifeCycle Approval Withdrawn notification ", dependsOnMethods = "testLCApprovedNotification")
+    @Test (groups = "wso2.greg", description = "Subscribe LifeCycle Approval Withdrawn notification ", dependsOnMethods = "testLCApprovedNotification", enabled = false)
     public void testSubscribeLCApprovalWithdrawnNotification () throws RemoteException, IllegalStateFault, IllegalAccessFault, IllegalArgumentFault, InterruptedException, RegistryException, RegistryExceptionException {
 
         assertTrue(consoleSubscribe(absPath, "LifeCycleApprovalWithdrawn"));
@@ -275,7 +275,7 @@ public class LCTransitionNotificationTestCase extends GREGIntegrationBaseTest {
     /**
      * @throws Exception
      */
-    @Test (groups = "wso2.greg", description = "Remove LC Transition Event Approval(Untick)", dependsOnMethods = "testSubscribeLCApprovalWithdrawnNotification")
+    @Test (groups = "wso2.greg", description = "Remove LC Transition Event Approval(Untick)", dependsOnMethods = "testSubscribeLCApprovalWithdrawnNotification", enabled = false)
     public void testLCTransitionApprovalWithDrawn () throws Exception {
 
         lifeCycleAdminServiceClient.invokeAspect(absPath, LC_NAME, ACTION_VOTE_CLICK, new String[]{
@@ -301,7 +301,7 @@ public class LCTransitionNotificationTestCase extends GREGIntegrationBaseTest {
      * @throws RegistryException
      * @throws RegistryExceptionException
      */
-    @Test (groups = "wso2.greg", description = "Check LC Approval WithDrown notification is recived", dependsOnMethods = "testLCTransitionApprovalWithDrawn")
+    @Test (groups = "wso2.greg", description = "Check LC Approval WithDrown notification is recived", dependsOnMethods = "testLCTransitionApprovalWithDrawn", enabled = false)
     public void testLCApprovalWithdrawnNotification () throws RemoteException, IllegalStateFault, IllegalAccessFault, IllegalArgumentFault, InterruptedException, RegistryException, RegistryExceptionException {
 
         assertTrue(getNotification("LifeCycle State 'Commencement' transitions event 'Abort' approvel was removed for resource at " + absPath));
@@ -313,6 +313,10 @@ public class LCTransitionNotificationTestCase extends GREGIntegrationBaseTest {
      */
     @AfterClass ()
     public void clear () throws Exception {
+
+        try {
+            managementUnsubscribe(absPath);
+        } catch (Exception e) {}
 
         String servicePathToDelete = absPath;
         if (wsRegistryServiceClient.resourceExists(servicePathToDelete)) {
