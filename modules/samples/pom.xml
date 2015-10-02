@@ -41,6 +41,8 @@
         <module>asset-models/PeopleModel</module>
         <module>asset-models/ProjectModel</module>
         <module>asset-models/TestPlanModel</module>
+        <module>search-client/src/org.wso2.carbon.registry.search.client</module>
+        <module>taggingHandler/src</module>
     </modules>
 
     <organization>
@@ -305,7 +307,7 @@
                 <version>${carbon.registry.version}</version>
             </dependency>
             <dependency>
-                <groupId>org.wso2.carbon</groupId>
+                <groupId>org.wso2.carbon.registry</groupId>
                 <artifactId>org.wso2.carbon.registry.extensions</artifactId>
                 <version>${carbon.registry.version}</version>
             </dependency>
@@ -347,7 +349,7 @@
 
         <carbon.kernel.version>4.4.1</carbon.kernel.version>
         <!-- Carbon Registry -->
-        <carbon.registry.version>4.4.8</carbon.registry.version>
+        <carbon.registry.version>4.4.9</carbon.registry.version>
         <!-- Carbon Governance -->
         <carbon.governance.version>4.5.8</carbon.governance.version>
 

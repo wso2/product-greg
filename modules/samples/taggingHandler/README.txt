@@ -10,7 +10,7 @@ Steps
 -----
 1. Execute the maven command 'mvn clean install' from the taggingHandler/src sample directory.
 
-2. Copy the 'org.wso2.carbon.registry.samples.taggingHandler-5.0.0.jar' into GREG_HOME/repository/components/dropins.
+2. Copy the 'org.wso2.carbon.registry.samples.taggingHandler-5.0.1.jar' into GREG_HOME/repository/components/dropins.
 
    You also can upload handlers through the administration console by visiting the Extensions --> Add menu.
 

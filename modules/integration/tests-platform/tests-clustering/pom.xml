@@ -23,7 +23,7 @@
 	<parent>
 		<groupId>org.wso2.greg</groupId>
 		<artifactId>org.wso2.carbon.registry.test.platform</artifactId>
-		<version>5.0.0-SNAPSHOT</version>
+		<version>5.0.1-SNAPSHOT</version>
 	</parent>
 
 	<artifactId>org.wso2.carbon.registry.test.platform.clustering</artifactId>
