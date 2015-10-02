@@ -4,6 +4,7 @@ require('/modules/publisher.js').exec(function(ctx) {
 	caramel = require('caramel');
 	var rxtAPI = require('rxt');
 	var appManager = rxtAPI.app.createUserAppManager(ctx.session);
+	var permissionAPI = rxtAPI.permissions;
 	// var appManager = 
 
 	// var tenantApi = require('/modules/tenant-api.js').api;
@@ -26,12 +27,15 @@ require('/modules/publisher.js').exec(function(ctx) {
 	//Obtain the meta information for each asset type
 	//We need this to resolve the default icons
 	for(var index = 0; index < activatedAssets.length; index++){
-		entry = {};
-		entry.type = activatedAssets[index];
-		entry.details = rxtManager.listRxtTypeDetails(entry.type);
-		entry.icon = entry.details.ui.icon || DEFAULT_ICON;
-		log.debug(entry.icon);
-		assets.push(entry);
+		var haveListPermission = permissionAPI.hasAssetPermission(permissionAPI.ASSET_LIST, activatedAssets[index], ctx.session);
+		if(haveListPermission){
+			entry = {};
+			entry.type = activatedAssets[index];
+			entry.details = rxtManager.listRxtTypeDetails(entry.type);
+			entry.icon = entry.details.ui.icon || DEFAULT_ICON;
+			log.debug(entry.icon);
+			assets.push(entry);
+		}
 	}
 	output = appManager.render([],page);
 	output.assets = assets;
