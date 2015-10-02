@@ -3,7 +3,7 @@
     <parent>
         <groupId>org.wso2.greg</groupId>
         <artifactId>org.wso2.greg.integration.tests</artifactId>
-        <version>5.0.1-SNAPSHOT</version>
+        <version>5.0.1</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
 
@@ -45,7 +45,7 @@
                                 <argument>-Dinstr.file=${basedir}/instrumentation.txt</argument>
                                 <argument>-Dfilters.file=${basedir}/filters.txt</argument>
                                 <argument>-classpath</argument>
-                                <classpath/>
+                                <classpath />
                                 <argument>
                                     org.wso2.carbon.automation.engine.frameworkutils.TestCoverageGenerator
                                 </argument>
@@ -88,7 +88,7 @@
                                 <argument>-Dinstr.file=${basedir}/instrumentation.txt</argument>
                                 <argument>-Dfilters.file=${basedir}/filters.txt</argument>
                                 <argument>-classpath</argument>
-                                <classpath/>
+                                <classpath />
                                 <argument>
                                     org.wso2.carbon.automation.engine.frameworkutils.TestCoverageGenerator
                                 </argument>

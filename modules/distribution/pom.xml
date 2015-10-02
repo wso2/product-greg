@@ -19,7 +19,7 @@
     <parent>
         <groupId>org.wso2.greg</groupId>
         <artifactId>governance-parent</artifactId>
-        <version>5.0.1-SNAPSHOT</version>
+        <version>5.0.1</version>
         <relativePath>../../pom.xml</relativePath>
     </parent>
 
@@ -351,7 +351,7 @@
     <scm>
         <connection>scm:svn:http://svn.wso2.org/repos/wso2/trunk/carbon/products/greg</connection>
         <developerConnection>scm:svn:https://svn.wso2.org/repos/wso2/trunk/carbon/products/greg</developerConnection>
-      <tag>HEAD</tag>
+      <tag>v5.0.1</tag>
   </scm>
 
     <build>
@@ -503,11 +503,11 @@
 
                                 <replace file="../../modules/p2-profile-gen/target/wso2carbon-core-${carbon.kernel.version}/repository/conf/identity.xml" token="&lt;SessionIdleTimeout&gt;15&lt;/SessionIdleTimeout&gt;&lt;!-- Minutes --&gt;" value="&lt;SessionIdleTimeout&gt;120&lt;/SessionIdleTimeout&gt;&lt;!-- Minutes --&gt;" />
 
-                                <replace file="../../modules/p2-profile-gen/target/wso2carbon-core-${carbon.kernel.version}/repository/deployment/server/jaggeryapps/es-sso/jaggery.conf" token="&quot;logLevel&quot;: &quot;info&quot;" value="&quot;logLevel&quot;: &quot;info&quot;,${line.separator}    &quot;theme&quot;: &quot;theme-greg&quot;" />
+                                <replace file="../../modules/p2-profile-gen/target/wso2carbon-core-${carbon.kernel.version}/repository/deployment/server/jaggeryapps/es-sso/jaggery.conf" token="&quot;logLevel&quot;: &quot;info&quot;" value="&quot;logLevel&quot;: &quot;info&quot;,${line.separator} &quot;theme&quot;: &quot;theme-greg&quot;" />
 
-                                <replace file="../../modules/p2-profile-gen/target/wso2carbon-core-${carbon.kernel.version}/repository/deployment/server/jaggeryapps/es-publisher/config/publisher-tenant.json" token="&quot;assetTypesHotDelploy&quot;: {${line.separator}            &quot;enabled&quot;: false" value="&quot;assetTypesHotDelploy&quot;: {${line.separator}            &quot;enabled&quot;: true" />
+                                <replace file="../../modules/p2-profile-gen/target/wso2carbon-core-${carbon.kernel.version}/repository/deployment/server/jaggeryapps/es-publisher/config/publisher-tenant.json" token="&quot;assetTypesHotDelploy&quot;: {${line.separator} &quot;enabled&quot;: false" value="&quot;assetTypesHotDelploy&quot;: {${line.separator}            &quot;enabled&quot;: true" />
 
-                                <replace file="../../modules/p2-profile-gen/target/wso2carbon-core-${carbon.kernel.version}/repository/deployment/server/jaggeryapps/es-store/config/store-tenant.json" token="&quot;assetTypesHotDelploy&quot;: {${line.separator}            &quot;enabled&quot;: false" value="&quot;assetTypesHotDelploy&quot;: {${line.separator}            &quot;enabled&quot;: true" />
+                                <replace file="../../modules/p2-profile-gen/target/wso2carbon-core-${carbon.kernel.version}/repository/deployment/server/jaggeryapps/es-store/config/store-tenant.json" token="&quot;assetTypesHotDelploy&quot;: {${line.separator} &quot;enabled&quot;: false" value="&quot;assetTypesHotDelploy&quot;: {${line.separator}            &quot;enabled&quot;: true" />
 
                                 <echo message="########### Create HT H2 Database ##############" />
                                 <sql driver="org.h2.Driver" url="jdbc:h2:${basedir}/target/database/jpadb;create=true" userid="wso2carbon" password="wso2carbon" autocommit="true" onerror="continue">
