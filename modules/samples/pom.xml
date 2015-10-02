@@ -351,9 +351,9 @@
         <!-- Carbon Registry -->
         <carbon.registry.version>4.4.9</carbon.registry.version>
         <!-- Carbon Governance -->
-        <carbon.governance.version>4.5.8</carbon.governance.version>
+        <carbon.governance.version>4.5.9</carbon.governance.version>
 
-        <carbon.governance.ext.version>4.4.6</carbon.governance.ext.version>
+        <carbon.governance.ext.version>4.4.8</carbon.governance.ext.version>
 
         <carbon.business.process.version>4.4.0</carbon.business.process.version>
         <!-- Carbon Commons -->
