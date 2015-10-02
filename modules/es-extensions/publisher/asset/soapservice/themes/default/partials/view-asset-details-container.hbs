@@ -17,6 +17,7 @@
         {{renderTablePreview .}}
     {{/each}}
 
+{{#if isDependentsPresent}}
 <div>
     <table class="table table-striped table-hover">
         <thead>
@@ -34,6 +35,7 @@
         </tbody>
     </table>
 </div>
+{{/if}}
 {{/with}}
 
 

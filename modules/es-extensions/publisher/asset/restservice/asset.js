@@ -16,6 +16,82 @@
  *  under the License.
  *
  */
+asset.manager = function(ctx) {
+    var getRegistry = function(cSession) {
+        var userMod = require('store').user;
+        var userRegistry = userMod.userRegistry(cSession);
+        return userRegistry;
+    };
+
+    var getAssociations = function(genericArtifacts, userRegistry){
+        //Array to store the association names.
+        var associations = [];
+        if (genericArtifacts != null) {
+            for (var index in genericArtifacts) {
+                var deps = {};
+                if (genericArtifacts[index] != null) {
+                    //extract the association name via the path.
+                    var path = genericArtifacts[index].getPath();
+                    var resource = userRegistry.registry.get("/_system/governance" + path);
+                    var mediaType = resource.getMediaType();
+
+                    if(mediaType == "application/wadl+xml" || mediaType == "application/swagger+json") {
+                        var subPaths = path.split('/');
+                        var associationName = subPaths[subPaths.length - 1];
+                        var associationUUID = resource.getUUID();
+                        deps.associationName = associationName;
+
+                        if(mediaType == "application/wadl+xml") {
+                            deps.associationType = "wadl";
+                        } else if(mediaType == "application/swagger+json") {
+                            deps.associationType = "swagger";
+                        }
+
+                        deps.associationUUID = associationUUID;
+                        associations.push(deps);
+                    }
+                }
+            }
+        }
+        return associations;
+    };
+
+    var setDependencies = function(genericArtifact, asset ,userRegistry) {
+        try {
+            //get dependencies of the artifact.
+            var dependencyArtifacts = genericArtifact.getDependencies();
+            asset.dependencies = getAssociations(dependencyArtifacts, userRegistry);
+        } catch(e) {
+            asset.dependencies = [];
+        }
+    };
+
+    return {
+        get:function(id) {
+            var item;
+            try {
+                item = this._super.get.call(this, id);
+                var rawArtifact = this.am.manager.getGenericArtifact(id);
+                var userRegistry = getRegistry(ctx.session);
+                setDependencies(rawArtifact, item, userRegistry);
+            } catch(e) {
+                log.debug(e);
+                return null;
+            }
+
+            return item;
+        },
+        combineWithRxt: function(asset) {
+            var modAsset = this._super.combineWithRxt.call(this, asset);
+            if (asset.dependencies) {
+                var dependencies = asset.dependencies;
+                modAsset.dependencies = dependencies;
+            }
+            return modAsset;
+        }
+    }
+};
+
 asset.configure = function () {
     return {
         meta: {
