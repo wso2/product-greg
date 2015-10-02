@@ -342,7 +342,12 @@ var gregAPI = {};
                     assetJson.text = subPaths[subPaths.length - 1];
                 } else {
                     var govAttifact = Packages.org.wso2.carbon.governance.api.util.GovernanceUtils.retrieveGovernanceArtifactByPath(am.registry.registry,destPath);
-                    assetJson.text = String(govAttifact.getAttribute('overview_name'));
+                    var name = (govAttifact.getAttribute("overview_name"));
+                    if (name === null || name.length === 0) {
+                        assetJson.text = govAttifact.getQName().getLocalPart();
+                    } else {
+                        assetJson.text = String(name);
+                    }
                 }
                 assetJson.type = am.registry.registry.get(destPath).getMediaType();
                 assetJson.associationType = results[i].type;
