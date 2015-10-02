@@ -136,6 +136,8 @@ else {
 	<script src="../extensions/app/greg_impact/public/js/canvg.js"></script>
 	<script src="../extensions/app/greg_impact/public/js/svgenie.js"></script>
 	<script src="../extensions/app/greg_impact/public/js/jquery.inlineStyler.min.js"></script>
+    <script src="/publisher/themes/default/js/notify.min.js"></script>
+    <script src="/publisher/themes/default/js/messages.js"></script>
     <script src="../extensions/app/greg_impact/js/impactAnalysis.js"></script>
     <script>
 

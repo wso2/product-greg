@@ -558,8 +558,13 @@ function doubleclick(d) {
         linkString = '../assets/' + d.shortName + '/details/' +
             encodeURIComponent(d.uuid);
     } else {
-        linkString = '../../carbon/resources/resource.jsp?region=region3&item=resource_browser_menu&path=' +
-            encodeURIComponent(d.path);
+        // Following link string redirects user from publisher to management console
+        // As this was regarded as bad practice following code line was removed from execution
+        // https://wso2.org/jira/browse/REGISTRY-2978
+        // linkString = '../../carbon/resources/resource.jsp?region=region3&item=resource_browser_menu&path=' +
+        //     encodeURIComponent(d.path);
+        messages.alertInfo("Asset type \"" + d.shortName + "\" is not activated for publisher view!");
+        return;
     }
 
     var win = window.open(linkString, '_blank');
