@@ -165,7 +165,7 @@ Project Resources
 * Library            : http://wso2.org/library/registry
 * JIRA-Issue Tracker : https://wso2.org/jira/browse/REGISTRY
                      : https://wso2.org/jira/browse/CARBON
-     All Open Issues : https://wso2.org/jira/secure/IssueNavigator.jspa?requestId=10225&mode=hide
+     All Open Issues : https://wso2.org/jira/secure/IssueNavigator.jspa?requestId=12424&mode=hide
 * Forums             : http://stackoverflow.com/questions/tagged/wso2
 * Mailing Lists
      Developer List  : dev@wso2.org 
