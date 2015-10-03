@@ -18,7 +18,7 @@
  */
 asset.manager = function(ctx) {   
     var setCustomAssetAttributes = function(asset, userRegistry) {
-        var wadlUrl=asset.attributes.overview_wadl;
+        var wadlUrl=asset.attributes.interface_wadl;
         if (wadlUrl != null) {
             try {
                 var resource = userRegistry.registry.get(wadlUrl);
