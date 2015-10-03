@@ -70,15 +70,24 @@ app.renderer = function(ctx){
                     var asset = page.assets[index] ;
                     var attributes = asset.attributes || {};
 
-                    if(!attributes.hasOwnProperty("overview_name") && !attributes.hasOwnProperty("overview_version")) {
-                        var path = asset.path;
-                        var subPaths = path.split('/');
+                    var hasNameProperty = attributes.hasOwnProperty("overview_name");
+                    var hasVersionProperty = attributes.hasOwnProperty("overview_version");
+
+                    var path = asset.path;
+                    var subPaths = path.split('/');
+
+                    if(!hasNameProperty) {
                         var name = subPaths[subPaths.length - 1];
                         asset.name = name;
-                        asset.version = subPaths[subPaths.length - 2];
                         asset.attributes.overview_name = name;
-                        asset.overview_version = asset.version;
+                        asset.overview_name = name;
+                        asset.attributes.name = name;
+                    }
+
+                    if(!hasNameProperty && !hasVersionProperty) {
+                        asset.version = subPaths[subPaths.length - 2];
                         asset.attributes.overview_version = asset.version;
+                        asset.overview_version = asset.version;
                         asset.attributes.version = asset.version;
                     }
                 }
