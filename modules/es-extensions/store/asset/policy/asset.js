@@ -60,7 +60,12 @@ asset.manager = function(ctx) {
             //since this is wsdlcontent.
             asset.policyname = policyname;
             asset.assetName = policyname;
+            asset.name = policyname;
+            asset.attributes.overview_name = policyname;
+            asset.overview_name = policyname;
             asset.version = version;
+            asset.attributes.overview_version = version;
+            asset.overview_version = version;
             asset.authorUserName = authorUserName;
             asset.policyContent = value;
         }

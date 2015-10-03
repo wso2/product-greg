@@ -60,7 +60,12 @@ asset.manager = function(ctx) {
             //since this is wsdlcontent.
             asset.wsdlname = wsdlname;
             asset.assetName = wsdlname;
+            asset.attributes.overview_name = wsdlname;
+            asset.overview_name = wsdlname;
+            asset.name = wsdlname;
             asset.version = version;
+            asset.attributes.overview_version = version;
+            asset.overview_version = version;
             asset.authorUserName = authorUserName;
             asset.wsdlContent = value;
         }

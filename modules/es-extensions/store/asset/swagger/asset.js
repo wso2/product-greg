@@ -38,8 +38,10 @@ asset.manager = function(ctx) {
             asset.swaggerName = swaggerName;
             asset.assetName = swaggerName;
             asset.attributes.overview_name = swaggerName;
+            asset.overview_name = swaggerName;
             asset.version = version;
             asset.attributes.overview_version = version;
+            asset.overview_version = version;
             asset.authorUserName = authorUserName;
             asset.swaggerContent = value;
         }
