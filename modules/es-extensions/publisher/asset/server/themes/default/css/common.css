@@ -11,8 +11,8 @@ html {
 }
 
 body {
-    overflow-x: hidden;
-    -ms-overflow-x: hidden;
+    overflow-x: visible !important;
+    -ms-overflow-x: visible !important;
     margin-bottom: 0;
     min-height: 100%;
 }

@@ -13,6 +13,10 @@ h1 {
     border-bottom:0px solid #f0f0f0;
 }
 
+.wrapper {
+    overflow-x: visible !important;
+}
+
 .inverse h1 {
     color: #fff;
 }
