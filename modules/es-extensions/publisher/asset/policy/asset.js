@@ -73,7 +73,7 @@ asset.manager = function(ctx) {
             var properties = javaArray.newInstance(java.lang.String, 1, 2);
             properties[0][0] = 'version';
             properties[0][1] = version;
-            var path = utils.importResource(parentPath, name, mediaType, '', url, '', userRegistry.registry, properties);
+            var path = utils.importResource(parentPath, name, mediaType, '', url, null, userRegistry.registry, properties);
 
             if(!this.rxtManager.isGroupingEnabled(this.type)){
                 log.debug('Omitted grouping');
@@ -92,6 +92,7 @@ asset.manager = function(ctx) {
                 item.name = subPaths[subPaths.length - 1];
                 item.attributes.overview_name = item.name;
                 item.version = subPaths[subPaths.length - 2];
+                item.overview_version = item.version;
                 item.attributes.overview_version = item.version;
                 var userRegistry = getRegistry(ctx.session);
                 var ByteArrayInputStream = Packages.java.io.ByteArrayInputStream;
@@ -116,6 +117,10 @@ asset.manager = function(ctx) {
                 var name = subPaths[subPaths.length - 1];
                 result.name = name;
                 result.version = subPaths[subPaths.length - 2];
+                result.attributes.overview_name = name;
+                result.overview_version = result.version;
+                result.attributes.overview_version = result.version;
+                result.attributes.version = result.version;
             }
             return items;
         },
@@ -128,6 +133,10 @@ asset.manager = function(ctx) {
                 var name = subPaths[subPaths.length - 1];
                 result.name = name;
                 result.version = subPaths[subPaths.length - 2];
+                result.attributes.overview_name = name;
+                result.overview_version = result.version;
+                result.attributes.overview_version = result.version;
+                result.attributes.version = result.version;
             }
             return items;
         },
@@ -140,6 +149,10 @@ asset.manager = function(ctx) {
                 var name = subPaths[subPaths.length - 1];
                 result.name = name;
                 result.version = subPaths[subPaths.length - 2];
+                result.attributes.overview_name = name;
+                result.overview_version = result.version;
+                result.attributes.overview_version = result.version;
+                result.attributes.version = result.version;
             }
             return results;
         },
@@ -152,6 +165,10 @@ asset.manager = function(ctx) {
                 var name = subPaths[subPaths.length - 1];
                 result.name = name;
                 result.version = subPaths[subPaths.length - 2];
+                result.attributes.overview_name = name;
+                result.overview_version = result.version;
+                result.attributes.overview_version = result.version;
+                result.attributes.version = result.version;
             }
             return results;
         },
@@ -159,6 +176,9 @@ asset.manager = function(ctx) {
 
         },
         getName: function(asset) {
+            if(asset.path){
+                return asset.path.substring(asset.path.lastIndexOf("/") + 1);
+            }
             return asset.name;
         },
         /*Default update method fails when updating
@@ -167,8 +187,9 @@ asset.manager = function(ctx) {
         update: function(){
 
         },
-        addTags: function(){
-
+        getVersion: function(asset) {
+            asset.attributes["overview_version"] = asset.attributes["version"];
+            return asset.attributes["version"];
         }
     };
 };
@@ -232,15 +253,17 @@ asset.renderer =  function (ctx){
 
                 // Following is to remove the edit button in the detail page since for asset types
                 // wsdl, wadl, swagger, policy, schema, the edit operations are not allowed
-                for(index in page.leftNav) {
+                for(var index = 0; index < page.leftNav.length; index++) {
                     var button = page.leftNav[index];
 
                     if(button.iconClass === "btn-edit") {
                         page.leftNav.splice(index, 1);
+                        index--;
                     }
 
                     if(button.iconClass === "btn-copy") {
                         page.leftNav.splice(index, 1);
+                        index--;
                     }
                 }
             }

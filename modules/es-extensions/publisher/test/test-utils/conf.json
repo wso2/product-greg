@@ -1,6 +1,6 @@
 {
     "StoreConfigurations": {
-        "url": "https://localhost:9443/publisher/apis"
+        "url": "https://localhost:10343/publisher/apis"
 
     },
     "authConfiguration": {

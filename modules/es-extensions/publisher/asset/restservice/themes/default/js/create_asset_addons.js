@@ -5,3 +5,6 @@ $(function(){
 		}
 	})
 });
+$(function(){
+	$('#tag-ui-container').hide();
+});

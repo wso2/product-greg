@@ -6,7 +6,7 @@
 
     <groupId>org.wso2.carbon</groupId>
     <artifactId>org.wso2.carbon.greg.migrate.client</artifactId>
-    <version>5.0.0</version>
+    <version>5.0.1</version>
     <packaging>bundle</packaging>
 
     <repositories>

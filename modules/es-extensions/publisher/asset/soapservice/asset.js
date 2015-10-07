@@ -74,9 +74,18 @@ asset.manager = function(ctx) {
             omContent += "</description>";
         }
         omContent += "</overview>";
-        //TODO:Need to add OMElement for 'contacts' & 'endpoints'.
-        //It is delayed due to ES not retreiving values given to 'options-text'
-        //But, values get added to 'attributes' if created from mgt console.
+
+        if(attributes.contacts_entry) {
+            omContent += "<contacts>";
+            for(var index = 0; index< attributes.contacts_entry.length; index++){
+                omContent += "<entry>";
+                omContent += attributes.contacts_entry[index];
+                omContent += "</entry>";
+            }
+
+            omContent += "</contacts>";
+        }
+
         omContent += "<interface>";
         if (attributes.interface_wsdlURL || attributes.interface_wsdlUrl) {
             omContent += "<wsdlURL>";
@@ -278,7 +287,7 @@ asset.manager = function(ctx) {
             if (asset.wsdl_url) {
                 var wsdlURL = asset.wsdl_url;
                 modAsset.wsdl_url = wsdlURL;
-                modAsset.tables[2].fields.wsdlUrl.value = modAsset.wsdl_url;
+                modAsset.tables[2].fields.wsdlURL.value = modAsset.wsdl_url;
             }
             if (asset.interfaceType) {
                 var interfaceType = asset.interfaceType;
@@ -344,23 +353,7 @@ asset.manager = function(ctx) {
         }
     }
 };
-asset.configure = function() {
-    return {
-        meta: {
-            lifecycle: {
-                commentRequired: false,
-                defaultAction: '',
-                deletableStates: [],
-		        defaultLifecycleEnabled:false,
-                publishedStates: ['Published']
-            },
-            grouping: {
-                groupingEnabled: false,
-                groupingAttributes: ['overview_name']
-            }
-        }
-    };
-};
+
 asset.renderer = function(ctx) {
     var hideTables = function(page) {
         var tables = [];
@@ -400,6 +393,17 @@ asset.configure = function() {
         meta: {
             ui: {
                 icon: 'fw fw-soap'
+            },
+            lifecycle: {
+                commentRequired: false,
+                defaultAction: '',
+                deletableStates: ['*'],
+                defaultLifecycleEnabled:false,
+                publishedStates: ['Published']
+            },
+            grouping: {
+                groupingEnabled: false,
+                groupingAttributes: ['overview_name']
             }
         },
         table: {

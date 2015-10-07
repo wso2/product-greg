@@ -387,7 +387,7 @@ public class GovernanceRegistrySmokeTestCase {
         InfoAdminServiceStub infoAdminServiceStub =
                 TestUtils.getInfoAdminServiceStub(loggedInSessionCookie);
         Assert.assertEquals(infoAdminServiceStub.subscribe(smokeTestCollection,
-                "https://localhost:9443/services/Hello", "CollectionUpdated",
+                "https://localhost:10343/services/Hello", "CollectionUpdated",
                 loggedInSessionCookie).getSubscriptionInstances().length, 1,
                 "subscription failed");
         SubscriptionInstance[] instances =
@@ -396,7 +396,7 @@ public class GovernanceRegistrySmokeTestCase {
                         loggedInSessionCookie).getSubscriptionInstances();
         Assert.assertEquals(instances.length, 1, "subscription failed");
         Assert.assertEquals(infoAdminServiceStub.subscribeREST(smokeTestCollection,
-                "https://localhost:9443/services/RESTHello", "CollectionUpdated",
+                "https://localhost:10343/services/RESTHello", "CollectionUpdated",
                 loggedInSessionCookie).getSubscriptionInstances().length, 1,
                 "subscription failed");
         Assert.assertEquals(instances[0].getDigestType(), "h",
@@ -421,7 +421,7 @@ public class GovernanceRegistrySmokeTestCase {
                 "failed to unsubscribe");
 
         Assert.assertEquals(infoAdminServiceStub.subscribe(smokeTestResource,
-                "https://localhost:9443/services/Hello", "ResourceUpdated",
+                "https://localhost:10343/services/Hello", "ResourceUpdated",
                 loggedInSessionCookie).getSubscriptionInstances().length, 1,
                 "subscription failed");
         instances = infoAdminServiceStub.subscribe(smokeTestResource,
@@ -429,7 +429,7 @@ public class GovernanceRegistrySmokeTestCase {
                 loggedInSessionCookie).getSubscriptionInstances();
         Assert.assertEquals(instances.length, 1, "subscription failed");
         Assert.assertEquals(infoAdminServiceStub.subscribeREST(smokeTestResource,
-                "https://localhost:9443/services/RESTHello", "ResourceUpdated",
+                "https://localhost:10343/services/RESTHello", "ResourceUpdated",
                 loggedInSessionCookie).getSubscriptionInstances().length, 1,
                 "subscription failed");
         Assert.assertEquals(instances[0].getDigestType(), "h",

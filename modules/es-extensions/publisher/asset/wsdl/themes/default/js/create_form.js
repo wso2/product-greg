@@ -74,12 +74,23 @@ $(function() {
 			success:function(){
 				var options=obtainFormMeta('#form-asset-create');
 				window.location=options.redirectUrl;
+                messages.alertSuccess("Successfully created the wsdl");
+                $('form[name="form-asset-create"]').data('submitted', false);
 			},
 			error:function(){
-				alert('Unable to add the asset');
-                PublisherUtils.unblockButtons({
-                    container:container
-                });
+                messages.alertError("Error occurred while adding the wsdl");
+
+                var createButton = "";
+                if(action === 'addNewWsdlFileAssetButton') {
+                    createButton = $('#btn-create-asset-file');
+                } else if(action === 'addNewAssetButton') {
+                    createButton = $('#btn-create-asset');
+                }
+
+                createButton.show();
+                createButton.next().show();
+                $('.fa-spinner').parent().remove();
+                $('form[name="form-asset-create"]').data('submitted', false);
 			}	
 		});
 	};
@@ -91,21 +102,54 @@ $(function() {
 
     //function to call the custom wsdl api or default api.
     $('form[name="form-asset-create"] input[type="submit"]').click(function(event) {
+        var action = "";
+        if ($('#importUI').is(":visible")) {
+            action = "addNewAssetButton";
+        } else if ($('#uploadUI').is(":visible")) {
+            action = "addNewWsdlFileAssetButton";
+        }
 
-        var action = $(this).attr("name"); 
         var container;
         var $form = $('form[name="form-asset-create"]');
-        if ( action === 'addNewWsdlFileAssetButton') {//upload via file browser
+        if (action === 'addNewWsdlFileAssetButton') {//upload via file browser
             //call the custom endpoint for processing wsdls upload via file browser.
             $form.attr('action', caramel.context + '/assets/wsdl/apis/wsdls');
             var $wsdlFileInput = $('input[name="wsdl_file"]');
             var wsdlFileInputValue = $wsdlFileInput.val();
             var wsdlFilePath = wsdlFileInputValue;
+
+            var wsdlFileVersion = $('input[name="file_version"]').val();
+            if(wsdlFileVersion == "" || wsdlFilePath == "") {
+                messages.alertInfo("All required fields must be provided");
+                return false;
+            }
+
+            if($form.data('submitted') === true) {
+                return false;
+            } else {
+                $form.data('submitted', true);
+            }
+
             var fileName = wsdlFilePath.split('\\').reverse()[0];
             //set the zip file name, to the hidden attribute.
             container = 'saveButtonsFile';
             $('input[name="wsdl_file_name"]').val(fileName);
         } else if (action === 'addNewAssetButton') {//upload via url.
+            var wsdlUrl = $('input[name="overview_url"]').val();
+            var wsdlFileName = $('input[name="overview_name"]').val();
+            var wsdlVersion = $('input[name="overview_version"]').val();
+
+            if(wsdlUrl == "" || wsdlFileName == "" || wsdlVersion == "") {
+                messages.alertInfo("All required fields must be provided");
+                return false;
+            }
+
+            if($form.data('submitted') === true) {
+                return false;
+            } else {
+                $form.data('submitted', true);
+            }
+
             //call the default endpoint.
             container = 'saveButtonsURL';
             $form.attr('action', caramel.context + '/apis/assets?type=wsdl');
@@ -113,7 +157,13 @@ $(function() {
 
         doSubmit(action,container);
 
-        var createButton = $('#btn-create-asset');
+        var createButton = "";
+        if(action === 'addNewWsdlFileAssetButton') {
+            createButton = $('#btn-create-asset-file');
+        } else if(action === 'addNewAssetButton') {
+            createButton = $('#btn-create-asset');
+        }
+
         createButton.hide();
         createButton.next().hide();
         createButton.parent().append($('<div style="font-size: 16px;margin-top: 10px;"><i class="fa fa-spinner fa-pulse"></i> Creating the wsdl instance...</div>'));

@@ -116,8 +116,8 @@ public class PopulatorUtil {
         File[] files = usersDir.listFiles(filter);
         for (File file : files) {
             try {
-                InputStream ins = new BufferedInputStream(new FileInputStream(files[0]));
-                String extension = FilenameUtils.getExtension(files[0].getName());
+                InputStream ins = new BufferedInputStream(new FileInputStream(file));
+                String extension = FilenameUtils.getExtension(file.getName());
                 if (extension.equals("xlsx")) {
                     workbooks.add(new XSSFWorkbook(ins));
                 } else {

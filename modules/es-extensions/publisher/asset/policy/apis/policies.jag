@@ -76,6 +76,6 @@ require('/modules/publisher.js').exec(function (ctx) {
     var userRegistry = userMod.userRegistry(ctx.session);
     var registry = userRegistry.registry;
     //use AddResourceUtil in carbon-registry to add the zip file.
-    addResourceUtils.addResource(path,mediaType,description,content,symlinkLocation,registry,properties);
+    addResourceUtils.addResource(path,mediaType,description,content,null,registry,properties);
 }, request, response, session);
 %>

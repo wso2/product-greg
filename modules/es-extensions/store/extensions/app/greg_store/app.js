@@ -25,13 +25,13 @@ app.server = function(ctx) {
 		    		title:'GREG landing page',
 	    		url:'gc-landing',
 	    		path:'greg-landing.jag',
-	    		secured:true  		
+	    		secured:false
 	    	}]
     	},
         configs: {
         	landingPage: '/pages/gc-landing',
             disabledAssets: ['note', 'ebook','proxy','sequence','service','servicex','uri',
-                             'site','provider','gadget','document','endpoint','topic','reply']
+                             'site','provider','gadget','document','endpoint','topic','reply', 'server']
         }
     }
 };

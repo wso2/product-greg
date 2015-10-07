@@ -76,12 +76,23 @@ $(function() {
             success:function(){
                 var options=obtainFormMeta('#form-asset-create');
                 window.location=options.redirectUrl;
+                messages.alertSuccess("Successfully created the schema");
+                $('form[name="form-asset-create"]').data('submitted', false);
             },
             error:function(){
-                alert('Unable to add the asset');
-                PublisherUtils.unblockButtons({
-                    container:container
-                });
+                messages.alertError("Error occurred whilw adding the schema");
+
+                var createButton = "";
+                if(action === 'addNewSchemaFileAssetButton') {
+                    createButton = $('#btn-create-asset-file');
+                } else if(action === 'addNewAssetButton') {
+                    createButton = $('#btn-create-asset');
+                }
+
+                createButton.show();
+                createButton.next().show();
+                $('.fa-spinner').parent().remove();
+                $('form[name="form-asset-create"]').data('submitted', false);
             }   
         });
     };
@@ -93,7 +104,13 @@ $(function() {
 
     //function to call the custom schema api or default api.
     $('form[name="form-asset-create"] input[type="submit"]').click(function(event) {
-        var action = $(this).attr("name"); 
+        var action = "";
+        if ($('#importUI').is(":visible")) {
+            action = "addNewAssetButton";
+        } else if ($('#uploadUI').is(":visible")) {
+            action = "addNewSchemaFileAssetButton";
+        }
+
         var container;
         
         var $form = $('form[name="form-asset-create"]');
@@ -103,11 +120,39 @@ $(function() {
             var $schemaFileInput = $('input[name="schema_file"]');
             var schemaFileInputValue = $schemaFileInput.val();
             var schemaFilePath = schemaFileInputValue;
+
+            var schemaFileVersion = $('input[name="file_version"]').val();
+            if(schemaFileVersion == "" || schemaFilePath == "") {
+                messages.alertInfo("All required fields must be provided");
+                return false;
+            }
+
+            if($form.data('submitted') === true) {
+                return false;
+            } else {
+                $form.data('submitted', true);
+            }
+
             var fileName = schemaFilePath.split('\\').reverse()[0];
             //set the zip file name, to the hidden attribute.
             $('input[name="schema_file_name"]').val(fileName);
             container = 'saveButtonsFile';
         } else if (action === 'addNewAssetButton') {//upload via url.
+            var schemaUrl = $('input[name="overview_url"]').val();
+            var schemaName = $('input[name="overview_name"]').val();
+            var schemaVersion = $('input[name="overview_version"]').val();
+
+            if(schemaUrl == "" || schemaName == "" || schemaVersion == "") {
+                messages.alertInfo("All required fields must be provided");
+                return false;
+            }
+
+            if($form.data('submitted') === true) {
+                return false;
+            } else {
+                $form.data('submitted', true);
+            }
+
             //call the default endpoint.
             $form.attr('action', caramel.context + '/apis/assets?type=schema');
             container = 'saveButtonsURL';
@@ -115,7 +160,13 @@ $(function() {
 
         doSubmit(action, container);
 
-        var createButton = $('#btn-create-asset');
+        var createButton = "";
+        if(action === 'addNewSchemaFileAssetButton') {
+            createButton = $('#btn-create-asset-file');
+        } else if(action === 'addNewAssetButton') {
+            createButton = $('#btn-create-asset');
+        }
+        
         createButton.hide();
         createButton.next().hide();
         createButton.parent().append($('<div style="font-size: 16px;margin-top: 10px;"><i class="fa fa-spinner fa-pulse"></i> Creating the schema instance...</div>'));

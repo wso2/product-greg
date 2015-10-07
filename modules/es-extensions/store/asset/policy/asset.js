@@ -60,7 +60,12 @@ asset.manager = function(ctx) {
             //since this is wsdlcontent.
             asset.policyname = policyname;
             asset.assetName = policyname;
+            asset.name = policyname;
+            asset.attributes.overview_name = policyname;
+            asset.overview_name = policyname;
             asset.version = version;
+            asset.attributes.overview_version = version;
+            asset.overview_version = version;
             asset.authorUserName = authorUserName;
             asset.policyContent = value;
         }
@@ -127,6 +132,19 @@ asset.manager = function(ctx) {
             setDependencies(rawArtifact, asset, userRegistry);
             setDependents(rawArtifact, asset, userRegistry);
             return asset;
+        },
+        getName: function(asset) {
+            if(asset.path){
+                asset.name = asset.path.substring(asset.path.lastIndexOf("/") + 1);
+                asset.overview_name = asset.name;
+                asset.attributes.overview_name = asset.name;
+                return asset.path.substring(asset.path.lastIndexOf("/") + 1);
+            }
+            return asset.name;
+        },
+        getVersion: function(asset) {
+            asset.attributes["overview_version"] = asset.attributes["version"];
+            return asset.attributes["version"];
         }
     };
 };

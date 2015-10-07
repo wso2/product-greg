@@ -1,3 +1,14 @@
+{{#if overview_name}}
 <h4 class="margin-none">{{overview_name}}</h4>
+{{else}}
+	{{#if name}}
+	<h4 class="margin-none">{{name}}</h4>
+	{{/if}}
+{{/if}}
+{{#if overview_version}}
 <p class="grey padding-none margin-none">{{t "Version"}} {{overview_version}}</p>
-<p class="light-blue padding-none margin-none">{{t "by"}} {{overview_provider}}</p>
+{{else}}
+	{{#if version}}
+	<p class="grey padding-none margin-none">{{t "Version"}} {{version}}</p>
+	{{/if}}
+{{/if}}

@@ -228,6 +228,9 @@ asset.manager = function(ctx) {
             return results;
         },
         getName: function(asset) {
+            if(asset.path){
+                return asset.path.substring(asset.path.lastIndexOf("/") + 1);
+            }
             return asset.name;
         },
         update: function(){
@@ -236,8 +239,9 @@ asset.manager = function(ctx) {
         postCreate:function(){
             
         },
-        addTags: function(){
-
+        getVersion: function(asset) {
+            asset.attributes["overview_version"] = asset.attributes["version"];
+            return asset.attributes["version"];
         }
     };
 };
@@ -301,15 +305,17 @@ asset.renderer = function(ctx) {
 
                 // Following is to remove the edit button in the detail page since for asset types
                 // wsdl, wadl, swagger, policy, schema, the edit operations are not allowed
-                for(index in page.leftNav) {
+                for(var index = 0; index < page.leftNav.length; index++) {
                     var button = page.leftNav[index];
 
                     if(button.iconClass === "btn-edit") {
                         page.leftNav.splice(index, 1);
+                        index--;
                     }
 
                     if(button.iconClass === "btn-copy") {
                         page.leftNav.splice(index, 1);
+                        index--;
                     }
                 }
             }

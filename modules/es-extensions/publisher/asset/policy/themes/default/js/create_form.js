@@ -76,12 +76,23 @@ $(function() {
             success:function(){
                 var options=obtainFormMeta('#form-asset-create');
                 window.location=options.redirectUrl;
+                messages.alertSuccess("Successfully created the policy");
+                $('form[name="form-asset-create"]').data('submitted', false);
             },
             error:function(){
-                alert('Unable to add the asset');
-                PublisherUtils.unblockButtons({
-                    container:container
-                });
+                messages.alertError("Error occurred while adding the policy");
+
+                var createButton = "";
+                if(action === 'addNewPolicyFileAssetButton') {
+                    createButton = $('#btn-create-asset-file');
+                } else if(action === 'addNewAssetButton') {
+                    createButton = $('#btn-create-asset');
+                }
+
+                createButton.show();
+                createButton.next().show();
+                $('.fa-spinner').parent().remove();
+                $('form[name="form-asset-create"]').data('submitted', false);
             }   
         });
     };
@@ -93,7 +104,13 @@ $(function() {
 
     //function to call the custom policy api or default api.
     $('form[name="form-asset-create"] input[type="submit"]').click(function(event) {
-        var action = $(this).attr("name"); 
+        var action = "";
+        if ($('#importUI').is(":visible")) {
+            action = "addNewAssetButton";
+        } else if ($('#uploadUI').is(":visible")) {
+            action = "addNewPolicyFileAssetButton";
+        }
+
         var container;
         
         var $form = $('form[name="form-asset-create"]');
@@ -103,11 +120,39 @@ $(function() {
             var $policyFileInput = $('input[name="policy_file"]');
             var policyFileInputValue = $policyFileInput.val();
             var policyFilePath = policyFileInputValue;
+
+            var policyFileVersion = $('input[name="file_version"]').val();
+            if(policyFileVersion == "" || policyFilePath == "") {
+                messages.alertInfo("All required fields must be provided");
+                return false;
+            }
+
+            if($form.data('submitted') === true) {
+                return false;
+            } else {
+                $form.data('submitted', true);
+            }
+
             var fileName = policyFilePath.split('\\').reverse()[0];
             //set the zip file name, to the hidden attribute.
             $('input[name="policy_file_name"]').val(fileName);
             container = 'saveButtonsFile';
         } else if (action === 'addNewAssetButton') {//upload via url.
+            var policyUrl = $('input[name="overview_url"]').val();
+            var policyFileName = $('input[name="overview_name"]').val();
+            var policyVersion = $('input[name="overview_version"]').val();
+
+            if(policyUrl == "" || policyFileName == "" || policyVersion == "") {
+                messages.alertInfo("All required fields must be provided");
+                return false;
+            }
+
+            if($form.data('submitted') === true) {
+                return false;
+            } else {
+                $form.data('submitted', true);
+            }
+
             //call the default endpoint.
             $form.attr('action', caramel.context + '/apis/assets?type=policy');
             container = 'saveButtonsURL';
@@ -115,7 +160,13 @@ $(function() {
 
         doSubmit(action, container);
 
-        var createButton = $('#btn-create-asset');
+        var createButton = "";
+        if(action === 'addNewPolicyFileAssetButton') {
+            createButton = $('#btn-create-asset-file');
+        } else if(action === 'addNewAssetButton') {
+            createButton = $('#btn-create-asset');
+        }
+
         createButton.hide();//attr('disabled','disabled');
         createButton.next().hide();//attr('disabled','disabled');
         createButton.parent().append($('<div style="font-size: 16px;margin-top: 10px;"><i class="fa fa-spinner fa-pulse"></i> Creating the policy instance...</div>'));

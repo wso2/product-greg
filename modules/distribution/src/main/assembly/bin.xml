@@ -201,7 +201,7 @@
             </includes>
         </fileSet>
         <fileSet>
-            <directory>src/main/resources/carbon-home/resources/lifecycles</directory>
+            <directory>../p2-profile-gen/target/wso2carbon-core-${carbon.kernel.version}/repository/resources/lifecycles</directory>
             <outputDirectory>${pom.artifactId}-${build.version}/repository/resources/lifecycles</outputDirectory>
             <includes>
                 <include>**/*</include>
@@ -234,6 +234,8 @@
             </includes>
             <excludes>
                 <exclude>**/servicex.rxt</exclude>
+                <exclude>**/proxy.rxt</exclude>
+                <exclude>**/sequence.rxt</exclude>
             </excludes>
         </fileSet>
         <fileSet>
@@ -356,6 +358,13 @@
         <fileSet>
             <directory>../p2-profile-gen/target/wso2carbon-core-${carbon.kernel.version}/repository/deployment/server/jaggeryapps/es-publisher</directory>
             <outputDirectory>${pom.artifactId}-${pom.version}/repository/deployment/server/jaggeryapps/publisher</outputDirectory>
+	    <excludes>
+                <exclude>**/MobileAppLifeCycle.xml</exclude>
+                <exclude>**/SampleLifeCycle.xml</exclude>
+                <exclude>**/test/Assets_spec.js</exclude>
+                <exclude>**/test/Authentication_spec.js</exclude>
+                <exclude>**/test/Lifecycle_spec.js</exclude>
+            </excludes>
         </fileSet>
         <fileSet>
             <directory>../p2-profile-gen/target/wso2carbon-core-${carbon.kernel.version}/repository/deployment/server/jaggeryapps/es-sso</directory>
@@ -979,12 +988,6 @@
             <fileMode>644</fileMode>
         </file>
         <file>
-            <source>../p2-profile-gen/target/wso2carbon-core-${carbon.kernel.version}/repository/conf/association-config.xml</source>
-            <outputDirectory>${pom.artifactId}-${build.version}/repository/conf/etc</outputDirectory>
-            <filtered>true</filtered>
-            <fileMode>644</fileMode>
-        </file>
-        <file>
             <source>../p2-profile-gen/target/wso2carbon-core-${carbon.kernel.version}/repository/conf/governance.xml</source>
             <outputDirectory>${pom.artifactId}-${build.version}/repository/conf</outputDirectory>
             <filtered>true</filtered>
@@ -1107,12 +1110,12 @@
             <source>../cmis/cmis-war/target/cmis.war</source>
             <outputDirectory>${pom.artifactId}-${pom.version}/repository/deployment/server/webapps</outputDirectory>
         </file>
-        <file>
-            <source>../p2-profile-gen/target/wso2carbon-core-${carbon.kernel.version}/repository/conf/tomcat/context.xml</source>
-            <outputDirectory>${pom.artifactId}-${build.version}/repository/conf/tomcat</outputDirectory>
-            <filtered>true</filtered>
-            <fileMode>644</fileMode>
-        </file>
+        <!--<file>-->
+            <!--<source>../p2-profile-gen/target/wso2carbon-core-${carbon.kernel.version}/repository/conf/tomcat/context.xml</source>-->
+            <!--<outputDirectory>${pom.artifactId}-${build.version}/repository/conf/tomcat</outputDirectory>-->
+            <!--<filtered>true</filtered>-->
+            <!--<fileMode>644</fileMode>-->
+        <!--</file>-->
         <file>
 		<source>../p2-profile-gen/target/wso2carbon-core-${carbon.kernel.version}/repository/conf/datasources/social-datasources.xml</source>
 		<outputDirectory>${pom.artifactId}-${build.version}/repository/conf/datasources/</outputDirectory>
@@ -1129,6 +1132,36 @@
         <file>
             <source>${basedir}/src/main/resources/carbon-home//conf/edition.properties</source>
             <outputDirectory>${pom.artifactId}-${pom.version}/</outputDirectory>
+            <filtered>true</filtered>
+            <fileMode>644</fileMode>
+        </file>
+        <file>
+            <source>src/main/resources/carbon-home/conf/catalina-server.xml</source>
+            <outputDirectory>${pom.artifactId}-${build.version}/repository/conf/tomcat</outputDirectory>
+            <filtered>true</filtered>
+            <fileMode>644</fileMode>
+        </file>
+        <file>
+            <source>src/main/resources/carbon-home/conf/context.xml</source>
+            <outputDirectory>${pom.artifactId}-${build.version}/repository/conf/tomcat</outputDirectory>
+            <filtered>true</filtered>
+            <fileMode>644</fileMode>
+        </file>
+        <file>
+            <source>src/main/resources/carbon-home/conf/web.xml</source>
+            <outputDirectory>${pom.artifactId}-${build.version}/repository/conf/tomcat</outputDirectory>
+            <filtered>true</filtered>
+            <fileMode>644</fileMode>
+        </file>
+        <file>
+            <source>src/main/resources/carbon-home/conf/carbon/web.xml</source>
+            <outputDirectory>${pom.artifactId}-${build.version}/repository/conf/tomcat/carbon/WEB-INF</outputDirectory>
+            <filtered>true</filtered>
+            <fileMode>644</fileMode>
+        </file>
+        <file>
+            <source>src/main/resources/carbon-home/conf/webapp-mode/web.xml</source>
+            <outputDirectory>${pom.artifactId}-${build.version}/webapp-mode/WEB-INF</outputDirectory>
             <filtered>true</filtered>
             <fileMode>644</fileMode>
         </file>

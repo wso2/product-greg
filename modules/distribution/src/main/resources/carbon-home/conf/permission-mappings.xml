@@ -62,4 +62,44 @@
              resourcePaths="/_system/governance/apimgt"/>
     <mapping managementPermission="/permission/admin/manage/resources/govern/api/list" resourcePermission="http://www.wso2.org/projects/registry/actions/get"
              resourcePaths="/_system/governance/apimgt"/>
+    <mapping managementPermission="/permission/admin/manage/resources/govern/soapservice/add" resourcePermission="http://www.wso2.org/projects/registry/actions/get"
+             resourcePaths="/_system/governance/trunk/soapservices"/>
+    <mapping managementPermission="/permission/admin/manage/resources/govern/soapservice/add" resourcePermission="http://www.wso2.org/projects/registry/actions/add"
+             resourcePaths="/_system/governance/trunk/soapservices"/>
+    <mapping managementPermission="/permission/admin/manage/resources/govern/soapservice/add" resourcePermission="http://www.wso2.org/projects/registry/actions/delete"
+             resourcePaths="/_system/governance/trunk/soapservices"/>
+    <mapping managementPermission="/permission/admin/manage/resources/govern/soapservice/list" resourcePermission="http://www.wso2.org/projects/registry/actions/get"
+             resourcePaths="/_system/governance/trunk/soapservices"/>
+    <mapping managementPermission="/permission/admin/manage/resources/govern/restservice/add" resourcePermission="http://www.wso2.org/projects/registry/actions/get"
+             resourcePaths="/_system/governance/trunk/restservices"/>
+    <mapping managementPermission="/permission/admin/manage/resources/govern/restservice/add" resourcePermission="http://www.wso2.org/projects/registry/actions/add"
+             resourcePaths="/_system/governance/trunk/restservices"/>
+    <mapping managementPermission="/permission/admin/manage/resources/govern/restservice/add" resourcePermission="http://www.wso2.org/projects/registry/actions/delete"
+             resourcePaths="/_system/governance/trunk/restservices"/>
+    <mapping managementPermission="/permission/admin/manage/resources/govern/restservice/list" resourcePermission="http://www.wso2.org/projects/registry/actions/get"
+             resourcePaths="/_system/governance/trunk/restservices"/>
+    <mapping managementPermission="/permission/admin/manage/resources/govern/swagger/add" resourcePermission="http://www.wso2.org/projects/registry/actions/get"
+             resourcePaths="/_system/governance/apimgt"/>
+    <mapping managementPermission="/permission/admin/manage/resources/govern/swagger/add" resourcePermission="http://www.wso2.org/projects/registry/actions/add"
+             resourcePaths="/_system/governance/apimgt"/>
+    <mapping managementPermission="/permission/admin/manage/resources/govern/swagger/add" resourcePermission="http://www.wso2.org/projects/registry/actions/delete"
+             resourcePaths="/_system/governance/apimgt"/>
+    <mapping managementPermission="/permission/admin/manage/resources/govern/swagger/list" resourcePermission="http://www.wso2.org/projects/registry/actions/get"
+             resourcePaths="/_system/governance/apimgt"/>
+    <mapping managementPermission="/permission/admin/manage/resources/govern/note/add" resourcePermission="http://www.wso2.org/projects/registry/actions/get"
+             resourcePaths="/_system/governance/publisher_notes"/>
+    <mapping managementPermission="/permission/admin/manage/resources/govern/note/add" resourcePermission="http://www.wso2.org/projects/registry/actions/add"
+             resourcePaths="/_system/governance/publisher_notes"/>
+    <mapping managementPermission="/permission/admin/manage/resources/govern/note/add" resourcePermission="http://www.wso2.org/projects/registry/actions/delete"
+             resourcePaths="/_system/governance/publisher_notes"/>
+    <mapping managementPermission="/permission/admin/manage/resources/govern/note/list" resourcePermission="http://www.wso2.org/projects/registry/actions/get"
+             resourcePaths="/_system/governance/publisher_notes"/>
+    <mapping managementPermission="/permission/admin/manage/resources/govern/server/add" resourcePermission="http://www.wso2.org/projects/registry/actions/get"
+             resourcePaths="/_system/governance/trunk/servers"/>
+    <mapping managementPermission="/permission/admin/manage/resources/govern/server/add" resourcePermission="http://www.wso2.org/projects/registry/actions/add"
+             resourcePaths="/_system/governance/trunk/servers"/>
+    <mapping managementPermission="/permission/admin/manage/resources/govern/server/add" resourcePermission="http://www.wso2.org/projects/registry/actions/delete"
+             resourcePaths="/_system/governance/trunk/servers"/>
+    <mapping managementPermission="/permission/admin/manage/resources/govern/server/list" resourcePermission="http://www.wso2.org/projects/registry/actions/get"
+             resourcePaths="/_system/governance/trunk/servers"/>
 </permissionMappings>

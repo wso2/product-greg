@@ -1,0 +1,15 @@
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
+
+<suite name="GregTestSuite">
+    <test name="Report-Test" preserve-order="true" parallel="false">
+
+        <classes>
+            <class name="org.wso2.carbon.registry.reporting.test.ReportNameAndTemplateTestCases"/>
+            <class name="org.wso2.carbon.registry.reporting.test.ReportGenerationTestCases"/>
+            <class name="org.wso2.carbon.registry.reporting.test.Carbon11686"/>
+            <class name="org.wso2.carbon.registry.reporting.test.ReportCopyingTestCases"/>
+            <class name="org.wso2.carbon.registry.reporting.test.ReportSchedulingTestCases"/>
+            <class name="org.wso2.carbon.registry.reporting.test.ReportClassTestCases"/>
+        </classes>
+    </test>
+</suite>

@@ -1,0 +1,9 @@
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
+
+<suite name="GregTestSuite">
+    <test name="Discovery-Test" preserve-order="true" parallel="false">
+        <packages>
+            <package name="org.wso2.carbon.registry.discovery.test"/>
+        </packages>
+    </test>
+</suite>

@@ -11,8 +11,8 @@ html {
 }
 
 body {
-    overflow-x: hidden;
-    -ms-overflow-x: hidden;
+    overflow-x: visible !important;
+    -ms-overflow-x: visible !important;
     margin-bottom: 0;
     min-height: 100%;
 }
@@ -902,4 +902,17 @@ a.cu-btn:hover, .wr-asset-type-switcher a.switcher-link:hover {
 
 [data-step]:first-child {
     display: block;
+}
+
+h3.ast-name {
+        font-weight:300;
+        font-size:18px;
+        color:#555;
+        margin-top:12px;
+        margin-bottom:12px;
+    display: block;
+    overflow: hidden;
+    white-space: nowrap;
+    height: 26px;
+    position: relative;
 }

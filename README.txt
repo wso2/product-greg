@@ -30,20 +30,25 @@ etc.
 
 New Features In This Release
 ============================
- *First-class support for WADL.
- *REST API for Registry
- *CMIS Specification Support
- *Enhanced RXT functionalities
- *Notification for Approvals: Managing Subscription updates, the topics used to subscribe and procedure to add a subscription.
- *Asset models for ESB
- *Lifecycle state transition through Governance API
- *Offline WSDL Validation
- *Sample Data Populator
- *RXT Lifecycle Workflow Integration: Web Service Executor and it's sample.
- *LifeCycle in RXT Definition
- *Pagination for Registry
- *Enhanced UDDI Support
- *Registry Check In-client Improvements
+ * Create and manage registry resources, APIs and Swagger instances with the newly introduced Governance Centre UI
+ * Installation provision for API-M, enabling API publisher and store functionalities, including API creation, publishing, subscription, token generation and regeneration within WSO2 Governance Registry
+ * Centrally integrated with the latest version of WSO2 Enterprise Store 2.0
+ * Out of the Box APIM Manager integration support
+ * Graphical differentiation view to compare two inter-related assets
+ * New asset association UIs and extension point to perform add/remove associations based activities
+ * Improved extension points to write tasks based on registry API and governance API
+ * New Governance REST API
+ * Monitor time duration of artifacts in specific lifecycle states
+ * Ability to set  specific lifecycle state checkpoints
+ * Service and application discovery for third-party servers
+ * Graphical visualization (dependency graphs) of artifacts with associated resources and dependent artifacts enabling users to perform impact analysis when changes are made to an artifact
+ * Out of the box versioning support for WSDL, WADL and XSD
+ * Out of the box support for Swagger imports, with facility to upload via a file or import using a link
+ * Ability to specify custom storage paths for any RXT
+ * Improved notifications to support clustered deployments and tenants
+ * Multiple life-cycle associations for artifacts
+ * Improvement in performance by solr based advance search
+ * New SOAP and REST service artifacts to improve service categorization
  
 
 Issues Fixed in This Release
@@ -136,21 +141,21 @@ Features
 System Requirements
 ===================
 
-1. Minimum memory - 1GB
+1. Minimum memory - 2GB
 
 2. Processor      - Pentium 800MHz or equivalent at minimum
 
-3. Java SE Development Kit 1.6.0_24 or higher
+3. Java SE Development Kit 1.7.x or higher
 
 4. The Management Console requires you to enable JavaScript of the Web browser,
-   with MS IE 7 and 8. In addition to JavaScript, ActiveX should also be enabled
+   with MS IE 10 or above. In addition to JavaScript, ActiveX should also be enabled
    with IE. This can be achieved by setting your security level to medium or lower.
 
 5. To build @product.name@ from the Source distribution, it is also necessary that you
-   have Maven 2.1.0 or later.
+   have Maven 3.0.5 or later.
 
 For more details see
-   http://docs.wso2.org/display/@product.version.docs@/Installation+Prerequisites
+   http://docs.wso2.org/display/Governance501/Installation+Prerequisites
 
 
 Project Resources
@@ -160,7 +165,7 @@ Project Resources
 * Library            : http://wso2.org/library/registry
 * JIRA-Issue Tracker : https://wso2.org/jira/browse/REGISTRY
                      : https://wso2.org/jira/browse/CARBON
-     All Open Issues : https://wso2.org/jira/secure/IssueNavigator.jspa?requestId=10225&mode=hide
+     All Open Issues : https://wso2.org/jira/secure/IssueNavigator.jspa?requestId=12424&mode=hide
 * Forums             : http://stackoverflow.com/questions/tagged/wso2
 * Mailing Lists
      Developer List  : dev@wso2.org 
@@ -176,7 +181,7 @@ Installation and Running
 3. Once the server starts, point your Web browser to https://localhost:9443/carbon/
 4. For more information, see the Installation Guide:
      Locally    : INSTALL.txt
-     On the web : http://docs.wso2.org/wiki/display/@product.version.docs@/Getting+Started
+     On the web : http://docs.wso2.org/wiki/display/Governance501/Getting+Started
 
 
 Known issues of @product.name@ @product.version@
