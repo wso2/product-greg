@@ -81,6 +81,7 @@ $(function() {
                         label: 'OK',
                         action: function (dialogItself) {
                             dialogItself.close();
+                            location.reload(true);
                         }
                     }]
 
@@ -120,6 +121,7 @@ $(function() {
                         label: 'OK',
                         action: function (dialogItself) {
                             dialogItself.close();
+                            location.reload(true);
                         }
                     }]
 
