@@ -41,6 +41,7 @@ asset.renderer = function(ctx) {
             sidebarPopulator: function(page) {
                 if (page.meta.pageName === 'details') {
                     page.isSidebarEnabled = true;
+                    page.isNotificationbarEnabled = true;
                 }
                 if (page.meta.pageName === 'list') {
                     page.isNotificationbarEnabled = true;

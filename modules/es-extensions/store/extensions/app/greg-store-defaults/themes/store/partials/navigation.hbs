@@ -51,12 +51,6 @@
 
             {{#if isSidebarEnabled}}
                 <li class="pull-right">
-                    <a href="javascript:void(0)" onclick="toggleSidePanel('notifications',this)"  class="cu-btn wr-side-panel-toggle-btn wr-notification-toggle-btn">
-                            <span class="fw-stack-md">
-                                <i class="fw fw-bell fw-stack-1-5x"></i>
-                            </span>
-                        <span class="wr-notification-bubble" id="notificationCount" >{{notificationsCount.count}}</span>
-                    </a>
                 {{#hasAppPermission . key="GREG_COMMUNITY_FEATURES" username=cuser.username tenantId=cuser.tenantId}}
                     <a href="javascript:void(0)" onclick="toggleSidePanel('options',this)" class="cu-btn wr-side-panel-toggle-btn">
                             <span class="fw-stack-md">
