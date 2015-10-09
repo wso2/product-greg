@@ -19,6 +19,7 @@
 
 var resources = function(){
     return {
-        css:['common.css']
+        css:['common.css','sidepanel.css'],
+        js:['sidepanel.js']
     }
 };

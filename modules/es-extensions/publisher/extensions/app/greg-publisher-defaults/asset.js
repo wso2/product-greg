@@ -42,6 +42,9 @@ asset.renderer = function(ctx) {
                 if (page.meta.pageName === 'details') {
                     page.isSidebarEnabled = true;
                 }
+                if (page.meta.pageName === 'list') {
+                    page.isNotificationbarEnabled = true;
+                }
             },
             subscriptionPopulator: function(page) {
                 if (page.meta.pageName === 'details') {
@@ -52,12 +55,12 @@ asset.renderer = function(ctx) {
                 }
             },
             notificationPopulator: function(page) {
-                if (page.meta.pageName === 'details') {
+                if (page.meta.pageName === 'list' || page.meta.pageName === 'details') {
                     page.notificationsCount = gregAPI.notifications.count();
                 }
             },
             notificationListPopulator: function(page) {
-                if (page.meta.pageName === 'details') {
+                if (page.meta.pageName === 'list' || page.meta.pageName === 'details') {
                     var am = assetManager(ctx.session,ctx.assetType);
                     page.notifications = gregAPI.notifications.list(am);
                 }
