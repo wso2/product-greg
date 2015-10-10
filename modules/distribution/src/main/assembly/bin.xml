@@ -834,6 +834,18 @@
             <fileMode>644</fileMode>
         </file>
         <file>
+            <source>../samples/data-populator/README.txt</source>
+            <outputDirectory>${pom.artifactId}-${build.version}/samples/data-populator/</outputDirectory>
+            <filtered>true</filtered>
+            <fileMode>644</fileMode>
+        </file>
+        <file>
+            <source>../samples/data-populator/Populator/populator.sh</source>
+            <outputDirectory>${pom.artifactId}-${build.version}/samples/data-populator/Populator</outputDirectory>
+            <filtered>true</filtered>
+            <fileMode>644</fileMode>
+        </file>
+        <file>
             <source>../../release-notes.html</source>
             <outputDirectory>${pom.artifactId}-${build.version}/</outputDirectory>
             <filtered>true</filtered>
