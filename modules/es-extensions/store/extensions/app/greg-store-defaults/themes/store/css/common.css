@@ -422,3 +422,12 @@ a.ast-name {
     height: 26px;
     position: relative;
 }
+
+.container-fluid{
+    padding-left: 0;
+    padding-right: 0;
+}
+
+.wr-action-container {
+    height: 2px;
+}
