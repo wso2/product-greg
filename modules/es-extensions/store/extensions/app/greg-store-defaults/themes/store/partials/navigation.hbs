@@ -54,21 +54,52 @@
                 </div>
             </div>
         </div>
-        <div class="search">
-            {{>search .}}
-            <a href="{{url ""}}/pages/advanced-search" class="pull-left advance-search-btn" title="Advanced Search - All Assets"><span class="fa fa-cog advanced-search-icons"></span><span class="advanced-search-text">Search All Assets</span></a>
-        </div>
-        <!--search--->
-    </div>
-    {{#unless isUserDomainAndUrlDomainDifferent}}
-        <div class="site-wide-menu">
-            <div class="inline-block margin-top-sm">
-                {{#hasAppPermission . key="APP_MYITEMS" username=cuser.username tenantId=cuser.tenantId}}
-                    <a href="{{tenantedUrl "/pages/my-items"}}" class="bookmark-link" title="{{t "My bookmarks "}}"><span class="bookmark-link-text">{{t "My bookmarks "}}</span><i class="fw fw-bookmark fw-inverse fw-lg bookmark-link-icon"></i></a>
-                {{/hasAppPermission}}
+        <div class="input-group input-wrap">
+            <input  id="search"  type="text" class="form-control" placeholder="Search for...">
+            <div class="input-group-btn">
+                <button class="btn btn-default wrap-input-right" type="button" title="Search">
+                    <i class="fw fw-search" aria-hidden="true"></i>
+                </button>
             </div>
         </div>
-    {{/unless}}
+        <div class="col-sm-3 col-md-5 col-lg-3 top-menu-right-custom right">
+            <div class="inline-block">
+                {{#hasAppPermission . key="APP_MYITEMS" username=cuser.username tenantId=cuser.tenantId}}
+                    <a href="{{url "/pages/my-items"}}" class="bookmark-link" style="display: none;">{{t "My bookmarks "}}<i class="fw fw-store fw-inverse fw-lg"></i></a>
+                {{/hasAppPermission}}
+
+                {{#if isSidebarEnabled}}
+                    <li class="pull-right">
+                        <a href="javascript:void(0)" onclick="toggleSidePanel('notifications',this)"  class="cu-btn wr-side-panel-toggle-btn wr-notification-toggle-btn">
+                            <span class="fw-stack-md">
+                                <i class="fw fw-bell fw-stack-1-5x"></i>
+                            </span>
+                            <span class="wr-notification-bubble" id="notificationCount" >{{notificationsCount.count}}</span>
+                        </a>
+                        {{#hasAppPermission . key="GREG_COMMUNITY_FEATURES" username=cuser.username tenantId=cuser.tenantId}}
+                            <a href="javascript:void(0)" onclick="toggleSidePanel('options',this)" class="cu-btn wr-side-panel-toggle-btn">
+                            <span class="fw-stack-md">
+                                <i class="fw fw-left-arrow fw-stack-1-5x"></i>
+                            </span>
+                                Options
+                            </a>
+                        {{/hasAppPermission}}
+                    </li>
+                {{/if}}
+                {{#if isNotificationbarEnabled}}
+                    <li class="pull-right">
+                        <a href="javascript:void(0)" onclick="toggleSidePanel('notifications',this)"  class="cu-btn wr-side-panel-toggle-btn wr-notification-toggle-btn">
+                            <span class="fw-stack-md">
+                                <i class="fw fw-bell fw-stack-1-5x"></i>
+                            </span>
+                            <span class="wr-notification-bubble" id="notificationCount" >{{notificationsCount.count}}</span>
+                        </a>
+
+                    </li>
+                {{/if}}
+            </div>
+        </div>
+    </div>
 
     <div class="col-md-12 category-wrapper">
         {{#if assetCategoryDetails.hasCategories}}
