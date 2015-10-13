@@ -14,9 +14,10 @@ h1 {
 }
 
 a.cu-btn-inner.inverse, .btn-primary, .btn-default {
-    background: #2c313b !important;
-    color: #fff !important;
+    background: #fff !important;
+    color: #333 !important;
     border: none;
+    outline: none;
 }
 
 .btn {
@@ -75,7 +76,7 @@ a.cu-btn-inner.inverse, .btn-primary, .btn-default {
 }
 
 .wr-auth .dropdown-menu-content {
-    background-color: #4F5050; 
+    background-color: #4F5050;
 }
 
 .wr-global-header {
@@ -98,7 +99,7 @@ a.cu-btn-inner.inverse, .btn-primary, .btn-default {
 
 .wr-asset-type-switcher span.btn-asset:hover {
     background-color: #111;
-    
+
 }
 
 a.cu-btn:hover, .wr-asset-type-switcher a.switcher-link:hover {
@@ -153,16 +154,16 @@ a.ast-type-item:hover {
     text-decoration: none;
 }
 
-.thumbnail .icon { 
+.thumbnail .icon {
     text-align: center;
     font-size: 120px;
     line-height: 150px;
     height: 130px;
     background: #4f5050;
-    
+
     width: 180px;
     height: 180px;
-    
+
     -webkit-transition: all 0.5s ease;
     -moz-transition: all 0.5s ease;
     -o-transition: all 0.5s ease;
@@ -171,7 +172,7 @@ a.ast-type-item:hover {
 }
 
 .thumbnail:hover > a .icon {
-    color: #fff; 
+    color: #fff;
     width: 190px;
     height: 190px;
 }
@@ -233,6 +234,12 @@ a.cu-btn {
     top: 0;
     left: 0;
     margin: 0;
+    height: 41px;
+    position: relative;
+}
+
+.top-menu-right-custom {
+    margin-top: -38px;
 }
 
 .wr-side-panel .panel-heading {
@@ -336,7 +343,7 @@ a.cu-btn {
 
 .form-search input.form-control {
     background: #bbb;
-    height: 40px;    
+    height: 40px;
     border: none;
     color: #fff;
     line-height: 40px;
@@ -426,4 +433,8 @@ a.ast-name {
 .container-fluid{
     padding-left: 0;
     padding-right: 0;
+}
+
+.category-wrapper {
+    margin-top: 44px !important;
 }
