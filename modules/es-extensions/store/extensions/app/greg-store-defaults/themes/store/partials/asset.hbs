@@ -41,6 +41,9 @@
             <!-- asset description -->
                 <div class="assetp-properties">
 
+                    {{#if ../../rxt.meta.isDependencyShown}}
+                        {{> view-asset-top-common-addons-container ../..}}
+                    {{/if}}
                     <ul class="nav nav-tabs" id="assetp-tabs" data-aid="{{../path}}">
                         <li class="active">
                             <a href="#tab-properties" data-toggle="tab" data-type="basic">{{t "Description"}}</a>
@@ -75,5 +78,3 @@
         {{/with}}
     {{/with}}
 </div>
-
-{{> sidebar-container .}}

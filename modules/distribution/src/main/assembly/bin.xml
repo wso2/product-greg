@@ -517,8 +517,12 @@
 
         <!-- ES Extensions for G-Reg impact analysis UI-->
         <fileSet>
-            <directory>../p2-profile-gen/target/wso2carbon-core-${carbon.kernel.version}/repository/resources/publisher/extensions/app/greg_impact</directory>
+            <directory>../p2-profile-gen/target/wso2carbon-core-${carbon.kernel.version}/repository/resources/common/extensions/app/greg_impact</directory>
             <outputDirectory>${pom.artifactId}-${pom.version}/repository/deployment/server/jaggeryapps/publisher/extensions/app/greg_impact</outputDirectory>
+        </fileSet>
+        <fileSet>
+            <directory>../p2-profile-gen/target/wso2carbon-core-${carbon.kernel.version}/repository/resources/common/extensions/app/greg_impact</directory>
+            <outputDirectory>${pom.artifactId}-${pom.version}/repository/deployment/server/jaggeryapps/store/extensions/app/greg_impact</outputDirectory>
         </fileSet>
 
         <!-- ES Extensions for G-Reg swagger UI-->
@@ -830,6 +834,18 @@
         <file>
             <source>../samples/jaxr/README.txt</source>
             <outputDirectory>${pom.artifactId}-${build.version}/samples/jaxr/</outputDirectory>
+            <filtered>true</filtered>
+            <fileMode>644</fileMode>
+        </file>
+        <file>
+            <source>../samples/data-populator/README.txt</source>
+            <outputDirectory>${pom.artifactId}-${build.version}/samples/data-populator/</outputDirectory>
+            <filtered>true</filtered>
+            <fileMode>644</fileMode>
+        </file>
+        <file>
+            <source>../samples/data-populator/Populator/populator.sh</source>
+            <outputDirectory>${pom.artifactId}-${build.version}/samples/data-populator/Populator</outputDirectory>
             <filtered>true</filtered>
             <fileMode>644</fileMode>
         </file>
