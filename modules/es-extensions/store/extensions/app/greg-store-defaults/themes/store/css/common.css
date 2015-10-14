@@ -24,10 +24,6 @@ a.cu-btn-inner.inverse, .btn-primary, .btn-default {
     border-radius: 0;
 }
 
-.wrapper {
-    overflow-x: visible !important;
-}
-
 .inverse h1 {
     color: #fff;
 }
@@ -63,7 +59,7 @@ a.cu-btn-inner.inverse, .btn-primary, .btn-default {
 }
 
 .app-logo {
-  padding: 12px 20px 12px 16px;
+    padding: 12px 20px 12px 28px;
 }
 
 .wr-app-bar {
@@ -76,7 +72,7 @@ a.cu-btn-inner.inverse, .btn-primary, .btn-default {
 }
 
 .wr-auth .dropdown-menu-content {
-    background-color: #4F5050;
+    background-color: #4F5050 !important;
 }
 
 .wr-global-header {
@@ -201,7 +197,7 @@ a.ast-type-item:hover {
 }
 
 a.cu-btn {
-  padding: 13px 10px !important;
+    padding: 10px 10px !important;
 }
 
 .advance-search-btn {
@@ -329,8 +325,8 @@ a.cu-btn {
 }
 
 .search-label {
-  font-weight: 300;
-  font-size: 18px;
+    font-weight: 300;
+    font-size: 18px;
 }
 
 .inverse .search-label {
@@ -405,16 +401,16 @@ a.cu-btn {
 }
 
 .wr-global-header .dropdown-menu {
-   background: #777;
-   padding: 0;
-   top: 50px;
-   right: 5px;
-   border: none;
-   box-shadow: none;
+    background: #777;
+    padding: 0;
+    top: 50px;
+    right: 5px;
+    border: none;
+    box-shadow: none;
 }
 
 .wr-global-header .dropdown-menu li a {
-   padding: 10px 15px;
+    padding: 10px 15px;
 }
 
 a.ast-name {
