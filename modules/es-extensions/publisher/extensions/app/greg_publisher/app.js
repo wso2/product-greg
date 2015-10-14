@@ -91,6 +91,9 @@ app.renderer = function(ctx){
                         asset.attributes.version = asset.version;
                     }
                 }
+            },
+            getStoreUrl: function (page) {
+                page.storeUrl = require('/config/publisher.js').config().storeUrl;
             }
         }
     }
