@@ -20,12 +20,12 @@
             <div class="ctrl-asset-type-switcher">
                 <div class="left-menu">
                     <nav class="navigation">
-                        <a href='{{tenantedUrl ""}}/pages/top-assets' class="active home">
+                        <a href='{{tenantedUrl ""}}/pages/top-assets' class="{{#if navigationBar.landingPage}} active home top-item {{else}} purple all-item  {{/if}}">
                             <span class="icon"><i class="fw fw-store"></i></span> <span class="left-menu-item">ALL</span>
                         </a>
                         {{#with navigationBar}}
                             {{#each types}}
-                                <a href='{{tenantedUrl ""}}{{this.listingUrl}}' class="purple">
+                                <a href='{{tenantedUrl ""}}{{this.listingUrl}}' class="purple {{this.style}}">
                                     <span class="icon"><i class="{{ui.icon}}"></i></span> <span class="left-menu-item">{{singularLabel}}</span>
                                 </a>
                             {{/each}}
