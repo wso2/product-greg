@@ -34,21 +34,9 @@
                     <div class="tags-wrapper">
                         <div class="tag-title"> Tags </div>
                         <div class="tag-content">
-                            <label>Business</label>
-                            <label>Comics</label>
-                            <label>Communication</label>
-                            <label>Education</label>
-                            <label>Entertainment</label>
-                            <label>Finance</label>
-                            <label>Health &amp; Fitness</label>
-                            <label>Media &amp; Video</label>
-                            <label>Medical</label>
-                            <label>Music &amp; Audio</label>
-                            <label>Shopping</label>
-                            <label>Social</label>
-                            <label>Sports</label>
-                            <label>Travel &amp; Local</label>
-                            <label>Widgets</label>
+                            {{#each tags}}
+                                <label>{{this.value}}</label>
+                            {{/each}}
                         </div>
                     </div>
                 </div>
