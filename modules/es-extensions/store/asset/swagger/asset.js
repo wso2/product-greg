@@ -163,7 +163,8 @@ asset.configure = function() {
     return {
         meta: {
             ui: {
-                icon: 'fw fw-swagger'
+                icon: 'fw fw-swagger',
+                iconColor: 'grey'
             }
         }
     }

@@ -153,7 +153,8 @@ asset.configure = function() {
     return {
         meta: {
             ui: {
-                icon: 'fw fw-policy'
+                icon: 'fw fw-policy',
+                iconColor: 'yellow'
             }
         }
     }

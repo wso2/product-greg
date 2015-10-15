@@ -25,20 +25,22 @@
                         </a>
                         {{#with navigationBar}}
                             {{#each types}}
-                                <a href='{{tenantedUrl ""}}{{this.listingUrl}}' class="purple {{this.style}}">
+                                <a href='{{tenantedUrl ""}}{{this.listingUrl}}' class="{{this.iconColor}} {{this.style}}">
                                     <span class="icon"><i class="{{ui.icon}}"></i></span> <span class="left-menu-item">{{singularLabel}}</span>
                                 </a>
                             {{/each}}
                         {{/with}}
                     </nav>
-                    <div class="tags-wrapper">
-                        <div class="tag-title"> Tags </div>
-                        <div class="tag-content">
-                            {{#each tags}}
-                                <label>{{this.value}}</label>
-                            {{/each}}
+                    {{#if tags}}
+                        <div class="tags-wrapper">
+                            <div class="tag-title"> Tags </div>
+                            <div class="tag-content">
+                                {{#each tags}}
+                                    <a href='{{tenantedUrl ""}}{{this.searchPage}}?q="tags":"{{this.value}}"'><label>{{this.value}}</label></a>
+                                {{/each}}
+                            </div>
                         </div>
-                    </div>
+                    {{/if}}
                 </div>
             </div>
         </div>
@@ -86,27 +88,30 @@
 </div>
 <!-- secondary header - app bar -->
 {{> action-bar .}}
-
-<div class="col-md-12 category-wrapper">
-    {{#if assetCategoryDetails.hasCategories}}
-        <div class="col-xs-1 col-sm-2 col-md-1 col-lg-1 left-col"></div>
-        <div class="col-xs-10 col-sm-8 col-md-4 col-lg-10">
-            <div class="category padding-top">
-                <a href="#" class="ico-filter ctrl-filter-category dropdown-toggle" data-toggle="dropdown" aria-expanded="true"  id="categoryDropDown" title="All Categories">
-                    {{#if assetCategoryDetails.selectedCategory}}
-                        {{assetCategoryDetails.selectedCategory}}
-                    {{else}}
-                        <span>All Categories</span>
-                    {{/if}}
-                </a>
-                <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
-                    {{#if assetCategoryDetails.selectedCategory}}
-                        <li><a tabindex="-1" href="#">All Categories</a></li>
-                    {{/if}}
-                    {{#each assetCategoryDetails.values}}
-                        <li><a tabindex="-1" href="#">{{this}}</a></li>
-                    {{/each}}
-                </ul>
-            </div></div>
-    {{/if}}
-</div>
+{{#if assetCategoryDetails.hasCategories}}
+    <div class="col-md-12 category-wrapper">
+        {{#if assetCategoryDetails.hasCategories}}
+            <div class="col-xs-1 col-sm-2 col-md-1 col-lg-1 left-col"></div>
+            <div class="col-xs-10 col-sm-8 col-md-4 col-lg-10">
+                <div class="category padding-top">
+                    <a href="#" class="ico-filter ctrl-filter-category dropdown-toggle" data-toggle="dropdown"
+                       aria-expanded="true" id="categoryDropDown" title="All Categories">
+                        {{#if assetCategoryDetails.selectedCategory}}
+                            {{assetCategoryDetails.selectedCategory}}
+                        {{else}}
+                            <span>All Categories</span>
+                        {{/if}}
+                    </a>
+                    <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
+                        {{#if assetCategoryDetails.selectedCategory}}
+                            <li><a tabindex="-1" href="#">All Categories</a></li>
+                        {{/if}}
+                        {{#each assetCategoryDetails.values}}
+                            <li><a tabindex="-1" href="#">{{this}}</a></li>
+                        {{/each}}
+                    </ul>
+                </div>
+            </div>
+        {{/if}}
+    </div>
+{{/if}}

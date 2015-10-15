@@ -157,7 +157,8 @@ asset.configure = function() {
     return {
         meta: {
             ui: {
-                icon: 'fw fw-wadl'
+                icon: 'fw fw-wadl',
+                iconColor: 'blue'
             }
         }
     }

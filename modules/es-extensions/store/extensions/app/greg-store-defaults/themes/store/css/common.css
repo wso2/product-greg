@@ -434,3 +434,35 @@ a.ast-name {
 .category-wrapper {
     margin-top: 0px !important;
 }
+
+.divrow {
+    line-height:24pt;
+    margin: 0px;
+}
+
+.divrow:nth-of-type(odd) {
+    background-color: #f9f9f9;
+}
+
+span.left-menu-item, span.left-menu-item.hover, a.all-item a.top-item a.all-item.hover a.all-item.active {
+    text-overflow: ellipsis !important;
+    white-space: nowrap !important;
+    overflow:hidden !important;
+    width: 134px;
+}
+/*span.left-menu-item {
+    font-weight:300;
+    font-size:20px;
+    color:#555;
+    margin-top:2px;
+    margin-bottom:2px;
+    display: block;
+    overflow: hidden;
+    white-space: nowrap;
+    height: 26px;
+    position: relative;
+}
+
+span.left-menu-item:hover {
+    text-decoration: none;
+}*/

@@ -131,7 +131,8 @@ asset.configure = function() {
     return {
         meta: {
             ui: {
-                icon: 'fw fw-soap'
+                icon: 'fw fw-soap',
+                iconColor: 'orange'
             }
         }
     }

@@ -153,7 +153,8 @@ asset.configure = function() {
     return {
         meta: {
             ui: {
-                icon: 'fw fw-schema'
+                icon: 'fw fw-schema',
+                iconColor: 'red'
             }
         }
     }
