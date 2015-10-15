@@ -145,6 +145,11 @@
         </dependency>
         <dependency>
             <groupId>org.wso2.carbon.commons</groupId>
+            <artifactId>org.wso2.carbon.logging.admin.stub</artifactId>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.wso2.carbon.commons</groupId>
             <artifactId>org.wso2.carbon.reporting.api</artifactId>
             <scope>compile</scope>
         </dependency>
