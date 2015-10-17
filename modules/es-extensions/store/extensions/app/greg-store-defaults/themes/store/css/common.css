@@ -450,6 +450,10 @@ span.left-menu-item, span.left-menu-item.hover, a.all-item a.top-item a.all-item
     overflow:hidden !important;
     width: 134px;
 }
+
+.itm-ast:hover h3, .itm-ast:hover {
+    color: #333;
+}
 /*span.left-menu-item {
     font-weight:300;
     font-size:20px;
