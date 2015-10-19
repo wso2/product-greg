@@ -39,7 +39,14 @@ asset.manager = function(ctx) {
     };
     var getRegistry = function(cSession) {
         var userMod = require('store').user;
-        var userRegistry = userMod.userRegistry(cSession);
+        var server = require('store').server;
+        var user = server.current(cSession);
+        var userRegistry;
+        if (user) {
+            userRegistry = userMod.userRegistry(cSession);
+        } else {
+            userRegistry = server.anonRegistry(tenantId);
+        }
         return userRegistry;
     };
     return {
