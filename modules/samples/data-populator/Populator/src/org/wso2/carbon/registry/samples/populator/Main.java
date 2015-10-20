@@ -55,35 +55,36 @@ public class Main {
             ConfigurationContext configContext = ConfigurationContextFactory
                     .createConfigurationContextFromFileSystem(axis2Configuration);
 
-            Registry registry = new WSRegistryServiceClient(
-                    serverURL, username,
-                    password, configContext) {
+            Registry registry = new WSRegistryServiceClient(serverURL, username, password, configContext) {
+
                 public void setCookie(String cookie) {
                     Main.cookie = cookie;
                     super.setCookie(cookie);
                 }
             };
 
-            ResourceServiceClient resourceServiceClient = new ResourceServiceClient(cookie,
-                    serverURL, configContext);
+            ResourceServiceClient resourceServiceClient = new ResourceServiceClient(cookie, serverURL, configContext);
 
             int currentTask = 0;
             int tasks = 10;
-	    String projectPath = System.getProperty("user.dir");
-		
-	    addWsdlGar(resourceServiceClient, projectPath);
-	    Thread.sleep(1 * 60 * 1000);
-	    System.out.println("######## Successfully uploaded sample wsdls ########");
-	    addWadlGar(resourceServiceClient, projectPath);
-	    Thread.sleep(30 * 1000); 
-	    System.out.println("######## Successfully uploaded sample wadls ########");          
-	    addSchemaGar(resourceServiceClient, projectPath);
-	    Thread.sleep(30 * 1000);
-	    System.out.println("######## Successfully uploaded sample schemas ########");
+            String projectPath = System.getProperty("user.dir");
+
+            addWsdlGar(resourceServiceClient, projectPath);
+            Thread.sleep(1 * 60 * 1000);
+            System.out.println("######## Successfully uploaded sample wsdls ########");
+            addWadlGar(resourceServiceClient, projectPath);
+            Thread.sleep(30 * 1000);
+            System.out.println("######## Successfully uploaded sample wadls ########");
+            addSchemaGar(resourceServiceClient, projectPath);
+            Thread.sleep(30 * 1000);
+            System.out.println("######## Successfully uploaded sample schemas ########");
             addSwaggerGar(resourceServiceClient, projectPath);
             Thread.sleep(30 * 1000);
             System.out.println("######## Successfully uploaded sample swagger docs ########");
-	    
+            addPolicyGar(resourceServiceClient, projectPath);
+            Thread.sleep(30 * 1000);
+            System.out.println("######## Successfully uploaded sample policies ########");
+
         } catch (Exception e) {
             System.out.println("An error occurred.");
             e.printStackTrace();
@@ -113,6 +114,14 @@ public class Main {
         DataHandler dh = new DataHandler(new URL("file://"+projectPath+"/resources/swagger.gar"));
         resourceServiceClient.addResource("/_system/governance/trunk/test/schemas/",
                 "application/vnd.wso2.governance-archive", null, dh, null,null);
+    }
+
+    private static void addPolicyGar(ResourceServiceClient resourceServiceClient, String projectPath) throws Exception {
+        String[][] properties = { { "registry.mediaType", "application/policy+xml" }, { "version", "1.0.0" } };
+        DataHandler dh = new DataHandler(new URL("file://" + projectPath + "/resources/policies.gar"));
+        resourceServiceClient
+                .addResource("/_system/governance/trunk/policies/test/", "application/vnd.wso2.governance-archive",
+                        null, dh, null, properties);
     }
 }
 
