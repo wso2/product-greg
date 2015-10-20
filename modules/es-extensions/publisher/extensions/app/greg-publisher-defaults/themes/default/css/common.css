@@ -917,6 +917,6 @@ h3.ast-name {
     position: relative;
 }
 
-.restservice, .soapservice, .swagger, .wadl, .wadl {
+.restservice, .soapservice, .swagger, .wadl, .wsdl {
    display: none;
 }
