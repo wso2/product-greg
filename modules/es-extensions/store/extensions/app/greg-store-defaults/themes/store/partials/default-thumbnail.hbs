@@ -1,6 +1,15 @@
-<div class="ast-img setbgcolor" style="background: {{this.uniqueColor}}">
+{{#if uniqueColor}}
+    <div class="ast-img setbgcolor" style="background: {{uniqueColor}}">
     <span class="ast-type-icon">
       <i class="fw fw-resource fw-lg"></i>
       </span>
-    <div class="ast-name-icon">{{this.nameToChar}}</div>
-</div>
+        <div class="ast-name-icon">{{nameToChar}}{{../rxt}}</div>
+    </div>
+{{else}}
+    <div class="ast-img setbgcolor" style="background: {{assets.uniqueColor}}">
+    <span class="ast-type-icon">
+      <i class="fw fw-resource fw-lg"></i>
+      </span>
+        <div class="ast-name-icon">{{assets.nameToChar}}</div>
+    </div>
+{{/if}}

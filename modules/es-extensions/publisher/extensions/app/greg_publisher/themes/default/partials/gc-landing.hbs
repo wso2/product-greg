@@ -160,7 +160,7 @@
             <hr>
 
             <div class="page-header no-border">
-                <h1>Assets</h1>
+                <h1>Other Assets</h1>
                 <p class="lead">Select an asset type to view available assets or to add a new asset</p>
             </div>
 
@@ -170,7 +170,7 @@
               <div class="clearfix">
 
                   {{#each assets}}
-                  <div class="thumbnail">
+                  <div class="thumbnail {{type}}">
                     <a href='{{url ""}}/assets/{{type}}/create'>
                         <div class="icon"><i class="{{icon}}"></i></div>
                         <div class="title">
