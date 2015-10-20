@@ -37,6 +37,19 @@ require('/modules/publisher.js').exec(function(ctx) {
 			assets.push(entry);
 		}
 	}
+    var assetTypes = [];
+    var assetType;
+    for (var index in assets) {
+        assetType = assets[index];
+        assetTypes.push({
+               url: '/assets/'+ assetType.type +'/list',
+               assetIcon: assetType.icon,
+               assetTitle: assetType.details.pluralLabel
+        });
+    }
+
+    page.ribbon = {};
+    page.ribbon.breadcrumb = assetTypes;
 	output = appManager.render([],page);
 	output.assets = assets;
 	caramel.render(output);
