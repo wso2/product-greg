@@ -3,8 +3,8 @@
 <suite name="greg-smoke-test-suite">
     <parameter name="useDefaultListeners" value="false"/>
     <test name="test-greg-smoke-scm" preserve-order="true" parallel="false">
-        <packages>
+       <!-- <packages>
             <package name="org.wso2.carbon.registry.ws.client.test.general.old"/>
-        </packages>
+        </packages>-->
     </test>
 </suite>

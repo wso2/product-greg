@@ -73,8 +73,7 @@ public class SchemaManagerAPITestCase {
     public void testNewSchemaUrl() throws GovernanceException {
         try {
             cleanSchema();
-            schemaObj = schemaManager.newSchema("https://svn.wso2.org/repos/wso2/trunk/commons/qa/"
-                    + "qa-artifacts/greg/xsd/calculator.xsd");
+            schemaObj = schemaManager.newSchema("https://raw.githubusercontent.com/wso2/wso2-qa-artifacts/master/automation-artifacts/greg/xsd/calculator.xsd");
         } catch (GovernanceException e) {
             throw new GovernanceException("Error occurred while executing SchemaManager:newSchema with " +
                     "URL method" + e);

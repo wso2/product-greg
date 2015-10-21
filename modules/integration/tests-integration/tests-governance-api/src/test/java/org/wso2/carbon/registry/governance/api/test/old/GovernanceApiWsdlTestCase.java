@@ -75,7 +75,7 @@ public class GovernanceApiWsdlTestCase {
     @BeforeClass(alwaysRun = true, groups = {"wso2.greg", "wso2.greg.GovernanceApiWsdl"})
     public void deployArtifact() throws InterruptedException, RemoteException,
             MalformedURLException, GovernanceException {
-        wsdl = wsdlMgr.newWsdl("http://svn.wso2.org/repos/wso2/trunk/commons/qa/qa-artifacts/greg/wsdl/calculator.wsdl");
+        wsdl = wsdlMgr.newWsdl("https://raw.githubusercontent.com/wso2/wso2-qa-artifacts/master/automation-artifacts/greg/wsdl/calculator.wsdl");
         wsdlMgr.addWsdl(wsdl);
     }
 
@@ -122,10 +122,8 @@ public class GovernanceApiWsdlTestCase {
             }
         }
         Assert.assertTrue(isContains, "WSDL attach to service failed");
-        Endpoint endpoint = endpointManager.newEndpoint("http://svn.wso2.org/repos/wso2/trunk/commons/qa/qa-artifacts/" +
-                "greg/wsdl/BizService.wsdl");
-        Schema schema = schemaManager.newSchema("http://svn.wso2.org/repos/wso2/" +
-                "trunk/commons/qa/qa-artifacts/greg/xsd/person.xsd");
+        Endpoint endpoint = endpointManager.newEndpoint("https://raw.githubusercontent.com/wso2/wso2-qa-artifacts/master/automation-artifacts/greg/wsdl/BizService.wsdl");
+        Schema schema = schemaManager.newSchema("https://raw.githubusercontent.com/wso2/wso2-qa-artifacts/master/automation-artifacts/greg/xsd/person.xsd");
 
         schemaManager.addSchema(schema);
         endpointManager.addEndpoint(endpoint);

@@ -66,8 +66,7 @@ public class GRegMetaDataPermissionServiceTestCase extends GREGIntegrationBaseTe
         String sessionCookieUser;
         boolean status;
         String resourceName = "echo.wsdl";
-        String fetchUrl = "https://svn.wso2.org/repos/wso2/carbon/platform/branches/4.0.0/platform-integration/" +
-                "clarity-tests/1.0.1/org.wso2.carbon.automation.test.repo/src/main/resources/artifacts/GREG/wsdl/echo.wsdl";
+        String fetchUrl = "https://raw.githubusercontent.com/wso2/wso2-qa-artifacts/master/automation-artifacts/greg/wsdl/echo.wsdl";
         addRoleWithUser(permission1);
         try {
             status = false;

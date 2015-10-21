@@ -75,8 +75,7 @@ public class NegativeSchemaAdditionTestCase extends GREGIntegrationBaseTest{
 
 
         Schema schema = schemaManager
-                .newSchema("https://svn.wso2.org/repos/wso2/carbon/platform/trunk/platform-integration/"
-                        + "platform-automated-test-suite/org.wso2.carbon.automation.test.repo/src/main/resources/artifacts/GREG/"
+                .newSchema("https://raw.githubusercontent.com/wso2/wso2-qa-artifacts/master/automation-artifacts/greg/"
                         + "schema/XmlInvalidSchema.xsd");
 
         schema.addAttribute("version", "1.0.0");
@@ -97,10 +96,8 @@ public class NegativeSchemaAdditionTestCase extends GREGIntegrationBaseTest{
 
 
         Schema schema = schemaManager
-                .newSchema("https://svn.wso2.org/repos/wso2/carbon/platform/trunk/"
-                        + "platform-integration/platform-automated-test-suite/"
-                        + "org.wso2.carbon.automation.test.repo/src/main/resources/"
-                        + "artifacts/GREG/schema/books_withoutName.xsd");
+                .newSchema("https://raw.githubusercontent.com/wso2/wso2-qa-artifacts/master/automation-artifacts/greg/policy" +
+                        "/schema/books_withoutName.xsd");
 
         schema.addAttribute("version", "1.0.0");
         schema.addAttribute("author", "Kana");
@@ -140,9 +137,9 @@ public class NegativeSchemaAdditionTestCase extends GREGIntegrationBaseTest{
                 automationContext.getContextUrls().getBackEndUrl(), sessionCookie);
 
 
-        resourceAdminServiceClient.addSchema("", "adding schema without a name", "https://svn.wso2.org/repos/wso2/" +
-                "carbon/platform/trunk/platform-integration/platform-automated-test-suite/org.wso2.carbon.automation.test.repo/" +
-                "src/main/resources/artifacts/GREG/schema/books_withoutName.xsd");                                           //AxisFault Error
+        resourceAdminServiceClient.addSchema("", "adding schema without a name",
+                "https://raw.githubusercontent.com/wso2/wso2-qa-artifacts/master/automation-artifacts/greg/policy" +
+                        "/schema/books_withoutName.xsd");                                           //AxisFault Error
 
     }
 

@@ -46,8 +46,7 @@ import java.rmi.RemoteException;
 public class FilterServicesWithAdminTestCase extends GREGIntegrationBaseTest {
     private static final String SERVICE_LIFE_CYCLE = "ServiceLifeCycle";
     private final static String WSDL_URL =
-            "https://svn.wso2.org/repos/wso2/carbon/platform/trunk/products/greg/modules/integration/registry/tests-new/" +
-                    "src/test/resources/artifacts/GREG/wsdl/info.wsdl";
+            "https://raw.githubusercontent.com/wso2/wso2-qa-artifacts/master/automation-artifacts/greg/wsdl/info.wsdl";
     private ServiceManager serviceManager;
 
     private Service serviceForSearching1;

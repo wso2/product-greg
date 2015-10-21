@@ -68,7 +68,7 @@ public class WSDLTestCase {
         WsdlManager wsdlManager = new WsdlManager(governanceRegistry);
 
         Wsdl wsdl = wsdlManager
-                .newWsdl("http://svn.wso2.org/repos/wso2/carbon/platform/trunk/components/governance/org.wso2.carbon.governance.api/src/test/resources/test-resources/wsdl/BizService.wsdl");
+                .newWsdl("https://raw.githubusercontent.com/wso2/wso2-qa-artifacts/master/automation-artifacts/greg/wsdl/BizService.wsdl");
         wsdl.addAttribute("creator", "it is me");
         wsdl.addAttribute("version", "0.01");
         wsdlManager.addWsdl(wsdl);
@@ -121,7 +121,7 @@ public class WSDLTestCase {
         importElement
                 .addAttribute(
                         "schemaLocation",
-                        "http://svn.wso2.org/repos/wso2/carbon/platform/trunk/components/governance/org.wso2.carbon.governance.api/src/test/resources/test-resources/xsd/purchasing_dup.xsd",
+                        "https://raw.githubusercontent.com/wso2/wso2-qa-artifacts/master/automation-artifacts/greg/xsd/purchasing_dup.xsd",
                         null);
         schemaElement.addChild(importElement);
         importElement.addAttribute("namespace",
@@ -170,7 +170,7 @@ public class WSDLTestCase {
 
         // add again
         Wsdl anotherWsdl = wsdlManager
-                .newWsdl("http://svn.wso2.org/repos/wso2/carbon/platform/trunk/components/governance/org.wso2.carbon.governance.api/src/test/resources/test-resources/wsdl/BizService.wsdl");
+                .newWsdl("https://raw.githubusercontent.com/wso2/wso2-qa-artifacts/master/automation-artifacts/greg/wsdl/BizService.wsdl");
         anotherWsdl.addAttribute("creator", "it is not me");
         anotherWsdl.addAttribute("version", "0.02");
         wsdlManager.addWsdl(anotherWsdl);
@@ -188,7 +188,7 @@ public class WSDLTestCase {
         WsdlManager wsdlManager = new WsdlManager(governanceRegistry);
 
         Wsdl wsdl = wsdlManager
-                .newWsdl("http://svn.wso2.org/repos/wso2/carbon/platform/trunk/components/governance/org.wso2.carbon.governance.api/src/test/resources/test-resources/wsdl/BizService.wsdl");
+                .newWsdl("https://raw.githubusercontent.com/wso2/wso2-qa-artifacts/master/automation-artifacts/greg/wsdl/BizService.wsdl");
         wsdl.addAttribute("creator2", "it is me");
         wsdl.addAttribute("version2", "0.01");
         wsdlManager.addWsdl(wsdl);

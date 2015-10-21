@@ -61,7 +61,7 @@ public class SchemaTestCase {
         log.info("############## testAddSchema started ...###################");
         SchemaManager schemaManager = new SchemaManager(registry);
 
-        Schema schema = schemaManager.newSchema("http://svn.wso2.org/repos/wso2/carbon/platform/trunk/components/governance/org.wso2.carbon.governance.api/src/test/resources/test-resources/xsd/purchasing.xsd");
+        Schema schema = schemaManager.newSchema("https://raw.githubusercontent.com/wso2/wso2-qa-artifacts/master/automation-artifacts/greg/xsd/purchasing.xsd");
         schema.addAttribute("creator", "it is me");
         schema.addAttribute("version", "0.01");
         schemaManager.addSchema(schema);
@@ -121,7 +121,7 @@ public class SchemaTestCase {
         SchemaManager schemaManager = new SchemaManager(registry);
         byte[] bytes = null;
         try {
-            InputStream inputStream = new URL("http://svn.wso2.org/repos/wso2/carbon/platform/trunk/components/governance/org.wso2.carbon.governance.api/src/test/resources/test-resources/xsd/purchasing.xsd").openStream();
+            InputStream inputStream = new URL("https://raw.githubusercontent.com/wso2/wso2-qa-artifacts/master/automation-artifacts/greg/xsd/purchasing.xsd").openStream();
             try {
                 bytes = IOUtils.toByteArray(inputStream);
             } finally {
@@ -152,7 +152,7 @@ public class SchemaTestCase {
         SchemaManager schemaManager = new SchemaManager(registry);
         byte[] bytes = null;
         try {
-            InputStream inputStream = new URL("http://svn.wso2.org/repos/wso2/carbon/platform/trunk/components/governance/org.wso2.carbon.governance.api/src/test/resources/test-resources/xsd/purchasing.xsd").openStream();
+            InputStream inputStream = new URL("https://raw.githubusercontent.com/wso2/wso2-qa-artifacts/master/automation-artifacts/greg/xsd/purchasing.xsd").openStream();
             try {
                 bytes = IOUtils.toByteArray(inputStream);
             } finally {
