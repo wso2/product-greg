@@ -32,23 +32,28 @@
         <div class="tile color1" data-click-event="steps">
             <div data-step="1">
                 <h1>SOAP Service</h1>
-
-                <h2>
-                    You can add a SOAP service manually or automatically by importing a <br/><a
-                        href="/publisher/assets/wsdl/create">WSDL</a> file.
-                </h2>
-
-                <div class="action-group">
-                                <span class="icons">
+                <div class="media">
+                    <div class="media-left">
+		   <span class="icons">
                                     <i class="tile-icon fw fw-soap"></i>
                                 </span>
+                    </div>
+                    <div class="media-body">
+                        <h2>
+                            You can add a SOAP service manually or automatically by importing a <br/><a
+                                href="/publisher/assets/wsdl/create">WSDL</a> file.
+                        </h2>
+                    </div>
+                </div>
+
+                <div class="action-group">
                                 <span class="actions">
                                     <a href="/publisher/assets/soapservice/list" class="btn btn-default secondary">
                                         <span class="icon fw-stack">
                                             <i class="fw fw-view fw-stack-1x"></i>
                                             <i class="fw fw-ring fw-stack-2x"></i>
                                         </span>
-                                        View
+                                        Browse
                                     </a>
                                     <a href="javascript:void(0)" class="btn btn-default primary"
                                        data-click-event="next">
@@ -103,24 +108,30 @@
         <div class="tile color2" data-click-event="steps">
             <div data-step="1">
                 <h1>REST Service</h1>
-
-                <h2>
-                    You can add a REST service manually or automatically by importing a <br/><a
-                        href="/publisher/assets/wadl/create">WADL</a> or <a href="/publisher/assets/swagger/create">Swagger</a>
-                    file.
-                </h2>
+                <div class="media">
+                    <div class="media-left">
+		    <span class="icons">
+                                    <i class="tile-icon fw fw-rest-service"></i>
+                          </span>
+                    </div>
+                    <div class="media-body">
+                        <h2>
+                            You can add a REST service manually or automatically by importing a <br/><a
+                                href="/publisher/assets/wadl/create">WADL</a> or <a href="/publisher/assets/swagger/create">Swagger</a>
+                            file.
+                        </h2>
+                    </div>
+                </div>
 
                 <div class="action-group">
-                                <span class="icons">
-                                    <i class="tile-icon fw fw-rest-service"></i>
-                                </span>
+
                                 <span class="actions">
                                     <a href="/publisher/assets/restservice/list" class="btn btn-default secondary">
                                         <span class="icon fw-stack">
                                             <i class="fw fw-view fw-stack-1x"></i>
                                             <i class="fw fw-ring fw-stack-2x"></i>
                                         </span>
-                                        View
+                                        Browse
                                     </a>
                                     <a href="javascript:void(0)" class="btn btn-default primary"
                                        data-click-event="next">
@@ -195,7 +206,7 @@
 
             {{#each assets}}
                 <div class="col-xs-12 col-sm-6 col-md-3 col-lg-2 {{type}}">
-                    <div class="tile color1" data-click-event="steps">
+                    <div class="tile color0" data-click-event="steps">
                         <div data-step="1">
                             <h1>{{details.pluralLabel}}</h1>
 
@@ -211,7 +222,7 @@
                                             <i class="fw fw-view fw-stack-1x"></i>
                                             <i class="fw fw-ring fw-stack-2x"></i>
                                         </span>
-                                        View
+                                        Browse
                                     </a>
                                     <a href="{{url ""}}/assets/{{type}}/create" class="btn btn-default primary">
                                         <span class="icon fw-stack">
