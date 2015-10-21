@@ -19,7 +19,7 @@
 
 var resources = function(){
     return {
-        css:['common.css','sidepanel.css'],
+        css:['common.css','sidepanel.css', 'left-navigation.css', 'font-wso2.css'],
         js:['sidepanel.js']
     }
 };

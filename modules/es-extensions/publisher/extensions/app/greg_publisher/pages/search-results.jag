@@ -41,6 +41,42 @@ require('/modules/publisher.js').exec(function(ctx) {
     var assets;
     //Do an advanced search
     assets  = assetApi.genericAdvanceSearch(options,ctx.request,ctx.response,ctx.session)||[];
+
+    var server = require('store').server;
+    var user = server.current(ctx.session);
+    var tenantId = user.tenantId;
+
+    var rxtAPI = require('rxt');
+    var permissionAPI = rxtAPI.permissions;
+    var rxtManager = rxtAPI.core.rxtManager(tenantId);
+    var assetList = [];
+    var activatedAssets = rxtAPI.app.getUIActivatedAssets(tenantId);
+
+    	for(var index = 0; index < activatedAssets.length; index++){
+    		var haveListPermission = permissionAPI.hasAssetPermission(permissionAPI.ASSET_LIST, activatedAssets[index], ctx.session);
+    		if(haveListPermission){
+    			entry = {};
+    			entry.type = activatedAssets[index];
+    			entry.details = rxtManager.listRxtTypeDetails(entry.type);
+    			entry.icon = entry.details.ui.icon || DEFAULT_ICON;
+    			log.info(entry.details);
+    			assetList.push(entry);
+    		}
+    	}
+
+    var assetTypes = [];
+    var assetType;
+    for (var index in assetList) {
+        assetType = assetList[index];
+        assetTypes.push({
+                url: '/assets/'+ assetType.type +'/list',
+        		assetIcon: assetType.icon,
+                assetTitle: assetType.details.pluralLabel
+        });
+    }
+
+    page.ribbon = {};
+    page.ribbon.breadcrumb = assetTypes;
     // var output = am.render(assets, page)._custom();
     var output = appManager.render(assets, page);
     // var output = appManager.render([], page);
