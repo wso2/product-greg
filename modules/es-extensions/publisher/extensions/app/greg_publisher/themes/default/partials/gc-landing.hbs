@@ -1,39 +1,44 @@
-<div class="wrapper home inverse">
-      
-     <div class="row">
-        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 ">
-            
-            <form class="form-group" id="assetSearchForm" action="/publisher/assets/restservice/list">
-                <label class="search-label">Search for Assets</label>
-                <div class="form-group has-feedback form-search">
-                    <input type="text" name="query" id="inp_searchAsset" class="form-control" placeholder="Search..">
-                    <a href="javascript:void(0)" id="searchButton" class="form-control-feedback search" title="Search">
-                        <i class="fw fw-search" aria-hidden="true"></i>
-                    </a>
-                    <a href="/publisher/pages/advanced-search" class="form-control-feedback advance" title="Advance Search">
-                        <i class="fw fw-settings" aria-hidden="true"></i>
-                        <span>Advanced Search</span>
-                    </a>
-                    <input type="hidden" name="sortby" value=""/>
-                    <input type="hidden" name="sort" value=""/>
-                </div>
-            </form>
+<div class="wrapper home">
 
-            <div class="page-header no-border">
-                <h1>Add service</h1>
-                <p class="lead">Click "Add" button to add new service</p>
-            </div>
+<div class="row">
+<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 ">
 
-            <div class="row">
+<form class="form-group" id="assetSearchForm" action="/publisher/assets/restservice/list">
+    <label class="search-label">Search for Assets</label>
 
-                <div class="col-md-6 col-lg-4">
-                    <div class="tile color1" data-click-event="steps">
-                        <div data-step="1">
-                            <h1>SOAP Service</h1>
-                            <h2>
-                                You can add a SOAP service manually or automatically by importing a <br /><a href="/publisher/assets/wsdl/create">WSDL</a> file.
-                            </h2>
-                            <div class="action-group">
+    <div class="form-group has-feedback form-search">
+        <input type="text" name="query" id="inp_searchAsset" class="form-control" placeholder="Search..">
+        <a href="javascript:void(0)" id="searchButton" class="form-control-feedback search" title="Search">
+            <i class="fw fw-search" aria-hidden="true"></i>
+        </a>
+        <a href="/publisher/pages/advanced-search" class="form-control-feedback advance" title="Advance Search">
+            <i class="fw fw-settings" aria-hidden="true"></i>
+            <span>Advanced Search</span>
+        </a>
+        <input type="hidden" name="sortby" value=""/>
+        <input type="hidden" name="sort" value=""/>
+    </div>
+</form>
+
+<div class="page-header no-border">
+    <h1>Add service</h1>
+
+    <p class="lead">Click "Add" button to add new service</p>
+</div>
+
+<div class="row">
+
+    <div class="col-md-6 col-lg-4">
+        <div class="tile color1" data-click-event="steps">
+            <div data-step="1">
+                <h1>SOAP Service</h1>
+
+                <h2>
+                    You can add a SOAP service manually or automatically by importing a <br/><a
+                        href="/publisher/assets/wsdl/create">WSDL</a> file.
+                </h2>
+
+                <div class="action-group">
                                 <span class="icons">
                                     <i class="tile-icon fw fw-soap"></i>
                                 </span>
@@ -45,7 +50,8 @@
                                         </span>
                                         View
                                     </a>
-                                    <a href="javascript:void(0)" class="btn btn-default primary" data-click-event="next">
+                                    <a href="javascript:void(0)" class="btn btn-default primary"
+                                       data-click-event="next">
                                         <span class="icon fw-stack">
                                             <i class="fw fw-add fw-stack-1x"></i>
                                             <i class="fw fw-ring fw-stack-2x"></i>
@@ -53,49 +59,58 @@
                                         Add
                                     </a>
                                 </span>
-                            </div>
+                </div>
+            </div>
+            <div data-step="2">
+                <h1>Add SOAP Service</h1>
+
+                <div class="action-group">
+                    <div class="action-options" data-radio-group="soap-add-radio-group">
+                        <div>
+                            <label class="radio">
+                                <input id="soap-wsdl-radio" type="radio" name="soap-add"
+                                       value="/publisher/assets/wsdl/create" checked>
+                                <span class="helper">Add a SOAP Service using a <b>"WSDL"</b></span>
+                            </label>
                         </div>
-                        <div data-step="2">
-                            <h1>Add SOAP Service</h1>
-                            <div class="action-group">
-                                <div class="action-options" data-radio-group="soap-add-radio-group">
-                                    <div>
-                                        <label class="radio">
-                                            <input id="soap-wsdl-radio" type="radio" name="soap-add" value="/publisher/assets/wsdl/create" checked>
-                                            <span class="helper">Add a SOAP Service using a <b>"WSDL"</b></span>
-                                        </label>
-                                    </div>
-                                    <div>
-                                        <label class="radio">
-                                            <input id="soap-manual-radio" type="radio" name="soap-add" value="/publisher/assets/soapservice/create">
-                                            <span class="helper">Add a SOAP Service manually</span>
-                                        </label>
-                                    </div>
-                                </div>
+                        <div>
+                            <label class="radio">
+                                <input id="soap-manual-radio" type="radio" name="soap-add"
+                                       value="/publisher/assets/soapservice/create">
+                                <span class="helper">Add a SOAP Service manually</span>
+                            </label>
+                        </div>
+                    </div>
                                 <span class="actions">
-                                    <a href="javascript:void(0)" class="btn btn-default tertiary icon-only" data-click-event="prev">
+                                    <a href="javascript:void(0)" class="btn btn-default tertiary icon-only"
+                                       data-click-event="prev">
                                         <span class="icon fw-stack">
                                             <i class="fw fw-left-arrow-2 fw-stack-1x"></i>
                                             <i class="fw fw-ring fw-stack-2x"></i>
                                         </span>
                                     </a>
-                                    <a href="javascript:void(0)" class="btn btn-default primary" data-click-event="continue" data-url="soap-add-radio-group">
+                                    <a href="javascript:void(0)" class="btn btn-default primary"
+                                       data-click-event="continue" data-url="soap-add-radio-group">
                                         Continue
                                     </a>
                                 </span>
-                            </div>
-                        </div>
-                    </div>
                 </div>
+            </div>
+        </div>
+    </div>
 
-                <div class="col-md-6 col-lg-4">
-                    <div class="tile color2" data-click-event="steps">
-                        <div data-step="1">
-                            <h1>REST Service</h1>
-                            <h2>
-                                You can add a REST service manually or automatically by importing a <br /><a href="/publisher/assets/wadl/create">WADL</a> or <a href="/publisher/assets/swagger/create">Swagger</a> file.
-                            </h2>
-                            <div class="action-group">
+    <div class="col-md-6 col-lg-4">
+        <div class="tile color2" data-click-event="steps">
+            <div data-step="1">
+                <h1>REST Service</h1>
+
+                <h2>
+                    You can add a REST service manually or automatically by importing a <br/><a
+                        href="/publisher/assets/wadl/create">WADL</a> or <a href="/publisher/assets/swagger/create">Swagger</a>
+                    file.
+                </h2>
+
+                <div class="action-group">
                                 <span class="icons">
                                     <i class="tile-icon fw fw-rest-service"></i>
                                 </span>
@@ -107,7 +122,8 @@
                                         </span>
                                         View
                                     </a>
-                                    <a href="javascript:void(0)" class="btn btn-default primary" data-click-event="next">
+                                    <a href="javascript:void(0)" class="btn btn-default primary"
+                                       data-click-event="next">
                                         <span class="icon fw-stack">
                                             <i class="fw fw-add fw-stack-1x"></i>
                                             <i class="fw fw-ring fw-stack-2x"></i>
@@ -115,77 +131,108 @@
                                         Add
                                     </a>
                                 </span>
-                            </div>
+                </div>
+            </div>
+            <div data-step="2">
+                <h1>Add REST Service</h1>
+
+                <div class="action-group">
+                    <div class="action-options" data-radio-group="rest-add-radio-group">
+                        <div>
+                            <label class="radio">
+                                <input id="rest-wadl-radio" type="radio" name="rest-add"
+                                       value="/publisher/assets/wadl/create" checked>
+                                <span class="helper">Add a REST Service using a <b>"WADL"</b></span>
+                            </label>
                         </div>
-                        <div data-step="2">
-                            <h1>Add REST Service</h1>
-                            <div class="action-group">
-                                <div class="action-options" data-radio-group="rest-add-radio-group">
-                                    <div>
-                                        <label class="radio">
-                                            <input id="rest-wadl-radio" type="radio" name="rest-add" value="/publisher/assets/wadl/create" checked>
-                                            <span class="helper">Add a REST Service using a <b>"WADL"</b></span>
-                                        </label>
-                                    </div>
-                                    <div>
-                                        <label class="radio">
-                                            <input id="rest-swagger-radio" type="radio" name="rest-add" value="/publisher/assets/swagger/create">
-                                            <span class="helper">Add a REST Service using a <b>"Swagger"</b></span>
-                                        </label>
-                                    </div>
-                                    <div>
-                                        <label class="radio">
-                                            <input id="rest-manual-radio" type="radio" name="rest-add" value="/publisher/assets/restservice/create">
-                                            <span class="helper">Add a REST Service manually</span>
-                                        </label>
-                                    </div>
-                                </div>
+                        <div>
+                            <label class="radio">
+                                <input id="rest-swagger-radio" type="radio" name="rest-add"
+                                       value="/publisher/assets/swagger/create">
+                                <span class="helper">Add a REST Service using a <b>"Swagger"</b></span>
+                            </label>
+                        </div>
+                        <div>
+                            <label class="radio">
+                                <input id="rest-manual-radio" type="radio" name="rest-add"
+                                       value="/publisher/assets/restservice/create">
+                                <span class="helper">Add a REST Service manually</span>
+                            </label>
+                        </div>
+                    </div>
                                 <span class="actions">
-                                    <a href="javascript:void(0)" class="btn btn-default tertiary icon-only" data-click-event="prev">
+                                    <a href="javascript:void(0)" class="btn btn-default tertiary icon-only"
+                                       data-click-event="prev">
                                         <span class="icon fw-stack">
                                             <i class="fw fw-left-arrow-2 fw-stack-1x"></i>
                                             <i class="fw fw-ring fw-stack-2x"></i>
                                         </span>
                                     </a>
-                                    <a href="javascript:void(0)" class="btn btn-default primary" data-click-event="continue" data-url="rest-add-radio-group">
+                                    <a href="javascript:void(0)" class="btn btn-default primary"
+                                       data-click-event="continue" data-url="rest-add-radio-group">
                                         Continue
                                     </a>
                                 </span>
-                            </div>
-                        </div>
-                    </div>
                 </div>
             </div>
-
-            <hr>
-
-            <div class="page-header no-border">
-                <h1>Assets</h1>
-                <p class="lead">Select an asset type to view available assets or to add a new asset</p>
-            </div>
-
-           <!-- content -->
-           <div class="ast-container" id="list_assets_table_body">
-
-              <div class="clearfix">
-
-                  {{#each assets}}
-                  <div class="thumbnail">
-                    <a href='{{url ""}}/assets/{{type}}/create'>
-                        <div class="icon"><i class="{{icon}}"></i></div>
-                        <div class="title">
-                            <h1>{{details.pluralLabel}}</h1>
-                            <h2 style="display: none;"><!-- desc --></h2>
-                        </div>
-                    </a>
-                  </div> 
-                  {{/each}}
-
-              </div>
-
-           </div>
-
         </div>
-     </div>
-   
+    </div>
+</div>
+
+<hr>
+
+<div class="page-header no-border">
+    <h1>Other Assets</h1>
+
+    <p class="lead">Select an asset type to view available assets or to add a new asset</p>
+</div>
+
+<!-- content -->
+<div class="ast-container" id="list_assets_table_body">
+
+    <div class="clearfix">
+        <div class="row">
+
+            {{#each assets}}
+                <div class="col-xs-12 col-sm-6 col-md-3 col-lg-2 {{type}}">
+                    <div class="tile color1" data-click-event="steps">
+                        <div data-step="1">
+                            <h1>{{details.pluralLabel}}</h1>
+
+                            <div class="action-group">
+                                <span class="icons">
+                                    <i class="tile-icon fw {{icon}}"></i>
+                                </span>
+
+                            </div>
+			                <span class="actions-right">
+                                    <a href="{{url ""}}/assets/{{type}}/list" class="btn btn-default secondary">
+                                        <span class="icon fw-stack">
+                                            <i class="fw fw-view fw-stack-1x"></i>
+                                            <i class="fw fw-ring fw-stack-2x"></i>
+                                        </span>
+                                        View
+                                    </a>
+                                    <a href="{{url ""}}/assets/{{type}}/create" class="btn btn-default primary">
+                                        <span class="icon fw-stack">
+                                            <i class="fw fw-add fw-stack-1x"></i>
+                                            <i class="fw fw-ring fw-stack-2x"></i>
+                                        </span>
+                                        Add
+                                    </a>
+                            </span>
+                        </div>
+
+                    </div>
+                </div>
+
+            {{/each}}
+        </div>
+    </div>
+
+</div>
+
+</div>
+</div>
+
 </div>
