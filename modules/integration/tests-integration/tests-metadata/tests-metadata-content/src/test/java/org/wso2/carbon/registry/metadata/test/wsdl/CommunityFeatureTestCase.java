@@ -117,9 +117,8 @@ public class CommunityFeatureTestCase extends GREGIntegrationBaseTest {
         resourceAdminServiceClient.addResource("/_system/governance/trunk/wsdls/sample.wsdl",
                 RegistryConstants.APPLICATION_WSDL_XML, "txtDesc", new DataHandler(new URL("file:///" + resource)));
         resourceAdminServiceClient.importResource("/_system/governance/trunk/wsdls", "GeoIPService.svc.wsdl",
-                RegistryConstants.APPLICATION_WSDL_XML, "txtDesc", "https://svn.wso2"
-                        + ".org/repos/wso2/carbon/platform/trunk/products/greg/modules/integration/registry/tests"
-                        + "-metadata/src/test/resources/artifacts/GREG/wsdl/GeoIPService/GeoIPService.svc.wsdl", null);
+                RegistryConstants.APPLICATION_WSDL_XML, "txtDesc", "https://github.com/wso2/wso2-qa-artifacts/" +
+                        "tree/master/automation-artifacts/greg/wsdl/GeoIPService/GeoIPService.svc.wsdl", null);
         ResourceTreeEntryBean searchFileOne = resourceAdminServiceClient.getResourceTreeEntryBean
                 ("/_system/governance/trunk/wsdls/eu/dataaccess/footballpool/1.0.0");
         ResourceTreeEntryBean searchFileTwo = resourceAdminServiceClient.getResourceTreeEntryBean

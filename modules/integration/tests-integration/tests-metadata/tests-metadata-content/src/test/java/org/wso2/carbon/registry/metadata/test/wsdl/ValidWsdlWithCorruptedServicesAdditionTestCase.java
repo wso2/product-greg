@@ -63,7 +63,8 @@ public class ValidWsdlWithCorruptedServicesAdditionTestCase extends GREGIntegrat
         WsdlManager wsdlManager = new WsdlManager(governanceRegistry);
 
         Wsdl wsdl = wsdlManager
-                .newWsdl("https://svn.wso2.org/repos/wso2/carbon/platform/trunk/platform-integration/platform-automated-test-suite/org.wso2.carbon.automation.test.repo/src/main/resources/artifacts/GREG/wsdl/wsdlsWithCorruptedServices.wsdl");
+                .newWsdl("https://raw.githubusercontent.com/wso2/wso2-qa-artifacts/master/automation-artifacts/greg/" +
+                        "wsdl/wsdlsWithCorruptedServices.wsdl");
 
         wsdl.addAttribute("version", "1.0.0");
         wsdl.addAttribute("author", "Aparna");

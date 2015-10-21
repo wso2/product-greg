@@ -64,8 +64,7 @@ public class GovernanceApiServiceTestCase {
         Registry governanceRegistry = new RegistryProviderUtil().getGovernanceRegistry(registryWS, context);
         serviceManager = new ServiceManager(governanceRegistry);
         wsdlMgr = new WsdlManager(governanceRegistry);
-        wsdl = wsdlMgr.newWsdl("https://svn.wso2.org/repos/wso2/carbon/platform/branches/4.0.0/products/greg/4.5.0/modules/" +
-                "integration/registry/tests/src/test/java/resources/wsdl/echo.wsdl");
+        wsdl = wsdlMgr.newWsdl("https://raw.githubusercontent.com/wso2/wso2-qa-artifacts/master/automation-artifacts/greg/wsdl/echo.wsdl");
     }
 
     @Test(groups = {"wso2.greg", "wso2.greg.GovernanceServiceCreate"})

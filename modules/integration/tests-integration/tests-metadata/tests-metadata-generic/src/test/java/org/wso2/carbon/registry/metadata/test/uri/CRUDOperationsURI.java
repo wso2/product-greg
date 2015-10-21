@@ -104,8 +104,7 @@ public class CRUDOperationsURI extends GREGIntegrationBaseTest {
                         "xmlns:ser=\"http://services.add.uri.governance.carbon.wso2.org\">" +
                         "<ser:info>&lt;metadata xmlns=\"http://www.wso2.org/governance/metadata\">" +
                         "&lt;overview>&lt;type>WSDL&lt;/type>&lt;name>Axis2Service_Wsdl_With_Wsdl_Imports.wsdl&lt;/name>" +
-                        "&lt;uri>https://svn.wso2.org/repos/wso2/carbon/platform/trunk/platform-integration/platform-automated-test-suite/" +
-                        "org.wso2.carbon.automation.test.repo/src/main/resources/artifacts/GREG/wsdl/Axis2Service_Wsdl_With_Wsdl_Imports.wsdl&lt;" +
+                        "&lt;uri>https://github.com/wso2/wso2-qa-artifacts/tree/master/automation-artifacts/greg/wsdl/Axis2Service_Wsdl_With_Wsdl_Imports.wsdl&lt;" +
                         "/uri>&lt;/overview>&lt;/metadata></ser:info></ser:addURI>"));
 
         AXIOMXPath expression = new AXIOMXPath("//ns:return");
@@ -146,8 +145,7 @@ public class CRUDOperationsURI extends GREGIntegrationBaseTest {
         OMElement omElementAddSchema = client.sendReceive(AXIOMUtil.stringToOM("<ser:addURI " +
                 "xmlns:ser=\"http://services.add.uri.governance.carbon.wso2.org\"><ser:info>&lt;metadata " +
                 "xmlns=\"http://www.wso2.org/governance/metadata\">&lt;overview>&lt;type>XSD&lt;/type>&lt;" +
-                "name>SchemaImportSample.xsd&lt;/name>&lt;uri>https://svn.wso2" +
-                ".org/repos/wso2/carbon/platform/trunk/platform-integration/platform-automated-test-suite/org.wso2.carbon.automation.test.repo/src/main/resources/artifacts/GREG/schema/SchemaImportSample.xsd&lt;/uri>&lt;/overview>&lt;/metadata></ser:info></ser:addURI>"));
+                "name>SchemaImportSample.xsd&lt;/name>&lt;uri>https://github.com/wso2/wso2-qa-artifacts/tree/master/automation-artifacts/greg/schema/SchemaImportSample.xsd&lt;/uri>&lt;/overview>&lt;/metadata></ser:info></ser:addURI>"));
 
         expression.addNamespace("ns", omElementAddSchema.getNamespace().getNamespaceURI());
         String schemaArtifactId = ((OMElement) expression.selectSingleNode(omElementAddSchema)).getText();
@@ -185,8 +183,7 @@ public class CRUDOperationsURI extends GREGIntegrationBaseTest {
         OMElement omElementAddPolicy = client.sendReceive(AXIOMUtil.stringToOM("<ser:addURI " +
                 "xmlns:ser=\"http://services.add.uri.governance.carbon.wso2.org\"><ser:info>&lt;metadata " +
                 "xmlns=\"http://www.wso2.org/governance/metadata\">&lt;overview>&lt;type>Policy&lt;/type>&lt;" +
-                "name>policy.xml&lt;/name>&lt;uri>https://svn.wso2" +
-                ".org/repos/wso2/carbon/platform/trunk/platform-integration/platform-automated-test-suite/org.wso2.carbon.automation.test.repo/src/main/resources/artifacts/GREG/policy/policy.xml&lt;/uri>&lt;/overview>&lt;/metadata></ser:info></ser:addURI>"));
+                "name>policy.xml&lt;/name>&lt;uri>https://github.com/wso2/wso2-qa-artifacts/tree/master/automation-artifacts/greg/policy/policy.xml&lt;/uri>&lt;/overview>&lt;/metadata></ser:info></ser:addURI>"));
         expression.addNamespace("ns", omElementAddPolicy.getNamespace().getNamespaceURI());
         String policyArtifactId = ((OMElement) expression.selectSingleNode(omElementAddPolicy)).getText();
         String[] allUriGenericArtifactsPolicy = artifactManager.getAllGenericArtifactIds();
@@ -223,7 +220,7 @@ public class CRUDOperationsURI extends GREGIntegrationBaseTest {
         OMElement omElementAddGeneric = client.sendReceive(AXIOMUtil.stringToOM("<ser:addURI " +
                 "xmlns:ser=\"http://services.add.uri.governance.carbon.wso2.org\"><ser:info>&lt;metadata " +
                 "xmlns=\"http://www.wso2.org/governance/metadata\">&lt;overview>&lt;type>Generic&lt;/type>&lt;" +
-                "name>resource.txtl&lt;/name>&lt;uri>https://svn.wso2.org/repos/wso2/carbon/platform/trunk/platform-integration/platform-automated-test-suite/org.wso2.carbon.automation.test.repo/src/main/resources/artifacts/GREG/resource.txt&lt;/uri>&lt;/overview>&lt;/metadata></ser:info></ser:addURI>"));
+                "name>resource.txtl&lt;/name>&lt;uri>https://github.com/wso2/wso2-qa-artifacts/tree/master/automation-artifacts/greg/resource.txt&lt;/uri>&lt;/overview>&lt;/metadata></ser:info></ser:addURI>"));
         expression.addNamespace("ns", omElementAddGeneric.getNamespace().getNamespaceURI());
         String genericArtifactId = ((OMElement) expression.selectSingleNode(omElementAddGeneric)).getText();
         String[] allUriGenericArtifactsGeneric = artifactManager.getAllGenericArtifactIds();
@@ -278,8 +275,7 @@ public class CRUDOperationsURI extends GREGIntegrationBaseTest {
                         "<ser:info>&lt;metadata xmlns=\"http://www.wso2.org/governance/metadata\">" +
                         "&lt;overview>&lt;type>WSDL&lt;/type>&lt;name>Axis2Service_Wsdl_With_Wsdl_Imports2.wsdl&lt;" +
                         "/name>" +
-                        "&lt;uri>https://svn.wso2.org/repos/wso2/carbon/platform/trunk/platform-integration/platform-automated-test-suite/" +
-                        "org.wso2.carbon.automation.test.repo/src/main/resources/artifacts/Axis2Service_Wsdl_With_Wsdl_Imports.wsdl&lt;" +
+                        "&lt;uri>https://github.com/wso2/wso2-qa-artifacts/tree/master/automation-artifacts/greg/wsdl/Axis2Service_Wsdl_With_Wsdl_Imports.wsdl&lt;" +
                         "/uri>&lt;/overview>&lt;/metadata></ser:info></ser:addURI>"));
 
     }

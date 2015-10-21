@@ -38,11 +38,9 @@ import static junit.framework.Assert.assertNull;
 public class ServiceVersioningTestCase extends GREGIntegrationBaseTest{
 
     private final static String WSDL_URL_1 =
-            "https://svn.wso2.org/repos/wso2/carbon/platform/trunk/products/greg/modules/integration/registry/tests-new/" +
-                    "src/test/resources/artifacts/GREG/wsdl/info.wsdl";
+            "https://raw.githubusercontent.com/wso2/wso2-qa-artifacts/master/automation-artifacts/greg/wsdl/info.wsdl";
     private final static String WSDL_URL_2 =
-            "https://svn.wso2.org/repos/wso2/carbon/platform/trunk/products/greg/modules/integration/registry/tests-new" +
-                    "/src/test/resources/artifacts/GREG/wsdl/ops.wsdl";
+            "https://raw.githubusercontent.com/wso2/wso2-qa-artifacts/master/automation-artifacts/greg/wsdl/ops.wsdl";
     ServiceManager serviceManager;
     Service versionService;
 
