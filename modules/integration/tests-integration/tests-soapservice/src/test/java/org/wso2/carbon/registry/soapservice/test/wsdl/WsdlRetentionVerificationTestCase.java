@@ -97,8 +97,8 @@ public class WsdlRetentionVerificationTestCase extends GREGIntegrationBaseTest {
     public void testAddResourcesToVerifyRetention() throws RemoteException, MalformedURLException,
             ResourceAdminServiceExceptionException, GovernanceException {
         wsdl = wsdlManager.newWsdl(
-                "https://svn.wso2.org/repos/wso2/carbon/platform/trunk/products/greg/modules/integration/registry"
-                        + "/tests-metadata/src/test/resources/artifacts/GREG/wsdl/GeoIPService/GeoIPService.svc.wsdl");
+                "https://raw.githubusercontent.com/wso2/wso2-qa-artifacts/master/automation-artifacts/greg" +
+                        "/wsdl/GeoIPService/GeoIPService.svc.wsdl");
         wsdl.addAttribute("version", "1.0.0");
         wsdl.addAttribute("author", "Kanarupan");
         wsdl.addAttribute("description", "for retention verification");
