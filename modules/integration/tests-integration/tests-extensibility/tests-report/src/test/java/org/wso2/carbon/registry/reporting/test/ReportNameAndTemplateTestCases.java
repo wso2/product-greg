@@ -330,11 +330,12 @@ public class ReportNameAndTemplateTestCases extends ReportingTestCaseSuper {
         reportAdminServiceClient.getReportBytes(configurationBean);
 
         LogEvent[] logEvents =
-                logViewerClient.getLogs("ERROR", "net.sf.jasperreports.engine.JRException: Error " +
-                                                 "retrieving field value from bean : details_version1" ,"","");
+                logViewerClient.getLogs("ERROR", "net.sf.jasperreports.engine.JRException: " +
+                        "data.bean.field.value.not.retrieved" ,"","");
+        //System.out.print(logEvents[0].getMessage());
 
         assertEquals(logEvents[0].getMessage(),
-                     "net.sf.jasperreports.engine.JRException: Error retrieving field value from bean : details_version1");
+                "net.sf.jasperreports.engine.JRException: data.bean.field.value.not.retrieved");
     }
 
     /**
