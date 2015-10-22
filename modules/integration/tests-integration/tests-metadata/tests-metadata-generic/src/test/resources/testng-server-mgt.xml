@@ -12,7 +12,6 @@
     <test name="InitializedAndSetupServer" preserve-order="true" parallel="false">
         <classes>
             <class name="org.wso2.carbon.registry.server.mgt.test.RegistryConfiguratorTestCase"/>
-            <class name="org.wso2.carbon.registry.metadata.test.uri.AddUriTest"/>
         </classes>
     </test>
 </suite>

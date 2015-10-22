@@ -12,13 +12,6 @@
     <test name="InitializedAndSetupServer" preserve-order="true" parallel="false">
         <classes>
             <class name="org.wso2.carbon.registry.server.mgt.test.RegistryConfiguratorTestCase"/>
-            <class name="org.wso2.carbon.registry.metadata.test.schema.SchemaAddTestCase"/>
-            <class name="org.wso2.carbon.registry.metadata.test.schema.SchemaAdditionTestCase"/>
-            <class name="org.wso2.carbon.registry.metadata.test.wsdl.CommunityFeatureTestCase"/>
-            <class name="org.wso2.carbon.registry.metadata.test.policy.PolicyAdditionTestCase"/>
-            <class name="org.wso2.carbon.registry.metadata.test.schema.NegativeSchemaAdditionTestCase"/>
-            <class name="org.wso2.carbon.registry.metadata.test.policy.PolicyRetentionVerificationTestCase"/>
-            <class name="org.wso2.carbon.registry.metadata.test.wsdl.WSDLValidationTestCase"/>
         </classes>
     </test>
 </suite>
