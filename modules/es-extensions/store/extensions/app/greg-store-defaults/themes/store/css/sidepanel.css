@@ -9,6 +9,7 @@
     background: #696969;
     color: #333;
     padding: 0;
+    display: none;
 }
 
 .wr-side-panel hr {

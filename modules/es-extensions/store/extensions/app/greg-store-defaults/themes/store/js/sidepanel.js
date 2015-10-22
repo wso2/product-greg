@@ -32,7 +32,7 @@ $(window).load(function(){
     setSidePanelHeight();
     $(sidePanel).css('top', offset);
     sidePanelPositionFix();
-    
+
     if($(toggleButton + ' .wr-notification-bubble').html() == 0){
         $(toggleButton + ' .wr-notification-bubble').closest(toggleButton).hide();
     }
@@ -87,19 +87,21 @@ function sidePanelPositionFix(){
  * @param button: selected button
  */
 function toggleSidePanel(view,button){
-    
+
     var viewElement = (sidePanel + ' #' + view);
-    
+
     $(viewElement).siblings().hide();
     $(viewElement).show();
-    
+
     $(button).siblings().removeClass('selected');
     $(button).toggleClass('selected');
-    
+
     if($(button).hasClass('selected')){
+        $(sidePanel).show();
         $(sidePanel).addClass('toggled');
     }
     else {
+        $(sidePanel).hide();
         $(sidePanel).removeClass('toggled');
     }
 

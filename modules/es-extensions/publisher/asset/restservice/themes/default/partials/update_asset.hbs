@@ -18,10 +18,15 @@
     <div class="well asset-well">
         <div class="container-fluid">
             <div class="row">
-                <div class="col-lg-2">
-                    <img src='{{url ""}}/extensions/assets/soapservice/themes/default/imgs/thumbnail.png' class="" alt="Thumb"/>
+                <div class="col-lg-1">
+                    <div class="ast-img setbgcolor" style="background: {{this.uniqueColor}}">
+                    <span class="ast-type-icon">
+                        <i class="fw fw-rest-service fw-lg"></i>
+                    </span>
+                        <div class="ast-name-icon">{{this.nameToChar}}</div>
+                    </div>
                 </div>
-                <div class="col-lg-10">
+                <div class="col-lg-10 padding-left-double">
                     <h1>{{name}}</h1>
                     {{#if lifecycleState}}
                     <i class="fa fa-circle"></i> {{lifecycleState}}

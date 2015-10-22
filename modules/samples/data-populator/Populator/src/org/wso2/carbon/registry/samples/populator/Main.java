@@ -21,26 +21,14 @@ package org.wso2.carbon.registry.samples.populator;
 
 import org.apache.axis2.context.ConfigurationContext;
 import org.apache.axis2.context.ConfigurationContextFactory;
-import org.wso2.carbon.identity.user.profile.stub.types.UserFieldDTO;
-import org.wso2.carbon.identity.user.profile.stub.types.UserProfileDTO;
-import org.wso2.carbon.registry.core.Comment;
 import org.wso2.carbon.registry.core.Registry;
-import org.wso2.carbon.registry.core.Resource;
-import org.wso2.carbon.registry.core.utils.UUIDGenerator;
-import org.wso2.carbon.registry.resource.services.utils.InputStreamBasedDataSource;
 import org.wso2.carbon.registry.resource.ui.clients.ResourceServiceClient;
 import org.wso2.carbon.registry.ws.client.registry.WSRegistryServiceClient;
-import org.wso2.carbon.user.mgt.stub.types.carbon.ClaimValue;
 
 import javax.activation.DataHandler;
-import javax.activation.DataSource;
-import java.net.URI;
 import java.net.URL;
-import javax.xml.namespace.QName;
-import java.io.BufferedInputStream;
 import java.io.File;
-import java.io.FileInputStream;
-import java.util.*;
+
 
 public class Main {
     private static String cookie;
@@ -67,32 +55,36 @@ public class Main {
             ConfigurationContext configContext = ConfigurationContextFactory
                     .createConfigurationContextFromFileSystem(axis2Configuration);
 
-            Registry registry = new WSRegistryServiceClient(
-                    serverURL, username,
-                    password, configContext) {
+            Registry registry = new WSRegistryServiceClient(serverURL, username, password, configContext) {
+
                 public void setCookie(String cookie) {
                     Main.cookie = cookie;
                     super.setCookie(cookie);
                 }
             };
 
-            ResourceServiceClient resourceServiceClient = new ResourceServiceClient(cookie,
-                    serverURL, configContext);
+            ResourceServiceClient resourceServiceClient = new ResourceServiceClient(cookie, serverURL, configContext);
 
             int currentTask = 0;
             int tasks = 10;
-	    String projectPath = System.getProperty("user.dir");
-		
-	    addWsdlGar(resourceServiceClient, projectPath);
-	    Thread.sleep(1 * 60 * 1000);
-	    System.out.println("######## Successfully uploaded sample wsdls ########");
-	    addWadlGar(resourceServiceClient, projectPath);
-	    Thread.sleep(30 * 1000); 
-	    System.out.println("######## Successfully uploaded sample wadls ########");          
-	    addSchemaGar(resourceServiceClient, projectPath);
-	    Thread.sleep(30 * 1000);
-	    System.out.println("######## Successfully uploaded sample schemas ########");
-	    
+            String projectPath = System.getProperty("user.dir");
+
+            addWsdlGar(resourceServiceClient, projectPath);
+            Thread.sleep(1 * 60 * 1000);
+            System.out.println("######## Successfully uploaded sample wsdls ########");
+            addWadlGar(resourceServiceClient, projectPath);
+            Thread.sleep(30 * 1000);
+            System.out.println("######## Successfully uploaded sample wadls ########");
+            addSchemaGar(resourceServiceClient, projectPath);
+            Thread.sleep(30 * 1000);
+            System.out.println("######## Successfully uploaded sample schemas ########");
+            addSwaggerGar(resourceServiceClient, projectPath);
+            Thread.sleep(30 * 1000);
+            System.out.println("######## Successfully uploaded sample swagger docs ########");
+            addPolicyGar(resourceServiceClient, projectPath);
+            Thread.sleep(30 * 1000);
+            System.out.println("######## Successfully uploaded sample policies ########");
+
         } catch (Exception e) {
             System.out.println("An error occurred.");
             e.printStackTrace();
@@ -100,27 +92,36 @@ public class Main {
         System.exit(0);
     }
 
-	private static void addWadlGar(ResourceServiceClient resourceServiceClient, String projectPath) throws Exception {       
-	DataHandler dh = new DataHandler(new URL("file://"+projectPath+"/wadls.gar"));
+    private static void addWadlGar(ResourceServiceClient resourceServiceClient, String projectPath) throws Exception {
+	DataHandler dh = new DataHandler(new URL("file://"+projectPath+"/resources/wadls.gar"));
         resourceServiceClient.addResource("/_system/governance/trunk/test/wadls/",
-                                               "application/vnd.wso2.governance-archive", null, dh, null,null);
+                "application/vnd.wso2.governance-archive", null, dh, null, null);
     }
 
 	private static void addWsdlGar(ResourceServiceClient resourceServiceClient, String projectPath) throws Exception {       
-        DataHandler dh = new DataHandler(new URL("file://"+projectPath+"/wsdl_new.gar"));
+        DataHandler dh = new DataHandler(new URL("file://"+projectPath+"/resources/wsdl_new.gar"));
         resourceServiceClient.addResource("/_system/governance/trunk/test/wsdls/",
                                                "application/vnd.wso2.governance-archive", null, dh, null,null);
     }
 
 	private static void addSchemaGar(ResourceServiceClient resourceServiceClient, String projectPath) throws Exception {
-	DataHandler dh = new DataHandler(new URL("file://"+projectPath+"/schemas.gar"));
+	DataHandler dh = new DataHandler(new URL("file://"+projectPath+"/resources/schemas.gar"));
         resourceServiceClient.addResource("/_system/governance/trunk/test/schemas/",
                                                "application/vnd.wso2.governance-archive", null, dh, null,null);
     }
 
+    private static void addSwaggerGar(ResourceServiceClient resourceServiceClient, String projectPath) throws Exception {
+        DataHandler dh = new DataHandler(new URL("file://"+projectPath+"/resources/swagger.gar"));
+        resourceServiceClient.addResource("/_system/governance/trunk/test/schemas/",
+                "application/vnd.wso2.governance-archive", null, dh, null,null);
+    }
 
-  
-
-   
+    private static void addPolicyGar(ResourceServiceClient resourceServiceClient, String projectPath) throws Exception {
+        String[][] properties = { { "registry.mediaType", "application/policy+xml" }, { "version", "1.0.0" } };
+        DataHandler dh = new DataHandler(new URL("file://" + projectPath + "/resources/policies.gar"));
+        resourceServiceClient
+                .addResource("/_system/governance/trunk/policies/test/", "application/vnd.wso2.governance-archive",
+                        null, dh, null, properties);
+    }
 }
 

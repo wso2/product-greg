@@ -18,6 +18,32 @@
             <arg value="${port}"/>
         </java>
     </target>
+
+    <target name="rxt-modify" depends="jar">
+        <java classname="org.wso2.carbon.registry.samples.populator.RXTModifier" classpathref="javac.classpath"
+              fork="true">
+            <sysproperty key="carbon.home"  value="${registry.home}"/>
+            <arg value="-ch" />
+            <arg value="${registry.home}"/>
+            <arg value="-h"/>
+            <arg value="${host}"/>
+            <arg value="-p" />
+            <arg value="${port}"/>
+        </java>
+    </target>
+
+    <target name="categorize" depends="jar">
+        <java classname="org.wso2.carbon.registry.samples.populator.CategorizeArtifacts" classpathref="javac.classpath"
+              fork="true">
+            <sysproperty key="carbon.home"  value="${registry.home}"/>
+            <arg value="-ch" />
+            <arg value="${registry.home}"/>
+            <arg value="-h"/>
+            <arg value="${host}"/>
+            <arg value="-p" />
+            <arg value="${port}"/>
+        </java>
+    </target>
     
 
     <target name="init">
@@ -71,6 +97,8 @@
                 <include name="commons-io*.jar"/>
                 <include name="xmlbeans*.jar"/>
                 <include name="poi*.jar"/>
+                 <include name="woden_*.jar"/>
+                 <include name="javax.cache.wso2_*.jar"/>
             </fileset>
         </path>
     </target>
