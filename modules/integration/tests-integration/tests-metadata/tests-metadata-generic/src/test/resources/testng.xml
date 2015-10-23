@@ -3,12 +3,12 @@
 <suite name="meta-data-test-suite">
     <parameter name="useDefaultListeners" value="false"/>
     <test name="metadata" preserve-order="true" parallel="false">
-     <!--   <packages>
+        <packages>
             <package name="org.wso2.carbon.registry.metadata.test.custom.*"/>
             <package name="org.wso2.carbon.registry.metadata.test.uri.*"/>
             <package name="org.wso2.carbon.registry.metadata.test.util.*"/>
             <package name="org.wso2.carbon.registry.metadata.test.server.*"/>
-        </packages>-->
+        </packages>
 
         <classes>
             <!--<class name="org.wso2.carbon.registry.metadata.test.api.CRUDPermissionTest"/>-->

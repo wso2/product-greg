@@ -103,8 +103,8 @@ public class WSDLValidationTestCase extends GREGIntegrationBaseTest {
                 RegistryConstants.APPLICATION_WSDL_XML, "txtDesc",
                 new DataHandler(new URL("file:///" + resource)));
         resourceAdminServiceClient.importResource("/_system/governance/trunk/wsdls", "GeoIPService.svc.wsdl",
-                RegistryConstants.APPLICATION_WSDL_XML, "txtDesc", "https://github.com/wso2/wso2-qa-artifacts/" +
-                        "tree/master/automation-artifacts/greg/wsdl/GeoIPService/GeoIPService.svc.wsdl", null);
+                RegistryConstants.APPLICATION_WSDL_XML, "txtDesc", "https://raw.githubusercontent.com/wso2/" +
+                        "wso2-qa-artifacts/master/automation-artifacts/greg/wsdl/GeoIPService/GeoIPService.svc.wsdl", null);
         ResourceTreeEntryBean searchFileOne = resourceAdminServiceClient.getResourceTreeEntryBean
                 ("/_system/governance/trunk/wsdls/eu/dataaccess/footballpool/1.0.0");
         ResourceTreeEntryBean searchFileTwo = resourceAdminServiceClient.getResourceTreeEntryBean
