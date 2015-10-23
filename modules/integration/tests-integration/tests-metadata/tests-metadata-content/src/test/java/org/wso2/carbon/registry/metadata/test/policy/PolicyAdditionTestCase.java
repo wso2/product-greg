@@ -115,8 +115,8 @@ public class PolicyAdditionTestCase extends GREGIntegrationBaseTest {
                      "Policy addition via url");
 
         assertTrue(policyViaUrl.getPath().contains(
-                "/trunk/policies/2.0.0/UTPolicy.xml"));
-        assertTrue(policyViaUrl.getQName().toString().contains("UTPolicy.xml"));
+                "/trunk/policies/2.0.0/UTPolicy1.xml"));
+        assertTrue(policyViaUrl.getQName().toString().contains("UTPolicy1.xml"));
 
     }
 

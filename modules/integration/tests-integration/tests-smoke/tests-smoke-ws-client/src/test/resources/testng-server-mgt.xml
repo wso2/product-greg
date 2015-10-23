@@ -12,7 +12,6 @@
     <test name="initialize-greg" preserve-order="true" parallel="false">
         <classes>
             <class name="org.wso2.carbon.registry.server.mgt.test.RegistryConfiguratorTestCase"/>
-            <class name="org.wso2.carbon.registry.ws.client.test.general.old.Registry693WSTestCase"/>
         </classes>
     </test>
 </suite>
