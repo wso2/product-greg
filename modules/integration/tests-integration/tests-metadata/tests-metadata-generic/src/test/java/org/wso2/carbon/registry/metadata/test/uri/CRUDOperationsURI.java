@@ -60,7 +60,7 @@ public class CRUDOperationsURI extends GREGIntegrationBaseTest {
     private String sessionCookie;
 
     @BeforeClass
-    public void initialize () throws Exception {
+    public void initialize() throws Exception {
 
         super.init(TestUserMode.SUPER_TENANT_USER);
 
@@ -83,8 +83,8 @@ public class CRUDOperationsURI extends GREGIntegrationBaseTest {
         }
     }
 
-    @Test (groups = "wso2.greg", description = "Add/get/delete URI Artifact (CRUD)")
-    public void testUriArtifact () throws XMLStreamException, LoginAuthenticationExceptionException, RemoteException,
+    @Test(groups = "wso2.greg", description = "Add/get/delete URI Artifact (CRUD)")
+    public void testUriArtifact() throws XMLStreamException, LoginAuthenticationExceptionException, RemoteException,
             JaxenException, RegistryException, MalformedURLException {
 
         ServiceClient client = stub._getServiceClient();
@@ -258,9 +258,12 @@ public class CRUDOperationsURI extends GREGIntegrationBaseTest {
 
     }
 
-    @Test (groups = "wso2.greg", description = "Add/get/delete URI Artifact (CRUD)",
+    @Test(groups = "wso2.greg", description = "Add/get/delete URI Artifact (CRUD)",
             dependsOnMethods = "testUriArtifact", expectedExceptions = AxisFault.class)
-    public void testUriInvalidArtifact () throws XMLStreamException, LoginAuthenticationExceptionException, RemoteException,
+    /**
+     * Keeping svn location as it is since this wsdl does not exist..
+     */
+    public void testUriInvalidArtifact() throws XMLStreamException, LoginAuthenticationExceptionException, RemoteException,
             JaxenException, RegistryException {
 
         ServiceClient client = stub._getServiceClient();
@@ -275,9 +278,9 @@ public class CRUDOperationsURI extends GREGIntegrationBaseTest {
                         "<ser:info>&lt;metadata xmlns=\"http://www.wso2.org/governance/metadata\">" +
                         "&lt;overview>&lt;type>WSDL&lt;/type>&lt;name>Axis2Service_Wsdl_With_Wsdl_Imports2.wsdl&lt;" +
                         "/name>" +
-                        "&lt;uri>https://raw.githubusercontent.com/wso2/wso2-qa-artifacts/master/automation-artifacts/greg/wsdl/Axis2Service_Wsdl_With_Wsdl_Imports.wsdl&lt;" +
+                        "&lt;uri>https://svn.wso2.org/repos/wso2/carbon/platform/trunk/platform-integration/platform-automated-test-suite/" +
+                        "org.wso2.carbon.automation.test.repo/src/main/resources/artifacts/Axis2Service_svnWsdl_With_Wsdl_Imports.wsdl&lt;" +
                         "/uri>&lt;/overview>&lt;/metadata></ser:info></ser:addURI>"));
-
     }
 
     @AfterClass
