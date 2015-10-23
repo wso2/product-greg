@@ -42,8 +42,15 @@ asset.manager = function(ctx) {
     };
     var getRegistry = function(cSession) {
         var userMod = require('store').user;
-        var userRegistry = userMod.userRegistry(cSession);
-        return userRegistry;
+        var server = require('store').server;
+        var user = server.current(cSession);
+        var userRegistry;
+        if (user) {
+            userRegistry = userMod.userRegistry(cSession);
+        } else {
+            userRegistry = server.anonRegistry(tenantId);
+        }
+        return userRegistry;;
     };
     var setCustomAssetAttributes = function(asset, userRegistry) {
         var interfaceUrl=asset.attributes.interface_wsdlURL;
@@ -117,11 +124,17 @@ asset.manager = function(ctx) {
             //TODO: support services added through WSDL, once multiple lifecycle is supported.
             var asset = this._super.get.call(this, id);
             var userRegistry = getRegistry(ctx.session);
-            setCustomAssetAttributes(asset, userRegistry);
+            try {
+                setCustomAssetAttributes(asset, userRegistry);
+            } catch (e){}
             //get the GenericArtifactManager
             var rawArtifact = this.am.manager.getGenericArtifact(id);
-            setDependencies(rawArtifact, asset, userRegistry);
-            setDependents(rawArtifact, asset, userRegistry);
+            try {
+                setDependencies(rawArtifact, asset, userRegistry);
+            } catch (e){}
+            try {
+                setDependents(rawArtifact, asset, userRegistry);
+            } catch (e){}
             return asset;
         }
     };
@@ -131,7 +144,8 @@ asset.configure = function() {
     return {
         meta: {
             ui: {
-                icon: 'fw fw-soap'
+                icon: 'fw fw-soap',
+                iconColor: 'orange'
             }
         }
     }

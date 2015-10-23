@@ -18,7 +18,14 @@
 
     <div class="ctrl-wr-asset">
         <div class="itm-ast">
-            <a class="ast-img" href='{{url ""}}/assets/{{type}}/details/{{this.id}}' title="{{this.attributes.overview_name}}"><img src='{{url ""}}/extensions/assets/soapservice/themes/default/imgs/thumbnail.png' /></a>
+            <a class="ast-img" href='{{url ""}}/assets/{{type}}/details/{{this.id}}' title="{{this.attributes.overview_name}}">
+                <div class="ast-img setbgcolor" style="background: {{this.uniqueColor}}">
+                    <span class="ast-type-icon">
+                        <i class="fw fw-rest-service fw-lg"></i>
+                    </span>
+                    <div class="ast-name-icon">{{this.nameToChar}}</div>
+                </div>
+            </a>
             <div class="ast-desc">
                 <a href='{{url ""}}/assets/{{type}}/details/{{this.id}}'>
                     <h3 class="ast-name" title="{{this.attributes.overview_name}}">{{this.attributes.overview_name}}</h3>

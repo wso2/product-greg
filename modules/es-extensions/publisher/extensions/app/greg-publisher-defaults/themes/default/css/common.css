@@ -916,3 +916,7 @@ h3.ast-name {
     height: 26px;
     position: relative;
 }
+
+.restservice, .soapservice, .swagger, .wadl, .wsdl {
+   display: none;
+}

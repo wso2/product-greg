@@ -1,12 +1,17 @@
-<div id='swagger-viewer'>
+<div class="table-responsive">
+    <div class="col-lg-12">
+        <div id='swagger-viewer'>
     <span class="asset-show-dependency">
-        <a class="btn btn-default btn-lg active pull-right" href='{{url ""}}/pages/swagger?path={{path}}' target="_blank">
+        <a class="btn btn-default btn-lg active pull-right" href='{{url ""}}/pages/swagger?path={{path}}'
+           target="_blank">
             Show Swagger UI</a>
     </span>
-    <legend><h4>Swagger</h4></legend>
-    {{#if content}}
-        <textarea id="swaggercontent" name="swaggercontent">{{../content}}</textarea>
-    {{else}}
-        <p>No Swagger Content To Display</p>
-    {{/if}}
+            <legend><h4>Swagger</h4></legend>
+            {{#if content}}
+                <textarea id="swaggercontent" name="swaggercontent" style="width:100%" style="width:100%">{{../content}}</textarea>
+            {{else}}
+                <p>No Swagger Content To Display</p>
+            {{/if}}
+        </div>
+    </div>
 </div>
