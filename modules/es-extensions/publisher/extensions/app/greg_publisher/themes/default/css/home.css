@@ -1,3 +1,43 @@
 body {
-	background: #2c313b;
+    background: #FFF;
+}
+.page-header > .lead {
+    font-size: 16px;
+    color: #717070;
+    margin-bottom: 5px;
+}
+.form-search input.form-control  {
+    background: #444;
+    border: 1px solid #444;
+    color: #fff;
+    font-size: 18px;
+    font-weight: 100;
+    padding: 7px 15px;
+}
+
+.thumbnail .title h1 {
+    font-weight: 300;
+    padding: 0;
+    margin: 0;
+    font-size: 20px;
+    color: #717070;
+    margin-bottom: 5px;
+}
+.actions-right {
+    float: right;
+}
+.tile{
+    max-height: 195px;
+}
+.tile h1.asset-title {
+    font-size: 22px;
+}
+.action-group .icons i{
+    font-size: 4em;
+}
+.tile-secondary{
+    padding: 20px 20px 10px;
+}
+.action-group {
+    padding: 10px 8px;
 }

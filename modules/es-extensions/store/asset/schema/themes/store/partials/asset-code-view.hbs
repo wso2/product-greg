@@ -1,8 +1,12 @@
-<div id='schema-viewer'>
-    <legend><h4>Schema</h4></legend>
-    {{#if schemaContent}}
-        <textarea id="schemacontent" name="schemacontent">{{../schemaContent}}</textarea>
-    {{else}}
-        <p>No Schema Content To Display</p>
-    {{/if}}
+<div class="table-responsive">
+    <div class="col-lg-12">
+        <div id='schema-viewer'>
+            <legend><h4>Schema</h4></legend>
+            {{#if schemaContent}}
+                <textarea id="schemacontent" name="schemacontent" style="width:100%" >{{../schemaContent}}</textarea>
+            {{else}}
+                <p>No Schema Content To Display</p>
+            {{/if}}
+        </div>
+    </div>
 </div>
