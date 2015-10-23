@@ -98,8 +98,8 @@ public class PolicyAdditionTestCase extends GREGIntegrationBaseTest {
                                              RegistryException {
 
         policyViaUrl = policyManager
-                .newPolicy("https://raw.githubusercontent.com/wso2/wso2-qa-artifacts/master/automation-artifacts/" +
-                        "greg/policy/UTPolicy1.xml");
+                .newPolicy("https://raw.githubusercontent.com/wso2/wso2-qa-artifacts/master/automation-artifacts/greg" +
+                        "/policy/UTPolicy1.xml");
         policyViaUrl.addAttribute("version", "2.0.0");
         policyManager.addPolicy(policyViaUrl);
         policyViaUrl.addAttribute("author", "KanaURL");
