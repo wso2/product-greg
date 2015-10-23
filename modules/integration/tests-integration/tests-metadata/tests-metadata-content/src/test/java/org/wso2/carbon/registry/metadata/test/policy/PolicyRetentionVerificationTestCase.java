@@ -159,12 +159,12 @@ public class PolicyRetentionVerificationTestCase extends GREGIntegrationBaseTest
         policyManager2 = new PolicyManager(governanceRegistry1);
         Policy[] policies = policyManager2.getAllPolicies();
         for (Policy tmpPolicy : policies) {
-            if (tmpPolicy.getQName().toString().contains("policy.xml")) {
+            if (tmpPolicy.getQName().toString().contains("policy1.xml")) {
                 policyAddedByFirstUser = tmpPolicy;
             }
         }
         assertTrue(policyAddedByFirstUser.getQName().toString()
-                .contains("policy.xml"));
+                .contains("policy1.xml"));
         assertTrue(policyAddedByFirstUser.getAttribute("author").contains(
                 "Kanarupan"));
         policyAddedByFirstUser.addAttribute("WriteAccess", "enabled");

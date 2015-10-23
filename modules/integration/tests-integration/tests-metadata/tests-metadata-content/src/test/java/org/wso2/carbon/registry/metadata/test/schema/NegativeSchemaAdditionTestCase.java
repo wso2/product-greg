@@ -96,7 +96,7 @@ public class NegativeSchemaAdditionTestCase extends GREGIntegrationBaseTest{
 
 
         Schema schema = schemaManager
-                .newSchema("https://raw.githubusercontent.com/wso2/wso2-qa-artifacts/master/automation-artifacts/greg/policy" +
+                .newSchema("https://raw.githubusercontent.com/wso2/wso2-qa-artifacts/master/automation-artifacts/greg" +
                         "/schema/books_withoutName.xsd");
 
         schema.addAttribute("version", "1.0.0");
