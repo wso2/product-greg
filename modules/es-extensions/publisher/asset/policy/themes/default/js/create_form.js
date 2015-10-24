@@ -23,6 +23,8 @@
  * ]
  */
 $(function() {
+    var uploadUI,importUI;
+
     //function to set the policy name from the policy url.
     $('input[name="overview_url"]').change(function() {
         var policyUrl = $('input[name="overview_url"]').val();
@@ -50,125 +52,91 @@ $(function() {
         }
         $('input[name="overview_name"]').val(policyFileName);
     });
-    //function to display upload or import uis.
-    var uploadUI = $('#uploadUI');
-    var importUI = $('#importUI');
-    importUI.show();
 
-    $('select').on('change', function() {
-        var addSelector = $('#addMethodSelector');
-        var selectedValue = addSelector.val();
-        if (selectedValue == "upload") {
-            uploadUI.show();
-            importUI.hide();
-        } else if (selectedValue == "import") {
-            importUI.show();
-            uploadUI.hide();
-        }
-    });
+    $('#form-asset-create').ajaxForm({
+        beforeSubmit:function(){
+            var action = "";
+            if ($('#importUI').is(":visible")) {
+                action = "addNewAssetButton";
+            } else if ($('#uploadUI').is(":visible")) {
+                action = "addNewPolicyFileAssetButton";
+            }
+            if (action === 'addNewPolicyFileAssetButton') {//upload via file browser
+                //call the custom endpoint for processing policy upload via file browser.
+                var $policyFileInput = $('input[name="policy_file"]');
+                var policyFileInputValue = $policyFileInput.val();
+                var policyFilePath = policyFileInputValue;
 
-    var obtainFormMeta=function(formId){
-        return $(formId).data();
-    };
-
-    var doSubmit = function(action,container){
-        $('#form-asset-create').ajaxForm({
-            success:function(){
-                var options=obtainFormMeta('#form-asset-create');
-                window.location=options.redirectUrl;
-                messages.alertSuccess("Successfully created the policy");
-                $('form[name="form-asset-create"]').data('submitted', false);
-            },
-            error:function(){
-                messages.alertError("Error occurred while adding the policy");
-
-                var createButton = "";
-                if(action === 'addNewPolicyFileAssetButton') {
-                    createButton = $('#btn-create-asset-file');
-                } else if(action === 'addNewAssetButton') {
-                    createButton = $('#btn-create-asset');
+                if(!validator.isValidForm(uploadUI)) {
+                    messages.alertInfo("All required fields must be provided");
+                    return false;
                 }
+                var fileName = policyFilePath.split('\\').reverse()[0];
+                //set the zip file name, to the hidden attribute.
+                $('#policy_file_name').val(fileName);
+            } else if (action === 'addNewAssetButton') {//upload via url.
+                if(!validator.isValidForm(importUI)) {
+                    messages.alertInfo("All required fields must be provided");
+                    return false;
+                }
+            }
 
-                createButton.show();
-                createButton.next().show();
-                $('.fa-spinner').parent().remove();
-                $('form[name="form-asset-create"]').data('submitted', false);
-            }   
-        });
-    };
-
-    var styleFix = function(){
-        var item = $('#ui-asset-operations-overlay');
-        item.css('top','-15px');
-    };
-
-    //function to call the custom policy api or default api.
-    $('form[name="form-asset-create"] input[type="submit"]').click(function(event) {
-        var action = "";
-        if ($('#importUI').is(":visible")) {
-            action = "addNewAssetButton";
-        } else if ($('#uploadUI').is(":visible")) {
-            action = "addNewPolicyFileAssetButton";
+            var createButton = $('#form-asset-create input[type="submit"]');
+            createButton.attr('disabled', 'disabled');
+            createButton.next().attr('disabled', 'disabled');
+            caramel.render('loading', 'Creating asset. Please wait..', function (info, content) {
+                var $content = $(content).removeClass('loading-animation-big').addClass('loading-animation');
+                createButton.parent().append($content);
+            });
+        },
+        success:function(data){
+            //$.cookie("new-asset-" + data.type, data.id + ":" + data.type + ":" + data.name);
+            window.location=$('#form-asset-create').attr('data-redirect-url');
+            messages.alertSuccess("Successfully created the policy");
+        },
+        error:function(){
+            messages.alertError("Error occurred while adding the policy");
+            var createButton = $('#form-asset-create input[type="submit"]');
+            createButton.removeAttr('disabled');
+            $('.fa-spinner').parent().remove();
         }
-
-        var container;
-        
-        var $form = $('form[name="form-asset-create"]');
-        if (action === 'addNewPolicyFileAssetButton') {//upload via file browser
-            //call the custom endpoint for processing policy upload via file browser.
-            $form.attr('action', caramel.context + '/assets/policy/apis/policies');
-            var $policyFileInput = $('input[name="policy_file"]');
-            var policyFileInputValue = $policyFileInput.val();
-            var policyFilePath = policyFileInputValue;
-
-            var policyFileVersion = $('input[name="file_version"]').val();
-            if(policyFileVersion == "" || policyFilePath == "") {
-                messages.alertInfo("All required fields must be provided");
-                return false;
-            }
-
-            if($form.data('submitted') === true) {
-                return false;
-            } else {
-                $form.data('submitted', true);
-            }
-
-            var fileName = policyFilePath.split('\\').reverse()[0];
-            //set the zip file name, to the hidden attribute.
-            $('input[name="policy_file_name"]').val(fileName);
-            container = 'saveButtonsFile';
-        } else if (action === 'addNewAssetButton') {//upload via url.
-            var policyUrl = $('input[name="overview_url"]').val();
-            var policyFileName = $('input[name="overview_name"]').val();
-            var policyVersion = $('input[name="overview_version"]').val();
-
-            if(policyUrl == "" || policyFileName == "" || policyVersion == "") {
-                messages.alertInfo("All required fields must be provided");
-                return false;
-            }
-
-            if($form.data('submitted') === true) {
-                return false;
-            } else {
-                $form.data('submitted', true);
-            }
-
-            //call the default endpoint.
-            $form.attr('action', caramel.context + '/apis/assets?type=policy');
-            container = 'saveButtonsURL';
-        }
-
-        doSubmit(action, container);
-
-        var createButton = "";
-        if(action === 'addNewPolicyFileAssetButton') {
-            createButton = $('#btn-create-asset-file');
-        } else if(action === 'addNewAssetButton') {
-            createButton = $('#btn-create-asset');
-        }
-
-        createButton.hide();//attr('disabled','disabled');
-        createButton.next().hide();//attr('disabled','disabled');
-        createButton.parent().append($('<div style="font-size: 16px;margin-top: 10px;"><i class="fa fa-spinner fa-pulse"></i> Creating the policy instance...</div>'));
     });
+    var initPolicyUI = function() {
+        //function to display upload or import uis.
+        uploadUI = $('#uploadUI');
+        importUI = $('#importUI');
+        importUI.show();
+        validator.initValidationEvents('importUI',function(){});
+        $('#form-asset-create').attr('action', caramel.context + '/apis/assets?type=policy');
+
+        $('#addMethodSelector').val('import');
+        $('select').on('change', function() {
+            var addSelector = $('#addMethodSelector');
+            var selectedValue = addSelector.val();
+            if (selectedValue == "upload") {
+                uploadUI.show();
+                importUI.hide();
+                validator.initValidationEvents(uploadUI,function(){});
+                validator.removeValidationEvents(importUI);
+                $('#form-asset-create').attr('action', caramel.context + '/assets/policy/apis/policies');
+
+            } else if (selectedValue == "import") {
+                importUI.show();
+                uploadUI.hide();
+                validator.initValidationEvents(importUI,function(){});
+                validator.removeValidationEvents(uploadUI);
+                $('#form-asset-create').attr('action', caramel.context + '/apis/assets?type=policy');
+            }
+        });
+        var fileInput = $('input[name="policy_file"]');
+        if(fileInput.val().length > 0){
+            var fileName = fileInput.val().split('\\').reverse()[0];
+            $('#policy_file_name').val(fileName);
+        }
+        $('input[name="policy_file"]').change(function(){
+            var fileName = fileInput.val().split('\\').reverse()[0];
+            $('#policy_file_name').val(fileName);
+        })
+    };
+    initPolicyUI();
 });
