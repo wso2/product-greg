@@ -1,5 +1,5 @@
 /*
- *  Copyright (c) 2014, WSO2 Inc. (http://www.wso2.org) All Rights Reserved.
+ *  Copyright (c) 2015, WSO2 Inc. (http://www.wso2.org) All Rights Reserved.
  *
  *  WSO2 Inc. licenses this file to you under the Apache License,
  *  Version 2.0 (the "License"); you may not use this file except
@@ -18,11 +18,13 @@
  */
 /**
  * [contains actions, for creating a swagger name when the swagger url is selected,
- * to show drop down menu for import & upload of swaggers,
+ * to show drop down menu for import & upload of policies,
  * to call custom api
  * ]
  */
 $(function() {
+    var uploadUI,importUI;
+
     //function to set the swagger name from the swagger url.
     $('input[name="overview_url"]').change(function() {
         var swaggerUrl = $('input[name="overview_url"]').val();
@@ -48,125 +50,91 @@ $(function() {
         }
         $('input[name="overview_name"]').val(swaggerFileName);
     });
-    //function to display upload or import uis.
-    var uploadUI = $('#uploadUI');
-    var importUI = $('#importUI');
-    importUI.show();
 
-    $('select').on('change', function() {
-        var addSelector = $('#addMethodSelector');
-        var selectedValue = addSelector.val();
-        if (selectedValue == "upload") {
-            uploadUI.show();
-            importUI.hide();
-        } else if (selectedValue == "import") {
-            importUI.show();
-            uploadUI.hide();
-        }
-    });
+    $('#form-asset-create').ajaxForm({
+        beforeSubmit:function(){
+            var action = "";
+            if ($('#importUI').is(":visible")) {
+                action = "addNewAssetButton";
+            } else if ($('#uploadUI').is(":visible")) {
+                action = "addNewSwaggerFileAssetButton";
+            }
+            if (action === 'addNewSwaggerFileAssetButton') {//upload via file browser
+                //call the custom endpoint for processing swagger upload via file browser.
+                var $swaggerFileInput = $('input[name="swagger_file"]');
+                var swaggerFileInputValue = $swaggerFileInput.val();
+                var swaggerFilePath = swaggerFileInputValue;
 
-	var obtainFormMeta=function(formId){
-	   return $(formId).data();
-	};
-
-	var doSubmit = function(action,container){
-		$('#form-asset-create').ajaxForm({
-			success:function(){
-				var options=obtainFormMeta('#form-asset-create');
-				window.location=options.redirectUrl;
-                messages.alertSuccess("Successfully created the swagger");
-                $('form[name="form-asset-create"]').data('submitted', false);
-			},
-			error:function(){
-                messages.alertError("Error occurred while adding the swagger");
-
-                var createButton = "";
-                if(action === 'addNewSwaggerFileAssetButton') {
-                    createButton = $('#btn-create-asset-file');
-                } else if(action === 'addNewAssetButton') {
-                    createButton = $('#btn-create-asset');
+                if(!validator.isValidForm(uploadUI)) {
+                    messages.alertInfo("All required fields must be provided");
+                    return false;
                 }
+                var fileName = swaggerFilePath.split('\\').reverse()[0];
+                //set the zip file name, to the hidden attribute.
+                $('#swagger_file_name').val(fileName);
+            } else if (action === 'addNewAssetButton') {//upload via url.
+                if(!validator.isValidForm(importUI)) {
+                    messages.alertInfo("All required fields must be provided");
+                    return false;
+                }
+            }
 
-                createButton.show();
-                createButton.next().show();
-                $('.fa-spinner').parent().remove();
-                $('form[name="form-asset-create"]').data('submitted', false);
-			}	
-		});
-	};
-
-    var styleFix = function(){
-        var item = $('#ui-asset-operations-overlay');
-        item.css('top','-15px');
-    };
-
-    //function to call the custom Swagger api or default api.
-    $('form[name="form-asset-create"] input[type="submit"]').click(function(event) {
-        var action = "";
-        if ($('#importUI').is(":visible")) {
-            action = "addNewAssetButton";
-        } else if ($('#uploadUI').is(":visible")) {
-            action = "addNewSwaggerFileAssetButton";
+            var createButton = $('#form-asset-create input[type="submit"]');
+            createButton.attr('disabled', 'disabled');
+            createButton.next().attr('disabled', 'disabled');
+            caramel.render('loading', 'Creating asset. Please wait..', function (info, content) {
+                var $content = $(content).removeClass('loading-animation-big').addClass('loading-animation');
+                createButton.parent().append($content);
+            });
+        },
+        success:function(data){
+            //$.cookie("new-asset-" + data.type, data.id + ":" + data.type + ":" + data.name);
+            window.location=$('#form-asset-create').attr('data-redirect-url');
+            messages.alertSuccess("Successfully created the swagger");
+        },
+        error:function(){
+            messages.alertError("Error occurred while adding the swagger");
+            var createButton = $('#form-asset-create input[type="submit"]');
+            createButton.removeAttr('disabled');
+            $('.fa-spinner').parent().remove();
         }
-
-        var container;
-        var $form = $('form[name="form-asset-create"]');
-        if (action === 'addNewSwaggerFileAssetButton') {//upload via file browser
-            //call the custom endpoint for processing Swaggers upload via file browser.
-            $form.attr('action', caramel.context + '/assets/swagger/apis/swaggers');
-            var $swaggerFileInput = $('input[name="swagger_file"]');
-            var swaggerFileInputValue = $swaggerFileInput.val();
-            var swaggerFilePath = swaggerFileInputValue;
-
-            var swaggerFileVersion = $('input[name="file_version"]').val();
-            if(swaggerFileVersion == "" || swaggerFilePath == "") {
-                messages.alertInfo("All required fields must be provided");
-                return false;
-            }
-
-            if($form.data('submitted') === true) {
-                return false;
-            } else {
-                $form.data('submitted', true);
-            }
-
-            var fileName = swaggerFilePath.split('\\').reverse()[0];
-            //set the zip file name, to the hidden attribute.
-            container = 'saveButtonsFile';
-            $('input[name="swagger_file_name"]').val(fileName);
-        } else if (action === 'addNewAssetButton') {//upload via url.
-            var swaggerUrl = $('input[name="overview_url"]').val();
-            var swaggerName = $('input[name="overview_name"]').val();
-            var swaggerVersion = $('input[name="overview_version"]').val();
-
-            if(swaggerUrl == "" || swaggerName == "" || swaggerVersion == "") {
-                messages.alertInfo("All required fields must be provided");
-                return false;
-            }
-
-            if($form.data('submitted') === true) {
-                return false;
-            } else {
-                $form.data('submitted', true);
-            }
-
-            //call the default endpoint.
-            container = 'saveButtonsURL';
-            $form.attr('action', caramel.context + '/apis/assets?type=swagger');
-        }
-
-        doSubmit(action,container);
-
-        var createButton = "";
-        if(action === 'addNewSwaggerFileAssetButton') {
-            createButton = $('#btn-create-asset-file');
-        } else if(action === 'addNewAssetButton') {
-            createButton = $('#btn-create-asset');
-        }
-        
-        createButton.hide();
-        createButton.next().hide();
-        createButton.parent().append($('<div style="font-size: 16px;margin-top: 10px;"><i class="fa fa-spinner fa-pulse"></i> Creating the swagger instance...</div>'));
     });
+    var initUI = function() {
+        //function to display upload or import uis.
+        uploadUI = $('#uploadUI');
+        importUI = $('#importUI');
+        importUI.show();
+        validator.initValidationEvents('importUI',function(){});
+        $('#form-asset-create').attr('action', caramel.context + '/apis/assets?type=swagger');
 
+        $('#addMethodSelector').val('import');
+        $('select').on('change', function() {
+            var addSelector = $('#addMethodSelector');
+            var selectedValue = addSelector.val();
+            if (selectedValue == "upload") {
+                uploadUI.show();
+                importUI.hide();
+                validator.initValidationEvents(uploadUI,function(){});
+                validator.removeValidationEvents(importUI);
+                $('#form-asset-create').attr('action', caramel.context + '/assets/swagger/apis/policies');
+
+            } else if (selectedValue == "import") {
+                importUI.show();
+                uploadUI.hide();
+                validator.initValidationEvents(importUI,function(){});
+                validator.removeValidationEvents(uploadUI);
+                $('#form-asset-create').attr('action', caramel.context + '/apis/assets?type=swagger');
+            }
+        });
+        var fileInput = $('input[name="swagger_file"]');
+        if(fileInput.val().length > 0){
+            var fileName = fileInput.val().split('\\').reverse()[0];
+            $('#swagger_file_name').val(fileName);
+        }
+        $('input[name="swagger_file"]').change(function(){
+            var fileName = fileInput.val().split('\\').reverse()[0];
+            $('#swagger_file_name').val(fileName);
+        })
+    };
+    initUI();
 });
