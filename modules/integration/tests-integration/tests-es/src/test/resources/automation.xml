@@ -130,9 +130,13 @@
                     </user>
                 </admin>
                 <users>
-                    <user key="user1">
+                    <user key="manager">
                         <userName>testuser11</userName>
                         <password>testuser11</password>
+                    </user>
+                    <user key="user1">
+                        <userName>manager</userName>
+                        <password>manager</password>
                     </user>
                     <user key="user2">
                         <userName>testuser21</userName>
@@ -158,10 +162,29 @@
                         <userName>testuser21</userName>
                         <password>testuser21</password>
                     </user>
+                    <user key="manager">
+                        <userName>manager</userName>
+                        <password>manager</password>
+                        <roles>
+                            <role>manager</role>
+                        </roles>
+                    </user>
                 </users>
             </tenant>
         </tenants>
     </userManagement>
+    <roles>
+        <role name="manager" key="manager">
+            <permissions>
+                <permission>/permission/admin/login</permission>
+            </permissions>
+        </role>
+        <role name="testrole" key="testrole">
+            <permissions>
+                <permission>/permission/admin/login</permission>
+            </permissions>
+        </role>
+    </roles>
     <!--
    This section will initiate the initial deployment of the platform required by
    the test suites.
