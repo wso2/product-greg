@@ -381,6 +381,7 @@ asset.renderer = function(ctx) {
             return hideTables(page);
         },
         list: function(page) {
+            require('/modules/page-decorators.js').pageDecorators.assetCategoryDetails(ctx, page, this);
             return hideTables(page);
         },
         details: function(page) {

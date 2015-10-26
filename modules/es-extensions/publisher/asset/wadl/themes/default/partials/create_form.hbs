@@ -26,19 +26,19 @@
         <div class="form-group">
             <label class="custom-form-label col-lg-2 col-md-2 col-sm-12 col-xs-12" for="overview_url">{{t "WADL Url"}}<sup class="text-danger"> *</sup></label>
             <div class="custom-form-right col-lg-5 col-md-8 col-sm-8 col-xs-12">
-                <input type='text' name='overview_url' id='overview_url' class="form-control" placeholder="https://example.com/abc/somewadl.wadl"/>
+                <input type='text' name='overview_url' id='overview_url' class="form-control validate-required" placeholder="https://example.com/abc/somewadl.wadl"/>
             </div>
         </div>
         <div class="form-group">
             <label class="custom-form-label col-lg-2 col-md-2 col-sm-12 col-xs-12" for="overview_name">{{t "Name"}}<sup class="text-danger"> *</sup></label>
             <div class="custom-form-right col-lg-5 col-md-8 col-sm-8 col-xs-12">
-                <input type='text' name='overview_name' id='overview_name' class="form-control" placeholder="ExampleWADL"/>
+                <input type='text' name='overview_name' id='overview_name' class="form-control validate-required" placeholder="ExampleWADL"/>
             </div>
         </div>
         <div class="form-group">
             <label class="custom-form-label col-lg-2 col-md-2 col-sm-12 col-xs-12" for="overview_version">{{t "Version"}}<sup class="text-danger"> *</sup></label>
             <div class="custom-form-right col-lg-5 col-md-8 col-sm-8 col-xs-12">
-                <input type='text' name='overview_version' id='overview_version' class="form-control" placeholder="1.0.0"/>
+                <input type='text' name='overview_version' id='overview_version' class="form-control validate-required" placeholder="1.0.0"/>
             </div>
         </div>
         <div id="saveButtonsURL" class="form-group" >
@@ -53,7 +53,7 @@
         <div class="form-group">
             <label class="custom-form-label col-lg-2 col-md-2 col-sm-12 col-xs-12" for="wadl_zip">{{t "WADL/Zip file"}}<sup class="text-danger"> *</sup></label>
             <div class="custom-form-right col-lg-5 col-md-8 col-sm-8 col-xs-12">
-                <input type='file' name='wadl_file' id='wadl_file' class="form-control"/>
+                <input type='file' name='wadl_file' id='wadl_file' class="validate-required"/>
                 <!--Use a hidden field to save the zip name and pass it to request, as 'file' 
                     attribute is not passed to the request unless it is defined in the rxt.-->
                 <input type='hidden' name='wadl_file_name' id='wadl_file_name' />
@@ -62,7 +62,7 @@
         <div class="form-group">
             <label class="custom-form-label col-lg-2 col-md-2 col-sm-12 col-xs-12" for="file_version">{{t "Version"}}<sup class="text-danger"> *</sup></label>
             <div class="custom-form-right col-lg-5 col-md-8 col-sm-8 col-xs-12">
-                <input type='text' name='file_version' id='file_version' class="form-control" placeholder="1.0.0"/>
+                <input type='text' name='file_version' id='file_version' class="form-control validate-required" placeholder="1.0.0"/>
             </div>
         </div>
         <div id="saveButtonsFile" class="form-group">
