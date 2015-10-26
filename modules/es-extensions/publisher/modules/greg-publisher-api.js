@@ -13,6 +13,7 @@ var gregAPI = {};
     gregAPI.notes = {};
     gregAPI.associations = {};
     gregAPI.serviceDiscovery = {};
+    gregAPI.password = {};
     var formatResultSet = function(output) {
         var results = {};
         var entry;
@@ -322,25 +323,38 @@ var gregAPI = {};
         var resultList = new Object();
         resultList.results = [];
         var results = am.registry.associations(path);
+        var artifact;
         for(var i=0; i < results.length; i++){
-            var assetJson = new Object();
-            var path = results[i].dest
-            var uuid = am.registry.registry.get(path).getUUID();
+            if (results[i].src == path){
+                var destPath = results[i].dest
+                try {
+                    artifact = Packages.org.wso2.carbon.governance.api.util.GovernanceUtils.findGovernanceArtifactConfigurationByMediaType(am.registry.registry.get(destPath).getMediaType(), am.registry.registry);
+                } catch (e){
+                    log.warn("Association can not be retrieved. Resource does not exist at path "+destPath);
+                    continue;
+                }
 
-            var attifact = Packages.org.wso2.carbon.governance.api.util.GovernanceUtils.findGovernanceArtifactConfigurationByMediaType(am.registry.registry.get(path).getMediaType(),am.registry.registry);
-            var key = String(attifact.getKey());
-            if (key === 'wsdl' || key === 'wadl' || key === 'policy' || key === 'schema' || key === 'endpoint' || key === 'swagger'){
-                var subPaths = path.split('/');
-            	assetJson.text = subPaths[subPaths.length - 1];
-            } else {
-                var govAttifact = Packages.org.wso2.carbon.governance.api.util.GovernanceUtils.retrieveGovernanceArtifactByPath(am.registry.registry,path);
-                assetJson.text = String(govAttifact.getAttribute('overview_name'));
+                var assetJson = new Object();
+                var uuid = am.registry.registry.get(destPath).getUUID();
+                var key = String(artifact.getKey());
+                if (key === 'wsdl' || key === 'wadl' || key === 'policy' || key === 'schema' || key === 'endpoint' || key === 'swagger'){
+                    var subPaths = destPath.split('/');
+                    assetJson.text = subPaths[subPaths.length - 1];
+                } else {
+                    var govAttifact = Packages.org.wso2.carbon.governance.api.util.GovernanceUtils.retrieveGovernanceArtifactByPath(am.registry.registry,destPath);
+                    var name = (govAttifact.getAttribute("overview_name"));
+                    if (name === null || name.length === 0) {
+                        assetJson.text = govAttifact.getQName().getLocalPart();
+                    } else {
+                        assetJson.text = String(name);
+                    }
+                }
+                assetJson.type = am.registry.registry.get(destPath).getMediaType();
+                assetJson.associationType = results[i].type;
+                assetJson.uuid = uuid;
+                assetJson.shortName = key;
+                resultList.results.push(assetJson);
             }
-            assetJson.type = am.registry.registry.get(path).getMediaType();
-            assetJson.associationType = results[i].type;
-            assetJson.uuid = uuid;
-            assetJson.shortName = key;
-            resultList.results.push(assetJson);
         }
         return resultList
 
@@ -468,5 +482,41 @@ var gregAPI = {};
             discoveryEnumData.orphanArtifactStrategy.push(OrphanArtifactStrategy.values()[index].name());
         }
         return discoveryEnumData;
+    };
+
+    gregAPI.password.addNewPassword = function (session, type, key, value) {
+        var am = assetManager(session, type);
+        var registry = am.registry.registry;
+        // Collection path used to store key and encrypted password value.
+        var path = "/_system/config/repository/components/secure-vault";
+        var resource;
+
+        if(registry.resourceExists(path)){
+            resource = registry.get(path);
+        }
+        else {
+            resource = registry.newCollection();
+        }
+
+        // Osgi service used to encrypt password.
+        var securityService =  carbon.server.osgiService('org.wso2.carbon.registry.security.vault.service.RegistrySecurityService');
+        var properties = [];
+        properties[1] = "";
+        if (key != null && value != null){
+            var encryptedText = securityService.doEncrypt(value);
+            resource.setProperty(key, encryptedText);
+            registry.beginTransaction();
+            registry.put(path, resource);
+            registry.commitTransaction();
+            properties[1] = "Password Saved Successfully";
+        }
+
+        var properties;
+        if(registry.resourceExists(path)){
+            var collection = registry.get(path);
+            properties[0] = collection.getProperties();
+        }
+
+        return properties;
     }
 }(gregAPI));

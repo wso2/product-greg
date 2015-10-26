@@ -40,7 +40,14 @@ asset.manager = function(ctx) {
     };
     var getRegistry = function(cSession) {
         var userMod = require('store').user;
-        var userRegistry = userMod.userRegistry(cSession);
+        var server = require('store').server;
+        var user = server.current(cSession);
+        var userRegistry;
+        if (user) {
+            userRegistry = userMod.userRegistry(cSession);
+        } else {
+            userRegistry = server.anonRegistry(tenantId);
+        }
         return userRegistry;
     };
     var setCustomAssetAttributes = function(asset, userRegistry) {
@@ -60,7 +67,12 @@ asset.manager = function(ctx) {
             //since this is wsdlcontent.
             asset.wsdlname = wsdlname;
             asset.assetName = wsdlname;
+            asset.attributes.overview_name = wsdlname;
+            asset.overview_name = wsdlname;
+            asset.name = wsdlname;
             asset.version = version;
+            asset.attributes.overview_version = version;
+            asset.overview_version = version;
             asset.authorUserName = authorUserName;
             asset.wsdlContent = value;
         }
@@ -107,7 +119,9 @@ asset.manager = function(ctx) {
             var userRegistry = getRegistry(ctx.session);
             for (var index in assets) {
                 var asset = assets[index];
-                setCustomAssetAttributes(asset, userRegistry);
+                try {
+                    setCustomAssetAttributes(asset, userRegistry);
+                } catch (e){}
 
                 var path = asset.path;
                 var subPaths = path.split('/');
@@ -125,12 +139,30 @@ asset.manager = function(ctx) {
             //TODO: support services added through WSDL, once multiple lifecycle is supported.
             var asset = this._super.get.call(this, id);
             var userRegistry = getRegistry(ctx.session);
-            setCustomAssetAttributes(asset, userRegistry);
-            //get the GenericArtifactManager
+            try {
+                setCustomAssetAttributes(asset, userRegistry);
+            } catch (e){}            //get the GenericArtifactManager
             var rawArtifact = this.am.manager.getGenericArtifact(id);
-            setDependencies(rawArtifact, asset, userRegistry);
-            setDependents(rawArtifact, asset, userRegistry);
+            try {
+                setDependencies(rawArtifact, asset, userRegistry);
+            } catch (e){}
+            try {
+                setDependents(rawArtifact, asset, userRegistry);
+            } catch (e){}
             return asset;
+        },
+        getName: function(asset) {
+            if(asset.path){
+                asset.name = asset.path.substring(asset.path.lastIndexOf("/") + 1);
+                asset.overview_name = asset.name;
+                asset.attributes.overview_name = asset.name;
+                return asset.path.substring(asset.path.lastIndexOf("/") + 1);
+            }
+            return asset.name;
+        },
+        getVersion: function(asset) {
+            asset.attributes["overview_version"] = asset.attributes["version"];
+            return asset.attributes["version"];
         }
     };
 };
@@ -139,7 +171,8 @@ asset.configure = function() {
     return {
         meta: {
             ui: {
-                icon: 'fw fw-wsdl'
+                icon: 'fw fw-wsdl',
+                iconColor: 'green'
             }
         }
     }

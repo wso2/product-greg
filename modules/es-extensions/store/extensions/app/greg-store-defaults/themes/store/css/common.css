@@ -13,6 +13,17 @@ h1 {
     border-bottom:0px solid #f0f0f0;
 }
 
+a.cu-btn-inner.inverse, .btn-primary, .btn-default {
+    background: #fff !important;
+    color: #333 !important;
+    border: none;
+    outline: none;
+}
+
+.btn {
+    border-radius: 0;
+}
+
 .inverse h1 {
     color: #fff;
 }
@@ -48,7 +59,7 @@ h1 {
 }
 
 .app-logo {
-  padding: 12px 20px 12px 16px;
+    padding: 12px 20px 12px 28px;
 }
 
 .wr-app-bar {
@@ -61,7 +72,7 @@ h1 {
 }
 
 .wr-auth .dropdown-menu-content {
-    background-color: #4F5050; 
+    background-color: #4F5050 !important;
 }
 
 .wr-global-header {
@@ -84,7 +95,7 @@ h1 {
 
 .wr-asset-type-switcher span.btn-asset:hover {
     background-color: #111;
-    
+
 }
 
 a.cu-btn:hover, .wr-asset-type-switcher a.switcher-link:hover {
@@ -139,16 +150,16 @@ a.ast-type-item:hover {
     text-decoration: none;
 }
 
-.thumbnail .icon { 
+.thumbnail .icon {
     text-align: center;
     font-size: 120px;
     line-height: 150px;
     height: 130px;
     background: #4f5050;
-    
+
     width: 180px;
     height: 180px;
-    
+
     -webkit-transition: all 0.5s ease;
     -moz-transition: all 0.5s ease;
     -o-transition: all 0.5s ease;
@@ -157,7 +168,7 @@ a.ast-type-item:hover {
 }
 
 .thumbnail:hover > a .icon {
-    color: #fff; 
+    color: #fff;
     width: 190px;
     height: 190px;
 }
@@ -186,7 +197,7 @@ a.ast-type-item:hover {
 }
 
 a.cu-btn {
-  padding: 13px 10px !important;
+    padding: 10px 10px !important;
 }
 
 .advance-search-btn {
@@ -219,6 +230,12 @@ a.cu-btn {
     top: 0;
     left: 0;
     margin: 0;
+    height: 41px;
+    position: relative;
+}
+
+.top-menu-right-custom {
+    margin-top: -38px;
 }
 
 .wr-side-panel .panel-heading {
@@ -308,8 +325,8 @@ a.cu-btn {
 }
 
 .search-label {
-  font-weight: 300;
-  font-size: 18px;
+    font-weight: 300;
+    font-size: 18px;
 }
 
 .inverse .search-label {
@@ -322,7 +339,7 @@ a.cu-btn {
 
 .form-search input.form-control {
     background: #bbb;
-    height: 40px;    
+    height: 40px;
     border: none;
     color: #fff;
     line-height: 40px;
@@ -382,3 +399,74 @@ a.cu-btn {
     .form-search a.advance i { line-height: 35px; padding-bottom: 5px; }
     .form-search a.advance span { display: inline-block; }
 }
+
+.wr-global-header .dropdown-menu {
+    background: #777;
+    padding: 0;
+    top: 50px;
+    right: 5px;
+    border: none;
+    box-shadow: none;
+}
+
+.wr-global-header .dropdown-menu li a {
+    padding: 10px 15px;
+}
+
+a.ast-name {
+    font-weight:300;
+    font-size:18px;
+    color:#555;
+    margin-top:2px;
+    margin-bottom:2px;
+    display: block;
+    overflow: hidden;
+    white-space: nowrap;
+    height: 26px;
+    position: relative;
+}
+
+.container-fluid{
+    padding-left: 0;
+    padding-right: 0;
+}
+
+.category-wrapper {
+    margin-top: 0px !important;
+}
+
+.divrow {
+    line-height:24pt;
+    margin: 0px;
+}
+
+.divrow:nth-of-type(odd) {
+    background-color: #f9f9f9;
+}
+
+span.left-menu-item, span.left-menu-item.hover, a.all-item a.top-item a.all-item.hover a.all-item.active {
+    text-overflow: ellipsis !important;
+    white-space: nowrap !important;
+    overflow:hidden !important;
+    width: 134px;
+}
+
+.itm-ast:hover h3, .itm-ast:hover {
+    color: #333;
+}
+/*span.left-menu-item {
+    font-weight:300;
+    font-size:20px;
+    color:#555;
+    margin-top:2px;
+    margin-bottom:2px;
+    display: block;
+    overflow: hidden;
+    white-space: nowrap;
+    height: 26px;
+    position: relative;
+}
+
+span.left-menu-item:hover {
+    text-decoration: none;
+}*/

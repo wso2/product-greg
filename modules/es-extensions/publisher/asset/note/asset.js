@@ -38,6 +38,7 @@ asset.configure = function () {
             lifecycle: {
                 defaultLifecycleEnabled: false
             },
+            versionAttribute: '',
             ui: {
                 icon: 'fw fw-wsdl'
             }

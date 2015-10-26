@@ -34,12 +34,27 @@
                                     <td>{{t "Media Type"}}</td>
                                     <td>{{mediaType}}</td>
                                 </tr>
+                                </tbody>
+                            </table>
+
+                            {{#if isDependentsPresent}}
+                            <table class="table table-striped table-hover">
+                                <thead>
+                                <h4>Associations</h4>
+                                </thead>
+                                <tbody>
                                 <tr>
-                                    <td>{{t "Created by"}}</td>
-                                    <td>{{authorUserName}}</td>
+                                    <th>Associated REST services :</th>
+                                {{#each dependencies}}
+                                    <tr>
+                                        <td><a href="../../../assets/{{this.associationType}}/details/{{this.associationUUID}}">{{this.associationName}}</a></td>
+                                    </tr>
+                                {{/each}}
                                 </tr>
                                 </tbody>
                             </table>
+                            {{/if}}
+
                             <div id='swagger-viewer'>
                                 <legend><h4>{{t "Content"}}</h4></legend>
                                 <textarea id="swaggercontent" name="swaggercontent">{{content}}</textarea>

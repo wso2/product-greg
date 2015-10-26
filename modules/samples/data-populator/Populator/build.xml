@@ -1,0 +1,158 @@
+<project name="org.wso2.carbon.registry.samples.populator" default="run" basedir=".">
+    <property name="registry.home" value="../../.."/>
+    <property name="class.dir" value="target/classes"/>
+    <property name="host" value="localhost"/>
+    <property name="port" value="9443"/>
+    <property name="version" value="5.1.0"/>
+
+
+    <target name="run" depends="jar">        
+        <java classname="org.wso2.carbon.registry.samples.populator.Main" classpathref="javac.classpath"
+              fork="true">             
+            <sysproperty key="carbon.home"  value="${registry.home}"/>
+            <arg value="-ch" />
+            <arg value="${registry.home}"/>
+            <arg value="-h"/>
+            <arg value="${host}"/>
+            <arg value="-p" />
+            <arg value="${port}"/>
+        </java>
+    </target>
+
+    <target name="rxt-modify" depends="jar">
+        <java classname="org.wso2.carbon.registry.samples.populator.RXTModifier" classpathref="javac.classpath"
+              fork="true">
+            <sysproperty key="carbon.home"  value="${registry.home}"/>
+            <arg value="-ch" />
+            <arg value="${registry.home}"/>
+            <arg value="-h"/>
+            <arg value="${host}"/>
+            <arg value="-p" />
+            <arg value="${port}"/>
+        </java>
+    </target>
+
+    <target name="categorize" depends="jar">
+        <java classname="org.wso2.carbon.registry.samples.populator.CategorizeArtifacts" classpathref="javac.classpath"
+              fork="true">
+            <sysproperty key="carbon.home"  value="${registry.home}"/>
+            <arg value="-ch" />
+            <arg value="${registry.home}"/>
+            <arg value="-h"/>
+            <arg value="${host}"/>
+            <arg value="-p" />
+            <arg value="${port}"/>
+        </java>
+    </target>
+
+    <target name="cleanup" depends="jar">
+        <java classname="org.wso2.carbon.registry.samples.populator.CleanUp" classpathref="javac.classpath"
+              fork="true">
+            <sysproperty key="carbon.home"  value="${registry.home}"/>
+            <arg value="-ch" />
+            <arg value="${registry.home}"/>
+            <arg value="-h"/>
+            <arg value="${host}"/>
+            <arg value="-p" />
+            <arg value="${port}"/>
+        </java>
+    </target>
+    
+
+    <target name="init">
+        <mkdir dir="${class.dir}"/>
+        <path id="javac.classpath">
+            <pathelement path="${class.dir}"/>
+             <fileset dir="${registry.home}/repository/components/plugins">
+                <include name="axis2_*.jar"/>
+                <include name="axiom_*.jar"/>
+                <include name="org.wso2.carbon.core_*.jar"/>
+                <include name="org.wso2.carbon.identity.user.profile.stub_*.jar"/>
+                <include name="org.wso2.carbon.identity.user.profile.ui_*.jar"/>
+                <include name="org.wso2.carbon.user.api_*.jar"/>
+                <include name="org.wso2.carbon.user.core_*.jar"/>
+                <include name="org.wso2.carbon.user.mgt.common_*.jar"/>
+                <include name="org.wso2.carbon.user.mgt.stub_*.jar"/>
+                <include name="org.wso2.carbon.user.mgt.ui_*.jar"/>
+                <include name="org.wso2.carbon.registry.admin.api_*.jar"/>
+                <include name="org.wso2.carbon.registry.api_*.jar"/>
+                <include name="org.wso2.carbon.registry.core_*.jar"/>
+                <include name="org.wso2.carbon.registry.common_*.jar"/>
+                <include name="org.wso2.carbon.registry.extensions_*.jar"/>
+                <include name="org.wso2.carbon.registry.extensions.ui_*.jar"/>
+                <include name="org.wso2.carbon.registry.extensions.stub_*.jar"/>
+                <include name="org.wso2.carbon.registry.resource_*.jar"/>
+                <include name="org.wso2.carbon.registry.resource.stub_*.jar"/>
+                <include name="org.wso2.carbon.registry.indexing_*.jar"/>
+                <include name="org.wso2.carbon.registry.handler.stub_*.jar"/>
+                <include name="org.wso2.carbon.authenticator.stub_*.jar"/>
+                <include name="org.wso2.carbon.registry.reporting.stub_*.jar"/>
+                <include name="org.wso2.carbon.core.common_*.jar"/>
+                <include name="org.wso2.carbon.registry.ws.client_*.jar"/>
+                <include name="org.wso2.carbon.registry.ws.stub_*.jar"/>
+                <include name="org.wso2.carbon.registry.resource.ui_*.jar"/>
+                <include name="org.wso2.carbon.registry.resource.stub_*.jar"/>
+                <include name="org.wso2.carbon.tenant.mgt.stub_*.jar"/>
+                <include name="org.wso2.carbon.governance.api_*.jar"/>
+                <include name="org.wso2.carbon.governance.custom.lifecycles.checklist.stub_*.jar"/>
+                <include name="org.wso2.carbon.governance.lcm.stub_*.jar"/>
+                <include name="org.wso2.carbon.governance.notifications.stub_*.jar"/>
+                <include name="XmlSchema_*.jar"/>
+                <include name="tomcat-servlet-api_*.jar"/>
+                <include name="org.wso2.carbon.logging_*.jar"/>
+                <include name="org.wso2.carbon.utils_*.jar"/>
+                <include name="org.wso2.carbon.base_*.jar"/>
+                <include name="wsdl4j*.jar"/>
+                <include name="neethi*.jar"/>
+                <include name="org.wso2.securevault*.jar"/>
+                <include name="commons-httpclient*.jar"/>
+                <include name="httpcore_*.jar"/>
+                <include name="commons-codec*.jar"/>
+                <include name="commons-io*.jar"/>
+                <include name="xmlbeans*.jar"/>
+                <include name="poi*.jar"/>
+                 <include name="woden_*.jar"/>
+                 <include name="javax.cache.wso2_*.jar"/>
+            </fileset>
+        </path>
+    </target>
+
+    <target name="compile" depends="init" description="Compile all Java">
+        <javac srcdir="src" destdir="${class.dir}">
+            <classpath refid="javac.classpath"/>
+        </javac>
+    </target>
+
+    <target name="clean">
+        <delete dir="target" quiet="true"/>
+        <delete dir="${class.dir}" quiet="true"/>
+    </target>
+
+    <target name="jar" depends="clean, compile">
+        <jar jarfile="target/${ant.project.name}-${version}.jar">
+            <fileset dir="target/classes">
+                <include name="**/*.class"/>
+            </fileset>
+        </jar>
+        <copy file="target/${ant.project.name}-${version}.jar" todir="dist" overwrite="true" />
+    </target>
+    
+    <target name="init-ext">        
+        <path id="javac.classpath">
+             <fileset dir="${registry.home}/repository/components/plugins">
+                <include name="axis2_*.jar"/>
+		<include name="axiom_*.jar"/>
+		<include name="org.wso2.carbon.logging_*.jar"/>
+		<include name="org.wso2.carbon.governance.api_*.jar"/>
+ 		<include name="org.wso2.carbon.registry.api_*.jar"/>
+                <include name="org.wso2.carbon.registry.core_*.jar"/>
+                <include name="org.wso2.carbon.registry.reporting_*.jar"/>
+                <include name="org.wso2.carbon.reporting.util_*.jar"/>
+                <include name="org.wso2.carbon.reporting.api_*.jar"/>
+                <include name="org.wso2.carbon.registry.core_*.jar"/>
+                <include name="jasperreports_*.jar"/>
+            </fileset>
+        </path>
+    </target>
+
+</project>

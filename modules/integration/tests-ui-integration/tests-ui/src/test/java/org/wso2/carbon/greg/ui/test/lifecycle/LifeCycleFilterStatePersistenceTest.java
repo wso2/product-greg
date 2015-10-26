@@ -60,8 +60,8 @@ public class LifeCycleFilterStatePersistenceTest extends GREGIntegrationUIBaseTe
         String name = "Test Api";
         String context = "Test Context";
         String versionApi = "1.2.3";
-        String lifeCycle = "MobileAppLifeCycle";
-        String lifeCycleState = "Initial";
+        String lifeCycle = "ServiceLifeCycle";
+        String lifeCycleState = "Development";
         ApiPage addApi;
         for (int i = 0; i < 17; i++) {
             addApi = new ApiPage(driver);

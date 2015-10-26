@@ -1,0 +1,9 @@
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
+
+<suite name="GregTestSuite">
+    <test name="Search Tags" preserve-order="true" parallel="false">
+        <classes>
+            <class name="org.wso2.carbon.registry.search.tags.test.TagsSearchTestCase"/>
+        </classes>
+    </test>
+</suite>

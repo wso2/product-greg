@@ -112,6 +112,7 @@ public class RegistryConfiguratorTestCase extends GREGIntegrationBaseTest {
         changeServiceCreationElement();
         enableJmxManagement();
         enableWorkList();
+        increaseConnectionTimeoutValue();
     }
 
     public void updateMimetypes() throws Exception {
@@ -224,6 +225,7 @@ public class RegistryConfiguratorTestCase extends GREGIntegrationBaseTest {
         XMLStreamWriter writer = null;
         OMElement documentElement = getRegistryXmlOmElement();
         try {
+
             AXIOMXPath xpathExpression = new AXIOMXPath("/wso2registry/jmx");
             OMElement indexConfigNode = (OMElement) xpathExpression.selectSingleNode(documentElement);
             OMAttribute omAttribute = indexConfigNode.getAttribute(new QName("enabled"));
@@ -298,6 +300,57 @@ public class RegistryConfiguratorTestCase extends GREGIntegrationBaseTest {
 
         DataHandler dh = new DataHandler(new URL("file:///" + resourcePath));
         resourceAdminServiceClient.addResource("/_system/config/test_utf8_Resource", "text/plain", "testDesc", dh);
+    }
+
+    public static OMElement getAxis2XmlOmElement()
+            throws FileNotFoundException, XMLStreamException {
+        String axis2XmlPath = CarbonUtils.getCarbonHome() + File.separator + "repository" + File.separator
+                                 + "conf" + File.separator + "axis2" + File.separator + "axis2_client.xml";
+
+        File axis2File = new File(axis2XmlPath);
+
+        FileInputStream inputStream = new FileInputStream(axis2File);
+        XMLStreamReader parser = XMLInputFactory.newInstance().createXMLStreamReader(inputStream);
+        StAXOMBuilder builder = new StAXOMBuilder(parser);
+
+        return builder.getDocumentElement();
+    }
+
+    private String getAxis2XMLPath() {
+        return CarbonUtils.getCarbonHome() + File.separator + "repository" + File.separator
+               + "conf" + File.separator + "axis2" + File.separator + "axis2_client.xml";
+    }
+
+    private void increaseConnectionTimeoutValue() throws Exception {
+        FileOutputStream fileOutputStream = null;
+        XMLStreamWriter writer = null;
+        OMElement documentElement = getAxis2XmlOmElement();
+        try {
+            AXIOMXPath xpathExpression = new AXIOMXPath("/axisconfig/transportSender/parameter");
+            List<OMElement> nodes = xpathExpression.selectNodes(documentElement);
+            for (OMElement node : nodes) {
+                if (node.getAttributeValue(new QName("name")).equals("SO_TIMEOUT")) {
+                    node.setText("240000");
+                }
+                if (node.getAttributeValue(new QName("name")).equals("CONNECTION_TIMEOUT")) {
+                    node.setText("240000");
+                }
+            }
+            fileOutputStream = new FileOutputStream(getAxis2XMLPath());
+            writer = XMLOutputFactory.newInstance().createXMLStreamWriter(fileOutputStream);
+            documentElement.serialize(writer);
+            documentElement.build();
+            Thread.sleep(2000);
+
+        } catch (Exception e) {
+            log.error("axis2_client.xml edit fails" + e.getMessage());
+            throw new Exception("axis2_client.xml edit fails" + e.getMessage());
+        } finally {
+            assert fileOutputStream != null;
+            fileOutputStream.close();
+            assert writer != null;
+            writer.flush();
+        }
     }
 
 }

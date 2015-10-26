@@ -12,8 +12,7 @@
     <link href="{{url "/themes/store/css/bootstrap.min.css"}}" rel="stylesheet">
     <link href="{{url "/themes/store/css/custom.css"}}" rel="stylesheet">
     <link href="{{url "/themes/store/css/font-awesome.min.css"}}" rel="stylesheet">
-    <link href="{{url "/themes/store/css/fontwso2.css"}}" rel="stylesheet">
-    <link href="{{url "/themes/store/css/fontwso2-extend.css"}}" rel="stylesheet">
+    <link href="{{url "/themes/store/css/font-wso2.css"}}" rel="stylesheet">
     {{css}}
 
     <!-- Fav and touch icons -->
@@ -24,24 +23,29 @@
     <!--[if lt IE 9]>
     <script src="{{url "/themes/store/js/html5shiv.min.js"}}"></script>
     <script src="{{url "/themes/store/js/respond.min.js"}}"></script>
-    <link rel="stylesheet" href="{{url "/themes/store/css/ie.css"}}" type="text/css">
+            <link rel="stylesheet" href="{{url "/themes/store/css/ie.css"}}" type="text/css">
     <![endif]-->
 
 </head>
 
 <body>
 <div class="wrapper">
-
-    {{ include header}}
-    {{include navigation}}
-    
-    <div class="container-fluid">
-        <div id="assets-container">
-            {{include body}}
+    <div class="container-fluid header-container">
+        {{ include header}}
+    </div>
+    <div class="container-fluid navigation-container">
+        {{include navigation}}
+    </div>
+    <div class="container-fluid body-container">
+        <div class="col-xs-1 col-sm-2 col-md-1 col-lg-1 left-col "></div>
+        <div class="col-xs-10 col-sm-9 col-md-9 col-lg-10 wr-content padding-none">
+            <div id="assets-container">
+                {{include body}}
+            </div>
         </div>
     </div>
 </div>
-    
+
 {{>footer}}
 
 <!-- /container -->
@@ -54,22 +58,22 @@
 <script src="{{url "/themes/store/js/async.min.js"}}"></script>
 <script src="{{url "/themes/store/js/handlebars.js"}}"></script>
 <script src="{{url "/themes/store/js/theme.js"}}"></script>
-    {{js}}
-    {{code}}
+{{js}}
+{{code}}
 <script src="{{url "/themes/store/js/caramel.handlebars.client.js"}}"></script>
 <script src="{{url "/themes/store/js/caramel-client.js"}}"></script>
-    
+
 <script type="text/javascript">
 
-$( document ).ready(function() {
-    $("[data-toggle=popover]").popover();
+    $( document ).ready(function() {
+        $("[data-toggle=popover]").popover();
 
-    $('#nav').affix({
-        offset: {
-            top: $('header').height()
-        }
+        $('#nav').affix({
+            offset: {
+                top: $('header').height()
+            }
+        });
     });
-});
 
 </script>
 </body>

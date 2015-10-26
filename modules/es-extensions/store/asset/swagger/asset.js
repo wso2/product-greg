@@ -19,7 +19,14 @@
 asset.manager = function(ctx) {    
     var getRegistry = function(cSession) {
         var userMod = require('store').user;
-        var userRegistry = userMod.userRegistry(cSession);
+        var server = require('store').server;
+        var user = server.current(cSession);
+        var userRegistry;
+        if (user) {
+            userRegistry = userMod.userRegistry(cSession);
+        } else {
+            userRegistry = server.anonRegistry(tenantId);
+        }
         return userRegistry;
     };
 
@@ -38,8 +45,10 @@ asset.manager = function(ctx) {
             asset.swaggerName = swaggerName;
             asset.assetName = swaggerName;
             asset.attributes.overview_name = swaggerName;
+            asset.overview_name = swaggerName;
             asset.version = version;
             asset.attributes.overview_version = version;
+            asset.overview_version = version;
             asset.authorUserName = authorUserName;
             asset.swaggerContent = value;
         }
@@ -85,7 +94,9 @@ asset.manager = function(ctx) {
             var userRegistry = getRegistry(ctx.session);
             for (var index in assets) {
                 var asset = assets[index];
-                setCustomAssetAttributes(asset, userRegistry);
+                try {
+                    setCustomAssetAttributes(asset, userRegistry);
+                } catch (e){}
 
                 var path = asset.path;
                 var subPaths = path.split('/');
@@ -117,8 +128,12 @@ asset.manager = function(ctx) {
                 item.content = value;
 
                 var rawArtifact = this.am.manager.getGenericArtifact(id);
-                setDependencies(rawArtifact, item, userRegistry);
-                setDependents(rawArtifact, item, userRegistry);
+                try {
+                    setDependencies(rawArtifact, item, userRegistry);
+                } catch (e){}
+                try {
+                    setDependents(rawArtifact, item, userRegistry);
+                } catch (e){}
             } catch(e) {
                 log.error(e);
                 return null;
@@ -140,6 +155,19 @@ asset.manager = function(ctx) {
                 result.attributes.overview_version = result.version;
             }
             return items;
+        },
+        getName: function(asset) {
+            if(asset.path){
+                asset.name = asset.path.substring(asset.path.lastIndexOf("/") + 1);
+                asset.overview_name = asset.name;
+                asset.attributes.overview_name = asset.name;
+                return asset.path.substring(asset.path.lastIndexOf("/") + 1);
+            }
+            return asset.name;
+        },
+        getVersion: function(asset) {
+            asset.attributes["overview_version"] = asset.attributes["version"];
+            return asset.attributes["version"];
         }
     };
 };
@@ -148,7 +176,8 @@ asset.configure = function() {
     return {
         meta: {
             ui: {
-                icon: 'fw fw-swagger'
+                icon: 'fw fw-swagger',
+                iconColor: 'grey'
             }
         }
     }

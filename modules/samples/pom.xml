@@ -15,27 +15,48 @@
  ~ specific language governing permissions and limitations
  ~ under the License.
  -->
-<project xmlns="http://maven.apache.org/POM/4.0.0"
-         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+
     <parent>
-        <groupId>org.wso2.greg</groupId>
-        <artifactId>governance-parent</artifactId>
-        <version>5.0.0-SNAPSHOT</version>
-        <relativePath>../../pom.xml</relativePath>
+        <groupId>org.wso2</groupId>
+        <artifactId>wso2</artifactId>
+        <version>1</version>
     </parent>
 
     <modelVersion>4.0.0</modelVersion>
+    <groupId>org.wso2.greg</groupId>
+    <version>5.1.0-SNAPSHOT</version>
     <artifactId>governance-samples</artifactId>
     <packaging>pom</packaging>
     <name>WSO2 Governance Registry - Samples</name>
+
     <modules>
         <module>shutterbug/src</module>
         <module>custom-ui/src/org.wso2.carbon.registry.samples.custom.topics</module>
         <module>custom-ui/src/org.wso2.carbon.registry.samples.custom.topics.ui</module>
         <module>handler/src</module>
         <module>jcr-client/src</module>
+        <module>asset-models/ApplicationModel</module>
+        <module>asset-models/BusinessProcessModel</module>
+        <module>asset-models/PeopleModel</module>
+        <module>asset-models/ProjectModel</module>
+        <module>asset-models/TestPlanModel</module>
+        <module>search-client/src/org.wso2.carbon.registry.search.client</module>
+        <module>taggingHandler/src</module>
     </modules>
+
+    <organization>
+        <name>WSO2 Inc</name>
+        <url>http://wso2.com</url>
+    </organization>
+
+    <licenses>
+        <license>
+            <name>Apache License Version 2.0</name>
+            <url>http://www.apache.org/licenses/LICENSE-2.0</url>
+        </license>
+    </licenses>
+
     <repositories>
         <repository>
             <id>wso2-nexus</id>
@@ -69,15 +90,16 @@
                 <enabled>false</enabled>
             </releases>
         </repository>
-        <!--moved to nexus
-
-        <repository>
-            <id>wso2-maven2-repository</id>
-            <url>http://dist.wso2.org/maven2</url>
-       </repository>
-
-        -->
     </repositories>
+
+    <pluginRepositories>
+        <pluginRepository>
+            <id>wso2-nexus</id>
+            <name>WSO2 internal Repository</name>
+            <url>http://maven.wso2.org/nexus/content/groups/wso2-public/</url>
+        </pluginRepository>
+    </pluginRepositories>
+
     <dependencyManagement>
         <dependencies>
             <dependency>
@@ -170,6 +192,26 @@
                 <version>${version.axiom}</version>
             </dependency>
             <dependency>
+                <groupId>org.eclipse.equinox</groupId>
+                <artifactId>javax.servlet.jsp</artifactId>
+                <version>${javax.servlet.jsp.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.axis2.wso2</groupId>
+                <artifactId>axis2</artifactId>
+                <version>${axis2.wso2.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>javax.servlet</groupId>
+                <artifactId>servlet-api</artifactId>
+                <version>${servlet-api.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>commons-digester</groupId>
+                <artifactId>commons-digester</artifactId>
+                <version>${commons.digester.version}</version>
+            </dependency>
+            <dependency>
                 <groupId>commons-beanutils</groupId>
                 <artifactId>commons-beanutils</artifactId>
                 <version>1.8.0</version>
@@ -219,6 +261,61 @@
                 <artifactId>xercesImpl</artifactId>
                 <version>2.8.1</version>
             </dependency>
+            <dependency>
+                <groupId>org.wso2.carbon</groupId>
+                <artifactId>org.wso2.carbon.ui</artifactId>
+                <version>${carbon.kernel.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.wso2.carbon</groupId>
+                <artifactId>org.wso2.carbon.logging</artifactId>
+                <version>${carbon.kernel.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.wso2.carbon.governance</groupId>
+                <artifactId>org.wso2.carbon.governance.api</artifactId>
+                <version>${carbon.governance.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.wso2.carbon</groupId>
+                <artifactId>org.wso2.carbon.registry.core</artifactId>
+                <version>${carbon.kernel.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.wso2.carbon</groupId>
+                <artifactId>org.wso2.carbon.core</artifactId>
+                <version>${carbon.kernel.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.ws.commons.axiom.wso2</groupId>
+                <artifactId>axiom</artifactId>
+                <version>${axiom.wso2.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.wso2.carbon.registry</groupId>
+                <artifactId>org.wso2.carbon.registry.common</artifactId>
+                <version>${carbon.registry.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.wso2.carbon.registry</groupId>
+                <artifactId>org.wso2.carbon.registry.jcr</artifactId>
+                <version>${carbon.registry.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.wso2.carbon.registry</groupId>
+                <artifactId>org.wso2.carbon.registry.common.ui</artifactId>
+                <version>${carbon.registry.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.wso2.carbon.registry</groupId>
+                <artifactId>org.wso2.carbon.registry.extensions</artifactId>
+                <version>${carbon.registry.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.wso2.carbon.registry</groupId>
+                <artifactId>org.wso2.carbon.registry.samples.custom.topics.stub</artifactId>
+                <version>${carbon.registry.version}</version>
+            </dependency>
         </dependencies>
     </dependencyManagement>
 
@@ -229,6 +326,13 @@
         <xml.api.wso2.version>1.3.04.wso2v2</xml.api.wso2.version>
         <xmlschema.wso2.version>1.4.7.wso2v1</xmlschema.wso2.version>
         <wsdl.validator.wso2.version>1.2.0.wso2v1</wsdl.validator.wso2.version>
+        <orbit.version.commons.fileuploader>1.2.0.wso2v1</orbit.version.commons.fileuploader>
+        <orbit.version.commons.httpclient>3.1.0.wso2v2</orbit.version.commons.httpclient>
+        <version.axiom>1.2.11-wso2v5</version.axiom>
+        <version.wso2.derby>10.3.2.1wso2v1</version.wso2.derby>
+        <axiom.wso2.version>1.2.11.wso2v5</axiom.wso2.version>
+        <version.jaxen>1.1.1</version.jaxen>
+        <orbit.version.wsdl4j>1.6.2.wso2v4</orbit.version.wsdl4j>
         <commons.digester.version>1.8.1</commons.digester.version>
         <junit.version>3.8.1</junit.version>
         <javax.mail.version>1.4.4</javax.mail.version>
@@ -238,6 +342,24 @@
         <jetty.util.version>6.0.2</jetty.util.version>
         <eclipse.validateutility.version>0.95</eclipse.validateutility.version>
         <axiom.osgi.version.range>[1.2.11.wso2v6, 1.3.0)</axiom.osgi.version.range>
-    </properties>
+        <axis2.wso2.version>1.6.1.wso2v11</axis2.wso2.version>
+        <servlet-api.version>2.4</servlet-api.version>
 
+        <javax.servlet.jsp.version>2.0.0.v200706191603</javax.servlet.jsp.version>
+
+        <carbon.kernel.version>4.4.1</carbon.kernel.version>
+        <!-- Carbon Registry -->
+        <carbon.registry.version>4.4.9</carbon.registry.version>
+        <!-- Carbon Governance -->
+        <carbon.governance.version>4.5.9</carbon.governance.version>
+
+        <carbon.governance.ext.version>4.4.8</carbon.governance.ext.version>
+
+        <carbon.business.process.version>4.4.0</carbon.business.process.version>
+        <!-- Carbon Commons -->
+        <carbon.commons.version>4.4.6</carbon.commons.version>
+
+        <carbon.kernel.registry.imp.pkg.version>[1.0.1, 2.0.0)</carbon.kernel.registry.imp.pkg.version>
+        <carbon.registry.package.import.version.range>[4.4.0, 4.5.0)</carbon.registry.package.import.version.range>
+    </properties>
 </project>

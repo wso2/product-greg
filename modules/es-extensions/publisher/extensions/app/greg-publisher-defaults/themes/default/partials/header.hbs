@@ -1,4 +1,5 @@
 <!-- header -->
+{{> sidebar-container . }}
 <header>
     <div class="row wr-global-header">
         <div class="col-xs-8 col-sm-6 col-lg-8 app-logo">
@@ -6,6 +7,7 @@
         </div>
         <div class="col-xs-4 col-sm-6 col-lg-4 wr-auth-container">
             <div class="wr-auth pull-right">
+                <a class="auth-img" href="{{storeUrl}}" target="_blank">Go to Store</a>
                 <a href="#" data-toggle="dropdown">
                     <div class="auth-img">
                         {{cuser.username}}
@@ -24,4 +26,5 @@
         </div>
     </div>
 </header>
+
 <!-- /header -->

@@ -38,13 +38,14 @@ describe('Assets POST - Publisher API', function() {
         } catch (e) {
             log.error(e);
         } finally {
-            deleteArtifacts();
+            // deleteArtifacts();
             utils.logoutAuthorizedUser(header);
-            expect(result.data.data).not.toBe(undefined);
-            expect(result.data.data.overview_name).toEqual(asset.overview_name);
-            expect(result.data.data.overview_version).toEqual(asset.overview_version);
-            expect(result.data.data.overview_url).toEqual(asset.overview_url);
-            expect(result.data.data.type).toEqual("wsdl");
+
+            expect(result.data).not.toBe(undefined);
+            expect(result.data.overview_name).toEqual(asset.overview_name);
+            expect(result.data.overview_version).toEqual(asset.overview_version);
+            expect(result.data.overview_url).toEqual(asset.overview_url);
+            expect(result.data.type).toEqual("wsdl");
         }
     });
 });
@@ -52,9 +53,10 @@ describe('Assets POST - Publisher API', function() {
 Creates a WSDLManager, to be able to get the
 ID of the wsdl created.
  */
+
 var createWsdlManager = function() {
     var carbon = require('carbon');
-    var host = "https://localhost:9443/admin";
+    var host = "https://localhost:10343/admin";
     var server = new carbon.server.Server(host);
     var options = {
         username: 'admin',

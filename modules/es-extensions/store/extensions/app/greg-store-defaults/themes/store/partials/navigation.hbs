@@ -1,77 +1,117 @@
 <!--
-  ~ Copyright (c) 2014, WSO2 Inc. (http://wso2.com) All Rights Reserved.
-  ~
-  ~ Licensed under the Apache License, Version 2.0 (the "License");
-  ~ you may not use this file except in compliance with the License.
-  ~ You may obtain a copy of the License at
-  ~
-  ~ http://www.apache.org/licenses/LICENSE-2.0
-  ~
-  ~ Unless required by applicable law or agreed to in writing, software
-  ~ distributed under the License is distributed on an "AS IS" BASIS,
-  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-  ~ See the License for the specific language governing permissions and
-  ~ limitations under the License.
-  -->
+   ~ Copyright (c) 2014, WSO2 Inc. (http://wso2.com) All Rights Reserved.
+   ~
+   ~ Licensed under the Apache License, Version 2.0 (the "License");
+   ~ you may not use this file except in compliance with the License.
+   ~ You may obtain a copy of the License at
+   ~
+   ~ http://www.apache.org/licenses/LICENSE-2.0
+   ~
+   ~ Unless required by applicable law or agreed to in writing, software
+   ~ distributed under the License is distributed on an "AS IS" BASIS,
+   ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+   ~ See the License for the specific language governing permissions and
+   ~ limitations under the License.
+   -->
 <!-- secondary header - app bar -->
 <div id="nav" class="row wr-app-bar">
-    <div class="col-sm-9 col-md-7 col-lg-9 wr-action-container">
+    <div class="col-md-12 wr-action-container">
         <div class="wr-asset-type-switcher">
-            <a id="popoverExampleTwo" data-placement="bottom" class="ctrl-asset-type-switcher pull-left" href="javascript:void(0)" data-click-event="popover">
-                <span class="btn-asset"></span>
-            </a>
-            <div class="popover bottom right fade clearfix">
-                <div class="arrow left"></div>
-                <div class="popover-content">
-                    <ul class="tiles clearfix">
+            <div class="ctrl-asset-type-switcher">
+                <div class="left-menu">
+                    <nav class="navigation">
+                        <a href='{{tenantedUrl ""}}/pages/top-assets' class="{{#if navigationBar.landingPage}} active home top-item {{else}} home all-item  {{/if}}">
+                            <span class="icon"><i class="fw fw-store"></i></span> <span class="left-menu-item">ALL</span>
+                        </a>
                         {{#with navigationBar}}
                             {{#each types}}
-                                <li>
-                                    <a target="_self" href='{{tenantedUrl ""}}{{this.listingUrl}}'>
-                                        <i class="icon {{ui.icon}}"></i>
-                                        <span class="name">{{singularLabel}}</span>
-                                    </a>
-                                </li>
+                                <a href='{{tenantedUrl ""}}{{this.listingUrl}}' class="{{ui.iconColor}} {{this.style}}">
+                                    <span class="icon"><i class="{{ui.icon}}"></i></span> <span class="left-menu-item">{{singularLabel}}</span>
+                                </a>
                             {{/each}}
                         {{/with}}
-                    </ul>
+                    </nav>
+                    {{#if tags}}
+                        <div class="tags-wrapper">
+                            <div class="tag-title"> Tags </div>
+                            <div class="tag-content">
+                                {{#each tags}}
+                                    <a href='{{tenantedUrl ""}}{{this.searchPage}}?q="tags":"{{this.value}}"'><label>{{this.value}}</label></a>
+                                {{/each}}
+                            </div>
+                        </div>
+                    {{/if}}
                 </div>
             </div>
         </div>
-        <div class="search">
-                {{>search .}}
-            <a href="{{url ""}}/pages/advanced-search" class="pull-left advance-search-btn">Advanced Search</a>
-        </div><!--search-->
-    </div>
-    <div class="col-sm-3 col-md-5 col-lg-3 top-menu-right-custom right">
-        <div class="inline-block">
-            {{#hasAppPermission . key="APP_MYITEMS" username=cuser.username tenantId=cuser.tenantId}}
-            <a href="{{url "/pages/my-items"}}" class="bookmark-link" style="display: none;">{{t "My bookmarks "}}<i class="fw fw-store fw-inverse fw-lg"></i></a>
-            {{/hasAppPermission}}
-
-            {{#if isSidebarEnabled}}
-                <li class="pull-right">
-                    <a href="javascript:void(0)" onclick="toggleSidePanel('notifications',this)"  class="cu-btn wr-side-panel-toggle-btn wr-notification-toggle-btn">
-                            <span class="fw-stack-md">
-                                <i class="fw fw-bell fw-stack-1-5x"></i>
-                            </span>
-                        <span class="wr-notification-bubble" id="notificationCount" >{{notificationsCount.count}}</span>
-                    </a>
-                {{#hasAppPermission . key="GREG_COMMUNITY_FEATURES" username=cuser.username tenantId=cuser.tenantId}}
-                    <a href="javascript:void(0)" onclick="toggleSidePanel('options',this)" class="cu-btn wr-side-panel-toggle-btn">
-                            <span class="fw-stack-md">
-                                <i class="fw fw-left-arrow fw-stack-1-5x"></i>
-                            </span>
-                        Options
-                    </a>
+        <div class="input-group input-wrap">
+            <input  id="search"  type="text" class="form-control" placeholder="Search for...">
+            <div class="input-group-btn">
+                <button class="btn btn-default wrap-input-right" type="button" title="Search" id="search-button" >
+                    <i class="fw fw-search" aria-hidden="true"></i>
+                </button>
+            </div>
+        </div>
+        <div class="col-sm-3 col-md-5 col-lg-3 top-menu-right-custom right">
+            <div>
+                {{#hasAppPermission . key="APP_MYITEMS" username=cuser.username tenantId=cuser.tenantId}}
+                    <a href="{{url "/pages/my-items"}}" class="bookmark-link" style="display: none;">{{t "My bookmarks "}}<i class="fw fw-store fw-inverse fw-lg"></i></a>
                 {{/hasAppPermission}}
-                </li>
-            {{/if}}
+                 <ul class="nav navbar-nav navbar-right">
+                    {{#if isSidebarEnabled}}
+                        <li>
+                            {{#hasAppPermission . key="GREG_COMMUNITY_FEATURES" username=cuser.username tenantId=cuser.tenantId}}
+                                <a href="javascript:void(0)" onclick="toggleSidePanel('options',this)" class="cu-btn wr-side-panel-toggle-btn">
+                                <span class="fw-stack-md">
+                                    <i class="fw fw-left-arrow fw-stack-1-5x"></i>
+                                </span>
+                                    Options
+                                </a>
+                            {{/hasAppPermission}}
+                        </li>
+                    {{/if}}
+                    {{#if isNotificationbarEnabled}}
+                        <li>
+                            <a href="javascript:void(0)" onclick="toggleSidePanel('notifications',this)"  class="cu-btn wr-side-panel-toggle-btn wr-notification-toggle-btn">
+                                <span class="fw-stack-md">
+                                    <i class="fw fw-bell fw-stack-1-5x"></i>
+                                </span>
+                                <span class="wr-notification-bubble" id="notificationCount" >{{notificationsCount.count}}</span>
+                            </a>
+
+                        </li>
+                    {{/if}}
+                </ul>
+            </div>
         </div>
     </div>
 </div>
 <!-- secondary header - app bar -->
-
-<div class="row">
-  {{> action-bar .}}
-</div>
+{{> action-bar .}}
+{{#if assetCategoryDetails.hasCategories}}
+    <div class="col-md-12 category-wrapper">
+        {{#if assetCategoryDetails.hasCategories}}
+            <div class="col-xs-1 col-sm-2 col-md-1 col-lg-1 left-col"></div>
+            <div class="col-xs-10 col-sm-8 col-md-4 col-lg-10">
+                <div class="category padding-top">
+                    <a href="#" class="ico-filter ctrl-filter-category dropdown-toggle" data-toggle="dropdown"
+                       aria-expanded="true" id="categoryDropDown" title="All Categories">
+                        {{#if assetCategoryDetails.selectedCategory}}
+                            {{assetCategoryDetails.selectedCategory}}
+                        {{else}}
+                            <span>All Categories</span>
+                        {{/if}}
+                    </a>
+                    <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
+                        {{#if assetCategoryDetails.selectedCategory}}
+                            <li><a tabindex="-1" href="#">All Categories</a></li>
+                        {{/if}}
+                        {{#each assetCategoryDetails.values}}
+                            <li><a tabindex="-1" href="#">{{this}}</a></li>
+                        {{/each}}
+                    </ul>
+                </div>
+            </div>
+        {{/if}}
+    </div>
+{{/if}}

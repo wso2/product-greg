@@ -33,12 +33,19 @@ app.server = function(ctx) {
                 url:'search-results',
                 path:'search-results.jag',
                 secured:true        
+            },
+            {
+                title: 'password',
+                url: 'password',
+                path: 'password.jag',
+                secured: true
             }]
-    	},
+        },
         configs: {
             landingPage: '/pages/gc-landing',
             disabledAssets: ['ebook','proxy','sequence','service','servicex','uri',
-                             'site','provider','gadget','document','endpoint','note','topic','reply']
+                             'site','provider','gadget','document','endpoint','topic','reply', 'server'],
+            uiDisabledAssets: ['note']
         }
     }
 };
@@ -53,4 +60,41 @@ app.pageHandlers = function(ctx) {
             return true;
         }
     };
+};
+
+app.renderer = function(ctx){
+    return {
+        pageDecorators:{
+            advanceSearchPatch:function(page){
+                for(var index in page.assets) {
+                    var asset = page.assets[index] ;
+                    var attributes = asset.attributes || {};
+
+                    var hasNameProperty = attributes.hasOwnProperty("overview_name");
+                    var hasVersionProperty = attributes.hasOwnProperty("overview_version");
+
+                    var path = asset.path;
+                    var subPaths = path.split('/');
+
+                    if(!hasNameProperty) {
+                        var name = subPaths[subPaths.length - 1];
+                        asset.name = name;
+                        asset.attributes.overview_name = name;
+                        asset.overview_name = name;
+                        asset.attributes.name = name;
+                    }
+
+                    if(!hasNameProperty && !hasVersionProperty) {
+                        asset.version = subPaths[subPaths.length - 2];
+                        asset.attributes.overview_version = asset.version;
+                        asset.overview_version = asset.version;
+                        asset.attributes.version = asset.version;
+                    }
+                }
+            },
+            getStoreUrl: function (page) {
+                page.storeUrl = require('/config/publisher.js').config().storeUrl;
+            }
+        }
+    }
 };

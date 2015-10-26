@@ -1,0 +1,197 @@
+<%
+/*
+ * Copyright (c) 2015, WSO2 Inc. (http://www.wso2.org) All Rights Reserved.
+ *
+ * WSO2 Inc. licenses this file to you under the Apache License,
+ * Version 2.0 (the "License"); you may not use this file except
+ * in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing,
+ * software distributed under the License is distributed on an
+ * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ * KIND, either express or implied. See the License for the
+ * specific language governing permissions and limitations
+ * under the License.
+ */
+
+var user = require('store').server.current(session);
+var log = new Log();
+
+/*
+ * query parameters of the original request should be passed to the
+ * login jag in order to redirect to the correct place
+ */
+if (!user) {
+    response.sendRedirect('./login?' + request.getQueryString());
+}
+else {
+%>
+
+<!DOCTYPE html>
+<html>
+<head>
+<title>Impact Analysis</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0" charset="utf-8">
+</head>
+<body>
+
+    <div id="wrapper">
+
+       <!-- Page Content -->
+       <div id="page-content-wrapper">
+
+            <div id="preLoader">
+                <div class="preloader">
+                    <div class="load-animation">
+                        <div class="loader-dot" id="loaderDot_1"><div class="loader-inner-dot"></div></div>
+                        <div class="loader-dot" id="loaderDot_2"><div class="loader-inner-dot"></div></div>
+                        <div class="loader-dot" id="loaderDot_3"><div class="loader-inner-dot"></div></div>
+                        <div class="loader-dot" id="loaderDot_4"><div class="loader-inner-dot"></div></div>
+                        <div class="loader-dot" id="loaderDot_5"><div class="loader-inner-dot"></div></div>
+                    </div>
+                    Loading: <i>Please wait ...</i>
+                </div>
+            </div>
+
+       <!-- Removing path URL -->
+            <!-- <div id="urlView"> -->
+                <!-- <span class="label">Path:</span> -->
+                <!-- <span id="path"> --><!-- dynamic content --><!-- </span> -->
+            <!-- </div> -->
+
+            <div class="ui-widget left searchfield">
+                <button type="button" class="btn btn-default download" onclick="svgDownload()" title="Save screen for print" disabled="disabled"><i class="fa fa-save" aria-hidden="true"></i> <span>Save</span></button>
+                <input id="search" class="searchbox" title="Locate Resource" disabled="disabled" />
+                <button type="button" class="btn btn-default download res" onclick="svgDownload()" title="Save screen for print" disabled="disabled"><i class="fa fa-save" aria-hidden="true"></i> <span>Save</span></button>
+                <button type="button" class="btn btn-default reset-locate" onclick="clearSearchOperation()" title="Clear search"><i class="fa fa-times" aria-hidden="true"></i></button>
+            </div>
+
+            <div id="filters" class="ui-widget left filters"><!-- dynamic tags space --></div>
+
+            <div class="ui-widget right bottom">
+                <button type="button" class="btn btn-default zoom" onclick="zoomFit()" title="Zoom-out to fit screen" disabled="disabled"><i class="fa fa-arrows-alt" aria-hidden="true"></i></button>
+            </div>
+
+            <div class="ui-widget right">
+                <button type="button" class="btn btn-default zoom" onclick="zoomIn()" title="Zoom-in" disabled="disabled"><i class="fa fa-plus" aria-hidden="true"></i></button><br />
+                <button type="button" class="btn btn-default zoom" onclick="zoomOut()" title="Zoom-out" disabled="disabled"><i class="fa fa-minus" aria-hidden="true"></i></button><br />
+                <button type="button" class="btn btn-default zoom zooomfit" onclick="zoomFit()" title="Zoom-out to fit screen" disabled="disabled"><i class="fa fa-arrows-alt" aria-hidden="true"></i></button>
+            </div>
+
+            <div id="graphFrame">
+                <div id="graph"><!-- dynamic svg graph space --></div>
+                <div id="graph-capture"><!-- svg graph clone space for capturing --></div>
+            </div>
+
+            <%
+            var util = require('../modules/utility.js');
+            var carbon = require('carbon');
+            var registry = new carbon.registry.Registry(user.um.server.url,user);
+
+            var inputParameters = request.getAllParameters("UTF-8");
+            var obj;
+
+            if(util.isNotNullOrEmpty(inputParameters.path)){
+                var dataPopulator = require("../modules/dataPopulator.js");
+
+                var graph = new Object();
+                var depth = -1;
+
+                graph.nodes = [];
+                graph.edges = [];
+                graph.relations = [];
+                graph.index = 0;
+                graph.relationIndex = 0;
+
+                dataPopulator.getNodesAndEdges(registry, user.username, inputParameters.path, graph, depth);
+                //log.info(graph);
+                obj = graph;
+            }
+            else{
+                obj = require('../graphdata/graph.json');
+            }
+            %>
+       </div>
+       <!-- /#page-content-wrapper -->
+
+   	</div>
+   	<!-- /#wrapper -->
+
+    <link href="../extensions/app/greg_impact/public/css/jquery-ui.css" rel="stylesheet" />
+    <link href="../extensions/app/greg_impact/public/css/select2.css" rel="stylesheet" />
+    <link href="../extensions/app/greg_impact/css/style.css" rel="stylesheet" />
+
+    <script src="../extensions/app/greg_impact/public/js/d3.v3.js"></script>
+    <script src="../extensions/app/greg_impact/public/js/jquery-1.11.1.js"></script>
+    <script src="../extensions/app/greg_impact/public/js/jquery-ui.js"></script>
+    <script src="../extensions/app/greg_impact/public/js/select2.js"></script>
+    <!--[if lt IE 9]>
+    <script src="../extensions/app/greg_impact/public/js/flashcanvas.js"></script>
+    <![endif]-->
+	<script src="../extensions/app/greg_impact/public/js/rgbcolor.js"></script>
+    <script src="../extensions/app/greg_impact/public/js/StackBlur.js"></script>
+	<script src="../extensions/app/greg_impact/public/js/canvg.js"></script>
+	<script src="../extensions/app/greg_impact/public/js/svgenie.js"></script>
+	<script src="../extensions/app/greg_impact/public/js/jquery.inlineStyler.min.js"></script>
+    <script src="/publisher/themes/default/js/notify.min.js"></script>
+    <script src="/publisher/themes/default/js/messages.js"></script>
+    <script src="../extensions/app/greg_impact/js/impactAnalysis.js"></script>
+    <script>
+
+        var imageScale = 0.9,
+            footerHeight = 50,
+            width = ($(window).width()),
+            height = ($(window).height()),
+            root = <%=obj%>,
+            legend = <%=application.get("mediaTypesToImages")%>;
+
+        var force = d3.layout.force()
+            .linkDistance(400)
+            .linkStrength(0.1)
+            .charge(root.index * -200)
+            .gravity(0)
+            .alpha(0)
+            .size([width, height])
+            .on("tick", tick)
+            .on("end", tickCallback)
+            .start();
+
+        var zoom = d3.behavior.zoom().on("zoom", redraw);
+
+        //var drag = force.drag()
+        //    .on("dragstart", dragstart); // To enable node dragging
+
+        var svg = d3.select("#graph").append("svg")
+            .attr("id", "dependency-graph")
+            .attr("width", width)
+            .attr("height", height)
+            .attr("pointer-events", "all")
+            .call(zoom)
+            .on("dblclick.zoom", null)
+            .append('g')
+            .attr('id', 'mainG');
+
+        var graph = d3.select("svg:not(#mainG)").on("click", outClick);
+
+        var node = svg.selectAll(".node"),
+            linkg = svg.selectAll(".linkg"),
+            link = svg.selectAll(".linkLine"),
+            linkNode = svg.selectAll(".linkNode"),
+            nodeEnter = svg.selectAll("[group=node]"),
+            searchArray = [],
+            searchedNode,
+            selectedNode = -1,
+            linkedByIndex = {};
+
+            update(root) ;
+            setupSearch();
+            setupFilters();
+
+    </script>
+</body>
+</html>
+
+<% } %>
