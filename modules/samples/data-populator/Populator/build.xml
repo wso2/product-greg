@@ -44,6 +44,19 @@
             <arg value="${port}"/>
         </java>
     </target>
+
+    <target name="cleanup" depends="jar">
+        <java classname="org.wso2.carbon.registry.samples.populator.CleanUp" classpathref="javac.classpath"
+              fork="true">
+            <sysproperty key="carbon.home"  value="${registry.home}"/>
+            <arg value="-ch" />
+            <arg value="${registry.home}"/>
+            <arg value="-h"/>
+            <arg value="${host}"/>
+            <arg value="-p" />
+            <arg value="${port}"/>
+        </java>
+    </target>
     
 
     <target name="init">
@@ -70,6 +83,7 @@
                 <include name="org.wso2.carbon.registry.extensions.stub_*.jar"/>
                 <include name="org.wso2.carbon.registry.resource_*.jar"/>
                 <include name="org.wso2.carbon.registry.resource.stub_*.jar"/>
+                <include name="org.wso2.carbon.registry.indexing_*.jar"/>
                 <include name="org.wso2.carbon.registry.handler.stub_*.jar"/>
                 <include name="org.wso2.carbon.authenticator.stub_*.jar"/>
                 <include name="org.wso2.carbon.registry.reporting.stub_*.jar"/>
