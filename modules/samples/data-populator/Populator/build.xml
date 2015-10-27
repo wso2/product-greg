@@ -109,6 +109,7 @@
                 <include name="httpcore_*.jar"/>
                 <include name="commons-codec*.jar"/>
                 <include name="commons-io*.jar"/>
+                <include name="commons-lang*.jar"/>
                 <include name="xmlbeans*.jar"/>
                 <include name="poi*.jar"/>
                  <include name="woden_*.jar"/>
