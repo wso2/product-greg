@@ -1,6 +1,6 @@
 var GregSubscriptionAPI = {};
 $(function() {
-    
+
     var addSubscription = function(element, id, type, method, option) {
         var urlSub = caramel.context + '/apis/subscriptions/' + type + '/' + id;
         //alert('addSubscription');
@@ -14,7 +14,19 @@ $(function() {
             contentType: 'application/json',
             success: function(data) {
                 if (data.error != null) {
-                    alert(data.error);
+                    BootstrapDialog.show({
+                        type: BootstrapDialog.TYPE_DANGER,
+                        title: 'Error!',
+                        message: '<div><i class="fa fa-warning"></i> '+data.error+'</div>',
+                        buttons: [{
+                            label: 'Close',
+                            action: function (dialogItself) {
+                                dialogItself.close();
+                            }
+
+                        }]
+
+                    });
                     $(element).prop("checked", false);
                     $(element).change(function() {
                         addSubscription(element, id, type, method, option);
@@ -44,7 +56,19 @@ $(function() {
             contentType: 'application/json',
             success: function(data) {
                 if (data.error != null) {
-                    alert(data.error);
+                    BootstrapDialog.show({
+                        type: BootstrapDialog.TYPE_DANGER,
+                        title: 'Error!',
+                        message: '<div><i class="fa fa-warning"></i> '+data.error+'</div>',
+                        buttons: [{
+                            label: 'Close',
+                            action: function (dialogItself) {
+                                dialogItself.close();
+                            }
+
+                        }]
+
+                    });
                     $(element).prop("checked", true);
                     $(element).change(function() {
                         removeSubscription(element, id, type, subcriptionid, method, option);
@@ -70,10 +94,33 @@ $(function() {
         $.ajax({
             url: urlSub,
             success: function(data) {
-                alert(data);
+                BootstrapDialog.show({
+                    type: BootstrapDialog.TYPE_SUCCESS,
+                    title: 'Success!',
+                    message: '<div><i class="fa fa-check"></i> '+data+'</div>',
+                    buttons: [{
+                        label: 'OK',
+                        action: function (dialogItself) {
+                            dialogItself.close();
+                        }
+                    }]
+
+                });
             },
             error: function() {
-                alert('Error while loading notification');
+                BootstrapDialog.show({
+                    type: BootstrapDialog.TYPE_DANGER,
+                    title: 'Error!',
+                    message: '<div><i class="fa fa-warning"></i> Error while loading notification</div>',
+                    buttons: [{
+                        label: 'Close',
+                        action: function (dialogItself) {
+                            dialogItself.close();
+                        }
+
+                    }]
+
+                });
             }
         })
     };
@@ -94,7 +141,19 @@ $(function() {
                 }
             },
             error: function() {
-                alert('Error while removing notification');
+                BootstrapDialog.show({
+                    type: BootstrapDialog.TYPE_DANGER,
+                    title: 'Error!',
+                    message: '<div><i class="fa fa-warning"></i> Error while removing notification</div>',
+                    buttons: [{
+                        label: 'Close',
+                        action: function (dialogItself) {
+                            dialogItself.close();
+                        }
+
+                    }]
+
+                });
             }
         })
     };

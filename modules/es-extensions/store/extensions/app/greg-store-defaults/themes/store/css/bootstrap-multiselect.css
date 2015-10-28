@@ -1,0 +1,45 @@
+.multiselect-container {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    position: absolute;
+}
+
+.multiselect-container .input-group {
+    margin: 5px;
+}
+
+.multiselect-container > li {
+    padding: 0;
+}
+
+.multiselect-container > li > a.multiselect-all label {
+    font-weight: bold;
+}
+
+.multiselect-container > li > label.multiselect-group {
+    font-weight: bold;
+    height: 100%;
+    margin: 0;
+    padding: 3px 20px 3px 20px;
+}
+
+.multiselect-container > li > a > label {
+    cursor: pointer;
+    font-weight: normal;
+    height: 100%;
+    margin: 0;
+}
+
+.multiselect-container > li > a > label.radio, .multiselect-container > li > a > label.checkbox {
+    margin: 0;
+}
+
+.multiselect-container > li > a > label > input[type="checkbox"] {
+    margin-bottom: 5px;
+}
+
+.btn-group > .btn-group:nth-child(2) > .multiselect.btn {
+    border-bottom-left-radius: 4px;
+    border-top-left-radius: 4px;
+}
