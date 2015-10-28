@@ -45,7 +45,7 @@
             <item name="WSO2.org" href="http://www.wso2.org"/>
         </links>
 
-        <menu name="WSO2 Governance Registry v5.0.1">
+        <menu name="WSO2 Governance Registry v5.1.0">
             <item name="Home" href="index.html"/>
             <item name="Release Note" href="release-notes.html"/>
         </menu>
@@ -64,7 +64,7 @@
 
         <menu name="Getting Help">
             <item name="Mailing Lists" href="http://www.wso2.org/mail"/>
-            <item name="Wiki" href="http://docs.wso2.org/wiki/display/Governance501/WSO2+Governance+Registry+Documentation"/>
+            <item name="Wiki" href="http://docs.wso2.org/wiki/display/Governance510/WSO2+Governance+Registry+Documentation"/>
             <item name="Forum" href="http://www.wso2.org/forum/351"/>
             <item name="Library" href="http://www.wso2.org/library/registry"/>
         </menu>
