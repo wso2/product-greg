@@ -36,7 +36,20 @@
                             <div class="tag-title"> Tags </div>
                             <div class="tag-content">
                                 {{#each tags}}
-                                    <a href='{{tenantedUrl ""}}{{this.searchPage}}?q="tags":"{{this.value}}"'><label>{{this.value}}</label></a>
+                                    {{#if this.selected}}
+                                        {{#if ../../assetCategoryDetails.hasCategories}}
+                                            <a href='{{tenantedUrl ""}}{{this.searchPage}}?q="category":"{{../../assetCategoryDetails.selectedCategory}}","tags":"{{this.value}}"'><label class = "text-muted" >{{this.value}}</label></a>
+                                        {{else}}
+                                            <a href='{{tenantedUrl ""}}{{this.searchPage}}?q="tags":"{{this.value}}"'><label class = "text-muted" >{{this.value}}</label></a>
+                                        {{/if}}
+                                    {{else}}
+
+                                        {{#if ../../assetCategoryDetails.hasCategories}}
+                                            <a href='{{tenantedUrl ""}}{{this.searchPage}}?q="category":"{{../../../assetCategoryDetails.selectedCategory}}","tags":"{{this.value}}"'><label>{{this.value}}</label></a>
+                                        {{else}}
+                                            <a href='{{tenantedUrl ""}}{{this.searchPage}}?q="tags":"{{this.value}}"'><label>{{this.value}}</label></a>
+                                        {{/if}}
+                                    {{/if}}
                                 {{/each}}
                             </div>
                         </div>
@@ -103,6 +116,7 @@
                         {{/if}}
                     </a>
                     <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
+                        <input type="hidden" name="selectedTag" id="selectedTag" value="{{selectedTag}}">
                         {{#if assetCategoryDetails.selectedCategory}}
                             <li><a tabindex="-1" href="#">All Categories</a></li>
                         {{/if}}
@@ -110,6 +124,18 @@
                             <li><a tabindex="-1" href="#">{{this}}</a></li>
                         {{/each}}
                     </ul>
+                    {{#if selectedTag}}
+                        <div class="tags-breadcrumb">
+                            {{#each tags}}
+                                {{#if this.selected}}
+                                    <a class="tag-label"
+                                       href=' {{tenantedUrl ""}}{{this.searchPage}}?q="category":"{{../../assetCategoryDetails.selectedCategory}}"'>
+                                        {{this.value}} <span>&times;</span>
+                                    </a>
+                                {{/if}}
+                            {{/each}}
+                        </div>
+                    {{/if}}
                 </div>
             </div>
         {{/if}}
