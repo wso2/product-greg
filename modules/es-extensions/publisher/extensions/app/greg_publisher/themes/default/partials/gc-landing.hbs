@@ -28,6 +28,7 @@
 
 <div class="row">
 
+{{#hasAssetPermission . key="ASSET_LIST" type="soapservice" username=cuser.username tenantId=cuser.tenantId}}
     <div class="col-md-6 col-lg-4">
         <div class="tile color1" data-click-event="steps">
             <div data-step="1">
@@ -103,7 +104,9 @@
             </div>
         </div>
     </div>
+{{/hasAssetPermission}}
 
+{{#hasAssetPermission . key="ASSET_LIST" type="restservice" username=cuser.username tenantId=cuser.tenantId}}
     <div class="col-md-6 col-lg-4">
         <div class="tile color2" data-click-event="steps">
             <div data-step="1">
@@ -188,6 +191,7 @@
             </div>
         </div>
     </div>
+{{/hasAssetPermission}}
 </div>
 
 <hr>
