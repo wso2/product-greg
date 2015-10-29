@@ -145,7 +145,7 @@ public class Main {
         String[][] properties = { { "registry.mediaType", "application/policy+xml" }, { "version", "1.0.0" } };
         DataHandler dh = new DataHandler(new URL("file://" + projectPath + "/resources/policies.gar"));
         resourceServiceClient
-                .addResource("/_system/governance/trunk/policies/test/", "application/vnd.wso2.governance-archive",
+                .addResource("/_system/governance/trunk/test/1.0.0/policies/", "application/vnd.wso2.governance-archive",
                         null, dh, null, properties);
     }
 }
