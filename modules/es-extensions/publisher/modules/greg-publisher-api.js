@@ -227,7 +227,7 @@ var gregAPI = {};
                 if (endsWith('.',pathValue)){
                     pathValue = pathValue.substr(0,pathValue.length-1);
                 }
-                if (am.registry.registry.resourceExists(pathValue)) {
+                if (am.registry.registry.resourceExists(pathValue) && am.registry.registry.get(pathValue).getMediaType() != null) {
                     var uuid = am.registry.registry.get(pathValue).getUUID();
                     workList.presentationSubject = workList.presentationSubject.replace(pathValue, "");
 
