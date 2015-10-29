@@ -119,12 +119,10 @@ public class GregRestResourcePublisherESTestCase extends GREGIntegrationBaseTest
                         , queryParamMap, headerMap, cookieHeader);
         JSONObject obj = new JSONObject(response.getEntity(String.class));
         Assert.assertTrue((response.getStatusCode() == 202),
-                          "Wrong status code ,Expected 201 Created ,Received " +
+                          "Wrong status code ,Expected 202 Created ,Received " +
                           response.getStatusCode());
         Assert.assertTrue(obj.getJSONObject("attributes").get("overview_context")
                                   .equals("/changed/Context"));
-        Assert.assertTrue(obj.getJSONObject("attributes").get("overview_name")
-                                  .equals("testservice12345"));
     }
 
     @Test(groups = {"wso2.greg", "wso2.greg.es"}, description = "Delete Publisher test",
@@ -140,6 +138,7 @@ public class GregRestResourcePublisherESTestCase extends GREGIntegrationBaseTest
 
     @AfterClass(alwaysRun = true)
     public void cleanUp() throws RegistryException {
+
 
     }
 
