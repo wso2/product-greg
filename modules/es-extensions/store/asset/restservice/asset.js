@@ -82,6 +82,9 @@ asset.manager = function(ctx) {
                 if(deps.associationType == "wadl") {
                     associations.push(deps);
                 }
+                if(deps.associationType == "swagger") {
+                    associations.push(deps);
+                }
             }
         }
         return associations;
