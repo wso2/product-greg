@@ -155,7 +155,7 @@ System Requirements
    have Maven 3.0.5 or later.
 
 For more details see
-   http://docs.wso2.org/display/Governance501/Installation+Prerequisites
+   http://docs.wso2.org/display/Governance510/Installation+Prerequisites
 
 
 Project Resources
@@ -181,7 +181,7 @@ Installation and Running
 3. Once the server starts, point your Web browser to https://localhost:9443/carbon/
 4. For more information, see the Installation Guide:
      Locally    : INSTALL.txt
-     On the web : http://docs.wso2.org/wiki/display/Governance501/Getting+Started
+     On the web : http://docs.wso2.org/wiki/display/Governance510/Getting+Started
 
 
 Known issues of @product.name@ @product.version@

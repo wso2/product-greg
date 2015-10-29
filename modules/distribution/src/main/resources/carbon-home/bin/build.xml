@@ -93,6 +93,7 @@
                 <include name="org.wso2.carbon.governance.api*.jar"/>
                 <include name="org.wso2.carbon.governance.client*.jar"/>
                 <include name="org.wso2.carbon.registry.extensions*.jar"/>
+                <include name="org.wso2.carbon.registry.indexing*.jar"/> <!-- used by the search client sample -->
                 <include name="jettison*.jar"/><!-- used by the JSON sample client in appserver -->
                 <include name="org.wso2.carbon.user.api*.jar"/>
                 <include name="org.wso2.carbon.registry.api*.jar"/>

@@ -20,3 +20,8 @@ very-simple-2-ns-ppl-nons
 very-simple-ext
 xlink
 billService
+xml
+exchange-documents-v2.0
+fulltext-documents
+ops_legal
+ops

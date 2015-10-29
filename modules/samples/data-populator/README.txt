@@ -8,9 +8,18 @@ Registry Asset Populator
  
 
 Command to Populate Governance Models
---------------------------------------
+-----------------------------------------
+First start the server.
+Then run one of the following commands inside $GREG_HOME/samples/data-populator/Populator directory.
 ant client - ant run
 Linux shell script - sh populator.sh
+
+Command to Remove all added sample assets
+-----------------------------------------
+First start the server.
+Then run one of the following commands inside $GREG_HOME/samples/data-populator/Populator directory.
+ant client - ant cleanup
+Linux shell script - sh cleanup.sh
 
 Categorize Artifacts
 --------------------------------------
