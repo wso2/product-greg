@@ -32,6 +32,19 @@
         </java>
     </target>
 
+    <target name="re-deploy" depends="jar">
+        <java classname="org.wso2.carbon.registry.samples.populator.RXTReDeploy" classpathref="javac.classpath"
+              fork="true">
+            <sysproperty key="carbon.home"  value="${registry.home}"/>
+            <arg value="-ch" />
+            <arg value="${registry.home}"/>
+            <arg value="-h"/>
+            <arg value="${host}"/>
+            <arg value="-p" />
+            <arg value="${port}"/>
+        </java>
+    </target>
+
     <target name="categorize" depends="jar">
         <java classname="org.wso2.carbon.registry.samples.populator.CategorizeArtifacts" classpathref="javac.classpath"
               fork="true">
@@ -66,6 +79,7 @@
              <fileset dir="${registry.home}/repository/components/plugins">
                 <include name="axis2_*.jar"/>
                 <include name="axiom_*.jar"/>
+                <include name="org.eclipse.osgi_*.jar"/>
                 <include name="org.wso2.carbon.core_*.jar"/>
                 <include name="org.wso2.carbon.identity.user.profile.stub_*.jar"/>
                 <include name="org.wso2.carbon.identity.user.profile.ui_*.jar"/>
