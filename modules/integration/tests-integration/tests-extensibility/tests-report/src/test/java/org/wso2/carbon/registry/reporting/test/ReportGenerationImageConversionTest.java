@@ -1,5 +1,5 @@
 /*
-*Copyright (c) 2005-2010, WSO2 Inc. (http://www.wso2.org) All Rights Reserved.
+*Copyright (c) 2015, WSO2 Inc. (http://www.wso2.org) All Rights Reserved.
 *
 *WSO2 Inc. licenses this file to you under the Apache License,
 *Version 2.0 (the "License"); you may not use this file except
@@ -29,13 +29,15 @@ import static org.testng.Assert.assertTrue;
 
 public class ReportGenerationImageConversionTest extends ReportingTestCaseSuper {
 
-    @BeforeClass(alwaysRun = true) public void initializeForReportGenerationTesting() throws Exception {
+    @BeforeClass(alwaysRun = true)
+    public void initializeForReportGenerationTesting() throws Exception {
         applicationName = super.applicationName + "ReportGenerationImageConversionTest";
         artifactName = super.artifactName + "ReportGenerationImageConversionTest";
         init();
     }
 
-    @Test(groups = "wso2.greg", description = "Add resources and artifacts to test image conversion of HTML reports") public void testAddResourcesForReportImageConversionTesting()
+    @Test(groups = "wso2.greg", description = "Add resources and artifacts to test image conversion of HTML reports")
+    public void testAddResourcesForReportImageConversionTesting()
             throws Exception {
         testAddResourcesLCReport();
         testAddLCArtifact();
@@ -58,7 +60,8 @@ public class ReportGenerationImageConversionTest extends ReportingTestCaseSuper 
      * @throws Exception
      */
     @Test(groups = "wso2.greg", description = "verifies HTML report images have been converted into base64",
-            dependsOnMethods = "testAddResourcesForReportImageConversionTesting") public void testHtmlImageConversion()
+            dependsOnMethods = "testAddResourcesForReportImageConversionTesting")
+    public void testHtmlImageConversion()
             throws AxisFault, Exception {
 
         ReportConfigurationBean configurationBean = reportAdminServiceClient.getSavedReport("TestGovernanceLCReport");
@@ -67,7 +70,6 @@ public class ReportGenerationImageConversionTest extends ReportingTestCaseSuper 
 
         String result = readInputStreamAsString(report.getInputStream());
         assertTrue(result.contains("data:image/gif;base64"));
-        System.out.print("123");
 
     }
 
