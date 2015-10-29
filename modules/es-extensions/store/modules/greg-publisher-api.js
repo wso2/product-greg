@@ -208,7 +208,7 @@ var gregAPI = {};
                 if (endsWith('.',pathValue)){
                     pathValue = pathValue.substr(0,pathValue.length-1);
                 }
-                if(am.registry.registry.resourceExists(pathValue)) {
+                if (am.registry.registry.resourceExists(pathValue)) {
                     var uuid = am.registry.registry.get(pathValue).getUUID();
                     workList.presentationSubject = workList.presentationSubject.replace(pathValue, "");
 
@@ -229,16 +229,18 @@ var gregAPI = {};
                     workList.presentationSubject = workList.presentationSubject.replace("resource at path", workList.overviewName);
                     workList.presentationSubject = workList.presentationSubject.replace("resource at", workList.overviewName);
                     //workList.message = workList.overviewName +
-
-
-                    workList.presentationName = String(row.getPresentationName());
-                    workList.priority = String(row.getPriority());
-                    workList.status = String(row.getStatus());
-                    workList.time = String(row.getCreatedTime().getTime());
-                    //workList.createdTime = String(row.getCreatedTime());
-                    workList.user = String(taskOperationService.loadTask(row.getId()).getActualOwner().getTUser());
-                    result.push(workList);
+                    workList.clickResource = true; //This will be checked in order to show or not 'Click here' link in the notification.
                 }
+                else {
+                    workList.clickResource = false;//If this is false 'Click here' link will not be shown as there is no such resource.
+                }
+                workList.presentationName = String(row.getPresentationName());
+                workList.priority = String(row.getPriority());
+                workList.status = String(row.getStatus());
+                workList.time = String(row.getCreatedTime().getTime());
+                //workList.createdTime = String(row.getCreatedTime());
+                workList.user = String(taskOperationService.loadTask(row.getId()).getActualOwner().getTUser());
+                result.push(workList);
             }
         }
         results.list = result;
