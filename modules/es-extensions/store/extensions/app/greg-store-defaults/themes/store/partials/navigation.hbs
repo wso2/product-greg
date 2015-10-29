@@ -116,7 +116,7 @@
                         {{/if}}
                     </a>
                     <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
-                        <input type="hidden" name="selectedTag" id="selectedTag" value="{{selectedTag}}">
+                        <input type="hidden" name="selectedTag" id="selectedTag" value="{{selectedTag.value}}">
                         {{#if assetCategoryDetails.selectedCategory}}
                             <li><a tabindex="-1" href="#">All Categories</a></li>
                         {{/if}}
@@ -124,16 +124,12 @@
                             <li><a tabindex="-1" href="#">{{this}}</a></li>
                         {{/each}}
                     </ul>
-                    {{#if selectedTag}}
+                    {{#if selectedTag.value}}
                         <div class="tags-breadcrumb">
-                            {{#each tags}}
-                                {{#if this.selected}}
-                                    <a class="tag-label"
-                                       href=' {{tenantedUrl ""}}{{this.searchPage}}?q="category":"{{../../assetCategoryDetails.selectedCategory}}"'>
-                                        {{this.value}} <span>&times;</span>
-                                    </a>
-                                {{/if}}
-                            {{/each}}
+                            <a class="tag-label"
+                               href=' {{tenantedUrl ""}}{{selectedTag.url}}?q="category":"{{../assetCategoryDetails.selectedCategory}}"'>
+                                {{selectedTag.value}} <span>&times;</span>
+                            </a>
                         </div>
                     {{/if}}
                 </div>
