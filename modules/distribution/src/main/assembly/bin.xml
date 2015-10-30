@@ -838,7 +838,7 @@
             <fileMode>644</fileMode>
         </file>
         <file>
-            <source>../samples/data-populator/README.txt</source>
+            <source>../samples/data-populator/README.md</source>
             <outputDirectory>${pom.artifactId}-${build.version}/samples/data-populator/</outputDirectory>
             <filtered>true</filtered>
             <fileMode>644</fileMode>

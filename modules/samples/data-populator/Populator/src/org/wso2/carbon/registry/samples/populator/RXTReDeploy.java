@@ -68,6 +68,7 @@ public class RXTReDeploy {
                     .addResource(restServiceRxtPath, "application/vnd.wso2.registry-ext-type+xml", null, dh1, null,
                             null);
             Thread.sleep(5 * 1000);
+            System.out.println("Successfully re deployed Rest Service RXT");
 
             String soapServiceRxtPath = serviceRxtPath + "soapservice.rxt";
             resourceServiceClient.delete(soapServiceRxtPath);
@@ -76,6 +77,7 @@ public class RXTReDeploy {
                     .addResource(soapServiceRxtPath, "application/vnd.wso2.registry-ext-type+xml", null, dh2, null,
                             null);
             Thread.sleep(5 * 1000);
+            System.out.println("Successfully re deployed Soap Service RXT");
 
         } catch (Exception e) {
             System.out.println("An error occurred.");
