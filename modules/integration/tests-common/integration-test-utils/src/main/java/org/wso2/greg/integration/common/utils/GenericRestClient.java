@@ -27,6 +27,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.MultivaluedHashMap;
 import javax.ws.rs.core.MultivaluedMap;
 import java.io.File;
 import java.util.HashMap;
@@ -117,20 +118,49 @@ public class GenericRestClient {
         if (cookie != null) {
             resource.cookie(cookie);
         }
+
         response = resource.contentType(contentType).
                 accept(acceptMediaType).delete();
         return response;
     }
+
+    public ClientResponse geneticRestRequestDelete(String resourceUrl, String contentType,
+                                                   String acceptMediaType,String data,
+                                                   Map<String, String> queryParamMap,
+                                                   Map<String, String> headerMap,
+                                                   String cookie) {
+        Resource resource = client.resource(resourceUrl);
+        if (!(queryParamMap.size() <= 0)) {
+            for (Map.Entry<String, String> queryParamEntry : queryParamMap.entrySet()) {
+                resource.queryParam(queryParamEntry.getKey(), queryParamEntry.getValue());
+            }
+        }
+        if (!(headerMap.size() <= 0)) {
+            for (Map.Entry<String, String> headerEntry : headerMap.entrySet()) {
+                resource.header(headerEntry.getKey(), headerEntry.getValue());
+            }
+        }
+        if (cookie != null) {
+            resource.cookie(cookie);
+        }
+
+        response = resource.contentType(contentType).
+                accept(acceptMediaType).delete();
+        return response;
+    }
+
 
     public ClientResponse geneticRestRequestGet(String resourceUrl,  Map<String, String> queryParamMap,
                                                 Map<String, String> headerMap,
                                                 String cookie)
     {
         Resource resource = client.resource(resourceUrl);
+        MultivaluedMap<String,String> queryParamInMap= new MultivaluedHashMap<>();
         if (!(queryParamMap.size() <= 0)) {
             for (Map.Entry<String, String> queryParamEntry : queryParamMap.entrySet()) {
-                resource.queryParam(queryParamEntry.getKey(), queryParamEntry.getValue());
+                queryParamInMap.add(queryParamEntry.getKey(), queryParamEntry.getValue());
             }
+            resource.queryParams(queryParamInMap);
         }
         if (!(headerMap.size() <= 0)) {
             for (Map.Entry<String, String> headerEntry : headerMap.entrySet()) {
