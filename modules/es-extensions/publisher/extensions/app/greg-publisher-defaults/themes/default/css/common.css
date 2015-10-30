@@ -942,5 +942,6 @@ a.ctrl-filter-category {
     background: #333;
 
 }
-
-
+#ul-sort-assets li.Version{
+    display: none;
+}
