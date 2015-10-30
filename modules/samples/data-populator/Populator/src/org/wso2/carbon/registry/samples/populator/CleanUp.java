@@ -89,7 +89,7 @@ public class CleanUp {
             System.out.println("########## Successfully deleted sample schemas ###########");
             deleteArtifacts(gov, "swagger", "json");
             System.out.println("########## Successfully deleted sample swagger docs ###########");
-            deletePolicies(gov);
+            deleteArtifacts(gov, "policy", "xml");
             System.out.println("########## Successfully deleted sample policies ###########");
             deleteServices(gov, "soapservice");
             System.out.println("########## Successfully deleted sample Soap Services ###########");
@@ -122,24 +122,6 @@ public class CleanUp {
                 for (GovernanceArtifact dependency : genericArtifact.getDependencies()) {
                     GovernanceUtils.removeArtifact(govRegistry, dependency.getId());
                 }
-                GovernanceUtils.removeArtifact(govRegistry, genericArtifact.getId());
-            }
-        }
-    }
-
-    private static void deletePolicies(Registry govRegistry)
-            throws FileNotFoundException, IOException, RegistryException, GovernanceException {
-        GenericArtifactManager manager = new GenericArtifactManager(govRegistry, "policy");
-
-        for (int i = 1; i < 23; i++) {
-            final String name = "policy" + i + ".xml";
-            GenericArtifact[] artifacts = manager.findGenericArtifacts(new GenericArtifactFilter() {
-
-                @Override public boolean matches(GenericArtifact genericArtifact) throws GovernanceException {
-                    return name.equals(genericArtifact.getQName().getLocalPart());
-                }
-            });
-            for (GenericArtifact genericArtifact : artifacts) {
                 GovernanceUtils.removeArtifact(govRegistry, genericArtifact.getId());
             }
         }

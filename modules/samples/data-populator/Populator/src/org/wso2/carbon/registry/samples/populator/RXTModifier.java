@@ -67,6 +67,7 @@ public class RXTModifier {
             resourceServiceClient.addResource(restServiceRxtPath,
                     "application/vnd.wso2.registry-ext-type+xml", null, dh1, null, null);
             Thread.sleep(5 * 1000);
+            System.out.println("Successfully added categorization field to Rest Service RXT");
 
             String soapServiceRxtPath = serviceRxtPath + "soapservice.rxt";
             resourceServiceClient.delete(soapServiceRxtPath);
@@ -74,6 +75,7 @@ public class RXTModifier {
             resourceServiceClient.addResource(soapServiceRxtPath,
                     "application/vnd.wso2.registry-ext-type+xml", null, dh2, null, null);
             Thread.sleep(5 * 1000);
+            System.out.println("Successfully added categorization field to Soap Service RXT");
 
         } catch (Exception e) {
             System.out.println("An error occurred.");

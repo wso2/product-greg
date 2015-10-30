@@ -5,8 +5,18 @@
     <property name="port" value="9443"/>
     <property name="version" value="5.1.0"/>
 
+    <target name="run">
+        <antcall target="populate"/>
+        <antcall target="rxt-modify"/>
+        <antcall target="categorize"/>
+    </target>
 
-    <target name="run" depends="jar">        
+    <target name="remove">
+        <antcall target="cleanup"/>
+        <antcall target="re-deploy"/>
+    </target>
+
+    <target name="populate" depends="jar">
         <java classname="org.wso2.carbon.registry.samples.populator.Main" classpathref="javac.classpath"
               fork="true">             
             <sysproperty key="carbon.home"  value="${registry.home}"/>
