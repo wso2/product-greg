@@ -37,9 +37,7 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.io.File;
 import java.io.IOException;
-
 import java.util.HashMap;
-
 import java.util.Map;
 
 import static org.testng.Assert.assertNotNull;
