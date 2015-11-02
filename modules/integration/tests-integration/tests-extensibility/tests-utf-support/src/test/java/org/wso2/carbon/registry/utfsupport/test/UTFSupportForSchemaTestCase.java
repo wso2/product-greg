@@ -32,14 +32,14 @@ public class UTFSupportForSchemaTestCase extends GREGIntegrationBaseTest {
     private String schemaPath;
     private String wsdlPath;
     private RelationAdminServiceClient relationAdminServiceClient;
-    private final String WSDL_URL = "https://svn.wso2.org/repos/wso2/carbon/platform/trunk/products/greg/modules/" +
-            "integration/registry/tests-new/src/test/resources/artifacts/GREG/wsdl/AmazonWebServices.wsdl";
+    private final String WSDL_URL = "https://raw.githubusercontent.com/wso2/wso2-qa-artifacts/master/" +
+            "automation-artifacts/greg/wsdl/AmazonWebServices.wsdl";
 
     /*private final String SCHEMA_URL = "https://svn.wso2.org/repos/wso2/carbon/platform/trunk/products/greg/modules/" +
             "integration/registry/tests-new/src/test/resources/artifacts/GREG/schema/LinkedSchema.xsd";*/
 
-    private final String SCHEMA_URL = "https://svn.wso2.org/repos/wso2/carbon/platform/trunk/products/greg/modules/" +
-            "integration/registry/tests-extensibility/src/test/resources/artifacts/GREG/schema/LinkedSchema.xsd";
+    private final String SCHEMA_URL = "https://raw.githubusercontent.com/wso2/wso2-qa-artifacts/master/" +
+            "automation-artifacts/greg/schema/LinkedSchema.xsd";
 
     private final String LC_NAME = "ÀÁÂÃÄÅÆÇÈÉ";
     private String pathPrefix = "/_system/governance";

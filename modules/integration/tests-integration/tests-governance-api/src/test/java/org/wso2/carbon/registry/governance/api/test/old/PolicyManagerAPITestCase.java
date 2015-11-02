@@ -60,9 +60,7 @@ public class PolicyManagerAPITestCase {
     @Test(groups = {"wso2.greg.api"}, description = "Testing newPolicy API method")
     public void testNewPolicy() throws GovernanceException {
         try {
-            policyObj = policyManager.newPolicy("http://svn.wso2.org/repos/wso2/carbon/platform/trunk/" +
-                    "platform-integration/system-test-framework/core/org.wso2.automation.platform.core/" +
-                    "src/main/resources/artifacts/GREG/policy/UTPolicy.xml");
+            policyObj = policyManager.newPolicy("https://raw.githubusercontent.com/wso2/wso2-qa-artifacts/master/automation-artifacts/greg/policy/UTPolicy.xml");
         } catch (GovernanceException e) {
             throw new GovernanceException("Error occurred while executing PolicyManager:newPolicy method" + e);
         }

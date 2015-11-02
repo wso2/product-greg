@@ -140,7 +140,7 @@ public class DiscoveryProxyTest extends GREGIntegrationBaseTest {
                 new QName(DiscoveryConstants.DISCOVERY_HEADER_ELEMENT_NAMESPACE,
                           DiscoveryConstants.DISCOVERY_HEADER_WSDL_URI,
                           DiscoveryConstants.DISCOVERY_HEADER_ELEMENT_NAMESPACE_PREFIX),
-                "https://svn.wso2.org/repos/wso2/trunk/commons/qa/qa-artifacts/greg/wsdl/calculator.wsdl");
+                "https://raw.githubusercontent.com/wso2/wso2-qa-artifacts/master/automation-artifacts/greg/wsdl/calculator.wsdl");
 
         serviceClient.fireAndForget(DiscoveryOMUtils.toOM(notification, getOMFactory()));
 

@@ -72,9 +72,8 @@ public class SchemaTagsVerificationTestCase extends GREGIntegrationBaseTest{
                                        MalformedURLException {
 
         schema = schemaManager
-                .newSchema("https://svn.wso2.org/repos/wso2/carbon/platform/trunk/platform-integration/"
-                           + "platform-automated-test-suite/org.wso2.carbon.automation.test.repo/src/main/"
-                           + "resources/artifacts/GREG/schema/books.xsd");
+                .newSchema("https://raw.githubusercontent.com/wso2/wso2-qa-artifacts/master/automation-artifacts/" +
+                        "greg/schema/books.xsd");
 
         schema.addAttribute("version", "1.0.0");
         schema.addAttribute("author", "Aparna");

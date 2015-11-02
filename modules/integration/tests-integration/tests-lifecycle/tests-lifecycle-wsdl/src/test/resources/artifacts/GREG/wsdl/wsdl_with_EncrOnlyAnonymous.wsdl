@@ -4,7 +4,7 @@
 
     <wsdl:types>
         <xsd:schema targetNamespace="http://services.samples/xsd" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
-            <xsd:import namespace="http://services.samples/xsd" schemaLocation="https://svn.wso2.org/repos/wso2/carbon/platform/trunk/platform-integration/platform-automated-test-suite/org.wso2.carbon.automation.test.repo/src/main/resources/artifacts/GREG/schema/SampleSchema.xsd">
+            <xsd:import namespace="http://services.samples/xsd" schemaLocation="https://raw.githubusercontent.com/wso2/wso2-qa-artifacts/master/automation-artifacts/greg/schema/SampleSchema.xsd">
             </xsd:import>
         </xsd:schema>
         <xs:schema xmlns:ax212="http://services.samples/xsd" attributeFormDefault="qualified" elementFormDefault="qualified" targetNamespace="http://services.samples">
@@ -154,7 +154,7 @@
 
     </wsdl:portType>
     <wsdl:binding name="SimpleStockQuoteService1MSoap11Binding" type="ns:SimpleStockQuoteService1MPortType">
-        <wsp:PolicyReference xmlns:wsp="http://schemas.xmlsoap.org/ws/2004/09/policy" URI="https://svn.wso2.org/repos/wso2/carbon/platform/trunk/platform-integration/platform-automated-test-suite/org.wso2.carbon.automation.test.repo/src/main/resources/artifacts/GREG/policy/EncrOnlyAnonymous.xml" />
+        <wsp:PolicyReference xmlns:wsp="http://schemas.xmlsoap.org/ws/2004/09/policy" URI="https://raw.githubusercontent.com/wso2/wso2-qa-artifacts/master/automation-artifacts/greg/policy/EncrOnlyAnonymous.xml" />
         <soap:binding transport="http://schemas.xmlsoap.org/soap/http" style="document" />
         <wsdl:operation name="getMarketActivity">
             <soap:operation soapAction="urn:getMarketActivity" style="document" />
@@ -208,7 +208,7 @@
         </wsdl:operation>
     </wsdl:binding>
     <wsdl:binding name="SimpleStockQuoteService1MSoap12Binding" type="ns:SimpleStockQuoteService1MPortType">
-        <wsp:PolicyReference xmlns:wsp="http://schemas.xmlsoap.org/ws/2004/09/policy" URI="https://svn.wso2.org/repos/wso2/carbon/platform/trunk/platform-integration/platform-automated-test-suite/org.wso2.carbon.automation.test.repo/src/main/resources/artifacts/GREG/policy/EncrOnlyAnonymous.xml" />
+        <wsp:PolicyReference xmlns:wsp="http://schemas.xmlsoap.org/ws/2004/09/policy" URI="https://raw.githubusercontent.com/wso2/wso2-qa-artifacts/master/automation-artifacts/greg/policy/EncrOnlyAnonymous.xml" />
         <soap12:binding transport="http://schemas.xmlsoap.org/soap/http" style="document" />
         <wsdl:operation name="getMarketActivity">
 

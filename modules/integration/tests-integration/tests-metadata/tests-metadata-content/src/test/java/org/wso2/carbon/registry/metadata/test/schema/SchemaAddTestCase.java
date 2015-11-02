@@ -89,7 +89,7 @@ public class SchemaAddTestCase extends GREGIntegrationBaseTest {
     public void addSchemafromURL() throws ResourceAdminServiceExceptionException, RemoteException {
         String resourceUrl =
 //                "http://ww2.wso2.org/~qa/greg/simpleXsd1.xsd";
-                "https://svn.wso2.org/repos/wso2/trunk/commons/qa/qa-artifacts/greg/xsd/simpleXsd1.xsd";
+                "https://raw.githubusercontent.com/wso2/wso2-qa-artifacts/master/automation-artifacts/greg/xsd/simpleXsd1.xsd";
         String resourceName = "simpleXsd1.xsd";
         resourceAdminServiceClient.addSchema(resourceName, "adding Schema Via URL", resourceUrl);
         Assert.assertNotNull(resourceAdminServiceClient.getTextContent(schemaPath + "/services/samples/xsd/1.0.0/simpleXsd1.xsd"));
@@ -105,11 +105,12 @@ public class SchemaAddTestCase extends GREGIntegrationBaseTest {
             RegistryExceptionException {
         String resourceUrl =
 //                "http://ww2.wso2.org/~qa/greg/calculator-new.xsd";
-                "https://svn.wso2.org/repos/wso2/trunk/commons/qa/qa-artifacts/greg/xsd/calculator-new.xsd";
+                "https://raw.githubusercontent.com/wso2/wso2-qa-artifacts/master/automation-artifacts/greg/xsd/calculator-new.xsd";
         String resourceName = "calculator-new.xsd";
         String updatedResourceUrl =
 //                "http://ww2.wso2.org/~qa/greg/calculator-new-updated.xsd";
-                "https://svn.wso2.org/repos/wso2/trunk/commons/qa/qa-artifacts/greg/xsd/calculator-new-updated.xsd";
+                "https://raw.githubusercontent.com/wso2/wso2-qa-artifacts/master/automation-artifacts/greg" +
+                        "/xsd/calculator-new-updated.xsd";
         String updatedResourceName = "calculator-new-updated.xsd\"";
         resourceAdminServiceClient.addSchema(resourceName, "adding from URL", resourceUrl);
         Assert.assertNotNull(resourceAdminServiceClient.getTextContent(schemaPath + "org1/charitha/1.0.0/calculator-new.xsd"));
@@ -178,7 +179,7 @@ public class SchemaAddTestCase extends GREGIntegrationBaseTest {
     public void addSchemaMultipleImports() throws RegistryExceptionException, RemoteException,
                                                   ResourceAdminServiceExceptionException {
         String resourceUrl =
-                "https://svn.wso2.org/repos/wso2/trunk/commons/qa/qa-artifacts/greg/xsd/company.xsd";
+                "https://raw.githubusercontent.com/wso2/wso2-qa-artifacts/master/automation-artifacts/greg/xsd/company.xsd";
         String resourceName = "company.xsd";
         String referenceSchemaFile = "person.xsd";
         resourceAdminServiceClient.importResource(schemaPath, resourceName,

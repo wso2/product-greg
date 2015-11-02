@@ -71,9 +71,8 @@ public class SameWsdlAgainAdditionTestCase extends GREGIntegrationBaseTest{
 
 
         wsdl = wsdlManager
-                .newWsdl("https://svn.wso2.org/repos/wso2/carbon/platform/trunk/platform-integration/"
-                        + "platform-automated-test-suite/org.wso2.carbon.automation.test.repo/src/main/resources/artifacts/"
-                        + "GREG/wsdl/Automated.wsdl");
+                .newWsdl("https://raw.githubusercontent.com/wso2/wso2-qa-artifacts/master/automation-artifacts/greg" +
+                        "/wsdl/Automated.wsdl");
         wsdl.addAttribute("version", "1.0.0");
         wsdl.addAttribute("author", "kana");
         wsdl.addAttribute("description", "added wsdl via URL");
@@ -100,9 +99,8 @@ public class SameWsdlAgainAdditionTestCase extends GREGIntegrationBaseTest{
             GovernanceException {
 
         wsdlCopy = wsdlManager
-                .newWsdl("https://svn.wso2.org/repos/wso2/carbon/platform/trunk/platform-integration/"
-                        + "platform-automated-test-suite/org.wso2.carbon.automation.test.repo/src/main/resources/artifacts/G"
-                        + "REG/wsdl/Automated.wsdl");
+                .newWsdl("https://raw.githubusercontent.com/wso2/wso2-qa-artifacts/master/automation-artifacts/greg" +
+                        "/wsdl/Automated.wsdl");
 
         wsdlManager.addWsdl(wsdlCopy);
         assertTrue(wsdlCopy.getAttribute("description").contains(

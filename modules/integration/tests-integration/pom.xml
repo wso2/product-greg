@@ -13,19 +13,19 @@
     <packaging>pom</packaging>
 
     <modules>
-        <!--<module>tests-resources</module>-->
-        <!--<module>tests-metadata</module>-->
-        <!--<module>tests-lifecycle</module>-->
-        <!--<module>tests-permissions</module>-->
-        <!--<module>tests-extensibility</module>-->
-        <!--<module>tests-governance-api</module>-->
-        <!--<module>tests-smoke</module>-->
+        <module>tests-resources</module>
+        <module>tests-metadata</module>
+        <module>tests-lifecycle</module>
+        <module>tests-permissions</module>
+        <module>tests-extensibility</module>
+        <module>tests-governance-api</module>
+        <module>tests-smoke</module>
         <module>tests-es</module>
-        <!-- <module>tests-load</module> -->
-        <!--<module>tests-jiras</module>-->
-        <!--<module>tests-search-version</module>-->
-        <!--<module>tests-soapservice</module>-->
-        <!--<module>cmis-tck</module>-->
+        <!-- <module>tests-load</module>-->
+        <module>tests-jiras</module>
+        <module>tests-search-version</module>
+        <module>tests-soapservice</module>
+        <module>cmis-tck</module>
         <module>reports</module>
     </modules>
 

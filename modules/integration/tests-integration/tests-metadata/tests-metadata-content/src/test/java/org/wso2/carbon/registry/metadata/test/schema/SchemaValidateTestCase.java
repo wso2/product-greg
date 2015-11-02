@@ -59,7 +59,7 @@ public class SchemaValidateTestCase extends GREGIntegrationBaseTest{
     public void addValidSchemaTest()
             throws Exception, RemoteException, ResourceAdminServiceExceptionException {
         String resourceUrl =
-                "http://svn.wso2.org/repos/wso2/trunk/commons/qa/qa-artifacts/greg/xsd/Patient.xsd";
+                "https://raw.githubusercontent.com/wso2/wso2-qa-artifacts/master/automation-artifacts/greg/xsd/Patient.xsd";
         String resourceName = "Patient.xsd";
         resourceAdminServiceClient.importResource(schemaPath + resourceName, resourceName,
                                                   RegistryConstants.APPLICATION_X_XSD_XML,
@@ -87,7 +87,8 @@ public class SchemaValidateTestCase extends GREGIntegrationBaseTest{
             throws Exception, RemoteException, ResourceAdminServiceExceptionException {
         String resourceUrl =
 //                "http://ww2.wso2.org/~charitha/xsds/calculator-no-element-name-invalid.xsd";
-                "https://svn.wso2.org/repos/wso2/trunk/commons/qa/qa-artifacts/greg/xsd/calculator-no-element-name-invalid.xsd";
+                "https://raw.githubusercontent.com/wso2/wso2-qa-artifacts/master/automation-artifacts/greg/" +
+                        "xsd/calculator-no-element-name-invalid.xsd";
         String resourceName = "calculator-no-element-name-invalid.xsd";
         resourceAdminServiceClient.importResource(schemaPath + resourceName, resourceName,
                                                   RegistryConstants.APPLICATION_X_XSD_XML,

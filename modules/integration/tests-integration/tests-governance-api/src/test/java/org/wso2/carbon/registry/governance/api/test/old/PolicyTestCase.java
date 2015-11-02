@@ -51,7 +51,7 @@ public class PolicyTestCase {
     public void testAddPolicy() throws Exception {
         PolicyManager policyManager = new PolicyManager(registry);
 
-        Policy policy = policyManager.newPolicy("http://svn.wso2.org/repos/wso2/carbon/platform/trunk/components/governance/org.wso2.carbon.governance.api/src/test/resources/test-resources/policy/policy.xml");
+        Policy policy = policyManager.newPolicy("https://raw.githubusercontent.com/wso2/wso2-qa-artifacts/master/automation-artifacts/greg/policy/policy.xml");
         policy.addAttribute("creator", "it is me");
         policy.addAttribute("version", "0.01");
         policyManager.addPolicy(policy);
@@ -101,7 +101,7 @@ public class PolicyTestCase {
         PolicyManager policyManager = new PolicyManager(registry);
         byte[] bytes = null;
         try {
-            InputStream inputStream = new URL("http://svn.wso2.org/repos/wso2/carbon/platform/trunk/components/governance/org.wso2.carbon.governance.api/src/test/resources/test-resources/policy/policy.xml").openStream();
+            InputStream inputStream = new URL("https://raw.githubusercontent.com/wso2/wso2-qa-artifacts/master/automation-artifacts/greg/policy/policy.xml").openStream();
             try {
                 bytes = IOUtils.toByteArray(inputStream);
             } finally {
@@ -133,7 +133,7 @@ public class PolicyTestCase {
         PolicyManager policyManager = new PolicyManager(registry);
         byte[] bytes = null;
         try {
-            InputStream inputStream = new URL("http://svn.wso2.org/repos/wso2/carbon/platform/trunk/components/governance/org.wso2.carbon.governance.api/src/test/resources/test-resources/policy/policy.xml").openStream();
+            InputStream inputStream = new URL("https://raw.githubusercontent.com/wso2/wso2-qa-artifacts/master/automation-artifacts/greg/policy/policy.xml").openStream();
             try {
                 bytes = IOUtils.toByteArray(inputStream);
             } finally {
