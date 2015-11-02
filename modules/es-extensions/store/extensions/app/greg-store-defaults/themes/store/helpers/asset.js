@@ -44,6 +44,5 @@ var resources = function(page, meta) {
     o.code.push('view-details-meta.hbs');
     o.js.push('sidepanel.js');
     o.js.push('greg-page-api.js');
-    o.js.push('greg-subscriptions-api.js');
     return o;
 };

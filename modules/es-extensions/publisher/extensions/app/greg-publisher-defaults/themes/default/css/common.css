@@ -920,3 +920,28 @@ h3.ast-name {
 .restservice, .soapservice, .swagger, .wadl, .wsdl {
    display: none;
 }
+
+.wr-filter-category .dropdown-menu {
+    border: 0px solid #333;
+    background: #333;
+
+}
+
+a.ctrl-filter-category {
+    background: #333;
+    border: 1px solid #333;
+
+}
+
+.wr-filter-category .dropdown-menu li a:hover {
+    background: #61a3e6;
+}
+
+.wr-lifecycle-selection .dropdown-menu {
+    border: 0px solid #333;
+    background: #333;
+
+}
+#ul-sort-assets li.Version{
+    display: none;
+}

@@ -227,28 +227,32 @@ var gregAPI = {};
                 if (endsWith('.',pathValue)){
                     pathValue = pathValue.substr(0,pathValue.length-1);
                 }
-                var uuid = am.registry.registry.get(pathValue).getUUID();
-                workList.presentationSubject = workList.presentationSubject.replace(pathValue,"");
+                if (am.registry.registry.resourceExists(pathValue) && am.registry.registry.get(pathValue).getMediaType() != null) {
+                    var uuid = am.registry.registry.get(pathValue).getUUID();
+                    workList.presentationSubject = workList.presentationSubject.replace(pathValue, "");
 
-                
-                var attifact = Packages.org.wso2.carbon.governance.api.util.GovernanceUtils.findGovernanceArtifactConfigurationByMediaType(am.registry.registry.get(pathValue).getMediaType(),am.registry.registry);
-                //log.info(attifact.getKey());
-                var key = String(attifact.getKey());
-                workList.uuid = uuid;
-                workList.type = String(attifact.getKey());
-                if (key === 'wsdl' || key === 'wadl' || key === 'policy' || key === 'schema' || key === 'endpoint'){
-                	var subPaths = pathValue.split('/');
-            		workList.overviewName = subPaths[subPaths.length - 1];
-                } else {
-                	var govAttifact = Packages.org.wso2.carbon.governance.api.util.GovernanceUtils.retrieveGovernanceArtifactByPath(am.registry.registry,pathValue);
-                	workList.overviewName = String(govAttifact.getAttribute('overview_name'));
+
+                    var attifact = Packages.org.wso2.carbon.governance.api.util.GovernanceUtils.findGovernanceArtifactConfigurationByMediaType(am.registry.registry.get(pathValue).getMediaType(), am.registry.registry);
+                    //log.info(attifact.getKey());
+                    var key = String(attifact.getKey());
+                    workList.uuid = uuid;
+                    workList.type = String(attifact.getKey());
+                    if (key === 'wsdl' || key === 'wadl' || key === 'policy' || key === 'schema' || key === 'endpoint') {
+                        var subPaths = pathValue.split('/');
+                        workList.overviewName = subPaths[subPaths.length - 1];
+                    } else {
+                        var govAttifact = Packages.org.wso2.carbon.governance.api.util.GovernanceUtils.retrieveGovernanceArtifactByPath(am.registry.registry, pathValue);
+                        workList.overviewName = String(govAttifact.getAttribute('overview_name'));
+                    }
+
+                    workList.presentationSubject = workList.presentationSubject.replace("resource at path", workList.overviewName);
+                    workList.presentationSubject = workList.presentationSubject.replace("resource at", workList.overviewName);
+                    //workList.message = workList.overviewName +
+                    workList.clickResource = true; //This will be checked in order to show or not 'Click here' link in the notification.
                 }
-                
-                workList.presentationSubject = workList.presentationSubject.replace("resource at path", workList.overviewName);
-                workList.presentationSubject = workList.presentationSubject.replace("resource at", workList.overviewName);
-                //workList.message = workList.overviewName + 
-
-
+                else {
+                    workList.clickResource = false;//If this is false 'Click here' link will not be shown as there is no such resource.
+                }
                 workList.presentationName = String(row.getPresentationName());
                 workList.priority = String(row.getPriority());
                 workList.status = String(row.getStatus());
