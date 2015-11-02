@@ -66,9 +66,8 @@ public class CorruptedWsdlAdditionTestCase extends GREGIntegrationBaseTest{
         WsdlManager wsdlManager = new WsdlManager(governanceRegistry);
 
         Wsdl wsdl = wsdlManager
-                .newWsdl("https://svn.wso2.org/repos/wso2/carbon/platform/trunk/platform-integration/"
-                        + "platform-automated-test-suite/org.wso2.carbon.automation.test.repo/src/main/resources/"
-                        + "artifacts/GREG/wsdl/AutomatedInvalidWSDL.wsdl");
+                .newWsdl("https://raw.githubusercontent.com/wso2/wso2-qa-artifacts/master/automation-artifacts/greg/" +
+                        "wsdl/AutomatedInvalidWSDL.wsdl");
 
         wsdl.addAttribute("version", "1.0.0");
         wsdl.addAttribute("author", "Aparna");

@@ -78,10 +78,8 @@ public class PolicyMetadataVerificationTestCase extends GREGIntegrationBaseTest{
             MalformedURLException {
 
         policy = policyManager
-                .newPolicy("https://svn.wso2.org/repos/wso2/carbon/platform/"
-                        + "trunk/platform-integration/platform-automated-test-suite/"
-                        + "org.wso2.carbon.automation.test.repo/src/main/resources/"
-                        + "artifacts/GREG/policy/UTPolicy.xml");
+                .newPolicy("https://raw.githubusercontent.com/wso2/wso2-qa-artifacts/master/automation-artifacts/" +
+                        "greg/policy/UTPolicy1.xml");
 
         policy.addAttribute("version", "1.0.0");
         policy.addAttribute("author", "Aparna");

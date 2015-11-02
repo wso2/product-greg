@@ -91,8 +91,7 @@ public class WSDLTestClientCase {
 
 
         Wsdl wsdl = wsdlManager
-                .newWsdl("https://svn.wso2.org/repos/wso2/trunk/commons/" +
-                        "qa/qa-artifacts/greg/wsdl/BizService.wsdl");
+                .newWsdl("https://raw.githubusercontent.com/wso2/wso2-qa-artifacts/master/automation-artifacts/greg/wsdl/BizService.wsdl");
         wsdl.addAttribute("creator", "Kana");
         wsdl.addAttribute("version", "0.01");
         wsdlManager.addWsdl(wsdl);
@@ -146,9 +145,7 @@ public class WSDLTestClientCase {
         importElement
                 .addAttribute(
                         "schemaLocation",
-                        "http://svn.wso2.org/repos/wso2/trunk/graphite/components/governance"
-                        + "/org.wso2.carbon.governance.api/src/test/resources/test-resources/"
-                        + "xsd/purchasing_dup.xsd", null);
+                        "https://raw.githubusercontent.com/wso2/wso2-qa-artifacts/master/automation-artifacts/greg/xsd/purchasing_dup.xsd", null);
         schemaElement.addChild(importElement);
         importElement.addAttribute("namespace",
                                    "http://bar.org/purchasing_dup", null);
@@ -190,8 +187,7 @@ public class WSDLTestClientCase {
 
         // add again
         Wsdl anotherWsdl = wsdlManager
-                .newWsdl("https://svn.wso2.org/repos/wso2/trunk/commons" +
-                        "/qa/qa-artifacts/greg/wsdl/BizService.wsdl");
+                .newWsdl("https://raw.githubusercontent.com/wso2/wso2-qa-artifacts/master/automation-artifacts/greg/wsdl/BizService.wsdl");
         anotherWsdl.addAttribute("creator", "it is not me");
         anotherWsdl.addAttribute("version", "0.02");
         wsdlManager.addWsdl(anotherWsdl);
@@ -207,9 +203,7 @@ public class WSDLTestClientCase {
 
 
         Wsdl wsdl = wsdlManager
-                .newWsdl("http://svn.wso2.org/repos/wso2/trunk/graphite/components"
-                         + "/governance/org.wso2.carbon.governance.api/src/test/resources"
-                         + "/test-resources/wsdl/BizService.wsdl");
+                .newWsdl("https://raw.githubusercontent.com/wso2/wso2-qa-artifacts/master/automation-artifacts/greg/wsdl/BizService.wsdl");
         wsdl.addAttribute("creator2", "it is me");
         wsdl.addAttribute("version2", "0.01");
         wsdlManager.addWsdl(wsdl);
@@ -279,9 +273,7 @@ public class WSDLTestClientCase {
 
     @Test(groups = {"wso2.greg"}, description = "Test adding wsdl which has policy import")
     public void testAddWsdWithPolicyImport() throws RegistryException {
-        String wsdlLocation = "https://svn.wso2.org/repos/wso2/carbon/platform/trunk/" +
-                "platform-integration/system-test-framework/core/org.wso2.automation.platform.core/" +
-                "src/main/resources/artifacts/GREG/wsdl/wsdl_with_SigEncr.wsdl";
+        String wsdlLocation = "https://raw.githubusercontent.com/wso2/wso2-qa-artifacts/master/automation-artifacts/greg/wsdl/wsdl_with_SigEncr.wsdl";
         boolean isWsdlFound = false;
 
 
@@ -306,8 +298,7 @@ public class WSDLTestClientCase {
         Wsdl wsdl;
 
         wsdl = wsdlManager
-                .newWsdl("https://svn.wso2.org/repos/wso2/trunk/commons/qa/" +
-                        "qa-artifacts/greg/wsdl/WithInlinePolicyAndSchema.wsdl");
+                .newWsdl("https://raw.githubusercontent.com/wso2/wso2-qa-artifacts/master/automation-artifacts/greg/wsdl/WithInlinePolicyAndSchema.wsdl");
         wsdlManager.addWsdl(wsdl);
 
         Wsdl[] wsdlList = wsdlManager.getAllWsdls();

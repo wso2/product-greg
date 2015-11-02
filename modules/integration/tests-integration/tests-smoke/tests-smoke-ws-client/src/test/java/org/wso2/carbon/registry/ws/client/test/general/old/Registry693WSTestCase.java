@@ -33,7 +33,8 @@ import org.wso2.greg.integration.common.utils.RegistryProviderUtil;
 
 import static org.testng.Assert.assertEquals;
 
-public class Registry693WSTestCase extends GREGIntegrationBaseTest {
+public class
+        Registry693WSTestCase extends GREGIntegrationBaseTest {
 
     private WSRegistryServiceClient registry;
     private String USER_NAME;
@@ -54,8 +55,7 @@ public class Registry693WSTestCase extends GREGIntegrationBaseTest {
     @Test(groups = {"wso2.greg"})
     public void addSchema() throws RegistryException {
         SchemaManager manager = new SchemaManager(GovernanceUtils.getGovernanceUserRegistry(registry, USER_NAME));
-        Schema schema = manager.newSchema("https://svn.wso2.org/repos/wso2/trunk/commons/qa/qa-artifacts/" +
-                "greg/xsd/servicecontracts" + "/_2008/_01/GeoIPService.svc.xsd");
+        Schema schema = manager.newSchema("https://raw.githubusercontent.com/wso2/wso2-qa-artifacts/master/automation-artifacts/greg/xsd/2008_01GeoIPService.svc.xsd");
         int currentSchemaLength = manager.getAllSchemas().length;
         manager.addSchema(schema);
         // The insertion will add 2 schemas, so the length should increase by 2.

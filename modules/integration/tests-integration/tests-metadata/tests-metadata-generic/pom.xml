@@ -20,6 +20,7 @@
                 <version>2.12.4</version>
                 <configuration>
                     <argLine>-Xmx1024m -XX:PermSize=256m -XX:MaxPermSize=512m</argLine>
+
                     <parallel>false</parallel>
                     <suiteXmlFiles>
                         <suiteXmlFile>src/test/resources/testng-server-mgt.xml</suiteXmlFile>

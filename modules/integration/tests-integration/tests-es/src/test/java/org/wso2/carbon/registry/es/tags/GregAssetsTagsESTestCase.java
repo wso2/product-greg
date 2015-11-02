@@ -111,7 +111,7 @@ public class GregAssetsTagsESTestCase extends GregESTestBaseTest {
                           response.getStatusCode());
     }
 
-    @Test(groups = {"wso2.greg", "wso2.greg.es"}, description = "Authenticate Publisher test"
+   /* @Test(groups = {"wso2.greg", "wso2.greg.es"}, description = "Authenticate Publisher test"
     ,dependsOnMethods = {"addTagsToAsset","searchAssetByTagInStore"} )
     public void removeTagsFromAsset() throws JSONException {
         queryParamMap.put("type", "restservice");
@@ -127,7 +127,7 @@ public class GregAssetsTagsESTestCase extends GregESTestBaseTest {
                           response.getStatusCode());
        // isTagAvailablePublisher("testTag");
     }
-
+*/
     @AfterClass(alwaysRun = true)
     public void cleanUp() throws RegistryException {
 
