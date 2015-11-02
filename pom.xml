@@ -713,6 +713,26 @@
                 <artifactId>org.jacoco.agent</artifactId>
                 <version>${jacoco.agent.version}</version>
             </dependency>
+            <dependency>
+                <groupId>org.apache.wink</groupId>
+                <artifactId>wink-client</artifactId>
+                <version>${org.apache.wink.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.json.wso2</groupId>
+                <artifactId>json</artifactId>
+                <version>${org.json.wso2.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>javax.ws.rs</groupId>
+                <artifactId>javax.ws.rs-api</artifactId>
+                <version>${javax.ws.rs.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.jboss.resteasy</groupId>
+                <artifactId>resteasy-client</artifactId>
+                <version>${resteasy.version}</version>
+            </dependency>
         </dependencies>
     </dependencyManagement>
 
@@ -1054,6 +1074,9 @@
 
 	<ciphertool.version>1.0.0-wso2v3</ciphertool.version>
         <jacoco.agent.version>0.7.4.201502262128</jacoco.agent.version>
-
+        <org.apache.wink.version>1.4</org.apache.wink.version>
+        <org.json.wso2.version>2.0.0.wso2v1</org.json.wso2.version>
+        <resteasy.version>3.0.2.Final</resteasy.version>
+        <javax.ws.rs.version>2.0.1</javax.ws.rs.version>
     </properties>
 </project>

@@ -15,16 +15,10 @@
             <!--&lt;!&ndash;package name="org.wso2.carbon.registry.metadata.test.swagger.*"/&ndash;&gt;-->
             <!--<package name="org.wso2.carbon.registry.metadata.test.server.*"/>-->
         <!--</packages>-->
-
         <classes>
-            <class name="org.wso2.carbon.registry.notes.test.PublisherNotesTestCase"/>
-            <!--<class name="org.wso2.carbon.registry.metadata.test.schema.SchemaRetentionVerificationTestCase"/>-->
-            <!--<class name="org.wso2.carbon.registry.metadata.test.policy.PolicyRetentionVerificationTestCase"/>-->
-            <!--<class name="org.wso2.carbon.registry.metadata.test.policy.PolicyMetaDataTestCase"/>-->
-            <!--<class name="org.wso2.carbon.registry.metadata.test.wsdl.EncodedUrlWsdlAdditionTestCase"/>-->
-        </classes>
-        <classes>
-            <class name="org.wso2.carbon.integration.common.tests.JaggeryServerTest"/>
+            <!--<class name="org.wso2.carbon.registry.es.publisher.GregRestResourcePublisherESTestCase"/>-->
+            <class name="org.wso2.carbon.registry.es.publisher.GregRestResourceLifeCycleManagementTestCase"/>
+            <!--<class name="org.wso2.carbon.registry.es.tags.GregAssetsTagsESTestCase"/>-->
         </classes>
     </test>
 </suite>
