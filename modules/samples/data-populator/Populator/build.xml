@@ -5,8 +5,18 @@
     <property name="port" value="9443"/>
     <property name="version" value="5.1.0"/>
 
+    <target name="run">
+        <antcall target="populate"/>
+        <antcall target="rxt-modify"/>
+        <antcall target="categorize"/>
+    </target>
 
-    <target name="run" depends="jar">        
+    <target name="remove">
+        <antcall target="cleanup"/>
+        <antcall target="re-deploy"/>
+    </target>
+
+    <target name="populate" depends="jar">
         <java classname="org.wso2.carbon.registry.samples.populator.Main" classpathref="javac.classpath"
               fork="true">             
             <sysproperty key="carbon.home"  value="${registry.home}"/>
@@ -21,6 +31,19 @@
 
     <target name="rxt-modify" depends="jar">
         <java classname="org.wso2.carbon.registry.samples.populator.RXTModifier" classpathref="javac.classpath"
+              fork="true">
+            <sysproperty key="carbon.home"  value="${registry.home}"/>
+            <arg value="-ch" />
+            <arg value="${registry.home}"/>
+            <arg value="-h"/>
+            <arg value="${host}"/>
+            <arg value="-p" />
+            <arg value="${port}"/>
+        </java>
+    </target>
+
+    <target name="re-deploy" depends="jar">
+        <java classname="org.wso2.carbon.registry.samples.populator.RXTReDeploy" classpathref="javac.classpath"
               fork="true">
             <sysproperty key="carbon.home"  value="${registry.home}"/>
             <arg value="-ch" />
@@ -66,6 +89,7 @@
              <fileset dir="${registry.home}/repository/components/plugins">
                 <include name="axis2_*.jar"/>
                 <include name="axiom_*.jar"/>
+                <include name="org.eclipse.osgi_*.jar"/>
                 <include name="org.wso2.carbon.core_*.jar"/>
                 <include name="org.wso2.carbon.identity.user.profile.stub_*.jar"/>
                 <include name="org.wso2.carbon.identity.user.profile.ui_*.jar"/>
@@ -109,6 +133,7 @@
                 <include name="httpcore_*.jar"/>
                 <include name="commons-codec*.jar"/>
                 <include name="commons-io*.jar"/>
+                <include name="commons-lang*.jar"/>
                 <include name="xmlbeans*.jar"/>
                 <include name="poi*.jar"/>
                  <include name="woden_*.jar"/>

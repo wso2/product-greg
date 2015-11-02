@@ -59,7 +59,6 @@ require('/modules/publisher.js').exec(function(ctx) {
     			entry.type = activatedAssets[index];
     			entry.details = rxtManager.listRxtTypeDetails(entry.type);
     			entry.icon = entry.details.ui.icon || DEFAULT_ICON;
-    			log.info(entry.details);
     			assetList.push(entry);
     		}
     	}

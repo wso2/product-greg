@@ -2,7 +2,11 @@
 {{#each notifications.list}}
 
 <div class="wr-notification-desc new" id="notification{{this.id}}">
-    <div class="wr-notification-operation">{{this.presentationSubject}} <a href="/publisher/assets/{{this.type}}/details/{{this.uuid}}">Click Here</a> to Visit</div>
+    <div class="wr-notification-operation">{{this.presentationSubject}}
+        {{#if clickResource}}
+            <a href="/publisher/assets/{{this.type}}/details/{{this.uuid}}">Click Here</a> to Visit
+        {{/if}}
+    </div>
     <div class="wr-notification-time"><i class="fw fw-clock"></i> {{this.time}}</div>
     <a href="javascript:void(0)" class="wr-operation-icon" id="notificationlink101" onclick="GregSubscriptionAPI.removeNotification({{this.id}}, $(this))">
         <span class="fw-stack fw-lg">

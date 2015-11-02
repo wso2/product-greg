@@ -61,7 +61,7 @@ $(function() {
             }
             if (action === 'addNewSwaggerFileAssetButton') {//upload via file browser
                 //call the custom endpoint for processing swagger upload via file browser.
-                var $swaggerFileInput = $('input[name="swagger_file"]');
+                var $swaggerFileInput = $('input[name="swagger_file_name"]');
                 var swaggerFileInputValue = $swaggerFileInput.val();
                 var swaggerFilePath = swaggerFileInputValue;
 
@@ -116,7 +116,7 @@ $(function() {
                 importUI.hide();
                 validator.initValidationEvents(uploadUI,function(){});
                 validator.removeValidationEvents(importUI);
-                $('#form-asset-create').attr('action', caramel.context + '/assets/swagger/apis/policies');
+                $('#form-asset-create').attr('action', caramel.context + '/assets/swagger/apis/swaggers');
 
             } else if (selectedValue == "import") {
                 importUI.show();

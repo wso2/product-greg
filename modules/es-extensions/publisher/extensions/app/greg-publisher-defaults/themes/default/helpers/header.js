@@ -20,6 +20,6 @@
 var resources = function(){
     return {
         css:['select2.min.css','common.css','sidepanel.css'],
-        js:['select2.full.min.js','sidepanel.js']
+        js:['select2.full.min.js','sidepanel.js','greg-subscriptions-api.js']
     }
 };

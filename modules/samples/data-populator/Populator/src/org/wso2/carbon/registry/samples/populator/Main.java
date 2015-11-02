@@ -69,21 +69,46 @@ public class Main {
             int tasks = 10;
             String projectPath = System.getProperty("user.dir");
 
-            addWsdlGar(resourceServiceClient, projectPath);
-            Thread.sleep(1 * 60 * 1000);
-            System.out.println("######## Successfully uploaded sample wsdls ########");
-            addWadlGar(resourceServiceClient, projectPath);
-            Thread.sleep(30 * 1000);
-            System.out.println("######## Successfully uploaded sample wadls ########");
-            addSchemaGar(resourceServiceClient, projectPath);
-            Thread.sleep(30 * 1000);
-            System.out.println("######## Successfully uploaded sample schemas ########");
-            addSwaggerGar(resourceServiceClient, projectPath);
-            Thread.sleep(30 * 1000);
-            System.out.println("######## Successfully uploaded sample swagger docs ########");
-            addPolicyGar(resourceServiceClient, projectPath);
-            Thread.sleep(30 * 1000);
-            System.out.println("######## Successfully uploaded sample policies ########");
+            try {
+                addWsdlGar(resourceServiceClient, projectPath);
+                Thread.sleep(1 * 60 * 1000);
+                System.out.println("######## Successfully uploaded sample wsdls ########");
+            } catch (Exception e) {
+                System.out.println("######## Unable to upload sample wsdls ########");
+            }
+
+            try {
+                addWadlGar(resourceServiceClient, projectPath);
+                Thread.sleep(30 * 1000);
+                System.out.println("######## Successfully uploaded sample wadls ########");
+            } catch (Exception e) {
+                System.out.println("######## Unable to upload sample wsdls ########");
+            }
+
+            try {
+                addSchemaGar(resourceServiceClient, projectPath);
+                Thread.sleep(30 * 1000);
+                System.out.println("######## Successfully uploaded sample schemas ########");
+            } catch (Exception e) {
+                System.out.println("######## Unable to upload sample schemas ########");
+            }
+
+
+            try {
+                addSwaggerGar(resourceServiceClient, projectPath);
+                Thread.sleep(30 * 1000);
+                System.out.println("######## Successfully uploaded sample swagger docs ########");
+            } catch (Exception e) {
+                System.out.println("######## Unable to upload sample swagger docs ########");
+            }
+
+            try {
+                addPolicyGar(resourceServiceClient, projectPath);
+                Thread.sleep(30 * 1000);
+                System.out.println("######## Successfully uploaded sample policies ########");
+            } catch (Exception e) {
+                System.out.println("######## Unable to upload sample policies ########");
+            }
 
         } catch (Exception e) {
             System.out.println("An error occurred.");
@@ -120,7 +145,7 @@ public class Main {
         String[][] properties = { { "registry.mediaType", "application/policy+xml" }, { "version", "1.0.0" } };
         DataHandler dh = new DataHandler(new URL("file://" + projectPath + "/resources/policies.gar"));
         resourceServiceClient
-                .addResource("/_system/governance/trunk/policies/test/", "application/vnd.wso2.governance-archive",
+                .addResource("/_system/governance/trunk/test/1.0.0/policies/", "application/vnd.wso2.governance-archive",
                         null, dh, null, properties);
     }
 }

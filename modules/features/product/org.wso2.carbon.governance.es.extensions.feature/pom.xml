@@ -2,7 +2,7 @@
     <parent>
         <groupId>org.wso2.greg</groupId>
         <artifactId>governance-features</artifactId>
-        <version>5.1.0-SNAPSHOT</version>
+        <version>5.1.1-SNAPSHOT</version>
     </parent>
 
 	<modelVersion>4.0.0</modelVersion>

@@ -1,0 +1,16 @@
+AmazonWebServices
+Automated
+Axis2ImportedWsdl
+echo2
+info
+WithInlinePolicyAndSchema
+dummy-service
+bank
+BizService
+echo
+GeoIPService.svc
+KKWebServiceEng
+ops
+pmapi
+sample
+StockQuote
