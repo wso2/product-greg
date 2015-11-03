@@ -4,22 +4,12 @@
     <parameter name="useDefaultListeners" value="false"/>
 
     <test name="es" preserve-order="true" parallel="false">
-        <!--<packages>-->
-            <!--<package name="org.wso2.carbon.registry.metadata.test.custom.*"/>-->
-            <!--<package name="org.wso2.carbon.registry.metadata.test.policy.*"/>-->
-            <!--<package name="org.wso2.carbon.registry.metadata.test.schema.*"/>-->
-            <!--<package name="org.wso2.carbon.registry.metadata.test.uri.*"/>-->
-            <!--<package name="org.wso2.carbon.registry.metadata.test.util.*"/>-->
-            <!--<package name="org.wso2.carbon.registry.metadata.test.wadl.*"/>-->
-            <!--<package name="org.wso2.carbon.registry.metadata.test.wsdl.*"/>-->
-            <!--&lt;!&ndash;package name="org.wso2.carbon.registry.metadata.test.swagger.*"/&ndash;&gt;-->
-            <!--<package name="org.wso2.carbon.registry.metadata.test.server.*"/>-->
-        <!--</packages>-->
         <classes>
-            <!--<class name="org.wso2.carbon.registry.es.publisher.GregRestResourcePublisherESTestCase"/>-->
+            <class name="org.wso2.carbon.registry.es.publisher.GregRestResourcePublisherESTestCase"/>
             <class name="org.wso2.carbon.registry.es.publisher.GregRestResourceAssociationTestCase"/>
             <class name="org.wso2.carbon.registry.es.publisher.GregRestResourceSubscriptionAndNotificationTestCase"/>
-            <!--<class name="org.wso2.carbon.registry.es.tags.GregAssetsTagsESTestCase"/>-->
+            <class name="org.wso2.carbon.registry.es.tags.GregAssetsTagsESTestCase"/>
+            <class name="org.wso2.carbon.registry.es.notes.GregAssertNotesESTestCase"/>
         </classes>
     </test>
 </suite>
