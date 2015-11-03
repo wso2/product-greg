@@ -171,7 +171,7 @@ public class GregRestResourceLifeCycleManagementTestCase extends GregESTestBaseT
     public void promoteLifeCycleWithFCorrectUserWithRole()
             throws JSONException, InterruptedException, IOException {
         queryParamMap.put("type", "restservice");
-        queryParamMap.put("lifecycle", "ServiceLifeCycleLC2");
+        queryParamMap.put("lifecycle", lifeCycleName);
         ClientResponse responseUser =
                 genericRestClient.geneticRestRequestPost(publisherUrl + "/authenticate/",
                                                          MediaType.APPLICATION_FORM_URLENCODED,
@@ -183,7 +183,7 @@ public class GregRestResourceLifeCycleManagementTestCase extends GregESTestBaseT
         String managerJSessionId = obj.getJSONObject("data").getString("sessionId");
         String managerCookieHeader = "JSESSIONID=" + managerJSessionId;
 
-        getLifeCycleData("ServiceLifeCycleLC2", managerCookieHeader);
+        getLifeCycleData(lifeCycleName, managerCookieHeader);
 
         ClientResponse responseCheck1;
         responseCheck1 =
@@ -277,6 +277,7 @@ public class GregRestResourceLifeCycleManagementTestCase extends GregESTestBaseT
     private JSONObject getLifeCycleState(String assetId, String assetType) throws JSONException {
         Map<String, String> assetTypeParamMap = new HashMap<String, String>();
         assetTypeParamMap.put("type", assetType);
+        assetTypeParamMap.put("lifecycle",lifeCycleName);
         ClientResponse response =
                 genericRestClient.geneticRestRequestGet
                         (publisherUrl + "/assets/" + assetId + "/state"
@@ -301,5 +302,16 @@ public class GregRestResourceLifeCycleManagementTestCase extends GregESTestBaseT
                                                         "{\"checklist\":[{\"index\":"+itemId+",\"checked\":true}]}"
                 , queryParamMap, headerMap, managerCookieHeader);
     }
+
+//    private JSONObject getLifeCycleState(String lifeCycleName, String cookie) throws JSONException {
+//        ClientResponse response =
+//                genericRestClient.geneticRestRequestGet
+//                        (publisherUrl + "/lifecycles/" + lifeCycleName
+//                                , queryParamMap, headerMap, cookie);
+//        return new JSONObject(response.getEntity(String.class));
+//
+//    }
+//
+   // https://localhost:9443/publisher/apis/asset/82c1b281-b9ee-4733-b28f-0bba3f954613/state?type=restservice&lifecycle=ServiceLifeCycle
 
 }
