@@ -160,7 +160,6 @@ public class GregRestResourceLifeCycleManagementTestCase extends GregESTestBaseT
         //As check item 2 is not checked promote action is not available
         JSONObject approvedActionsObj = dataObj.getJSONObject("approvedActions");
         Assert.assertEquals(approvedActionsObj.length(), 0);
-
         ClientResponse responseCheck1;
 
                 Assert.assertTrue(checkLifeCycleCheckItem(cookieHeader, 0).getStatusCode()==200);
