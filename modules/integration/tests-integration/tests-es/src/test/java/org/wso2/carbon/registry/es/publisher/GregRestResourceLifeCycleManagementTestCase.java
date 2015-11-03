@@ -157,6 +157,10 @@ public class GregRestResourceLifeCycleManagementTestCase extends GregESTestBaseT
         //checklist item 2 should not be available to non-manager role user
         Assert.assertEquals(((JSONObject) checkItems.get(2)).getString("isVisible"), "null");
 
+        //As check item 2 is not checked promote action is not available
+        JSONObject approvedActionsObj = dataObj.getJSONObject("approvedActions");
+        Assert.assertEquals(approvedActionsObj.length(), 0);
+
         ClientResponse responseCheck1;
 
                 Assert.assertTrue(checkLifeCycleCheckItem(cookieHeader, 0).getStatusCode()==200);
@@ -211,6 +215,10 @@ public class GregRestResourceLifeCycleManagementTestCase extends GregESTestBaseT
                 checkLifeCycleCheckItem(cookieHeader,1);
         responseCheck1 =
                 checkLifeCycleCheckItem(cookieHeader,2);
+
+        //As user needs admin role to perform promote action, promote action is not available
+        JSONObject approvedActionsObj = dataObj.getJSONObject("approvedActions");
+        Assert.assertEquals(approvedActionsObj.length(), 0);
 
         JSONObject objCheck1 = new JSONObject(responseCheck1.getEntity(String.class));
         ClientResponse response =
