@@ -1,0 +1,10 @@
+{
+  "overview_url":"https://raw.githubusercontent.com/wso2/wso2-qa-artifacts/master/automation-artifacts/greg/policy/UTPolicy.xml",
+  "overview_name":"UTPolicy.xml",
+  "overview_version":"1.0.0",
+  "addNewAssetButton":"Create",
+  "policy":"policy",
+  "policy_file":null,
+  "policy_file_name":null,
+  "file_version":"1.0.0"
+}
