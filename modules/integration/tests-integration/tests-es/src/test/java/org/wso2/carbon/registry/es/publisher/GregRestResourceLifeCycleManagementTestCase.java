@@ -228,10 +228,63 @@ public class GregRestResourceLifeCycleManagementTestCase extends GregESTestBaseT
                                                          "nextState=Testing&comment=Completed"
                         , queryParamMap, headerMap, cookieHeader);
         JSONObject obj2 = new JSONObject(response.getEntity(String.class));
-        response.getStatusCode();
+        Assert.assertTrue(response.getStatusCode() == 500, "Fault user accepted");
     }
 
+    @Test(groups = {"wso2.greg", "wso2.greg.es"}, description = "PromoteLifeCycle with correct user",
+          dependsOnMethods = {"promoteLifeCycleWithFCorrectUserWithRole"})
+    public void promoteLifeCycleWithUserWithcorrectRolePermission() throws JSONException {
+        ClientResponse response =
+                genericRestClient.geneticRestRequestPost(publisherUrl + "/authenticate/",
+                                                         MediaType.APPLICATION_FORM_URLENCODED,
+                                                         MediaType.APPLICATION_JSON,
+                                                         "username=admin&password=admin"
+                        , queryParamMap, headerMap, null);
+        JSONObject obj = new JSONObject(response.getEntity(String.class));
+        Assert.assertTrue((response.getStatusCode() == 200),
+                          "Wrong status code ,Expected 200 OK ,Received " +
+                          response.getStatusCode());
+        jSessionId = obj.getJSONObject("data").getString("sessionId");
+        cookieHeader = "JSESSIONID=" + jSessionId;
 
+        getLifeCycleData(lifeCycleName, cookieHeader);
+
+        queryParamMap.put("type", "restservice");
+        queryParamMap.put("lifecycle", lifeCycleName);
+        JSONObject LCStateobj = getLifeCycleState(assetId, "restservice");
+        JSONObject dataObj = LCStateobj.getJSONObject("data");
+
+        //As user has admin role and checkitem with index 2 is checked, promote action should be available
+        JSONObject approvedActionsObj = dataObj.getJSONObject("approvedActions");
+        Assert.assertEquals(approvedActionsObj.length(), 1);
+        Assert.assertEquals(approvedActionsObj.getString("Promote"), "true");
+
+        response =
+                genericRestClient.geneticRestRequestPost(publisherUrl + "/asset/" + assetId + "/change-state",
+                                                         MediaType.APPLICATION_FORM_URLENCODED,
+                                                         MediaType.APPLICATION_JSON,
+                                                         "nextState=Testing&comment=Completed"
+                        , queryParamMap, headerMap, cookieHeader);
+        JSONObject obj2 = new JSONObject(response.getEntity(String.class));
+        Assert.assertTrue(response.getStatusCode() == 200, "Correct user could not change LC state");
+
+        LCStateobj = getLifeCycleState(assetId, "restservice");
+        dataObj = LCStateobj.getJSONObject("data");
+
+        Assert.assertEquals(dataObj.getString("id"), "Testing");
+
+        approvedActionsObj = dataObj.getJSONObject("approvedActions");
+        Assert.assertEquals(approvedActionsObj.length(), 1);
+        Assert.assertEquals(approvedActionsObj.getString("Demote"), "true");
+
+        JSONArray checkItems = dataObj.getJSONArray("checkItems");
+
+        //first 2 check list items should be available for non-manager role user
+        Assert.assertEquals(((JSONObject) checkItems.get(0)).getString("isVisible"), "true");
+        Assert.assertEquals(((JSONObject) checkItems.get(1)).getString("isVisible"), "true");
+        //checklist item 2 should not be available to non-manager role user
+        Assert.assertEquals(((JSONObject) checkItems.get(2)).getString("isVisible"), "null");
+    }
 
 
     @Test(groups = {"wso2.greg", "wso2.greg.es"}, description = "Authenticate Publisher test")
