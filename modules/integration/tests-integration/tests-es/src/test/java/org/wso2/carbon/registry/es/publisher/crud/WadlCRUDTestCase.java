@@ -38,8 +38,8 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
-public class WsdlCRUDTestCase extends GregESTestBaseTest {
-    private static final Log log = LogFactory.getLog(WsdlCRUDTestCase.class);
+public class WadlCRUDTestCase extends GregESTestBaseTest {
+    private static final Log log = LogFactory.getLog(WadlCRUDTestCase.class);
     private TestUserMode userMode;
     String jSessionId;
     String assetId;
@@ -52,7 +52,7 @@ public class WsdlCRUDTestCase extends GregESTestBaseTest {
     ESTestCommonUtils esTestCommonUtils;
 
     @Factory(dataProvider = "userModeProvider")
-    public WsdlCRUDTestCase(TestUserMode userMode) {
+    public WadlCRUDTestCase(TestUserMode userMode) {
         this.userMode = userMode;
     }
 
@@ -89,10 +89,10 @@ public class WsdlCRUDTestCase extends GregESTestBaseTest {
 
     @Test(groups = {"wso2.greg", "wso2.greg.es"}, description = "Create Rest Service in Publisher",
             dependsOnMethods = {"authenticatePublisher"})
-    public void createWsdlServiceAsset() throws JSONException, IOException {
+    public void createWadlServiceAsset() throws JSONException, IOException {
         Map<String, String> queryParamMap = new HashMap<>();
-        queryParamMap.put("type", "wsdl");
-        String dataBody = readFile(resourcePath+"json"+ File.separator+"wsdl-ops.json");
+        queryParamMap.put("type", "wadl");
+        String dataBody = readFile(resourcePath+"json"+ File.separator+"wadl-sample.json");
         assetName = (String)(new JSONObject(dataBody)).get("overview_name");
         ClientResponse response =
                 genericRestClient.geneticRestRequestPost(publisherUrl+"/assets",
@@ -108,11 +108,11 @@ public class WsdlCRUDTestCase extends GregESTestBaseTest {
     }
 
     @Test(groups = {"wso2.greg", "wso2.greg.es"}, description = "Create Rest Service in Publisher",
-            dependsOnMethods = {"authenticatePublisher", "createWsdlServiceAsset"})
-    public void searchWsdlAsset() throws JSONException {
+            dependsOnMethods = {"authenticatePublisher", "createWadlServiceAsset"})
+    public void searchWadlAsset() throws JSONException {
         boolean assetFound = false;
         Map<String, String> queryParamMap = new HashMap<>();
-        queryParamMap.put("type", "wsdl");
+        queryParamMap.put("type", "wadl");
         queryParamMap.put("overview_name", assetName);
         ClientResponse clientResponse = esTestCommonUtils.searchAssetByQuery(queryParamMap);
         JSONObject obj = new JSONObject(clientResponse.getEntity(String.class));
@@ -130,10 +130,10 @@ public class WsdlCRUDTestCase extends GregESTestBaseTest {
     }
 
     @Test(groups = {"wso2.greg", "wso2.greg.es"}, description = "Create Rest Service in Publisher",
-            dependsOnMethods = {"authenticatePublisher", "createWsdlServiceAsset", "searchWsdlAsset"})
-    public void getWsdlAsset() throws JSONException {
+            dependsOnMethods = {"authenticatePublisher", "createWadlServiceAsset", "searchWadlAsset"})
+    public void getWadlAsset() throws JSONException {
         Map<String, String> queryParamMap = new HashMap<>();
-        queryParamMap.put("type", "wsdl");
+        queryParamMap.put("type", "wadl");
         ClientResponse clientResponse = esTestCommonUtils.getAssetById(assetId, queryParamMap);
         Assert.assertTrue((clientResponse.getStatusCode() == 200),
                 "Wrong status code ,Expected 200 OK " +
@@ -143,10 +143,10 @@ public class WsdlCRUDTestCase extends GregESTestBaseTest {
     }
 
     @Test(groups = {"wso2.greg", "wso2.greg.es"}, description = "Delete Publisher test",
-            dependsOnMethods = {"authenticatePublisher", "createWsdlServiceAsset", "searchWsdlAsset", "getWsdlAsset"})
-    public void deleteWsdlAsset() throws JSONException {
+            dependsOnMethods = {"authenticatePublisher", "createWadlServiceAsset", "searchWadlAsset", "getWadlAsset"})
+    public void deleteWadlAsset() throws JSONException {
         Map<String, String> queryParamMap = new HashMap<>();
-        queryParamMap.put("type", "wsdl");
+        queryParamMap.put("type", "wadl");
         genericRestClient.geneticRestRequestDelete(publisherUrl + "/assets/" + assetId,
                 MediaType.APPLICATION_JSON,
                 MediaType.APPLICATION_JSON

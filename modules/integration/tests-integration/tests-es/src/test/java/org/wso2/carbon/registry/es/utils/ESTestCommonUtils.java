@@ -15,7 +15,7 @@
 *specific language governing permissions and limitations
 *under the License.
 */
-package org.wso2.carbon.registry.es.publisher.crud;
+package org.wso2.carbon.registry.es.utils;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -27,14 +27,14 @@ import org.wso2.greg.integration.common.utils.GenericRestClient;
 
 import java.util.Map;
 
-public class CRUDTestCommonUtils {
-    private static final Log log = LogFactory.getLog(CRUDTestCommonUtils.class);
+public class ESTestCommonUtils {
+    private static final Log log = LogFactory.getLog(ESTestCommonUtils.class);
     private String cookieHeader;
     private GenericRestClient genericRestClient;
     private Map<String, String> headerMap;
     private String publisherUrl;
 
-    CRUDTestCommonUtils(GenericRestClient genericRestClient, String publisherUrl, Map<String, String> headerMap) {
+    public ESTestCommonUtils(GenericRestClient genericRestClient, String publisherUrl, Map<String, String> headerMap) {
         this.genericRestClient = genericRestClient;
         this.publisherUrl = publisherUrl;
         this.headerMap = headerMap;

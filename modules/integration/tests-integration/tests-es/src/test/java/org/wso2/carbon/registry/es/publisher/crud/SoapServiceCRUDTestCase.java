@@ -28,6 +28,7 @@ import org.testng.annotations.*;
 import org.wso2.carbon.automation.engine.context.TestUserMode;
 import org.wso2.carbon.automation.engine.frameworkutils.FrameworkPathUtil;
 import org.wso2.carbon.registry.core.exceptions.RegistryException;
+import org.wso2.carbon.registry.es.utils.ESTestCommonUtils;
 import org.wso2.carbon.registry.es.utils.GregESTestBaseTest;
 import org.wso2.greg.integration.common.utils.GenericRestClient;
 
@@ -49,7 +50,7 @@ public class SoapServiceCRUDTestCase extends GregESTestBaseTest {
     Map<String, String> headerMap;
     String publisherUrl;
     String resourcePath;
-    CRUDTestCommonUtils crudTestCommonUtils;
+    ESTestCommonUtils esTestCommonUtils;
 
     @Factory(dataProvider = "userModeProvider")
     public SoapServiceCRUDTestCase(TestUserMode userMode) {
@@ -66,7 +67,7 @@ public class SoapServiceCRUDTestCase extends GregESTestBaseTest {
                        + "artifacts" + File.separator + "GREG" + File.separator;
         publisherUrl=automationContext.getContextUrls()
                 .getSecureServiceUrl().replace("services","publisher/apis");
-        crudTestCommonUtils = new CRUDTestCommonUtils(genericRestClient, publisherUrl, headerMap);
+        esTestCommonUtils = new ESTestCommonUtils(genericRestClient, publisherUrl, headerMap);
     }
 
     @Test(groups = {"wso2.greg", "wso2.greg.es"}, description = "Authenticate Publisher test")
@@ -85,7 +86,7 @@ public class SoapServiceCRUDTestCase extends GregESTestBaseTest {
         jSessionId = obj.getJSONObject("data").getString("sessionId");
         cookieHeader="JSESSIONID=" + jSessionId;
         Assert.assertNotNull(jSessionId, "Invalid JSessionID received");
-        crudTestCommonUtils.setCookieHeader(cookieHeader);
+        esTestCommonUtils.setCookieHeader(cookieHeader);
     }
 
     @Test(groups = {"wso2.greg", "wso2.greg.es"}, description = "Create Rest Service in Publisher",
@@ -114,7 +115,7 @@ public class SoapServiceCRUDTestCase extends GregESTestBaseTest {
     public void getSoapServiceAsset() throws JSONException {
         Map<String, String> queryParamMap = new HashMap<>();
         queryParamMap.put("type", "soapservice");
-        ClientResponse clientResponse = crudTestCommonUtils.getAssetById(assetId, queryParamMap);
+        ClientResponse clientResponse = esTestCommonUtils.getAssetById(assetId, queryParamMap);
         Assert.assertTrue((clientResponse.getStatusCode() == 200),
                 "Wrong status code ,Expected 200 OK " +
                         clientResponse.getStatusCode());
@@ -129,7 +130,7 @@ public class SoapServiceCRUDTestCase extends GregESTestBaseTest {
         Map<String, String> queryParamMap = new HashMap<>();
         queryParamMap.put("type", "soapservice");
         queryParamMap.put("overview_name",assetName);
-        ClientResponse clientResponse = crudTestCommonUtils.searchAssetByQuery(queryParamMap);
+        ClientResponse clientResponse = esTestCommonUtils.searchAssetByQuery(queryParamMap);
         JSONObject obj = new JSONObject(clientResponse.getEntity(String.class));
         JSONArray jsonArray = obj.getJSONArray("list");
         for (int i = 0; i < jsonArray.length(); i++) {
