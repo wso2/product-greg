@@ -20,7 +20,7 @@ package org.wso2.carbon.registry.es.publisher;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.wink.client.ClientResponse;
-import org.apache.wink.common.annotations.Asset;
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.testng.Assert;
@@ -41,7 +41,6 @@ import org.wso2.carbon.registry.resource.stub.ResourceAdminServiceExceptionExcep
 import org.wso2.greg.integration.common.clients.LifeCycleManagementClient;
 import org.wso2.greg.integration.common.clients.ManageGenericArtifactAdminServiceClient;
 import org.wso2.greg.integration.common.clients.ResourceAdminServiceClient;
-import org.wso2.greg.integration.common.utils.GREGIntegrationBaseTest;
 import org.wso2.greg.integration.common.utils.GenericRestClient;
 
 import javax.activation.DataHandler;
@@ -147,6 +146,20 @@ public class GregRestResourceLifeCycleManagementTestCase extends GregESTestBaseT
     public void promoteLifeCycleWithUserWithOutRole()
             throws JSONException, InterruptedException, IOException {
         queryParamMap.put("type", "restservice");
+        queryParamMap.put("lifecycle", "ServiceLifeCycleLC2");
+        JSONObject LCStateobj = getLifeCycleState(assetId, "restservice");
+        JSONObject dataObj = LCStateobj.getJSONObject("data");
+        JSONArray checkItems = dataObj.getJSONArray("checkItems");
+
+        //first 2 check list items should be available for non-manager role user
+        Assert.assertEquals(((JSONObject) checkItems.get(0)).getString("isVisible"), "true");
+        Assert.assertEquals(((JSONObject) checkItems.get(1)).getString("isVisible"), "true");
+        //checklist item 2 should not be available to non-manager role user
+        Assert.assertEquals(((JSONObject) checkItems.get(2)).getString("isVisible"), "null");
+
+        //As check item 2 is not checked promote action is not available
+        JSONObject approvedActionsObj = dataObj.getJSONObject("approvedActions");
+        Assert.assertEquals(approvedActionsObj.length(), 0);
         ClientResponse responseCheck1;
 
                 Assert.assertTrue(checkLifeCycleCheckItem(cookieHeader, 0).getStatusCode()==200);
@@ -171,7 +184,7 @@ public class GregRestResourceLifeCycleManagementTestCase extends GregESTestBaseT
     public void promoteLifeCycleWithFCorrectUserWithRole()
             throws JSONException, InterruptedException, IOException {
         queryParamMap.put("type", "restservice");
-        queryParamMap.put("lifecycle", "ServiceLifeCycleLC2");
+        queryParamMap.put("lifecycle", lifeCycleName);
         ClientResponse responseUser =
                 genericRestClient.geneticRestRequestPost(publisherUrl + "/authenticate/",
                                                          MediaType.APPLICATION_FORM_URLENCODED,
@@ -180,18 +193,31 @@ public class GregRestResourceLifeCycleManagementTestCase extends GregESTestBaseT
                         , queryParamMap, headerMap, null);
 
         JSONObject obj = new JSONObject(responseUser.getEntity(String.class));
-        String managerJSessionId = obj.getJSONObject("data").getString("sessionId");
-        String managerCookieHeader = "JSESSIONID=" + managerJSessionId;
+        jSessionId = obj.getJSONObject("data").getString("sessionId");
+        cookieHeader = "JSESSIONID=" + jSessionId;
 
-        getLifeCycleData("ServiceLifeCycleLC2", managerCookieHeader);
+        getLifeCycleData(lifeCycleName, cookieHeader);
+
+        JSONObject LCStateobj = getLifeCycleState(assetId, "restservice");
+        JSONObject dataObj = LCStateobj.getJSONObject("data");
+        JSONArray checkItems = dataObj.getJSONArray("checkItems");
+
+        //all 3 check list items should be available for manager role user
+        Assert.assertEquals(((JSONObject) checkItems.get(0)).getString("isVisible"), "true");
+        Assert.assertEquals(((JSONObject) checkItems.get(1)).getString("isVisible"), "true");
+        Assert.assertEquals(((JSONObject) checkItems.get(2)).getString("isVisible"), "true");
 
         ClientResponse responseCheck1;
         responseCheck1 =
-                checkLifeCycleCheckItem(managerCookieHeader, 0);
+                checkLifeCycleCheckItem(cookieHeader, 0);
         responseCheck1 =
-                checkLifeCycleCheckItem(managerCookieHeader,1);
+                checkLifeCycleCheckItem(cookieHeader,1);
         responseCheck1 =
-                checkLifeCycleCheckItem(managerCookieHeader,2);
+                checkLifeCycleCheckItem(cookieHeader,2);
+
+        //As user needs admin role to perform promote action, promote action is not available
+        JSONObject approvedActionsObj = dataObj.getJSONObject("approvedActions");
+        Assert.assertEquals(approvedActionsObj.length(), 0);
 
         JSONObject objCheck1 = new JSONObject(responseCheck1.getEntity(String.class));
         ClientResponse response =
@@ -199,7 +225,7 @@ public class GregRestResourceLifeCycleManagementTestCase extends GregESTestBaseT
                                                          MediaType.APPLICATION_FORM_URLENCODED,
                                                          MediaType.APPLICATION_JSON,
                                                          "nextState=Testing&comment=Completed"
-                        , queryParamMap, headerMap, managerCookieHeader);
+                        , queryParamMap, headerMap, cookieHeader);
         JSONObject obj2 = new JSONObject(response.getEntity(String.class));
         response.getStatusCode();
     }
@@ -277,9 +303,10 @@ public class GregRestResourceLifeCycleManagementTestCase extends GregESTestBaseT
     private JSONObject getLifeCycleState(String assetId, String assetType) throws JSONException {
         Map<String, String> assetTypeParamMap = new HashMap<String, String>();
         assetTypeParamMap.put("type", assetType);
+        assetTypeParamMap.put("lifecycle",lifeCycleName);
         ClientResponse response =
                 genericRestClient.geneticRestRequestGet
-                        (publisherUrl + "/assets/" + assetId + "/state"
+                        (publisherUrl + "/asset/" + assetId + "/state"
                                 , queryParamMap, headerMap, cookieHeader);
         return new JSONObject(response.getEntity(String.class));
     }
@@ -301,5 +328,16 @@ public class GregRestResourceLifeCycleManagementTestCase extends GregESTestBaseT
                                                         "{\"checklist\":[{\"index\":"+itemId+",\"checked\":true}]}"
                 , queryParamMap, headerMap, managerCookieHeader);
     }
+
+//    private JSONObject getLifeCycleState(String lifeCycleName, String cookie) throws JSONException {
+//        ClientResponse response =
+//                genericRestClient.geneticRestRequestGet
+//                        (publisherUrl + "/lifecycles/" + lifeCycleName
+//                                , queryParamMap, headerMap, cookie);
+//        return new JSONObject(response.getEntity(String.class));
+//
+//    }
+//
+   // https://localhost:9443/publisher/apis/asset/82c1b281-b9ee-4733-b28f-0bba3f954613/state?type=restservice&lifecycle=ServiceLifeCycle
 
 }
