@@ -1,0 +1,11 @@
+{
+  "overview_url": "http://wsf.cdyne.com/WeatherWS/Weather.asmx?WSDL",
+  "overview_name": "Weather.asmx.wsdl",
+  "overview_version": "1.0.0",
+  "addNewAssetButton": "Create",
+  "wsdl": "wsdl",
+  "wsdl_file": null,
+  "wsdl_file_name": null,
+  "file_version": null,
+  "wsdl": "wsdl"
+}
