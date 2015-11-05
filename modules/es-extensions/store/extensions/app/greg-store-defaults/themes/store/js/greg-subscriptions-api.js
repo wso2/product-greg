@@ -2,7 +2,7 @@ var GregSubscriptionAPI = {};
 $(function() {
     
     var addSubscription = function(element, id, type, method, option) {
-        var urlSub = caramel.context + '/apis/subscriptions/' + type + '/' + id;
+        var urlSub = caramel.context + '/apis/subscription/' + type + '/' + id;
         //alert('addSubscription');
         var data = {};
         data.notificationType = option;
@@ -36,7 +36,7 @@ $(function() {
         })
     };
     var removeSubscription = function(element, id, type, subcriptionid, method, option) {
-        var urlSub = caramel.context + '/apis/subscriptions/' + type + '/' + id + '?subcriptionid=' + subcriptionid;
+        var urlSub = caramel.context + '/apis/subscription/' + type + '/' + id + '?subcriptionid=' + subcriptionid;
         //alert('removeSubscription');
         $.ajax({
             url: urlSub,
