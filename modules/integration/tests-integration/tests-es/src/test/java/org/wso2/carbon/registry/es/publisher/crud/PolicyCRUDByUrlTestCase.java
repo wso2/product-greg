@@ -51,7 +51,7 @@ public class PolicyCRUDByUrlTestCase extends GregESTestBaseTest {
     String publisherUrl;
     String resourcePath;
     ESTestCommonUtils esTestCommonUtils;
-    Map<String,String> assocUUIDMap;
+    Map<String, String> assocUUIDMap;
 
     @Factory(dataProvider = "userModeProvider")
     public PolicyCRUDByUrlTestCase(TestUserMode userMode) {
@@ -78,7 +78,7 @@ public class PolicyCRUDByUrlTestCase extends GregESTestBaseTest {
                         automationContext.getSuperTenant().getTenantAdmin().getPassword())
                         .getEntity(String.class));
         jSessionId = objSessionPublisher.getJSONObject("data").getString("sessionId");
-        cookieHeader="JSESSIONID=" + jSessionId;
+        cookieHeader = "JSESSIONID=" + jSessionId;
         Assert.assertNotNull(jSessionId, "Invalid JSessionID received");
         esTestCommonUtils = new ESTestCommonUtils(genericRestClient, publisherUrl, headerMap);
         esTestCommonUtils.setCookieHeader(cookieHeader);
@@ -88,10 +88,10 @@ public class PolicyCRUDByUrlTestCase extends GregESTestBaseTest {
     public void createPolicyServiceAsset() throws JSONException, IOException {
         Map<String, String> queryParamMap = new HashMap<>();
         queryParamMap.put("type", "policy");
-        String dataBody = readFile(resourcePath+"json"+ File.separator+"policy-sample.json");
-        assetName = (String)(new JSONObject(dataBody)).get("overview_name");
+        String dataBody = readFile(resourcePath + "json" + File.separator + "policy-sample.json");
+        assetName = (String) (new JSONObject(dataBody)).get("overview_name");
         ClientResponse response =
-                genericRestClient.geneticRestRequestPost(publisherUrl+"/assets",
+                genericRestClient.geneticRestRequestPost(publisherUrl + "/assets",
                         MediaType.APPLICATION_JSON,
                         MediaType.APPLICATION_JSON, dataBody
                         , queryParamMap, headerMap, cookieHeader);
@@ -100,7 +100,7 @@ public class PolicyCRUDByUrlTestCase extends GregESTestBaseTest {
                 "Wrong status code ,Expected 201 Created ,Received " +
                         response.getStatusCode());
         String resultName = obj.get("overview_name").toString();
-        Assert.assertEquals(resultName,assetName);
+        Assert.assertEquals(resultName, assetName);
     }
 
     @Test(groups = {"wso2.greg", "wso2.greg.es"}, description = "Search Policy in Publisher",
@@ -114,19 +114,19 @@ public class PolicyCRUDByUrlTestCase extends GregESTestBaseTest {
         JSONObject obj = new JSONObject(clientResponse.getEntity(String.class));
         JSONArray jsonArray = obj.getJSONArray("list");
         for (int i = 0; i < jsonArray.length(); i++) {
-            String name = (String)jsonArray.getJSONObject(i).get("name");
+            String name = (String) jsonArray.getJSONObject(i).get("name");
             if (assetName.equals(name)) {
                 assetFound = true;
-                assetId = (String)jsonArray.getJSONObject(i).get("id");
+                assetId = (String) jsonArray.getJSONObject(i).get("id");
                 break;
             }
         }
-        Assert.assertEquals(assetFound,true);
+        Assert.assertEquals(assetFound, true);
         Assert.assertNotNull(assetId, "Empty asset resource id available");
     }
 
     @Test(groups = {"wso2.greg", "wso2.greg.es"}, description = "Get Policy in Publisher",
-            dependsOnMethods = {"createPolicyServiceAsset","searchPolicyAsset"})
+            dependsOnMethods = {"createPolicyServiceAsset", "searchPolicyAsset"})
     public void getPolicyAsset() throws JSONException {
         Map<String, String> queryParamMap = new HashMap<>();
         queryParamMap.put("type", "policy");
@@ -139,7 +139,7 @@ public class PolicyCRUDByUrlTestCase extends GregESTestBaseTest {
     }
 
     @Test(groups = {"wso2.greg", "wso2.greg.es"}, description = "Delete Policy in Publisher",
-            dependsOnMethods = {"createPolicyServiceAsset","searchPolicyAsset","getPolicyAsset"})
+            dependsOnMethods = {"createPolicyServiceAsset", "searchPolicyAsset", "getPolicyAsset"})
     public void deletePolicyAsset() throws JSONException {
         Map<String, String> queryParamMap = new HashMap<>();
         queryParamMap.put("type", "policy");

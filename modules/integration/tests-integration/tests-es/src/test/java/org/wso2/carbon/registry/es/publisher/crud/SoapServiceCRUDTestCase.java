@@ -47,7 +47,7 @@ public class SoapServiceCRUDTestCase extends GregESTestBaseTest {
     String assetName;
     String cookieHeader;
     GenericRestClient genericRestClient;
-/*    Map<String, String> queryParamMap;*/
+    /*    Map<String, String> queryParamMap;*/
     Map<String, String> headerMap;
     String publisherUrl;
     String resourcePath;
@@ -65,9 +65,9 @@ public class SoapServiceCRUDTestCase extends GregESTestBaseTest {
 /*        queryParamMap = new HashMap<>();*/
         headerMap = new HashMap<>();
         resourcePath = FrameworkPathUtil.getSystemResourceLocation()
-                       + "artifacts" + File.separator + "GREG" + File.separator;
-        publisherUrl=automationContext.getContextUrls()
-                .getSecureServiceUrl().replace("services","publisher/apis");
+                + "artifacts" + File.separator + "GREG" + File.separator;
+        publisherUrl = automationContext.getContextUrls()
+                .getSecureServiceUrl().replace("services", "publisher/apis");
         setTestEnvironment();
     }
 
@@ -79,7 +79,7 @@ public class SoapServiceCRUDTestCase extends GregESTestBaseTest {
                         automationContext.getSuperTenant().getTenantAdmin().getPassword())
                         .getEntity(String.class));
         jSessionId = objSessionPublisher.getJSONObject("data").getString("sessionId");
-        cookieHeader="JSESSIONID=" + jSessionId;
+        cookieHeader = "JSESSIONID=" + jSessionId;
         Assert.assertNotNull(jSessionId, "Invalid JSessionID received");
         esTestCommonUtils = new ESTestCommonUtils(genericRestClient, publisherUrl, headerMap);
         esTestCommonUtils.setCookieHeader(cookieHeader);
@@ -89,20 +89,20 @@ public class SoapServiceCRUDTestCase extends GregESTestBaseTest {
     public void createSoapServiceAsset() throws JSONException, IOException {
         Map<String, String> queryParamMap = new HashMap<>();
         queryParamMap.put("type", "soapservice");
-        String dataBody = readFile(resourcePath+"json"+ File.separator+"soapservice-sample.json");
-        assetName = (String)(new JSONObject(dataBody)).get("overview_name");
+        String dataBody = readFile(resourcePath + "json" + File.separator + "soapservice-sample.json");
+        assetName = (String) (new JSONObject(dataBody)).get("overview_name");
         ClientResponse response =
-                genericRestClient.geneticRestRequestPost(publisherUrl+"/assets",
-                                                         MediaType.APPLICATION_JSON,
-                                                         MediaType.APPLICATION_JSON, dataBody
+                genericRestClient.geneticRestRequestPost(publisherUrl + "/assets",
+                        MediaType.APPLICATION_JSON,
+                        MediaType.APPLICATION_JSON, dataBody
                         , queryParamMap, headerMap, cookieHeader);
         JSONObject obj = new JSONObject(response.getEntity(String.class));
         Assert.assertTrue((response.getStatusCode() == 201),
-                          "Wrong status code ,Expected 201 Created ,Received " +
-                          response.getStatusCode());
+                "Wrong status code ,Expected 201 Created ,Received " +
+                        response.getStatusCode());
         assetId = obj.get("id").toString();
         Assert.assertNotNull(assetId, "Empty asset resource id available" +
-                                      response.getEntity(String.class));
+                response.getEntity(String.class));
     }
 
     @Test(groups = {"wso2.greg", "wso2.greg.es"}, description = "Get Soap Service in Publisher",
@@ -115,7 +115,7 @@ public class SoapServiceCRUDTestCase extends GregESTestBaseTest {
                 "Wrong status code ,Expected 200 OK " +
                         clientResponse.getStatusCode());
         JSONObject obj = new JSONObject(clientResponse.getEntity(String.class));
-        Assert.assertEquals(obj.get("id").toString(),assetId);
+        Assert.assertEquals(obj.get("id").toString(), assetId);
     }
 
     @Test(groups = {"wso2.greg", "wso2.greg.es"}, description = "Search Soap Service in Publisher",
@@ -124,18 +124,18 @@ public class SoapServiceCRUDTestCase extends GregESTestBaseTest {
         boolean assetFound = false;
         Map<String, String> queryParamMap = new HashMap<>();
         queryParamMap.put("type", "soapservice");
-        queryParamMap.put("overview_name",assetName);
+        queryParamMap.put("overview_name", assetName);
         ClientResponse clientResponse = esTestCommonUtils.searchAssetByQuery(queryParamMap);
         JSONObject obj = new JSONObject(clientResponse.getEntity(String.class));
         JSONArray jsonArray = obj.getJSONArray("list");
         for (int i = 0; i < jsonArray.length(); i++) {
-            String id = (String)jsonArray.getJSONObject(i).get("id");
+            String id = (String) jsonArray.getJSONObject(i).get("id");
             if (assetId.equals(id)) {
                 assetFound = true;
                 break;
             }
         }
-        Assert.assertTrue(assetFound , "Soap Service not found in assets listing");
+        Assert.assertTrue(assetFound, "Soap Service not found in assets listing");
     }
 
     @Test(groups = {"wso2.greg", "wso2.greg.es"}, description = "Update Soap Service in Publisher",
@@ -143,18 +143,18 @@ public class SoapServiceCRUDTestCase extends GregESTestBaseTest {
     public void updateSoapServiceAsset() throws JSONException, IOException {
         Map<String, String> queryParamMap = new HashMap<>();
         queryParamMap.put("type", "soapservice");
-        String dataBody = readFile(resourcePath+"json"+ File.separator+"soapservice-update-sample.json");
+        String dataBody = readFile(resourcePath + "json" + File.separator + "soapservice-update-sample.json");
         ClientResponse response =
-                genericRestClient.geneticRestRequestPost(publisherUrl+"/assets/"+assetId,
-                                                         MediaType.APPLICATION_JSON,
-                                                         MediaType.APPLICATION_JSON, dataBody
+                genericRestClient.geneticRestRequestPost(publisherUrl + "/assets/" + assetId,
+                        MediaType.APPLICATION_JSON,
+                        MediaType.APPLICATION_JSON, dataBody
                         , queryParamMap, headerMap, cookieHeader);
         JSONObject obj = new JSONObject(response.getEntity(String.class));
         Assert.assertTrue((response.getStatusCode() == 202),
-                          "Wrong status code ,Expected 202 Created ,Received " +
-                          response.getStatusCode());
+                "Wrong status code ,Expected 202 Created ,Received " +
+                        response.getStatusCode());
         Assert.assertTrue(obj.getJSONObject("attributes").get("overview_description")
-                                  .equals("updating soap service ..."));
+                .equals("updating soap service ..."));
     }
 
     @Test(groups = {"wso2.greg", "wso2.greg.es"}, description = "Delete Soap Service in Publisher",

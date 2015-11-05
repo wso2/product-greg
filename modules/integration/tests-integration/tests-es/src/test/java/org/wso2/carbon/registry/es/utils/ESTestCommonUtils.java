@@ -28,7 +28,6 @@ import org.wso2.greg.integration.common.utils.GenericRestClient;
 
 import javax.ws.rs.core.MediaType;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Map;
 
 public class ESTestCommonUtils {
@@ -63,16 +62,15 @@ public class ESTestCommonUtils {
                 break;
             }
             count = count + 1;
-        } while ((Double)obj.get("count") <= 0);
+        } while ((Double) obj.get("count") <= 0);
         double time3 = System.currentTimeMillis();
-        System.out.println("Time for query the results: " +(time3 - time1));
+        System.out.println("Time for query the results: " + (time3 - time1));
         System.out.println("search for the rest service...." + count);
         return clientResponse;
     }
 
-    public ClientResponse getAssetById(String id , Map<String, String> queryParamMap)
-    {
-        return genericRestClient.geneticRestRequestGet(publisherUrl+"/assets/"+id, queryParamMap,
+    public ClientResponse getAssetById(String id, Map<String, String> queryParamMap) {
+        return genericRestClient.geneticRestRequestGet(publisherUrl + "/assets/" + id, queryParamMap,
                 headerMap, cookieHeader);
     }
 
@@ -86,7 +84,7 @@ public class ESTestCommonUtils {
     }
 
     public ClientResponse getAssociationsById(String id, Map<String, String> queryParamMap) {
-        return genericRestClient.geneticRestRequestGet(publisherUrl + "/association/"+queryParamMap.get("type")+"/dependancies/" + id,
+        return genericRestClient.geneticRestRequestGet(publisherUrl + "/association/" + queryParamMap.get("type") + "/dependancies/" + id,
                 queryParamMap, headerMap, cookieHeader);
     }
 
@@ -110,20 +108,20 @@ public class ESTestCommonUtils {
     }
 
     public Map<String, String> getAssociationsFromPages(String id, Map<String, String> queryParamMap) {
-        String requestUrl = publisherUrl.replace("apis","pages") + "/associations/"+queryParamMap.get("type")+"/" + id;
-        System.out.println("get Association by ID: request url : " +requestUrl);
+        String requestUrl = publisherUrl.replace("apis", "pages") + "/associations/" + queryParamMap.get("type") + "/" + id;
+        System.out.println("get Association by ID: request url : " + requestUrl);
         ClientResponse clientResponse = genericRestClient.geneticRestRequestGet(requestUrl,
                 queryParamMap, "text/html", headerMap, cookieHeader);
         String response = clientResponse.getEntity(String.class);
-        String [] dataArray = response.split("data-uuid=");
-        Map<String,String> assocMap = new HashMap<String,String>();
+        String[] dataArray = response.split("data-uuid=");
+        Map<String, String> assocMap = new HashMap<String, String>();
         for (int i = 1; i < dataArray.length; i++) {
             String mediaType = null;
             if (dataArray[i].contains("application")) {
                 int startIndex = dataArray[i].indexOf("application");
-                mediaType = dataArray[i].substring(startIndex,dataArray[i].indexOf("<",startIndex));
+                mediaType = dataArray[i].substring(startIndex, dataArray[i].indexOf("<", startIndex));
             }
-            String uuid = dataArray[i].substring(1, dataArray[1].indexOf('\"',1));
+            String uuid = dataArray[i].substring(1, dataArray[1].indexOf('\"', 1));
             if (mediaType != null) {
                 assocMap.put(uuid, mediaType);
             }
@@ -136,7 +134,7 @@ public class ESTestCommonUtils {
     }
 
     public String getType(String mediaType) {
-        String type = null;
+        String type;
         switch (mediaType) {
             case "application/x-xsd+xml":
                 type = "schema";

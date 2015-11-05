@@ -51,7 +51,7 @@ public class SchemaCRUDByUrlTestCase extends GregESTestBaseTest {
     String publisherUrl;
     String resourcePath;
     ESTestCommonUtils esTestCommonUtils;
-    Map<String,String> assocUUIDMap;
+    Map<String, String> assocUUIDMap;
 
     @Factory(dataProvider = "userModeProvider")
     public SchemaCRUDByUrlTestCase(TestUserMode userMode) {
@@ -78,7 +78,7 @@ public class SchemaCRUDByUrlTestCase extends GregESTestBaseTest {
                         automationContext.getSuperTenant().getTenantAdmin().getPassword())
                         .getEntity(String.class));
         jSessionId = objSessionPublisher.getJSONObject("data").getString("sessionId");
-        cookieHeader="JSESSIONID=" + jSessionId;
+        cookieHeader = "JSESSIONID=" + jSessionId;
         Assert.assertNotNull(jSessionId, "Invalid JSessionID received");
         esTestCommonUtils = new ESTestCommonUtils(genericRestClient, publisherUrl, headerMap);
         esTestCommonUtils.setCookieHeader(cookieHeader);
@@ -88,10 +88,10 @@ public class SchemaCRUDByUrlTestCase extends GregESTestBaseTest {
     public void createSchemaServiceAsset() throws JSONException, IOException {
         Map<String, String> queryParamMap = new HashMap<>();
         queryParamMap.put("type", "schema");
-        String dataBody = readFile(resourcePath+"json"+ File.separator+"schema-sample.json");
-        assetName = (String)(new JSONObject(dataBody)).get("overview_name");
+        String dataBody = readFile(resourcePath + "json" + File.separator + "schema-sample.json");
+        assetName = (String) (new JSONObject(dataBody)).get("overview_name");
         ClientResponse response =
-                genericRestClient.geneticRestRequestPost(publisherUrl+"/assets",
+                genericRestClient.geneticRestRequestPost(publisherUrl + "/assets",
                         MediaType.APPLICATION_JSON,
                         MediaType.APPLICATION_JSON, dataBody
                         , queryParamMap, headerMap, cookieHeader);
@@ -100,7 +100,7 @@ public class SchemaCRUDByUrlTestCase extends GregESTestBaseTest {
                 "Wrong status code ,Expected 201 Created ,Received " +
                         response.getStatusCode());
         String resultName = obj.get("overview_name").toString();
-        Assert.assertEquals(resultName,assetName);
+        Assert.assertEquals(resultName, assetName);
     }
 
     @Test(groups = {"wso2.greg", "wso2.greg.es"}, description = "Search Schema in Publisher",
@@ -114,14 +114,14 @@ public class SchemaCRUDByUrlTestCase extends GregESTestBaseTest {
         JSONObject obj = new JSONObject(clientResponse.getEntity(String.class));
         JSONArray jsonArray = obj.getJSONArray("list");
         for (int i = 0; i < jsonArray.length(); i++) {
-            String name = (String)jsonArray.getJSONObject(i).get("name");
+            String name = (String) jsonArray.getJSONObject(i).get("name");
             if (assetName.equals(name)) {
                 assetFound = true;
-                assetId = (String)jsonArray.getJSONObject(i).get("id");
+                assetId = (String) jsonArray.getJSONObject(i).get("id");
                 break;
             }
         }
-        Assert.assertEquals(assetFound,true);
+        Assert.assertEquals(assetFound, true);
         Assert.assertNotNull(assetId, "Empty asset resource id available");
     }
 
