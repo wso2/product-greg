@@ -1,6 +1,6 @@
 {
-    "overview_url": "http://www.webservicex.net/ConvertAngle.asmx?WSDL",
-    "overview_name": "ConvertAngle.asmx.wsdl",
+    "overview_url": "https://raw.githubusercontent.com/wso2/wso2-qa-artifacts/master/automation-artifacts/greg/wsdl/AmazonWebServices.wsdl",
+    "overview_name": "AmazonWebServices.wsdl",
     "overview_version": "1.0.0",
     "addNewAssetButton": "Create",
     "wsdl": "wsdl",

@@ -1,0 +1,8 @@
+{
+  "overview_name": "soapservice1234",
+  "overview_provider": "wso2",
+  "overview_namespace": "/test123r",
+  "overview_version": "1.0.0",
+  "overview_description":"Add description to update the resource",
+  "soapservice":"soapservice"
+}
