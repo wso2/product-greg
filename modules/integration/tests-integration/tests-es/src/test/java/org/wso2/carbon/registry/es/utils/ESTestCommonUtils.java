@@ -54,7 +54,7 @@ public class ESTestCommonUtils {
             String response = clientResponse.getEntity(String.class);
             obj = new JSONObject(response);
             double time2 = System.currentTimeMillis();
-            if ((time2 - time1) > 180000) {
+            if ((time2 - time1) > 240000) {
                 log.error("Timeout while searching for assets | time waited: " + (time2 - time1));
                 break;
             }
