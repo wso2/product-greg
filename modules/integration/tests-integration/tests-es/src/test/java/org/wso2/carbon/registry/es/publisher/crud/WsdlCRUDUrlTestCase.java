@@ -33,13 +33,14 @@ import org.wso2.carbon.registry.es.utils.GregESTestBaseTest;
 import org.wso2.greg.integration.common.utils.GenericRestClient;
 
 import javax.ws.rs.core.MediaType;
+import javax.xml.xpath.XPathExpressionException;
 import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
-public class WsdlCRUDTestCase extends GregESTestBaseTest {
-    private static final Log log = LogFactory.getLog(WsdlCRUDTestCase.class);
+public class WsdlCRUDUrlTestCase extends GregESTestBaseTest {
+    private static final Log log = LogFactory.getLog(WsdlCRUDUrlTestCase.class);
     private TestUserMode userMode;
     String jSessionId;
     String assetId;
@@ -50,9 +51,10 @@ public class WsdlCRUDTestCase extends GregESTestBaseTest {
     String publisherUrl;
     String resourcePath;
     ESTestCommonUtils esTestCommonUtils;
+    Map<String,String> assocUUIDMap;
 
     @Factory(dataProvider = "userModeProvider")
-    public WsdlCRUDTestCase(TestUserMode userMode) {
+    public WsdlCRUDUrlTestCase(TestUserMode userMode) {
         this.userMode = userMode;
     }
 
@@ -65,34 +67,28 @@ public class WsdlCRUDTestCase extends GregESTestBaseTest {
                 + "artifacts" + File.separator + "GREG" + File.separator;
         publisherUrl = automationContext.getContextUrls()
                 .getSecureServiceUrl().replace("services", "publisher/apis");
-        esTestCommonUtils = new ESTestCommonUtils(genericRestClient, publisherUrl, headerMap);
+        setTestEnvironment();
     }
 
-    @Test(groups = {"wso2.greg", "wso2.greg.es"}, description = "Authenticate Publisher test")
-    public void authenticatePublisher() throws JSONException {
-        Map<String, String> queryParamMap = new HashMap<>();
-        ClientResponse response =
-                genericRestClient.geneticRestRequestPost(publisherUrl+"/authenticate/",
-                        MediaType.APPLICATION_FORM_URLENCODED,
-                        MediaType.APPLICATION_JSON,
-                        "username=admin&password=admin"
-                        , queryParamMap, headerMap, null);
-        JSONObject obj = new JSONObject(response.getEntity(String.class));
-        Assert.assertTrue((response.getStatusCode() == 200),
-                "Wrong status code ,Expected 200 OK ,Received " +
-                        response.getStatusCode());
-        jSessionId = obj.getJSONObject("data").getString("sessionId");
+    private void setTestEnvironment() throws JSONException, XPathExpressionException,
+            IOException {
+        JSONObject objSessionPublisher =
+                new JSONObject(authenticate(publisherUrl, genericRestClient,
+                        automationContext.getSuperTenant().getTenantAdmin().getUserName(),
+                        automationContext.getSuperTenant().getTenantAdmin().getPassword())
+                        .getEntity(String.class));
+        jSessionId = objSessionPublisher.getJSONObject("data").getString("sessionId");
         cookieHeader="JSESSIONID=" + jSessionId;
         Assert.assertNotNull(jSessionId, "Invalid JSessionID received");
+        esTestCommonUtils = new ESTestCommonUtils(genericRestClient, publisherUrl, headerMap);
         esTestCommonUtils.setCookieHeader(cookieHeader);
     }
 
-    @Test(groups = {"wso2.greg", "wso2.greg.es"}, description = "Create Rest Service in Publisher",
-            dependsOnMethods = {"authenticatePublisher"})
+    @Test(groups = {"wso2.greg", "wso2.greg.es"}, description = "Import WSDL in Publisher")
     public void createWsdlServiceAsset() throws JSONException, IOException {
         Map<String, String> queryParamMap = new HashMap<>();
         queryParamMap.put("type", "wsdl");
-        String dataBody = readFile(resourcePath+"json"+ File.separator+"wsdl-ops.json");
+        String dataBody = readFile(resourcePath+"json"+ File.separator+"wsdl-sample.json");
         assetName = (String)(new JSONObject(dataBody)).get("overview_name");
         ClientResponse response =
                 genericRestClient.geneticRestRequestPost(publisherUrl+"/assets",
@@ -107,8 +103,8 @@ public class WsdlCRUDTestCase extends GregESTestBaseTest {
         Assert.assertEquals(resultName,assetName);
     }
 
-    @Test(groups = {"wso2.greg", "wso2.greg.es"}, description = "Create Rest Service in Publisher",
-            dependsOnMethods = {"authenticatePublisher", "createWsdlServiceAsset"})
+    @Test(groups = {"wso2.greg", "wso2.greg.es"}, description = "Search WSDL in Publisher",
+            dependsOnMethods = {"createWsdlServiceAsset"})
     public void searchWsdlAsset() throws JSONException {
         boolean assetFound = false;
         Map<String, String> queryParamMap = new HashMap<>();
@@ -129,8 +125,8 @@ public class WsdlCRUDTestCase extends GregESTestBaseTest {
         Assert.assertNotNull(assetId, "Empty asset resource id available");
     }
 
-    @Test(groups = {"wso2.greg", "wso2.greg.es"}, description = "Create Rest Service in Publisher",
-            dependsOnMethods = {"authenticatePublisher", "createWsdlServiceAsset", "searchWsdlAsset"})
+    @Test(groups = {"wso2.greg", "wso2.greg.es"}, description = "Get WSDL in Publisher",
+            dependsOnMethods = {"createWsdlServiceAsset", "searchWsdlAsset"})
     public void getWsdlAsset() throws JSONException {
         Map<String, String> queryParamMap = new HashMap<>();
         queryParamMap.put("type", "wsdl");
@@ -142,25 +138,33 @@ public class WsdlCRUDTestCase extends GregESTestBaseTest {
         Assert.assertEquals(obj.get("id").toString(), assetId);
     }
 
-    @Test(groups = {"wso2.greg", "wso2.greg.es"}, description = "Delete Publisher test",
-            dependsOnMethods = {"authenticatePublisher", "createWsdlServiceAsset", "searchWsdlAsset", "getWsdlAsset"})
+    @Test(groups = {"wso2.greg", "wso2.greg.es"}, description = "Delete WSDL in Publisher",
+            dependsOnMethods = {"createWsdlServiceAsset", "searchWsdlAsset", "getWsdlAsset"})
     public void deleteWsdlAsset() throws JSONException {
         Map<String, String> queryParamMap = new HashMap<>();
         queryParamMap.put("type", "wsdl");
+        assocUUIDMap = esTestCommonUtils.getAssociationsFromPages(assetId, queryParamMap);
         genericRestClient.geneticRestRequestDelete(publisherUrl + "/assets/" + assetId,
                 MediaType.APPLICATION_JSON,
                 MediaType.APPLICATION_JSON
                 , queryParamMap, headerMap, cookieHeader);
         ClientResponse clientResponse = esTestCommonUtils.getAssetById(assetId, queryParamMap);
-        JSONObject obj = new JSONObject(clientResponse.getEntity(String.class));
         Assert.assertTrue((clientResponse.getStatusCode() == 404),
                 "Wrong status code ,Expected 404 Not Found " +
                         clientResponse.getStatusCode());
     }
 
     @AfterClass(alwaysRun = true)
-    public void cleanUp() throws RegistryException {
-
+    public void cleanUp() throws RegistryException, JSONException {
+        Map<String, String> queryParamMap = new HashMap<>();
+        queryParamMap.put("type", "wsdl");
+        esTestCommonUtils.deleteAssetById(assetId, queryParamMap);
+        esTestCommonUtils.deleteAllAssociationsById(assetId, queryParamMap);
+        queryParamMap.clear();
+        for (String uuid : assocUUIDMap.keySet()) {
+            queryParamMap.put("type", esTestCommonUtils.getType(assocUUIDMap.get(uuid)));
+            esTestCommonUtils.deleteAssetById(uuid, queryParamMap);
+        }
     }
 
     @DataProvider

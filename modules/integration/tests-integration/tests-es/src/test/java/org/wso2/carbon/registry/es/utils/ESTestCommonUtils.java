@@ -20,11 +20,15 @@ package org.wso2.carbon.registry.es.utils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.wink.client.ClientResponse;
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.testng.Assert;
 import org.wso2.greg.integration.common.utils.GenericRestClient;
 
+import javax.ws.rs.core.MediaType;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
 
 public class ESTestCommonUtils {
@@ -54,7 +58,7 @@ public class ESTestCommonUtils {
             String response = clientResponse.getEntity(String.class);
             obj = new JSONObject(response);
             double time2 = System.currentTimeMillis();
-            if ((time2 - time1) > 180000) {
+            if ((time2 - time1) > 240000) {
                 log.error("Timeout while searching for assets | time waited: " + (time2 - time1));
                 break;
             }
@@ -72,7 +76,105 @@ public class ESTestCommonUtils {
                 headerMap, cookieHeader);
     }
 
+    public boolean deleteAssetById(String id, Map<String, String> queryParamMap) {
+        ClientResponse clientResponse = this.getAssetById(id, queryParamMap);
+        if (clientResponse.getStatusCode() != 404) {
+            genericRestClient.geneticRestRequestDelete(publisherUrl + "/assets/" + id,
+                    MediaType.APPLICATION_JSON, MediaType.APPLICATION_JSON, queryParamMap, headerMap, cookieHeader);
+        }
+        return true;
+    }
+
+    public ClientResponse getAssociationsById(String id, Map<String, String> queryParamMap) {
+        return genericRestClient.geneticRestRequestGet(publisherUrl + "/association/"+queryParamMap.get("type")+"/dependancies/" + id,
+                queryParamMap, headerMap, cookieHeader);
+    }
+
+    public boolean deleteAllAssociationsById(String id, Map<String, String> queryParamMap) throws JSONException {
+        boolean result = false;
+        if (id != null) {
+            ClientResponse clientResponse = this.getAssociationsById(id, queryParamMap);
+            JSONObject jsonObject = new JSONObject(clientResponse.getEntity(String.class));
+            JSONArray assocArray = jsonObject.getJSONArray("results");
+            for (int i = 0; i < assocArray.length(); i++) {
+                String assocId = (String) assocArray.getJSONObject(i).get("uuid");
+                String assocShortName = (String) assocArray.getJSONObject(i).get("shortName");
+                Map<String, String> assocQueryMap = new HashMap<>();
+                assocQueryMap.put("type", assocShortName);
+                this.deleteAssetById(assocId, assocQueryMap);
+                this.deleteAllAssociationsById(assocId, assocQueryMap);
+            }
+            result = true;
+        }
+        return result;
+    }
+
+    public Map<String, String> getAssociationsFromPages(String id, Map<String, String> queryParamMap) {
+        String requestUrl = publisherUrl.replace("apis","pages") + "/associations/"+queryParamMap.get("type")+"/" + id;
+        System.out.println("get Association by ID: request url : " +requestUrl);
+        ClientResponse clientResponse = genericRestClient.geneticRestRequestGet(requestUrl,
+                queryParamMap, "text/html", headerMap, cookieHeader);
+        String response = clientResponse.getEntity(String.class);
+        String [] dataArray = response.split("data-uuid=");
+        Map<String,String> assocMap = new HashMap<String,String>();
+        for (int i = 1; i < dataArray.length; i++) {
+            String mediaType = null;
+            if (dataArray[i].contains("application")) {
+                int startIndex = dataArray[i].indexOf("application");
+                mediaType = dataArray[i].substring(startIndex,dataArray[i].indexOf("<",startIndex));
+            }
+            String uuid = dataArray[i].substring(1, dataArray[1].indexOf('\"',1));
+            if (mediaType != null) {
+                assocMap.put(uuid, mediaType);
+            }
+        }
+        return assocMap;
+    }
+
     public void setCookieHeader(String cookieHeader) {
         this.cookieHeader = cookieHeader;
+    }
+
+    public String getType(String mediaType) {
+        String type = null;
+        switch (mediaType) {
+            case "application/x-xsd+xml":
+                type = "schema";
+                break;
+            case "application/vnd.wso2-service+xml":
+                type = "service";
+                break;
+            case "application/vnd.wso2-soap-service+xml":
+                type = "soapservice";
+                break;
+            case "application/vnd.wso2-restservice+xml":
+                type = "restservice";
+                break;
+            case "application/policy+xml":
+                type = "policy";
+                break;
+            case "application/vnd.wso2-endpoint+xml":
+                type = "endpoint";
+                break;
+            case "application/vnd.wso2-notes+xml":
+                type = "note";
+                break;
+            case "application/vnd.wso2-server+xml":
+                type = "server";
+                break;
+            case "application/swagger+json":
+                type = "swagger";
+                break;
+            case "application/wadl+xml":
+                type = "wadl";
+                break;
+            case "application/wsdl+xml":
+                type = "wsdl";
+                break;
+            default:
+                type = null;
+                break;
+        }
+        return type;
     }
 }
