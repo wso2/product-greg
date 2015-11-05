@@ -38,8 +38,8 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
-public class WsdlCRUDTestCase extends GregESTestBaseTest {
-    private static final Log log = LogFactory.getLog(WsdlCRUDTestCase.class);
+public class SwaggerCRUDTestCase extends GregESTestBaseTest {
+    private static final Log log = LogFactory.getLog(SwaggerCRUDTestCase.class);
     private TestUserMode userMode;
     String jSessionId;
     String assetId;
@@ -52,7 +52,7 @@ public class WsdlCRUDTestCase extends GregESTestBaseTest {
     ESTestCommonUtils esTestCommonUtils;
 
     @Factory(dataProvider = "userModeProvider")
-    public WsdlCRUDTestCase(TestUserMode userMode) {
+    public SwaggerCRUDTestCase(TestUserMode userMode) {
         this.userMode = userMode;
     }
 
@@ -87,12 +87,12 @@ public class WsdlCRUDTestCase extends GregESTestBaseTest {
         esTestCommonUtils.setCookieHeader(cookieHeader);
     }
 
-    @Test(groups = {"wso2.greg", "wso2.greg.es"}, description = "Create Rest Service in Publisher",
+    @Test(groups = {"wso2.greg", "wso2.greg.es"}, description = "Create Swagger in Publisher",
             dependsOnMethods = {"authenticatePublisher"})
-    public void createWsdlServiceAsset() throws JSONException, IOException {
+    public void createSwaggerServiceAsset() throws JSONException, IOException {
         Map<String, String> queryParamMap = new HashMap<>();
-        queryParamMap.put("type", "wsdl");
-        String dataBody = readFile(resourcePath+"json"+ File.separator+"wsdl-ops.json");
+        queryParamMap.put("type", "swagger");
+        String dataBody = readFile(resourcePath+"json"+ File.separator+"swagger-sample.json");
         assetName = (String)(new JSONObject(dataBody)).get("overview_name");
         ClientResponse response =
                 genericRestClient.geneticRestRequestPost(publisherUrl+"/assets",
@@ -107,12 +107,12 @@ public class WsdlCRUDTestCase extends GregESTestBaseTest {
         Assert.assertEquals(resultName,assetName);
     }
 
-    @Test(groups = {"wso2.greg", "wso2.greg.es"}, description = "Create Rest Service in Publisher",
-            dependsOnMethods = {"authenticatePublisher", "createWsdlServiceAsset"})
-    public void searchWsdlAsset() throws JSONException {
+    @Test(groups = {"wso2.greg", "wso2.greg.es"}, description = "Search Swagger in Publisher",
+            dependsOnMethods = {"authenticatePublisher", "createSwaggerServiceAsset"})
+    public void searchSwaggerAsset() throws JSONException {
         boolean assetFound = false;
         Map<String, String> queryParamMap = new HashMap<>();
-        queryParamMap.put("type", "wsdl");
+        queryParamMap.put("type", "swagger");
         queryParamMap.put("overview_name", assetName);
         ClientResponse clientResponse = esTestCommonUtils.searchAssetByQuery(queryParamMap);
         JSONObject obj = new JSONObject(clientResponse.getEntity(String.class));
@@ -129,11 +129,11 @@ public class WsdlCRUDTestCase extends GregESTestBaseTest {
         Assert.assertNotNull(assetId, "Empty asset resource id available");
     }
 
-    @Test(groups = {"wso2.greg", "wso2.greg.es"}, description = "Create Rest Service in Publisher",
-            dependsOnMethods = {"authenticatePublisher", "createWsdlServiceAsset", "searchWsdlAsset"})
-    public void getWsdlAsset() throws JSONException {
+    @Test(groups = {"wso2.greg", "wso2.greg.es"}, description = "Get Swagger in Publisher",
+            dependsOnMethods = {"authenticatePublisher", "createSwaggerServiceAsset", "searchSwaggerAsset"})
+    public void getSwaggerAsset() throws JSONException {
         Map<String, String> queryParamMap = new HashMap<>();
-        queryParamMap.put("type", "wsdl");
+        queryParamMap.put("type", "swagger");
         ClientResponse clientResponse = esTestCommonUtils.getAssetById(assetId, queryParamMap);
         Assert.assertTrue((clientResponse.getStatusCode() == 200),
                 "Wrong status code ,Expected 200 OK " +
@@ -143,10 +143,10 @@ public class WsdlCRUDTestCase extends GregESTestBaseTest {
     }
 
     @Test(groups = {"wso2.greg", "wso2.greg.es"}, description = "Delete Publisher test",
-            dependsOnMethods = {"authenticatePublisher", "createWsdlServiceAsset", "searchWsdlAsset", "getWsdlAsset"})
-    public void deleteWsdlAsset() throws JSONException {
+            dependsOnMethods = {"authenticatePublisher", "createSwaggerServiceAsset", "searchSwaggerAsset", "getSwaggerAsset"})
+    public void deleteSwaggerAsset() throws JSONException {
         Map<String, String> queryParamMap = new HashMap<>();
-        queryParamMap.put("type", "wsdl");
+        queryParamMap.put("type", "swagger");
         genericRestClient.geneticRestRequestDelete(publisherUrl + "/assets/" + assetId,
                 MediaType.APPLICATION_JSON,
                 MediaType.APPLICATION_JSON

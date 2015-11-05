@@ -139,7 +139,6 @@
                         <password>manager</password>
                         <roles>
                             <role>manager</role>
-                            <role>admin</role>
                         </roles>
                     </user>
                     <user key="user2">
@@ -179,7 +178,7 @@
         <roles>
             <role name="manager" key="manager">
                 <permissions>
-                    <permission>/permission/admin/login</permission>
+                    <permission>/permission/</permission>
                 </permissions>
             </role>
             <role name="testrole" key="testrole">

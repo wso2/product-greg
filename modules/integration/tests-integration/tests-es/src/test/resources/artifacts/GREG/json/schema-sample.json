@@ -1,0 +1,10 @@
+{
+  "overview_url": "https://raw.githubusercontent.com/wso2/wso2-qa-artifacts/master/automation-artifacts/greg/schema/Person.xsd",
+  "overview_name": "Person.xsd",
+  "overview_version": "1.0.0",
+  "addNewAssetButton": "Create",
+  "schema": "schema",
+  "schema_file": null,
+  "schema_file_name": null,
+  "file_version": null
+}
