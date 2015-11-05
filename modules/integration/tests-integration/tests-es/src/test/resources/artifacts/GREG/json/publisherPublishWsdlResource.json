@@ -1,0 +1,11 @@
+{
+  "overview_url": "http://www.webservicex.com/globalweather.asmx?wsdl",
+  "overview_name":"globalweather.asmx.wsdl",
+  "overview_context": "/test1234",
+  "overview_version": "1.0.0",
+  "wsdl_file":"null",
+  "wsdl_file_name":"null",
+  "file_version":"null",
+  "addNewAssetButton":"Create",
+  "wsdl":"wsdl"
+}
