@@ -27,7 +27,6 @@ import org.json.JSONObject;
 import org.testng.annotations.*;
 import org.wso2.carbon.automation.engine.context.TestUserMode;
 import org.wso2.carbon.automation.engine.frameworkutils.FrameworkPathUtil;
-import org.wso2.carbon.integration.common.utils.mgt.ServerConfigurationManager;
 import org.wso2.carbon.registry.core.exceptions.RegistryException;
 import org.wso2.carbon.registry.resource.stub.ResourceAdminServiceExceptionException;
 import org.wso2.greg.integration.common.clients.ResourceAdminServiceClient;
@@ -79,8 +78,6 @@ public class CustomRXTSubscriptionTestCase extends GREGIntegrationBaseTest {
         publisherUrl = automationContext.getContextUrls().getSecureServiceUrl().replace("services", "publisher/apis");
         resourceAdminServiceClient = new ResourceAdminServiceClient(backendURL, session);
         addCustomRxt();
-        new ServerConfigurationManager(automationContext).restartGracefully();
-        Thread.sleep(120000);
         setTestEnvironment();
     }
 
@@ -228,7 +225,6 @@ public class CustomRXTSubscriptionTestCase extends GREGIntegrationBaseTest {
 
     private void addCustomRxt()
             throws RegistryException, IOException, ResourceAdminServiceExceptionException, InterruptedException {
-        Thread.sleep(2000);
         String filePath = getTestArtifactLocation() + "artifacts" + File.separator +
                 "GREG" + File.separator + "rxt" + File.separator + "application.rxt";
         DataHandler dh = new DataHandler(new URL("file:///" + filePath));
@@ -250,6 +246,15 @@ public class CustomRXTSubscriptionTestCase extends GREGIntegrationBaseTest {
                 "/_system/governance/repository/components/org.wso2.carbon.governance/types/application.rxt");
     }
 
+    /**
+     * Need to refresh the landing page to deploy the new rxt in publisher
+     */
+    private void refreshPublisherLandingPage() {
+        Map<String, String> queryParamMap = new HashMap<>();
+        String landingUrl = publisherUrl.replace("apis", "pages/gc-landing");
+        genericRestClient.geneticRestRequestGet(landingUrl, queryParamMap, headerMap, cookieHeader);
+    }
+
     private void setTestEnvironment() throws JSONException, IOException {
         // Authenticate
         ClientResponse response = genericRestClient
@@ -258,7 +263,8 @@ public class CustomRXTSubscriptionTestCase extends GREGIntegrationBaseTest {
         JSONObject obj = new JSONObject(response.getEntity(String.class));
         jSessionId = obj.getJSONObject("data").getString("sessionId");
         cookieHeader = "JSESSIONID=" + jSessionId;
-
+        //refresh the publisher landing page to deploy new rxt type
+        refreshPublisherLandingPage();
         //Create rest service
         queryParamMap.put("type", "applications");
         String dataBody = readFile(resourcePath + "json" + File.separator + "publisherPublishCustomResource.json");

@@ -138,7 +138,7 @@ public class SchemaCRUDByUrlTestCase extends GregESTestBaseTest {
         Assert.assertEquals(obj.get("id").toString(), assetId);
     }
 
-    @Test(groups = {"wso2.greg", "wso2.greg.es"}, description = "Delete Schema test",
+    @Test(groups = {"wso2.greg", "wso2.greg.es"}, description = "Delete Schema in Publisher",
             dependsOnMethods = {"createSchemaServiceAsset", "searchSchemaAsset", "getSchemaAsset"})
     public void deleteSchemaAsset() throws JSONException {
         Map<String, String> queryParamMap = new HashMap<>();
