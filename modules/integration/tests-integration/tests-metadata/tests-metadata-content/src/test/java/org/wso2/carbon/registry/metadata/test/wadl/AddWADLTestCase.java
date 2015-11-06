@@ -58,7 +58,7 @@ public class AddWADLTestCase extends GREGIntegrationBaseTest{
         String wadlPath = "/_system/governance/trunk/wadls/com/sun/research/wadl/_2006/_10/1.0.0/StorageService";
 
         resourceAdminServiceClient.addWADL("StorageService", "Adding simple WADL",
-                "https://svn.wso2.org/repos/wso2/trunk/commons/qa/qa-artifacts/greg/wadl/StorageService.wadl");
+                "https://raw.githubusercontent.com/wso2/wso2-qa-artifacts/master/automation-artifacts/greg/wadl/StorageService.wadl");
 
         ContentBean wadlContentBean = resourceAdminServiceClient.getResourceContent(wadlPath);
         Assert.assertNotNull(wadlContentBean);
@@ -69,7 +69,7 @@ public class AddWADLTestCase extends GREGIntegrationBaseTest{
         String wadlPath = "/_system/governance/trunk/wadls/net/java/dev/wadl/_2009/_02/1.0.0/SearchSearvice";
 
         resourceAdminServiceClient.addWADL("SearchSearvice", "Adding simple WADL with schema import",
-                        "https://svn.wso2.org/repos/wso2/trunk/commons/qa/qa-artifacts/greg/wadl/SearchSearvice.wadl");
+                        "https://raw.githubusercontent.com/wso2/wso2-qa-artifacts/master/automation-artifacts/greg/wadl/SearchSearvice.wadl");
 
         ContentBean wadlContentBean = resourceAdminServiceClient.getResourceContent(wadlPath);
         Assert.assertNotNull(wadlContentBean);
@@ -91,7 +91,7 @@ public class AddWADLTestCase extends GREGIntegrationBaseTest{
     public void addInvalidSchemaImportWADL() throws Exception {
         try {
             resourceAdminServiceClient.addWADL("InvalidSchemaImportWADL", "Adding WADL with invalid schema import",
-                            "http://svn.wso2.org/repos/wso2/trunk/commons/qa/qa-artifacts/greg/wadl/InvalidSchemaImport.wadl");
+                            "https://raw.githubusercontent.com/wso2/wso2-qa-artifacts/master/automation-artifacts/greg/wadl/InvalidSchemaImport.wadl");
         } catch (Exception e){
             if (!e.getMessage().contains("WADL not found")) {
                 Assert.assertTrue(false, "");

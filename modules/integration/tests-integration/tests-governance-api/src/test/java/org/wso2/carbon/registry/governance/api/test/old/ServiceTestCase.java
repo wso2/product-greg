@@ -176,7 +176,7 @@ public class ServiceTestCase {
         // first put a WSDL
         WsdlManager wsdlManager = new WsdlManager(governance);
 
-        Wsdl wsdl = wsdlManager.newWsdl("http://svn.wso2.org/repos/wso2/carbon/platform/trunk/components/governance/org.wso2.carbon.governance.api/src/test/resources/test-resources/wsdl/BizService.wsdl");
+        Wsdl wsdl = wsdlManager.newWsdl("https://raw.githubusercontent.com/wso2/wso2-qa-artifacts/master/automation-artifacts/greg/wsdl/BizService.wsdl");
         wsdlManager.addWsdl(wsdl);
 
         ServiceManager serviceManager = new ServiceManager(governance);

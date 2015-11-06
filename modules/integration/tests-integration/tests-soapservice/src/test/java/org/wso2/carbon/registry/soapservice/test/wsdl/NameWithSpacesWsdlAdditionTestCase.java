@@ -47,7 +47,8 @@ public class NameWithSpacesWsdlAdditionTestCase extends GREGIntegrationBaseTest 
 
         resourceAdminServiceClient.addWSDL(
                 "Wsdl with spaces in the name", "to check wsdl addtion with spaces in its name",
-                "http://svn.wso2.org/repos/wso2/people/krishantha/wsdl/wsdl%20with%20spaces%20in%20the%20name.wsdl");
+                "https://raw.githubusercontent.com/wso2/wso2-qa-artifacts/master/automation-artifacts/greg" +
+                        "/wsdl/wsdl%20with%20spaces%20in%20the%20name.wsdl");
 
         resourceAdminServiceClient.setDescription(wsdlPath,
                 "this wsdl has spaces in its name");

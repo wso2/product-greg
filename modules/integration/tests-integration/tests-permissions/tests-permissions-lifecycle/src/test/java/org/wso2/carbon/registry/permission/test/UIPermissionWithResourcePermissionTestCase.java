@@ -80,9 +80,7 @@ public class UIPermissionWithResourcePermissionTestCase extends GREGIntegrationB
     public void testAddMetaDataByAdmin() throws Exception {
         String resourceName = "echo.wsdl";
 
-        String fetchUrl = "https://svn.wso2.org/repos/wso2/carbon/platform/branches/turing/products/" +
-                "greg/4.6.0/modules/integration/registry/tests-metadata/src/test/resources/artifacts/" +
-                "GREG/wsdl/echo.wsdl";
+        String fetchUrl = "https://raw.githubusercontent.com/wso2/wso2-qa-artifacts/master/automation-artifacts/greg/wsdl/echo.wsdl";
 
 
         resourceAdminServiceClient = new ResourceAdminServiceClient(backendURL, sessionCookie);
