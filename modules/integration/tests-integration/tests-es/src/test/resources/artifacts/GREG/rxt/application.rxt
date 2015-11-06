@@ -1,6 +1,7 @@
 <artifactType type="application/vnd.wso2-application+xml" shortName="applications" singularLabel="Enterprise Application" pluralLabel="Enterprise Applications" hasNamespace="false" iconSet="9">
     <storagePath>/applications/@{overview_name}/@{overview_version}</storagePath>
 	<nameAttribute>overview_name</nameAttribute>
+	<lifecycle>ServiceLifeCycle</lifecycle>
     <ui>
         <list>
             <column name="Name">

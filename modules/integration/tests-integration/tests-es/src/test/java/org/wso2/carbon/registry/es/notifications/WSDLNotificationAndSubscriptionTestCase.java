@@ -1,5 +1,5 @@
 /*
- *  Copyright (c) 2005-2014, WSO2 Inc. (http://www.wso2.org) All Rights Reserved.
+ *  Copyright (c) 2015, WSO2 Inc. (http://www.wso2.org) All Rights Reserved.
  *
  *  WSO2 Inc. licenses this file to you under the Apache License,
  *  Version 2.0 (the "License"); you may not use this file except
@@ -34,13 +34,14 @@ import org.wso2.carbon.automation.engine.context.TestUserMode;
 import org.wso2.carbon.automation.engine.frameworkutils.FrameworkPathUtil;
 import org.wso2.carbon.governance.custom.lifecycles.checklist.stub.CustomLifecyclesChecklistAdminServiceExceptionException;
 import org.wso2.carbon.registry.core.exceptions.RegistryException;
-import org.wso2.carbon.registry.es.publisher.crud.CRUDTestCommonUtils;
+import org.wso2.carbon.registry.es.utils.ESTestCommonUtils;
+import org.wso2.carbon.registry.es.utils.GregESTestBaseTest;
 import org.wso2.greg.integration.common.clients.LifeCycleAdminServiceClient;
-import org.wso2.greg.integration.common.utils.GREGIntegrationBaseTest;
 import org.wso2.greg.integration.common.utils.GenericRestClient;
 
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import javax.xml.xpath.XPathExpressionException;
 import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
@@ -52,7 +53,7 @@ import static org.testng.Assert.assertTrue;
 /**
  * This class tests subscriptions and notifications on publisher console for WSDLs
  */
-public class WSDLNotificationAndSubscriptionTestCase extends GREGIntegrationBaseTest {
+public class WSDLNotificationAndSubscriptionTestCase extends GregESTestBaseTest {
 
     private static final Log log = LogFactory.getLog(WSDLNotificationAndSubscriptionTestCase.class);
     private TestUserMode userMode;
@@ -66,10 +67,11 @@ public class WSDLNotificationAndSubscriptionTestCase extends GREGIntegrationBase
     String publisherUrl;
     String resourcePath;
     String assetName;
-    CRUDTestCommonUtils crudTestCommonUtils;
+    ESTestCommonUtils crudTestCommonUtils;
     LifeCycleAdminServiceClient lifeCycleAdminServiceClient;
     String lifeCycleName;
     String stateChangeMessage = " State changed successfully to Testing!";
+
     @Factory(dataProvider = "userModeProvider")
     public WSDLNotificationAndSubscriptionTestCase(TestUserMode userMode) {
         this.userMode = userMode;
@@ -88,23 +90,22 @@ public class WSDLNotificationAndSubscriptionTestCase extends GREGIntegrationBase
         //need lifeCycleAdminServiceClient to attach a lifecycle to the WSDL, as WSDLs does not come with
         //a default lifecycle attached
         lifeCycleAdminServiceClient = new LifeCycleAdminServiceClient(backendURL, sessionCookie);
-        crudTestCommonUtils = new CRUDTestCommonUtils(genericRestClient, publisherUrl, headerMap);
+        crudTestCommonUtils = new ESTestCommonUtils(genericRestClient, publisherUrl, headerMap);
         lifeCycleName = "ServiceLifeCycle";
+        setTestEnvironment();
     }
+
+
 
     @AfterClass(alwaysRun = true)
     public void cleanUp() throws RegistryException {
 
     }
 
-    @Test(groups = {"wso2.greg", "wso2.greg.es"}, description = "Authenticate Publisher test")
-    public void authenticatePublisher() throws JSONException {
-        ClientResponse response =
-                genericRestClient.geneticRestRequestPost(publisherUrl + "/authenticate/",
-                                                         MediaType.APPLICATION_FORM_URLENCODED,
-                                                         MediaType.APPLICATION_JSON,
-                                                         "username=admin&password=admin"
-                        , queryParamMap, headerMap, null);
+    private void setTestEnvironment() throws XPathExpressionException, JSONException {
+        ClientResponse response = authenticate(publisherUrl, genericRestClient,
+                                            automationContext.getSuperTenant().getTenantAdmin().getUserName(),
+                                            automationContext.getSuperTenant().getTenantAdmin().getPassword());
         JSONObject obj = new JSONObject(response.getEntity(String.class));
         assertTrue((response.getStatusCode() == 200),
                    "Wrong status code ,Expected 200 OK ,Received " +
@@ -116,15 +117,14 @@ public class WSDLNotificationAndSubscriptionTestCase extends GREGIntegrationBase
         crudTestCommonUtils.setCookieHeader(cookieHeader);
     }
 
-    @Test(groups = {"wso2.greg", "wso2.greg.es"}, description = "create a wsdl with a LC attached.",
-          dependsOnMethods = {"authenticatePublisher"})
+    @Test(groups = {"wso2.greg", "wso2.greg.es"}, description = "create a wsdl with a LC attached.")
     public void createWSDLAssetWithLC()
             throws JSONException, InterruptedException, IOException,
                    CustomLifecyclesChecklistAdminServiceExceptionException {
         queryParamMap.put("type", "wsdl");
         String dataBody = readFile(resourcePath + "json" + File.separator
                                    + "publisherPublishWSDLResource.json");
-        assetName = (String)(new JSONObject(dataBody)).get("overview_name");
+        assetName = (String) (new JSONObject(dataBody)).get("overview_name");
         ClientResponse response =
                 genericRestClient.geneticRestRequestPost(publisherUrl + "/assets",
                                                          MediaType.APPLICATION_JSON,
@@ -145,14 +145,32 @@ public class WSDLNotificationAndSubscriptionTestCase extends GREGIntegrationBase
                                   .equals(lifeCycleName), "LifeCycle not assigned to given asset");
     }
 
-    @Test(groups = {"wso2.greg", "wso2.greg.es"}, description = "Adding subscription to a wsdl LC check list item check",
-          dependsOnMethods = {"createWSDLAssetWithLC"})
+    @Test(groups = {"wso2.greg", "wso2.greg.es"}, description = "Adding subscription to a wsdl LC check list item check")
     public void addSubscriptionForLCCheckListItemCheck() throws JSONException, IOException {
 
         JSONObject dataObject = new JSONObject();
 
-        dataObject.put("notificationType","PublisherCheckListItemChecked");
-        dataObject.put("notificationMethod","work");
+        dataObject.put("notificationType", "PublisherCheckListItemChecked");
+        dataObject.put("notificationMethod", "work");
+
+        ClientResponse response =
+                genericRestClient.geneticRestRequestPost(publisherUrl + "/subscriptions/wsdl/" + assetId, MediaType.APPLICATION_JSON,
+                                                         MediaType.APPLICATION_JSON, dataObject.toString()
+                        , queryParamMap, headerMap, cookieHeader);
+
+        assertTrue((response.getStatusCode() == Response.Status.OK.getStatusCode()),
+                   "Wrong status code ,Expected" + Response.Status.OK.getStatusCode() + "Created ,Received " +
+                   response.getStatusCode());
+    }
+
+    @Test(groups = {"wso2.greg", "wso2.greg.es"}, description = "Adding subscription to a wsdl LC check list item uncheck",
+          dependsOnMethods = {"createWSDLAssetWithLC"})
+    public void addSubscriptionForLCCheckListItemUnCheck() throws JSONException, IOException {
+
+        JSONObject dataObject = new JSONObject();
+
+        dataObject.put("notificationType", "PublisherCheckListItemUnchecked");
+        dataObject.put("notificationMethod", "work");
 
         ClientResponse response =
                 genericRestClient.geneticRestRequestPost(publisherUrl + "/subscriptions/wsdl/" + assetId, MediaType.APPLICATION_JSON,
@@ -170,8 +188,8 @@ public class WSDLNotificationAndSubscriptionTestCase extends GREGIntegrationBase
 
         JSONObject dataObject = new JSONObject();
 
-        dataObject.put("notificationType","PublisherLifeCycleStateChanged");
-        dataObject.put("notificationMethod","work");
+        dataObject.put("notificationType", "PublisherLifeCycleStateChanged");
+        dataObject.put("notificationMethod", "work");
 
         ClientResponse response =
                 genericRestClient.geneticRestRequestPost(publisherUrl + "/subscriptions/wsdl/" + assetId, MediaType.APPLICATION_JSON,
@@ -183,8 +201,16 @@ public class WSDLNotificationAndSubscriptionTestCase extends GREGIntegrationBase
                    response.getStatusCode());
     }
 
+    @Test(groups = {"wso2.greg", "wso2.greg.es"}, description = "Checking notification on a wsdl LC check item",
+          dependsOnMethods = {"createWSDLAssetWithLC","addSubscriptionForLCCheckListItemCheck","checkLCCheckItemsOnWSDL"})
+    public void checkNotificationForLCCheck(){
+        ClientResponse response =
+                genericRestClient.geneticRestRequestGet(publisherUrl + "/notification", queryParamMap,
+                                                        headerMap, cookieHeader);
+    }
+
     @Test(groups = {"wso2.greg", "wso2.greg.es"}, description = "WSDL LC check list item check",
-          dependsOnMethods = {"createWSDLAssetWithLC","addSubscriptionForLCCheckListItemCheck"})
+          dependsOnMethods = {"createWSDLAssetWithLC", "addSubscriptionForLCCheckListItemCheck"})
     public void checkLCCheckItemsOnWSDL() throws JSONException, IOException {
         queryParamMap.put("type", "wsdl");
         queryParamMap.put("lifecycle", lifeCycleName);
@@ -192,23 +218,13 @@ public class WSDLNotificationAndSubscriptionTestCase extends GREGIntegrationBase
         JSONObject dataObj = LCStateobj.getJSONObject("data");
         JSONArray checkItems = dataObj.getJSONArray("checkItems");
         Assert.assertEquals(((JSONObject) checkItems.get(0)).getString("isVisible"), "true");
-        Assert.assertEquals(((JSONObject) checkItems.get(1)).getString("isVisible"), "true");
-        Assert.assertEquals(((JSONObject) checkItems.get(2)).getString("isVisible"), "true");
-        //check LC check items
         ClientResponse responseCheck0 =
                 checkLifeCycleCheckItem(cookieHeader, 0);
-        ClientResponse responseCheck1 =
-                checkLifeCycleCheckItem(cookieHeader, 1);
-        ClientResponse responseCheck2 =
-                checkLifeCycleCheckItem(cookieHeader, 2);
-        Assert.assertTrue(responseCheck0.getStatusCode()==200);
-        Assert.assertTrue(responseCheck1.getStatusCode()==200);
-        Assert.assertTrue(responseCheck2.getStatusCode()==200);
-
+        Assert.assertTrue(responseCheck0.getStatusCode() == 200);
     }
 
     @Test(groups = {"wso2.greg", "wso2.greg.es"}, description = "Change LC state on WSDL",
-          dependsOnMethods = {"createWSDLAssetWithLC","addSubscriptionForLCStateChange","checkLCCheckItemsOnWSDL"})
+          dependsOnMethods = {"createWSDLAssetWithLC", "addSubscriptionForLCStateChange", "checkLCCheckItemsOnWSDL","uncheckLCCheckItemsOnWSDL" })
     public void changeLCStateWSDL() throws JSONException, IOException {
         ClientResponse response =
                 genericRestClient.geneticRestRequestPost(publisherUrl + "/assets/" + assetId + "/state",
@@ -220,8 +236,24 @@ public class WSDLNotificationAndSubscriptionTestCase extends GREGIntegrationBase
         String status = obj.get("status").toString();
         Assert.assertEquals(status, stateChangeMessage);
     }
+
+    @Test(groups = {"wso2.greg", "wso2.greg.es"}, description = "WSDL LC check list item check",
+          dependsOnMethods = {"createWSDLAssetWithLC", "addSubscriptionForLCCheckListItemUnCheck", "checkLCCheckItemsOnWSDL"})
+    public void uncheckLCCheckItemsOnWSDL() throws JSONException, IOException {
+        queryParamMap.put("type", "wsdl");
+        queryParamMap.put("lifecycle", lifeCycleName);
+        JSONObject LCStateobj = getLifeCycleState(assetId, "wsdl");
+        JSONObject dataObj = LCStateobj.getJSONObject("data");
+        JSONArray checkItems = dataObj.getJSONArray("checkItems");
+        Assert.assertEquals(((JSONObject) checkItems.get(0)).getString("isVisible"), "true");
+        ClientResponse responseUncheck0 =
+                uncheckLifeCycleCheckItem(cookieHeader, 0);
+        Assert.assertTrue(responseUncheck0.getStatusCode() == 200);
+    }
+
     /**
      * This method get all the wsdls in publisher and select the one created by createWSDLAssetWithLC method.
+     *
      * @throws JSONException
      */
     public void searchWsdlAsset() throws JSONException {
@@ -231,21 +263,13 @@ public class WSDLNotificationAndSubscriptionTestCase extends GREGIntegrationBase
         JSONObject obj = new JSONObject(clientResponse.getEntity(String.class));
         JSONArray jsonArray = obj.getJSONArray("list");
         for (int i = 0; i < jsonArray.length(); i++) {
-            String name = (String)jsonArray.getJSONObject(i).get("name");
+            String name = (String) jsonArray.getJSONObject(i).get("name");
             if (assetName.equals(name)) {
-                assetId = (String)jsonArray.getJSONObject(i).get("id");
-                path = (String)jsonArray.getJSONObject(i).get("path");
+                assetId = (String) jsonArray.getJSONObject(i).get("id");
+                path = (String) jsonArray.getJSONObject(i).get("path");
                 break;
             }
         }
-    }
-
-    private JSONObject getAllLifeCycles() throws JSONException {
-        ClientResponse response =
-                genericRestClient.geneticRestRequestGet
-                        (publisherUrl + "/lifecycles"
-                                , queryParamMap, headerMap, cookieHeader);
-        return new JSONObject(response.getEntity(String.class));
     }
 
     private JSONObject getAsset(String assetId, String assetType) throws JSONException {
@@ -258,7 +282,7 @@ public class WSDLNotificationAndSubscriptionTestCase extends GREGIntegrationBase
     private JSONObject getLifeCycleState(String assetId, String assetType) throws JSONException {
         Map<String, String> assetTypeParamMap = new HashMap<String, String>();
         assetTypeParamMap.put("type", assetType);
-        assetTypeParamMap.put("lifecycle",lifeCycleName);
+        assetTypeParamMap.put("lifecycle", lifeCycleName);
         ClientResponse response =
                 genericRestClient.geneticRestRequestGet
                         (publisherUrl + "/asset/" + assetId + "/state"
@@ -266,109 +290,21 @@ public class WSDLNotificationAndSubscriptionTestCase extends GREGIntegrationBase
         return new JSONObject(response.getEntity(String.class));
     }
 
-    private ClientResponse checkLifeCycleCheckItem(String managerCookieHeader,int itemId) {
+    private ClientResponse checkLifeCycleCheckItem(String managerCookieHeader, int itemId) {
         return genericRestClient.geneticRestRequestPost(publisherUrl + "/asset/" + assetId + "/update-checklist",
                                                         MediaType.APPLICATION_JSON,
                                                         MediaType.APPLICATION_JSON,
-                                                        "{\"checklist\":[{\"index\":"+itemId+",\"checked\":true}]}"
+                                                        "{\"checklist\":[{\"index\":" + itemId + ",\"checked\":true}]}"
                 , queryParamMap, headerMap, managerCookieHeader);
     }
-    /*@Test(groups = {"wso2.greg", "wso2.greg.es"}, description = "Create Test WSDL",
-          dependsOnMethods = {"authenticatePublisher"})
-    public void createWSDLAsset() throws JSONException, IOException {
-        queryParamMap.put("type", "wsdl");
-        String dataBody = readFile(resourcePath + "json" + File.separator + "publisherPublishWSDLResource.json");
-        assetName = (String)(new JSONObject(dataBody)).get("overview_name");
-        ClientResponse response =
-                genericRestClient.geneticRestRequestPost(publisherUrl + "/assets",
-                                                         MediaType.APPLICATION_JSON,
-                                                         MediaType.APPLICATION_JSON, dataBody
-                        , queryParamMap, headerMap, cookieHeader);
-        JSONObject obj = new JSONObject(response.getEntity(String.class));
-        assertTrue((response.getStatusCode() == Response.Status.CREATED.getStatusCode()),
-                   "Wrong status code ,Expected 201 Created ,Received " +
-                   response.getStatusCode()
-        );
-        String resultName = obj.get("overview_name").toString();
-        Assert.assertEquals(resultName, assetName);
+
+    private ClientResponse uncheckLifeCycleCheckItem(String managerCookieHeader, int itemId) {
+        return genericRestClient.geneticRestRequestPost(publisherUrl + "/asset/" + assetId + "/update-checklist",
+                                                        MediaType.APPLICATION_JSON,
+                                                        MediaType.APPLICATION_JSON,
+                                                        "{\"checklist\":[{\"index\":" + itemId + ",\"checked\":false}]}"
+                , queryParamMap, headerMap, managerCookieHeader);
     }
-
-    @Test(groups = {"wso2.greg", "wso2.greg.es"}, description = "Adding subscription to a wsdl",
-          dependsOnMethods = {"createWSDLAsset"})
-    public void addSubscription() throws JSONException, IOException {
-        getWSDL();
-
-        JSONObject dataObject = new JSONObject();
-
-        dataObject.put("notificationType","PublisherResourceUpdated");
-        dataObject.put("notificationMethod","work");
-
-        ClientResponse response =
-                genericRestClient.geneticRestRequestPost(publisherUrl + "/subscriptions/restservice/" + assetId, MediaType.APPLICATION_JSON,
-                                                         MediaType.APPLICATION_JSON, dataObject.toString()
-                        , queryParamMap, headerMap, cookieHeader);
-
-        assertTrue((response.getStatusCode() == Response.Status.OK.getStatusCode()),
-                   "Wrong status code ,Expected" + Response.Status.OK.getStatusCode() + "Created ,Received " +
-                   response.getStatusCode());
-    }
-
-    private ClientResponse getAllAvailableWsdlAssets() {
-        queryParamMap.put("type", "wsdl");
-        //queryParamMap.put("overview_name", "AmazonWebServices.wsdl");
-        return genericRestClient.geneticRestRequestGet
-                (publisherUrl + "/assets", queryParamMap, headerMap, cookieHeader);
-    }
-
-    private void searchForWSDL() throws JSONException {
-        boolean assetFound = false;
-        Map<String, String> queryParamMap = new HashMap<>();
-        queryParamMap.put("type", "wsdl");
-        ClientResponse clientResponse = crudTestCommonUtils.searchAssetByQuery(queryParamMap);
-        JSONObject obj = new JSONObject(clientResponse.getEntity(String.class));
-        JSONArray jsonArray = obj.getJSONArray("list");
-        for (int i = 0; i < jsonArray.length(); i++) {
-            String name = (String)jsonArray.getJSONObject(i).get("name");
-            if (assetName.equals(name)) {
-                assetFound = true;
-                break;
-            }
-        }
-        //Assert.assertEquals(assetFound,true);
-        //Assert.assertNotNull(assetId, "Empty asset resource id available");
-    }
-
-    private ClientResponse getWSDL() throws JSONException {
-        searchForWSDL();
-        Map<String, String> queryParamMap = new HashMap<>();
-        queryParamMap.put("type", "wsdl");
-        ClientResponse clientResponse = crudTestCommonUtils.getAssetById(assetId, queryParamMap);
-        return clientResponse;
-        *//*JSONObject obj = new JSONObject(clientResponse.getEntity(String.class));
-        Assert.assertEquals(obj.get("id").toString(), assetId);*//*
-    }
-
-    private void attachLifeCycle()
-            throws IOException, LifeCycleManagementServiceExceptionException, ResourceAdminServiceExceptionException,
-                   JSONException {
-        lifeCycleAdminServiceClient.addLifeCycle(readFile(resourcePath + "lifecycle"
-                                                          + File.separator + "ServiceLifeCycle.xml"));
-        DataHandler dh = new DataHandler(new URL("file:///" + resourcePath + "rxt"
-                                                 + File.separator + "updated-wsdl.rxt"));
-        resourceAdminServiceClient.addResource(resourceRegistryPath,
-                                              "application/vnd.wso2.registry-ext-type+xml",
-                                              "TstDec", dh);
-        Assert.assertTrue(getAllLifeCycles().get("data").toString().contains(lifeCycleName),
-                          "LifeCycle not Added");
-    }
-
-    private JSONObject getAllLifeCycles() throws JSONException {
-        ClientResponse response =
-                genericRestClient.geneticRestRequestGet
-                        (publisherUrl + "/lifecycles"
-                                , queryParamMap, headerMap, cookieHeader);
-        return new JSONObject(response.getEntity(String.class));
-    }*/
 
     @DataProvider
     private static TestUserMode[][] userModeProvider() {
