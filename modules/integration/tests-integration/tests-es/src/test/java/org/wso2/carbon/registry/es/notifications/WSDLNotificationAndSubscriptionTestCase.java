@@ -117,25 +117,6 @@ public class WSDLNotificationAndSubscriptionTestCase extends GregESTestBaseTest 
         crudTestCommonUtils.setCookieHeader(cookieHeader);
     }
 
-    /*@Test(groups = {"wso2.greg", "wso2.greg.es"}, description = "Authenticate Publisher test")
-    public void authenticatePublisher() throws JSONException {
-        ClientResponse response =
-                genericRestClient.geneticRestRequestPost(publisherUrl + "/authenticate/",
-                                                         MediaType.APPLICATION_FORM_URLENCODED,
-                                                         MediaType.APPLICATION_JSON,
-                                                         "username=admin&password=admin"
-                        , queryParamMap, headerMap, null);
-        JSONObject obj = new JSONObject(response.getEntity(String.class));
-        assertTrue((response.getStatusCode() == 200),
-                   "Wrong status code ,Expected 200 OK ,Received " +
-                   response.getStatusCode()
-        );
-        jSessionId = obj.getJSONObject("data").getString("sessionId");
-        cookieHeader = "JSESSIONID=" + jSessionId;
-        assertNotNull(jSessionId, "Invalid JSessionID received");
-        crudTestCommonUtils.setCookieHeader(cookieHeader);
-    }*/
-
     @Test(groups = {"wso2.greg", "wso2.greg.es"}, description = "create a wsdl with a LC attached.")
     public void createWSDLAssetWithLC()
             throws JSONException, InterruptedException, IOException,
@@ -220,6 +201,14 @@ public class WSDLNotificationAndSubscriptionTestCase extends GregESTestBaseTest 
                    response.getStatusCode());
     }
 
+    @Test(groups = {"wso2.greg", "wso2.greg.es"}, description = "Checking notification on a wsdl LC check item",
+          dependsOnMethods = {"createWSDLAssetWithLC","addSubscriptionForLCCheckListItemCheck","checkLCCheckItemsOnWSDL"})
+    public void checkNotificationForLCCheck(){
+        ClientResponse response =
+                genericRestClient.geneticRestRequestGet(publisherUrl + "/notification", queryParamMap,
+                                                        headerMap, cookieHeader);
+    }
+
     @Test(groups = {"wso2.greg", "wso2.greg.es"}, description = "WSDL LC check list item check",
           dependsOnMethods = {"createWSDLAssetWithLC", "addSubscriptionForLCCheckListItemCheck"})
     public void checkLCCheckItemsOnWSDL() throws JSONException, IOException {
@@ -229,23 +218,13 @@ public class WSDLNotificationAndSubscriptionTestCase extends GregESTestBaseTest 
         JSONObject dataObj = LCStateobj.getJSONObject("data");
         JSONArray checkItems = dataObj.getJSONArray("checkItems");
         Assert.assertEquals(((JSONObject) checkItems.get(0)).getString("isVisible"), "true");
-        Assert.assertEquals(((JSONObject) checkItems.get(1)).getString("isVisible"), "true");
-        Assert.assertEquals(((JSONObject) checkItems.get(2)).getString("isVisible"), "true");
-        //check LC check items
         ClientResponse responseCheck0 =
                 checkLifeCycleCheckItem(cookieHeader, 0);
-        ClientResponse responseCheck1 =
-                checkLifeCycleCheckItem(cookieHeader, 1);
-        ClientResponse responseCheck2 =
-                checkLifeCycleCheckItem(cookieHeader, 2);
         Assert.assertTrue(responseCheck0.getStatusCode() == 200);
-        Assert.assertTrue(responseCheck1.getStatusCode() == 200);
-        Assert.assertTrue(responseCheck2.getStatusCode() == 200);
-
     }
 
     @Test(groups = {"wso2.greg", "wso2.greg.es"}, description = "Change LC state on WSDL",
-          dependsOnMethods = {"createWSDLAssetWithLC", "addSubscriptionForLCStateChange", "checkLCCheckItemsOnWSDL"})
+          dependsOnMethods = {"createWSDLAssetWithLC", "addSubscriptionForLCStateChange", "checkLCCheckItemsOnWSDL","uncheckLCCheckItemsOnWSDL" })
     public void changeLCStateWSDL() throws JSONException, IOException {
         ClientResponse response =
                 genericRestClient.geneticRestRequestPost(publisherUrl + "/assets/" + assetId + "/state",
@@ -259,7 +238,7 @@ public class WSDLNotificationAndSubscriptionTestCase extends GregESTestBaseTest 
     }
 
     @Test(groups = {"wso2.greg", "wso2.greg.es"}, description = "WSDL LC check list item check",
-          dependsOnMethods = {"createWSDLAssetWithLC", "addSubscriptionForLCCheckListItemUnCheck", "checkLCCheckItemsOnWSDL", "changeLCStateWSDL"})
+          dependsOnMethods = {"createWSDLAssetWithLC", "addSubscriptionForLCCheckListItemUnCheck", "checkLCCheckItemsOnWSDL"})
     public void uncheckLCCheckItemsOnWSDL() throws JSONException, IOException {
         queryParamMap.put("type", "wsdl");
         queryParamMap.put("lifecycle", lifeCycleName);
@@ -267,23 +246,9 @@ public class WSDLNotificationAndSubscriptionTestCase extends GregESTestBaseTest 
         JSONObject dataObj = LCStateobj.getJSONObject("data");
         JSONArray checkItems = dataObj.getJSONArray("checkItems");
         Assert.assertEquals(((JSONObject) checkItems.get(0)).getString("isVisible"), "true");
-        Assert.assertEquals(((JSONObject) checkItems.get(1)).getString("isVisible"), "true");
-        Assert.assertEquals(((JSONObject) checkItems.get(2)).getString("isVisible"), "true");
-        //check LC check items
-        checkLifeCycleCheckItem(cookieHeader, 0);
-        checkLifeCycleCheckItem(cookieHeader, 1);
-        checkLifeCycleCheckItem(cookieHeader, 2);
-        //uncheck LC check items
         ClientResponse responseUncheck0 =
                 uncheckLifeCycleCheckItem(cookieHeader, 0);
-        ClientResponse responseUncheck1 =
-                uncheckLifeCycleCheckItem(cookieHeader, 1);
-        ClientResponse responseUncheck2 =
-                uncheckLifeCycleCheckItem(cookieHeader, 2);
         Assert.assertTrue(responseUncheck0.getStatusCode() == 200);
-        Assert.assertTrue(responseUncheck1.getStatusCode() == 200);
-        Assert.assertTrue(responseUncheck2.getStatusCode() == 200);
-
     }
 
     /**
