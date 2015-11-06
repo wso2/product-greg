@@ -27,8 +27,6 @@ import org.testng.Assert;
 import org.testng.annotations.*;
 import org.wso2.carbon.automation.engine.context.TestUserMode;
 import org.wso2.carbon.automation.engine.frameworkutils.FrameworkPathUtil;
-import org.wso2.carbon.integration.common.utils.mgt.ServerConfigurationManager;
-import org.wso2.carbon.registry.core.exceptions.RegistryException;
 import org.wso2.carbon.registry.es.utils.ESTestCommonUtils;
 import org.wso2.carbon.registry.es.utils.GregESTestBaseTest;
 import org.wso2.greg.integration.common.clients.ResourceAdminServiceClient;
@@ -158,7 +156,7 @@ public class CustomAssetCRUDTestCase extends GregESTestBaseTest {
                 break;
             }
         }
-        Assert.assertTrue(assetFound, "Rest Service not found in assets listing");
+        Assert.assertTrue(assetFound, "Custom asset not found in assets listing");
     }
 
     @Test(groups = {"wso2.greg", "wso2.greg.es"}, description = "Update Custom Asset in Publisher",
