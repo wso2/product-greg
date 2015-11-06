@@ -136,7 +136,7 @@ public class RestServiceCRUDTestCase extends GregESTestBaseTest {
         Assert.assertTrue(assetFound, "Rest Service not found in assets listing");
     }
 
-    @Test(groups = {"wso2.greg", "wso2.greg.es"}, description = "Search Rest Service in Publisher",
+    @Test(groups = {"wso2.greg", "wso2.greg.es"}, description = "Update Rest Service in Publisher",
             dependsOnMethods = {"getRestServiceAsset"})
     public void updateRestServiceAsset() throws JSONException, IOException {
         Map<String, String> queryParamMap = new HashMap<>();

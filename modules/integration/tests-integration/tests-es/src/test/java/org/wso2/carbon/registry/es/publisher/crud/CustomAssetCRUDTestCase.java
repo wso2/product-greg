@@ -108,7 +108,7 @@ public class CustomAssetCRUDTestCase extends GregESTestBaseTest {
         genericRestClient.geneticRestRequestGet(landingUrl, queryParamMap, headerMap, cookieHeader);
     }
 
-    @Test(groups = {"wso2.greg", "wso2.greg.es"}, description = "Create Rest Service in Publisher")
+    @Test(groups = {"wso2.greg", "wso2.greg.es"}, description = "Create Custom Asset in Publisher")
     public void createCustomAsset() throws JSONException, IOException {
         Map<String, String> queryParamMap = new HashMap<>();
         queryParamMap.put("type", "applications");
@@ -128,7 +128,7 @@ public class CustomAssetCRUDTestCase extends GregESTestBaseTest {
                 response.getEntity(String.class));
     }
 
-    @Test(groups = {"wso2.greg", "wso2.greg.es"}, description = "Get Rest Service in Publisher",
+    @Test(groups = {"wso2.greg", "wso2.greg.es"}, description = "Get Custom Asset in Publisher",
             dependsOnMethods = {"createCustomAsset"})
     public void getCustomAsset() throws JSONException {
         Map<String, String> queryParamMap = new HashMap<>();
@@ -141,7 +141,7 @@ public class CustomAssetCRUDTestCase extends GregESTestBaseTest {
         Assert.assertEquals(obj.get("id").toString(), assetId);
     }
 
-    @Test(groups = {"wso2.greg", "wso2.greg.es"}, description = "Search Rest Service in Publisher",
+    @Test(groups = {"wso2.greg", "wso2.greg.es"}, description = "Search Custom Asset in Publisher",
             dependsOnMethods = {"createCustomAsset"})
     public void searchCustomAsset() throws JSONException {
         boolean assetFound = false;
@@ -161,7 +161,7 @@ public class CustomAssetCRUDTestCase extends GregESTestBaseTest {
         Assert.assertTrue(assetFound, "Rest Service not found in assets listing");
     }
 
-    @Test(groups = {"wso2.greg", "wso2.greg.es"}, description = "Search Rest Service in Publisher",
+    @Test(groups = {"wso2.greg", "wso2.greg.es"}, description = "Update Custom Asset in Publisher",
             dependsOnMethods = {"getCustomAsset"})
     public void updateCustomAsset() throws JSONException, IOException {
         Map<String, String> queryParamMap = new HashMap<>();
@@ -180,7 +180,7 @@ public class CustomAssetCRUDTestCase extends GregESTestBaseTest {
                 .equals("Test update asset"));
     }
 
-    @Test(groups = {"wso2.greg", "wso2.greg.es"}, description = "Delete Rest Service in Publisher",
+    @Test(groups = {"wso2.greg", "wso2.greg.es"}, description = "Delete Custom Asset in Publisher",
             dependsOnMethods = {"getCustomAsset", "searchCustomAsset", "updateCustomAsset"})
     public void deleteCustomAsset() throws JSONException {
         Map<String, String> queryParamMap = new HashMap<>();
