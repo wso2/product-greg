@@ -27,20 +27,23 @@ import org.testng.Assert;
 import org.testng.annotations.*;
 import org.wso2.carbon.automation.engine.context.TestUserMode;
 import org.wso2.carbon.automation.engine.frameworkutils.FrameworkPathUtil;
+import org.wso2.carbon.integration.common.utils.mgt.ServerConfigurationManager;
 import org.wso2.carbon.registry.core.exceptions.RegistryException;
 import org.wso2.carbon.registry.es.utils.ESTestCommonUtils;
 import org.wso2.carbon.registry.es.utils.GregESTestBaseTest;
+import org.wso2.greg.integration.common.clients.ResourceAdminServiceClient;
 import org.wso2.greg.integration.common.utils.GenericRestClient;
 
+import javax.activation.DataHandler;
 import javax.ws.rs.core.MediaType;
-import javax.xml.xpath.XPathExpressionException;
 import java.io.File;
 import java.io.IOException;
+import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
 
-public class SchemaCRUDByUrlTestCase extends GregESTestBaseTest {
-    private static final Log log = LogFactory.getLog(SchemaCRUDByUrlTestCase.class);
+public class CustomAssetCRUDTestCase extends GregESTestBaseTest {
+    private static final Log log = LogFactory.getLog(CustomAssetCRUDTestCase.class);
     private TestUserMode userMode;
     String jSessionId;
     String assetId;
@@ -51,10 +54,9 @@ public class SchemaCRUDByUrlTestCase extends GregESTestBaseTest {
     String publisherUrl;
     String resourcePath;
     ESTestCommonUtils esTestCommonUtils;
-    Map<String, String> assocUUIDMap;
 
     @Factory(dataProvider = "userModeProvider")
-    public SchemaCRUDByUrlTestCase(TestUserMode userMode) {
+    public CustomAssetCRUDTestCase(TestUserMode userMode) {
         this.userMode = userMode;
     }
 
@@ -70,8 +72,19 @@ public class SchemaCRUDByUrlTestCase extends GregESTestBaseTest {
         setTestEnvironment();
     }
 
-    private void setTestEnvironment() throws JSONException, XPathExpressionException,
-            IOException {
+    private void doAdminConfigurations() throws Exception {
+        String session = getSessionCookie();
+        ResourceAdminServiceClient resourceAdminServiceClient = new ResourceAdminServiceClient(backendURL, session);
+        String filePath = getTestArtifactLocation() + "artifacts" + File.separator +
+                "GREG" + File.separator + "rxt" + File.separator + "application.rxt";
+        DataHandler dh = new DataHandler(new URL("file:///" + filePath));
+        resourceAdminServiceClient.addResource(
+                "/_system/governance/repository/components/org.wso2.carbon.governance/types/application.rxt",
+                "application/vnd.wso2.registry-ext-type+xml", "desc", dh);
+    }
+
+    private void setTestEnvironment() throws Exception {
+        doAdminConfigurations();
         JSONObject objSessionPublisher =
                 new JSONObject(authenticate(publisherUrl, genericRestClient,
                         automationContext.getSuperTenant().getTenantAdmin().getUserName(),
@@ -79,16 +92,27 @@ public class SchemaCRUDByUrlTestCase extends GregESTestBaseTest {
                         .getEntity(String.class));
         jSessionId = objSessionPublisher.getJSONObject("data").getString("sessionId");
         cookieHeader = "JSESSIONID=" + jSessionId;
+        //refresh the publisher landing page to deploy new rxt type
+        refreshPublisherLandingPage();
         Assert.assertNotNull(jSessionId, "Invalid JSessionID received");
         esTestCommonUtils = new ESTestCommonUtils(genericRestClient, publisherUrl, headerMap);
         esTestCommonUtils.setCookieHeader(cookieHeader);
     }
 
-    @Test(groups = {"wso2.greg", "wso2.greg.es"}, description = "Import Schema in Publisher")
-    public void createSchemaServiceAsset() throws JSONException, IOException {
+    /**
+     * Need to refresh the landing page to deploy the new rxt in publisher
+     */
+    private void refreshPublisherLandingPage() {
         Map<String, String> queryParamMap = new HashMap<>();
-        queryParamMap.put("type", "schema");
-        String dataBody = readFile(resourcePath + "json" + File.separator + "schema-sample.json");
+        String landingUrl = publisherUrl.replace("apis", "pages/gc-landing");
+        genericRestClient.geneticRestRequestGet(landingUrl, queryParamMap, headerMap, cookieHeader);
+    }
+
+    @Test(groups = {"wso2.greg", "wso2.greg.es"}, description = "Create Rest Service in Publisher")
+    public void createCustomAsset() throws JSONException, IOException {
+        Map<String, String> queryParamMap = new HashMap<>();
+        queryParamMap.put("type", "applications");
+        String dataBody = readFile(resourcePath + "json" + File.separator + "custom-applications-sample.json");
         assetName = (String) (new JSONObject(dataBody)).get("overview_name");
         ClientResponse response =
                 genericRestClient.geneticRestRequestPost(publisherUrl + "/assets",
@@ -99,37 +123,16 @@ public class SchemaCRUDByUrlTestCase extends GregESTestBaseTest {
         Assert.assertTrue((response.getStatusCode() == 201),
                 "Wrong status code ,Expected 201 Created ,Received " +
                         response.getStatusCode());
-        String resultName = obj.get("overview_name").toString();
-        Assert.assertEquals(resultName, assetName);
+        assetId = obj.get("id").toString();
+        Assert.assertNotNull(assetId, "Empty asset resource id available" +
+                response.getEntity(String.class));
     }
 
-    @Test(groups = {"wso2.greg", "wso2.greg.es"}, description = "Search Schema in Publisher",
-            dependsOnMethods = {"createSchemaServiceAsset"})
-    public void searchSchemaAsset() throws JSONException {
-        boolean assetFound = false;
+    @Test(groups = {"wso2.greg", "wso2.greg.es"}, description = "Get Rest Service in Publisher",
+            dependsOnMethods = {"createCustomAsset"})
+    public void getCustomAsset() throws JSONException {
         Map<String, String> queryParamMap = new HashMap<>();
-        queryParamMap.put("type", "schema");
-        queryParamMap.put("overview_name", assetName);
-        ClientResponse clientResponse = esTestCommonUtils.searchAssetByQuery(queryParamMap);
-        JSONObject obj = new JSONObject(clientResponse.getEntity(String.class));
-        JSONArray jsonArray = obj.getJSONArray("list");
-        for (int i = 0; i < jsonArray.length(); i++) {
-            String name = (String) jsonArray.getJSONObject(i).get("name");
-            if (assetName.equals(name)) {
-                assetFound = true;
-                assetId = (String) jsonArray.getJSONObject(i).get("id");
-                break;
-            }
-        }
-        Assert.assertEquals(assetFound, true);
-        Assert.assertNotNull(assetId, "Empty asset resource id available");
-    }
-
-    @Test(groups = {"wso2.greg", "wso2.greg.es"}, description = "Get Schema in Publisher",
-            dependsOnMethods = {"createSchemaServiceAsset", "searchSchemaAsset"})
-    public void getSchemaAsset() throws JSONException {
-        Map<String, String> queryParamMap = new HashMap<>();
-        queryParamMap.put("type", "schema");
+        queryParamMap.put("type", "applications");
         ClientResponse clientResponse = esTestCommonUtils.getAssetById(assetId, queryParamMap);
         Assert.assertTrue((clientResponse.getStatusCode() == 200),
                 "Wrong status code ,Expected 200 OK " +
@@ -138,12 +141,50 @@ public class SchemaCRUDByUrlTestCase extends GregESTestBaseTest {
         Assert.assertEquals(obj.get("id").toString(), assetId);
     }
 
-    @Test(groups = {"wso2.greg", "wso2.greg.es"}, description = "Delete Schema in Publisher",
-            dependsOnMethods = {"createSchemaServiceAsset", "searchSchemaAsset", "getSchemaAsset"})
-    public void deleteSchemaAsset() throws JSONException {
+    @Test(groups = {"wso2.greg", "wso2.greg.es"}, description = "Search Rest Service in Publisher",
+            dependsOnMethods = {"createCustomAsset"})
+    public void searchCustomAsset() throws JSONException {
+        boolean assetFound = false;
         Map<String, String> queryParamMap = new HashMap<>();
-        queryParamMap.put("type", "schema");
-        assocUUIDMap = esTestCommonUtils.getAssociationsFromPages(assetId, queryParamMap);
+        queryParamMap.put("type", "applications");
+        queryParamMap.put("overview_name", assetName);
+        ClientResponse clientResponse = esTestCommonUtils.searchAssetByQuery(queryParamMap);
+        JSONObject obj = new JSONObject(clientResponse.getEntity(String.class));
+        JSONArray jsonArray = obj.getJSONArray("list");
+        for (int i = 0; i < jsonArray.length(); i++) {
+            String id = (String) jsonArray.getJSONObject(i).get("id");
+            if (assetId.equals(id)) {
+                assetFound = true;
+                break;
+            }
+        }
+        Assert.assertTrue(assetFound, "Rest Service not found in assets listing");
+    }
+
+    @Test(groups = {"wso2.greg", "wso2.greg.es"}, description = "Search Rest Service in Publisher",
+            dependsOnMethods = {"getCustomAsset"})
+    public void updateCustomAsset() throws JSONException, IOException {
+        Map<String, String> queryParamMap = new HashMap<>();
+        queryParamMap.put("type", "applications");
+        String dataBody = readFile(resourcePath + "json" + File.separator + "custom-applications-update-sample.json");
+        ClientResponse response =
+                genericRestClient.geneticRestRequestPost(publisherUrl + "/assets/" + assetId,
+                        MediaType.APPLICATION_JSON,
+                        MediaType.APPLICATION_JSON, dataBody
+                        , queryParamMap, headerMap, cookieHeader);
+        JSONObject obj = new JSONObject(response.getEntity(String.class));
+        Assert.assertTrue((response.getStatusCode() == 202),
+                "Wrong status code ,Expected 202 Created ,Received " +
+                        response.getStatusCode());
+        Assert.assertTrue(obj.getJSONObject("attributes").get("overview_description")
+                .equals("Test update asset"));
+    }
+
+    @Test(groups = {"wso2.greg", "wso2.greg.es"}, description = "Delete Rest Service in Publisher",
+            dependsOnMethods = {"getCustomAsset", "searchCustomAsset", "updateCustomAsset"})
+    public void deleteCustomAsset() throws JSONException {
+        Map<String, String> queryParamMap = new HashMap<>();
+        queryParamMap.put("type", "applications");
         genericRestClient.geneticRestRequestDelete(publisherUrl + "/assets/" + assetId,
                 MediaType.APPLICATION_JSON,
                 MediaType.APPLICATION_JSON
@@ -155,16 +196,19 @@ public class SchemaCRUDByUrlTestCase extends GregESTestBaseTest {
     }
 
     @AfterClass(alwaysRun = true)
-    public void cleanUp() throws RegistryException, JSONException {
+    public void cleanUp() throws Exception {
         Map<String, String> queryParamMap = new HashMap<>();
-        queryParamMap.put("type", "schema");
-        esTestCommonUtils.deleteAssetById(assetId, queryParamMap);
+        queryParamMap.put("type", "applications");
         esTestCommonUtils.deleteAllAssociationsById(assetId, queryParamMap);
-        queryParamMap.clear();
-        for (String uuid : assocUUIDMap.keySet()) {
-            queryParamMap.put("type", esTestCommonUtils.getType(assocUUIDMap.get(uuid)));
-            esTestCommonUtils.deleteAssetById(uuid, queryParamMap);
-        }
+        esTestCommonUtils.deleteAssetById(assetId, queryParamMap);
+        this.deleteCustomRxt();
+    }
+
+    private void deleteCustomRxt() throws Exception {
+        String session = getSessionCookie();
+        ResourceAdminServiceClient resourceAdminServiceClient = new ResourceAdminServiceClient(backendURL, session);
+        resourceAdminServiceClient.deleteResource(
+                "/_system/governance/repository/components/org.wso2.carbon.governance/types/application.rxt");
     }
 
     @DataProvider
