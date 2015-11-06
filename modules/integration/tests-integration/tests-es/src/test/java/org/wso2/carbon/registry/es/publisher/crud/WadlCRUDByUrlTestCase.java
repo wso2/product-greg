@@ -37,10 +37,11 @@ import javax.xml.xpath.XPathExpressionException;
 import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
 
-public class RestServiceCRUDTestCase extends GregESTestBaseTest {
-    private static final Log log = LogFactory.getLog(RestServiceCRUDTestCase.class);
+public class WadlCRUDByUrlTestCase extends GregESTestBaseTest {
+    private static final Log log = LogFactory.getLog(WadlCRUDByUrlTestCase.class);
     private TestUserMode userMode;
     String jSessionId;
     String assetId;
@@ -51,9 +52,10 @@ public class RestServiceCRUDTestCase extends GregESTestBaseTest {
     String publisherUrl;
     String resourcePath;
     ESTestCommonUtils esTestCommonUtils;
+    Map<String, String> assocUUIDMap;
 
     @Factory(dataProvider = "userModeProvider")
-    public RestServiceCRUDTestCase(TestUserMode userMode) {
+    public WadlCRUDByUrlTestCase(TestUserMode userMode) {
         this.userMode = userMode;
     }
 
@@ -83,11 +85,11 @@ public class RestServiceCRUDTestCase extends GregESTestBaseTest {
         esTestCommonUtils.setCookieHeader(cookieHeader);
     }
 
-    @Test(groups = {"wso2.greg", "wso2.greg.es"}, description = "Create Rest Service in Publisher")
-    public void createRestServiceAsset() throws JSONException, IOException {
+    @Test(groups = {"wso2.greg", "wso2.greg.es"}, description = "Import WADL in Publisher")
+    public void createWadlServiceAsset() throws JSONException, IOException {
         Map<String, String> queryParamMap = new HashMap<>();
-        queryParamMap.put("type", "restservice");
-        String dataBody = readFile(resourcePath + "json" + File.separator + "publisherPublishRestResource.json");
+        queryParamMap.put("type", "wadl");
+        String dataBody = readFile(resourcePath + "json" + File.separator + "wadl-sample.json");
         assetName = (String) (new JSONObject(dataBody)).get("overview_name");
         ClientResponse response =
                 genericRestClient.geneticRestRequestPost(publisherUrl + "/assets",
@@ -98,16 +100,37 @@ public class RestServiceCRUDTestCase extends GregESTestBaseTest {
         Assert.assertTrue((response.getStatusCode() == 201),
                 "Wrong status code ,Expected 201 Created ,Received " +
                         response.getStatusCode());
-        assetId = obj.get("id").toString();
-        Assert.assertNotNull(assetId, "Empty asset resource id available" +
-                response.getEntity(String.class));
+        String resultName = obj.get("overview_name").toString();
+        Assert.assertEquals(resultName, assetName);
     }
 
-    @Test(groups = {"wso2.greg", "wso2.greg.es"}, description = "Get Rest Service in Publisher",
-            dependsOnMethods = {"createRestServiceAsset"})
-    public void getRestServiceAsset() throws JSONException {
+    @Test(groups = {"wso2.greg", "wso2.greg.es"}, description = "Search WADL in Publisher",
+            dependsOnMethods = {"createWadlServiceAsset"})
+    public void searchWadlAsset() throws JSONException {
+        boolean assetFound = false;
         Map<String, String> queryParamMap = new HashMap<>();
-        queryParamMap.put("type", "restservice");
+        queryParamMap.put("type", "wadl");
+        queryParamMap.put("overview_name", assetName);
+        ClientResponse clientResponse = esTestCommonUtils.searchAssetByQuery(queryParamMap);
+        JSONObject obj = new JSONObject(clientResponse.getEntity(String.class));
+        JSONArray jsonArray = obj.getJSONArray("list");
+        for (int i = 0; i < jsonArray.length(); i++) {
+            String name = (String) jsonArray.getJSONObject(i).get("name");
+            if (assetName.equals(name)) {
+                assetFound = true;
+                assetId = (String) jsonArray.getJSONObject(i).get("id");
+                break;
+            }
+        }
+        Assert.assertEquals(assetFound, true);
+        Assert.assertNotNull(assetId, "Empty asset resource id available");
+    }
+
+    @Test(groups = {"wso2.greg", "wso2.greg.es"}, description = "Get WADL in Publisher",
+            dependsOnMethods = {"createWadlServiceAsset", "searchWadlAsset"})
+    public void getWadlAsset() throws JSONException {
+        Map<String, String> queryParamMap = new HashMap<>();
+        queryParamMap.put("type", "wadl");
         ClientResponse clientResponse = esTestCommonUtils.getAssetById(assetId, queryParamMap);
         Assert.assertTrue((clientResponse.getStatusCode() == 200),
                 "Wrong status code ,Expected 200 OK " +
@@ -116,50 +139,12 @@ public class RestServiceCRUDTestCase extends GregESTestBaseTest {
         Assert.assertEquals(obj.get("id").toString(), assetId);
     }
 
-    @Test(groups = {"wso2.greg", "wso2.greg.es"}, description = "Search Rest Service in Publisher",
-            dependsOnMethods = {"createRestServiceAsset"})
-    public void searchRestService() throws JSONException {
-        boolean assetFound = false;
+    @Test(groups = {"wso2.greg", "wso2.greg.es"}, description = "Delete WADL in Publisher",
+            dependsOnMethods = {"createWadlServiceAsset", "searchWadlAsset", "getWadlAsset"})
+    public void deleteWadlAsset() throws JSONException {
         Map<String, String> queryParamMap = new HashMap<>();
-        queryParamMap.put("type", "restservice");
-        queryParamMap.put("overview_name", assetName);
-        ClientResponse clientResponse = esTestCommonUtils.searchAssetByQuery(queryParamMap);
-        JSONObject obj = new JSONObject(clientResponse.getEntity(String.class));
-        JSONArray jsonArray = obj.getJSONArray("list");
-        for (int i = 0; i < jsonArray.length(); i++) {
-            String id = (String) jsonArray.getJSONObject(i).get("id");
-            if (assetId.equals(id)) {
-                assetFound = true;
-                break;
-            }
-        }
-        Assert.assertTrue(assetFound, "Rest Service not found in assets listing");
-    }
-
-    @Test(groups = {"wso2.greg", "wso2.greg.es"}, description = "Search Rest Service in Publisher",
-            dependsOnMethods = {"getRestServiceAsset"})
-    public void updateRestServiceAsset() throws JSONException, IOException {
-        Map<String, String> queryParamMap = new HashMap<>();
-        queryParamMap.put("type", "restservice");
-        String dataBody = readFile(resourcePath + "json" + File.separator + "PublisherRestResourceUpdate.json");
-        ClientResponse response =
-                genericRestClient.geneticRestRequestPost(publisherUrl + "/assets/" + assetId,
-                        MediaType.APPLICATION_JSON,
-                        MediaType.APPLICATION_JSON, dataBody
-                        , queryParamMap, headerMap, cookieHeader);
-        JSONObject obj = new JSONObject(response.getEntity(String.class));
-        Assert.assertTrue((response.getStatusCode() == 202),
-                "Wrong status code ,Expected 202 Created ,Received " +
-                        response.getStatusCode());
-        Assert.assertTrue(obj.getJSONObject("attributes").get("overview_context")
-                .equals("/changed/Context"));
-    }
-
-    @Test(groups = {"wso2.greg", "wso2.greg.es"}, description = "Delete Rest Service in Publisher",
-            dependsOnMethods = {"getRestServiceAsset", "searchRestService", "updateRestServiceAsset"})
-    public void deleteRestServiceAsset() throws JSONException {
-        Map<String, String> queryParamMap = new HashMap<>();
-        queryParamMap.put("type", "restservice");
+        queryParamMap.put("type", "wadl");
+        assocUUIDMap = esTestCommonUtils.getAssociationsFromPages(assetId, queryParamMap);
         genericRestClient.geneticRestRequestDelete(publisherUrl + "/assets/" + assetId,
                 MediaType.APPLICATION_JSON,
                 MediaType.APPLICATION_JSON
@@ -173,9 +158,14 @@ public class RestServiceCRUDTestCase extends GregESTestBaseTest {
     @AfterClass(alwaysRun = true)
     public void cleanUp() throws RegistryException, JSONException {
         Map<String, String> queryParamMap = new HashMap<>();
-        queryParamMap.put("type", "restservice");
-        esTestCommonUtils.deleteAllAssociationsById(assetId, queryParamMap);
+        queryParamMap.put("type", "wadl");
         esTestCommonUtils.deleteAssetById(assetId, queryParamMap);
+        esTestCommonUtils.deleteAllAssociationsById(assetId, queryParamMap);
+        queryParamMap.clear();
+        for (String uuid : assocUUIDMap.keySet()) {
+            queryParamMap.put("type", esTestCommonUtils.getType(assocUUIDMap.get(uuid)));
+            esTestCommonUtils.deleteAssetById(uuid, queryParamMap);
+        }
     }
 
     @DataProvider
