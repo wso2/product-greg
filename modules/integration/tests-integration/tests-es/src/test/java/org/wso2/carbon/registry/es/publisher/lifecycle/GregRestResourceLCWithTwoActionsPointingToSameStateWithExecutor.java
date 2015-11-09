@@ -111,14 +111,10 @@ public class GregRestResourceLCWithTwoActionsPointingToSameStateWithExecutor ext
 
         authenticatePublisher();
 
-        queryParamMap.put("type", "restservice");
-        String dataBody = readFile(resourcePath + "json" + File.separator
-                                   + "publisherPublishRestResource.json");
-        ClientResponse response =
-                genericRestClient.geneticRestRequestPost(publisherUrl + "/assets",
-                                                         MediaType.APPLICATION_JSON,
-                                                         MediaType.APPLICATION_JSON, dataBody
-                        , queryParamMap, headerMap, cookieHeader);
+        ClientResponse response = createAsset(resourcePath + "json" + File.separator +
+                                              "publisherPublishRestResource.json", publisherUrl,
+                                              cookieHeader, "restservice", genericRestClient);
+
         JSONObject obj = new JSONObject(response.getEntity(String.class));
         Assert.assertTrue((response.getStatusCode() == 201),
                           "Wrong status code ,Expected 201 Created ,Received " +
@@ -126,8 +122,9 @@ public class GregRestResourceLCWithTwoActionsPointingToSameStateWithExecutor ext
         assetId = obj.get("id").toString();
         Assert.assertNotNull(assetId, "Empty asset resource id available" +
                                       response.getEntity(String.class));
-        Assert.assertTrue(this.getAsset(assetId, "restservice").get("lifecycle")
-                                  .equals(lifeCycleName), "LifeCycle not assigned to given assert");
+        response = getAsset(assetId, "restservice", publisherUrl, cookieHeader, genericRestClient);
+        obj = new JSONObject(response.getEntity(String.class));
+        Assert.assertTrue(obj.get("lifecycle").equals(lifeCycleName), "LifeCycle not assigned to given assert");
     }
 
     @Test(groups = {"wso2.greg", "wso2.greg.es"}, description = "PromoteLifeCycle with fault user",
@@ -159,23 +156,9 @@ public class GregRestResourceLCWithTwoActionsPointingToSameStateWithExecutor ext
         };
     }
 
-    private JSONObject getAsset(String assetId, String assetType) throws JSONException {
-        Map<String, String> assetTypeParamMap = new HashMap<String, String>();
-        assetTypeParamMap.put("type", assetType);
-        ClientResponse response =
-                genericRestClient.geneticRestRequestGet
-                        (publisherUrl + "/assets/" + assetId
-                                , queryParamMap, headerMap, cookieHeader);
-        return new JSONObject(response.getEntity(String.class));
-    }
+    private void authenticatePublisher() throws JSONException {
+        ClientResponse response = authenticate(publisherUrl, genericRestClient, "admin", "admin");
 
-    public void authenticatePublisher() throws JSONException {
-        ClientResponse response =
-                genericRestClient.geneticRestRequestPost(publisherUrl + "/authenticate/",
-                                                         MediaType.APPLICATION_FORM_URLENCODED,
-                                                         MediaType.APPLICATION_JSON,
-                                                         "username=admin&password=admin"
-                        , queryParamMap, headerMap, null);
         JSONObject obj = new JSONObject(response.getEntity(String.class));
         Assert.assertTrue((response.getStatusCode() == 200),
                           "Wrong status code ,Expected 200 OK ,Received " +
@@ -187,11 +170,7 @@ public class GregRestResourceLCWithTwoActionsPointingToSameStateWithExecutor ext
 
     @AfterClass(alwaysRun = true)
     public void cleanUp() throws Exception {
-        queryParamMap.put("type", "restservice");
-        genericRestClient.geneticRestRequestDelete(publisherUrl + "/assets/" + assetId,
-                                                   MediaType.APPLICATION_JSON,
-                                                   MediaType.APPLICATION_JSON
-                , queryParamMap, headerMap, cookieHeader);
+        deleteAsset(assetId, publisherUrl, cookieHeader, "restservice", genericRestClient);
         lifeCycleAdminServiceClient.editLifeCycle(lifeCycleName,
                                                   readFile(resourcePath + "lifecycle" +
                                                            File.separator + "ServiceLifeCycle.xml"));
