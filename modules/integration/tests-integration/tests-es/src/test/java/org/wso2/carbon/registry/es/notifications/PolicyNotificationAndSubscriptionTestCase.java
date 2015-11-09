@@ -120,7 +120,7 @@ public class PolicyNotificationAndSubscriptionTestCase extends GregESTestBaseTes
                    CustomLifecyclesChecklistAdminServiceExceptionException {
         queryParamMap.put("type", "policy");
         String dataBody = readFile(resourcePath + "json" + File.separator
-                                   + "policy-utpolicy.json");
+                                   + "policy-sample.json");
         assetName = (String) (new JSONObject(dataBody)).get("overview_name");
         ClientResponse response =
                 genericRestClient.geneticRestRequestPost(publisherUrl + "/assets",
@@ -213,6 +213,34 @@ public class PolicyNotificationAndSubscriptionTestCase extends GregESTestBaseTes
         Assert.assertTrue(responseCheck0.getStatusCode() == 200);
     }
 
+    @Test(groups = {"wso2.greg", "wso2.greg.es"}, description = "WSDL LC check list item check",
+          dependsOnMethods = {"createPolicyAssetWithLC", "addSubscriptionForLCCheckListItemUnCheck", "checkLCCheckItemsOnPolicy"})
+    public void uncheckLCCheckItemsOnPolicy() throws JSONException, IOException {
+        queryParamMap.put("type", "policy");
+        queryParamMap.put("lifecycle", lifeCycleName);
+        JSONObject LCStateobj = getLifeCycleState(assetId, "policy");
+        JSONObject dataObj = LCStateobj.getJSONObject("data");
+        JSONArray checkItems = dataObj.getJSONArray("checkItems");
+        Assert.assertEquals(((JSONObject) checkItems.get(0)).getString("isVisible"), "true");
+        ClientResponse responseUncheck0 =
+                uncheckLifeCycleCheckItem(cookieHeader, 0);
+        Assert.assertTrue(responseUncheck0.getStatusCode() == 200);
+    }
+
+    @Test(groups = {"wso2.greg", "wso2.greg.es"}, description = "Change LC state on Policy",
+          dependsOnMethods = {"createPolicyAssetWithLC", "addSubscriptionForLCStateChange", "checkLCCheckItemsOnPolicy","uncheckLCCheckItemsOnPolicy" })
+    public void changeLCStatePolicy() throws JSONException, IOException {
+        ClientResponse response =
+                genericRestClient.geneticRestRequestPost(publisherUrl + "/assets/" + assetId + "/state",
+                                                         MediaType.APPLICATION_FORM_URLENCODED,
+                                                         MediaType.APPLICATION_JSON,
+                                                         "nextState=Testing&comment=Completed"
+                        , queryParamMap, headerMap, cookieHeader);
+        JSONObject obj = new JSONObject(response.getEntity(String.class));
+        String status = obj.get("status").toString();
+        Assert.assertEquals(status, stateChangeMessage);
+    }
+
     /**
      * This method get all the wsdls in publisher and select the one created by createWSDLAssetWithLC method.
      *
@@ -257,6 +285,14 @@ public class PolicyNotificationAndSubscriptionTestCase extends GregESTestBaseTes
                                                         MediaType.APPLICATION_JSON,
                                                         MediaType.APPLICATION_JSON,
                                                         "{\"checklist\":[{\"index\":" + itemId + ",\"checked\":true}]}"
+                , queryParamMap, headerMap, managerCookieHeader);
+    }
+
+    private ClientResponse uncheckLifeCycleCheckItem(String managerCookieHeader, int itemId) {
+        return genericRestClient.geneticRestRequestPost(publisherUrl + "/asset/" + assetId + "/update-checklist",
+                                                        MediaType.APPLICATION_JSON,
+                                                        MediaType.APPLICATION_JSON,
+                                                        "{\"checklist\":[{\"index\":" + itemId + ",\"checked\":false}]}"
                 , queryParamMap, headerMap, managerCookieHeader);
     }
 
