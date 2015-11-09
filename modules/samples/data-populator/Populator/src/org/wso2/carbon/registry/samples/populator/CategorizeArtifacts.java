@@ -69,7 +69,7 @@ public class CategorizeArtifacts {
                 System.out.println("No rest services found ..");
             }
 
-            System.out.println("\nREST services found ... \n");
+            System.out.println("\nREST services found for categorization ... \n");
 
             ArrayList<String> restServicesList = new ArrayList<String>();
             try {
@@ -105,7 +105,7 @@ public class CategorizeArtifacts {
                 System.out.println("No soap services found ..");
             }
 
-            System.out.println("\nSOAP services found ... \n");
+            System.out.println("\nSOAP services found for categorization ... \n");
 
             ArrayList<String> soapServicesList = new ArrayList<String>();
             try {
