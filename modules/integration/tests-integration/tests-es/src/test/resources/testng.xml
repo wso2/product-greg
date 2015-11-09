@@ -10,7 +10,7 @@
             <class name="org.wso2.carbon.registry.es.publisher.GregRestResourceSubscriptionAndNotificationTestCase"/>
             <class name="org.wso2.carbon.registry.es.tags.GregAssetsTagsESTestCase"/>
             <class name="org.wso2.carbon.registry.es.notes.GregAssertNotesESTestCase"/>
-            <class name="org.wso2.carbon.registry.es.publisher.lifecycle.GregRestResourceLCWithTwoActionsPointingToSameStateWithExecutor"/>
+            <!--<class name="org.wso2.carbon.registry.es.publisher.lifecycle.GregRestResourceLCWithTwoActionsPointingToSameStateWithExecutor"/>-->
         </classes>
     </test>
 </suite>
