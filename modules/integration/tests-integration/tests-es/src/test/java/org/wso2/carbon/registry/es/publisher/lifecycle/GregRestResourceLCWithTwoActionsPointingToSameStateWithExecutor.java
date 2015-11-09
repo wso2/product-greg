@@ -49,7 +49,7 @@ import java.util.Map;
 
 public class GregRestResourceLCWithTwoActionsPointingToSameStateWithExecutor extends GregESTestBaseTest {
 
-    protected final String executorJAR = "test-artifacts-1.0-SNAPSHOT.jar";
+    protected final String executorJAR = "Publish-Unpublish-Executors-1.0-SNAPSHOT.jar";
     private TestUserMode userMode;
     private GenericRestClient genericRestClient;
     private String publisherUrl;
