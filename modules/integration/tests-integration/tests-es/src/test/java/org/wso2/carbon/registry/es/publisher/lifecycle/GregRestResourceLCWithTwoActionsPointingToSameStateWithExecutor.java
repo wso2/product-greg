@@ -43,6 +43,7 @@ import org.wso2.greg.integration.common.utils.GenericRestClient;
 import javax.ws.rs.core.MediaType;
 import java.io.File;
 import java.io.IOException;
+import java.rmi.RemoteException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -129,7 +130,7 @@ public class GregRestResourceLCWithTwoActionsPointingToSameStateWithExecutor ext
 
     @Test(groups = {"wso2.greg", "wso2.greg.es"}, description = "PromoteLifeCycle with fault user",
           dependsOnMethods = {"testAddResources"})
-    public void promoteLifeCycleWithFCorrectUserWithRole()
+    public void PerformLCActionPublish()
             throws JSONException, InterruptedException, IOException, LogViewerLogViewerException {
         queryParamMap.put("type", "restservice");
         queryParamMap.put("lifecycle", lifeCycleName);
@@ -137,12 +138,31 @@ public class GregRestResourceLCWithTwoActionsPointingToSameStateWithExecutor ext
                 genericRestClient.geneticRestRequestPost(publisherUrl + "/asset/" + assetId + "/change-state",
                                                          MediaType.APPLICATION_FORM_URLENCODED,
                                                          MediaType.APPLICATION_JSON,
-                                                         "nextState=development&comment=Completed"
+                                                         "nextState=development&comment=Published&nextAction=Publish"
                         , queryParamMap, headerMap, cookieHeader);
         JSONObject obj2 = new JSONObject(response.getEntity(String.class));
         Assert.assertTrue(response.getStatusCode() == 200, "Fault user accepted");
         LogEvent[] logEvents = logViewerClient.getLogs("INFO", "@@@@@@@@@@@@@@@@@@@@@@ " +
                                                                "PromoteNotificationExecutor ACTION executed! " +
+                                                               "---------------------------", "", "");
+        Assert.assertEquals(logEvents.length, 1);
+    }
+
+    @Test(groups = {"wso2.greg", "wso2.greg.es"}, description = "PromoteLifeCycle with fault user",
+          dependsOnMethods = {"PerformLCActionPublish"})
+    public void PerformLCActionUnpublish() throws LogViewerLogViewerException, RemoteException, JSONException {
+        queryParamMap.put("type", "restservice");
+        queryParamMap.put("lifecycle", lifeCycleName);
+        ClientResponse response =
+                genericRestClient.geneticRestRequestPost(publisherUrl + "/asset/" + assetId + "/change-state",
+                                                         MediaType.APPLICATION_FORM_URLENCODED,
+                                                         MediaType.APPLICATION_JSON,
+                                                         "nextState=development&comment=Unpublished&nextAction=Unpublish"
+                        , queryParamMap, headerMap, cookieHeader);
+        JSONObject obj2 = new JSONObject(response.getEntity(String.class));
+        Assert.assertTrue(response.getStatusCode() == 200, "Fault user accepted");
+        LogEvent[] logEvents = logViewerClient.getLogs("INFO", "###################### " +
+                                                               "DemoteNotificationExecutor ACTION executed! " +
                                                                "---------------------------", "", "");
         Assert.assertEquals(logEvents.length, 1);
     }
