@@ -1,5 +1,5 @@
 /*
-*Copyright (c) 2005-2015, WSO2 Inc. (http://www.wso2.org) All Rights Reserved.
+*Copyright (c) 2015, WSO2 Inc. (http://www.wso2.org) All Rights Reserved.
 *
 *WSO2 Inc. licenses this file to you under the Apache License,
 *Version 2.0 (the "License"); you may not use this file except
@@ -160,6 +160,7 @@ public class GregRestResourceLifeCycleManagementTestCase extends GregESTestBaseT
         //As check item 2 is not checked promote action is not available
         JSONObject approvedActionsObj = dataObj.getJSONObject("approvedActions");
         Assert.assertEquals(approvedActionsObj.length(), 0);
+        
         ClientResponse responseCheck1;
 
                 Assert.assertTrue(checkLifeCycleCheckItem(cookieHeader, 0).getStatusCode()==200);

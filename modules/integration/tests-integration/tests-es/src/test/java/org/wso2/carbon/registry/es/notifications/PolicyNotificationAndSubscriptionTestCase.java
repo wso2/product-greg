@@ -51,10 +51,9 @@ import static org.testng.Assert.assertNotNull;
 import static org.testng.Assert.assertTrue;
 
 /**
- * This class tests subscriptions and notifications on publisher console for WSDLs
+ * This class tests subscriptions and notifications on publisher console for Policies
  */
-public class WSDLNotificationAndSubscriptionTestCase extends GregESTestBaseTest {
-
+public class PolicyNotificationAndSubscriptionTestCase extends GregESTestBaseTest {
     private static final Log log = LogFactory.getLog(WSDLNotificationAndSubscriptionTestCase.class);
     private TestUserMode userMode;
     String jSessionId;
@@ -73,7 +72,7 @@ public class WSDLNotificationAndSubscriptionTestCase extends GregESTestBaseTest 
     String stateChangeMessage = " State changed successfully to Testing!";
 
     @Factory(dataProvider = "userModeProvider")
-    public WSDLNotificationAndSubscriptionTestCase(TestUserMode userMode) {
+    public PolicyNotificationAndSubscriptionTestCase(TestUserMode userMode) {
         this.userMode = userMode;
     }
 
@@ -95,8 +94,6 @@ public class WSDLNotificationAndSubscriptionTestCase extends GregESTestBaseTest 
         setTestEnvironment();
     }
 
-
-
     @AfterClass(alwaysRun = true)
     public void cleanUp() throws RegistryException {
 
@@ -104,8 +101,8 @@ public class WSDLNotificationAndSubscriptionTestCase extends GregESTestBaseTest 
 
     private void setTestEnvironment() throws XPathExpressionException, JSONException {
         ClientResponse response = authenticate(publisherUrl, genericRestClient,
-                                            automationContext.getSuperTenant().getTenantAdmin().getUserName(),
-                                            automationContext.getSuperTenant().getTenantAdmin().getPassword());
+                                               automationContext.getSuperTenant().getTenantAdmin().getUserName(),
+                                               automationContext.getSuperTenant().getTenantAdmin().getPassword());
         JSONObject obj = new JSONObject(response.getEntity(String.class));
         assertTrue((response.getStatusCode() == 200),
                    "Wrong status code ,Expected 200 OK ,Received " +
@@ -117,13 +114,13 @@ public class WSDLNotificationAndSubscriptionTestCase extends GregESTestBaseTest 
         crudTestCommonUtils.setCookieHeader(cookieHeader);
     }
 
-    @Test(groups = {"wso2.greg", "wso2.greg.es"}, description = "create a wsdl with a LC attached.")
-    public void createWSDLAssetWithLC()
+    @Test(groups = {"wso2.greg", "wso2.greg.es"}, description = "create a policy with a LC attached.")
+    public void createPolicyAssetWithLC()
             throws JSONException, InterruptedException, IOException,
                    CustomLifecyclesChecklistAdminServiceExceptionException {
-        queryParamMap.put("type", "wsdl");
+        queryParamMap.put("type", "policy");
         String dataBody = readFile(resourcePath + "json" + File.separator
-                                   + "publisherPublishWSDLResource.json");
+                                   + "policy-sample.json");
         assetName = (String) (new JSONObject(dataBody)).get("overview_name");
         ClientResponse response =
                 genericRestClient.geneticRestRequestPost(publisherUrl + "/assets",
@@ -136,17 +133,17 @@ public class WSDLNotificationAndSubscriptionTestCase extends GregESTestBaseTest 
                           response.getStatusCode());
         String resultName = obj.get("overview_name").toString();
         Assert.assertEquals(resultName, assetName);
-        searchWsdlAsset();
+        searchPolicyAsset();
         //attach a LC to the wsdl
         lifeCycleAdminServiceClient.addAspect(path, lifeCycleName);
         Assert.assertNotNull(assetId, "Empty asset resource id available" +
                                       response.getEntity(String.class));
-        Assert.assertTrue(this.getAsset(assetId, "wsdl").get("lifecycle")
+        Assert.assertTrue(this.getAsset(assetId, "policy").get("lifecycle")
                                   .equals(lifeCycleName), "LifeCycle not assigned to given asset");
     }
 
-    @Test(groups = {"wso2.greg", "wso2.greg.es"}, description = "Adding subscription to a wsdl LC check list item check",
-          dependsOnMethods = {"createWSDLAssetWithLC"})
+    @Test(groups = {"wso2.greg", "wso2.greg.es"}, description = "Adding subscription to a policy LC check list item check",
+          dependsOnMethods = {"createPolicyAssetWithLC"})
     public void addSubscriptionForLCCheckListItemCheck() throws JSONException, IOException {
 
         JSONObject dataObject = new JSONObject();
@@ -155,7 +152,7 @@ public class WSDLNotificationAndSubscriptionTestCase extends GregESTestBaseTest 
         dataObject.put("notificationMethod", "work");
 
         ClientResponse response =
-                genericRestClient.geneticRestRequestPost(publisherUrl + "/subscriptions/wsdl/" + assetId, MediaType.APPLICATION_JSON,
+                genericRestClient.geneticRestRequestPost(publisherUrl + "/subscriptions/policy/" + assetId, MediaType.APPLICATION_JSON,
                                                          MediaType.APPLICATION_JSON, dataObject.toString()
                         , queryParamMap, headerMap, cookieHeader);
 
@@ -164,8 +161,8 @@ public class WSDLNotificationAndSubscriptionTestCase extends GregESTestBaseTest 
                    response.getStatusCode());
     }
 
-    @Test(groups = {"wso2.greg", "wso2.greg.es"}, description = "Adding subscription to a wsdl LC check list item uncheck",
-          dependsOnMethods = {"createWSDLAssetWithLC"})
+    @Test(groups = {"wso2.greg", "wso2.greg.es"}, description = "Adding subscription to a policy LC check list item uncheck",
+          dependsOnMethods = {"createPolicyAssetWithLC"})
     public void addSubscriptionForLCCheckListItemUnCheck() throws JSONException, IOException {
 
         JSONObject dataObject = new JSONObject();
@@ -174,7 +171,7 @@ public class WSDLNotificationAndSubscriptionTestCase extends GregESTestBaseTest 
         dataObject.put("notificationMethod", "work");
 
         ClientResponse response =
-                genericRestClient.geneticRestRequestPost(publisherUrl + "/subscriptions/wsdl/" + assetId, MediaType.APPLICATION_JSON,
+                genericRestClient.geneticRestRequestPost(publisherUrl + "/subscriptions/policy/" + assetId, MediaType.APPLICATION_JSON,
                                                          MediaType.APPLICATION_JSON, dataObject.toString()
                         , queryParamMap, headerMap, cookieHeader);
 
@@ -183,8 +180,8 @@ public class WSDLNotificationAndSubscriptionTestCase extends GregESTestBaseTest 
                    response.getStatusCode());
     }
 
-    @Test(groups = {"wso2.greg", "wso2.greg.es"}, description = "Adding subscription to a wsdl LC state change",
-          dependsOnMethods = {"createWSDLAssetWithLC"})
+    @Test(groups = {"wso2.greg", "wso2.greg.es"}, description = "Adding subscription to a policy LC state change",
+          dependsOnMethods = {"createPolicyAssetWithLC"})
     public void addSubscriptionForLCStateChange() throws JSONException, IOException {
 
         JSONObject dataObject = new JSONObject();
@@ -193,7 +190,7 @@ public class WSDLNotificationAndSubscriptionTestCase extends GregESTestBaseTest 
         dataObject.put("notificationMethod", "work");
 
         ClientResponse response =
-                genericRestClient.geneticRestRequestPost(publisherUrl + "/subscriptions/wsdl/" + assetId, MediaType.APPLICATION_JSON,
+                genericRestClient.geneticRestRequestPost(publisherUrl + "/subscriptions/policy/" + assetId, MediaType.APPLICATION_JSON,
                                                          MediaType.APPLICATION_JSON, dataObject.toString()
                         , queryParamMap, headerMap, cookieHeader);
 
@@ -202,20 +199,12 @@ public class WSDLNotificationAndSubscriptionTestCase extends GregESTestBaseTest 
                    response.getStatusCode());
     }
 
-    @Test(groups = {"wso2.greg", "wso2.greg.es"}, description = "Checking notification on a wsdl LC check item",
-          dependsOnMethods = {"createWSDLAssetWithLC","addSubscriptionForLCCheckListItemCheck","checkLCCheckItemsOnWSDL"})
-    public void checkNotificationForLCCheck(){
-        ClientResponse response =
-                genericRestClient.geneticRestRequestGet(publisherUrl + "/notification", queryParamMap,
-                                                        headerMap, cookieHeader);
-    }
-
-    @Test(groups = {"wso2.greg", "wso2.greg.es"}, description = "WSDL LC check list item check",
-          dependsOnMethods = {"createWSDLAssetWithLC", "addSubscriptionForLCCheckListItemCheck"})
-    public void checkLCCheckItemsOnWSDL() throws JSONException, IOException {
-        queryParamMap.put("type", "wsdl");
+    @Test(groups = {"wso2.greg", "wso2.greg.es"}, description = "Policy LC check list item check",
+          dependsOnMethods = {"createPolicyAssetWithLC", "addSubscriptionForLCCheckListItemCheck"})
+    public void checkLCCheckItemsOnPolicy() throws JSONException, IOException {
+        queryParamMap.put("type", "policy");
         queryParamMap.put("lifecycle", lifeCycleName);
-        JSONObject LCStateobj = getLifeCycleState(assetId, "wsdl");
+        JSONObject LCStateobj = getLifeCycleState(assetId, "policy");
         JSONObject dataObj = LCStateobj.getJSONObject("data");
         JSONArray checkItems = dataObj.getJSONArray("checkItems");
         Assert.assertEquals(((JSONObject) checkItems.get(0)).getString("isVisible"), "true");
@@ -224,9 +213,23 @@ public class WSDLNotificationAndSubscriptionTestCase extends GregESTestBaseTest 
         Assert.assertTrue(responseCheck0.getStatusCode() == 200);
     }
 
-    @Test(groups = {"wso2.greg", "wso2.greg.es"}, description = "Change LC state on WSDL",
-          dependsOnMethods = {"createWSDLAssetWithLC", "addSubscriptionForLCStateChange", "checkLCCheckItemsOnWSDL","uncheckLCCheckItemsOnWSDL" })
-    public void changeLCStateWSDL() throws JSONException, IOException {
+    @Test(groups = {"wso2.greg", "wso2.greg.es"}, description = "WSDL LC check list item check",
+          dependsOnMethods = {"createPolicyAssetWithLC", "addSubscriptionForLCCheckListItemUnCheck", "checkLCCheckItemsOnPolicy"})
+    public void uncheckLCCheckItemsOnPolicy() throws JSONException, IOException {
+        queryParamMap.put("type", "policy");
+        queryParamMap.put("lifecycle", lifeCycleName);
+        JSONObject LCStateobj = getLifeCycleState(assetId, "policy");
+        JSONObject dataObj = LCStateobj.getJSONObject("data");
+        JSONArray checkItems = dataObj.getJSONArray("checkItems");
+        Assert.assertEquals(((JSONObject) checkItems.get(0)).getString("isVisible"), "true");
+        ClientResponse responseUncheck0 =
+                uncheckLifeCycleCheckItem(cookieHeader, 0);
+        Assert.assertTrue(responseUncheck0.getStatusCode() == 200);
+    }
+
+    @Test(groups = {"wso2.greg", "wso2.greg.es"}, description = "Change LC state on Policy",
+          dependsOnMethods = {"createPolicyAssetWithLC", "addSubscriptionForLCStateChange", "checkLCCheckItemsOnPolicy","uncheckLCCheckItemsOnPolicy" })
+    public void changeLCStatePolicy() throws JSONException, IOException {
         ClientResponse response =
                 genericRestClient.geneticRestRequestPost(publisherUrl + "/assets/" + assetId + "/state",
                                                          MediaType.APPLICATION_FORM_URLENCODED,
@@ -238,28 +241,14 @@ public class WSDLNotificationAndSubscriptionTestCase extends GregESTestBaseTest 
         Assert.assertEquals(status, stateChangeMessage);
     }
 
-    @Test(groups = {"wso2.greg", "wso2.greg.es"}, description = "WSDL LC check list item check",
-          dependsOnMethods = {"createWSDLAssetWithLC", "addSubscriptionForLCCheckListItemUnCheck", "checkLCCheckItemsOnWSDL"})
-    public void uncheckLCCheckItemsOnWSDL() throws JSONException, IOException {
-        queryParamMap.put("type", "wsdl");
-        queryParamMap.put("lifecycle", lifeCycleName);
-        JSONObject LCStateobj = getLifeCycleState(assetId, "wsdl");
-        JSONObject dataObj = LCStateobj.getJSONObject("data");
-        JSONArray checkItems = dataObj.getJSONArray("checkItems");
-        Assert.assertEquals(((JSONObject) checkItems.get(0)).getString("isVisible"), "true");
-        ClientResponse responseUncheck0 =
-                uncheckLifeCycleCheckItem(cookieHeader, 0);
-        Assert.assertTrue(responseUncheck0.getStatusCode() == 200);
-    }
-
     /**
      * This method get all the wsdls in publisher and select the one created by createWSDLAssetWithLC method.
      *
      * @throws JSONException
      */
-    public void searchWsdlAsset() throws JSONException {
+    public void searchPolicyAsset() throws JSONException {
         Map<String, String> queryParamMap = new HashMap<>();
-        queryParamMap.put("type", "wsdl");
+        queryParamMap.put("type", "policy");
         ClientResponse clientResponse = crudTestCommonUtils.searchAssetByQuery(queryParamMap);
         JSONObject obj = new JSONObject(clientResponse.getEntity(String.class));
         JSONArray jsonArray = obj.getJSONArray("list");
