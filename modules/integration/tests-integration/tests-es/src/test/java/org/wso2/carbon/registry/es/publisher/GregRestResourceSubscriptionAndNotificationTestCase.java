@@ -75,7 +75,11 @@ public class GregRestResourceSubscriptionAndNotificationTestCase extends GREGInt
 
     @AfterClass(alwaysRun = true)
     public void cleanUp() throws RegistryException {
-
+        queryParamMap.put("type", "restservice");
+        genericRestClient.geneticRestRequestDelete(publisherUrl+"/assets/" + assetId,
+                                                   MediaType.APPLICATION_JSON,
+                                                   MediaType.APPLICATION_JSON
+                , queryParamMap, headerMap, cookieHeader);
     }
 
     @Test(groups = {"wso2.greg", "wso2.greg.es"}, description = "Authenticate Publisher test")

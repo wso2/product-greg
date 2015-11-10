@@ -125,7 +125,7 @@ public class GregAssertNotesESTestCase extends GregESTestBaseTest {
         replyAssetId =responseObj.get("id").toString();
     }
 
-    @Test(groups = {"wso2.greg", "wso2.greg.es"}, description = "Delete Reply to note added for a Asset test")
+    @Test(groups = {"wso2.greg", "wso2.greg.es"}, dependsOnMethods = "addReplyToNoteNote", description = "Delete Reply to note added for a Asset test")
     public void deleteReplyToNoteNote() throws JSONException, IOException {
         queryParamMap.put("type", "note");
         //  https://localhost:9443/publisher/apis/assets?type=note
@@ -139,7 +139,7 @@ public class GregAssertNotesESTestCase extends GregESTestBaseTest {
         // isTagAvailablePublisher("testTag");
     }
 
-    @Test(groups = {"wso2.greg", "wso2.greg.es"}, description = "Delete Note test")
+    @Test(groups = {"wso2.greg", "wso2.greg.es"}, dependsOnMethods = "deleteReplyToNoteNote", description = "Delete Note test")
     public void deleteNote() throws JSONException, IOException {
         queryParamMap.put("type", "note");
         //  https://localhost:9443/publisher/apis/assets?type=note
@@ -156,7 +156,6 @@ public class GregAssertNotesESTestCase extends GregESTestBaseTest {
 
     @AfterClass(alwaysRun = true)
     public void cleanUp() throws RegistryException {
-
         deleteAsset(assetId, publisherUrl, cookieHeaderPublisher, assetType, genericRestClient);
     }
 
