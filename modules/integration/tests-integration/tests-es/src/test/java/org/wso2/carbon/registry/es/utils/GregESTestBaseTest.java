@@ -24,7 +24,6 @@ import org.wso2.greg.integration.common.utils.GREGIntegrationBaseTest;
 import org.wso2.greg.integration.common.utils.GenericRestClient;
 
 import javax.ws.rs.core.MediaType;
-import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
@@ -123,18 +122,16 @@ public class GregESTestBaseTest extends GREGIntegrationBaseTest {
         return new JSONObject(response.getEntity(String.class));
     }
 
-    private JSONObject getAsset(String assetId,
+    public ClientResponse getAsset(String assetId,
                                 String assetType,
                                 String publisherUrl,
                                 String cookieHeader,
                                 GenericRestClient genericRestClient) throws JSONException {
         Map<String, String> assetTypeParamMap = new HashMap<String, String>();
         assetTypeParamMap.put("type", assetType);
-        ClientResponse response =
-                genericRestClient.geneticRestRequestGet
+        return genericRestClient.geneticRestRequestGet
                         (publisherUrl + "/assets/" + assetId
                                 , queryParamMap, headerMap, cookieHeader);
-        return new JSONObject(response.getEntity(String.class));
     }
 
     private JSONObject getLifeCycleState(String assetId, String assetType,
