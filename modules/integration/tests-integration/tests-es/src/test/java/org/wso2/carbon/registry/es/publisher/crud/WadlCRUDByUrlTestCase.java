@@ -89,8 +89,15 @@ public class WadlCRUDByUrlTestCase extends GregESTestBaseTest {
     public void createWadlServiceAsset() throws JSONException, IOException {
         Map<String, String> queryParamMap = new HashMap<>();
         queryParamMap.put("type", "wadl");
-        String dataBody = readFile(resourcePath + "json" + File.separator + "wadl-sample.json");
-        assetName = (String) (new JSONObject(dataBody)).get("overview_name");
+/*        "overview_url":"https://raw.githubusercontent.com/wso2/wso2-qa-artifacts/master/automation-artifacts/greg/wadl/SearchSearvice.wadl",
+          "overview_name": "SearchSearvice.wadl",
+          "overview_version": "2.0.0",*/
+        String wadlTemplate = readFile(resourcePath + "json" + File.separator + "wadl-sample.json");
+        assetName = "SearchSearvice.wadl";
+        String dataBody = String.format(wadlTemplate,
+                "https://raw.githubusercontent.com/wso2/wso2-qa-artifacts/master/automation-artifacts/greg/wadl/SearchSearvice.wadl",
+                assetName,
+                "2.0.0");
         ClientResponse response =
                 genericRestClient.geneticRestRequestPost(publisherUrl + "/assets",
                         MediaType.APPLICATION_JSON,

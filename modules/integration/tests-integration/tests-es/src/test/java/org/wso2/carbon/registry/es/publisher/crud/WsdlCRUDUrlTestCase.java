@@ -86,10 +86,17 @@ public class WsdlCRUDUrlTestCase extends GregESTestBaseTest {
 
     @Test(groups = {"wso2.greg", "wso2.greg.es"}, description = "Import WSDL in Publisher")
     public void createWsdlServiceAsset() throws JSONException, IOException {
+/*        "overview_url": "https://raw.githubusercontent.com/wso2/wso2-qa-artifacts/master/automation-artifacts/greg/wsdl/echo.wsdl",
+          "overview_name": "echo.wsdl",
+          "overview_version": "1.0.0",*/
         Map<String, String> queryParamMap = new HashMap<>();
         queryParamMap.put("type", "wsdl");
-        String dataBody = readFile(resourcePath + "json" + File.separator + "wsdl-sample.json");
-        assetName = (String) (new JSONObject(dataBody)).get("overview_name");
+        String wsdlTemplate = readFile(resourcePath + "json" + File.separator + "wsdl-sample.json");
+        assetName = "echo.wsdl";
+        String dataBody = String.format(wsdlTemplate,
+                "https://raw.githubusercontent.com/wso2/wso2-qa-artifacts/master/automation-artifacts/greg/wsdl/echo.wsdl",
+                assetName,
+                "1.0.0");
         ClientResponse response =
                 genericRestClient.geneticRestRequestPost(publisherUrl + "/assets",
                         MediaType.APPLICATION_JSON,

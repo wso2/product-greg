@@ -20,12 +20,15 @@ package org.wso2.carbon.registry.es.utils;
 import org.apache.wink.client.ClientResponse;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.wso2.greg.integration.common.clients.ResourceAdminServiceClient;
 import org.wso2.greg.integration.common.utils.GREGIntegrationBaseTest;
 import org.wso2.greg.integration.common.utils.GenericRestClient;
 
+import javax.activation.DataHandler;
 import javax.ws.rs.core.MediaType;
 import java.io.File;
 import java.io.IOException;
+import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -159,6 +162,34 @@ public class GregESTestBaseTest extends GREGIntegrationBaseTest {
                                 , queryParamMap, headerMap, cookieHeader);
         return new JSONObject(response.getEntity(String.class));
 
+    }
+
+    /**
+     * Need to refresh the landing page to deploy the new rxt in publisher
+     * @param publisherUrl publisher url
+     * @param genericRestClient generic rest client object
+     * @param cookieHeader session cookies header
+     */
+    public void refreshPublisherLandingPage(String publisherUrl, GenericRestClient genericRestClient, String cookieHeader) {
+        Map<String, String> queryParamMap = new HashMap<>();
+        String landingUrl = publisherUrl.replace("apis", "pages/gc-landing");
+        genericRestClient.geneticRestRequestGet(landingUrl, queryParamMap, headerMap, cookieHeader);
+    }
+
+    /**
+     * Add new rxt configuration via resource admin service
+     * @param customRxt filename of the custom rxt which is in resources/artifacts/GREG/rxt/ directory
+     * @throws Exception
+     */
+    public void addNewRxtConfigViaAdminService(String customRxt) throws Exception {
+        String session = getSessionCookie();
+        ResourceAdminServiceClient resourceAdminServiceClient = new ResourceAdminServiceClient(backendURL, session);
+        String filePath = getTestArtifactLocation() + "artifacts" + File.separator +
+                "GREG" + File.separator + "rxt" + File.separator + "application.rxt";
+        DataHandler dh = new DataHandler(new URL("file:///" + filePath));
+        resourceAdminServiceClient.addResource(
+                "/_system/governance/repository/components/org.wso2.carbon.governance/types/application.rxt",
+                "application/vnd.wso2.registry-ext-type+xml", "desc", dh);
     }
 
 }

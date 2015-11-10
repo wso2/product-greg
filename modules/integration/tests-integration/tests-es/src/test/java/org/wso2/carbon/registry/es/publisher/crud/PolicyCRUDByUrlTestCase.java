@@ -88,8 +88,14 @@ public class PolicyCRUDByUrlTestCase extends GregESTestBaseTest {
     public void createPolicyServiceAsset() throws JSONException, IOException {
         Map<String, String> queryParamMap = new HashMap<>();
         queryParamMap.put("type", "policy");
-        String dataBody = readFile(resourcePath + "json" + File.separator + "policy-sample.json");
-        assetName = (String) (new JSONObject(dataBody)).get("overview_name");
+/*        "overview_url":"https://raw.githubusercontent.com/wso2/wso2-qa-artifacts/master/automation-artifacts/greg/policy/UTPolicy.xml",
+          "overview_name":"UTPolicy.xml",
+          "overview_version":"1.0.0",*/
+        String policyTemplate = readFile(resourcePath + "json" + File.separator + "policy-sample.json");
+        assetName = "UTPolicy.xml";
+        String dataBody = String.format(policyTemplate,
+                "https://raw.githubusercontent.com/wso2/wso2-qa-artifacts/master/automation-artifacts/greg/policy/UTPolicy.xml",
+                assetName, "1.0.0");
         ClientResponse response =
                 genericRestClient.geneticRestRequestPost(publisherUrl + "/assets",
                         MediaType.APPLICATION_JSON,

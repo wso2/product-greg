@@ -86,10 +86,18 @@ public class SchemaCRUDByUrlTestCase extends GregESTestBaseTest {
 
     @Test(groups = {"wso2.greg", "wso2.greg.es"}, description = "Import Schema in Publisher")
     public void createSchemaServiceAsset() throws JSONException, IOException {
+/*        "overview_url": "https://raw.githubusercontent.com/wso2/wso2-qa-artifacts/master/automation-artifacts/greg/schema/Person.xsd"
+        "overview_name": "Person.xsd"
+        "overview_version": "1.0.0"*/
         Map<String, String> queryParamMap = new HashMap<>();
         queryParamMap.put("type", "schema");
-        String dataBody = readFile(resourcePath + "json" + File.separator + "schema-sample.json");
-        assetName = (String) (new JSONObject(dataBody)).get("overview_name");
+        String schemaTemplate = readFile(resourcePath + "json" + File.separator + "schema-sample.json");
+//        assetName = (String) (new JSONObject(dataBody)).get("overview_name");
+        assetName = "Person.xsd";
+        String dataBody = String.format(schemaTemplate,
+                "https://raw.githubusercontent.com/wso2/wso2-qa-artifacts/master/automation-artifacts/greg/schema/Person.xsd",
+                assetName,
+                "1.0.0");
         ClientResponse response =
                 genericRestClient.geneticRestRequestPost(publisherUrl + "/assets",
                         MediaType.APPLICATION_JSON,

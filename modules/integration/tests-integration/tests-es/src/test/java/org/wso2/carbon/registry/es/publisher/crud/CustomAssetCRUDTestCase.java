@@ -70,19 +70,8 @@ public class CustomAssetCRUDTestCase extends GregESTestBaseTest {
         setTestEnvironment();
     }
 
-    private void doAdminConfigurations() throws Exception {
-        String session = getSessionCookie();
-        ResourceAdminServiceClient resourceAdminServiceClient = new ResourceAdminServiceClient(backendURL, session);
-        String filePath = getTestArtifactLocation() + "artifacts" + File.separator +
-                "GREG" + File.separator + "rxt" + File.separator + "application.rxt";
-        DataHandler dh = new DataHandler(new URL("file:///" + filePath));
-        resourceAdminServiceClient.addResource(
-                "/_system/governance/repository/components/org.wso2.carbon.governance/types/application.rxt",
-                "application/vnd.wso2.registry-ext-type+xml", "desc", dh);
-    }
-
     private void setTestEnvironment() throws Exception {
-        doAdminConfigurations();
+        addNewRxtConfigViaAdminService("application.rxt");
         JSONObject objSessionPublisher =
                 new JSONObject(authenticate(publisherUrl, genericRestClient,
                         automationContext.getSuperTenant().getTenantAdmin().getUserName(),
@@ -91,27 +80,22 @@ public class CustomAssetCRUDTestCase extends GregESTestBaseTest {
         jSessionId = objSessionPublisher.getJSONObject("data").getString("sessionId");
         cookieHeader = "JSESSIONID=" + jSessionId;
         //refresh the publisher landing page to deploy new rxt type
-        refreshPublisherLandingPage();
+        refreshPublisherLandingPage(publisherUrl, genericRestClient, cookieHeader);
         Assert.assertNotNull(jSessionId, "Invalid JSessionID received");
         esTestCommonUtils = new ESTestCommonUtils(genericRestClient, publisherUrl, headerMap);
         esTestCommonUtils.setCookieHeader(cookieHeader);
-    }
-
-    /**
-     * Need to refresh the landing page to deploy the new rxt in publisher
-     */
-    private void refreshPublisherLandingPage() {
-        Map<String, String> queryParamMap = new HashMap<>();
-        String landingUrl = publisherUrl.replace("apis", "pages/gc-landing");
-        genericRestClient.geneticRestRequestGet(landingUrl, queryParamMap, headerMap, cookieHeader);
     }
 
     @Test(groups = {"wso2.greg", "wso2.greg.es"}, description = "Create Custom Asset in Publisher")
     public void createCustomAsset() throws JSONException, IOException {
         Map<String, String> queryParamMap = new HashMap<>();
         queryParamMap.put("type", "applications");
-        String dataBody = readFile(resourcePath + "json" + File.separator + "custom-applications-sample.json");
-        assetName = (String) (new JSONObject(dataBody)).get("overview_name");
+/*        "overview_name": "application1234",
+          "overview_version": "1.2.3",
+          "overview_description": "Test asset",*/
+        String customTemplate = readFile(resourcePath + "json" + File.separator + "custom-applications-sample.json");
+        assetName = "application12345";
+        String dataBody = String.format(customTemplate, assetName, "1.2.3", "Test asset");
         ClientResponse response =
                 genericRestClient.geneticRestRequestPost(publisherUrl + "/assets",
                         MediaType.APPLICATION_JSON,
@@ -164,7 +148,8 @@ public class CustomAssetCRUDTestCase extends GregESTestBaseTest {
     public void updateCustomAsset() throws JSONException, IOException {
         Map<String, String> queryParamMap = new HashMap<>();
         queryParamMap.put("type", "applications");
-        String dataBody = readFile(resourcePath + "json" + File.separator + "custom-applications-update-sample.json");
+        String customTemplate = readFile(resourcePath + "json" + File.separator + "custom-applications-sample.json");
+        String dataBody = String.format(customTemplate, assetName, "1.2.3", "Test update asset");
         ClientResponse response =
                 genericRestClient.geneticRestRequestPost(publisherUrl + "/assets/" + assetId,
                         MediaType.APPLICATION_JSON,

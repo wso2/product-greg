@@ -88,8 +88,13 @@ public class SwaggerCRUDByUrlTestCase extends GregESTestBaseTest {
     public void createSwaggerServiceAsset() throws JSONException, IOException {
         Map<String, String> queryParamMap = new HashMap<>();
         queryParamMap.put("type", "swagger");
-        String dataBody = readFile(resourcePath + "json" + File.separator + "swagger-sample.json");
-        assetName = (String) (new JSONObject(dataBody)).get("overview_name");
+/*        "overview_url": "http://petstore.swagger.io/v2/swagger.json",
+          "overview_name": "swagger.json",
+          "overview_version": "1.0.0",*/
+        String swaggerTemplate = readFile(resourcePath + "json" + File.separator + "swagger-sample.json");
+        assetName = "swagger.json";
+        String dataBody = String.format(swaggerTemplate, "http://petstore.swagger.io/v2/swagger.json",
+                assetName, "1.0.0");
         ClientResponse response =
                 genericRestClient.geneticRestRequestPost(publisherUrl + "/assets",
                         MediaType.APPLICATION_JSON,

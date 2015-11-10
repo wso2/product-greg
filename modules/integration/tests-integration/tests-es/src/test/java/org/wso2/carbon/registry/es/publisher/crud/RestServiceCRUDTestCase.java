@@ -87,8 +87,13 @@ public class RestServiceCRUDTestCase extends GregESTestBaseTest {
     public void createRestServiceAsset() throws JSONException, IOException {
         Map<String, String> queryParamMap = new HashMap<>();
         queryParamMap.put("type", "restservice");
-        String dataBody = readFile(resourcePath + "json" + File.separator + "publisherPublishRestResource.json");
-        assetName = (String) (new JSONObject(dataBody)).get("overview_name");
+/*        "overview_name": "bbb",
+          "overview_provider": "wso2",
+          "overview_context": "/bbb",
+          "overview_version": "%s",*/
+        String restTemplate = readFile(resourcePath + "json" + File.separator + "restservice-sample.json");
+        assetName = "bbb";
+        String dataBody = String.format(restTemplate, assetName, "wso2", "/bbb", "1.0.0");
         ClientResponse response =
                 genericRestClient.geneticRestRequestPost(publisherUrl + "/assets",
                         MediaType.APPLICATION_JSON,
@@ -141,7 +146,9 @@ public class RestServiceCRUDTestCase extends GregESTestBaseTest {
     public void updateRestServiceAsset() throws JSONException, IOException {
         Map<String, String> queryParamMap = new HashMap<>();
         queryParamMap.put("type", "restservice");
-        String dataBody = readFile(resourcePath + "json" + File.separator + "PublisherRestResourceUpdate.json");
+        String restTemplate = readFile(resourcePath + "json" + File.separator + "restservice-sample.json");
+        assetName = "bbb";
+        String dataBody = String.format(restTemplate, assetName, "wso2", "/changed/Context", "1.0.0");
         ClientResponse response =
                 genericRestClient.geneticRestRequestPost(publisherUrl + "/assets/" + assetId,
                         MediaType.APPLICATION_JSON,
