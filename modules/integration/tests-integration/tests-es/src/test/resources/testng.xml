@@ -4,13 +4,22 @@
     <parameter name="useDefaultListeners" value="false"/>
 
     <test name="es" preserve-order="true" parallel="false">
-        <classes>
-            <class name="org.wso2.carbon.registry.es.publisher.GregRestResourcePublisherESTestCase"/>
-            <class name="org.wso2.carbon.registry.es.publisher.GregRestResourceAssociationTestCase"/>
-            <class name="org.wso2.carbon.registry.es.publisher.GregRestResourceSubscriptionAndNotificationTestCase"/>
-            <class name="org.wso2.carbon.registry.es.tags.GregAssetsTagsESTestCase"/>
-            <class name="org.wso2.carbon.registry.es.notes.GregAssertNotesESTestCase"/>
-            <!--<class name="org.wso2.carbon.registry.es.publisher.lifecycle.GregRestResourceLCWithTwoActionsPointingToSameStateWithExecutor"/>-->
-        </classes>
+        <!--<classes>-->
+            <!--<class name="org.wso2.carbon.registry.es.publisher.GregRestResourcePublisherESTestCase"/>-->
+            <!--<class name="org.wso2.carbon.registry.es.publisher.GregRestResourceAssociationTestCase"/>-->
+            <!--<class name="org.wso2.carbon.registry.es.publisher.GregRestResourceSubscriptionAndNotificationTestCase"/>-->
+            <!--<class name="org.wso2.carbon.registry.es.tags.GregAssetsTagsESTestCase"/>-->
+            <!--<class name="org.wso2.carbon.registry.es.notes.GregAssertNotesESTestCase"/>-->
+            <!--&lt;!&ndash;<class name="org.wso2.carbon.registry.es.publisher.lifecycle.GregRestResourceLCWithTwoActionsPointingToSameStateWithExecutor"/>&ndash;&gt;-->
+        <!--</classes>-->
+        <packages>
+            <package name="org.wso2.carbon.registry.es.publisher.lifecycle"/>
+            <package name="org.wso2.carbon.registry.es.publisher.associations"/>
+            <package name="org.wso2.carbon.registry.es.publisher.crud"/>
+            <package name="org.wso2.carbon.registry.es.publisher.search"/>
+            <package name="org.wso2.carbon.registry.es.notifications"/>
+            <package name="org.wso2.carbon.registry.es.notes"/>
+            <package name="org.wso2.carbon.registry.es.tags"/>
+        </packages>
     </test>
 </suite>
