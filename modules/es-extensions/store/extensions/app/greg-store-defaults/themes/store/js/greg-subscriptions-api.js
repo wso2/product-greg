@@ -14,17 +14,18 @@ $(function() {
             contentType: 'application/json',
             success: function(data) {
                 if (data.error != null) {
-                    alert(data.error);
                     $(element).prop("checked", false);
                     $(element).change(function() {
                         addSubscription(element, id, type, method, option);
                     });
+                    location.reload(true);
                 } else {
                     var subcriptionid = data[0].id;
                     $(element).prop("checked", true);
                     $(element).change(function() {
                         removeSubscription(element, id, subcriptionid, method, option);
                     });
+                    location.reload(true);
                 }
             },
             error: function() {
@@ -44,16 +45,17 @@ $(function() {
             contentType: 'application/json',
             success: function(data) {
                 if (data.error != null) {
-                    alert(data.error);
                     $(element).prop("checked", true);
                     $(element).change(function() {
                         removeSubscription(element, id, type, subcriptionid, method, option);
                     });
+                    location.reload(true);
                 } else {
                     $(element).prop("checked", false);
                     $(element).change(function() {
                         addSubscription(element, id, type, method, option);
                     });
+                    location.reload(true);
                 }
             },
             error: function() {
