@@ -407,9 +407,9 @@
          accordingly-->
     <transportSender name="mailto"
                      class="org.apache.axis2.transport.mail.MailTransportSender">
-        <parameter name="mail.smtp.from">testingwso2@gmail.com</parameter>
-        <parameter name="mail.smtp.user">testingwso2@gmail.com</parameter>
-        <parameter name="mail.smtp.password">Testingwso2123</parameter>
+        <parameter name="mail.smtp.from">gregtestes@gmail.com</parameter>
+        <parameter name="mail.smtp.user">gregtestes@gmail.com</parameter>
+        <parameter name="mail.smtp.password">greg1234</parameter>
         <parameter name="mail.smtp.host">smtp.gmail.com</parameter>
 
         <parameter name="mail.smtp.port">587</parameter>
