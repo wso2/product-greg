@@ -145,6 +145,13 @@
                         <userName>testuser21</userName>
                         <password>testuser21</password>
                     </user>
+                    <user key="user3">
+                        <userName>withoutLCAccessuser</userName>
+                        <password>withoutLCAccessuser</password>
+                        <roles>
+                            <role>withoutLCAccessrole</role>
+                        </roles>
+                    </user>
                 </users>
             </tenant>
         </superTenant>
@@ -184,6 +191,30 @@
             <role name="testrole" key="testrole">
                 <permissions>
                     <permission>/permission/admin/login</permission>
+                </permissions>
+            </role>
+            <role name="withoutLCAccessrole" key="withoutLCAccessrole">
+                <permissions>
+                    <permission>/permission/admin/configure/governance/generic</permission>
+                    <permission>/permission/admin/configure/governance/restservice-ui</permission>
+                    <permission>/permission/admin/enterprisestore/apps/publisher/features/app/login</permission>
+                    <permission>/permission/admin/enterprisestore/apps/publisher/features/assets/restservice</permission>
+                    <permission>/permission/admin/enterprisestore/apps/publisher/features/assets/restservice/update</permission>
+                    <permission>/permission/admin/enterprisestore/apps/store/features/app/login</permission>
+                    <permission>/permission/admin/enterprisestore/apps/store/features/assets/restservice</permission>
+                    <permission>/permission/admin/enterprisestore/apps/store/features/assets/restservice/bookmark</permission>
+                    <permission>/permission/admin/enterprisestore/apps/store/features/assets/restservice/list</permission>
+                    <permission>/permission/admin/enterprisestore/apps/store/features/assets/restservice/reviews</permission>
+                    <permission>/permission/admin/login</permission>
+                    <permission>/permission/admin/manage/resources/browse</permission>
+                    <permission>/permission/admin/manage/resources/govern/generic</permission>
+                    <permission>/permission/admin/manage/resources/govern/generic/add</permission>
+                    <permission>/permission/admin/manage/resources/govern/generic/list</permission>
+                    <permission>/permission/admin/manage/resources/govern/metadata</permission>
+                    <permission>/permission/admin/manage/resources/govern/restservice</permission>
+                    <permission>/permission/admin/manage/resources/govern/restservice/add</permission>
+                    <permission>/permission/admin/manage/resources/govern/restservice/list</permission>
+                    <permission>/permission/admin/manage/resources/ws-api</permission>
                 </permissions>
             </role>
         </roles>

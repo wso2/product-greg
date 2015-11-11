@@ -157,13 +157,17 @@ public class GregRestResourceLCWithTwoActionsPointingToSameStateWithExecutor ext
                 genericRestClient.geneticRestRequestPost(publisherUrl + "/asset/" + assetId + "/change-state",
                                                          MediaType.APPLICATION_FORM_URLENCODED,
                                                          MediaType.APPLICATION_JSON,
-                                                         "nextState=development&comment=Unpublished&nextAction=Unpublish"
+                                                         "nextState=development&comment=Unpublished" +
+                                                         "&nextAction=Unpublish"
                         , queryParamMap, headerMap, cookieHeader);
         JSONObject obj2 = new JSONObject(response.getEntity(String.class));
         Assert.assertTrue(response.getStatusCode() == 200, "Fault user accepted");
         LogEvent[] logEvents = logViewerClient.getLogs("INFO", "###################### " +
                                                                "DemoteNotificationExecutor ACTION executed! " +
                                                                "---------------------------", "", "");
+        //TODO: Following assertion will fail on carbon-store release 2.3.9
+        //Once this test is built with carbon-store version higher than 2.3.9, it passes
+        //https://wso2.org/jira/browse/REGISTRY-3086
         Assert.assertEquals(logEvents.length, 1);
     }
 
