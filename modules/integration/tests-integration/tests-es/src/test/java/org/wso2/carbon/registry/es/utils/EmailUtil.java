@@ -78,6 +78,7 @@ public class EmailUtil {
     }
 
     public String readGmailInboxForVerification() throws Exception {
+        boolean isEmailVerified = false;
         String pointBrowserURL = "";
         Properties props = new Properties();
         props.load(new FileInputStream(new File(
@@ -90,19 +91,24 @@ public class EmailUtil {
         Folder inbox = store.getFolder("inbox");
         inbox.open(Folder.READ_WRITE);
         Thread.sleep(5000);
+        long startTime = System.currentTimeMillis();
+        long endTime = 0;
+        while (endTime - startTime < 60000 && !isEmailVerified) {
+            int messageCount = inbox.getMessageCount();
+            //log.info("Total Messages:- " + messageCount);
+            Message[] messages = inbox.getMessages();
 
-        int messageCount = inbox.getMessageCount();
-        log.info("Total Messages:- " + messageCount);
-        Message[] messages = inbox.getMessages();
+            for (Message message : messages) {
+                log.info("Mail Subject:- " + message.getSubject());
+                if (message.getSubject().contains("EmailVerification")) {
+                    pointBrowserURL = getBodyFromMessage(message);
+                    isEmailVerified = true;
+                }
 
-        for (Message message : messages) {
-            log.info("Mail Subject:- " + message.getSubject());
-            if (message.getSubject().contains("EmailVerification")) {
-                pointBrowserURL = getBodyFromMessage(message);
+                // Optional : deleting the inbox resource updated mail
+                message.setFlag(Flags.Flag.DELETED, true);
             }
-
-            // Optional : deleting the inbox resource updated mail
-            message.setFlag(Flags.Flag.DELETED, true);
+            endTime = System.currentTimeMillis();
         }
         inbox.close(true);
         store.close();
@@ -123,20 +129,25 @@ public class EmailUtil {
         inbox.open(Folder.READ_WRITE);
         Thread.sleep(10000);
 
-        int messageCount = inbox.getMessageCount();
-        log.info("Total Messages:- " + messageCount);
-        Message[] messages = inbox.getMessages();
+        long startTime = System.currentTimeMillis();
+        long endTime = 0;
+        while (endTime - startTime < 60000 && !isNotificationMailAvailable) {
+            int messageCount = inbox.getMessageCount();
+            //log.info("Total Messages:- " + messageCount);
+            Message[] messages = inbox.getMessages();
 
-        for (Message message : messages) {
-            log.info("Mail Subject:- " + message.getSubject());
+            for (Message message : messages) {
+                log.info("Mail Subject:- " + message.getSubject());
 
-            if (message.getSubject().contains(notificationType)) {
-                isNotificationMailAvailable = true;
+                if (message.getSubject().contains(notificationType)) {
+                    isNotificationMailAvailable = true;
+
+                }
+                // Optional : deleting the inbox resource updated mail
+                message.setFlag(Flags.Flag.DELETED, true);
 
             }
-            // Optional : deleting the inbox resource updated mail
-            message.setFlag(Flags.Flag.DELETED, true);
-
+            endTime = System.currentTimeMillis();
         }
         inbox.close(true);
         store.close();
@@ -185,7 +196,6 @@ public class EmailUtil {
     }
 
     private String locationHeader(HttpResponse response) {
-
         org.apache.http.Header[] headers = response.getAllHeaders();
         String url = null;
         for (org.apache.http.Header header : headers) {

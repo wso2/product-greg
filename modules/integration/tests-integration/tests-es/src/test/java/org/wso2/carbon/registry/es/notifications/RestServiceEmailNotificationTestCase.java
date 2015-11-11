@@ -18,6 +18,8 @@
 
 package org.wso2.carbon.registry.es.notifications;
 
+import org.apache.http.NameValuePair;
+import org.apache.http.client.HttpClient;
 import org.apache.wink.client.ClientResponse;
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -39,10 +41,13 @@ import org.wso2.greg.integration.common.utils.GREGIntegrationBaseTest;
 import org.wso2.greg.integration.common.utils.GenericRestClient;
 
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
 import javax.xml.xpath.XPathExpressionException;
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import static org.testng.Assert.assertNotNull;
@@ -51,10 +56,11 @@ import static org.testng.Assert.assertTrue;
 /**
  * This test class can be used to check the email notification functionality
  */
-public class SoapServiceEmailNotificationTestCase extends GREGIntegrationBaseTest {
+public class RestServiceEmailNotificationTestCase extends GREGIntegrationBaseTest {
 
     private TestUserMode userMode;
     String jSessionId;
+    private HttpClient httpClient;
     private UserProfileMgtServiceClient userProfileMgtClient;
     private File axis2File;
     private String publisherUrl;
@@ -64,14 +70,14 @@ public class SoapServiceEmailNotificationTestCase extends GREGIntegrationBaseTes
     private GenericRestClient genericRestClient;
     private Map<String, String> queryParamMap;
     private Map<String, String> headerMap;
+    private EmailUtil emailUtil;
     private String loginURL;
     private String emailAddress;
-    private EmailUtil emailUtil;
     boolean isNotificationMailAvailable;
 
 
     @Factory(dataProvider = "userModeProvider")
-    public SoapServiceEmailNotificationTestCase(TestUserMode userMode) {
+    public RestServiceEmailNotificationTestCase(TestUserMode userMode) {
         this.userMode = userMode;
     }
 
@@ -94,55 +100,53 @@ public class SoapServiceEmailNotificationTestCase extends GREGIntegrationBaseTes
 
         updateProfileAndEnableEmailConfiguration();
         setTestEnvironment();
-
     }
 
-    private void updateProfileAndEnableEmailConfiguration()
-            throws UserProfileMgtServiceUserProfileExceptionException, IOException, XPathExpressionException,
-            AutomationUtilException {
+   private void updateProfileAndEnableEmailConfiguration()
+           throws UserProfileMgtServiceUserProfileExceptionException, IOException, XPathExpressionException,
+           AutomationUtilException {
 
-        UserProfileDTO profile = new UserProfileDTO();
-        profile.setProfileName("default");
+       UserProfileDTO profile = new UserProfileDTO();
+       profile.setProfileName("default");
 
-        UserFieldDTO lastName = new UserFieldDTO();
-        lastName.setClaimUri("http://wso2.org/claims/lastname");
-        lastName.setFieldValue("GregUserFirstName");
+       UserFieldDTO lastName = new UserFieldDTO();
+       lastName.setClaimUri("http://wso2.org/claims/lastname");
+       lastName.setFieldValue("GregUserFirstName");
 
-        UserFieldDTO givenName = new UserFieldDTO();
-        givenName.setClaimUri("http://wso2.org/claims/givenname");
-        givenName.setFieldValue("GregUserLastName");
+       UserFieldDTO givenName = new UserFieldDTO();
+       givenName.setClaimUri("http://wso2.org/claims/givenname");
+       givenName.setFieldValue("GregUserLastName");
 
-        UserFieldDTO email = new UserFieldDTO();
-        email.setClaimUri("http://wso2.org/claims/emailaddress");
-        email.setFieldValue(emailAddress);
+       UserFieldDTO email = new UserFieldDTO();
+       email.setClaimUri("http://wso2.org/claims/emailaddress");
+       email.setFieldValue(emailAddress);
 
-        UserFieldDTO[] fields = new UserFieldDTO[3];
-        fields[0] = lastName;
-        fields[1] = givenName;
-        fields[2] = email;
+       UserFieldDTO[] fields = new UserFieldDTO[3];
+       fields[0] = lastName;
+       fields[1] = givenName;
+       fields[2] = email;
 
-        profile.setFieldValues(fields);
+       profile.setFieldValues(fields);
 
-        userProfileMgtClient
-                .setUserProfile(automationContext.getContextTenant().getContextUser().getUserName(), profile);
+       userProfileMgtClient
+               .setUserProfile(automationContext.getContextTenant().getContextUser().getUserName(), profile);
 
-        // apply new axis2.xml configuration
-        ServerConfigurationManager serverConfigurationManager = new ServerConfigurationManager(automationContext);
-        serverConfigurationManager.applyConfiguration(axis2File);
-    }
+       // apply new axis2.xml configuration
+       ServerConfigurationManager serverConfigurationManager = new ServerConfigurationManager(automationContext);
+       serverConfigurationManager.applyConfiguration(axis2File);
+   }
 
     @Test(groups = { "wso2.greg",
-            "wso2.greg.es" }, description = "Adding subscription to soap service on LC state change",
-            dependsOnMethods = { "addSubscriptionCheckListItem" ,"addSubscriptionUnCheckListItem"  })
+            "wso2.greg.es" }, description = "Adding subscription to rest service on LC state change",
+            dependsOnMethods = { "addSubscriptionCheckListItem" ,"addSubscriptionUnCheckListItem" })
     public void addSubscriptionToLcStateChange() throws Exception {
 
         JSONObject dataObject = new JSONObject();
-
         dataObject.put("notificationType", "PublisherLifeCycleStateChanged");
         dataObject.put("notificationMethod", "email");
 
         ClientResponse response = genericRestClient
-                .geneticRestRequestPost(publisherUrl + "/subscriptions/soapservice/" + assetId,
+                .geneticRestRequestPost(publisherUrl + "/subscriptions/restservice/" + assetId,
                         MediaType.APPLICATION_JSON, MediaType.APPLICATION_JSON, dataObject.toString(), queryParamMap,
                         headerMap, cookieHeader);
 
@@ -166,21 +170,21 @@ public class SoapServiceEmailNotificationTestCase extends GREGIntegrationBaseTes
                 "nextState=Testing&comment=Completed", queryParamMap, headerMap, cookieHeader);
 
         isNotificationMailAvailable = emailUtil.readGmailInboxForNotification("PublisherLifeCycleStateChanged");
-        assertTrue(isNotificationMailAvailable, "Publisher LC state changed mail has failed to reach Gmail inbox");
+        assertTrue(isNotificationMailAvailable,
+                "Publisher lifecycle state changed notification mail has failed to reach Gmail inbox");
         isNotificationMailAvailable = false;
     }
 
     @Test(groups = { "wso2.greg",
-            "wso2.greg.es" }, description = "Adding subscription to Soap service on resource update")
+            "wso2.greg.es" }, description = "Adding subscription to rest service on resource update")
     public void addSubscriptionOnResourceUpdate() throws Exception {
 
         JSONObject dataObject = new JSONObject();
-
         dataObject.put("notificationType", "PublisherResourceUpdated");
         dataObject.put("notificationMethod", "email");
 
         ClientResponse response = genericRestClient
-                .geneticRestRequestPost(publisherUrl + "/subscriptions/soapservice/" + assetId,
+                .geneticRestRequestPost(publisherUrl + "/subscriptions/restservice/" + assetId,
                         MediaType.APPLICATION_JSON, MediaType.APPLICATION_JSON, dataObject.toString(), queryParamMap,
                         headerMap, cookieHeader);
 
@@ -190,7 +194,7 @@ public class SoapServiceEmailNotificationTestCase extends GREGIntegrationBaseTes
         assertNotNull(obj.get("id").toString(),
                 "Response payload is not the in the correct format" + response.getEntity(String.class));
 
-        // verify e-mail
+        //verify e-mail
         emailUtil = new EmailUtil(loginURL, automationContext.getContextTenant().getContextUser().getUserName(),
                 automationContext.getContextTenant().getContextUser().getPassword());
         String pointBrowserURL = emailUtil.readGmailInboxForVerification();
@@ -198,26 +202,31 @@ public class SoapServiceEmailNotificationTestCase extends GREGIntegrationBaseTes
         emailUtil.browserRedirectionOnVerification(pointBrowserURL);
 
         // update the resource in order to retrieve e-mail
-        String dataBody = readFile(resourcePath + "json" + File.separator + "PublisherSoapResourceUpdateFile.json");
-        genericRestClient.geneticRestRequestPost(publisherUrl + "/assets/" + assetId, MediaType.APPLICATION_JSON,
-                MediaType.APPLICATION_JSON, dataBody, queryParamMap, headerMap, cookieHeader);
+        String dataBody = readFile(resourcePath + "json" + File.separator + "PublisherRestResourceUpdate.json");
+        response = genericRestClient
+                .geneticRestRequestPost(publisherUrl + "/assets/" + assetId, MediaType.APPLICATION_JSON,
+                        MediaType.APPLICATION_JSON, dataBody, queryParamMap, headerMap, cookieHeader);
+        obj = new JSONObject(response.getEntity(String.class));
+        assertTrue((response.getStatusCode() == Response.Status.ACCEPTED.getStatusCode()),
+                "Wrong status code ,Expected 202 Created ,Received " + response.getStatusCode());
+        assertTrue(obj.getJSONObject("attributes").get("overview_context").equals("/changed/Context"));
 
         isNotificationMailAvailable = emailUtil.readGmailInboxForNotification("PublisherResourceUpdated");
-        assertTrue(isNotificationMailAvailable, "Publisher resource updated mail has failed to reach Gmail inbox");
+        assertTrue(isNotificationMailAvailable, "Publisher resource updated mail has failed to reach Gmail nbox");
         isNotificationMailAvailable = false;
+
     }
 
     @Test(groups = { "wso2.greg",
-            "wso2.greg.es" }, description = "Adding subscription to soap service on check list item checked")
+            "wso2.greg.es" }, description = "Adding subscription to rest service on check list item checked")
     public void addSubscriptionCheckListItem() throws Exception {
 
         JSONObject dataObject = new JSONObject();
-
         dataObject.put("notificationType", "PublisherCheckListItemChecked");
         dataObject.put("notificationMethod", "email");
 
         ClientResponse response = genericRestClient
-                .geneticRestRequestPost(publisherUrl + "/subscriptions/soapservice/" + assetId,
+                .geneticRestRequestPost(publisherUrl + "/subscriptions/restservice/" + assetId,
                         MediaType.APPLICATION_JSON, MediaType.APPLICATION_JSON, dataObject.toString(), queryParamMap,
                         headerMap, cookieHeader);
 
@@ -251,21 +260,19 @@ public class SoapServiceEmailNotificationTestCase extends GREGIntegrationBaseTes
         assertTrue(isNotificationMailAvailable,
                 "Publisher check list item ticked on life cycle, notification mail has failed to reach Gmail inbox");
         isNotificationMailAvailable = false;
-
     }
 
     @Test(groups = { "wso2.greg",
-            "wso2.greg.es" }, description = "Adding subscription to soap service on check list item unchecked",
+            "wso2.greg.es" }, description = "Adding subscription to rest service on check list item unchecked",
             dependsOnMethods = { "addSubscriptionCheckListItem" })
     public void addSubscriptionUnCheckListItem() throws Exception {
 
         JSONObject dataObject = new JSONObject();
-
         dataObject.put("notificationType", "PublisherCheckListItemUnchecked");
         dataObject.put("notificationMethod", "email");
 
         ClientResponse response = genericRestClient
-                .geneticRestRequestPost(publisherUrl + "/subscriptions/soapservice/" + assetId,
+                .geneticRestRequestPost(publisherUrl + "/subscriptions/restservice/" + assetId,
                         MediaType.APPLICATION_JSON, MediaType.APPLICATION_JSON, dataObject.toString(), queryParamMap,
                         headerMap, cookieHeader);
 
@@ -280,7 +287,6 @@ public class SoapServiceEmailNotificationTestCase extends GREGIntegrationBaseTes
                 automationContext.getContextTenant().getContextUser().getPassword());
         String pointBrowserURL = emailUtil.readGmailInboxForVerification();
         assertTrue(pointBrowserURL.contains("https"), "Verification mail has failed to reach Gmail inbox");
-
         emailUtil.browserRedirectionOnVerification(pointBrowserURL);
 
         // un check items on LC
@@ -295,10 +301,9 @@ public class SoapServiceEmailNotificationTestCase extends GREGIntegrationBaseTes
         genericRestClient.geneticRestRequestPost(publisherUrl + "/asset/" + assetId + "/update-checklist",
                 MediaType.APPLICATION_JSON, MediaType.APPLICATION_JSON, checkListObject.toString(), queryParamMap,
                 headerMap, cookieHeader);
-
         isNotificationMailAvailable = emailUtil.readGmailInboxForNotification("PublisherCheckListItemUnchecked");
         assertTrue(isNotificationMailAvailable,
-                "Publisher un check list item on life cycle notification mail has failed to reach Gmail inbox");
+                "Publisher uncheck list item on life cycle, notification mail has failed to reach Gmail inbox");
         isNotificationMailAvailable = false;
 
     }
@@ -312,9 +317,9 @@ public class SoapServiceEmailNotificationTestCase extends GREGIntegrationBaseTes
         jSessionId = obj.getJSONObject("data").getString("sessionId");
         cookieHeader = "JSESSIONID=" + jSessionId;
 
-        //Create soap service
-        queryParamMap.put("type", "soapservice");
-        String dataBody = readFile(resourcePath + "json" + File.separator + "publisherPublishSoapResource.json");
+        //Create rest service
+        queryParamMap.put("type", "restservice");
+        String dataBody = readFile(resourcePath + "json" + File.separator + "publisherPublishRestResource.json");
         ClientResponse createResponse = genericRestClient
                 .geneticRestRequestPost(publisherUrl + "/assets", MediaType.APPLICATION_JSON,
                         MediaType.APPLICATION_JSON, dataBody, queryParamMap, headerMap, cookieHeader);
@@ -322,22 +327,20 @@ public class SoapServiceEmailNotificationTestCase extends GREGIntegrationBaseTes
         assetId = createObj.get("id").toString();
     }
 
-    private void deleteSoapServiceAsset() throws JSONException {
+    private void deleteRestServiceAsset() throws JSONException {
         genericRestClient.geneticRestRequestDelete(publisherUrl + "/assets/" + assetId, MediaType.APPLICATION_JSON,
                 MediaType.APPLICATION_JSON, queryParamMap, headerMap, cookieHeader);
     }
 
     @AfterClass(alwaysRun = true)
     public void cleanUp() throws RegistryException, JSONException {
-        deleteSoapServiceAsset();
+        deleteRestServiceAsset();
     }
 
     @DataProvider
     private static TestUserMode[][] userModeProvider() {
-        return new TestUserMode[][]{
-                new TestUserMode[]{TestUserMode.SUPER_TENANT_ADMIN}
+        return new TestUserMode[][] { new TestUserMode[] { TestUserMode.SUPER_TENANT_ADMIN }
                 //                new TestUserMode[]{TestUserMode.TENANT_USER},
         };
     }
 }
-
