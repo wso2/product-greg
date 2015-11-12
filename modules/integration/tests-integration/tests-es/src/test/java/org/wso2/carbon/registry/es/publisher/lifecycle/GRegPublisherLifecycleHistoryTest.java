@@ -32,26 +32,15 @@ import org.wso2.carbon.automation.engine.context.TestUserMode;
 import org.wso2.carbon.automation.engine.frameworkutils.FrameworkPathUtil;
 import org.wso2.carbon.logging.view.stub.LogViewerLogViewerException;
 import org.wso2.carbon.registry.es.utils.GregESTestBaseTest;
-import org.wso2.greg.integration.common.clients.ResourceAdminServiceClient;
 import org.wso2.greg.integration.common.utils.GenericRestClient;
 
+import javax.ws.rs.core.MediaType;
 import java.io.File;
-import java.io.IOException;
 import java.rmi.RemoteException;
 import java.util.HashMap;
 import java.util.Map;
 
-public class GregPublisherPermissionCheckForLCOperations extends GregESTestBaseTest {
-
-    public static final String MANAGER_TEST_ROLE = "manager";
-
-    public static final String READ_ACTION = "2";
-    public static final String WRITE_ACTION = "3";
-    public static final String DELETE_ACTION = "4";
-    public static final String AUTHORIZE_ACTION = "5";
-
-    public static final String PERMISSION_ENABLED = "1";
-    public static final String PERMISSION_DISABLED = "0";
+public class GRegPublisherLifecycleHistoryTest extends GregESTestBaseTest {
 
     private TestUserMode userMode;
     private GenericRestClient genericRestClient;
@@ -62,13 +51,11 @@ public class GregPublisherPermissionCheckForLCOperations extends GregESTestBaseT
     private String resourcePath = FrameworkPathUtil.getSystemResourceLocation()
                                   + "artifacts" + File.separator + "GREG" + File.separator;
     private String jSessionId;
-    private String NEW_RESOURCE_PATH = "/_system/governance/trunk/restservices/1.0.0/testservice1234";
     private String lifeCycleName = "ServiceLifeCycle";
     private String assetId;
-    private ResourceAdminServiceClient resourceAdminServiceClient;
 
     @Factory(dataProvider = "userModeProvider")
-    public GregPublisherPermissionCheckForLCOperations(TestUserMode userMode) {
+    public GRegPublisherLifecycleHistoryTest(TestUserMode userMode) {
         this.userMode = userMode;
     }
 
@@ -86,12 +73,13 @@ public class GregPublisherPermissionCheckForLCOperations extends GregESTestBaseT
     }
 
     @Test(groups = {"wso2.greg", "wso2.greg.es"}, description = "Authenticate Publisher test")
-    protected void testAddResources()
+    protected void testPrepareForTestRun()
             throws Exception {
+        queryParamMap.put("type", "restservice");
+        queryParamMap.put("lifecycle", lifeCycleName);
         genericRestClient = new GenericRestClient();
 
         super.init(userMode);
-        resourceAdminServiceClient = new ResourceAdminServiceClient(backendURL, sessionCookie);
 
         authenticatePublisher("admin", "admin");
 
@@ -110,48 +98,68 @@ public class GregPublisherPermissionCheckForLCOperations extends GregESTestBaseT
         obj = new JSONObject(response.getEntity(String.class));
         Assert.assertTrue(obj.get("lifecycle").equals(lifeCycleName), "LifeCycle not assigned to given assert");
 
-        resourceAdminServiceClient.addResourcePermission(NEW_RESOURCE_PATH, MANAGER_TEST_ROLE,
-                                                         WRITE_ACTION, PERMISSION_DISABLED);
+        response = genericRestClient.geneticRestRequestPost(publisherUrl + "/asset/" + assetId + "/change-state",
+                                                            MediaType.APPLICATION_FORM_URLENCODED,
+                                                            MediaType.APPLICATION_JSON,
+                                                            "nextState=Testing&comment=Development Completed",
+                                                            queryParamMap, headerMap, cookieHeader);
+        Assert.assertTrue((response.getStatusCode() == 200),
+                          "Wrong status code ,Expected 200 OK ,Received " +
+                          response.getStatusCode());
+
+        response = genericRestClient.geneticRestRequestPost(publisherUrl + "/asset/" + assetId + "/change-state",
+                                                            MediaType.APPLICATION_FORM_URLENCODED,
+                                                            MediaType.APPLICATION_JSON,
+                                                            "nextState=production&comment=Testing Completed",
+                                                            queryParamMap, headerMap, cookieHeader);
+        Assert.assertTrue((response.getStatusCode() == 200),
+                          "Wrong status code ,Expected 200 OK ,Received " +
+                          response.getStatusCode());
+
+        response = genericRestClient.geneticRestRequestPost(publisherUrl + "/asset/" + assetId + "/change-state",
+                                                            MediaType.APPLICATION_FORM_URLENCODED,
+                                                            MediaType.APPLICATION_JSON,
+                                                            "nextState=Testing&comment=Not Production Ready",
+                                                            queryParamMap, headerMap, cookieHeader);
+        Assert.assertTrue((response.getStatusCode() == 200),
+                          "Wrong status code ,Expected 200 OK ,Received " +
+                          response.getStatusCode());
+
+        response = genericRestClient.geneticRestRequestPost(publisherUrl + "/asset/" + assetId + "/change-state",
+                                                            MediaType.APPLICATION_FORM_URLENCODED,
+                                                            MediaType.APPLICATION_JSON,
+                                                            "nextState=development&comment=Testing failed",
+                                                            queryParamMap, headerMap, cookieHeader);
+        Assert.assertTrue((response.getStatusCode() == 200),
+                          "Wrong status code ,Expected 200 OK ,Received " +
+                          response.getStatusCode());
+
     }
 
     @Test(groups = {"wso2.greg", "wso2.greg.es"}, description = "PromoteLifeCycle with fault user",
-          dependsOnMethods = {"testAddResources"})
-    public void CheckLCPermissionForAdmin()
-            throws JSONException, InterruptedException, IOException, LogViewerLogViewerException {
-        ClientResponse response = getLifeCycleState(assetId, "restservice", lifeCycleName);
+          dependsOnMethods = {"testPrepareForTestRun"})
+    public void CheckLCHistory() throws LogViewerLogViewerException, RemoteException,
+                                                                      JSONException {
+        ClientResponse response = getLifeCycleHistory(assetId, "restservice", lifeCycleName);
+
         Assert.assertTrue(response.getStatusCode() == 200, "Fault user accepted");
 
-        JSONObject LCStateobj = new JSONObject(response.getEntity(String.class));
-        JSONObject dataObj = LCStateobj.getJSONObject("data");
+        JSONObject historyObj = new JSONObject(response.getEntity(String.class));
+        JSONArray dataObj = historyObj.getJSONArray("data");
 
-        boolean isLCActionsPermitted = dataObj.getBoolean("isLCActionsPermitted");
-        Assert.assertEquals(isLCActionsPermitted, true);
+        Assert.assertEquals(((JSONObject) ((JSONObject) dataObj.get(0)).getJSONArray("action").
+                get(0)).getString("name"), "Demote");
+        Assert.assertEquals(((JSONObject) ((JSONObject) dataObj.get(1)).getJSONArray("action").
+                get(0)).getString("name"), "Demote");
+        Assert.assertEquals(((JSONObject) ((JSONObject) dataObj.get(2)).getJSONArray("action").
+                get(0)).getString("name"), "Promote");
+        Assert.assertEquals(((JSONObject) ((JSONObject) dataObj.get(3)).getJSONArray("action").
+                get(0)).getString("name"), "Promote");
 
-        JSONArray checkItems = dataObj.getJSONArray("checkItems");
-        //all 3 check list items should be available for admin role user
-        Assert.assertEquals(((JSONObject) checkItems.get(0)).getString("isVisible"), "true");
-        Assert.assertEquals(((JSONObject) checkItems.get(1)).getString("isVisible"), "true");
-        Assert.assertEquals(((JSONObject) checkItems.get(2)).getString("isVisible"), "true");
-    }
-
-    @Test(groups = {"wso2.greg", "wso2.greg.es"}, description = "PromoteLifeCycle with fault user",
-          dependsOnMethods = {"CheckLCPermissionForAdmin"})
-    public void CheckLCPermissionForManager() throws LogViewerLogViewerException, RemoteException, JSONException {
-        authenticatePublisher("manager", "manager");
-        ClientResponse response = getLifeCycleState(assetId, "restservice", lifeCycleName);
-        Assert.assertTrue(response.getStatusCode() == 200, "Fault user accepted");
-
-        JSONObject LCStateobj = new JSONObject(response.getEntity(String.class));
-        JSONObject dataObj = LCStateobj.getJSONObject("data");
-
-        boolean isLCActionsPermitted = dataObj.getBoolean("isLCActionsPermitted");
-        Assert.assertEquals(isLCActionsPermitted, false);
-
-        JSONArray checkItems = dataObj.getJSONArray("checkItems");
-        //all 3 check list items should NOT be available for manager role user
-        Assert.assertEquals(((JSONObject) checkItems.get(0)).getString("isVisible"), "null");
-        Assert.assertEquals(((JSONObject) checkItems.get(1)).getString("isVisible"), "null");
-        Assert.assertEquals(((JSONObject) checkItems.get(2)).getString("isVisible"), "null");
+        //TODO: this count becomes 6 because history returns all LC actions performed on deleted resources to
+        //need to fix
+        //https://wso2.org/jira/browse/STORE-1142
+        Assert.assertEquals(dataObj.length(), 4);
     }
 
 
@@ -175,13 +183,14 @@ public class GregPublisherPermissionCheckForLCOperations extends GregESTestBaseT
         Assert.assertNotNull(jSessionId, "Invalid JSessionID received");
     }
 
-    private ClientResponse getLifeCycleState(String assetId, String assetType, String requestLCname) throws JSONException {
+    private ClientResponse getLifeCycleHistory(String assetId, String assetType, String requestLCname)
+            throws JSONException {
         Map<String, String> assetTypeParamMap = new HashMap<String, String>();
         assetTypeParamMap.put("type", assetType);
         assetTypeParamMap.put("lifecycle", requestLCname);
         ClientResponse response =
                 genericRestClient.geneticRestRequestGet
-                        (publisherUrl + "/asset/" + assetId + "/state"
+                        (publisherUrl + "/asset/" + assetId + "/lifecycle-history"
                                 , assetTypeParamMap, headerMap, cookieHeader);
         return response;
     }
