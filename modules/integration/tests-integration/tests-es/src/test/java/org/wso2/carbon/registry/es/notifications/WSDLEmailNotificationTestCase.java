@@ -381,11 +381,11 @@ public class WSDLEmailNotificationTestCase extends GregESTestBaseTest {
     }
 
     private void verifyEmail() throws Exception {
-        emailUtil = new EmailUtil(loginURL, automationContext.getContextTenant().getContextUser().getUserName(),
-                                  automationContext.getContextTenant().getContextUser().getPassword());
-        String pointBrowserURL = emailUtil.readGmailInboxForVerification();
+        String pointBrowserURL = EmailUtil.readGmailInboxForVerification();
         assertTrue(pointBrowserURL.contains("https"), "Verification mail has failed to reach Gmail inbox");
-        emailUtil.browserRedirectionOnVerification(pointBrowserURL);
+        EmailUtil.browserRedirectionOnVerification(pointBrowserURL, loginURL,
+                automationContext.getContextTenant().getContextUser().getUserName(),
+                automationContext.getContextTenant().getContextUser().getPassword());
     }
 
     @DataProvider
