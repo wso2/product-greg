@@ -18,7 +18,6 @@
 
 package org.wso2.carbon.registry.es.notifications;
 
-import org.apache.http.client.HttpClient;
 import org.apache.wink.client.ClientResponse;
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -70,7 +69,6 @@ public class CustomRXTEmailNotificationTestCase extends GREGIntegrationBaseTest 
     private GenericRestClient genericRestClient;
     private Map<String, String> queryParamMap;
     private Map<String, String> headerMap;
-    private EmailUtil emailUtil;
     private String loginURL;
     private String emailAddress;
     private boolean isNotificationMailAvailable;
@@ -161,11 +159,11 @@ public class CustomRXTEmailNotificationTestCase extends GREGIntegrationBaseTest 
                 "Response payload is not the in the correct format" + response.getEntity(String.class));
 
         // verify e-mail
-        emailUtil = new EmailUtil(loginURL, automationContext.getContextTenant().getContextUser().getUserName(),
-                automationContext.getContextTenant().getContextUser().getPassword());
-        String pointBrowserURL = emailUtil.readGmailInboxForVerification();
+        String pointBrowserURL = EmailUtil.readGmailInboxForVerification();
         assertTrue(pointBrowserURL.contains("https"), "Verification mail has failed to reach Gmail inbox");
-        emailUtil.browserRedirectionOnVerification(pointBrowserURL);
+        EmailUtil.browserRedirectionOnVerification(pointBrowserURL, loginURL,
+                automationContext.getContextTenant().getContextUser().getUserName(),
+                automationContext.getContextTenant().getContextUser().getPassword());
 
         // Change the life cycle state in order to retrieve e-mail
 
@@ -173,7 +171,7 @@ public class CustomRXTEmailNotificationTestCase extends GREGIntegrationBaseTest 
                 MediaType.APPLICATION_FORM_URLENCODED, MediaType.APPLICATION_JSON,
                 "nextState=Testing&comment=Completed", queryParamMap, headerMap, cookieHeader);
 
-        isNotificationMailAvailable = emailUtil.readGmailInboxForNotification("PublisherLifeCycleStateChanged");
+        isNotificationMailAvailable = EmailUtil.readGmailInboxForNotification("PublisherLifeCycleStateChanged");
         assertTrue(isNotificationMailAvailable,
                 "Publisher LC state changed notification mail has failed to reach Gmail inbox");
         isNotificationMailAvailable = false;
@@ -199,18 +197,18 @@ public class CustomRXTEmailNotificationTestCase extends GREGIntegrationBaseTest 
                 "Response payload is not the in the correct format" + response.getEntity(String.class));
 
         // verify e-mail
-        emailUtil = new EmailUtil(loginURL, automationContext.getContextTenant().getContextUser().getUserName(),
-                automationContext.getContextTenant().getContextUser().getPassword());
-        String pointBrowserURL = emailUtil.readGmailInboxForVerification();
+        String pointBrowserURL = EmailUtil.readGmailInboxForVerification();
         assertTrue(pointBrowserURL.contains("https"), "Verification mail has failed to reach Gmail inbox");
-        emailUtil.browserRedirectionOnVerification(pointBrowserURL);
+        EmailUtil.browserRedirectionOnVerification(pointBrowserURL, loginURL,
+                automationContext.getContextTenant().getContextUser().getUserName(),
+                automationContext.getContextTenant().getContextUser().getPassword());
 
         // update the resource in order to retrieve e-mail
         String dataBody = readFile(resourcePath + "json" + File.separator + "PublisherCustomResourceUpdate.json");
         genericRestClient.geneticRestRequestPost(publisherUrl + "/assets/" + assetId, MediaType.APPLICATION_JSON,
                 MediaType.APPLICATION_JSON, dataBody, queryParamMap, headerMap, cookieHeader);
 
-        isNotificationMailAvailable = emailUtil.readGmailInboxForNotification("PublisherResourceUpdated");
+        isNotificationMailAvailable = EmailUtil.readGmailInboxForNotification("PublisherResourceUpdated");
         assertTrue(isNotificationMailAvailable, "Publisher resource updated mail has failed to reach Gmail inbox");
         isNotificationMailAvailable = false;
 
@@ -236,11 +234,11 @@ public class CustomRXTEmailNotificationTestCase extends GREGIntegrationBaseTest 
                 "Response payload is not the in the correct format" + response.getEntity(String.class));
 
         // verify e-mail
-        emailUtil = new EmailUtil(loginURL, automationContext.getContextTenant().getContextUser().getUserName(),
-                automationContext.getContextTenant().getContextUser().getPassword());
-        String pointBrowserURL = emailUtil.readGmailInboxForVerification();
+        String pointBrowserURL = EmailUtil.readGmailInboxForVerification();
         assertTrue(pointBrowserURL.contains("https"), "Verification mail has failed to reach Gmail inbox");
-        emailUtil.browserRedirectionOnVerification(pointBrowserURL);
+        EmailUtil.browserRedirectionOnVerification(pointBrowserURL, loginURL,
+                automationContext.getContextTenant().getContextUser().getUserName(),
+                automationContext.getContextTenant().getContextUser().getPassword());
 
         // check items on LC
         queryParamMap.put("lifecycle", "ServiceLifeCycle");
@@ -255,7 +253,7 @@ public class CustomRXTEmailNotificationTestCase extends GREGIntegrationBaseTest 
         genericRestClient.geneticRestRequestPost(publisherUrl + "/asset/" + assetId + "/update-checklist",
                 MediaType.APPLICATION_JSON, MediaType.APPLICATION_JSON, checkListObject.toString(), queryParamMap,
                 headerMap, cookieHeader);
-        isNotificationMailAvailable = emailUtil.readGmailInboxForNotification("PublisherCheckListItemChecked");
+        isNotificationMailAvailable = EmailUtil.readGmailInboxForNotification("PublisherCheckListItemChecked");
         assertTrue(isNotificationMailAvailable,
                 "Publisher check list item on life cycle, notification mail has failed to reach Gmail inbox");
         isNotificationMailAvailable = false;
@@ -281,11 +279,11 @@ public class CustomRXTEmailNotificationTestCase extends GREGIntegrationBaseTest 
                 "Response payload is not the in the correct format" + response.getEntity(String.class));
 
         // verify e-mail
-        emailUtil = new EmailUtil(loginURL, automationContext.getContextTenant().getContextUser().getUserName(),
-                automationContext.getContextTenant().getContextUser().getPassword());
-        String pointBrowserURL = emailUtil.readGmailInboxForVerification();
+        String pointBrowserURL = EmailUtil.readGmailInboxForVerification();
         assertTrue(pointBrowserURL.contains("https"), "Verification mail has failed to reach Gmail inbox");
-        emailUtil.browserRedirectionOnVerification(pointBrowserURL);
+        EmailUtil.browserRedirectionOnVerification(pointBrowserURL, loginURL,
+                automationContext.getContextTenant().getContextUser().getUserName(),
+                automationContext.getContextTenant().getContextUser().getPassword());
 
         // un check items on LC
         JSONObject checkListObject = new JSONObject();
@@ -299,7 +297,7 @@ public class CustomRXTEmailNotificationTestCase extends GREGIntegrationBaseTest 
         genericRestClient.geneticRestRequestPost(publisherUrl + "/asset/" + assetId + "/update-checklist",
                 MediaType.APPLICATION_JSON, MediaType.APPLICATION_JSON, checkListObject.toString(), queryParamMap,
                 headerMap, cookieHeader);
-        isNotificationMailAvailable = emailUtil.readGmailInboxForNotification("PublisherCheckListItemUnchecked");
+        isNotificationMailAvailable = EmailUtil.readGmailInboxForNotification("PublisherCheckListItemUnchecked");
         assertTrue(isNotificationMailAvailable,
                 "Publisher un check list item on life cycle, notification mail has failed to reached Gmail inbox");
         isNotificationMailAvailable = false;
@@ -323,6 +321,15 @@ public class CustomRXTEmailNotificationTestCase extends GREGIntegrationBaseTest 
                 "/_system/governance/repository/components/org.wso2.carbon.governance/types/application.rxt");
     }
 
+    /**
+     * Need to refresh the landing page to deploy the new rxt in publisher
+     */
+    private void refreshPublisherLandingPage() {
+        Map<String, String> queryParamMap = new HashMap<>();
+        String landingUrl = publisherUrl.replace("apis", "pages/gc-landing");
+        genericRestClient.geneticRestRequestGet(landingUrl, queryParamMap, headerMap, cookieHeader);
+    }
+
     private void setTestEnvironment() throws JSONException, IOException {
         // Authenticate
         ClientResponse response = genericRestClient
@@ -331,6 +338,8 @@ public class CustomRXTEmailNotificationTestCase extends GREGIntegrationBaseTest 
         JSONObject obj = new JSONObject(response.getEntity(String.class));
         jSessionId = obj.getJSONObject("data").getString("sessionId");
         cookieHeader = "JSESSIONID=" + jSessionId;
+        //refresh the publisher landing page to deploy new rxt type
+        refreshPublisherLandingPage();
 
         //Create custom asset
         queryParamMap.put("type", "applications");

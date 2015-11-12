@@ -18,8 +18,6 @@
 
 package org.wso2.carbon.registry.es.notifications;
 
-import org.apache.http.NameValuePair;
-import org.apache.http.client.HttpClient;
 import org.apache.wink.client.ClientResponse;
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -45,9 +43,7 @@ import javax.ws.rs.core.Response;
 import javax.xml.xpath.XPathExpressionException;
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import static org.testng.Assert.assertNotNull;
@@ -60,7 +56,6 @@ public class RestServiceEmailNotificationTestCase extends GREGIntegrationBaseTes
 
     private TestUserMode userMode;
     String jSessionId;
-    private HttpClient httpClient;
     private UserProfileMgtServiceClient userProfileMgtClient;
     private File axis2File;
     private String publisherUrl;
@@ -70,7 +65,6 @@ public class RestServiceEmailNotificationTestCase extends GREGIntegrationBaseTes
     private GenericRestClient genericRestClient;
     private Map<String, String> queryParamMap;
     private Map<String, String> headerMap;
-    private EmailUtil emailUtil;
     private String loginURL;
     private String emailAddress;
     boolean isNotificationMailAvailable;
@@ -157,11 +151,11 @@ public class RestServiceEmailNotificationTestCase extends GREGIntegrationBaseTes
                 "Response payload is not the in the correct format" + response.getEntity(String.class));
 
         // verify e-mail
-        emailUtil = new EmailUtil(loginURL, automationContext.getContextTenant().getContextUser().getUserName(),
-                automationContext.getContextTenant().getContextUser().getPassword());
-        String pointBrowserURL = emailUtil.readGmailInboxForVerification();
+        String pointBrowserURL = EmailUtil.readGmailInboxForVerification();
         assertTrue(pointBrowserURL.contains("https"), "Verification mail has failed to reach Gmail inbox");
-        emailUtil.browserRedirectionOnVerification(pointBrowserURL);
+        EmailUtil.browserRedirectionOnVerification(pointBrowserURL, loginURL,
+                automationContext.getContextTenant().getContextUser().getUserName(),
+                automationContext.getContextTenant().getContextUser().getPassword());
 
         // Change the life cycle state in order to retrieve e-mail
 
@@ -169,7 +163,7 @@ public class RestServiceEmailNotificationTestCase extends GREGIntegrationBaseTes
                 MediaType.APPLICATION_FORM_URLENCODED, MediaType.APPLICATION_JSON,
                 "nextState=Testing&comment=Completed", queryParamMap, headerMap, cookieHeader);
 
-        isNotificationMailAvailable = emailUtil.readGmailInboxForNotification("PublisherLifeCycleStateChanged");
+        isNotificationMailAvailable = EmailUtil.readGmailInboxForNotification("PublisherLifeCycleStateChanged");
         assertTrue(isNotificationMailAvailable,
                 "Publisher lifecycle state changed notification mail has failed to reach Gmail inbox");
         isNotificationMailAvailable = false;
@@ -195,11 +189,11 @@ public class RestServiceEmailNotificationTestCase extends GREGIntegrationBaseTes
                 "Response payload is not the in the correct format" + response.getEntity(String.class));
 
         //verify e-mail
-        emailUtil = new EmailUtil(loginURL, automationContext.getContextTenant().getContextUser().getUserName(),
-                automationContext.getContextTenant().getContextUser().getPassword());
-        String pointBrowserURL = emailUtil.readGmailInboxForVerification();
+        String pointBrowserURL = EmailUtil.readGmailInboxForVerification();
         assertTrue(pointBrowserURL.contains("https"), "Verification mail has failed to reach Gmail inbox");
-        emailUtil.browserRedirectionOnVerification(pointBrowserURL);
+        EmailUtil.browserRedirectionOnVerification(pointBrowserURL, loginURL,
+                automationContext.getContextTenant().getContextUser().getUserName(),
+                automationContext.getContextTenant().getContextUser().getPassword());
 
         // update the resource in order to retrieve e-mail
         String dataBody = readFile(resourcePath + "json" + File.separator + "PublisherRestResourceUpdate.json");
@@ -211,7 +205,7 @@ public class RestServiceEmailNotificationTestCase extends GREGIntegrationBaseTes
                 "Wrong status code ,Expected 202 Created ,Received " + response.getStatusCode());
         assertTrue(obj.getJSONObject("attributes").get("overview_context").equals("/changed/Context"));
 
-        isNotificationMailAvailable = emailUtil.readGmailInboxForNotification("PublisherResourceUpdated");
+        isNotificationMailAvailable = EmailUtil.readGmailInboxForNotification("PublisherResourceUpdated");
         assertTrue(isNotificationMailAvailable, "Publisher resource updated mail has failed to reach Gmail nbox");
         isNotificationMailAvailable = false;
 
@@ -237,11 +231,11 @@ public class RestServiceEmailNotificationTestCase extends GREGIntegrationBaseTes
                 "Response payload is not the in the correct format" + response.getEntity(String.class));
 
         // verify e-mail
-        emailUtil = new EmailUtil(loginURL, automationContext.getContextTenant().getContextUser().getUserName(),
-                automationContext.getContextTenant().getContextUser().getPassword());
-        String pointBrowserURL = emailUtil.readGmailInboxForVerification();
+        String pointBrowserURL = EmailUtil.readGmailInboxForVerification();
         assertTrue(pointBrowserURL.contains("https"), "Verification mail has failed to reach Gmail inbox");
-        emailUtil.browserRedirectionOnVerification(pointBrowserURL);
+        EmailUtil.browserRedirectionOnVerification(pointBrowserURL, loginURL,
+                automationContext.getContextTenant().getContextUser().getUserName(),
+                automationContext.getContextTenant().getContextUser().getPassword());
 
         // check items on LC
         queryParamMap.put("lifecycle", "ServiceLifeCycle");
@@ -256,7 +250,7 @@ public class RestServiceEmailNotificationTestCase extends GREGIntegrationBaseTes
         genericRestClient.geneticRestRequestPost(publisherUrl + "/asset/" + assetId + "/update-checklist",
                 MediaType.APPLICATION_JSON, MediaType.APPLICATION_JSON, checkListObject.toString(), queryParamMap,
                 headerMap, cookieHeader);
-        isNotificationMailAvailable = emailUtil.readGmailInboxForNotification("PublisherCheckListItemChecked");
+        isNotificationMailAvailable = EmailUtil.readGmailInboxForNotification("PublisherCheckListItemChecked");
         assertTrue(isNotificationMailAvailable,
                 "Publisher check list item ticked on life cycle, notification mail has failed to reach Gmail inbox");
         isNotificationMailAvailable = false;
@@ -283,11 +277,11 @@ public class RestServiceEmailNotificationTestCase extends GREGIntegrationBaseTes
                 "Response payload is not the in the correct format" + response.getEntity(String.class));
 
         // verify e-mail
-        emailUtil = new EmailUtil(loginURL, automationContext.getContextTenant().getContextUser().getUserName(),
-                automationContext.getContextTenant().getContextUser().getPassword());
-        String pointBrowserURL = emailUtil.readGmailInboxForVerification();
+        String pointBrowserURL = EmailUtil.readGmailInboxForVerification();
         assertTrue(pointBrowserURL.contains("https"), "Verification mail has failed to reach Gmail inbox");
-        emailUtil.browserRedirectionOnVerification(pointBrowserURL);
+        EmailUtil.browserRedirectionOnVerification(pointBrowserURL, loginURL,
+                automationContext.getContextTenant().getContextUser().getUserName(),
+                automationContext.getContextTenant().getContextUser().getPassword());
 
         // un check items on LC
         JSONObject checkListObject = new JSONObject();
@@ -301,7 +295,7 @@ public class RestServiceEmailNotificationTestCase extends GREGIntegrationBaseTes
         genericRestClient.geneticRestRequestPost(publisherUrl + "/asset/" + assetId + "/update-checklist",
                 MediaType.APPLICATION_JSON, MediaType.APPLICATION_JSON, checkListObject.toString(), queryParamMap,
                 headerMap, cookieHeader);
-        isNotificationMailAvailable = emailUtil.readGmailInboxForNotification("PublisherCheckListItemUnchecked");
+        isNotificationMailAvailable = EmailUtil.readGmailInboxForNotification("PublisherCheckListItemUnchecked");
         assertTrue(isNotificationMailAvailable,
                 "Publisher uncheck list item on life cycle, notification mail has failed to reach Gmail inbox");
         isNotificationMailAvailable = false;
