@@ -72,6 +72,7 @@ public class EmailUtil {
 
     public static String readGmailInboxForVerification() throws Exception {
         boolean isEmailVerified = false;
+        long waitTime = 10000;
         String pointBrowserURL = "";
         Properties props = new Properties();
         props.load(new FileInputStream(new File(
@@ -83,12 +84,11 @@ public class EmailUtil {
 
         Folder inbox = store.getFolder("inbox");
         inbox.open(Folder.READ_WRITE);
-        Thread.sleep(5000);
+        Thread.sleep(waitTime);
         long startTime = System.currentTimeMillis();
         long endTime = 0;
-        while (endTime - startTime < 60000 && !isEmailVerified) {
-            int messageCount = inbox.getMessageCount();
-            //log.info("Total Messages:- " + messageCount);
+        int count = 1;
+        while (endTime - startTime < 90000 && !isEmailVerified) {
             Message[] messages = inbox.getMessages();
 
             for (Message message : messages) {
@@ -98,10 +98,13 @@ public class EmailUtil {
                     isEmailVerified = true;
                 }
 
-                // Optional : deleting the inbox resource updated mail
+                // Optional : deleting the mail
                 message.setFlag(Flags.Flag.DELETED, true);
             }
             endTime = System.currentTimeMillis();
+            Thread.sleep(waitTime);
+            endTime += count*waitTime;
+            count++;
         }
         inbox.close(true);
         store.close();
@@ -110,6 +113,7 @@ public class EmailUtil {
 
     public static boolean readGmailInboxForNotification(String notificationType) throws Exception {
         boolean isNotificationMailAvailable = false;
+        long waitTime = 10000;
         Properties props = new Properties();
         props.load(new FileInputStream(new File(
                 TestConfigurationProvider.getResourceLocation("GREG") + File.separator + "axis2" + File.separator
@@ -120,13 +124,12 @@ public class EmailUtil {
 
         Folder inbox = store.getFolder("inbox");
         inbox.open(Folder.READ_WRITE);
-        Thread.sleep(10000);
+        Thread.sleep(waitTime);
 
         long startTime = System.currentTimeMillis();
         long endTime = 0;
-        while (endTime - startTime < 60000 && !isNotificationMailAvailable) {
-            int messageCount = inbox.getMessageCount();
-            //log.info("Total Messages:- " + messageCount);
+        int count = 1;
+        while (endTime - startTime < 90000 && !isNotificationMailAvailable) {
             Message[] messages = inbox.getMessages();
 
             for (Message message : messages) {
@@ -136,11 +139,14 @@ public class EmailUtil {
                     isNotificationMailAvailable = true;
 
                 }
-                // Optional : deleting the inbox resource updated mail
+                // Optional : deleting the  mail
                 message.setFlag(Flags.Flag.DELETED, true);
 
             }
             endTime = System.currentTimeMillis();
+            Thread.sleep(waitTime);
+            endTime += count*waitTime;
+            count++;
         }
         inbox.close(true);
         store.close();
