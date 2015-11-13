@@ -237,7 +237,7 @@ var gregAPI = {};
                     var key = String(attifact.getKey());
                     workList.uuid = uuid;
                     workList.type = String(attifact.getKey());
-                    if (key === 'wsdl' || key === 'wadl' || key === 'policy' || key === 'schema' || key === 'endpoint') {
+                    if (key === 'wsdl' || key === 'wadl' || key === 'policy' || key === 'schema' || key === 'endpoint' || key === 'swagger') {
                         var subPaths = pathValue.split('/');
                         workList.overviewName = subPaths[subPaths.length - 1];
                     } else {
