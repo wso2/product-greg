@@ -19,6 +19,7 @@
 package org.wso2.carbon.registry.reporting.test;
 
 import org.apache.axis2.AxisFault;
+import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 import org.wso2.carbon.registry.reporting.stub.beans.xsd.ReportConfigurationBean;
@@ -71,6 +72,24 @@ public class ReportGenerationImageConversionTest extends ReportingTestCaseSuper 
         String result = readInputStreamAsString(report.getInputStream());
         assertTrue(result.contains("data:image/gif;base64"));
 
+    }
+
+    @AfterClass(alwaysRun = true)
+    public void ClearResourcesAddedForReportGenerationTesting() throws Exception {
+        removeLCArtifact();
+        removeResourcesLCReport();
+        removeAppicationArtifact(1);
+        removeAppicationArtifact(3);
+        removeEditedLCtemplate();
+        removeTemplateCollection();
+
+        resourceAdminServiceClient.deleteResource(applicationRXT);
+        resourceAdminServiceClient.removeExtension(applicationJAR);
+
+        removeAllReports();
+        deleteDestiationFile();
+
+        clear();
     }
 
 }
