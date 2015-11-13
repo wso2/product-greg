@@ -1,6 +1,6 @@
 {
-  "overview_url":"https://raw.githubusercontent.com/wso2/wso2-qa-artifacts/master/automation-artifacts/greg/wadl/SearchSearvice.wadl",
-  "overview_name": "SearchSearvice.wadl",
+  "overview_url":"https://raw.githubusercontent.com/wso2/wso2-qa-artifacts/master/automation-artifacts/greg/wadl/StorageService.wadl",
+  "overview_name": "StorageService.wadl",
   "overview_version": "2.0.0",
   "addNewAssetButton": "Create",
   "wadl": "wadl",
