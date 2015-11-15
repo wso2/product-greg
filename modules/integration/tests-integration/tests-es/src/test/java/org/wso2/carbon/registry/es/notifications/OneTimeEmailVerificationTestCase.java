@@ -49,9 +49,10 @@ import static org.testng.Assert.assertNotNull;
 import static org.testng.Assert.assertTrue;
 
 /**
- * This test class can be used to check the email notification functionality
+ * This test class can be used to check the email notification functionality for
+ * multiple updates after a single verification.
  */
-public class SoapServiceEmailNotificationTestCase extends GREGIntegrationBaseTest {
+public class OneTimeEmailVerificationTestCase extends GREGIntegrationBaseTest {
 
     private TestUserMode userMode;
     String jSessionId;
@@ -66,11 +67,10 @@ public class SoapServiceEmailNotificationTestCase extends GREGIntegrationBaseTes
     private Map<String, String> headerMap;
     private String loginURL;
     private String emailAddress;
-    boolean isNotificationMailAvailable;
 
 
     @Factory(dataProvider = "userModeProvider")
-    public SoapServiceEmailNotificationTestCase(TestUserMode userMode) {
+    public OneTimeEmailVerificationTestCase(TestUserMode userMode) {
         this.userMode = userMode;
     }
 
@@ -93,7 +93,6 @@ public class SoapServiceEmailNotificationTestCase extends GREGIntegrationBaseTes
 
         updateProfileAndEnableEmailConfiguration();
         setTestEnvironment();
-
     }
 
     private void updateProfileAndEnableEmailConfiguration()
@@ -131,12 +130,11 @@ public class SoapServiceEmailNotificationTestCase extends GREGIntegrationBaseTes
     }
 
     @Test(groups = { "wso2.greg",
-            "wso2.greg.es" }, description = "Adding subscription to soap service on LC state change",
-            dependsOnMethods = { "addSubscriptionCheckListItem" ,"addSubscriptionUnCheckListItem"  })
+            "wso2.greg.es" }, description = "Check multiple LC state change notifications after a single verification",
+            dependsOnMethods = { "addSubscriptionCheckListItem", "addSubscriptionUnCheckListItem" })
     public void addSubscriptionToLcStateChange() throws Exception {
 
         JSONObject dataObject = new JSONObject();
-
         dataObject.put("notificationType", "PublisherLifeCycleStateChanged");
         dataObject.put("notificationMethod", "email");
 
@@ -158,23 +156,35 @@ public class SoapServiceEmailNotificationTestCase extends GREGIntegrationBaseTes
                 automationContext.getContextTenant().getContextUser().getUserName(),
                 automationContext.getContextTenant().getContextUser().getPassword());
 
-        // Change the life cycle state in order to retrieve e-mail
+        // Change the life cycle state to testing
 
         genericRestClient.geneticRestRequestPost(publisherUrl + "/assets/" + assetId + "/state",
                 MediaType.APPLICATION_FORM_URLENCODED, MediaType.APPLICATION_JSON,
                 "nextState=Testing&comment=Completed", queryParamMap, headerMap, cookieHeader);
+        assertTrue(EmailUtil.readGmailInboxForNotification("PublisherLifeCycleStateChanged"),
+                "Publisher LC state changed mail has failed to reach Gmail inbox");
 
-        isNotificationMailAvailable = EmailUtil.readGmailInboxForNotification("PublisherLifeCycleStateChanged");
-        assertTrue(isNotificationMailAvailable, "Publisher LC state changed mail has failed to reach Gmail inbox");
-        isNotificationMailAvailable = false;
+        // change life cycle state to production
+        genericRestClient.geneticRestRequestPost(publisherUrl + "/assets/" + assetId + "/state",
+                MediaType.APPLICATION_FORM_URLENCODED, MediaType.APPLICATION_JSON,
+                "nextState=Production&comment=Completed", queryParamMap, headerMap, cookieHeader);
+        assertTrue(EmailUtil.readGmailInboxForNotification("PublisherLifeCycleStateChanged"),
+                "Publisher LC state changed mail has failed to reach Gmail inbox");
+
+        // Change life cycle state back to testing
+        genericRestClient.geneticRestRequestPost(publisherUrl + "/assets/" + assetId + "/state",
+                MediaType.APPLICATION_FORM_URLENCODED, MediaType.APPLICATION_JSON, "nextState=Testing&comment=Demoting",
+                queryParamMap, headerMap, cookieHeader);
+        assertTrue(EmailUtil.readGmailInboxForNotification("PublisherLifeCycleStateChanged"),
+                "Publisher LC state changed mail has failed to reach Gmail inbox");
+
     }
 
     @Test(groups = { "wso2.greg",
-            "wso2.greg.es" }, description = "Adding subscription to Soap service on resource update")
+            "wso2.greg.es" }, description = "Check multiple resource update notifications after a single verification")
     public void addSubscriptionOnResourceUpdate() throws Exception {
 
         JSONObject dataObject = new JSONObject();
-
         dataObject.put("notificationType", "PublisherResourceUpdated");
         dataObject.put("notificationMethod", "email");
 
@@ -200,18 +210,22 @@ public class SoapServiceEmailNotificationTestCase extends GREGIntegrationBaseTes
         String dataBody = readFile(resourcePath + "json" + File.separator + "PublisherSoapResourceUpdateFile.json");
         genericRestClient.geneticRestRequestPost(publisherUrl + "/assets/" + assetId, MediaType.APPLICATION_JSON,
                 MediaType.APPLICATION_JSON, dataBody, queryParamMap, headerMap, cookieHeader);
+        assertTrue(EmailUtil.readGmailInboxForNotification("PublisherResourceUpdated"),
+                "Publisher resource updated mail has failed to reach Gmail inbox");
 
-        isNotificationMailAvailable = EmailUtil.readGmailInboxForNotification("PublisherResourceUpdated");
-        assertTrue(isNotificationMailAvailable, "Publisher resource updated mail has failed to reach Gmail inbox");
-        isNotificationMailAvailable = false;
+        // update again in order to retrieve the e-mail
+        dataBody = readFile(resourcePath + "json" + File.separator + "publisherPublishSoapResource.json");
+        genericRestClient.geneticRestRequestPost(publisherUrl + "/assets/" + assetId, MediaType.APPLICATION_JSON,
+                MediaType.APPLICATION_JSON, dataBody, queryParamMap, headerMap, cookieHeader);
+        assertTrue(EmailUtil.readGmailInboxForNotification("PublisherResourceUpdated"),
+                "Publisher resource updated mail has failed to reach Gmail inbox");
     }
 
-    @Test(groups = { "wso2.greg",
-            "wso2.greg.es" }, description = "Adding subscription to soap service on check list item checked")
+    @Test(groups = { "wso2.greg", "wso2.greg.es" }, description =
+            "Test notifications of multiple items selecting on LC check list after a single verification ")
     public void addSubscriptionCheckListItem() throws Exception {
 
         JSONObject dataObject = new JSONObject();
-
         dataObject.put("notificationType", "PublisherCheckListItemChecked");
         dataObject.put("notificationMethod", "email");
 
@@ -233,7 +247,7 @@ public class SoapServiceEmailNotificationTestCase extends GREGIntegrationBaseTes
                 automationContext.getContextTenant().getContextUser().getUserName(),
                 automationContext.getContextTenant().getContextUser().getPassword());
 
-        // check items on LC
+        // check  first item  on LC
         queryParamMap.put("lifecycle", "ServiceLifeCycle");
         JSONObject checkListObject = new JSONObject();
         JSONObject checkedItems = new JSONObject();
@@ -246,20 +260,49 @@ public class SoapServiceEmailNotificationTestCase extends GREGIntegrationBaseTes
         genericRestClient.geneticRestRequestPost(publisherUrl + "/asset/" + assetId + "/update-checklist",
                 MediaType.APPLICATION_JSON, MediaType.APPLICATION_JSON, checkListObject.toString(), queryParamMap,
                 headerMap, cookieHeader);
-        isNotificationMailAvailable = EmailUtil.readGmailInboxForNotification("PublisherCheckListItemChecked");
-        assertTrue(isNotificationMailAvailable,
+        assertTrue(EmailUtil.readGmailInboxForNotification("PublisherCheckListItemChecked"),
                 "Publisher check list item ticked on life cycle, notification mail has failed to reach Gmail inbox");
-        isNotificationMailAvailable = false;
+
+        // check  second item  on LC
+        queryParamMap.put("lifecycle", "ServiceLifeCycle");
+        checkListObject = new JSONObject();
+        checkedItems = new JSONObject();
+        checkedItemsArray = new JSONArray();
+        checkedItems.put("index", 1);
+        checkedItems.put("checked", true);
+        checkedItemsArray.put(checkedItems);
+        checkListObject.put("checklist", checkedItemsArray);
+
+        genericRestClient.geneticRestRequestPost(publisherUrl + "/asset/" + assetId + "/update-checklist",
+                MediaType.APPLICATION_JSON, MediaType.APPLICATION_JSON, checkListObject.toString(), queryParamMap,
+                headerMap, cookieHeader);
+        assertTrue(EmailUtil.readGmailInboxForNotification("PublisherCheckListItemChecked"),
+                "Publisher check list item ticked on life cycle, notification mail has failed to reach Gmail inbox");
+
+        // check  third item  on LC
+        queryParamMap.put("lifecycle", "ServiceLifeCycle");
+        checkListObject = new JSONObject();
+        checkedItems = new JSONObject();
+        checkedItemsArray = new JSONArray();
+        checkedItems.put("index", 2);
+        checkedItems.put("checked", true);
+        checkedItemsArray.put(checkedItems);
+        checkListObject.put("checklist", checkedItemsArray);
+
+        genericRestClient.geneticRestRequestPost(publisherUrl + "/asset/" + assetId + "/update-checklist",
+                MediaType.APPLICATION_JSON, MediaType.APPLICATION_JSON, checkListObject.toString(), queryParamMap,
+                headerMap, cookieHeader);
+        assertTrue(EmailUtil.readGmailInboxForNotification("PublisherCheckListItemChecked"),
+                "Publisher check list item ticked on life cycle, notification mail has failed to reach Gmail inbox");
 
     }
 
-    @Test(groups = { "wso2.greg",
-            "wso2.greg.es" }, description = "Adding subscription to soap service on check list item unchecked",
-            dependsOnMethods = { "addSubscriptionCheckListItem" })
+    @Test(groups = { "wso2.greg", "wso2.greg.es" }, description =
+            "Test notifications of multiple items un ticking on LC check list after "
+                    + "a single verification ", dependsOnMethods = { "addSubscriptionCheckListItem" })
     public void addSubscriptionUnCheckListItem() throws Exception {
 
         JSONObject dataObject = new JSONObject();
-
         dataObject.put("notificationType", "PublisherCheckListItemUnchecked");
         dataObject.put("notificationMethod", "email");
 
@@ -281,7 +324,7 @@ public class SoapServiceEmailNotificationTestCase extends GREGIntegrationBaseTes
                 automationContext.getContextTenant().getContextUser().getUserName(),
                 automationContext.getContextTenant().getContextUser().getPassword());
 
-        // un check items on LC
+        // un check  first item on LC
         JSONObject checkListObject = new JSONObject();
         JSONObject checkedItems = new JSONObject();
         JSONArray checkedItemsArray = new JSONArray();
@@ -294,10 +337,40 @@ public class SoapServiceEmailNotificationTestCase extends GREGIntegrationBaseTes
                 MediaType.APPLICATION_JSON, MediaType.APPLICATION_JSON, checkListObject.toString(), queryParamMap,
                 headerMap, cookieHeader);
 
-        isNotificationMailAvailable = EmailUtil.readGmailInboxForNotification("PublisherCheckListItemUnchecked");
-        assertTrue(isNotificationMailAvailable,
+        assertTrue(EmailUtil.readGmailInboxForNotification("PublisherCheckListItemUnchecked"),
                 "Publisher un check list item on life cycle notification mail has failed to reach Gmail inbox");
-        isNotificationMailAvailable = false;
+
+        // un check  second item on LC
+        checkListObject = new JSONObject();
+        checkedItems = new JSONObject();
+        checkedItemsArray = new JSONArray();
+        checkedItems.put("index", 1);
+        checkedItems.put("checked", false);
+        checkedItemsArray.put(checkedItems);
+        checkListObject.put("checklist", checkedItemsArray);
+
+        genericRestClient.geneticRestRequestPost(publisherUrl + "/asset/" + assetId + "/update-checklist",
+                MediaType.APPLICATION_JSON, MediaType.APPLICATION_JSON, checkListObject.toString(), queryParamMap,
+                headerMap, cookieHeader);
+
+        assertTrue(EmailUtil.readGmailInboxForNotification("PublisherCheckListItemUnchecked"),
+                "Publisher un check list item on life cycle notification mail has failed to reach Gmail inbox");
+
+        // un check  third item on LC
+        checkListObject = new JSONObject();
+        checkedItems = new JSONObject();
+        checkedItemsArray = new JSONArray();
+        checkedItems.put("index", 2);
+        checkedItems.put("checked", false);
+        checkedItemsArray.put(checkedItems);
+        checkListObject.put("checklist", checkedItemsArray);
+
+        genericRestClient.geneticRestRequestPost(publisherUrl + "/asset/" + assetId + "/update-checklist",
+                MediaType.APPLICATION_JSON, MediaType.APPLICATION_JSON, checkListObject.toString(), queryParamMap,
+                headerMap, cookieHeader);
+
+        assertTrue(EmailUtil.readGmailInboxForNotification("PublisherCheckListItemUnchecked"),
+                "Publisher un check list item on life cycle notification mail has failed to reach Gmail inbox");
 
     }
 

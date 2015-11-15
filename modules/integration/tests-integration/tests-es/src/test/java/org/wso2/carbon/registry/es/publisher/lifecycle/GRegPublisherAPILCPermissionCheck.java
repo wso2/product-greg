@@ -18,7 +18,6 @@
 package org.wso2.carbon.registry.es.publisher.lifecycle;
 
 import org.apache.wink.client.ClientResponse;
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.testng.Assert;
@@ -32,26 +31,14 @@ import org.wso2.carbon.automation.engine.context.TestUserMode;
 import org.wso2.carbon.automation.engine.frameworkutils.FrameworkPathUtil;
 import org.wso2.carbon.logging.view.stub.LogViewerLogViewerException;
 import org.wso2.carbon.registry.es.utils.GregESTestBaseTest;
-import org.wso2.greg.integration.common.clients.ResourceAdminServiceClient;
 import org.wso2.greg.integration.common.utils.GenericRestClient;
 
 import java.io.File;
-import java.io.IOException;
 import java.rmi.RemoteException;
 import java.util.HashMap;
 import java.util.Map;
 
-public class GregPublisherPermissionCheckForLCOperations extends GregESTestBaseTest {
-
-    public static final String MANAGER_TEST_ROLE = "manager";
-
-    public static final String READ_ACTION = "2";
-    public static final String WRITE_ACTION = "3";
-    public static final String DELETE_ACTION = "4";
-    public static final String AUTHORIZE_ACTION = "5";
-
-    public static final String PERMISSION_ENABLED = "1";
-    public static final String PERMISSION_DISABLED = "0";
+public class GRegPublisherAPILCPermissionCheck extends GregESTestBaseTest {
 
     private TestUserMode userMode;
     private GenericRestClient genericRestClient;
@@ -62,13 +49,11 @@ public class GregPublisherPermissionCheckForLCOperations extends GregESTestBaseT
     private String resourcePath = FrameworkPathUtil.getSystemResourceLocation()
                                   + "artifacts" + File.separator + "GREG" + File.separator;
     private String jSessionId;
-    private String NEW_RESOURCE_PATH = "/_system/governance/trunk/restservices/1.0.0/testservice1234";
     private String lifeCycleName = "ServiceLifeCycle";
     private String assetId;
-    private ResourceAdminServiceClient resourceAdminServiceClient;
 
     @Factory(dataProvider = "userModeProvider")
-    public GregPublisherPermissionCheckForLCOperations(TestUserMode userMode) {
+    public GRegPublisherAPILCPermissionCheck(TestUserMode userMode) {
         this.userMode = userMode;
     }
 
@@ -91,7 +76,6 @@ public class GregPublisherPermissionCheckForLCOperations extends GregESTestBaseT
         genericRestClient = new GenericRestClient();
 
         super.init(userMode);
-        resourceAdminServiceClient = new ResourceAdminServiceClient(backendURL, sessionCookie);
 
         authenticatePublisher("admin", "admin");
 
@@ -109,49 +93,17 @@ public class GregPublisherPermissionCheckForLCOperations extends GregESTestBaseT
         response = getAsset(assetId, "restservice", publisherUrl, cookieHeader, genericRestClient);
         obj = new JSONObject(response.getEntity(String.class));
         Assert.assertTrue(obj.get("lifecycle").equals(lifeCycleName), "LifeCycle not assigned to given assert");
-
-        resourceAdminServiceClient.addResourcePermission(NEW_RESOURCE_PATH, MANAGER_TEST_ROLE,
-                                                         WRITE_ACTION, PERMISSION_DISABLED);
     }
 
     @Test(groups = {"wso2.greg", "wso2.greg.es"}, description = "PromoteLifeCycle with fault user",
           dependsOnMethods = {"testAddResources"})
-    public void CheckLCPermissionForAdmin()
-            throws JSONException, InterruptedException, IOException, LogViewerLogViewerException {
+    public void CheckLCPermissionForAUserWithoutLCPermission() throws LogViewerLogViewerException, RemoteException, JSONException {
+        authenticatePublisher("withoutLCAccessuser", "withoutLCAccessuser");
         ClientResponse response = getLifeCycleState(assetId, "restservice", lifeCycleName);
-        Assert.assertTrue(response.getStatusCode() == 200, "Fault user accepted");
 
-        JSONObject LCStateobj = new JSONObject(response.getEntity(String.class));
-        JSONObject dataObj = LCStateobj.getJSONObject("data");
-
-        boolean isLCActionsPermitted = dataObj.getBoolean("isLCActionsPermitted");
-        Assert.assertEquals(isLCActionsPermitted, true);
-
-        JSONArray checkItems = dataObj.getJSONArray("checkItems");
-        //all 3 check list items should be available for admin role user
-        Assert.assertEquals(((JSONObject) checkItems.get(0)).getString("isVisible"), "true");
-        Assert.assertEquals(((JSONObject) checkItems.get(1)).getString("isVisible"), "true");
-        Assert.assertEquals(((JSONObject) checkItems.get(2)).getString("isVisible"), "true");
-    }
-
-    @Test(groups = {"wso2.greg", "wso2.greg.es"}, description = "PromoteLifeCycle with fault user",
-          dependsOnMethods = {"CheckLCPermissionForAdmin"})
-    public void CheckLCPermissionForManager() throws LogViewerLogViewerException, RemoteException, JSONException {
-        authenticatePublisher("manager", "manager");
-        ClientResponse response = getLifeCycleState(assetId, "restservice", lifeCycleName);
-        Assert.assertTrue(response.getStatusCode() == 200, "Fault user accepted");
-
-        JSONObject LCStateobj = new JSONObject(response.getEntity(String.class));
-        JSONObject dataObj = LCStateobj.getJSONObject("data");
-
-        boolean isLCActionsPermitted = dataObj.getBoolean("isLCActionsPermitted");
-        Assert.assertEquals(isLCActionsPermitted, false);
-
-        JSONArray checkItems = dataObj.getJSONArray("checkItems");
-        //all 3 check list items should NOT be available for manager role user
-        Assert.assertEquals(((JSONObject) checkItems.get(0)).getString("isVisible"), "null");
-        Assert.assertEquals(((JSONObject) checkItems.get(1)).getString("isVisible"), "null");
-        Assert.assertEquals(((JSONObject) checkItems.get(2)).getString("isVisible"), "null");
+        //TODO: Following assertion fails due to bug reported at
+        // https://wso2.org/jira/browse/STORE-1138
+        Assert.assertTrue(response.getStatusCode() != 200, "Fault user accepted");
     }
 
 
