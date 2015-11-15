@@ -27,16 +27,13 @@ import org.testng.Assert;
 import org.testng.annotations.*;
 import org.wso2.carbon.automation.engine.context.TestUserMode;
 import org.wso2.carbon.automation.engine.frameworkutils.FrameworkPathUtil;
-import org.wso2.carbon.registry.es.utils.ESTestCommonUtils;
 import org.wso2.carbon.registry.es.utils.GregESTestBaseTest;
 import org.wso2.greg.integration.common.clients.ResourceAdminServiceClient;
 import org.wso2.greg.integration.common.utils.GenericRestClient;
 
-import javax.activation.DataHandler;
 import javax.ws.rs.core.MediaType;
 import java.io.File;
 import java.io.IOException;
-import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -51,7 +48,6 @@ public class CustomAssetCRUDTestCase extends GregESTestBaseTest {
     Map<String, String> headerMap;
     String publisherUrl;
     String resourcePath;
-    ESTestCommonUtils esTestCommonUtils;
 
     @Factory(dataProvider = "userModeProvider")
     public CustomAssetCRUDTestCase(TestUserMode userMode) {
@@ -82,17 +78,12 @@ public class CustomAssetCRUDTestCase extends GregESTestBaseTest {
         //refresh the publisher landing page to deploy new rxt type
         refreshPublisherLandingPage(publisherUrl, genericRestClient, cookieHeader);
         Assert.assertNotNull(jSessionId, "Invalid JSessionID received");
-        esTestCommonUtils = new ESTestCommonUtils(genericRestClient, publisherUrl, headerMap);
-        esTestCommonUtils.setCookieHeader(cookieHeader);
     }
 
     @Test(groups = {"wso2.greg", "wso2.greg.es"}, description = "Create Custom Asset in Publisher")
-    public void createCustomAsset() throws JSONException, IOException {
+    public void createCustomAsset() throws JSONException, IOException, InterruptedException {
         Map<String, String> queryParamMap = new HashMap<>();
         queryParamMap.put("type", "applications");
-/*        "overview_name": "application1234",
-          "overview_version": "1.2.3",
-          "overview_description": "Test asset",*/
         String customTemplate = readFile(resourcePath + "json" + File.separator + "custom-applications-sample.json");
         assetName = "application12345";
         String dataBody = String.format(customTemplate, assetName, "1.2.3", "Test asset");
@@ -105,7 +96,7 @@ public class CustomAssetCRUDTestCase extends GregESTestBaseTest {
         Assert.assertTrue((response.getStatusCode() == 201),
                 "Wrong status code ,Expected 201 Created ,Received " +
                         response.getStatusCode());
-        assetId = obj.get("id").toString();
+        assetId = (String)obj.get("id");
         Assert.assertNotNull(assetId, "Empty asset resource id available" +
                 response.getEntity(String.class));
     }
@@ -115,22 +106,21 @@ public class CustomAssetCRUDTestCase extends GregESTestBaseTest {
     public void getCustomAsset() throws JSONException {
         Map<String, String> queryParamMap = new HashMap<>();
         queryParamMap.put("type", "applications");
-        ClientResponse clientResponse = esTestCommonUtils.getAssetById(assetId, queryParamMap);
+        ClientResponse clientResponse = getAssetById(publisherUrl, genericRestClient, cookieHeader, assetId, queryParamMap);
         Assert.assertTrue((clientResponse.getStatusCode() == 200),
                 "Wrong status code ,Expected 200 OK " +
                         clientResponse.getStatusCode());
         JSONObject obj = new JSONObject(clientResponse.getEntity(String.class));
-        Assert.assertEquals(obj.get("id").toString(), assetId);
+        Assert.assertEquals(obj.get("id"), assetId);
     }
 
     @Test(groups = {"wso2.greg", "wso2.greg.es"}, description = "Search Custom Asset in Publisher",
-            dependsOnMethods = {"createCustomAsset"})
+            dependsOnMethods = {"getCustomAsset"})
     public void searchCustomAsset() throws JSONException {
         boolean assetFound = false;
         Map<String, String> queryParamMap = new HashMap<>();
-        queryParamMap.put("type", "applications");
-        queryParamMap.put("overview_name", assetName);
-        ClientResponse clientResponse = esTestCommonUtils.searchAssetByQuery(queryParamMap);
+        queryParamMap.put("q", "\"name" + "\":" + "\"" + assetName + "\"");
+        ClientResponse clientResponse = searchAssetByQuery(publisherUrl, genericRestClient, cookieHeader, queryParamMap);
         JSONObject obj = new JSONObject(clientResponse.getEntity(String.class));
         JSONArray jsonArray = obj.getJSONArray("list");
         for (int i = 0; i < jsonArray.length(); i++) {
@@ -144,7 +134,7 @@ public class CustomAssetCRUDTestCase extends GregESTestBaseTest {
     }
 
     @Test(groups = {"wso2.greg", "wso2.greg.es"}, description = "Update Custom Asset in Publisher",
-            dependsOnMethods = {"getCustomAsset"})
+            dependsOnMethods = {"searchCustomAsset"})
     public void updateCustomAsset() throws JSONException, IOException {
         Map<String, String> queryParamMap = new HashMap<>();
         queryParamMap.put("type", "applications");
@@ -164,7 +154,7 @@ public class CustomAssetCRUDTestCase extends GregESTestBaseTest {
     }
 
     @Test(groups = {"wso2.greg", "wso2.greg.es"}, description = "Delete Custom Asset in Publisher",
-            dependsOnMethods = {"getCustomAsset", "searchCustomAsset", "updateCustomAsset"})
+            dependsOnMethods = {"updateCustomAsset"})
     public void deleteCustomAsset() throws JSONException {
         Map<String, String> queryParamMap = new HashMap<>();
         queryParamMap.put("type", "applications");
@@ -172,7 +162,7 @@ public class CustomAssetCRUDTestCase extends GregESTestBaseTest {
                 MediaType.APPLICATION_JSON,
                 MediaType.APPLICATION_JSON
                 , queryParamMap, headerMap, cookieHeader);
-        ClientResponse clientResponse = esTestCommonUtils.getAssetById(assetId, queryParamMap);
+        ClientResponse clientResponse = getAssetById(publisherUrl, genericRestClient, cookieHeader, assetId, queryParamMap);
         Assert.assertTrue((clientResponse.getStatusCode() == 404),
                 "Wrong status code ,Expected 404 Not Found " +
                         clientResponse.getStatusCode());
@@ -182,8 +172,7 @@ public class CustomAssetCRUDTestCase extends GregESTestBaseTest {
     public void cleanUp() throws Exception {
         Map<String, String> queryParamMap = new HashMap<>();
         queryParamMap.put("type", "applications");
-        esTestCommonUtils.deleteAllAssociationsById(assetId, queryParamMap);
-        esTestCommonUtils.deleteAssetById(assetId, queryParamMap);
+        deleteAssetById(publisherUrl, genericRestClient, cookieHeader, assetId, queryParamMap);
         this.deleteCustomRxt();
     }
 

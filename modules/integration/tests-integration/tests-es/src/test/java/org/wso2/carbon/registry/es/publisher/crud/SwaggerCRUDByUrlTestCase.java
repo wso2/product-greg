@@ -28,7 +28,6 @@ import org.testng.annotations.*;
 import org.wso2.carbon.automation.engine.context.TestUserMode;
 import org.wso2.carbon.automation.engine.frameworkutils.FrameworkPathUtil;
 import org.wso2.carbon.registry.core.exceptions.RegistryException;
-import org.wso2.carbon.registry.es.utils.ESTestCommonUtils;
 import org.wso2.carbon.registry.es.utils.GregESTestBaseTest;
 import org.wso2.greg.integration.common.utils.GenericRestClient;
 
@@ -50,8 +49,6 @@ public class SwaggerCRUDByUrlTestCase extends GregESTestBaseTest {
     Map<String, String> headerMap;
     String publisherUrl;
     String resourcePath;
-    ESTestCommonUtils esTestCommonUtils;
-    Map<String, String> assocUUIDMap;
 
     @Factory(dataProvider = "userModeProvider")
     public SwaggerCRUDByUrlTestCase(TestUserMode userMode) {
@@ -80,17 +77,12 @@ public class SwaggerCRUDByUrlTestCase extends GregESTestBaseTest {
         jSessionId = objSessionPublisher.getJSONObject("data").getString("sessionId");
         cookieHeader = "JSESSIONID=" + jSessionId;
         Assert.assertNotNull(jSessionId, "Invalid JSessionID received");
-        esTestCommonUtils = new ESTestCommonUtils(genericRestClient, publisherUrl, headerMap);
-        esTestCommonUtils.setCookieHeader(cookieHeader);
     }
 
     @Test(groups = {"wso2.greg", "wso2.greg.es"}, description = "Import Swagger in Publisher")
     public void createSwaggerServiceAsset() throws JSONException, IOException {
         Map<String, String> queryParamMap = new HashMap<>();
         queryParamMap.put("type", "swagger");
-/*        "overview_url": "http://petstore.swagger.io/v2/swagger.json",
-          "overview_name": "swagger.json",
-          "overview_version": "1.0.0",*/
         String swaggerTemplate = readFile(resourcePath + "json" + File.separator + "swagger-sample.json");
         assetName = "swagger.json";
         String dataBody = String.format(swaggerTemplate, "http://petstore.swagger.io/v2/swagger.json",
@@ -104,7 +96,7 @@ public class SwaggerCRUDByUrlTestCase extends GregESTestBaseTest {
         Assert.assertTrue((response.getStatusCode() == 201),
                 "Wrong status code ,Expected 201 Created ,Received " +
                         response.getStatusCode());
-        String resultName = obj.get("overview_name").toString();
+        String resultName = (String)obj.get("overview_name");
         Assert.assertEquals(resultName, assetName);
     }
 
@@ -113,9 +105,8 @@ public class SwaggerCRUDByUrlTestCase extends GregESTestBaseTest {
     public void searchSwaggerAsset() throws JSONException {
         boolean assetFound = false;
         Map<String, String> queryParamMap = new HashMap<>();
-        queryParamMap.put("type", "swagger");
-        queryParamMap.put("overview_name", assetName);
-        ClientResponse clientResponse = esTestCommonUtils.searchAssetByQuery(queryParamMap);
+        queryParamMap.put("q", "\"name" + "\":" + "\"" + assetName + "\"");
+        ClientResponse clientResponse = searchAssetByQuery(publisherUrl, genericRestClient, cookieHeader, queryParamMap);
         JSONObject obj = new JSONObject(clientResponse.getEntity(String.class));
         JSONArray jsonArray = obj.getJSONArray("list");
         for (int i = 0; i < jsonArray.length(); i++) {
@@ -131,29 +122,28 @@ public class SwaggerCRUDByUrlTestCase extends GregESTestBaseTest {
     }
 
     @Test(groups = {"wso2.greg", "wso2.greg.es"}, description = "Get Swagger in Publisher",
-            dependsOnMethods = {"createSwaggerServiceAsset", "searchSwaggerAsset"})
+            dependsOnMethods = {"searchSwaggerAsset"})
     public void getSwaggerAsset() throws JSONException {
         Map<String, String> queryParamMap = new HashMap<>();
         queryParamMap.put("type", "swagger");
-        ClientResponse clientResponse = esTestCommonUtils.getAssetById(assetId, queryParamMap);
+        ClientResponse clientResponse = getAssetById(publisherUrl, genericRestClient, cookieHeader, assetId, queryParamMap);
         Assert.assertTrue((clientResponse.getStatusCode() == 200),
                 "Wrong status code ,Expected 200 OK " +
                         clientResponse.getStatusCode());
         JSONObject obj = new JSONObject(clientResponse.getEntity(String.class));
-        Assert.assertEquals(obj.get("id").toString(), assetId);
+        Assert.assertEquals(obj.get("id"), assetId);
     }
 
     @Test(groups = {"wso2.greg", "wso2.greg.es"}, description = "Delete Swagger in Publisher",
-            dependsOnMethods = {"createSwaggerServiceAsset", "searchSwaggerAsset", "getSwaggerAsset"})
+            dependsOnMethods = {"getSwaggerAsset"})
     public void deleteSwaggerAsset() throws JSONException {
         Map<String, String> queryParamMap = new HashMap<>();
         queryParamMap.put("type", "swagger");
-        assocUUIDMap = esTestCommonUtils.getAssociationsFromPages(assetId, queryParamMap);
         genericRestClient.geneticRestRequestDelete(publisherUrl + "/assets/" + assetId,
                 MediaType.APPLICATION_JSON,
                 MediaType.APPLICATION_JSON
                 , queryParamMap, headerMap, cookieHeader);
-        ClientResponse clientResponse = esTestCommonUtils.getAssetById(assetId, queryParamMap);
+        ClientResponse clientResponse = getAssetById(publisherUrl, genericRestClient, cookieHeader, assetId, queryParamMap);
         Assert.assertTrue((clientResponse.getStatusCode() == 404),
                 "Wrong status code ,Expected 404 Not Found " +
                         clientResponse.getStatusCode());
@@ -163,13 +153,8 @@ public class SwaggerCRUDByUrlTestCase extends GregESTestBaseTest {
     public void cleanUp() throws RegistryException, JSONException {
         Map<String, String> queryParamMap = new HashMap<>();
         queryParamMap.put("type", "swagger");
-        esTestCommonUtils.deleteAssetById(assetId, queryParamMap);
-        esTestCommonUtils.deleteAllAssociationsById(assetId, queryParamMap);
-        queryParamMap.clear();
-        for (String uuid : assocUUIDMap.keySet()) {
-            queryParamMap.put("type", esTestCommonUtils.getType(assocUUIDMap.get(uuid)));
-            esTestCommonUtils.deleteAssetById(uuid, queryParamMap);
-        }
+        deleteAssetById(publisherUrl, genericRestClient, cookieHeader, assetId, queryParamMap);
+        deleteAllAssociationsById(publisherUrl, genericRestClient, cookieHeader, assetId, queryParamMap);
     }
 
     @DataProvider

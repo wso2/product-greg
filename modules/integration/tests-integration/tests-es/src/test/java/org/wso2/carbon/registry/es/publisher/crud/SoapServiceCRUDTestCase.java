@@ -50,14 +50,13 @@ public class SoapServiceCRUDTestCase extends GregESTestBaseTest {
     private TestUserMode userMode;
     String jSessionId;
     String assetId;
+    String assocAssetId;
     String assetName;
     String cookieHeader;
     GenericRestClient genericRestClient;
-    /*    Map<String, String> queryParamMap;*/
     Map<String, String> headerMap;
     String publisherUrl;
     String resourcePath;
-    ESTestCommonUtils esTestCommonUtils;
 
     @Factory(dataProvider = "userModeProvider")
     public SoapServiceCRUDTestCase(TestUserMode userMode) {
@@ -68,7 +67,6 @@ public class SoapServiceCRUDTestCase extends GregESTestBaseTest {
     public void init() throws Exception {
         super.init(userMode);
         genericRestClient = new GenericRestClient();
-/*        queryParamMap = new HashMap<>();*/
         headerMap = new HashMap<>();
         resourcePath = FrameworkPathUtil.getSystemResourceLocation()
                 + "artifacts" + File.separator + "GREG" + File.separator;
@@ -87,8 +85,6 @@ public class SoapServiceCRUDTestCase extends GregESTestBaseTest {
         jSessionId = objSessionPublisher.getJSONObject("data").getString("sessionId");
         cookieHeader = "JSESSIONID=" + jSessionId;
         Assert.assertNotNull(jSessionId, "Invalid JSessionID received");
-        esTestCommonUtils = new ESTestCommonUtils(genericRestClient, publisherUrl, headerMap);
-        esTestCommonUtils.setCookieHeader(cookieHeader);
     }
 
     @Test(groups = {"wso2.greg", "wso2.greg.es"}, description = "Create Soap Service in Publisher")
@@ -110,38 +106,9 @@ public class SoapServiceCRUDTestCase extends GregESTestBaseTest {
         Assert.assertTrue((response.getStatusCode() == 201),
                 "Wrong status code ,Expected 201 Created ,Received " +
                         response.getStatusCode());
-        assetId = obj.get("id").toString();
+        assetId = (String)obj.get("id");
         Assert.assertNotNull(assetId, "Empty asset resource id available" +
                 response.getEntity(String.class));
-    }
-
-    @Test(groups = {"wso2.greg", "wso2.greg.es"}, description = "Add SOAP service with wsdl url")
-    public void createSOAPServiceWithWSDL() throws GovernanceException, IOException, JSONException {
-        Map<String, String> queryParamMap = new HashMap<>();
-        queryParamMap.put("type", "soapservice");
-        String soapTemplate = readFile(resourcePath + "json" + File.separator + "soapservice-sample.json");
-        assetName = "SOAPService1";
-        String dataBody = String.format(soapTemplate, assetName, "com.wso2.sample", "1.0.0", "Description");
-
-        JSONObject jsonObject = new JSONObject(dataBody);
-        jsonObject.put("interface_wsdlURL", "http://graphical.weather.gov/xml/SOAP_server/ndfdXMLserver.php?wsdl");
-        ClientResponse response =
-                genericRestClient.geneticRestRequestPost(publisherUrl + "/assets",
-                        MediaType.APPLICATION_JSON,
-                        MediaType.APPLICATION_JSON, jsonObject.toString()
-                        , queryParamMap, headerMap, cookieHeader);
-        Assert.assertTrue((response.getStatusCode() == 201),
-                "Wrong status code ,Expected 201 Created ,Received " +
-                        response.getStatusCode());
-        JSONObject obj = new JSONObject(response.getEntity(String.class));
-        assetId = obj.get("id").toString();
-        Assert.assertNotNull(assetId, "Empty asset resource id available" +
-                response.getEntity(String.class));
-        ClientResponse assocResponse = esTestCommonUtils.getAssociationsById(assetId, queryParamMap);
-        obj = new JSONObject(assocResponse.getEntity(String.class));
-        JSONArray assocArray = obj.getJSONArray("results");
-        assertNotNull(assocArray);
-        assertEquals(assocArray.length(), 2, "Expecting 2 dependencies : WSDL and Endpoint");
     }
 
     @Test(groups = {"wso2.greg", "wso2.greg.es"}, description = "Get Soap Service in Publisher",
@@ -149,22 +116,21 @@ public class SoapServiceCRUDTestCase extends GregESTestBaseTest {
     public void getSoapServiceAsset() throws JSONException {
         Map<String, String> queryParamMap = new HashMap<>();
         queryParamMap.put("type", "soapservice");
-        ClientResponse clientResponse = esTestCommonUtils.getAssetById(assetId, queryParamMap);
+        ClientResponse clientResponse = getAssetById(publisherUrl, genericRestClient, cookieHeader, assetId, queryParamMap);
         Assert.assertTrue((clientResponse.getStatusCode() == 200),
                 "Wrong status code ,Expected 200 OK " +
                         clientResponse.getStatusCode());
         JSONObject obj = new JSONObject(clientResponse.getEntity(String.class));
-        Assert.assertEquals(obj.get("id").toString(), assetId);
+        Assert.assertEquals(obj.get("id"), assetId);
     }
 
     @Test(groups = {"wso2.greg", "wso2.greg.es"}, description = "Search Soap Service in Publisher",
-            dependsOnMethods = {"createSoapServiceAsset"})
+            dependsOnMethods = {"getSoapServiceAsset"})
     public void searchSoapService() throws JSONException {
         boolean assetFound = false;
         Map<String, String> queryParamMap = new HashMap<>();
-        queryParamMap.put("type", "soapservice");
-        queryParamMap.put("overview_name", assetName);
-        ClientResponse clientResponse = esTestCommonUtils.searchAssetByQuery(queryParamMap);
+        queryParamMap.put("q", "\"name" + "\":" + "\"" + assetName + "\"");
+        ClientResponse clientResponse = searchAssetByQuery(publisherUrl, genericRestClient, cookieHeader, queryParamMap);
         JSONObject obj = new JSONObject(clientResponse.getEntity(String.class));
         JSONArray jsonArray = obj.getJSONArray("list");
         for (int i = 0; i < jsonArray.length(); i++) {
@@ -178,7 +144,7 @@ public class SoapServiceCRUDTestCase extends GregESTestBaseTest {
     }
 
     @Test(groups = {"wso2.greg", "wso2.greg.es"}, description = "Update Soap Service in Publisher",
-            dependsOnMethods = {"getSoapServiceAsset"})
+            dependsOnMethods = {"searchSoapService"})
     public void updateSoapServiceAsset() throws JSONException, IOException {
         Map<String, String> queryParamMap = new HashMap<>();
         queryParamMap.put("type", "soapservice");
@@ -198,7 +164,7 @@ public class SoapServiceCRUDTestCase extends GregESTestBaseTest {
     }
 
     @Test(groups = {"wso2.greg", "wso2.greg.es"}, description = "Delete Soap Service in Publisher",
-            dependsOnMethods = {"getSoapServiceAsset", "updateSoapServiceAsset", "searchSoapService"})
+            dependsOnMethods = {"updateSoapServiceAsset"})
     public void deleteSoapServiceAsset() throws JSONException {
         Map<String, String> queryParamMap = new HashMap<>();
         queryParamMap.put("type", "soapservice");
@@ -206,18 +172,45 @@ public class SoapServiceCRUDTestCase extends GregESTestBaseTest {
                 MediaType.APPLICATION_JSON,
                 MediaType.APPLICATION_JSON
                 , queryParamMap, headerMap, cookieHeader);
-        ClientResponse clientResponse = esTestCommonUtils.getAssetById(assetId, queryParamMap);
+        ClientResponse clientResponse = getAssetById(publisherUrl, genericRestClient, cookieHeader, assetId, queryParamMap);
         Assert.assertTrue((clientResponse.getStatusCode() == 404),
                 "Wrong status code ,Expected 404 Not Found " +
                         clientResponse.getStatusCode());
+    }
+
+    @Test(groups = {"wso2.greg", "wso2.greg.es"}, description = "Add SOAP service with wsdl url", dependsOnMethods = "deleteSoapServiceAsset")
+    public void createSOAPServiceWithWSDL() throws GovernanceException, IOException, JSONException, InterruptedException {
+        Map<String, String> queryParamMap = new HashMap<>();
+        queryParamMap.put("type", "soapservice");
+        String soapTemplate = readFile(resourcePath + "json" + File.separator + "soapservice-sample.json");
+        assetName = "SOAPService1";
+        String dataBody = String.format(soapTemplate, assetName, "com.wso2.sample", "1.0.0", "Description");
+
+        JSONObject jsonObject = new JSONObject(dataBody);
+        jsonObject.put("interface_wsdlURL", "https://raw.githubusercontent.com/wso2/wso2-qa-artifacts/master/automation-artifacts/greg/wsdl/calculator.wsdl");
+        ClientResponse response =
+                genericRestClient.geneticRestRequestPost(publisherUrl + "/assets",
+                        MediaType.APPLICATION_JSON,
+                        MediaType.APPLICATION_JSON, jsonObject.toString()
+                        , queryParamMap, headerMap, cookieHeader);
+        Assert.assertTrue((response.getStatusCode() == 201),
+                "Wrong status code ,Expected 201 Created ,Received " +
+                        response.getStatusCode());
+        JSONObject obj = new JSONObject(response.getEntity(String.class));
+        assocAssetId = obj.get("id").toString();
+        Assert.assertNotNull(assocAssetId, "Empty asset resource id available" +
+                response.getEntity(String.class));
+        Map<String,String> assocMap = getAssociationsFromPages(publisherUrl, genericRestClient, cookieHeader, assocAssetId, queryParamMap);
+        assertEquals(assocMap.size(), 2, "Expecting 2 dependencies : WSDL and Endpoint");
     }
 
     @AfterClass(alwaysRun = true)
     public void cleanUp() throws RegistryException, JSONException {
         Map<String, String> queryParamMap = new HashMap<>();
         queryParamMap.put("type", "soapservice");
-        esTestCommonUtils.deleteAllAssociationsById(assetId, queryParamMap);
-        esTestCommonUtils.deleteAssetById(assetId, queryParamMap);
+        deleteAssetById(publisherUrl, genericRestClient, cookieHeader, assetId, queryParamMap);
+        deleteAssetById(publisherUrl, genericRestClient, cookieHeader, assocAssetId, queryParamMap);
+        deleteAllAssociationsById(publisherUrl, genericRestClient, cookieHeader, assocAssetId, queryParamMap);
     }
 
     @DataProvider

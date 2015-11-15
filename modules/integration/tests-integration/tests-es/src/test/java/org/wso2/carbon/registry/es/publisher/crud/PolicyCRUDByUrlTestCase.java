@@ -50,8 +50,6 @@ public class PolicyCRUDByUrlTestCase extends GregESTestBaseTest {
     Map<String, String> headerMap;
     String publisherUrl;
     String resourcePath;
-    ESTestCommonUtils esTestCommonUtils;
-    Map<String, String> assocUUIDMap;
 
     @Factory(dataProvider = "userModeProvider")
     public PolicyCRUDByUrlTestCase(TestUserMode userMode) {
@@ -80,17 +78,12 @@ public class PolicyCRUDByUrlTestCase extends GregESTestBaseTest {
         jSessionId = objSessionPublisher.getJSONObject("data").getString("sessionId");
         cookieHeader = "JSESSIONID=" + jSessionId;
         Assert.assertNotNull(jSessionId, "Invalid JSessionID received");
-        esTestCommonUtils = new ESTestCommonUtils(genericRestClient, publisherUrl, headerMap);
-        esTestCommonUtils.setCookieHeader(cookieHeader);
     }
 
     @Test(groups = {"wso2.greg", "wso2.greg.es"}, description = "Import Policy in Publisher")
     public void createPolicyServiceAsset() throws JSONException, IOException {
         Map<String, String> queryParamMap = new HashMap<>();
         queryParamMap.put("type", "policy");
-/*        "overview_url":"https://raw.githubusercontent.com/wso2/wso2-qa-artifacts/master/automation-artifacts/greg/policy/UTPolicy.xml",
-          "overview_name":"UTPolicy.xml",
-          "overview_version":"1.0.0",*/
         String policyTemplate = readFile(resourcePath + "json" + File.separator + "policy-sample.json");
         assetName = "UTPolicy.xml";
         String dataBody = String.format(policyTemplate,
@@ -105,18 +98,18 @@ public class PolicyCRUDByUrlTestCase extends GregESTestBaseTest {
         Assert.assertTrue((response.getStatusCode() == 201),
                 "Wrong status code ,Expected 201 Created ,Received " +
                         response.getStatusCode());
-        String resultName = obj.get("overview_name").toString();
+        String resultName = (String)obj.get("overview_name");
         Assert.assertEquals(resultName, assetName);
     }
 
     @Test(groups = {"wso2.greg", "wso2.greg.es"}, description = "Search Policy in Publisher",
             dependsOnMethods = {"createPolicyServiceAsset"})
-    public void searchPolicyAsset() throws JSONException {
+    public void searchPolicyAsset() throws JSONException, XPathExpressionException, IOException {
+        setTestEnvironment();
         boolean assetFound = false;
         Map<String, String> queryParamMap = new HashMap<>();
-        queryParamMap.put("type", "policy");
-        queryParamMap.put("overview_name", assetName);
-        ClientResponse clientResponse = esTestCommonUtils.searchAssetByQuery(queryParamMap);
+        queryParamMap.put("q", "\"name" + "\":" + "\"" + assetName + "\"");
+        ClientResponse clientResponse = searchAssetByQuery(publisherUrl, genericRestClient, cookieHeader, queryParamMap);
         JSONObject obj = new JSONObject(clientResponse.getEntity(String.class));
         JSONArray jsonArray = obj.getJSONArray("list");
         for (int i = 0; i < jsonArray.length(); i++) {
@@ -132,45 +125,41 @@ public class PolicyCRUDByUrlTestCase extends GregESTestBaseTest {
     }
 
     @Test(groups = {"wso2.greg", "wso2.greg.es"}, description = "Get Policy in Publisher",
-            dependsOnMethods = {"createPolicyServiceAsset", "searchPolicyAsset"})
-    public void getPolicyAsset() throws JSONException {
+            dependsOnMethods = {"searchPolicyAsset"})
+    public void getPolicyAsset() throws JSONException, XPathExpressionException, IOException {
+        setTestEnvironment();
         Map<String, String> queryParamMap = new HashMap<>();
         queryParamMap.put("type", "policy");
-        ClientResponse clientResponse = esTestCommonUtils.getAssetById(assetId, queryParamMap);
+        ClientResponse clientResponse = getAssetById(publisherUrl, genericRestClient, cookieHeader, assetId, queryParamMap);
         Assert.assertTrue((clientResponse.getStatusCode() == 200),
                 "Wrong status code ,Expected 200 OK " +
                         clientResponse.getStatusCode());
         JSONObject obj = new JSONObject(clientResponse.getEntity(String.class));
-        Assert.assertEquals(obj.get("id").toString(), assetId);
+        Assert.assertEquals(obj.get("id"), assetId);
     }
 
     @Test(groups = {"wso2.greg", "wso2.greg.es"}, description = "Delete Policy in Publisher",
-            dependsOnMethods = {"createPolicyServiceAsset", "searchPolicyAsset", "getPolicyAsset"})
-    public void deletePolicyAsset() throws JSONException {
+            dependsOnMethods = {"getPolicyAsset"})
+    public void deletePolicyAsset() throws JSONException, XPathExpressionException, IOException {
+        setTestEnvironment();
         Map<String, String> queryParamMap = new HashMap<>();
         queryParamMap.put("type", "policy");
-        assocUUIDMap = esTestCommonUtils.getAssociationsFromPages(assetId, queryParamMap);
         genericRestClient.geneticRestRequestDelete(publisherUrl + "/assets/" + assetId,
                 MediaType.APPLICATION_JSON,
                 MediaType.APPLICATION_JSON
                 , queryParamMap, headerMap, cookieHeader);
-        ClientResponse clientResponse = esTestCommonUtils.getAssetById(assetId, queryParamMap);
+        ClientResponse clientResponse = getAssetById(publisherUrl, genericRestClient, cookieHeader, assetId, queryParamMap);
         Assert.assertTrue((clientResponse.getStatusCode() == 404),
                 "Wrong status code ,Expected 404 Not Found " +
                         clientResponse.getStatusCode());
     }
 
     @AfterClass(alwaysRun = true)
-    public void cleanUp() throws RegistryException, JSONException {
+    public void cleanUp() throws RegistryException, JSONException, XPathExpressionException, IOException {
+        setTestEnvironment();
         Map<String, String> queryParamMap = new HashMap<>();
         queryParamMap.put("type", "policy");
-        esTestCommonUtils.deleteAssetById(assetId, queryParamMap);
-        esTestCommonUtils.deleteAllAssociationsById(assetId, queryParamMap);
-        queryParamMap.clear();
-        for (String uuid : assocUUIDMap.keySet()) {
-            queryParamMap.put("type", esTestCommonUtils.getType(assocUUIDMap.get(uuid)));
-            esTestCommonUtils.deleteAssetById(uuid, queryParamMap);
-        }
+        deleteAssetById(publisherUrl, genericRestClient, cookieHeader, assetId, queryParamMap);
     }
 
     @DataProvider

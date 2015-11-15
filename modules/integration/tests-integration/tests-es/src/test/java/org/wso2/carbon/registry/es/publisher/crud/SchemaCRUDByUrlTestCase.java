@@ -50,8 +50,7 @@ public class SchemaCRUDByUrlTestCase extends GregESTestBaseTest {
     Map<String, String> headerMap;
     String publisherUrl;
     String resourcePath;
-    ESTestCommonUtils esTestCommonUtils;
-    Map<String, String> assocUUIDMap;
+//    ESTestCommonUtils esTestCommonUtils;
 
     @Factory(dataProvider = "userModeProvider")
     public SchemaCRUDByUrlTestCase(TestUserMode userMode) {
@@ -80,22 +79,16 @@ public class SchemaCRUDByUrlTestCase extends GregESTestBaseTest {
         jSessionId = objSessionPublisher.getJSONObject("data").getString("sessionId");
         cookieHeader = "JSESSIONID=" + jSessionId;
         Assert.assertNotNull(jSessionId, "Invalid JSessionID received");
-        esTestCommonUtils = new ESTestCommonUtils(genericRestClient, publisherUrl, headerMap);
-        esTestCommonUtils.setCookieHeader(cookieHeader);
     }
 
     @Test(groups = {"wso2.greg", "wso2.greg.es"}, description = "Import Schema in Publisher")
     public void createSchemaServiceAsset() throws JSONException, IOException {
-/*        "overview_url": "https://raw.githubusercontent.com/wso2/wso2-qa-artifacts/master/automation-artifacts/greg/schema/Person.xsd"
-        "overview_name": "Person.xsd"
-        "overview_version": "1.0.0"*/
         Map<String, String> queryParamMap = new HashMap<>();
         queryParamMap.put("type", "schema");
         String schemaTemplate = readFile(resourcePath + "json" + File.separator + "schema-sample.json");
-//        assetName = (String) (new JSONObject(dataBody)).get("overview_name");
-        assetName = "Person.xsd";
+        assetName = "library.xsd";
         String dataBody = String.format(schemaTemplate,
-                "https://raw.githubusercontent.com/wso2/wso2-qa-artifacts/master/automation-artifacts/greg/schema/Person.xsd",
+                "https://raw.githubusercontent.com/wso2/wso2-qa-artifacts/master/automation-artifacts/greg/schema/library.xsd",
                 assetName,
                 "1.0.0");
         ClientResponse response =
@@ -107,7 +100,7 @@ public class SchemaCRUDByUrlTestCase extends GregESTestBaseTest {
         Assert.assertTrue((response.getStatusCode() == 201),
                 "Wrong status code ,Expected 201 Created ,Received " +
                         response.getStatusCode());
-        String resultName = obj.get("overview_name").toString();
+        String resultName = (String)obj.get("overview_name");
         Assert.assertEquals(resultName, assetName);
     }
 
@@ -116,9 +109,8 @@ public class SchemaCRUDByUrlTestCase extends GregESTestBaseTest {
     public void searchSchemaAsset() throws JSONException {
         boolean assetFound = false;
         Map<String, String> queryParamMap = new HashMap<>();
-        queryParamMap.put("type", "schema");
-        queryParamMap.put("overview_name", assetName);
-        ClientResponse clientResponse = esTestCommonUtils.searchAssetByQuery(queryParamMap);
+        queryParamMap.put("q", "\"name" + "\":" + "\"" + assetName + "\"");
+        ClientResponse clientResponse = searchAssetByQuery(publisherUrl, genericRestClient, cookieHeader, queryParamMap);
         JSONObject obj = new JSONObject(clientResponse.getEntity(String.class));
         JSONArray jsonArray = obj.getJSONArray("list");
         for (int i = 0; i < jsonArray.length(); i++) {
@@ -134,29 +126,29 @@ public class SchemaCRUDByUrlTestCase extends GregESTestBaseTest {
     }
 
     @Test(groups = {"wso2.greg", "wso2.greg.es"}, description = "Get Schema in Publisher",
-            dependsOnMethods = {"createSchemaServiceAsset", "searchSchemaAsset"})
-    public void getSchemaAsset() throws JSONException {
+            dependsOnMethods = {"searchSchemaAsset"})
+    public void getSchemaAsset() throws JSONException, XPathExpressionException, IOException {
         Map<String, String> queryParamMap = new HashMap<>();
         queryParamMap.put("type", "schema");
-        ClientResponse clientResponse = esTestCommonUtils.getAssetById(assetId, queryParamMap);
+        setTestEnvironment();
+        ClientResponse clientResponse = getAssetById(publisherUrl, genericRestClient, cookieHeader, assetId, queryParamMap);
         Assert.assertTrue((clientResponse.getStatusCode() == 200),
                 "Wrong status code ,Expected 200 OK " +
                         clientResponse.getStatusCode());
         JSONObject obj = new JSONObject(clientResponse.getEntity(String.class));
-        Assert.assertEquals(obj.get("id").toString(), assetId);
+        Assert.assertEquals(obj.get("id"), assetId);
     }
 
     @Test(groups = {"wso2.greg", "wso2.greg.es"}, description = "Delete Schema in Publisher",
-            dependsOnMethods = {"createSchemaServiceAsset", "searchSchemaAsset", "getSchemaAsset"})
+            dependsOnMethods = {"getSchemaAsset"})
     public void deleteSchemaAsset() throws JSONException {
         Map<String, String> queryParamMap = new HashMap<>();
         queryParamMap.put("type", "schema");
-        assocUUIDMap = esTestCommonUtils.getAssociationsFromPages(assetId, queryParamMap);
         genericRestClient.geneticRestRequestDelete(publisherUrl + "/assets/" + assetId,
                 MediaType.APPLICATION_JSON,
                 MediaType.APPLICATION_JSON
                 , queryParamMap, headerMap, cookieHeader);
-        ClientResponse clientResponse = esTestCommonUtils.getAssetById(assetId, queryParamMap);
+        ClientResponse clientResponse = getAssetById(publisherUrl, genericRestClient, cookieHeader, assetId, queryParamMap);
         Assert.assertTrue((clientResponse.getStatusCode() == 404),
                 "Wrong status code ,Expected 404 Not Found " +
                         clientResponse.getStatusCode());
@@ -166,13 +158,7 @@ public class SchemaCRUDByUrlTestCase extends GregESTestBaseTest {
     public void cleanUp() throws RegistryException, JSONException {
         Map<String, String> queryParamMap = new HashMap<>();
         queryParamMap.put("type", "schema");
-        esTestCommonUtils.deleteAssetById(assetId, queryParamMap);
-        esTestCommonUtils.deleteAllAssociationsById(assetId, queryParamMap);
-        queryParamMap.clear();
-        for (String uuid : assocUUIDMap.keySet()) {
-            queryParamMap.put("type", esTestCommonUtils.getType(assocUUIDMap.get(uuid)));
-            esTestCommonUtils.deleteAssetById(uuid, queryParamMap);
-        }
+        deleteAssetById(publisherUrl, genericRestClient, cookieHeader, assetId, queryParamMap);
     }
 
     @DataProvider
