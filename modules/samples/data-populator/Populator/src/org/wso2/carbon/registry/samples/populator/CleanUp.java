@@ -32,11 +32,13 @@ import org.wso2.carbon.governance.api.exception.GovernanceException;
 import org.wso2.carbon.registry.core.pagination.PaginationContext;
 import org.wso2.carbon.registry.core.session.UserRegistry;
 import org.wso2.carbon.registry.core.exceptions.RegistryException;
+import org.wso2.carbon.registry.samples.populator.utils.UserManagementClient;
 
 import javax.activation.DataHandler;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
+import java.lang.Exception;
 import java.lang.String;
 import java.net.URL;
 import java.io.File;
@@ -48,7 +50,9 @@ public class CleanUp {
     private static String rootpath = "";
     private static final String username = "admin";
     private static final String password = "admin";
-    private static final String serverURL = "https://localhost:9443/services/";
+    private static String port ;
+    private static String host ;
+    private static String serverURL;
 
     private static void setSystemProperties() {
         String trustStore = System.getProperty("carbon.home") + File.separator + "repository" + File.separator +
@@ -64,7 +68,15 @@ public class CleanUp {
 
     public static void main(String[] args) {
         try {
-
+            port = args[0];
+            if(port == null || port.length() ==0){
+                port = "9443";
+            }
+            host =args [1];
+            if(host == null || host.length() ==0){
+                host = "localhost";
+            }
+            serverURL = "https://"+host+":"+port+"/services/";
             setSystemProperties();
 
             String axis2Configuration = System.getProperty("carbon.home") + File.separator + "repository" +
@@ -81,25 +93,71 @@ public class CleanUp {
             };
             Registry gov = GovernanceUtils.getGovernanceUserRegistry(registry, "admin");
             GovernanceUtils.loadGovernanceArtifacts((UserRegistry) gov);
-            deleteArtifacts(gov, "wsdl", "wsdl");
-            System.out.println("########## Successfully deleted sample wsdls ###########");
-            deleteArtifacts(gov, "wadl", "wadl");
-            System.out.println("########## Successfully deleted sample wadls ###########");
-            deleteArtifacts(gov, "schema", "xsd");
-            System.out.println("########## Successfully deleted sample schemas ###########");
-            deleteArtifacts(gov, "swagger", "json");
-            System.out.println("########## Successfully deleted sample swagger docs ###########");
-            deleteArtifacts(gov, "policy", "xml");
-            System.out.println("########## Successfully deleted sample policies ###########");
-            deleteServices(gov, "soapservice");
-            System.out.println("########## Successfully deleted sample Soap Services ###########");
-            deleteServices(gov, "restservice");
-            System.out.println("########## Successfully deleted sample Rest Services ###########");
+
+            try {
+                System.out.println("Deleting sample wsdls .........");
+                deleteArtifacts(gov, "wsdl", "wsdl");
+                System.out.println("########## Successfully deleted sample wsdls ###########\n\n");
+            } catch (Exception e){
+                System.out.println("######## Unable to delete sample wsdls ########\n\n");
+            }
+
+            try {
+                System.out.println("Deleting sample wadls .........");
+                deleteArtifacts(gov, "wadl", "wadl");
+                System.out.println("########## Successfully deleted sample wadls ###########\n\n");
+            } catch (Exception e){
+                System.out.println("######## Unable to delete sample wadls ########\n\n");
+            }
+
+            try {
+                System.out.println("Deleting sample schemas .........");
+                deleteArtifacts(gov, "schema", "xsd");
+                System.out.println("########## Successfully deleted sample schemas ###########\n\n");
+            } catch (Exception e){
+                System.out.println("######## Unable to delete sample schemas ########\n\n");
+
+            }
+
+            try {
+                System.out.println("Deleting sample swagger docs .........");
+                deleteArtifacts(gov, "swagger", "json");
+                System.out.println("########## Successfully deleted sample swagger docs ###########\n\n");
+            } catch (Exception e){
+                System.out.println("######## Unable to delete sample swagger docs ########\n\n");
+            }
+
+            try {
+                System.out.println("Deleting sample policies .........");
+                deleteArtifacts(gov, "policy", "xml");
+                System.out.println("########## Successfully deleted sample policies ###########\n\n");
+            } catch (Exception e){
+                System.out.println("######## Unable to delete sample policies ########\n\n");
+
+            }
+
+            try {
+                System.out.println("Deleting sample Soap Services .........");
+                deleteServices(gov, "soapservice");
+                System.out.println("########## Successfully deleted sample Soap Services ###########\n\n");
+            } catch (Exception e){
+                System.out.println("######## Unable to delete sample soap services ########\n\n");
+            }
+
+            try {
+                System.out.println("Deleting sample Rest Services .........");
+                deleteServices(gov, "restservice");
+                System.out.println("########## Successfully deleted sample Rest Services ###########\n\n");
+            } catch (Exception e){
+                System.out.println("######## Unable to delete sample rest services ########\n\n");
+            }
+
 
         } catch (Exception e) {
             System.out.println("An error occurred.");
             e.printStackTrace();
         }
+
         System.exit(0);
     }
 
@@ -151,4 +209,6 @@ public class CleanUp {
             }
         }
     }
+
+
 }

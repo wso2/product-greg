@@ -26,7 +26,9 @@ public class RXTModifier {
     private static String cookie;
     private static final String username = "admin";
     private static final String password = "admin";
-    private static final String serverURL = "https://localhost:9443/services/";
+    private static String port ;
+    private static String host ;
+    private static String serverURL;
     private static final String serviceRxtPath = "/_system/governance/repository/components/org.wso2.carbon.governance/types/";
 
     private static void setSystemProperties() {
@@ -40,7 +42,15 @@ public class RXTModifier {
 
     public static void main(String[] args) {
         try {
-
+            port = args[0];
+            if(port == null || port.length() ==0){
+                port = "9443";
+            }
+            host =args [1];
+            if(host == null || host.length() ==0){
+                host = "localhost";
+            }
+            serverURL = "https://"+host+":"+port+"/services/";
             setSystemProperties();
             String projectPath = System.getProperty("user.dir");
             String axis2Configuration = System.getProperty("carbon.home") + File.separator + "repository" +

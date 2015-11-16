@@ -22,10 +22,13 @@ package org.wso2.carbon.registry.samples.populator;
 import org.apache.axis2.context.ConfigurationContext;
 import org.apache.axis2.context.ConfigurationContextFactory;
 import org.wso2.carbon.registry.core.Registry;
+import org.wso2.carbon.user.mgt.stub.types.carbon.ClaimValue;
+import org.wso2.carbon.registry.samples.populator.utils.UserManagementClient;
 import org.wso2.carbon.registry.resource.ui.clients.ResourceServiceClient;
 import org.wso2.carbon.registry.ws.client.registry.WSRegistryServiceClient;
 
 import javax.activation.DataHandler;
+import java.lang.Thread;
 import java.net.URL;
 import java.io.File;
 
@@ -34,7 +37,9 @@ public class Main {
     private static String cookie;
     private static final String username = "admin";
     private static final String password = "admin";
-    private static final String serverURL = "https://localhost:9443/services/";
+    private static String port ;
+    private static String host ;
+    private static String serverURL;
 
     private static void setSystemProperties() {
         String trustStore = System.getProperty("carbon.home") + File.separator + "repository" + File.separator +
@@ -47,7 +52,15 @@ public class Main {
 
     public static void main(String[] args) {
         try {
-
+            port = args[0];
+            if(port == null || port.length() ==0){
+                port = "9443";
+            }
+            host =args [1];
+            if(host == null || host.length() ==0){
+                host = "localhost";
+            }
+            serverURL = "https://"+host+":"+port+"/services/";
             setSystemProperties();
 
             String axis2Configuration = System.getProperty("carbon.home") + File.separator + "repository" +
@@ -68,46 +81,48 @@ public class Main {
             int currentTask = 0;
             int tasks = 10;
             String projectPath = System.getProperty("user.dir");
+            startUpMessage();
 
             try {
+                System.out.println("Uploading sample wsdls .........");
                 addWsdlGar(resourceServiceClient, projectPath);
-                Thread.sleep(1 * 60 * 1000);
-                System.out.println("######## Successfully uploaded sample wsdls ########");
+                Thread.sleep(10*1000);
+                System.out.println("######## Successfully uploaded sample wsdls ########\n\n");
             } catch (Exception e) {
-                System.out.println("######## Unable to upload sample wsdls ########");
+                System.out.println("######## Unable to upload sample wsdls ########\n\n");
             }
 
             try {
+                System.out.println("Uploading sample wadls .........");
                 addWadlGar(resourceServiceClient, projectPath);
-                Thread.sleep(30 * 1000);
-                System.out.println("######## Successfully uploaded sample wadls ########");
+                System.out.println("######## Successfully uploaded sample wadls ########\n\n");
             } catch (Exception e) {
-                System.out.println("######## Unable to upload sample wsdls ########");
+                System.out.println("######## Unable to upload sample wadls ########\n\n");
             }
 
             try {
+                System.out.println("Uploading sample schemas .........");
                 addSchemaGar(resourceServiceClient, projectPath);
-                Thread.sleep(30 * 1000);
-                System.out.println("######## Successfully uploaded sample schemas ########");
+                System.out.println("######## Successfully uploaded sample schemas ########\n\n");
             } catch (Exception e) {
-                System.out.println("######## Unable to upload sample schemas ########");
+                System.out.println("######## Unable to upload sample schemas ########\n\n");
             }
 
 
             try {
+                System.out.println("Uploading sample swagger docs .........");
                 addSwaggerGar(resourceServiceClient, projectPath);
-                Thread.sleep(30 * 1000);
-                System.out.println("######## Successfully uploaded sample swagger docs ########");
+                System.out.println("######## Successfully uploaded sample swagger docs ########\n\n");
             } catch (Exception e) {
-                System.out.println("######## Unable to upload sample swagger docs ########");
+                System.out.println("######## Unable to upload sample swagger docs ########\n\n");
             }
 
             try {
+                System.out.println("Uploading sample policies .........");
                 addPolicyGar(resourceServiceClient, projectPath);
-                Thread.sleep(30 * 1000);
-                System.out.println("######## Successfully uploaded sample policies ########");
+                System.out.println("######## Successfully uploaded sample policies ########\n\n");
             } catch (Exception e) {
-                System.out.println("######## Unable to upload sample policies ########");
+                System.out.println("######## Unable to upload sample policies ########\n\n");
             }
 
         } catch (Exception e) {
@@ -145,8 +160,14 @@ public class Main {
         String[][] properties = { { "registry.mediaType", "application/policy+xml" }, { "version", "1.0.0" } };
         DataHandler dh = new DataHandler(new URL("file://" + projectPath + "/resources/policies.gar"));
         resourceServiceClient
-                .addResource("/_system/governance/trunk/test/1.0.0/policies/", "application/vnd.wso2.governance-archive",
-                        null, dh, null, properties);
+                .addResource("/_system/governance/trunk/test/1.0.0/policies/",
+                        "application/vnd.wso2.governance-archive", null, dh, null, properties);
+    }
+
+    private static void startUpMessage(){
+        System.out.println("********************************************************************************\n");
+        System.out.println("Sample Data Populating Started. This may take 3-5 minutes depend on your system\n");
+        System.out.println("********************************************************************************\n\n");
     }
 }
 
