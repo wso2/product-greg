@@ -45,6 +45,7 @@ public class GRegPublisherLifecycleHistoryTest extends GregESTestBaseTest {
     private TestUserMode userMode;
     private GenericRestClient genericRestClient;
     private String publisherUrl;
+    private String storeUrl;
     private Map<String, String> queryParamMap;
     private Map<String, String> headerMap;
     private String cookieHeader;
@@ -53,6 +54,7 @@ public class GRegPublisherLifecycleHistoryTest extends GregESTestBaseTest {
     private String jSessionId;
     private String lifeCycleName = "ServiceLifeCycle";
     private String assetId;
+    private String cookieHeaderStore;
 
     @Factory(dataProvider = "userModeProvider")
     public GRegPublisherLifecycleHistoryTest(TestUserMode userMode) {
@@ -64,6 +66,8 @@ public class GRegPublisherLifecycleHistoryTest extends GregESTestBaseTest {
         super.init(userMode);
         publisherUrl = automationContext.getContextUrls()
                 .getSecureServiceUrl().replace("services", "publisher/apis");
+        storeUrl = automationContext.getContextUrls()
+                .getSecureServiceUrl().replace("services", "store/apis");
     }
 
     @BeforeMethod(alwaysRun = true)
@@ -98,6 +102,17 @@ public class GRegPublisherLifecycleHistoryTest extends GregESTestBaseTest {
         obj = new JSONObject(response.getEntity(String.class));
         Assert.assertTrue(obj.get("lifecycle").equals(lifeCycleName), "LifeCycle not assigned to given assert");
 
+        Map<String, String> assetTypeParamMap = new HashMap<String, String>();
+        assetTypeParamMap.put("type", "restservice");
+
+        response = genericRestClient.geneticRestRequestGet(storeUrl + "/assets/" + assetId , assetTypeParamMap ,
+                                                           MediaType.APPLICATION_JSON, headerMap, cookieHeaderStore);
+        obj = new JSONObject(response.getEntity(String.class));
+        JSONObject dataObj = obj.getJSONObject("data");
+        String state = obj.getJSONObject("data").getString("lifecycleState");
+
+        Assert.assertTrue(state.equals("Development"), "LifeCycle not assigned to given assert");
+
         response = genericRestClient.geneticRestRequestPost(publisherUrl + "/asset/" + assetId + "/change-state",
                                                             MediaType.APPLICATION_FORM_URLENCODED,
                                                             MediaType.APPLICATION_JSON,
@@ -106,6 +121,14 @@ public class GRegPublisherLifecycleHistoryTest extends GregESTestBaseTest {
         Assert.assertTrue((response.getStatusCode() == 200),
                           "Wrong status code ,Expected 200 OK ,Received " +
                           response.getStatusCode());
+
+        response = genericRestClient.geneticRestRequestGet(storeUrl + "/assets/" + assetId , assetTypeParamMap ,
+                                                           MediaType.APPLICATION_JSON, headerMap, cookieHeaderStore);
+        obj = new JSONObject(response.getEntity(String.class));
+        dataObj = obj.getJSONObject("data");
+        state = obj.getJSONObject("data").getString("lifecycleState");
+
+        Assert.assertTrue(state.equals("Testing"), "LifeCycle not assigned to given assert");
 
         response = genericRestClient.geneticRestRequestPost(publisherUrl + "/asset/" + assetId + "/change-state",
                                                             MediaType.APPLICATION_FORM_URLENCODED,
@@ -116,6 +139,14 @@ public class GRegPublisherLifecycleHistoryTest extends GregESTestBaseTest {
                           "Wrong status code ,Expected 200 OK ,Received " +
                           response.getStatusCode());
 
+        response = genericRestClient.geneticRestRequestGet(storeUrl + "/assets/" + assetId , assetTypeParamMap ,
+                                                           MediaType.APPLICATION_JSON, headerMap, cookieHeaderStore);
+        obj = new JSONObject(response.getEntity(String.class));
+        dataObj = obj.getJSONObject("data");
+        state = obj.getJSONObject("data").getString("lifecycleState");
+
+        Assert.assertTrue(state.equals("Production"), "LifeCycle not assigned to given assert");
+
         response = genericRestClient.geneticRestRequestPost(publisherUrl + "/asset/" + assetId + "/change-state",
                                                             MediaType.APPLICATION_FORM_URLENCODED,
                                                             MediaType.APPLICATION_JSON,
@@ -124,6 +155,13 @@ public class GRegPublisherLifecycleHistoryTest extends GregESTestBaseTest {
         Assert.assertTrue((response.getStatusCode() == 200),
                           "Wrong status code ,Expected 200 OK ,Received " +
                           response.getStatusCode());
+        response = genericRestClient.geneticRestRequestGet(storeUrl + "/assets/" + assetId , assetTypeParamMap ,
+                                                           MediaType.APPLICATION_JSON, headerMap, cookieHeaderStore);
+        obj = new JSONObject(response.getEntity(String.class));
+        dataObj = obj.getJSONObject("data");
+        state = obj.getJSONObject("data").getString("lifecycleState");
+
+        Assert.assertTrue(state.equals("Testing"), "LifeCycle not assigned to given assert");
 
         response = genericRestClient.geneticRestRequestPost(publisherUrl + "/asset/" + assetId + "/change-state",
                                                             MediaType.APPLICATION_FORM_URLENCODED,
@@ -133,6 +171,14 @@ public class GRegPublisherLifecycleHistoryTest extends GregESTestBaseTest {
         Assert.assertTrue((response.getStatusCode() == 200),
                           "Wrong status code ,Expected 200 OK ,Received " +
                           response.getStatusCode());
+
+        response = genericRestClient.geneticRestRequestGet(storeUrl + "/assets/" + assetId , assetTypeParamMap ,
+                                                           MediaType.APPLICATION_JSON, headerMap, cookieHeaderStore);
+        obj = new JSONObject(response.getEntity(String.class));
+        dataObj = obj.getJSONObject("data");
+        state = obj.getJSONObject("data").getString("lifecycleState");
+
+        Assert.assertTrue(state.equals("Development"), "LifeCycle not assigned to given assert");
 
     }
 
@@ -181,6 +227,12 @@ public class GRegPublisherLifecycleHistoryTest extends GregESTestBaseTest {
         jSessionId = obj.getJSONObject("data").getString("sessionId");
         cookieHeader = "JSESSIONID=" + jSessionId;
         Assert.assertNotNull(jSessionId, "Invalid JSessionID received");
+
+        JSONObject objSessionStore =
+                new JSONObject(authenticate(storeUrl, genericRestClient, username, password)
+                                       .getEntity(String.class));
+        jSessionId = objSessionStore.getJSONObject("data").getString("sessionId");
+        cookieHeaderStore = "JSESSIONID=" + jSessionId;
     }
 
     private ClientResponse getLifeCycleHistory(String assetId, String assetType, String requestLCname)
