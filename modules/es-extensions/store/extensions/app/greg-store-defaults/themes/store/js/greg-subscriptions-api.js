@@ -2,7 +2,7 @@ var GregSubscriptionAPI = {};
 $(function() {
     
     var addSubscription = function(element, id, type, method, option) {
-        var urlSub = caramel.context + '/apis/subscriptions/' + type + '/' + id;
+        var urlSub = caramel.context + '/apis/subscription/' + type + '/' + id;
         //alert('addSubscription');
         var data = {};
         data.notificationType = option;
@@ -14,17 +14,18 @@ $(function() {
             contentType: 'application/json',
             success: function(data) {
                 if (data.error != null) {
-                    alert(data.error);
                     $(element).prop("checked", false);
                     $(element).change(function() {
                         addSubscription(element, id, type, method, option);
                     });
+                    location.reload(true);
                 } else {
                     var subcriptionid = data[0].id;
                     $(element).prop("checked", true);
                     $(element).change(function() {
                         removeSubscription(element, id, subcriptionid, method, option);
                     });
+                    location.reload(true);
                 }
             },
             error: function() {
@@ -36,7 +37,7 @@ $(function() {
         })
     };
     var removeSubscription = function(element, id, type, subcriptionid, method, option) {
-        var urlSub = caramel.context + '/apis/subscriptions/' + type + '/' + id + '?subcriptionid=' + subcriptionid;
+        var urlSub = caramel.context + '/apis/subscription/' + type + '/' + id + '?subcriptionid=' + subcriptionid;
         //alert('removeSubscription');
         $.ajax({
             url: urlSub,
@@ -44,16 +45,17 @@ $(function() {
             contentType: 'application/json',
             success: function(data) {
                 if (data.error != null) {
-                    alert(data.error);
                     $(element).prop("checked", true);
                     $(element).change(function() {
                         removeSubscription(element, id, type, subcriptionid, method, option);
                     });
+                    location.reload(true);
                 } else {
                     $(element).prop("checked", false);
                     $(element).change(function() {
                         addSubscription(element, id, type, method, option);
                     });
+                    location.reload(true);
                 }
             },
             error: function() {

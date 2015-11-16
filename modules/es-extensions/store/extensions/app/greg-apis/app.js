@@ -20,8 +20,8 @@ app.server = function(ctx){
     return {
         endpoints:{
             apis:[ {
-                    url:'subscriptions',
-                    path:'subscriptions.jag',
+                    url:'subscription',
+                    path:'subscription.jag',
                     secured:true
                 },
                 {
