@@ -1,9 +1,9 @@
 <% require('/modules/store.js').exec(function(ctx) {
     var matcher = new URIMatcher(request.getRequestURI());
     var options;
-    var SUB_LIST = '/{context}/apis/subscription';
-    var SUB_ITEM = '/{context}/apis/subscription/{id}';
-    var SUB_ITEM = '/{context}/apis/subscription/{type}/{id}';
+    var SUB_LIST = '/{context}/apis/subscriptions';
+    var SUB_ITEM = '/{context}/apis/subscriptions/{id}';
+    var SUB_ITEM = '/{context}/apis/subscriptions/{type}/{id}';
     var httpMethod = request.getMethod();
     var subscriptionAPI = require('/extensions/app/greg-apis/modules/subscription-api.js').api;
     var events;

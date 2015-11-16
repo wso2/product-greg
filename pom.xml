@@ -25,7 +25,7 @@
     <groupId>org.wso2.greg</groupId>
     <artifactId>governance-parent</artifactId>
     <packaging>pom</packaging>
-    <version>5.1.1-SNAPSHOT</version>
+    <version>5.1.0-SNAPSHOT</version>
     <name>WSO2 Governance Registry</name>
     <url>http://wso2.com/products/governance-registry</url>
     <description>WSO2 Governance Registry</description>
@@ -921,8 +921,8 @@
         <carbon.feature.version>1.4.4</carbon.feature.version>
         <uuid.feature.version>1.4.4</uuid.feature.version>
         <sso.feature.version>1.4.4</sso.feature.version>
-        <es.feature.version>2.3.9</es.feature.version>
-        <carbon.social.version>2.3.9</carbon.social.version>
+        <es.feature.version>2.3.9-SNAPSHOT</es.feature.version>
+        <carbon.social.version>2.3.9-SNAPSHOT</carbon.social.version>
         <i18n.feature.version>1.4.4</i18n.feature.version>
         <!--<event.feature.version>1.0.0</event.feature.version>-->
         <!--<login.feature.version>1.0.0</login.feature.version>-->
@@ -996,9 +996,9 @@
         </carbon.registry.package.import.version.range>
         
         <!-- Carbon Governance -->
-        <carbon.governance.version>4.6.1</carbon.governance.version>
+        <carbon.governance.version>4.6.0</carbon.governance.version>
 
-        <carbon.governance.ext.version>4.4.10</carbon.governance.ext.version>
+        <carbon.governance.ext.version>4.4.9</carbon.governance.ext.version>
 
         <carbon.business.process.version>4.4.3</carbon.business.process.version>
         
@@ -1046,7 +1046,7 @@
         <javax.activation.version>1.1.1</javax.activation.version>
 
         <!-- Product G-Reg -->
-        <product.greg.version>5.1.1-SNAPSHOT</product.greg.version>
+        <product.greg.version>5.1.0-SNAPSHOT</product.greg.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 
