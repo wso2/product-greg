@@ -1,3 +1,20 @@
+/*
+*Copyright (c) 2005-2015, WSO2 Inc. (http://www.wso2.org) All Rights Reserved.
+*
+*WSO2 Inc. licenses this file to you under the Apache License,
+*Version 2.0 (the "License"); you may not use this file except
+*in compliance with the License.
+*You may obtain a copy of the License at
+*
+*http://www.apache.org/licenses/LICENSE-2.0
+*
+*Unless required by applicable law or agreed to in writing,
+*software distributed under the License is distributed on an
+*"AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+*KIND, either express or implied.  See the License for the
+*specific language governing permissions and limitations
+*under the License.
+*/
 package org.wso2.carbon.registry.es.publisher.associations;
 
 import com.google.gson.JsonArray;
@@ -25,9 +42,6 @@ import java.util.Map;
 
 import static org.testng.Assert.assertTrue;
 
-/**
- * Created by isuruwan on 11/4/15.
- */
 public class GregRestResourceWSDLAssociationTestCase extends GregESTestBaseTest {
     private static final Log log =
             LogFactory.getLog(GregRestResourceWSDLAssociationTestCase.class);
@@ -83,9 +97,9 @@ public class GregRestResourceWSDLAssociationTestCase extends GregESTestBaseTest 
         JSONObject wsdlObj = new JSONObject(clientResponse.getEntity(String.class));
         JSONArray jsonArray = wsdlObj.getJSONArray("list");
         for (int i = 0; i < jsonArray.length(); i++) {
-            String name = (String)jsonArray.getJSONObject(i).get("name");
+            String name = (String) jsonArray.getJSONObject(i).get("name");
             if (resultName.equals(name)) {
-                assetId = (String)jsonArray.getJSONObject(i).get("id");
+                assetId = (String) jsonArray.getJSONObject(i).get("id");
                 break;
             }
         }
