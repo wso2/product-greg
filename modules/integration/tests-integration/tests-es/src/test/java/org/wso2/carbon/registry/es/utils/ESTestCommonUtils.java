@@ -30,6 +30,7 @@ import javax.ws.rs.core.MediaType;
 import java.util.HashMap;
 import java.util.Map;
 
+@Deprecated
 public class ESTestCommonUtils {
     private static final Log log = LogFactory.getLog(ESTestCommonUtils.class);
     private String cookieHeader;

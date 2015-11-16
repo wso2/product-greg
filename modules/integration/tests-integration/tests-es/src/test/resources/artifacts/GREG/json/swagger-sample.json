@@ -1,9 +1,8 @@
 {
-  "overview_url": "http://petstore.swagger.io/v2/swagger.json",
-  "overview_name": "swagger.json",
-  "overview_version": "1.0.0",
+  "overview_url": "%s",
+  "overview_name": "%s",
+  "overview_version": "%s",
   "addNewAssetButton": "Create",
-  "swagger": "swagger",
   "swagger_file": null,
   "swagger_file_name": null,
   "file_version": null,

@@ -48,22 +48,15 @@ import java.util.Properties;
 public class EmailUtil {
 
     private static final Log log = LogFactory.getLog(EmailUtil.class);
-    private String emailAddress;
-    private static char[] emailPassword;
-    private HttpClient httpClient;
+    private static String emailAddress = "gregtestes@gmail.com";
+    private static char[] emailPassword = new char[] { 'g', 'r', 'e', 'g', '1', '2', '3', '4' };;
+    private static HttpClient httpClient;
     private String pointBrowserURL;
-    private String loginURL;
-    private String userName;
-    private String password;
-    private List<NameValuePair> urlParameters = new ArrayList<>();
+    private static List<NameValuePair> urlParameters = new ArrayList<>();
     private static final String USER_AGENT = "Apache-HttpClient/4.2.5 (java 1.5)";
 
-    public EmailUtil(String URL, String user, String UserPassword) throws XPathExpressionException {
-        emailAddress = "gregtestes@gmail.com";
-        emailPassword = new char[] { 'g', 'r', 'e', 'g', '1', '2', '3', '4' };
-        loginURL = URL;
-        userName = user;
-        password = UserPassword;
+    public static void initialize() throws XPathExpressionException {
+
         DefaultHttpClient client = new DefaultHttpClient();
 
         HostnameVerifier hostnameVerifier = org.apache.http.conn.ssl.SSLSocketFactory.ALLOW_ALL_HOSTNAME_VERIFIER;
@@ -77,8 +70,9 @@ public class EmailUtil {
         HttpsURLConnection.setDefaultHostnameVerifier(hostnameVerifier);
     }
 
-    public String readGmailInboxForVerification() throws Exception {
+    public static String readGmailInboxForVerification() throws Exception {
         boolean isEmailVerified = false;
+        long waitTime = 10000;
         String pointBrowserURL = "";
         Properties props = new Properties();
         props.load(new FileInputStream(new File(
@@ -90,12 +84,11 @@ public class EmailUtil {
 
         Folder inbox = store.getFolder("inbox");
         inbox.open(Folder.READ_WRITE);
-        Thread.sleep(5000);
+        Thread.sleep(waitTime);
         long startTime = System.currentTimeMillis();
         long endTime = 0;
-        while (endTime - startTime < 60000 && !isEmailVerified) {
-            int messageCount = inbox.getMessageCount();
-            //log.info("Total Messages:- " + messageCount);
+        int count = 1;
+        while (endTime - startTime < 90000 && !isEmailVerified) {
             Message[] messages = inbox.getMessages();
 
             for (Message message : messages) {
@@ -105,18 +98,22 @@ public class EmailUtil {
                     isEmailVerified = true;
                 }
 
-                // Optional : deleting the inbox resource updated mail
+                // Optional : deleting the mail
                 message.setFlag(Flags.Flag.DELETED, true);
             }
             endTime = System.currentTimeMillis();
+            Thread.sleep(waitTime);
+            endTime += count*waitTime;
+            count++;
         }
         inbox.close(true);
         store.close();
         return pointBrowserURL;
     }
 
-    public boolean readGmailInboxForNotification(String notificationType) throws Exception {
+    public static boolean readGmailInboxForNotification(String notificationType) throws Exception {
         boolean isNotificationMailAvailable = false;
+        long waitTime = 10000;
         Properties props = new Properties();
         props.load(new FileInputStream(new File(
                 TestConfigurationProvider.getResourceLocation("GREG") + File.separator + "axis2" + File.separator
@@ -127,13 +124,12 @@ public class EmailUtil {
 
         Folder inbox = store.getFolder("inbox");
         inbox.open(Folder.READ_WRITE);
-        Thread.sleep(10000);
+        Thread.sleep(waitTime);
 
         long startTime = System.currentTimeMillis();
         long endTime = 0;
-        while (endTime - startTime < 60000 && !isNotificationMailAvailable) {
-            int messageCount = inbox.getMessageCount();
-            //log.info("Total Messages:- " + messageCount);
+        int count = 1;
+        while (endTime - startTime < 90000 && !isNotificationMailAvailable) {
             Message[] messages = inbox.getMessages();
 
             for (Message message : messages) {
@@ -143,19 +139,24 @@ public class EmailUtil {
                     isNotificationMailAvailable = true;
 
                 }
-                // Optional : deleting the inbox resource updated mail
+                // Optional : deleting the  mail
                 message.setFlag(Flags.Flag.DELETED, true);
 
             }
             endTime = System.currentTimeMillis();
+            Thread.sleep(waitTime);
+            endTime += count*waitTime;
+            count++;
         }
         inbox.close(true);
         store.close();
         return isNotificationMailAvailable;
     }
 
-    public void browserRedirectionOnVerification(String pointBrowserURL) throws Exception {
+    public static void browserRedirectionOnVerification(String pointBrowserURL, String loginURL, String userName,
+            String password) throws Exception {
 
+        initialize();
         pointBrowserURL = replaceIP(pointBrowserURL);
         HttpResponse verificationUrlResponse = sendGetRequest(String.format(pointBrowserURL));
 
@@ -189,13 +190,13 @@ public class EmailUtil {
 
     }
 
-    private String replaceIP(String pointBrowserURL) {
+    private static String replaceIP(String pointBrowserURL) {
         String IPAddressPattern = "(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)";
         pointBrowserURL = pointBrowserURL.replaceAll(IPAddressPattern, "localhost");
         return pointBrowserURL;
     }
 
-    private String locationHeader(HttpResponse response) {
+    private static String locationHeader(HttpResponse response) {
         org.apache.http.Header[] headers = response.getAllHeaders();
         String url = null;
         for (org.apache.http.Header header : headers) {
@@ -207,13 +208,13 @@ public class EmailUtil {
         return url;
     }
 
-    private HttpResponse sendGetRequest(String url) throws IOException {
+    private static HttpResponse sendGetRequest(String url) throws IOException {
         HttpGet request = new HttpGet(url);
         request.addHeader("User-Agent", USER_AGENT);
         return httpClient.execute(request);
     }
 
-    private HttpResponse sendPOSTMessage(String url, List<NameValuePair> urlParameters) throws Exception {
+    private static HttpResponse sendPOSTMessage(String url, List<NameValuePair> urlParameters) throws Exception {
         HttpPost post = new HttpPost(url);
         post.setHeader("User-Agent", USER_AGENT);
         post.addHeader("Referer", url);
@@ -221,7 +222,7 @@ public class EmailUtil {
         return httpClient.execute(post);
     }
 
-    private String getBodyFromMessage(Message message) throws IOException, MessagingException {
+    private static String getBodyFromMessage(Message message) throws IOException, MessagingException {
         if (message.isMimeType("text/plain")) {
             String[] arr = message.getContent().toString().split("\\r?\\n");
             for (int x = 0; x <= arr.length; x++) {

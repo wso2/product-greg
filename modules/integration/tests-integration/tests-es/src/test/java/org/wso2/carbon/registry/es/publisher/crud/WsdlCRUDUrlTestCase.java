@@ -28,7 +28,6 @@ import org.testng.annotations.*;
 import org.wso2.carbon.automation.engine.context.TestUserMode;
 import org.wso2.carbon.automation.engine.frameworkutils.FrameworkPathUtil;
 import org.wso2.carbon.registry.core.exceptions.RegistryException;
-import org.wso2.carbon.registry.es.utils.ESTestCommonUtils;
 import org.wso2.carbon.registry.es.utils.GregESTestBaseTest;
 import org.wso2.greg.integration.common.utils.GenericRestClient;
 
@@ -50,7 +49,6 @@ public class WsdlCRUDUrlTestCase extends GregESTestBaseTest {
     Map<String, String> headerMap;
     String publisherUrl;
     String resourcePath;
-    ESTestCommonUtils esTestCommonUtils;
     Map<String, String> assocUUIDMap;
 
     @Factory(dataProvider = "userModeProvider")
@@ -80,16 +78,18 @@ public class WsdlCRUDUrlTestCase extends GregESTestBaseTest {
         jSessionId = objSessionPublisher.getJSONObject("data").getString("sessionId");
         cookieHeader = "JSESSIONID=" + jSessionId;
         Assert.assertNotNull(jSessionId, "Invalid JSessionID received");
-        esTestCommonUtils = new ESTestCommonUtils(genericRestClient, publisherUrl, headerMap);
-        esTestCommonUtils.setCookieHeader(cookieHeader);
     }
 
     @Test(groups = {"wso2.greg", "wso2.greg.es"}, description = "Import WSDL in Publisher")
     public void createWsdlServiceAsset() throws JSONException, IOException {
         Map<String, String> queryParamMap = new HashMap<>();
         queryParamMap.put("type", "wsdl");
-        String dataBody = readFile(resourcePath + "json" + File.separator + "wsdl-sample.json");
-        assetName = (String) (new JSONObject(dataBody)).get("overview_name");
+        String wsdlTemplate = readFile(resourcePath + "json" + File.separator + "wsdl-sample.json");
+        assetName = "echo.wsdl";
+        String dataBody = String.format(wsdlTemplate,
+                "https://raw.githubusercontent.com/wso2/wso2-qa-artifacts/master/automation-artifacts/greg/wsdl/StockQuote.wsdl",
+                assetName,
+                "1.0.0");
         ClientResponse response =
                 genericRestClient.geneticRestRequestPost(publisherUrl + "/assets",
                         MediaType.APPLICATION_JSON,
@@ -99,7 +99,7 @@ public class WsdlCRUDUrlTestCase extends GregESTestBaseTest {
         Assert.assertTrue((response.getStatusCode() == 201),
                 "Wrong status code ,Expected 201 Created ,Received " +
                         response.getStatusCode());
-        String resultName = obj.get("overview_name").toString();
+        String resultName = (String)obj.get("overview_name");
         Assert.assertEquals(resultName, assetName);
     }
 
@@ -108,9 +108,8 @@ public class WsdlCRUDUrlTestCase extends GregESTestBaseTest {
     public void searchWsdlAsset() throws JSONException {
         boolean assetFound = false;
         Map<String, String> queryParamMap = new HashMap<>();
-        queryParamMap.put("type", "wsdl");
-        queryParamMap.put("overview_name", assetName);
-        ClientResponse clientResponse = esTestCommonUtils.searchAssetByQuery(queryParamMap);
+        queryParamMap.put("q", "\"name" + "\":" + "\"" + assetName + "\"");
+        ClientResponse clientResponse = searchAssetByQuery(publisherUrl, genericRestClient, cookieHeader, queryParamMap);
         JSONObject obj = new JSONObject(clientResponse.getEntity(String.class));
         JSONArray jsonArray = obj.getJSONArray("list");
         for (int i = 0; i < jsonArray.length(); i++) {
@@ -126,29 +125,29 @@ public class WsdlCRUDUrlTestCase extends GregESTestBaseTest {
     }
 
     @Test(groups = {"wso2.greg", "wso2.greg.es"}, description = "Get WSDL in Publisher",
-            dependsOnMethods = {"createWsdlServiceAsset", "searchWsdlAsset"})
+            dependsOnMethods = {"searchWsdlAsset"})
     public void getWsdlAsset() throws JSONException {
         Map<String, String> queryParamMap = new HashMap<>();
         queryParamMap.put("type", "wsdl");
-        ClientResponse clientResponse = esTestCommonUtils.getAssetById(assetId, queryParamMap);
+        ClientResponse clientResponse = getAssetById(publisherUrl, genericRestClient, cookieHeader, assetId, queryParamMap);
         Assert.assertTrue((clientResponse.getStatusCode() == 200),
                 "Wrong status code ,Expected 200 OK " +
                         clientResponse.getStatusCode());
         JSONObject obj = new JSONObject(clientResponse.getEntity(String.class));
-        Assert.assertEquals(obj.get("id").toString(), assetId);
+        Assert.assertEquals(obj.get("id"), assetId);
     }
 
     @Test(groups = {"wso2.greg", "wso2.greg.es"}, description = "Delete WSDL in Publisher",
-            dependsOnMethods = {"createWsdlServiceAsset", "searchWsdlAsset", "getWsdlAsset"})
+            dependsOnMethods = {"getWsdlAsset"})
     public void deleteWsdlAsset() throws JSONException {
         Map<String, String> queryParamMap = new HashMap<>();
         queryParamMap.put("type", "wsdl");
-        assocUUIDMap = esTestCommonUtils.getAssociationsFromPages(assetId, queryParamMap);
+        assocUUIDMap = getAssociationsFromPages(publisherUrl, genericRestClient, cookieHeader, assetId, queryParamMap);
         genericRestClient.geneticRestRequestDelete(publisherUrl + "/assets/" + assetId,
                 MediaType.APPLICATION_JSON,
                 MediaType.APPLICATION_JSON
                 , queryParamMap, headerMap, cookieHeader);
-        ClientResponse clientResponse = esTestCommonUtils.getAssetById(assetId, queryParamMap);
+        ClientResponse clientResponse = getAssetById(publisherUrl, genericRestClient, cookieHeader, assetId, queryParamMap);
         Assert.assertTrue((clientResponse.getStatusCode() == 404),
                 "Wrong status code ,Expected 404 Not Found " +
                         clientResponse.getStatusCode());
@@ -158,12 +157,17 @@ public class WsdlCRUDUrlTestCase extends GregESTestBaseTest {
     public void cleanUp() throws RegistryException, JSONException {
         Map<String, String> queryParamMap = new HashMap<>();
         queryParamMap.put("type", "wsdl");
-        esTestCommonUtils.deleteAssetById(assetId, queryParamMap);
-        esTestCommonUtils.deleteAllAssociationsById(assetId, queryParamMap);
+        if (assocUUIDMap != null) {
+            assocUUIDMap = getAssociationsFromPages(publisherUrl, genericRestClient, cookieHeader, assetId, queryParamMap);
+        }
+        deleteAssetById(publisherUrl, genericRestClient, cookieHeader, assetId, queryParamMap);
+        deleteAllAssociationsById(publisherUrl, genericRestClient, cookieHeader, assetId, queryParamMap);
         queryParamMap.clear();
-        for (String uuid : assocUUIDMap.keySet()) {
-            queryParamMap.put("type", esTestCommonUtils.getType(assocUUIDMap.get(uuid)));
-            esTestCommonUtils.deleteAssetById(uuid, queryParamMap);
+        if (assocUUIDMap != null) {
+            for (String uuid : assocUUIDMap.keySet()) {
+                queryParamMap.put("type", getType(assocUUIDMap.get(uuid)));
+                deleteAssetById(publisherUrl, genericRestClient, cookieHeader, uuid, queryParamMap);
+            }
         }
     }
 
@@ -173,5 +177,48 @@ public class WsdlCRUDUrlTestCase extends GregESTestBaseTest {
                 new TestUserMode[]{TestUserMode.SUPER_TENANT_ADMIN}
 //                new TestUserMode[]{TestUserMode.TENANT_USER},
         };
+    }
+
+    private String getType(String mediaType) {
+        String type;
+        switch (mediaType) {
+            case "application/x-xsd+xml":
+                type = "schema";
+                break;
+            case "application/vnd.wso2-service+xml":
+                type = "service";
+                break;
+            case "application/vnd.wso2-soap-service+xml":
+                type = "soapservice";
+                break;
+            case "application/vnd.wso2-restservice+xml":
+                type = "restservice";
+                break;
+            case "application/policy+xml":
+                type = "policy";
+                break;
+            case "application/vnd.wso2-endpoint+xml":
+                type = "endpoint";
+                break;
+            case "application/vnd.wso2-notes+xml":
+                type = "note";
+                break;
+            case "application/vnd.wso2-server+xml":
+                type = "server";
+                break;
+            case "application/swagger+json":
+                type = "swagger";
+                break;
+            case "application/wadl+xml":
+                type = "wadl";
+                break;
+            case "application/wsdl+xml":
+                type = "wsdl";
+                break;
+            default:
+                type = null;
+                break;
+        }
+        return type;
     }
 }

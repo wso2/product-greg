@@ -18,13 +18,19 @@
 package org.wso2.carbon.registry.es.utils;
 
 import org.apache.wink.client.ClientResponse;
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.testng.Assert;
+import org.wso2.greg.integration.common.clients.ResourceAdminServiceClient;
 import org.wso2.greg.integration.common.utils.GREGIntegrationBaseTest;
 import org.wso2.greg.integration.common.utils.GenericRestClient;
 
+import javax.activation.DataHandler;
 import javax.ws.rs.core.MediaType;
+import java.io.File;
 import java.io.IOException;
+import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -158,4 +164,165 @@ public class GregESTestBaseTest extends GREGIntegrationBaseTest {
 
     }
 
+    /**
+     * Need to refresh the landing page to deploy the new rxt in publisher
+     * @param publisherUrl publisher url
+     * @param genericRestClient generic rest client object
+     * @param cookieHeader session cookies header
+     */
+    public void refreshPublisherLandingPage(String publisherUrl, GenericRestClient genericRestClient, String cookieHeader) {
+        Map<String, String> queryParamMap = new HashMap<>();
+        String landingUrl = publisherUrl.replace("apis", "pages/gc-landing");
+        genericRestClient.geneticRestRequestGet(landingUrl, queryParamMap, headerMap, cookieHeader);
+    }
+
+    /**
+     * Add new rxt configuration via resource admin service
+     * @param customRxt filename of the custom rxt which is in resources/artifacts/GREG/rxt/ directory
+     * @throws Exception
+     */
+    public void addNewRxtConfigViaAdminService(String customRxt) throws Exception {
+        String session = getSessionCookie();
+        ResourceAdminServiceClient resourceAdminServiceClient = new ResourceAdminServiceClient(backendURL, session);
+        String filePath = getTestArtifactLocation() + "artifacts" + File.separator +
+                "GREG" + File.separator + "rxt" + File.separator + "application.rxt";
+        DataHandler dh = new DataHandler(new URL("file:///" + filePath));
+        resourceAdminServiceClient.addResource(
+                "/_system/governance/repository/components/org.wso2.carbon.governance/types/application.rxt",
+                "application/vnd.wso2.registry-ext-type+xml", "desc", dh);
+    }
+
+    public ClientResponse searchAssetByQuery(String publisherUrl, GenericRestClient genericRestClient, String cookieHeader, Map<String, String> queryParamMap) throws JSONException {
+        ClientResponse clientResponse;
+        JSONObject obj;
+        double time1 = System.currentTimeMillis();
+        int count = 0;
+        do {
+            clientResponse = genericRestClient.geneticRestRequestGet
+                    (publisherUrl + "/assets", queryParamMap, headerMap, cookieHeader);
+//            clientResponse = genericRestClient.geneticRestRequestGet(publisherUrl + "/assets", queryParamMap,
+//                    headerMap, cookieHeader);
+            Assert.assertNotNull(clientResponse, "Client Response for search rest service cannot be null");
+            Assert.assertTrue((clientResponse.getStatusCode() == 200), "Wrong status code ,Expected 200 OK " +
+                    clientResponse.getStatusCode());
+            String response = clientResponse.getEntity(String.class);
+            obj = new JSONObject(response);
+            double time2 = System.currentTimeMillis();
+            if ((time2 - time1) > 240000) {
+                log.error("Timeout while searching for assets | time waited: " + (time2 - time1));
+                break;
+            }
+            count = count + 1;
+        } while ((Double) obj.get("count") <= 0);
+        double time3 = System.currentTimeMillis();
+        System.out.println("Time for query the results: " + (time3 - time1));
+        System.out.println("search for the rest service...." + count);
+        return clientResponse;
+    }
+
+    /**
+     * Get Asset By ID
+     * @param publisherUrl publisher url
+     * @param genericRestClient generic rest client object
+     * @param cookieHeader  session cookies header
+     * @param id asset ID
+     * @param queryParamMap query ParamMap
+     * @return response
+     */
+    public ClientResponse getAssetById(String publisherUrl, GenericRestClient genericRestClient, String cookieHeader, String id, Map<String, String> queryParamMap) {
+        return genericRestClient.geneticRestRequestGet(publisherUrl + "/assets/" + id, queryParamMap,
+                headerMap, cookieHeader);
+    }
+
+    /**
+     * Delete Assets By ID
+     * @param publisherUrl publisher url
+     * @param genericRestClient generic rest client object
+     * @param cookieHeader  session cookies header
+     * @param id asset ID
+     * @param queryParamMap query ParamMap
+     * @return response
+     */
+    public boolean deleteAssetById(String publisherUrl, GenericRestClient genericRestClient, String cookieHeader, String id, Map<String, String> queryParamMap) {
+        ClientResponse clientResponse = this.getAssetById(publisherUrl, genericRestClient, cookieHeader, id, queryParamMap);
+        if (clientResponse.getStatusCode() != 404) {
+            genericRestClient.geneticRestRequestDelete(publisherUrl + "/assets/" + id,
+                    MediaType.APPLICATION_JSON, MediaType.APPLICATION_JSON, queryParamMap, headerMap, cookieHeader);
+        }
+        return true;
+    }
+
+    /**
+     * Get Associations By ID
+     * @param publisherUrl publisher url
+     * @param genericRestClient generic rest client object
+     * @param cookieHeader  session cookies header
+     * @param id asset ID
+     * @param queryParamMap query ParamMap
+     * @return response
+     */
+    public ClientResponse getAssociationsById(String publisherUrl, GenericRestClient genericRestClient, String cookieHeader, String id, Map<String, String> queryParamMap) {
+        return genericRestClient.geneticRestRequestGet(publisherUrl + "/association/" + queryParamMap.get("type") + "/dependancies/" + id,
+                queryParamMap, headerMap, cookieHeader);
+    }
+
+    /**
+     * Delete all associations by ID
+     * @param publisherUrl publisher url
+     * @param genericRestClient generic rest client object
+     * @param cookieHeader  session cookies header
+     * @param id asset ID
+     * @param queryParamMap query ParamMap
+     * @return response
+     * @throws JSONException
+     */
+    public boolean deleteAllAssociationsById(String publisherUrl, GenericRestClient genericRestClient, String cookieHeader, String id, Map<String, String> queryParamMap) throws JSONException {
+        boolean result = false;
+        if (id != null) {
+            ClientResponse clientResponse = this.getAssociationsById(publisherUrl, genericRestClient, cookieHeader, id, queryParamMap);
+            JSONObject jsonObject = new JSONObject(clientResponse.getEntity(String.class));
+            JSONArray assocArray = jsonObject.getJSONArray("results");
+            for (int i = 0; i < assocArray.length(); i++) {
+                String assocId = (String) assocArray.getJSONObject(i).get("uuid");
+                String assocShortName = (String) assocArray.getJSONObject(i).get("shortName");
+                Map<String, String> assocQueryMap = new HashMap<>();
+                assocQueryMap.put("type", assocShortName);
+                this.deleteAssetById(publisherUrl, genericRestClient, cookieHeader, assocId, assocQueryMap);
+                this.deleteAllAssociationsById( publisherUrl, genericRestClient, cookieHeader, assocId, assocQueryMap);
+            }
+            result = true;
+        }
+        return result;
+    }
+
+    /**
+     * Read Associations From the pages
+     * @param publisherUrl publisher url
+     * @param genericRestClient generic rest client object
+     * @param cookieHeader  session cookies header
+     * @param id asset ID
+     * @param queryParamMap query ParamMap
+     * @return response
+     */
+    public Map<String, String> getAssociationsFromPages(String publisherUrl, GenericRestClient genericRestClient, String cookieHeader, String id, Map<String, String> queryParamMap) {
+        String requestUrl = publisherUrl.replace("apis", "pages") + "/associations/" + queryParamMap.get("type") + "/" + id;
+        System.out.println("get Association by ID: request url : " + requestUrl);
+        ClientResponse clientResponse = genericRestClient.geneticRestRequestGet(requestUrl,
+                queryParamMap, "text/html", headerMap, cookieHeader);
+        String response = clientResponse.getEntity(String.class);
+        String[] dataArray = response.split("data-uuid=");
+        Map<String, String> assocMap = new HashMap<String, String>();
+        for (int i = 1; i < dataArray.length; i++) {
+            String mediaType = null;
+            if (dataArray[i].contains("application")) {
+                int startIndex = dataArray[i].indexOf("application");
+                mediaType = dataArray[i].substring(startIndex, dataArray[i].indexOf("<", startIndex));
+            }
+            String uuid = dataArray[i].substring(1, dataArray[1].indexOf('\"', 1));
+            if (mediaType != null) {
+                assocMap.put(uuid, mediaType);
+            }
+        }
+        return assocMap;
+    }
 }

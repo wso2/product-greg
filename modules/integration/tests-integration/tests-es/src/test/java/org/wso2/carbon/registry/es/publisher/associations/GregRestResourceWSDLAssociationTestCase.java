@@ -1,5 +1,5 @@
 /*
-*Copyright (c) 2005-2015, WSO2 Inc. (http://www.wso2.org) All Rights Reserved.
+*Copyright (c) 2015, WSO2 Inc. (http://www.wso2.org) All Rights Reserved.
 *
 *WSO2 Inc. licenses this file to you under the Apache License,
 *Version 2.0 (the "License"); you may not use this file except
@@ -72,7 +72,6 @@ public class GregRestResourceWSDLAssociationTestCase extends GregESTestBaseTest 
                 .getSecureServiceUrl().replace("services", "publisher/apis");
         resourcePath = FrameworkPathUtil.getSystemResourceLocation()
                 + "artifacts" + File.separator + "GREG" + File.separator + "json" + File.separator + "publisherPublishWSDLResource.json";
-        testCommonUtils = new ESTestCommonUtils(genericRestClient, publisherUrl, headerMap);
         setTestEnvironment();
     }
 
@@ -92,6 +91,7 @@ public class GregRestResourceWSDLAssociationTestCase extends GregESTestBaseTest 
         Map<String, String> queryParamMap = new HashMap<>();
         queryParamMap.put("type", "wsdl");
         queryParamMap.put("overview_name", resultName);
+        testCommonUtils = new ESTestCommonUtils(genericRestClient, publisherUrl, headerMap);
         testCommonUtils.setCookieHeader(cookieHeaderPublisher);
         ClientResponse clientResponse = testCommonUtils.searchAssetByQuery(queryParamMap);
         JSONObject wsdlObj = new JSONObject(clientResponse.getEntity(String.class));
@@ -113,9 +113,6 @@ public class GregRestResourceWSDLAssociationTestCase extends GregESTestBaseTest 
 
     @Test(groups = {"wso2.greg", "wso2.greg.es"}, description = "check the wsdl upload created associations")
     public void serviceAssociationExists() throws JSONException, IOException, ParseException, InterruptedException {
-
-        Thread.sleep(3000);
-
         ClientResponse associationList = genericRestClient.geneticRestRequestGet(publisherUrl +
                 "/association/restservice/dependancies/" + assetId, queryParamMap, headerMap, cookieHeaderPublisher);
         JsonArray jsonObject = new JsonParser().parse(associationList.getEntity(String.class)).
@@ -124,8 +121,17 @@ public class GregRestResourceWSDLAssociationTestCase extends GregESTestBaseTest 
     }
 
     @AfterClass(alwaysRun = true)
-    public void cleanUp() throws RegistryException {
-
+    public void cleanUp() throws RegistryException, JSONException {
+        Map<String, String> queryParamMap = new HashMap<>();
+        queryParamMap.put("type", "wsdl");
+        Map<String, String> assocUUIDMap = testCommonUtils.getAssociationsFromPages(assetId, queryParamMap);
+        testCommonUtils.deleteAssetById(assetId, queryParamMap);
+        testCommonUtils.deleteAllAssociationsById(assetId, queryParamMap);
+        queryParamMap.clear();
+        for (String uuid : assocUUIDMap.keySet()) {
+            queryParamMap.put("type", testCommonUtils.getType(assocUUIDMap.get(uuid)));
+            testCommonUtils.deleteAssetById(uuid, queryParamMap);
+        }
     }
 
     @DataProvider
