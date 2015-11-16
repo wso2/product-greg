@@ -50,7 +50,6 @@ public class RestServiceCRUDTestCase extends GregESTestBaseTest {
     Map<String, String> headerMap;
     String publisherUrl;
     String resourcePath;
-    ESTestCommonUtils esTestCommonUtils;
 
     @Factory(dataProvider = "userModeProvider")
     public RestServiceCRUDTestCase(TestUserMode userMode) {
@@ -79,16 +78,15 @@ public class RestServiceCRUDTestCase extends GregESTestBaseTest {
         jSessionId = objSessionPublisher.getJSONObject("data").getString("sessionId");
         cookieHeader = "JSESSIONID=" + jSessionId;
         Assert.assertNotNull(jSessionId, "Invalid JSessionID received");
-        esTestCommonUtils = new ESTestCommonUtils(genericRestClient, publisherUrl, headerMap);
-        esTestCommonUtils.setCookieHeader(cookieHeader);
     }
 
     @Test(groups = {"wso2.greg", "wso2.greg.es"}, description = "Create Rest Service in Publisher")
     public void createRestServiceAsset() throws JSONException, IOException {
         Map<String, String> queryParamMap = new HashMap<>();
         queryParamMap.put("type", "restservice");
-        String dataBody = readFile(resourcePath + "json" + File.separator + "publisherPublishRestResource.json");
-        assetName = (String) (new JSONObject(dataBody)).get("overview_name");
+        String restTemplate = readFile(resourcePath + "json" + File.separator + "restservice-sample.json");
+        assetName = "restService1";
+        String dataBody = String.format(restTemplate, assetName, "wso2", "/rest", "1.0.0");
         ClientResponse response =
                 genericRestClient.geneticRestRequestPost(publisherUrl + "/assets",
                         MediaType.APPLICATION_JSON,
@@ -98,7 +96,7 @@ public class RestServiceCRUDTestCase extends GregESTestBaseTest {
         Assert.assertTrue((response.getStatusCode() == 201),
                 "Wrong status code ,Expected 201 Created ,Received " +
                         response.getStatusCode());
-        assetId = obj.get("id").toString();
+        assetId = (String)obj.get("id");
         Assert.assertNotNull(assetId, "Empty asset resource id available" +
                 response.getEntity(String.class));
     }
@@ -108,22 +106,21 @@ public class RestServiceCRUDTestCase extends GregESTestBaseTest {
     public void getRestServiceAsset() throws JSONException {
         Map<String, String> queryParamMap = new HashMap<>();
         queryParamMap.put("type", "restservice");
-        ClientResponse clientResponse = esTestCommonUtils.getAssetById(assetId, queryParamMap);
+        ClientResponse clientResponse = getAssetById(publisherUrl, genericRestClient, cookieHeader, assetId, queryParamMap);
         Assert.assertTrue((clientResponse.getStatusCode() == 200),
                 "Wrong status code ,Expected 200 OK " +
                         clientResponse.getStatusCode());
         JSONObject obj = new JSONObject(clientResponse.getEntity(String.class));
-        Assert.assertEquals(obj.get("id").toString(), assetId);
+        Assert.assertEquals(obj.get("id"), assetId);
     }
 
     @Test(groups = {"wso2.greg", "wso2.greg.es"}, description = "Search Rest Service in Publisher",
-            dependsOnMethods = {"createRestServiceAsset"})
+            dependsOnMethods = {"getRestServiceAsset"})
     public void searchRestService() throws JSONException {
         boolean assetFound = false;
         Map<String, String> queryParamMap = new HashMap<>();
-        queryParamMap.put("type", "restservice");
-        queryParamMap.put("overview_name", assetName);
-        ClientResponse clientResponse = esTestCommonUtils.searchAssetByQuery(queryParamMap);
+        queryParamMap.put("q", "\"name" + "\":" + "\"" + assetName + "\"");
+        ClientResponse clientResponse = searchAssetByQuery(publisherUrl, genericRestClient, cookieHeader, queryParamMap);
         JSONObject obj = new JSONObject(clientResponse.getEntity(String.class));
         JSONArray jsonArray = obj.getJSONArray("list");
         for (int i = 0; i < jsonArray.length(); i++) {
@@ -137,11 +134,13 @@ public class RestServiceCRUDTestCase extends GregESTestBaseTest {
     }
 
     @Test(groups = {"wso2.greg", "wso2.greg.es"}, description = "Update Rest Service in Publisher",
-            dependsOnMethods = {"getRestServiceAsset"})
+            dependsOnMethods = {"searchRestService"})
     public void updateRestServiceAsset() throws JSONException, IOException {
         Map<String, String> queryParamMap = new HashMap<>();
         queryParamMap.put("type", "restservice");
-        String dataBody = readFile(resourcePath + "json" + File.separator + "PublisherRestResourceUpdate.json");
+        String restTemplate = readFile(resourcePath + "json" + File.separator + "restservice-sample.json");
+        assetName = "bbb";
+        String dataBody = String.format(restTemplate, assetName, "wso2", "/changed/Context", "1.0.0");
         ClientResponse response =
                 genericRestClient.geneticRestRequestPost(publisherUrl + "/assets/" + assetId,
                         MediaType.APPLICATION_JSON,
@@ -156,7 +155,7 @@ public class RestServiceCRUDTestCase extends GregESTestBaseTest {
     }
 
     @Test(groups = {"wso2.greg", "wso2.greg.es"}, description = "Delete Rest Service in Publisher",
-            dependsOnMethods = {"getRestServiceAsset", "searchRestService", "updateRestServiceAsset"})
+            dependsOnMethods = {"updateRestServiceAsset"})
     public void deleteRestServiceAsset() throws JSONException {
         Map<String, String> queryParamMap = new HashMap<>();
         queryParamMap.put("type", "restservice");
@@ -164,7 +163,7 @@ public class RestServiceCRUDTestCase extends GregESTestBaseTest {
                 MediaType.APPLICATION_JSON,
                 MediaType.APPLICATION_JSON
                 , queryParamMap, headerMap, cookieHeader);
-        ClientResponse clientResponse = esTestCommonUtils.getAssetById(assetId, queryParamMap);
+        ClientResponse clientResponse = getAssetById(publisherUrl, genericRestClient, cookieHeader, assetId, queryParamMap);
         Assert.assertTrue((clientResponse.getStatusCode() == 404),
                 "Wrong status code ,Expected 404 Not Found " +
                         clientResponse.getStatusCode());
@@ -174,8 +173,7 @@ public class RestServiceCRUDTestCase extends GregESTestBaseTest {
     public void cleanUp() throws RegistryException, JSONException {
         Map<String, String> queryParamMap = new HashMap<>();
         queryParamMap.put("type", "restservice");
-        esTestCommonUtils.deleteAllAssociationsById(assetId, queryParamMap);
-        esTestCommonUtils.deleteAssetById(assetId, queryParamMap);
+        deleteAssetById(publisherUrl, genericRestClient, cookieHeader, assetId, queryParamMap);
     }
 
     @DataProvider
