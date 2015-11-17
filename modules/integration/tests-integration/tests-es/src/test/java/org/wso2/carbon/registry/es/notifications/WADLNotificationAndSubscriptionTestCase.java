@@ -116,9 +116,12 @@ public class WADLNotificationAndSubscriptionTestCase extends GregESTestBaseTest 
             throws JSONException, InterruptedException, IOException,
                    CustomLifecyclesChecklistAdminServiceExceptionException {
         queryParamMap.put("type", "wadl");
-        String dataBody = readFile(resourcePath + "json" + File.separator
-                                   + "wadl-sample.json");
-        assetName = (String) (new JSONObject(dataBody)).get("overview_name");
+        String wadlTemplate = readFile(resourcePath + "json" + File.separator + "wadl-sample.json");
+        assetName = "SearchSearvice.wadl";
+        String dataBody = String.format(wadlTemplate,
+                                        "https://raw.githubusercontent.com/wso2/wso2-qa-artifacts/master/automation-artifacts/greg/wadl/StorageService.wadl",
+                                        assetName,
+                                        "2.0.0");
         ClientResponse response =
                 genericRestClient.geneticRestRequestPost(publisherUrl + "/assets",
                                                          MediaType.APPLICATION_JSON,
