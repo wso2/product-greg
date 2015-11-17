@@ -16,7 +16,7 @@
 *under the License.
 */
 
-package org.wso2.carbon.registry.es.notifications;
+/*package org.wso2.carbon.registry.es.notifications;
 
 import org.apache.wink.client.ClientResponse;
 import org.json.JSONException;
@@ -53,7 +53,7 @@ import static org.testng.Assert.*;
 /**
  * This test class can be used to check the email notification functionality
  */
-public class GregRestResourceEmailNotificationTestCase extends GREGIntegrationBaseTest {
+/*public class GregRestResourceEmailNotificationTestCase extends GREGIntegrationBaseTest {
 
     private TestUserMode userMode;
     private UserProfileMgtServiceClient userProfileMgtClient;
@@ -391,3 +391,4 @@ public class GregRestResourceEmailNotificationTestCase extends GREGIntegrationBa
         };
     }
 }
+*/
