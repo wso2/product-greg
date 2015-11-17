@@ -161,12 +161,17 @@ public class WadlCRUDByUrlTestCase extends GregESTestBaseTest {
     public void cleanUp() throws RegistryException, JSONException {
         Map<String, String> queryParamMap = new HashMap<>();
         queryParamMap.put("type", "wadl");
+        if (assocUUIDMap != null) {
+            assocUUIDMap = getAssociationsFromPages(publisherUrl, genericRestClient, cookieHeader, assetId, queryParamMap);
+        }
         deleteAssetById(publisherUrl, genericRestClient, cookieHeader, assetId, queryParamMap);
         deleteAllAssociationsById(publisherUrl, genericRestClient, cookieHeader, assetId, queryParamMap);
         queryParamMap.clear();
-        for (String uuid : assocUUIDMap.keySet()) {
-            queryParamMap.put("type", getType(assocUUIDMap.get(uuid)));
-            deleteAssetById(publisherUrl, genericRestClient, cookieHeader, uuid, queryParamMap);
+        if (assocUUIDMap != null) {
+            for (String uuid : assocUUIDMap.keySet()) {
+                queryParamMap.put("type", getType(assocUUIDMap.get(uuid)));
+                deleteAssetById(publisherUrl, genericRestClient, cookieHeader, uuid, queryParamMap);
+            }
         }
     }
 

@@ -37,7 +37,7 @@
 
             <class name="org.wso2.carbon.registry.es.publisher.crud.CustomAssetCRUDTestCase"/>
             <class name="org.wso2.carbon.registry.es.publisher.crud.PolicyCRUDByUrlTestCase"/>
-            <class name="org.wso2.carbon.registry.es.publisher.crud.GenericAssetInvalidCRUDTestCase"/>
+            <class name="org.wso2.carbon.registry.es.publisher.crud.GenericCRUDTestCase"/>
             <class name="org.wso2.carbon.registry.es.publisher.crud.RestServiceCRUDTestCase"/>
             <class name="org.wso2.carbon.registry.es.publisher.crud.SchemaCRUDByUrlTestCase"/>
             <class name="org.wso2.carbon.registry.es.publisher.crud.SoapServiceCRUDTestCase"/>
@@ -49,7 +49,6 @@
 
             <class name="org.wso2.carbon.registry.es.notifications.CustomRXTEmailNotificationTestCase"/>
             <class name="org.wso2.carbon.registry.es.notifications.CustomRXTSubscriptionTestCase"/>
-            <class name="org.wso2.carbon.registry.es.notifications.GregRestResourceEmailNotificationTestCase"/>
             <class name="org.wso2.carbon.registry.es.notifications.GregRestResourceSubscriptionAndNotificationTestCase"/>
             <class name="org.wso2.carbon.registry.es.notifications.OneTimeEmailVerificationTestCase"/>
             <class name="org.wso2.carbon.registry.es.notifications.PolicyNotificationAndSubscriptionTestCase"/>
