@@ -28,14 +28,11 @@ import org.testng.annotations.*;
 import org.wso2.carbon.automation.engine.context.TestUserMode;
 import org.wso2.carbon.automation.engine.frameworkutils.FrameworkPathUtil;
 import org.wso2.carbon.governance.api.exception.GovernanceException;
-import org.wso2.carbon.governance.api.generic.dataobjects.GenericArtifact;
 import org.wso2.carbon.registry.core.exceptions.RegistryException;
-import org.wso2.carbon.registry.es.utils.ESTestCommonUtils;
 import org.wso2.carbon.registry.es.utils.GregESTestBaseTest;
 import org.wso2.greg.integration.common.utils.GenericRestClient;
 
 import javax.ws.rs.core.MediaType;
-import javax.xml.namespace.QName;
 import javax.xml.xpath.XPathExpressionException;
 import java.io.File;
 import java.io.IOException;
@@ -43,7 +40,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 import static org.testng.Assert.assertEquals;
-import static org.testng.Assert.assertNotNull;
 
 public class SoapServiceCRUDTestCase extends GregESTestBaseTest {
     private static final Log log = LogFactory.getLog(SoapServiceCRUDTestCase.class);
@@ -75,8 +71,12 @@ public class SoapServiceCRUDTestCase extends GregESTestBaseTest {
         setTestEnvironment();
     }
 
-    private void setTestEnvironment() throws JSONException, XPathExpressionException,
-            IOException {
+    @BeforeMethod(alwaysRun = true)
+    public void reInitEnvironment() throws XPathExpressionException, JSONException {
+        setTestEnvironment();
+    }
+
+    private void setTestEnvironment() throws JSONException, XPathExpressionException {
         JSONObject objSessionPublisher =
                 new JSONObject(authenticate(publisherUrl, genericRestClient,
                         automationContext.getSuperTenant().getTenantAdmin().getUserName(),
