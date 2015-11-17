@@ -101,7 +101,7 @@ public class GregAssetsTagsESTestCase extends GregESTestBaseTest {
             dependsOnMethods = {"addTagsToAsset"})
     public void searchAssetByTagInStore() throws JSONException {
         queryParamMap.put("type", "restservice");
-        queryParamMap.put("q", "\"tags\":\"testTag\"");
+        queryParamMap.put("q", "\"tags" + "\":" + "\"" + "testTag" + "\"");
         ClientResponse response =
                 genericRestClient.geneticRestRequestGet(storeUrl + "/assets", queryParamMap
                         , headerMap, cookieHeaderStore);

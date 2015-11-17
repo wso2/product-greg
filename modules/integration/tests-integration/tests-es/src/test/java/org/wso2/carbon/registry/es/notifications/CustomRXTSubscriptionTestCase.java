@@ -44,7 +44,7 @@ import java.util.Map;
 import static org.testng.Assert.assertNotNull;
 
 /**
- * This class testes subscription & notification for custom rxt type.
+ * This class test subscription & notification for custom rxt type.
  */
 public class CustomRXTSubscriptionTestCase extends GREGIntegrationBaseTest {
 
@@ -105,6 +105,7 @@ public class CustomRXTSubscriptionTestCase extends GREGIntegrationBaseTest {
         response = genericRestClient.geneticRestRequestPost(publisherUrl + "/assets/" + assetId + "/state",
                 MediaType.APPLICATION_FORM_URLENCODED, MediaType.APPLICATION_JSON,
                 "nextState=Testing&comment=Completed", queryParamMap, headerMap, cookieHeader);
+        // TODO - Since notification not appearing in the publisher
     }
 
     @Test(groups = { "wso2.greg",
@@ -132,6 +133,7 @@ public class CustomRXTSubscriptionTestCase extends GREGIntegrationBaseTest {
         response = genericRestClient
                 .geneticRestRequestPost(publisherUrl + "/assets/" + assetId, MediaType.APPLICATION_JSON,
                         MediaType.APPLICATION_JSON, dataBody, queryParamMap, headerMap, cookieHeader);
+        // TODO - Since notification not appearing in the publisher
     }
 
     @Test(groups = { "wso2.greg",
@@ -165,6 +167,7 @@ public class CustomRXTSubscriptionTestCase extends GREGIntegrationBaseTest {
         response = genericRestClient.geneticRestRequestPost(publisherUrl + "/asset/" + assetId + "/update-checklist",
                 MediaType.APPLICATION_JSON, MediaType.APPLICATION_JSON, checkListObject.toString(), queryParamMap,
                 headerMap, cookieHeader);
+        // TODO - Since notification not appearing in the publisher
     }
 
     @Test(groups = { "wso2.greg",
@@ -199,6 +202,7 @@ public class CustomRXTSubscriptionTestCase extends GREGIntegrationBaseTest {
         response = genericRestClient.geneticRestRequestPost(publisherUrl + "/asset/" + assetId + "/update-checklist",
                 MediaType.APPLICATION_JSON, MediaType.APPLICATION_JSON, checkListObject.toString(), queryParamMap,
                 headerMap, cookieHeader);
+        // TODO - Since notification not appearing in the publisher
     }
 
     @Test(groups = { "wso2.greg",
@@ -275,7 +279,7 @@ public class CustomRXTSubscriptionTestCase extends GREGIntegrationBaseTest {
         assetId = createObj.get("id").toString();
     }
 
-    @AfterClass
+    @AfterClass(alwaysRun = true)
     public void clean() throws Exception {
         deleteCustomAsset();
         deleteCustomRxt();
