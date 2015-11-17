@@ -51,10 +51,11 @@ import static org.testng.Assert.assertNotNull;
 import static org.testng.Assert.assertTrue;
 
 /**
- * This class tests subscriptions and notifications on publisher console for Policies
+ * This class tests subscriptions and notifications on publisher console for Swagger artifacts.
  */
-public class PolicyNotificationAndSubscriptionTestCase extends GregESTestBaseTest {
-    private static final Log log = LogFactory.getLog(WSDLNotificationAndSubscriptionTestCase.class);
+public class SwaggerNotificationAndSubscriptionTestCase extends GregESTestBaseTest {
+
+    private static final Log log = LogFactory.getLog(SwaggerNotificationAndSubscriptionTestCase.class);
     private TestUserMode userMode;
     String jSessionId;
     String assetId;
@@ -73,7 +74,7 @@ public class PolicyNotificationAndSubscriptionTestCase extends GregESTestBaseTes
     Map<String, String> assocUUIDMap;
 
     @Factory(dataProvider = "userModeProvider")
-    public PolicyNotificationAndSubscriptionTestCase(TestUserMode userMode) {
+    public SwaggerNotificationAndSubscriptionTestCase(TestUserMode userMode) {
         this.userMode = userMode;
     }
 
@@ -87,7 +88,7 @@ public class PolicyNotificationAndSubscriptionTestCase extends GregESTestBaseTes
                        + "artifacts" + File.separator + "GREG" + File.separator;
         publisherUrl = automationContext.getContextUrls()
                 .getSecureServiceUrl().replace("services", "publisher/apis");
-        //need lifeCycleAdminServiceClient to attach a lifecycle to the WSDL, as WSDLs does not come with
+        //need lifeCycleAdminServiceClient to attach a lifecycle to the Swagger, as Swaggers does not come with
         //a default lifecycle attached
         lifeCycleAdminServiceClient = new LifeCycleAdminServiceClient(backendURL, sessionCookie);
         crudTestCommonUtils = new ESTestCommonUtils(genericRestClient, publisherUrl, headerMap);
@@ -110,13 +111,13 @@ public class PolicyNotificationAndSubscriptionTestCase extends GregESTestBaseTes
         crudTestCommonUtils.setCookieHeader(cookieHeader);
     }
 
-    @Test(groups = {"wso2.greg", "wso2.greg.es"}, description = "create a policy with a LC attached.")
-    public void createPolicyAssetWithLC()
+    @Test(groups = {"wso2.greg", "wso2.greg.es"}, description = "create a swagger with a LC attached.")
+    public void createSwaggerAssetWithLC()
             throws JSONException, InterruptedException, IOException,
                    CustomLifecyclesChecklistAdminServiceExceptionException {
-        queryParamMap.put("type", "policy");
+        queryParamMap.put("type", "swagger");
         String dataBody = readFile(resourcePath + "json" + File.separator
-                                   + "policy-sample.json");
+                                   + "swagger-sample.json");
         assetName = (String) (new JSONObject(dataBody)).get("overview_name");
         ClientResponse response =
                 genericRestClient.geneticRestRequestPost(publisherUrl + "/assets",
@@ -129,17 +130,17 @@ public class PolicyNotificationAndSubscriptionTestCase extends GregESTestBaseTes
                           response.getStatusCode());
         String resultName = obj.get("overview_name").toString();
         Assert.assertEquals(resultName, assetName);
-        searchPolicyAsset();
-        //attach a LC to the wsdl
+        searchSwaggerAsset();
+        //attach a LC to the swagger
         lifeCycleAdminServiceClient.addAspect(path, lifeCycleName);
         Assert.assertNotNull(assetId, "Empty asset resource id available" +
                                       response.getEntity(String.class));
-        Assert.assertTrue(this.getAsset(assetId, "policy").get("lifecycle")
+        Assert.assertTrue(this.getAsset(assetId, "swagger").get("lifecycle")
                                   .equals(lifeCycleName), "LifeCycle not assigned to given asset");
     }
 
-    @Test(groups = {"wso2.greg", "wso2.greg.es"}, description = "Adding subscription to a policy LC check list item check",
-          dependsOnMethods = {"createPolicyAssetWithLC"})
+    @Test(groups = {"wso2.greg", "wso2.greg.es"}, description = "Adding subscription to a swagger LC check list item check",
+          dependsOnMethods = {"createSwaggerAssetWithLC"})
     public void addSubscriptionForLCCheckListItemCheck() throws JSONException, IOException {
 
         JSONObject dataObject = new JSONObject();
@@ -148,7 +149,7 @@ public class PolicyNotificationAndSubscriptionTestCase extends GregESTestBaseTes
         dataObject.put("notificationMethod", "work");
 
         ClientResponse response =
-                genericRestClient.geneticRestRequestPost(publisherUrl + "/subscriptions/policy/" + assetId, MediaType.APPLICATION_JSON,
+                genericRestClient.geneticRestRequestPost(publisherUrl + "/subscriptions/swagger/" + assetId, MediaType.APPLICATION_JSON,
                                                          MediaType.APPLICATION_JSON, dataObject.toString()
                         , queryParamMap, headerMap, cookieHeader);
 
@@ -157,8 +158,8 @@ public class PolicyNotificationAndSubscriptionTestCase extends GregESTestBaseTes
                    response.getStatusCode());
     }
 
-    @Test(groups = {"wso2.greg", "wso2.greg.es"}, description = "Adding subscription to a policy LC check list item uncheck",
-          dependsOnMethods = {"createPolicyAssetWithLC"})
+    @Test(groups = {"wso2.greg", "wso2.greg.es"}, description = "Adding subscription to a swagger LC check list item uncheck",
+          dependsOnMethods = {"addSubscriptionForLCCheckListItemCheck"})
     public void addSubscriptionForLCCheckListItemUnCheck() throws JSONException, IOException {
 
         JSONObject dataObject = new JSONObject();
@@ -167,7 +168,7 @@ public class PolicyNotificationAndSubscriptionTestCase extends GregESTestBaseTes
         dataObject.put("notificationMethod", "work");
 
         ClientResponse response =
-                genericRestClient.geneticRestRequestPost(publisherUrl + "/subscriptions/policy/" + assetId, MediaType.APPLICATION_JSON,
+                genericRestClient.geneticRestRequestPost(publisherUrl + "/subscriptions/swagger/" + assetId, MediaType.APPLICATION_JSON,
                                                          MediaType.APPLICATION_JSON, dataObject.toString()
                         , queryParamMap, headerMap, cookieHeader);
 
@@ -176,8 +177,8 @@ public class PolicyNotificationAndSubscriptionTestCase extends GregESTestBaseTes
                    response.getStatusCode());
     }
 
-    @Test(groups = {"wso2.greg", "wso2.greg.es"}, description = "Adding subscription to a policy LC state change",
-          dependsOnMethods = {"createPolicyAssetWithLC"})
+    @Test(groups = {"wso2.greg", "wso2.greg.es"}, description = "Adding subscription to a swagger LC state change",
+          dependsOnMethods = {"addSubscriptionForLCCheckListItemUnCheck"})
     public void addSubscriptionForLCStateChange() throws JSONException, IOException {
 
         JSONObject dataObject = new JSONObject();
@@ -186,7 +187,7 @@ public class PolicyNotificationAndSubscriptionTestCase extends GregESTestBaseTes
         dataObject.put("notificationMethod", "work");
 
         ClientResponse response =
-                genericRestClient.geneticRestRequestPost(publisherUrl + "/subscriptions/policy/" + assetId, MediaType.APPLICATION_JSON,
+                genericRestClient.geneticRestRequestPost(publisherUrl + "/subscriptions/swagger/" + assetId, MediaType.APPLICATION_JSON,
                                                          MediaType.APPLICATION_JSON, dataObject.toString()
                         , queryParamMap, headerMap, cookieHeader);
 
@@ -195,12 +196,12 @@ public class PolicyNotificationAndSubscriptionTestCase extends GregESTestBaseTes
                    response.getStatusCode());
     }
 
-    @Test(groups = {"wso2.greg", "wso2.greg.es"}, description = "Policy LC check list item check",
-          dependsOnMethods = {"createPolicyAssetWithLC", "addSubscriptionForLCCheckListItemCheck"})
-    public void checkLCCheckItemsOnPolicy() throws JSONException, IOException {
-        queryParamMap.put("type", "policy");
+    @Test(groups = {"wso2.greg", "wso2.greg.es"}, description = "Swagger LC check list item check",
+          dependsOnMethods = {"addSubscriptionForLCCheckListItemCheck"})
+    public void checkLCCheckItemsOnSwagger() throws JSONException, IOException {
+        queryParamMap.put("type", "swagger");
         queryParamMap.put("lifecycle", lifeCycleName);
-        JSONObject LCStateobj = getLifeCycleState(assetId, "policy");
+        JSONObject LCStateobj = getLifeCycleState(assetId, "swagger");
         JSONObject dataObj = LCStateobj.getJSONObject("data");
         JSONArray checkItems = dataObj.getJSONArray("checkItems");
         Assert.assertEquals(((JSONObject) checkItems.get(0)).getString("isVisible"), "true");
@@ -209,12 +210,12 @@ public class PolicyNotificationAndSubscriptionTestCase extends GregESTestBaseTes
         Assert.assertTrue(responseCheck0.getStatusCode() == 200);
     }
 
-    @Test(groups = {"wso2.greg", "wso2.greg.es"}, description = "WSDL LC check list item check",
-          dependsOnMethods = {"createPolicyAssetWithLC", "addSubscriptionForLCCheckListItemUnCheck", "checkLCCheckItemsOnPolicy"})
-    public void uncheckLCCheckItemsOnPolicy() throws JSONException, IOException {
-        queryParamMap.put("type", "policy");
+    @Test(groups = {"wso2.greg", "wso2.greg.es"}, description = "Swagger LC check list item check",
+          dependsOnMethods = {"addSubscriptionForLCCheckListItemUnCheck", "checkLCCheckItemsOnSwagger"})
+    public void uncheckLCCheckItemsOnSwagger() throws JSONException, IOException {
+        queryParamMap.put("type", "swagger");
         queryParamMap.put("lifecycle", lifeCycleName);
-        JSONObject LCStateobj = getLifeCycleState(assetId, "policy");
+        JSONObject LCStateobj = getLifeCycleState(assetId, "swagger");
         JSONObject dataObj = LCStateobj.getJSONObject("data");
         JSONArray checkItems = dataObj.getJSONArray("checkItems");
         Assert.assertEquals(((JSONObject) checkItems.get(0)).getString("isVisible"), "true");
@@ -223,9 +224,9 @@ public class PolicyNotificationAndSubscriptionTestCase extends GregESTestBaseTes
         Assert.assertTrue(responseUncheck0.getStatusCode() == 200);
     }
 
-    @Test(groups = {"wso2.greg", "wso2.greg.es"}, description = "Change LC state on Policy",
-          dependsOnMethods = {"createPolicyAssetWithLC", "addSubscriptionForLCStateChange", "checkLCCheckItemsOnPolicy","uncheckLCCheckItemsOnPolicy" })
-    public void changeLCStatePolicy() throws JSONException, IOException {
+    @Test(groups = {"wso2.greg", "wso2.greg.es"}, description = "Change LC state on Swagger",
+          dependsOnMethods = {"addSubscriptionForLCStateChange", "uncheckLCCheckItemsOnSwagger"})
+    public void changeLCStateSwagger() throws JSONException, IOException {
         ClientResponse response =
                 genericRestClient.geneticRestRequestPost(publisherUrl + "/assets/" + assetId + "/state",
                                                          MediaType.APPLICATION_FORM_URLENCODED,
@@ -238,13 +239,13 @@ public class PolicyNotificationAndSubscriptionTestCase extends GregESTestBaseTes
     }
 
     /**
-     * This method get all the wsdls in publisher and select the one created by createWSDLAssetWithLC method.
+     * This method get all the swaggers in publisher and select the one created by createSwaggerAssetWithLC method.
      *
      * @throws JSONException
      */
-    public void searchPolicyAsset() throws JSONException {
+    public void searchSwaggerAsset() throws JSONException {
         Map<String, String> queryParamMap = new HashMap<>();
-        queryParamMap.put("type", "policy");
+        queryParamMap.put("type", "swagger");
         ClientResponse clientResponse = crudTestCommonUtils.searchAssetByQuery(queryParamMap);
         JSONObject obj = new JSONObject(clientResponse.getEntity(String.class));
         JSONArray jsonArray = obj.getJSONArray("list");
@@ -265,6 +266,14 @@ public class PolicyNotificationAndSubscriptionTestCase extends GregESTestBaseTes
         return new JSONObject(clientResponse.getEntity(String.class));
     }
 
+    private ClientResponse checkLifeCycleCheckItem(String managerCookieHeader, int itemId) {
+        return genericRestClient.geneticRestRequestPost(publisherUrl + "/asset/" + assetId + "/update-checklist",
+                                                        MediaType.APPLICATION_JSON,
+                                                        MediaType.APPLICATION_JSON,
+                                                        "{\"checklist\":[{\"index\":" + itemId + ",\"checked\":true}]}"
+                , queryParamMap, headerMap, managerCookieHeader);
+    }
+
     private JSONObject getLifeCycleState(String assetId, String assetType) throws JSONException {
         Map<String, String> assetTypeParamMap = new HashMap<String, String>();
         assetTypeParamMap.put("type", assetType);
@@ -274,14 +283,6 @@ public class PolicyNotificationAndSubscriptionTestCase extends GregESTestBaseTes
                         (publisherUrl + "/asset/" + assetId + "/state"
                                 , queryParamMap, headerMap, cookieHeader);
         return new JSONObject(response.getEntity(String.class));
-    }
-
-    private ClientResponse checkLifeCycleCheckItem(String managerCookieHeader, int itemId) {
-        return genericRestClient.geneticRestRequestPost(publisherUrl + "/asset/" + assetId + "/update-checklist",
-                                                        MediaType.APPLICATION_JSON,
-                                                        MediaType.APPLICATION_JSON,
-                                                        "{\"checklist\":[{\"index\":" + itemId + ",\"checked\":true}]}"
-                , queryParamMap, headerMap, managerCookieHeader);
     }
 
     private ClientResponse uncheckLifeCycleCheckItem(String managerCookieHeader, int itemId) {
@@ -295,7 +296,7 @@ public class PolicyNotificationAndSubscriptionTestCase extends GregESTestBaseTes
     @AfterClass(alwaysRun = true)
     public void cleanUp() throws RegistryException, JSONException {
         Map<String, String> queryParamMap = new HashMap<>();
-        queryParamMap.put("type", "policy");
+        queryParamMap.put("type", "swagger");
         assocUUIDMap = crudTestCommonUtils.getAssociationsFromPages(assetId, queryParamMap);
         crudTestCommonUtils.deleteAssetById(assetId, queryParamMap);
         crudTestCommonUtils.deleteAllAssociationsById(assetId, queryParamMap);

@@ -97,9 +97,9 @@ public class GregRestResourceWSDLAssociationTestCase extends GregESTestBaseTest 
         JSONObject wsdlObj = new JSONObject(clientResponse.getEntity(String.class));
         JSONArray jsonArray = wsdlObj.getJSONArray("list");
         for (int i = 0; i < jsonArray.length(); i++) {
-            String name = (String)jsonArray.getJSONObject(i).get("name");
+            String name = (String) jsonArray.getJSONObject(i).get("name");
             if (resultName.equals(name)) {
-                assetId = (String)jsonArray.getJSONObject(i).get("id");
+                assetId = (String) jsonArray.getJSONObject(i).get("id");
                 break;
             }
         }

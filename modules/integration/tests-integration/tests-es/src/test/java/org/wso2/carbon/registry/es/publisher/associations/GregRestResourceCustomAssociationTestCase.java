@@ -15,13 +15,14 @@
 *specific language governing permissions and limitations
 *under the License.
 */
-
-package org.wso2.carbon.registry.es.publisher;
+package org.wso2.carbon.registry.es.publisher.associations;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonParser;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.apache.axiom.om.OMElement;
+import org.apache.axiom.om.impl.builder.StAXOMBuilder;
+import org.apache.axiom.om.util.AXIOMUtil;
+import org.apache.axiom.om.xpath.AXIOMXPath;
 import org.apache.wink.client.ClientResponse;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -29,40 +30,39 @@ import org.json.simple.parser.ParseException;
 import org.testng.annotations.*;
 import org.wso2.carbon.automation.engine.context.TestUserMode;
 import org.wso2.carbon.automation.engine.frameworkutils.FrameworkPathUtil;
+import org.wso2.carbon.integration.common.utils.mgt.ServerConfigurationManager;
 import org.wso2.carbon.registry.core.exceptions.RegistryException;
-import org.wso2.greg.integration.common.utils.GREGIntegrationBaseTest;
+import org.wso2.carbon.registry.es.utils.GregESTestBaseTest;
+import org.wso2.carbon.utils.CarbonUtils;
 import org.wso2.greg.integration.common.utils.GenericRestClient;
 
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
-import java.io.File;
-import java.io.IOException;
+import javax.xml.stream.*;
+import java.io.*;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import static org.testng.Assert.assertNotNull;
 import static org.testng.Assert.assertTrue;
 
-/**
- * This class testes association scenarios between rest services
- */
-public class GregRestResourceAssociationTestCase extends GREGIntegrationBaseTest {
 
-    private static final Log log = LogFactory.getLog(GregRestResourceAssociationTestCase.class);
-
+public class GregRestResourceCustomAssociationTestCase extends GregESTestBaseTest {
     private TestUserMode userMode;
     String jSessionId;
     String testAssetId;
     String spaceAssetId;
     String cookieHeader;
-    GenericRestClient genericRestClient;
-    Map<String, String> queryParamMap;
-    Map<String, String> headerMap;
-    String publisherUrl;
+    private GenericRestClient genericRestClient;
+    private String publisherUrl;
+    private Map<String, String> queryParamMap;
+    private Map<String, String> headerMap;
     String resourcePath;
+    private ServerConfigurationManager serverConfigurationManager;
 
     @Factory(dataProvider = "userModeProvider")
-    public GregRestResourceAssociationTestCase(TestUserMode userMode) {
+    public GregRestResourceCustomAssociationTestCase(TestUserMode userMode) {
         this.userMode = userMode;
     }
 
@@ -72,10 +72,11 @@ public class GregRestResourceAssociationTestCase extends GREGIntegrationBaseTest
         genericRestClient = new GenericRestClient();
         queryParamMap = new HashMap<String, String>();
         headerMap = new HashMap<String, String>();
-        resourcePath = FrameworkPathUtil.getSystemResourceLocation()
-                + "artifacts" + File.separator + "GREG" + File.separator;
-        publisherUrl = automationContext.getContextUrls()
-                .getSecureServiceUrl().replace("services", "publisher/apis");
+        resourcePath =
+                FrameworkPathUtil.getSystemResourceLocation() + "artifacts" + File.separator + "GREG" + File.separator;
+        publisherUrl = automationContext.getContextUrls().getSecureServiceUrl().replace("services", "publisher/apis");
+        serverConfigurationManager = new ServerConfigurationManager(automationContext);
+        setTestEnvironment();
     }
 
     @AfterClass(alwaysRun = true)
@@ -91,27 +92,43 @@ public class GregRestResourceAssociationTestCase extends GREGIntegrationBaseTest
                 , queryParamMap, headerMap, cookieHeader);
     }
 
-    @Test(groups = {"wso2.greg", "wso2.greg.es"}, description = "Authenticate Publisher test")
-    public void authenticatePublisher() throws JSONException {
-        ClientResponse response =
-                genericRestClient.geneticRestRequestPost(publisherUrl + "/authenticate/",
-                        MediaType.APPLICATION_FORM_URLENCODED,
-                        MediaType.APPLICATION_JSON,
-                        "username=admin&password=admin"
-                        , queryParamMap, headerMap, null);
-        JSONObject obj = new JSONObject(response.getEntity(String.class));
-        assertTrue((response.getStatusCode() == Response.Status.OK.getStatusCode()),
-                "Wrong status code ,Expected 200 OK ,Received " +
-                        response.getStatusCode()
-        );
-        jSessionId = obj.getJSONObject("data").getString("sessionId");
+    private void setTestEnvironment() throws Exception {
+        addCustomAssociation();
+        JSONObject objSessionPublisher =
+                new JSONObject(authenticate(publisherUrl, genericRestClient,
+                        automationContext.getSuperTenant().getTenantAdmin().getUserName(),
+                        automationContext.getSuperTenant().getTenantAdmin().getPassword())
+                        .getEntity(String.class));
+        jSessionId = objSessionPublisher.getJSONObject("data").getString("sessionId");
         cookieHeader = "JSESSIONID=" + jSessionId;
-        assertNotNull(jSessionId, "Invalid JSessionID received");
     }
 
+    private void addCustomAssociation() throws Exception {
+        changeAssociationElement();
+        serverConfigurationManager.restartGracefully();
+    }
 
-    @Test(groups = {"wso2.greg", "wso2.greg.es"}, description = "Create Test Rest Service",
-            dependsOnMethods = {"authenticatePublisher"})
+    public OMElement getGovernanceXmlOmElement() throws IOException, XMLStreamException {
+
+        FileInputStream inputStream = null;
+        try {
+            String govenanceXmlPath = CarbonUtils.getCarbonHome() + File.separator + "repository" + File.separator
+                    + "conf" + File.separator + "governance.xml";
+            File governanceFile = new File(govenanceXmlPath);
+            inputStream = new FileInputStream(governanceFile);
+            XMLStreamReader parser = XMLInputFactory.newInstance().createXMLStreamReader(inputStream);
+            StAXOMBuilder builder = new StAXOMBuilder(parser);
+            return builder.getDocumentElement();
+        } catch (FileNotFoundException e) {
+            log.error("Error when opening governance.xml");
+            throw new FileNotFoundException(e.getMessage());
+        } catch (XMLStreamException e) {
+            log.error("Error when building governance.xml");
+            throw new XMLStreamException(e.getMessage());
+        }
+    }
+
+    @Test(groups = {"wso2.greg", "wso2.greg.es"}, description = "Create Test Rest Service")
     public void createTestRestServices() throws JSONException, IOException {
         queryParamMap.put("type", "restservice");
         String dataBody = readFile(resourcePath + "json" + File.separator + "publisherPublishRestResource.json");
@@ -156,7 +173,7 @@ public class GregRestResourceAssociationTestCase extends GREGIntegrationBaseTest
 
         JSONObject dataObject = new JSONObject();
 
-        dataObject.put("associationType", "dependancies");
+        dataObject.put("associationType", "governedBy");
         dataObject.put("destType", "restservice");
         dataObject.put("sourceType", "restservice");
         dataObject.put("destUUID", testAssetId);
@@ -187,10 +204,53 @@ public class GregRestResourceAssociationTestCase extends GREGIntegrationBaseTest
 
     }
 
+    private void changeAssociationElement() throws Exception {
+        FileOutputStream fileOutputStream = null;
+        XMLStreamWriter writer = null;
+        OMElement documentElement = getGovernanceXmlOmElement();
+        try {
+            AXIOMXPath xpathExpression = new AXIOMXPath("/ns:GovernanceConfiguration/ns:AssociationConfig/ns:Association[@type='restservice']");
+            xpathExpression.addNamespace("ns", "http://wso2.org/projects/carbon/governance.xml");
+            String newAssociation = "<governedBy>restservice,soapservice,wsdl</governedBy>";
+            List<OMElement> nodes = xpathExpression.selectNodes(documentElement);
+            for (OMElement node : nodes) {
+                node.addChild(AXIOMUtil.stringToOM(newAssociation));
+                node.build();
+                break;
+            }
+
+            fileOutputStream = new FileOutputStream(getGovernanceXMLPath());
+            writer = XMLOutputFactory.newInstance().createXMLStreamWriter(fileOutputStream);
+            documentElement.serialize(writer);
+            documentElement.build();
+            Thread.sleep(1000);
+
+        } catch (Exception e) {
+            log.error("Failed to modify governance.xml " + e.getMessage());
+            throw new Exception("Failed to modify governance.xml " + e.getMessage());
+        } finally {
+            assert fileOutputStream != null;
+            fileOutputStream.close();
+            assert writer != null;
+            writer.flush();
+        }
+    }
+
+    private String getGovernanceXMLPath() {
+        return CarbonUtils.getCarbonHome() + File.separator + "repository" + File.separator
+                + "conf" + File.separator + "governance.xml";
+    }
+
+    @BeforeMethod(alwaysRun = true)
+    public void resetParameters() {
+        queryParamMap = new HashMap<String, String>();
+        headerMap = new HashMap<String, String>();
+    }
+
     @DataProvider
     private static TestUserMode[][] userModeProvider() {
         return new TestUserMode[][]{
-                new TestUserMode[]{TestUserMode.SUPER_TENANT_ADMIN}
+                new TestUserMode[]{TestUserMode.SUPER_TENANT_ADMIN},
 //                new TestUserMode[]{TestUserMode.TENANT_USER},
         };
     }
