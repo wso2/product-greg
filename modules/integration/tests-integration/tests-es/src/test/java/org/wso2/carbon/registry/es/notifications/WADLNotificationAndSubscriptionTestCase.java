@@ -117,7 +117,7 @@ public class WADLNotificationAndSubscriptionTestCase extends GregESTestBaseTest 
                    CustomLifecyclesChecklistAdminServiceExceptionException {
         queryParamMap.put("type", "wadl");
         String wadlTemplate = readFile(resourcePath + "json" + File.separator + "wadl-sample.json");
-        assetName = "SearchSearvice.wadl";
+        assetName = "StorageService.wadl";
         String dataBody = String.format(wadlTemplate,
                                         "https://raw.githubusercontent.com/wso2/wso2-qa-artifacts/master/automation-artifacts/greg/wadl/StorageService.wadl",
                                         assetName,
