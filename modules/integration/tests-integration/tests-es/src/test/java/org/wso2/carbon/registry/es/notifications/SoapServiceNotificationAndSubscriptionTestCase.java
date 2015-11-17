@@ -96,6 +96,7 @@ public class SoapServiceNotificationAndSubscriptionTestCase extends GREGIntegrat
         response = genericRestClient.geneticRestRequestPost(publisherUrl + "/assets/" + assetId + "/state",
                 MediaType.APPLICATION_FORM_URLENCODED, MediaType.APPLICATION_JSON,
                 "nextState=Testing&comment=Completed", queryParamMap, headerMap, cookieHeader);
+        // TODO - Since notification not appearing in the publisher
     }
 
     @Test(groups = { "wso2.greg",
@@ -122,14 +123,14 @@ public class SoapServiceNotificationAndSubscriptionTestCase extends GREGIntegrat
         response = genericRestClient
                 .geneticRestRequestPost(publisherUrl + "/assets/" + assetId, MediaType.APPLICATION_JSON,
                         MediaType.APPLICATION_JSON, dataBody, queryParamMap, headerMap, cookieHeader);
+        // TODO - Since notification not appearing in the publisher
     }
 
     @Test(groups = { "wso2.greg",
-            "wso2.greg.es" }, description = "Adding subscription to soap service on check list item checked") public void addSubscriptionCheckListItem()
-            throws JSONException, IOException {
+            "wso2.greg.es" }, description = "Adding subscription to soap service on check list item checked")
+    public void addSubscriptionCheckListItem() throws JSONException, IOException {
 
         JSONObject dataObject = new JSONObject();
-
         dataObject.put("notificationType", "PublisherCheckListItemChecked");
         dataObject.put("notificationMethod", "work");
 
@@ -155,14 +156,15 @@ public class SoapServiceNotificationAndSubscriptionTestCase extends GREGIntegrat
         response = genericRestClient.geneticRestRequestPost(publisherUrl + "/asset/" + assetId + "/update-checklist",
                 MediaType.APPLICATION_JSON, MediaType.APPLICATION_JSON, checkListObject.toString(), queryParamMap,
                 headerMap, cookieHeader);
+        // TODO - Since notification not appearing in the publisher
     }
 
-    @Test(groups = {"wso2.greg", "wso2.greg.es"}, description = "Adding subscription to soap service on check list item unchecked",
+    @Test(groups = { "wso2.greg",
+            "wso2.greg.es" }, description = "Adding subscription to soap service on check list item unchecked",
             dependsOnMethods = { "addSubscriptionCheckListItem" })
     public void addSubscriptionUnCheckListItem() throws JSONException, IOException {
 
         JSONObject dataObject = new JSONObject();
-
         dataObject.put("notificationType", "PublisherCheckListItemUnchecked");
         dataObject.put("notificationMethod", "work");
 
@@ -188,20 +190,21 @@ public class SoapServiceNotificationAndSubscriptionTestCase extends GREGIntegrat
         response = genericRestClient.geneticRestRequestPost(publisherUrl + "/asset/" + assetId + "/update-checklist",
                 MediaType.APPLICATION_JSON, MediaType.APPLICATION_JSON, checkListObject.toString(), queryParamMap,
                 headerMap, cookieHeader);
+        // TODO - Since notification not appearing in the publisher
     }
 
-    @Test(groups = {"wso2.greg", "wso2.greg.es"}, description = "Adding wrong subscription method to check the error message")
+    @Test(groups = { "wso2.greg",
+            "wso2.greg.es" }, description = "Adding wrong subscription method to check the error message")
     public void addWrongSubscriptionMethod() throws JSONException, IOException {
 
         JSONObject dataObject = new JSONObject();
-
         dataObject.put("notificationType","PublisherCheckListItemUnchecked");
         dataObject.put("notificationMethod","test");
 
-        ClientResponse response =
-                genericRestClient.geneticRestRequestPost(publisherUrl + "/subscriptions/soapservice/" + assetId, MediaType.APPLICATION_JSON,
-                        MediaType.APPLICATION_JSON, dataObject.toString()
-                        , queryParamMap, headerMap, cookieHeader);
+        ClientResponse response = genericRestClient
+                .geneticRestRequestPost(publisherUrl + "/subscriptions/soapservice/" + assetId,
+                        MediaType.APPLICATION_JSON, MediaType.APPLICATION_JSON, dataObject.toString(), queryParamMap,
+                        headerMap, cookieHeader);
 
         String payLoad = response.getEntity(String.class);
         payLoad = payLoad.substring(payLoad.indexOf('{'));
@@ -235,7 +238,7 @@ public class SoapServiceNotificationAndSubscriptionTestCase extends GREGIntegrat
         assetId = createObj.get("id").toString();
     }
 
-    @AfterClass
+    @AfterClass(alwaysRun = true)
     public void clean() throws Exception {
         deleteSoapServiceAsset();
     }
