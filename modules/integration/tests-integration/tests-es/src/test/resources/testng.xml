@@ -37,7 +37,7 @@
 
             <class name="org.wso2.carbon.registry.es.publisher.crud.CustomAssetCRUDTestCase"/>
             <class name="org.wso2.carbon.registry.es.publisher.crud.PolicyCRUDByUrlTestCase"/>
-            <class name="org.wso2.carbon.registry.es.publisher.crud.GenericAssetInvalidCRUDTestCase"/>
+            <class name="org.wso2.carbon.registry.es.publisher.crud.GenericCRUDTestCase"/>
             <class name="org.wso2.carbon.registry.es.publisher.crud.RestServiceCRUDTestCase"/>
             <class name="org.wso2.carbon.registry.es.publisher.crud.SchemaCRUDByUrlTestCase"/>
             <class name="org.wso2.carbon.registry.es.publisher.crud.SoapServiceCRUDTestCase"/>
