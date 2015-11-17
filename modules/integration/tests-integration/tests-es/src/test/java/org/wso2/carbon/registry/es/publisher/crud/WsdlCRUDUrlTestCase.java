@@ -110,7 +110,6 @@ public class WsdlCRUDUrlTestCase extends GregESTestBaseTest {
     @Test(groups = {"wso2.greg", "wso2.greg.es"}, description = "Search WSDL in Publisher",
             dependsOnMethods = {"createWsdlServiceAsset"})
     public void searchWsdlAsset() throws JSONException, XPathExpressionException, IOException {
-        setTestEnvironment();
         boolean assetFound = false;
         Map<String, String> queryParamMap = new HashMap<>();
         queryParamMap.put("q", "\"name" + "\":" + "\"" + assetName + "\"");
@@ -132,7 +131,6 @@ public class WsdlCRUDUrlTestCase extends GregESTestBaseTest {
     @Test(groups = {"wso2.greg", "wso2.greg.es"}, description = "Get WSDL in Publisher",
             dependsOnMethods = {"searchWsdlAsset"})
     public void getWsdlAsset() throws JSONException, XPathExpressionException, IOException {
-        setTestEnvironment();
         Map<String, String> queryParamMap = new HashMap<>();
         queryParamMap.put("type", "wsdl");
         ClientResponse clientResponse = getAssetById(publisherUrl, genericRestClient, cookieHeader, assetId, queryParamMap);
@@ -146,7 +144,6 @@ public class WsdlCRUDUrlTestCase extends GregESTestBaseTest {
     @Test(groups = {"wso2.greg", "wso2.greg.es"}, description = "Delete WSDL in Publisher",
             dependsOnMethods = {"getWsdlAsset"})
     public void deleteWsdlAsset() throws JSONException, XPathExpressionException, IOException {
-        setTestEnvironment();
         Map<String, String> queryParamMap = new HashMap<>();
         queryParamMap.put("type", "wsdl");
         assocUUIDMap = getAssociationsFromPages(publisherUrl, genericRestClient, cookieHeader, assetId, queryParamMap);
@@ -162,7 +159,6 @@ public class WsdlCRUDUrlTestCase extends GregESTestBaseTest {
 
     @AfterClass(alwaysRun = true)
     public void cleanUp() throws RegistryException, JSONException, XPathExpressionException, IOException {
-        setTestEnvironment();
         Map<String, String> queryParamMap = new HashMap<>();
         queryParamMap.put("type", "wsdl");
         if (assocUUIDMap != null) {
