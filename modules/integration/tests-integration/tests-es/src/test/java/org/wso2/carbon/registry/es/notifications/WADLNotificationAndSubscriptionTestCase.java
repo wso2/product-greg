@@ -25,6 +25,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.testng.Assert;
+import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Factory;
@@ -32,6 +33,7 @@ import org.testng.annotations.Test;
 import org.wso2.carbon.automation.engine.context.TestUserMode;
 import org.wso2.carbon.automation.engine.frameworkutils.FrameworkPathUtil;
 import org.wso2.carbon.governance.custom.lifecycles.checklist.stub.CustomLifecyclesChecklistAdminServiceExceptionException;
+import org.wso2.carbon.registry.core.exceptions.RegistryException;
 import org.wso2.carbon.registry.es.utils.ESTestCommonUtils;
 import org.wso2.carbon.registry.es.utils.GregESTestBaseTest;
 import org.wso2.greg.integration.common.clients.LifeCycleAdminServiceClient;
@@ -69,6 +71,7 @@ public class WADLNotificationAndSubscriptionTestCase extends GregESTestBaseTest 
     LifeCycleAdminServiceClient lifeCycleAdminServiceClient;
     String lifeCycleName;
     String stateChangeMessage = " State changed successfully to Testing!";
+    Map<String, String> assocUUIDMap;
 
     @Factory(dataProvider = "userModeProvider")
     public WADLNotificationAndSubscriptionTestCase(TestUserMode userMode) {
@@ -288,6 +291,20 @@ public class WADLNotificationAndSubscriptionTestCase extends GregESTestBaseTest 
                                                         MediaType.APPLICATION_JSON,
                                                         "{\"checklist\":[{\"index\":" + itemId + ",\"checked\":false}]}"
                 , queryParamMap, headerMap, managerCookieHeader);
+    }
+
+    @AfterClass(alwaysRun = true)
+    public void cleanUp() throws RegistryException, JSONException {
+        Map<String, String> queryParamMap = new HashMap<>();
+        queryParamMap.put("type", "wadl");
+        assocUUIDMap = crudTestCommonUtils.getAssociationsFromPages(assetId, queryParamMap);
+        crudTestCommonUtils.deleteAssetById(assetId, queryParamMap);
+        crudTestCommonUtils.deleteAllAssociationsById(assetId, queryParamMap);
+        queryParamMap.clear();
+        for (String uuid : assocUUIDMap.keySet()) {
+            queryParamMap.put("type", crudTestCommonUtils.getType(assocUUIDMap.get(uuid)));
+            crudTestCommonUtils.deleteAssetById(uuid, queryParamMap);
+        }
     }
 
     @DataProvider
