@@ -71,6 +71,7 @@ public class WSDLNotificationAndSubscriptionTestCase extends GregESTestBaseTest 
     LifeCycleAdminServiceClient lifeCycleAdminServiceClient;
     String lifeCycleName;
     String stateChangeMessage = " State changed successfully to Testing!";
+    Map<String, String> assocUUIDMap;
 
     @Factory(dataProvider = "userModeProvider")
     public WSDLNotificationAndSubscriptionTestCase(TestUserMode userMode) {
@@ -95,13 +96,6 @@ public class WSDLNotificationAndSubscriptionTestCase extends GregESTestBaseTest 
         setTestEnvironment();
     }
 
-
-
-    @AfterClass(alwaysRun = true)
-    public void cleanUp() throws RegistryException {
-
-    }
-
     private void setTestEnvironment() throws XPathExpressionException, JSONException {
         ClientResponse response = authenticate(publisherUrl, genericRestClient,
                                             automationContext.getSuperTenant().getTenantAdmin().getUserName(),
@@ -122,9 +116,12 @@ public class WSDLNotificationAndSubscriptionTestCase extends GregESTestBaseTest 
             throws JSONException, InterruptedException, IOException,
                    CustomLifecyclesChecklistAdminServiceExceptionException {
         queryParamMap.put("type", "wsdl");
-        String dataBody = readFile(resourcePath + "json" + File.separator
-                                   + "publisherPublishWSDLResource.json");
-        assetName = (String) (new JSONObject(dataBody)).get("overview_name");
+        String wsdlTemplate = readFile(resourcePath + "json" + File.separator + "wsdl-sample.json");
+        assetName = "echo.wsdl";
+        String dataBody = String.format(wsdlTemplate,
+                                        "https://raw.githubusercontent.com/wso2/wso2-qa-artifacts/master/automation-artifacts/greg/wsdl/StockQuote.wsdl",
+                                        assetName,
+                                        "1.0.0");
         ClientResponse response =
                 genericRestClient.geneticRestRequestPost(publisherUrl + "/assets",
                                                          MediaType.APPLICATION_JSON,
@@ -305,6 +302,20 @@ public class WSDLNotificationAndSubscriptionTestCase extends GregESTestBaseTest 
                                                         MediaType.APPLICATION_JSON,
                                                         "{\"checklist\":[{\"index\":" + itemId + ",\"checked\":false}]}"
                 , queryParamMap, headerMap, managerCookieHeader);
+    }
+
+    @AfterClass(alwaysRun = true)
+    public void cleanUp() throws RegistryException, JSONException {
+        Map<String, String> queryParamMap = new HashMap<>();
+        queryParamMap.put("type", "wsdl");
+        assocUUIDMap = crudTestCommonUtils.getAssociationsFromPages(assetId, queryParamMap);
+        crudTestCommonUtils.deleteAssetById(assetId, queryParamMap);
+        crudTestCommonUtils.deleteAllAssociationsById(assetId, queryParamMap);
+        queryParamMap.clear();
+        for (String uuid : assocUUIDMap.keySet()) {
+            queryParamMap.put("type", crudTestCommonUtils.getType(assocUUIDMap.get(uuid)));
+            crudTestCommonUtils.deleteAssetById(uuid, queryParamMap);
+        }
     }
 
     @DataProvider

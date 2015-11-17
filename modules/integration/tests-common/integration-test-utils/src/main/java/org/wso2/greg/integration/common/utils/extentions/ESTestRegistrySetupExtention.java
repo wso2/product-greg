@@ -15,7 +15,7 @@
 *specific language governing permissions and limitations
 *under the License.
 */
-package org.wso2.carbon.registry.es.publisher;
+package org.wso2.greg.integration.common.utils.extentions;
 
-public class GregRestResourceTestCase {
+public class ESTestRegistrySetupExtention  {
 }

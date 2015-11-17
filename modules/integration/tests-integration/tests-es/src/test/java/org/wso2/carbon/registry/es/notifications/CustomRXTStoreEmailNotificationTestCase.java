@@ -19,7 +19,6 @@
 package org.wso2.carbon.registry.es.notifications;
 
 import org.apache.wink.client.ClientResponse;
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.testng.annotations.*;
@@ -53,25 +52,34 @@ import static org.testng.Assert.assertNotNull;
 import static org.testng.Assert.assertTrue;
 
 /**
- * This test class can be used to check the email notification functionality
+ * This test class can be used to check the email notification functionality on store side for custom asset type.
  */
-public class CustomRXTEmailNotificationTestCase extends GREGIntegrationBaseTest {
+public class CustomRXTStoreEmailNotificationTestCase extends GREGIntegrationBaseTest {
 
     private TestUserMode userMode;
-    private String jSessionId;
+    private String jSessionIdPublisher;
+    private String jSessionIdStore;
     private UserProfileMgtServiceClient userProfileMgtClient;
     private ResourceAdminServiceClient resourceAdminServiceClient;
     private File axis2File;
     private String publisherUrl;
+    private String storeUrl;
     private String resourcePath;
     private String assetId;
-    private String cookieHeader;
+    private String cookieHeaderPublisher;
+    private String cookieHeaderStore;
     private GenericRestClient genericRestClient;
     private Map<String, String> queryParamMap;
     private Map<String, String> headerMap;
     private String loginURL;
     private String emailAddress;
     private boolean isNotificationMailAvailable;
+
+
+    @Factory(dataProvider = "userModeProvider")
+    public CustomRXTStoreEmailNotificationTestCase(TestUserMode userMode) {
+        this.userMode = userMode;
+    }
 
     @BeforeClass(alwaysRun = true)
     public void init() throws Exception {
@@ -86,6 +94,7 @@ public class CustomRXTEmailNotificationTestCase extends GREGIntegrationBaseTest 
         resourcePath =
                 FrameworkPathUtil.getSystemResourceLocation() + "artifacts" + File.separator + "GREG" + File.separator;
         publisherUrl = automationContext.getContextUrls().getSecureServiceUrl().replace("services", "publisher/apis");
+        storeUrl = automationContext.getContextUrls().getSecureServiceUrl().replace("services", "store/apis");
         resourceAdminServiceClient = new ResourceAdminServiceClient(backendURL, session);
         addCustomRxt();
         userProfileMgtClient = new UserProfileMgtServiceClient(backendURL, session);
@@ -134,17 +143,15 @@ public class CustomRXTEmailNotificationTestCase extends GREGIntegrationBaseTest 
     }
 
     @Test(groups = { "wso2.greg",
-            "wso2.greg.es" }, description = "Adding subscription to custom asset on LC state change",
-            dependsOnMethods = { "addSubscriptionCheckListItem" , "addSubscriptionUnCheckListItem"})
+            "wso2.greg.es" }, description = "Adding subscription to custom asset on LC state change")
     public void addSubscriptionToLcStateChange() throws Exception {
 
         JSONObject dataObject = new JSONObject();
-        dataObject.put("notificationType", "PublisherLifeCycleStateChanged");
+        dataObject.put("notificationType", "StoreLifeCycleStateChanged");
         dataObject.put("notificationMethod", "email");
         ClientResponse response = genericRestClient
-                .geneticRestRequestPost(publisherUrl + "/subscriptions/applications/" + assetId,
-                        MediaType.APPLICATION_JSON, MediaType.APPLICATION_JSON, dataObject.toString(), queryParamMap,
-                        headerMap, cookieHeader);
+                .geneticRestRequestPost(storeUrl + "/subscription/applications/" + assetId, MediaType.APPLICATION_JSON,
+                        MediaType.APPLICATION_JSON, dataObject.toString(), queryParamMap, headerMap, cookieHeaderStore);
 
         String payLoad = response.getEntity(String.class);
         payLoad = payLoad.substring(payLoad.indexOf('{'));
@@ -163,9 +170,9 @@ public class CustomRXTEmailNotificationTestCase extends GREGIntegrationBaseTest 
 
         genericRestClient.geneticRestRequestPost(publisherUrl + "/assets/" + assetId + "/state",
                 MediaType.APPLICATION_FORM_URLENCODED, MediaType.APPLICATION_JSON,
-                "nextState=Testing&comment=Completed", queryParamMap, headerMap, cookieHeader);
+                "nextState=Testing&comment=Completed", queryParamMap, headerMap, cookieHeaderPublisher);
 
-        isNotificationMailAvailable = EmailUtil.readGmailInboxForNotification("PublisherLifeCycleStateChanged");
+        isNotificationMailAvailable = EmailUtil.readGmailInboxForNotification("StoreLifeCycleStateChanged");
         assertTrue(isNotificationMailAvailable,
                 "Publisher LC state changed notification mail has failed to reach Gmail inbox");
         isNotificationMailAvailable = false;
@@ -176,13 +183,12 @@ public class CustomRXTEmailNotificationTestCase extends GREGIntegrationBaseTest 
     public void addSubscriptionOnResourceUpdate() throws Exception {
 
         JSONObject dataObject = new JSONObject();
-        dataObject.put("notificationType", "PublisherResourceUpdated");
+        dataObject.put("notificationType", "StoreResourceUpdated");
         dataObject.put("notificationMethod", "email");
 
         ClientResponse response = genericRestClient
-                .geneticRestRequestPost(publisherUrl + "/subscriptions/applications/" + assetId,
-                        MediaType.APPLICATION_JSON, MediaType.APPLICATION_JSON, dataObject.toString(), queryParamMap,
-                        headerMap, cookieHeader);
+                .geneticRestRequestPost(storeUrl + "/subscription/applications/" + assetId, MediaType.APPLICATION_JSON,
+                        MediaType.APPLICATION_JSON, dataObject.toString(), queryParamMap, headerMap, cookieHeaderStore);
 
         String payLoad = response.getEntity(String.class);
         payLoad = payLoad.substring(payLoad.indexOf('{'));
@@ -200,102 +206,11 @@ public class CustomRXTEmailNotificationTestCase extends GREGIntegrationBaseTest 
         // update the resource in order to retrieve e-mail
         String dataBody = readFile(resourcePath + "json" + File.separator + "PublisherCustomResourceUpdate.json");
         genericRestClient.geneticRestRequestPost(publisherUrl + "/assets/" + assetId, MediaType.APPLICATION_JSON,
-                MediaType.APPLICATION_JSON, dataBody, queryParamMap, headerMap, cookieHeader);
+                MediaType.APPLICATION_JSON, dataBody, queryParamMap, headerMap, cookieHeaderPublisher);
 
-        isNotificationMailAvailable = EmailUtil.readGmailInboxForNotification("PublisherResourceUpdated");
+        isNotificationMailAvailable = EmailUtil.readGmailInboxForNotification("StoreResourceUpdated");
         assertTrue(isNotificationMailAvailable, "Publisher resource updated mail has failed to reach Gmail inbox");
         isNotificationMailAvailable = false;
-
-    }
-
-    @Test(groups = { "wso2.greg",
-            "wso2.greg.es" }, description = "Adding subscription to custom asset on check list item checked")
-    public void addSubscriptionCheckListItem() throws Exception {
-
-        JSONObject dataObject = new JSONObject();
-        dataObject.put("notificationType", "PublisherCheckListItemChecked");
-        dataObject.put("notificationMethod", "email");
-
-        ClientResponse response = genericRestClient
-                .geneticRestRequestPost(publisherUrl + "/subscriptions/applications/" + assetId,
-                        MediaType.APPLICATION_JSON, MediaType.APPLICATION_JSON, dataObject.toString(), queryParamMap,
-                        headerMap, cookieHeader);
-
-        String payLoad = response.getEntity(String.class);
-        payLoad = payLoad.substring(payLoad.indexOf('{'));
-        JSONObject obj = new JSONObject(payLoad);
-        assertNotNull(obj.get("id").toString(),
-                "Response payload is not the in the correct format" + response.getEntity(String.class));
-
-        // verify e-mail
-        String pointBrowserURL = EmailUtil.readGmailInboxForVerification();
-        assertTrue(pointBrowserURL.contains("https"), "Verification mail has failed to reach Gmail inbox");
-        EmailUtil.browserRedirectionOnVerification(pointBrowserURL, loginURL,
-                automationContext.getContextTenant().getContextUser().getUserName(),
-                automationContext.getContextTenant().getContextUser().getPassword());
-
-        // check items on LC
-        queryParamMap.put("lifecycle", "ServiceLifeCycle");
-        JSONObject checkListObject = new JSONObject();
-        JSONObject checkedItems = new JSONObject();
-        JSONArray checkedItemsArray = new JSONArray();
-        checkedItems.put("index", 0);
-        checkedItems.put("checked", true);
-        checkedItemsArray.put(checkedItems);
-        checkListObject.put("checklist", checkedItemsArray);
-
-        genericRestClient.geneticRestRequestPost(publisherUrl + "/asset/" + assetId + "/update-checklist",
-                MediaType.APPLICATION_JSON, MediaType.APPLICATION_JSON, checkListObject.toString(), queryParamMap,
-                headerMap, cookieHeader);
-        isNotificationMailAvailable = EmailUtil.readGmailInboxForNotification("PublisherCheckListItemChecked");
-        assertTrue(isNotificationMailAvailable,
-                "Publisher check list item on life cycle, notification mail has failed to reach Gmail inbox");
-        isNotificationMailAvailable = false;
-    }
-
-    @Test(groups = { "wso2.greg",
-            "wso2.greg.es" }, description = "Adding subscription to custom asset on check list item unchecked",
-            dependsOnMethods = { "addSubscriptionCheckListItem"})
-    public void addSubscriptionUnCheckListItem() throws Exception {
-
-        JSONObject dataObject = new JSONObject();
-        dataObject.put("notificationType", "PublisherCheckListItemUnchecked");
-        dataObject.put("notificationMethod", "email");
-        ClientResponse response = genericRestClient
-                .geneticRestRequestPost(publisherUrl + "/subscriptions/applications/" + assetId,
-                        MediaType.APPLICATION_JSON, MediaType.APPLICATION_JSON, dataObject.toString(), queryParamMap,
-                        headerMap, cookieHeader);
-
-        String payLoad = response.getEntity(String.class);
-        payLoad = payLoad.substring(payLoad.indexOf('{'));
-        JSONObject obj = new JSONObject(payLoad);
-        assertNotNull(obj.get("id").toString(),
-                "Response payload is not the in the correct format" + response.getEntity(String.class));
-
-        // verify e-mail
-        String pointBrowserURL = EmailUtil.readGmailInboxForVerification();
-        assertTrue(pointBrowserURL.contains("https"), "Verification mail has failed to reach Gmail inbox");
-        EmailUtil.browserRedirectionOnVerification(pointBrowserURL, loginURL,
-                automationContext.getContextTenant().getContextUser().getUserName(),
-                automationContext.getContextTenant().getContextUser().getPassword());
-
-        // un check items on LC
-        JSONObject checkListObject = new JSONObject();
-        JSONObject checkedItems = new JSONObject();
-        JSONArray checkedItemsArray = new JSONArray();
-        checkedItems.put("index", 0);
-        checkedItems.put("checked", false);
-        checkedItemsArray.put(checkedItems);
-        checkListObject.put("checklist", checkedItemsArray);
-
-        genericRestClient.geneticRestRequestPost(publisherUrl + "/asset/" + assetId + "/update-checklist",
-                MediaType.APPLICATION_JSON, MediaType.APPLICATION_JSON, checkListObject.toString(), queryParamMap,
-                headerMap, cookieHeader);
-        isNotificationMailAvailable = EmailUtil.readGmailInboxForNotification("PublisherCheckListItemUnchecked");
-        assertTrue(isNotificationMailAvailable,
-                "Publisher un check list item on life cycle, notification mail has failed to reached Gmail inbox");
-        isNotificationMailAvailable = false;
-
     }
 
     private void addCustomRxt()
@@ -321,7 +236,7 @@ public class CustomRXTEmailNotificationTestCase extends GREGIntegrationBaseTest 
     private void refreshPublisherLandingPage() {
         Map<String, String> queryParamMap = new HashMap<>();
         String landingUrl = publisherUrl.replace("apis", "pages/gc-landing");
-        genericRestClient.geneticRestRequestGet(landingUrl, queryParamMap, headerMap, cookieHeader);
+        genericRestClient.geneticRestRequestGet(landingUrl, queryParamMap, headerMap, cookieHeaderPublisher);
     }
 
     private void setTestEnvironment() throws JSONException, IOException {
@@ -330,24 +245,32 @@ public class CustomRXTEmailNotificationTestCase extends GREGIntegrationBaseTest 
                 .geneticRestRequestPost(publisherUrl + "/authenticate/", MediaType.APPLICATION_FORM_URLENCODED,
                         MediaType.APPLICATION_JSON, "username=admin&password=admin", queryParamMap, headerMap, null);
         JSONObject obj = new JSONObject(response.getEntity(String.class));
-        jSessionId = obj.getJSONObject("data").getString("sessionId");
-        cookieHeader = "JSESSIONID=" + jSessionId;
+        jSessionIdPublisher = obj.getJSONObject("data").getString("sessionId");
+        cookieHeaderPublisher = "JSESSIONID=" + jSessionIdPublisher;
         //refresh the publisher landing page to deploy new rxt type
         refreshPublisherLandingPage();
+
+        // Authenticate Store
+        ClientResponse responseStore = genericRestClient
+                .geneticRestRequestPost(storeUrl + "/authenticate/", MediaType.APPLICATION_FORM_URLENCODED,
+                        MediaType.APPLICATION_JSON, "username=admin&password=admin", queryParamMap, headerMap, null);
+        obj = new JSONObject(responseStore.getEntity(String.class));
+        jSessionIdStore = obj.getJSONObject("data").getString("sessionId");
+        cookieHeaderStore = "JSESSIONID=" + jSessionIdStore;
 
         //Create custom asset
         queryParamMap.put("type", "applications");
         String dataBody = readFile(resourcePath + "json" + File.separator + "publisherPublishCustomResource.json");
         ClientResponse createResponse = genericRestClient
                 .geneticRestRequestPost(publisherUrl + "/assets", MediaType.APPLICATION_JSON,
-                        MediaType.APPLICATION_JSON, dataBody, queryParamMap, headerMap, cookieHeader);
+                        MediaType.APPLICATION_JSON, dataBody, queryParamMap, headerMap, cookieHeaderPublisher);
         JSONObject createObj = new JSONObject(createResponse.getEntity(String.class));
         assetId = createObj.get("id").toString();
     }
 
     private void deleteCustomAsset() throws JSONException {
         genericRestClient.geneticRestRequestDelete(publisherUrl + "/assets/" + assetId, MediaType.APPLICATION_JSON,
-                MediaType.APPLICATION_JSON, queryParamMap, headerMap, cookieHeader);
+                MediaType.APPLICATION_JSON, queryParamMap, headerMap, cookieHeaderPublisher);
     }
 
     @AfterClass(alwaysRun = true)
@@ -356,4 +279,11 @@ public class CustomRXTEmailNotificationTestCase extends GREGIntegrationBaseTest 
         deleteCustomRxt();
     }
 
+    @DataProvider
+    private static TestUserMode[][] userModeProvider() {
+        return new TestUserMode[][]{
+                new TestUserMode[]{TestUserMode.SUPER_TENANT_ADMIN}
+                //                new TestUserMode[]{TestUserMode.TENANT_USER},
+        };
+    }
 }

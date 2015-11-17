@@ -71,6 +71,7 @@ public class SwaggerNotificationAndSubscriptionTestCase extends GregESTestBaseTe
     LifeCycleAdminServiceClient lifeCycleAdminServiceClient;
     String lifeCycleName;
     String stateChangeMessage = " State changed successfully to Testing!";
+    Map<String, String> assocUUIDMap;
 
     @Factory(dataProvider = "userModeProvider")
     public SwaggerNotificationAndSubscriptionTestCase(TestUserMode userMode) {
@@ -95,11 +96,6 @@ public class SwaggerNotificationAndSubscriptionTestCase extends GregESTestBaseTe
         setTestEnvironment();
     }
 
-    @AfterClass(alwaysRun = true)
-    public void cleanUp() throws RegistryException {
-
-    }
-
     private void setTestEnvironment() throws XPathExpressionException, JSONException {
         ClientResponse response = authenticate(publisherUrl, genericRestClient,
                                                automationContext.getSuperTenant().getTenantAdmin().getUserName(),
@@ -120,9 +116,10 @@ public class SwaggerNotificationAndSubscriptionTestCase extends GregESTestBaseTe
             throws JSONException, InterruptedException, IOException,
                    CustomLifecyclesChecklistAdminServiceExceptionException {
         queryParamMap.put("type", "swagger");
-        String dataBody = readFile(resourcePath + "json" + File.separator
-                                   + "swagger-sample.json");
-        assetName = (String) (new JSONObject(dataBody)).get("overview_name");
+        String swaggerTemplate = readFile(resourcePath + "json" + File.separator + "swagger-sample.json");
+        assetName = "swagger.json";
+        String dataBody = String.format(swaggerTemplate, "http://petstore.swagger.io/v2/swagger.json",
+                                        assetName, "1.0.0");
         ClientResponse response =
                 genericRestClient.geneticRestRequestPost(publisherUrl + "/assets",
                                                          MediaType.APPLICATION_JSON,
@@ -295,6 +292,20 @@ public class SwaggerNotificationAndSubscriptionTestCase extends GregESTestBaseTe
                                                         MediaType.APPLICATION_JSON,
                                                         "{\"checklist\":[{\"index\":" + itemId + ",\"checked\":false}]}"
                 , queryParamMap, headerMap, managerCookieHeader);
+    }
+
+    @AfterClass(alwaysRun = true)
+    public void cleanUp() throws RegistryException, JSONException {
+        Map<String, String> queryParamMap = new HashMap<>();
+        queryParamMap.put("type", "swagger");
+        assocUUIDMap = crudTestCommonUtils.getAssociationsFromPages(assetId, queryParamMap);
+        crudTestCommonUtils.deleteAssetById(assetId, queryParamMap);
+        crudTestCommonUtils.deleteAllAssociationsById(assetId, queryParamMap);
+        queryParamMap.clear();
+        for (String uuid : assocUUIDMap.keySet()) {
+            queryParamMap.put("type", crudTestCommonUtils.getType(assocUUIDMap.get(uuid)));
+            crudTestCommonUtils.deleteAssetById(uuid, queryParamMap);
+        }
     }
 
     @DataProvider
