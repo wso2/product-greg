@@ -71,6 +71,7 @@ public class SwaggerNotificationAndSubscriptionTestCase extends GregESTestBaseTe
     LifeCycleAdminServiceClient lifeCycleAdminServiceClient;
     String lifeCycleName;
     String stateChangeMessage = " State changed successfully to Testing!";
+    Map<String, String> assocUUIDMap;
 
     @Factory(dataProvider = "userModeProvider")
     public SwaggerNotificationAndSubscriptionTestCase(TestUserMode userMode) {
@@ -93,11 +94,6 @@ public class SwaggerNotificationAndSubscriptionTestCase extends GregESTestBaseTe
         crudTestCommonUtils = new ESTestCommonUtils(genericRestClient, publisherUrl, headerMap);
         lifeCycleName = "ServiceLifeCycle";
         setTestEnvironment();
-    }
-
-    @AfterClass(alwaysRun = true)
-    public void cleanUp() throws RegistryException {
-
     }
 
     private void setTestEnvironment() throws XPathExpressionException, JSONException {
@@ -295,6 +291,20 @@ public class SwaggerNotificationAndSubscriptionTestCase extends GregESTestBaseTe
                                                         MediaType.APPLICATION_JSON,
                                                         "{\"checklist\":[{\"index\":" + itemId + ",\"checked\":false}]}"
                 , queryParamMap, headerMap, managerCookieHeader);
+    }
+
+    @AfterClass(alwaysRun = true)
+    public void cleanUp() throws RegistryException, JSONException {
+        Map<String, String> queryParamMap = new HashMap<>();
+        queryParamMap.put("type", "swagger");
+        assocUUIDMap = crudTestCommonUtils.getAssociationsFromPages(assetId, queryParamMap);
+        crudTestCommonUtils.deleteAssetById(assetId, queryParamMap);
+        crudTestCommonUtils.deleteAllAssociationsById(assetId, queryParamMap);
+        queryParamMap.clear();
+        for (String uuid : assocUUIDMap.keySet()) {
+            queryParamMap.put("type", crudTestCommonUtils.getType(assocUUIDMap.get(uuid)));
+            crudTestCommonUtils.deleteAssetById(uuid, queryParamMap);
+        }
     }
 
     @DataProvider
