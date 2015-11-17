@@ -97,6 +97,7 @@ public class RestServiceNotificationAndSubscriptionTestCase extends GREGIntegrat
         response = genericRestClient.geneticRestRequestPost(publisherUrl + "/assets/" + assetId + "/state",
                 MediaType.APPLICATION_FORM_URLENCODED, MediaType.APPLICATION_JSON,
                 "nextState=Testing&comment=Completed", queryParamMap, headerMap, cookieHeader);
+        // TODO - Since notification not appearing in the publisher
 
     }
 
@@ -126,6 +127,7 @@ public class RestServiceNotificationAndSubscriptionTestCase extends GREGIntegrat
                         MediaType.APPLICATION_JSON,
                         MediaType.APPLICATION_JSON, dataBody
                         , queryParamMap, headerMap, cookieHeader);
+        // TODO - Since notification not appearing in the publisher
     }
 
     @Test(groups = { "wso2.greg",
@@ -160,6 +162,7 @@ public class RestServiceNotificationAndSubscriptionTestCase extends GREGIntegrat
         response = genericRestClient.geneticRestRequestPost(publisherUrl + "/asset/" + assetId + "/update-checklist",
                 MediaType.APPLICATION_JSON, MediaType.APPLICATION_JSON, checkListObject.toString(), queryParamMap,
                 headerMap, cookieHeader);
+        // TODO - Since notification not appearing in the publisher
     }
 
     @Test(groups = { "wso2.greg",
@@ -194,6 +197,7 @@ public class RestServiceNotificationAndSubscriptionTestCase extends GREGIntegrat
         response = genericRestClient.geneticRestRequestPost(publisherUrl + "/asset/" + assetId + "/update-checklist",
                 MediaType.APPLICATION_JSON, MediaType.APPLICATION_JSON, checkListObject.toString(), queryParamMap,
                 headerMap, cookieHeader);
+        // TODO - Since notification not appearing in the publisher
     }
 
     @Test(groups = { "wso2.greg",
@@ -242,7 +246,7 @@ public class RestServiceNotificationAndSubscriptionTestCase extends GREGIntegrat
         assetId = createObj.get("id").toString();
     }
 
-    @AfterClass
+    @AfterClass(alwaysRun = true)
     public void clean() throws Exception {
         deleteRestServiceAsset();
     }
