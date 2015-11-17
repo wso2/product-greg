@@ -28,7 +28,6 @@ import org.testng.annotations.*;
 import org.wso2.carbon.automation.engine.context.TestUserMode;
 import org.wso2.carbon.automation.engine.frameworkutils.FrameworkPathUtil;
 import org.wso2.carbon.registry.core.exceptions.RegistryException;
-import org.wso2.carbon.registry.es.utils.ESTestCommonUtils;
 import org.wso2.carbon.registry.es.utils.GregESTestBaseTest;
 import org.wso2.greg.integration.common.utils.GenericRestClient;
 
@@ -68,8 +67,12 @@ public class RestServiceCRUDTestCase extends GregESTestBaseTest {
         setTestEnvironment();
     }
 
-    private void setTestEnvironment() throws JSONException, XPathExpressionException,
-            IOException {
+    @BeforeMethod(alwaysRun = true)
+    public void reInitEnvironment() throws XPathExpressionException, JSONException {
+        setTestEnvironment();
+    }
+
+    private void setTestEnvironment() throws JSONException, XPathExpressionException {
         JSONObject objSessionPublisher =
                 new JSONObject(authenticate(publisherUrl, genericRestClient,
                         automationContext.getSuperTenant().getTenantAdmin().getUserName(),

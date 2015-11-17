@@ -185,10 +185,10 @@ public class GregESTestBaseTest extends GREGIntegrationBaseTest {
         String session = getSessionCookie();
         ResourceAdminServiceClient resourceAdminServiceClient = new ResourceAdminServiceClient(backendURL, session);
         String filePath = getTestArtifactLocation() + "artifacts" + File.separator +
-                "GREG" + File.separator + "rxt" + File.separator + "application.rxt";
+                "GREG" + File.separator + "rxt" + File.separator + customRxt;
         DataHandler dh = new DataHandler(new URL("file:///" + filePath));
         resourceAdminServiceClient.addResource(
-                "/_system/governance/repository/components/org.wso2.carbon.governance/types/application.rxt",
+                "/_system/governance/repository/components/org.wso2.carbon.governance/types/" + customRxt,
                 "application/vnd.wso2.registry-ext-type+xml", "desc", dh);
     }
 

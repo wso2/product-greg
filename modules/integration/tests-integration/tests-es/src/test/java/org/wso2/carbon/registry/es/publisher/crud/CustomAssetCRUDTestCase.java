@@ -32,6 +32,7 @@ import org.wso2.greg.integration.common.clients.ResourceAdminServiceClient;
 import org.wso2.greg.integration.common.utils.GenericRestClient;
 
 import javax.ws.rs.core.MediaType;
+import javax.xml.xpath.XPathExpressionException;
 import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
@@ -64,6 +65,17 @@ public class CustomAssetCRUDTestCase extends GregESTestBaseTest {
         publisherUrl = automationContext.getContextUrls()
                 .getSecureServiceUrl().replace("services", "publisher/apis");
         setTestEnvironment();
+    }
+
+    @BeforeMethod(alwaysRun = true)
+    public void reInitEnvironment() throws XPathExpressionException, JSONException {
+        JSONObject objSessionPublisher =
+                new JSONObject(authenticate(publisherUrl, genericRestClient,
+                        automationContext.getSuperTenant().getTenantAdmin().getUserName(),
+                        automationContext.getSuperTenant().getTenantAdmin().getPassword())
+                        .getEntity(String.class));
+        jSessionId = objSessionPublisher.getJSONObject("data").getString("sessionId");
+        cookieHeader = "JSESSIONID=" + jSessionId;
     }
 
     private void setTestEnvironment() throws Exception {
