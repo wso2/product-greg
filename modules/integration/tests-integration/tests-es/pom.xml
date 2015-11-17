@@ -20,7 +20,7 @@
                 <inherited>false</inherited>
                 <version>2.19</version>
                 <configuration>
-                    <shutdown>kill</shutdown>
+                    <trimStackTrace>false</trimStackTrace>
                     <parallel>classes</parallel>
                     <threadCount>1</threadCount>
                     <argLine>-Xmx1024m -XX:PermSize=256m -XX:MaxPermSize=512m</argLine>
