@@ -115,9 +115,11 @@ public class PolicyNotificationAndSubscriptionTestCase extends GregESTestBaseTes
             throws JSONException, InterruptedException, IOException,
                    CustomLifecyclesChecklistAdminServiceExceptionException {
         queryParamMap.put("type", "policy");
-        String dataBody = readFile(resourcePath + "json" + File.separator
-                                   + "policy-sample.json");
-        assetName = (String) (new JSONObject(dataBody)).get("overview_name");
+        String policyTemplate = readFile(resourcePath + "json" + File.separator + "policy-sample.json");
+        assetName = "UTPolicy.xml";
+        String dataBody = String.format(policyTemplate,
+                                        "https://raw.githubusercontent.com/wso2/wso2-qa-artifacts/master/automation-artifacts/greg/policy/UTPolicy.xml",
+                                        assetName, "1.0.0");
         ClientResponse response =
                 genericRestClient.geneticRestRequestPost(publisherUrl + "/assets",
                                                          MediaType.APPLICATION_JSON,

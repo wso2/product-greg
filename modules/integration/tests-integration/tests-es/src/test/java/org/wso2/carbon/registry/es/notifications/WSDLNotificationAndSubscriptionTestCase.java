@@ -116,9 +116,12 @@ public class WSDLNotificationAndSubscriptionTestCase extends GregESTestBaseTest 
             throws JSONException, InterruptedException, IOException,
                    CustomLifecyclesChecklistAdminServiceExceptionException {
         queryParamMap.put("type", "wsdl");
-        String dataBody = readFile(resourcePath + "json" + File.separator
-                                   + "publisherPublishWSDLResource.json");
-        assetName = (String) (new JSONObject(dataBody)).get("overview_name");
+        String wsdlTemplate = readFile(resourcePath + "json" + File.separator + "wsdl-sample.json");
+        assetName = "echo.wsdl";
+        String dataBody = String.format(wsdlTemplate,
+                                        "https://raw.githubusercontent.com/wso2/wso2-qa-artifacts/master/automation-artifacts/greg/wsdl/StockQuote.wsdl",
+                                        assetName,
+                                        "1.0.0");
         ClientResponse response =
                 genericRestClient.geneticRestRequestPost(publisherUrl + "/assets",
                                                          MediaType.APPLICATION_JSON,
