@@ -73,12 +73,6 @@ public class CustomRXTEmailNotificationTestCase extends GREGIntegrationBaseTest 
     private String emailAddress;
     private boolean isNotificationMailAvailable;
 
-
-    @Factory(dataProvider = "userModeProvider")
-    public CustomRXTEmailNotificationTestCase(TestUserMode userMode) {
-        this.userMode = userMode;
-    }
-
     @BeforeClass(alwaysRun = true)
     public void init() throws Exception {
 
@@ -362,11 +356,4 @@ public class CustomRXTEmailNotificationTestCase extends GREGIntegrationBaseTest 
         deleteCustomRxt();
     }
 
-    @DataProvider
-    private static TestUserMode[][] userModeProvider() {
-        return new TestUserMode[][]{
-                new TestUserMode[]{TestUserMode.SUPER_TENANT_ADMIN}
-                //                new TestUserMode[]{TestUserMode.TENANT_USER},
-        };
-    }
 }

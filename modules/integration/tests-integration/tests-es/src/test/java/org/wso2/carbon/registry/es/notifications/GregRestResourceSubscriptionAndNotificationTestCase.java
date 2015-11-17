@@ -16,7 +16,7 @@
 *under the License.
 */
 
-package org.wso2.carbon.registry.es.publisher;
+package org.wso2.carbon.registry.es.notifications;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
