@@ -19,11 +19,17 @@ package org.wso2.carbon.registry.es.publisher.associations;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonParser;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.apache.wink.client.ClientResponse;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.json.simple.parser.ParseException;
-import org.testng.annotations.*;
+import org.testng.annotations.AfterClass;
+import org.testng.annotations.BeforeClass;
+import org.testng.annotations.DataProvider;
+import org.testng.annotations.Factory;
+import org.testng.annotations.Test;
 import org.wso2.carbon.automation.engine.context.TestUserMode;
 import org.wso2.carbon.automation.engine.frameworkutils.FrameworkPathUtil;
 import org.wso2.carbon.integration.common.utils.mgt.ServerConfigurationManager;
@@ -33,17 +39,14 @@ import org.wso2.carbon.registry.resource.stub.ResourceAdminServiceExceptionExcep
 import org.wso2.greg.integration.common.clients.ResourceAdminServiceClient;
 import org.wso2.greg.integration.common.utils.GenericRestClient;
 
+import javax.activation.DataHandler;
+import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-
-import javax.activation.DataHandler;
-import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.Response;
 
 import static org.testng.Assert.assertNotNull;
 import static org.testng.Assert.assertTrue;
@@ -172,9 +175,7 @@ public class CustomRXTAssociationTestCase extends GregESTestBaseTest {
     }
 
     private void deleteCustomAsset() throws JSONException {
-        genericRestClient.geneticRestRequestDelete(publisherUrl + "/assets/" + assetId, MediaType.APPLICATION_JSON,
-                MediaType.APPLICATION_JSON, queryParamMap, headerMap, cookieHeader);
-
+        deleteAsset(assetId, publisherUrl, cookieHeader, "applications", genericRestClient);
     }
 
     private void deleteCustomRxt() throws Exception {
