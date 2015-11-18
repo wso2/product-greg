@@ -88,18 +88,24 @@ public class EmailUtil {
         long startTime = System.currentTimeMillis();
         long endTime = 0;
         int count = 1;
-        while (endTime - startTime < 90000 && !isEmailVerified) {
+        while (endTime - startTime < 180000 && !isEmailVerified) {
             Message[] messages = inbox.getMessages();
 
             for (Message message : messages) {
-                log.info("Mail Subject:- " + message.getSubject());
-                if (message.getSubject().contains("EmailVerification")) {
-                    pointBrowserURL = getBodyFromMessage(message);
-                    isEmailVerified = true;
-                }
+                if (!message.isExpunged()) {
+                    try {
+                        log.info("Mail Subject:- " + message.getSubject());
+                        if (message.getSubject().contains("EmailVerification")) {
+                            pointBrowserURL = getBodyFromMessage(message);
+                            isEmailVerified = true;
+                        }
 
-                // Optional : deleting the mail
-                message.setFlag(Flags.Flag.DELETED, true);
+                        // Optional : deleting the mail
+                        message.setFlag(Flags.Flag.DELETED, true);
+                    } catch (MessageRemovedException e){
+                        log.error("Could not read the message subject. Message is removed from inbox");
+                    }
+                }
             }
             endTime = System.currentTimeMillis();
             Thread.sleep(waitTime);
@@ -129,18 +135,24 @@ public class EmailUtil {
         long startTime = System.currentTimeMillis();
         long endTime = 0;
         int count = 1;
-        while (endTime - startTime < 90000 && !isNotificationMailAvailable) {
+        while (endTime - startTime < 180000 && !isNotificationMailAvailable) {
             Message[] messages = inbox.getMessages();
 
             for (Message message : messages) {
-                log.info("Mail Subject:- " + message.getSubject());
+                if(!message.isExpunged()) {
+                    try {
+                        log.info("Mail Subject:- " + message.getSubject());
 
-                if (message.getSubject().contains(notificationType)) {
-                    isNotificationMailAvailable = true;
+                        if (message.getSubject().contains(notificationType)) {
+                            isNotificationMailAvailable = true;
 
+                        }
+                        // Optional : deleting the  mail
+                        message.setFlag(Flags.Flag.DELETED, true);
+                    } catch (MessageRemovedException e) {
+                        log.error("Could not read the message subject. Message is removed from inbox");
+                    }
                 }
-                // Optional : deleting the  mail
-                message.setFlag(Flags.Flag.DELETED, true);
 
             }
             endTime = System.currentTimeMillis();
@@ -151,6 +163,24 @@ public class EmailUtil {
         inbox.close(true);
         store.close();
         return isNotificationMailAvailable;
+    }
+
+    public static void deleteSentMails() throws MessagingException, IOException {
+        Properties props = new Properties();
+        props.load(new FileInputStream(new File(
+                TestConfigurationProvider.getResourceLocation("GREG") + File.separator + "axis2" + File.separator
+                        + "smtp.properties")));
+        Session session = Session.getDefaultInstance(props, null);
+        Store store = session.getStore("imaps");
+        store.connect("smtp.gmail.com", emailAddress, java.nio.CharBuffer.wrap(emailPassword).toString());
+
+        Folder sentMail = store.getFolder("[Gmail]/Sent Mail");
+        sentMail.open(Folder.READ_WRITE);
+        Message[] messages =sentMail.getMessages();
+        Flags deleted = new Flags(Flags.Flag.DELETED);
+        sentMail.setFlags(messages,deleted,true);
+        sentMail.close(true);
+        store.close();
     }
 
     public static void browserRedirectionOnVerification(String pointBrowserURL, String loginURL, String userName,

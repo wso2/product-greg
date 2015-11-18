@@ -27,10 +27,11 @@ import org.json.JSONObject;
 import org.testng.annotations.*;
 import org.wso2.carbon.automation.engine.context.TestUserMode;
 import org.wso2.carbon.automation.engine.frameworkutils.FrameworkPathUtil;
-import org.wso2.greg.integration.common.utils.GREGIntegrationBaseTest;
+import org.wso2.carbon.registry.es.utils.GregESTestBaseTest;
 import org.wso2.greg.integration.common.utils.GenericRestClient;
 
 import javax.ws.rs.core.MediaType;
+import javax.xml.xpath.XPathExpressionException;
 import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
@@ -41,7 +42,7 @@ import static org.testng.Assert.assertNotNull;
 /**
  * This class testes subscription & notification for rest services on publisher notification
  */
-public class RestServiceNotificationAndSubscriptionTestCase extends GREGIntegrationBaseTest {
+public class RestServiceNotificationAndSubscriptionTestCase extends GregESTestBaseTest {
 
     private static final Log log = LogFactory.getLog(RestServiceNotificationAndSubscriptionTestCase.class);
 
@@ -227,11 +228,11 @@ public class RestServiceNotificationAndSubscriptionTestCase extends GREGIntegrat
                 MediaType.APPLICATION_JSON, queryParamMap, headerMap, cookieHeader);
     }
 
-    private void setTestEnvironment() throws JSONException, IOException {
-        // Authenticate
-        ClientResponse response = genericRestClient
-                .geneticRestRequestPost(publisherUrl + "/authenticate/", MediaType.APPLICATION_FORM_URLENCODED,
-                        MediaType.APPLICATION_JSON, "username=admin&password=admin", queryParamMap, headerMap, null);
+    private void setTestEnvironment() throws JSONException, IOException, XPathExpressionException {
+        // Authenticate Publisher
+        ClientResponse response = authenticate(publisherUrl, genericRestClient,
+                automationContext.getSuperTenant().getTenantAdmin().getUserName(),
+                automationContext.getSuperTenant().getTenantAdmin().getPassword());
         JSONObject obj = new JSONObject(response.getEntity(String.class));
         jSessionId = obj.getJSONObject("data").getString("sessionId");
         cookieHeader = "JSESSIONID=" + jSessionId;
