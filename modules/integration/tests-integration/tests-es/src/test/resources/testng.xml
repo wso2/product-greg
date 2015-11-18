@@ -59,6 +59,9 @@
             <!--<class name="org.wso2.carbon.registry.es.notifications.WADLNotificationAndSubscriptionTestCase"/>-->
             <!--<class name="org.wso2.carbon.registry.es.notifications.WSDLEmailNotificationTestCase"/>-->
             <!--<class name="org.wso2.carbon.registry.es.notifications.WSDLNotificationAndSubscriptionTestCase"/>-->
+            <!--<class name="org.wso2.carbon.registry.es.notifications.PolicyEmailNotificationTestCase"/>
+            <class name="org.wso2.carbon.registry.es.notifications.WADLEmailNotificationTestCase"/>
+            <class name="org.wso2.carbon.registry.es.notifications.SwaggerEmailNotiificationTestCase"/>-->
 
             <class name="org.wso2.carbon.registry.es.notes.GregAssertNotesESTestCase"/>
 
