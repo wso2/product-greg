@@ -184,8 +184,9 @@ public class CustomRXTAssociationTestCase extends GregESTestBaseTest {
                 "/_system/governance/repository/components/org.wso2.carbon.governance/types/application.rxt");
     }
 
-    @AfterClass
+    @AfterClass(alwaysRun = true)
     public void clean() throws Exception {
+        this.cleanupAsset(genericRestClient,publisherUrl,assetId,cookieHeader,"restservice");
         deleteCustomAsset();
         deleteCustomRxt();
     }
