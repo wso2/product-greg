@@ -18,8 +18,6 @@
 
 package org.wso2.carbon.registry.es.notifications;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.apache.wink.client.ClientResponse;
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -27,10 +25,11 @@ import org.json.JSONObject;
 import org.testng.annotations.*;
 import org.wso2.carbon.automation.engine.context.TestUserMode;
 import org.wso2.carbon.automation.engine.frameworkutils.FrameworkPathUtil;
-import org.wso2.greg.integration.common.utils.GREGIntegrationBaseTest;
+import org.wso2.carbon.registry.es.utils.GregESTestBaseTest;
 import org.wso2.greg.integration.common.utils.GenericRestClient;
 
 import javax.ws.rs.core.MediaType;
+import javax.xml.xpath.XPathExpressionException;
 import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
@@ -41,9 +40,7 @@ import static org.testng.Assert.assertNotNull;
 /**
  * This class testes subscription & notification for soap services on publisher side.
  */
-public class SoapServiceNotificationAndSubscriptionTestCase extends GREGIntegrationBaseTest {
-
-    private static final Log log = LogFactory.getLog(RestServiceNotificationAndSubscriptionTestCase.class);
+public class SoapServiceNotificationAndSubscriptionTestCase extends GregESTestBaseTest {
 
     private TestUserMode userMode;
     String jSessionId;
@@ -219,11 +216,11 @@ public class SoapServiceNotificationAndSubscriptionTestCase extends GREGIntegrat
                 MediaType.APPLICATION_JSON, queryParamMap, headerMap, cookieHeader);
     }
 
-    private void setTestEnvironment() throws JSONException, IOException {
-        // Authenticate
-        ClientResponse response = genericRestClient
-                .geneticRestRequestPost(publisherUrl + "/authenticate/", MediaType.APPLICATION_FORM_URLENCODED,
-                        MediaType.APPLICATION_JSON, "username=admin&password=admin", queryParamMap, headerMap, null);
+    private void setTestEnvironment() throws JSONException, IOException, XPathExpressionException {
+        // Authenticate Publisher
+        ClientResponse response = authenticate(publisherUrl, genericRestClient,
+                automationContext.getSuperTenant().getTenantAdmin().getUserName(),
+                automationContext.getSuperTenant().getTenantAdmin().getPassword());
         JSONObject obj = new JSONObject(response.getEntity(String.class));
         jSessionId = obj.getJSONObject("data").getString("sessionId");
         cookieHeader = "JSESSIONID=" + jSessionId;
