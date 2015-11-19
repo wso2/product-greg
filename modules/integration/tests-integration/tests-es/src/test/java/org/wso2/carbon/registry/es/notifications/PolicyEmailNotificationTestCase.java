@@ -47,6 +47,7 @@ import org.wso2.greg.integration.common.clients.LifeCycleAdminServiceClient;
 import org.wso2.greg.integration.common.clients.UserProfileMgtServiceClient;
 import org.wso2.greg.integration.common.utils.GenericRestClient;
 
+import javax.mail.MessagingException;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.xml.xpath.XPathExpressionException;
@@ -301,8 +302,9 @@ public class PolicyEmailNotificationTestCase extends GregESTestBaseTest {
     }
 
     @AfterClass(alwaysRun = true)
-    public void cleanUp() throws RegistryException, JSONException {
+    public void cleanUp() throws RegistryException, JSONException, IOException, MessagingException {
         deletePolicyAsset();
+        EmailUtil.deleteSentMails();
     }
 
     private void deletePolicyAsset() throws JSONException {
