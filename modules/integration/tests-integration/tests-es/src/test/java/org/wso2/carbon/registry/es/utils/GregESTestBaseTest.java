@@ -22,6 +22,8 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.testng.Assert;
+import org.wso2.carbon.registry.core.exceptions.RegistryException;
+import org.wso2.carbon.registry.resource.stub.ResourceAdminServiceExceptionException;
 import org.wso2.greg.integration.common.clients.ResourceAdminServiceClient;
 import org.wso2.greg.integration.common.utils.GREGIntegrationBaseTest;
 import org.wso2.greg.integration.common.utils.GenericRestClient;
@@ -180,26 +182,63 @@ public class GregESTestBaseTest extends GREGIntegrationBaseTest {
     }
 
     /**
-     * Add new rxt configuration via resource admin service
-     *
-     * @param customRxt filename of the custom rxt which is in resources/artifacts/GREG/rxt/ directory
+
+     * Can be used to add new rxt configuration
+     * @param fileName name of the new rxt file
+     * @param resourceFileName saving name for the rxt file
+     * @return true on successful addition of rxt
      * @throws Exception
      */
-    public void addNewRxtConfigViaAdminService(String customRxt) throws Exception {
-        String session = getSessionCookie();
-        ResourceAdminServiceClient resourceAdminServiceClient = new ResourceAdminServiceClient(backendURL, session);
+    public boolean addNewRxtConfiguration(String fileName, String resourceFileName)
+            throws Exception {
+
+        ResourceAdminServiceClient resourceAdminServiceClient = new ResourceAdminServiceClient(backendURL,
+                getSessionCookie());
+
         String filePath = getTestArtifactLocation() + "artifacts" + File.separator +
-                          "GREG" + File.separator + "rxt" + File.separator + customRxt;
+                "GREG" + File.separator + "rxt" + File.separator + fileName;
         DataHandler dh = new DataHandler(new URL("file:///" + filePath));
-        resourceAdminServiceClient.addResource(
-                "/_system/governance/repository/components/org.wso2.carbon.governance/types/" + customRxt,
+        return resourceAdminServiceClient.addResource(
+                "/_system/governance/repository/components/org.wso2.carbon.governance/types/"+resourceFileName,
                 "application/vnd.wso2.registry-ext-type+xml", "desc", dh);
     }
 
-    public ClientResponse searchAssetByQuery(String publisherUrl,
-                                             GenericRestClient genericRestClient,
-                                             String cookieHeader, Map<String, String> queryParamMap)
-            throws JSONException {
+    /**
+     * Can be used to add default rxt configuration
+     * @param defaultFileName name of the default rxt file
+     * @param defaultResourceFileName saving name for the default rxt file
+     * @return true on successful addition of default rxt
+     * @throws Exception
+     */
+    public boolean defaultCustomRxtConfiguration(String defaultFileName, String defaultResourceFileName)
+            throws Exception {
+
+        ResourceAdminServiceClient resourceAdminServiceClient = new ResourceAdminServiceClient(backendURL,
+                getSessionCookie());
+
+        String filePath = getTestArtifactLocation() + "artifacts" + File.separator +
+                "GREG" + File.separator + "rxt" + File.separator + defaultFileName;
+        DataHandler dh = new DataHandler(new URL("file:///" + filePath));
+        return resourceAdminServiceClient.addResource(
+                "/_system/governance/repository/components/org.wso2.carbon.governance/types/"+defaultResourceFileName,
+                "application/vnd.wso2.registry-ext-type+xml", "desc", dh);
+    }
+
+    /**
+     * Deletion of added custom rxt file from /_system/governance/repository/components/org.wso2.carbon.governance/types
+     * @param fileName name of the rxt file added
+     * @throws Exception
+     */
+    public boolean deleteCustomRxtConfiguration(String fileName) throws Exception {
+        String session = getSessionCookie();
+        ResourceAdminServiceClient resourceAdminServiceClient = new ResourceAdminServiceClient(backendURL, session);
+        return resourceAdminServiceClient.deleteResource(
+                "/_system/governance/repository/components/org.wso2.carbon.governance/types/"+fileName);
+    }
+
+
+    public ClientResponse searchAssetByQuery(String publisherUrl, GenericRestClient genericRestClient, String cookieHeader, Map<String, String> queryParamMap) throws JSONException {
+
         ClientResponse clientResponse;
         JSONObject obj;
         double time1 = System.currentTimeMillis();
@@ -352,7 +391,6 @@ public class GregESTestBaseTest extends GREGIntegrationBaseTest {
         return assocMap;
     }
 
-
     public ClientResponse getAssetsById(GenericRestClient genericRestClient,
                                         String publisherUrl,
                                         String assetId, String cookieHeader,
@@ -388,4 +426,5 @@ public class GregESTestBaseTest extends GREGIntegrationBaseTest {
                     , queryParamMap, headerMap, cookieHeader);
         }
     }
+
 }
