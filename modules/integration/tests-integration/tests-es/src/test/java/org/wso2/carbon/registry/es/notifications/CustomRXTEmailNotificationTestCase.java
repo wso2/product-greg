@@ -34,10 +34,10 @@ import org.wso2.carbon.integration.common.utils.exceptions.AutomationUtilExcepti
 import org.wso2.carbon.integration.common.utils.mgt.ServerConfigurationManager;
 import org.wso2.carbon.registry.core.exceptions.RegistryException;
 import org.wso2.carbon.registry.es.utils.EmailUtil;
+import org.wso2.carbon.registry.es.utils.GregESTestBaseTest;
 import org.wso2.carbon.registry.resource.stub.ResourceAdminServiceExceptionException;
 import org.wso2.greg.integration.common.clients.ResourceAdminServiceClient;
 import org.wso2.greg.integration.common.clients.UserProfileMgtServiceClient;
-import org.wso2.greg.integration.common.utils.GREGIntegrationBaseTest;
 import org.wso2.greg.integration.common.utils.GenericRestClient;
 
 import javax.activation.DataHandler;
@@ -55,7 +55,7 @@ import static org.testng.Assert.assertTrue;
 /**
  * This test class can be used to check the email notification functionality
  */
-public class CustomRXTEmailNotificationTestCase extends GREGIntegrationBaseTest {
+public class CustomRXTEmailNotificationTestCase extends GregESTestBaseTest {
 
     private TestUserMode userMode;
     private String jSessionId;
@@ -72,6 +72,11 @@ public class CustomRXTEmailNotificationTestCase extends GREGIntegrationBaseTest 
     private String loginURL;
     private String emailAddress;
     private boolean isNotificationMailAvailable;
+
+    @Factory(dataProvider = "userModeProvider")
+    public CustomRXTEmailNotificationTestCase(TestUserMode userMode) {
+        this.userMode = userMode;
+    }
 
     @BeforeClass(alwaysRun = true)
     public void init() throws Exception {
@@ -324,11 +329,11 @@ public class CustomRXTEmailNotificationTestCase extends GREGIntegrationBaseTest 
         genericRestClient.geneticRestRequestGet(landingUrl, queryParamMap, headerMap, cookieHeader);
     }
 
-    private void setTestEnvironment() throws JSONException, IOException {
-        // Authenticate
-        ClientResponse response = genericRestClient
-                .geneticRestRequestPost(publisherUrl + "/authenticate/", MediaType.APPLICATION_FORM_URLENCODED,
-                        MediaType.APPLICATION_JSON, "username=admin&password=admin", queryParamMap, headerMap, null);
+    private void setTestEnvironment() throws JSONException, IOException, XPathExpressionException {
+        // Authenticate Publisher
+        ClientResponse response = authenticate(publisherUrl, genericRestClient,
+                automationContext.getSuperTenant().getTenantAdmin().getUserName(),
+                automationContext.getSuperTenant().getTenantAdmin().getPassword());
         JSONObject obj = new JSONObject(response.getEntity(String.class));
         jSessionId = obj.getJSONObject("data").getString("sessionId");
         cookieHeader = "JSESSIONID=" + jSessionId;
@@ -354,6 +359,15 @@ public class CustomRXTEmailNotificationTestCase extends GREGIntegrationBaseTest 
     public void cleanUp() throws Exception {
         deleteCustomAsset();
         deleteCustomRxt();
+        EmailUtil.deleteSentMails();
+    }
+
+    @DataProvider
+    private static TestUserMode[][] userModeProvider() {
+        return new TestUserMode[][]{
+                new TestUserMode[]{TestUserMode.SUPER_TENANT_ADMIN}
+                //                new TestUserMode[]{TestUserMode.TENANT_USER},
+        };
     }
 
 }

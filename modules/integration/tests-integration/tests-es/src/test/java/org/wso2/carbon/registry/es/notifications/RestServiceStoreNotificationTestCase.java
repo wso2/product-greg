@@ -26,10 +26,11 @@ import org.json.JSONObject;
 import org.testng.annotations.*;
 import org.wso2.carbon.automation.engine.context.TestUserMode;
 import org.wso2.carbon.automation.engine.frameworkutils.FrameworkPathUtil;
-import org.wso2.greg.integration.common.utils.GREGIntegrationBaseTest;
+import org.wso2.carbon.registry.es.utils.GregESTestBaseTest;
 import org.wso2.greg.integration.common.utils.GenericRestClient;
 
 import javax.ws.rs.core.MediaType;
+import javax.xml.xpath.XPathExpressionException;
 import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
@@ -40,7 +41,7 @@ import static org.testng.Assert.assertNotNull;
 /**
  * This class testes subscription & notification for rest services on store notification
  */
-public class RestServiceStoreNotificationTestCase extends GREGIntegrationBaseTest {
+public class RestServiceStoreNotificationTestCase extends GregESTestBaseTest {
 
     private static final Log log = LogFactory.getLog(RestServiceStoreNotificationTestCase.class);
 
@@ -151,19 +152,19 @@ public class RestServiceStoreNotificationTestCase extends GREGIntegrationBaseTes
                 MediaType.APPLICATION_JSON, queryParamMap, headerMap, cookieHeaderPublisher);
     }
 
-    private void setTestEnvironment() throws JSONException, IOException {
+    private void setTestEnvironment() throws JSONException, IOException, XPathExpressionException {
         // Authenticate Publisher
-        ClientResponse response = genericRestClient
-                .geneticRestRequestPost(publisherUrl + "/authenticate/", MediaType.APPLICATION_FORM_URLENCODED,
-                        MediaType.APPLICATION_JSON, "username=admin&password=admin", queryParamMap, headerMap, null);
+        ClientResponse response = authenticate(publisherUrl, genericRestClient,
+                automationContext.getSuperTenant().getTenantAdmin().getUserName(),
+                automationContext.getSuperTenant().getTenantAdmin().getPassword());
         JSONObject obj = new JSONObject(response.getEntity(String.class));
         jSessionIdPublisher = obj.getJSONObject("data").getString("sessionId");
         cookieHeaderPublisher = "JSESSIONID=" + jSessionIdPublisher;
 
         // Authenticate Store
-        ClientResponse responseStore = genericRestClient
-                .geneticRestRequestPost(storeUrl + "/authenticate/", MediaType.APPLICATION_FORM_URLENCODED,
-                        MediaType.APPLICATION_JSON, "username=admin&password=admin", queryParamMap, headerMap, null);
+        ClientResponse responseStore = authenticate(storeUrl, genericRestClient,
+                automationContext.getSuperTenant().getTenantAdmin().getUserName(),
+                automationContext.getSuperTenant().getTenantAdmin().getPassword());
         obj = new JSONObject(responseStore.getEntity(String.class));
         jSessionIdStore = obj.getJSONObject("data").getString("sessionId");
         cookieHeaderStore = "JSESSIONID=" + jSessionIdStore;
