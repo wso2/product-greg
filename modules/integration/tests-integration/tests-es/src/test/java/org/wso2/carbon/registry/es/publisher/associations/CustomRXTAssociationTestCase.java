@@ -36,7 +36,6 @@ import org.wso2.carbon.integration.common.utils.mgt.ServerConfigurationManager;
 import org.wso2.carbon.registry.es.utils.GregESTestBaseTest;
 import org.wso2.greg.integration.common.utils.GenericRestClient;
 
-import javax.activation.DataHandler;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.io.File;
@@ -160,8 +159,9 @@ public class CustomRXTAssociationTestCase extends GregESTestBaseTest {
 
     }
 
-    @AfterClass
+    @AfterClass(alwaysRun = true)
     public void clean() throws Exception {
+        deleteAsset(assetId, publisherUrl, cookieHeader, "applications", genericRestClient);
         deleteAsset(testAssetId, publisherUrl, cookieHeader, "restservice", genericRestClient);
         assertTrue(deleteCustomRxtConfiguration("application.rxt"), "Deleting of added custom rxt encountered a failure");
     }
