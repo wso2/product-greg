@@ -51,13 +51,13 @@ public class GregRestResourceCategoryTestCase extends GregESTestBaseTest {
     private TestUserMode userMode;
     private String publisherUrl;
     private String resourcePath;
-    private String assetId;
+    private String restServiceOneAssetId;
+    private String restServiceTwoAssetId;
     private String type = "restservice";
     private String restServiceName;
     private GenericRestClient genericRestClient;
     private Map<String, String> queryParamMap;
     private Map<String, String> headerMap;
-    private ResourceAdminServiceClient resourceAdminServiceClient;
     private String cookieHeader;
 
     @Factory(dataProvider = "userModeProvider")
@@ -74,13 +74,17 @@ public class GregRestResourceCategoryTestCase extends GregESTestBaseTest {
         resourcePath =
                 FrameworkPathUtil.getSystemResourceLocation() + "artifacts" + File.separator + "GREG" + File.separator;
         publisherUrl = automationContext.getContextUrls().getSecureServiceUrl().replace("services", "publisher/apis");
-        resourceAdminServiceClient = new ResourceAdminServiceClient(backendURL, getSessionCookie());
-        addCustomRxt();
+        assertTrue(addNewRxtConfiguration("restserviceCategory.rxt", "restservice.rxt"),
+                "Addition of new rest service rxt failed");
+
     }
 
     @AfterClass(alwaysRun = true)
-    public void cleanUp() throws RegistryException {
-        deleteAsset(assetId, publisherUrl, cookieHeader, type, genericRestClient);
+    public void cleanUp() throws Exception {
+        deleteAsset(restServiceOneAssetId, publisherUrl, cookieHeader, type, genericRestClient);
+        deleteAsset(restServiceTwoAssetId, publisherUrl, cookieHeader, type, genericRestClient);
+        assertTrue(defaultCustomRxtConfiguration("restservicedefault.rxt", "restservice.rxt"),
+                "Reverting back to default rest service rxt failed");
     }
 
     @Test(groups = {"wso2.greg", "wso2.greg.es"}, description = "Authenticate Publisher test")
@@ -118,10 +122,10 @@ public class GregRestResourceCategoryTestCase extends GregESTestBaseTest {
         JSONObject obj = new JSONObject(response.getEntity(String.class));
         assertTrue((response.getStatusCode() == Response.Status.CREATED.getStatusCode()),
                 "Wrong status code ,Expected 201 Created ,Received " + response.getStatusCode());
-        assetId = obj.get("id").toString();
+        restServiceOneAssetId = obj.get("id").toString();
         restServiceName = obj.get("name").toString();
 
-        assertNotNull(assetId, "Empty asset resource id available" +
+        assertNotNull(restServiceOneAssetId, "Empty asset resource id available" +
                 response.getEntity(String.class));
     }
 
@@ -137,7 +141,7 @@ public class GregRestResourceCategoryTestCase extends GregESTestBaseTest {
                 "publisherPublishRestResourceWithCategory.json");
 
         ClientResponse response =
-                genericRestClient.geneticRestRequestPost(publisherUrl + "/assets/" + assetId, MediaType.APPLICATION_JSON,
+                genericRestClient.geneticRestRequestPost(publisherUrl + "/assets/" + restServiceOneAssetId, MediaType.APPLICATION_JSON,
                         MediaType.APPLICATION_JSON, dataBody, queryParamMap, headerMap, cookieHeader);
 
         JSONObject obj = new JSONObject(response.getEntity(String.class));
@@ -166,7 +170,7 @@ public class GregRestResourceCategoryTestCase extends GregESTestBaseTest {
 
         queryParamMap.put("q", "\"category" + "\":" + "\"" + "Category5" + "\"");
 
-        refreshPublisherLandingPage(publisherUrl,genericRestClient,sessionCookie);
+        refreshPublisherLandingPage(publisherUrl, genericRestClient, sessionCookie);
 
         // Verify whether rest service lists correctly for correct category
         ClientResponse searchedRelevantCategoryResponse = genericRestClient.geneticRestRequestGet
@@ -198,10 +202,10 @@ public class GregRestResourceCategoryTestCase extends GregESTestBaseTest {
         JSONObject obj = new JSONObject(response.getEntity(String.class));
         assertTrue((response.getStatusCode() == Response.Status.CREATED.getStatusCode()),
                 "Wrong status code ,Expected 201 Created ,Received " + response.getStatusCode());
-        assetId = obj.get("id").toString();
+        restServiceTwoAssetId = obj.get("id").toString();
         restServiceName = obj.get("name").toString();
 
-        assertNotNull(assetId, "Empty asset resource id available" +
+        assertNotNull(restServiceTwoAssetId, "Empty asset resource id available" +
                 response.getEntity(String.class));
 
         queryParamMap.put("paginationLimit", "20");
@@ -209,7 +213,7 @@ public class GregRestResourceCategoryTestCase extends GregESTestBaseTest {
         queryParamMap.put("count", "20");
         queryParamMap.put("q", "\"category" + "\":" + "\"" + "Category2" + "\"");
 
-        refreshPublisherLandingPage(publisherUrl,genericRestClient,sessionCookie);
+        refreshPublisherLandingPage(publisherUrl, genericRestClient, sessionCookie);
 
         ClientResponse searchedNewlyAddedRestServiceResponse = genericRestClient.geneticRestRequestGet
                 (publisherUrl.split("/apis")[0] + "/apis/assets", queryParamMap, headerMap, cookieHeader);
@@ -221,15 +225,6 @@ public class GregRestResourceCategoryTestCase extends GregESTestBaseTest {
 
     }
 
-    private void addCustomRxt()
-            throws RegistryException, IOException, ResourceAdminServiceExceptionException, InterruptedException {
-        String filePath = getTestArtifactLocation() + "artifacts" + File.separator +
-                "GREG" + File.separator + "rxt" + File.separator + "restserviceCategory.rxt";
-        DataHandler dh = new DataHandler(new URL("file:///" + filePath));
-        resourceAdminServiceClient.addResource(
-                "/_system/governance/repository/components/org.wso2.carbon.governance/types/restservice.rxt",
-                "application/vnd.wso2.registry-ext-type+xml", "desc", dh);
-    }
 
     @DataProvider
     private static TestUserMode[][] userModeProvider() {

@@ -27,21 +27,16 @@ import org.testng.annotations.*;
 import org.wso2.carbon.automation.engine.context.TestUserMode;
 import org.wso2.carbon.automation.engine.frameworkutils.FrameworkPathUtil;
 import org.wso2.carbon.integration.common.utils.mgt.ServerConfigurationManager;
-import org.wso2.carbon.registry.core.exceptions.RegistryException;
 import org.wso2.carbon.registry.es.utils.GregESTestBaseTest;
-import org.wso2.carbon.registry.resource.stub.ResourceAdminServiceExceptionException;
-import org.wso2.greg.integration.common.clients.ResourceAdminServiceClient;
 import org.wso2.greg.integration.common.utils.GenericRestClient;
 
 import java.io.File;
 import java.io.IOException;
-import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
-import javax.activation.DataHandler;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
@@ -62,7 +57,6 @@ public class CustomRXTAssociationTestCase extends GregESTestBaseTest {
     Map<String, String> headerMap;
     String publisherUrl;
     String resourcePath;
-    private ResourceAdminServiceClient resourceAdminServiceClient;
 
     @Factory(dataProvider = "userModeProvider")
     public CustomRXTAssociationTestCase(TestUserMode userMode) {
@@ -79,8 +73,10 @@ public class CustomRXTAssociationTestCase extends GregESTestBaseTest {
         resourcePath =
                 FrameworkPathUtil.getSystemResourceLocation() + "artifacts" + File.separator + "GREG" + File.separator;
         publisherUrl = automationContext.getContextUrls().getSecureServiceUrl().replace("services", "publisher/apis");
-        resourceAdminServiceClient = new ResourceAdminServiceClient(backendURL, session);
-        addCustomRxt();
+
+        assertTrue(addNewRxtConfiguration("application.rxt", "application.rxt"),
+                "Addition of new custom service rxt failed");
+       // addCustomRxt();
         new ServerConfigurationManager(automationContext).restartGracefully();
         Thread.sleep(120000);
         setTestEnvironment();
@@ -124,17 +120,6 @@ public class CustomRXTAssociationTestCase extends GregESTestBaseTest {
                 response.getEntity(String.class));
     }
 
-    private void addCustomRxt()
-            throws RegistryException, IOException, ResourceAdminServiceExceptionException, InterruptedException {
-        Thread.sleep(2000);
-        String filePath = getTestArtifactLocation() + "artifacts" + File.separator +
-                "GREG" + File.separator + "rxt" + File.separator + "application.rxt";
-        DataHandler dh = new DataHandler(new URL("file:///" + filePath));
-        resourceAdminServiceClient.addResource(
-                "/_system/governance/repository/components/org.wso2.carbon.governance/types/application.rxt",
-                "application/vnd.wso2.registry-ext-type+xml", "desc", dh);
-    }
-
     @Test(groups = {"wso2.greg", "wso2.greg.es"}, description = "Create Association between Custom RXT and Rest Service")
     public void createAssociation() throws JSONException, IOException, ParseException, InterruptedException {
 
@@ -171,23 +156,10 @@ public class CustomRXTAssociationTestCase extends GregESTestBaseTest {
 
     }
 
-    private void deleteCustomAsset() throws JSONException {
-        genericRestClient.geneticRestRequestDelete(publisherUrl + "/assets/" + assetId, MediaType.APPLICATION_JSON,
-                MediaType.APPLICATION_JSON, queryParamMap, headerMap, cookieHeader);
-
-    }
-
-    private void deleteCustomRxt() throws Exception {
-        String session = getSessionCookie();
-        resourceAdminServiceClient = new ResourceAdminServiceClient(backendURL, session);
-        resourceAdminServiceClient.deleteResource(
-                "/_system/governance/repository/components/org.wso2.carbon.governance/types/application.rxt");
-    }
-
     @AfterClass
     public void clean() throws Exception {
-        deleteCustomAsset();
-        deleteCustomRxt();
+        deleteAsset(testAssetId, publisherUrl, cookieHeader, "restservice", genericRestClient);
+        assertTrue(deleteCustomRxtConfiguration("application.rxt"), "Deleting of added custom rxt encountered a failure");
     }
 
     @DataProvider

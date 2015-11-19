@@ -38,6 +38,10 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
+import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertNotNull;
+import static org.testng.Assert.assertTrue;
+
 public class CustomAssetCRUDTestCase extends GregESTestBaseTest {
     private static final Log log = LogFactory.getLog(CustomAssetCRUDTestCase.class);
     private TestUserMode userMode;
@@ -79,7 +83,8 @@ public class CustomAssetCRUDTestCase extends GregESTestBaseTest {
     }
 
     private void setTestEnvironment() throws Exception {
-        addNewRxtConfigViaAdminService("application.rxt");
+        assertTrue(addNewRxtConfiguration("application.rxt", "application.rxt"), "Adding new custom rxt encountered " +
+                "a failure");
         JSONObject objSessionPublisher =
                 new JSONObject(authenticate(publisherUrl, genericRestClient,
                         automationContext.getSuperTenant().getTenantAdmin().getUserName(),
@@ -89,7 +94,7 @@ public class CustomAssetCRUDTestCase extends GregESTestBaseTest {
         cookieHeader = "JSESSIONID=" + jSessionId;
         //refresh the publisher landing page to deploy new rxt type
         refreshPublisherLandingPage(publisherUrl, genericRestClient, cookieHeader);
-        Assert.assertNotNull(jSessionId, "Invalid JSessionID received");
+        assertNotNull(jSessionId, "Invalid JSessionID received");
     }
 
     @Test(groups = {"wso2.greg", "wso2.greg.es"}, description = "Create Custom Asset in Publisher")
@@ -105,11 +110,12 @@ public class CustomAssetCRUDTestCase extends GregESTestBaseTest {
                         MediaType.APPLICATION_JSON, dataBody
                         , queryParamMap, headerMap, cookieHeader);
         JSONObject obj = new JSONObject(response.getEntity(String.class));
-        Assert.assertTrue((response.getStatusCode() == 201),
+        assertTrue((response.getStatusCode() == 201),
                 "Wrong status code ,Expected 201 Created ,Received " +
-                        response.getStatusCode());
+                        response.getStatusCode()
+        );
         assetId = (String)obj.get("id");
-        Assert.assertNotNull(assetId, "Empty asset resource id available" +
+        assertNotNull(assetId, "Empty asset resource id available" +
                 response.getEntity(String.class));
     }
 
@@ -119,11 +125,12 @@ public class CustomAssetCRUDTestCase extends GregESTestBaseTest {
         Map<String, String> queryParamMap = new HashMap<>();
         queryParamMap.put("type", "applications");
         ClientResponse clientResponse = getAssetById(publisherUrl, genericRestClient, cookieHeader, assetId, queryParamMap);
-        Assert.assertTrue((clientResponse.getStatusCode() == 200),
+        assertTrue((clientResponse.getStatusCode() == 200),
                 "Wrong status code ,Expected 200 OK " +
-                        clientResponse.getStatusCode());
+                        clientResponse.getStatusCode()
+        );
         JSONObject obj = new JSONObject(clientResponse.getEntity(String.class));
-        Assert.assertEquals(obj.get("id"), assetId);
+        assertEquals(obj.get("id"), assetId);
     }
 
     @Test(groups = {"wso2.greg", "wso2.greg.es"}, description = "Search Custom Asset in Publisher",
@@ -142,7 +149,7 @@ public class CustomAssetCRUDTestCase extends GregESTestBaseTest {
                 break;
             }
         }
-        Assert.assertTrue(assetFound, "Custom asset not found in assets listing");
+        assertTrue(assetFound, "Custom asset not found in assets listing");
     }
 
     @Test(groups = {"wso2.greg", "wso2.greg.es"}, description = "Update Custom Asset in Publisher",
@@ -158,10 +165,11 @@ public class CustomAssetCRUDTestCase extends GregESTestBaseTest {
                         MediaType.APPLICATION_JSON, dataBody
                         , queryParamMap, headerMap, cookieHeader);
         JSONObject obj = new JSONObject(response.getEntity(String.class));
-        Assert.assertTrue((response.getStatusCode() == 202),
+        assertTrue((response.getStatusCode() == 202),
                 "Wrong status code ,Expected 202 Created ,Received " +
-                        response.getStatusCode());
-        Assert.assertTrue(obj.getJSONObject("attributes").get("overview_description")
+                        response.getStatusCode()
+        );
+        assertTrue(obj.getJSONObject("attributes").get("overview_description")
                 .equals("Test update asset"));
     }
 
@@ -175,9 +183,10 @@ public class CustomAssetCRUDTestCase extends GregESTestBaseTest {
                 MediaType.APPLICATION_JSON
                 , queryParamMap, headerMap, cookieHeader);
         ClientResponse clientResponse = getAssetById(publisherUrl, genericRestClient, cookieHeader, assetId, queryParamMap);
-        Assert.assertTrue((clientResponse.getStatusCode() == 404),
+        assertTrue((clientResponse.getStatusCode() == 404),
                 "Wrong status code ,Expected 404 Not Found " +
-                        clientResponse.getStatusCode());
+                        clientResponse.getStatusCode()
+        );
     }
 
     @AfterClass(alwaysRun = true)
@@ -185,16 +194,16 @@ public class CustomAssetCRUDTestCase extends GregESTestBaseTest {
         Map<String, String> queryParamMap = new HashMap<>();
         queryParamMap.put("type", "applications");
         deleteAssetById(publisherUrl, genericRestClient, cookieHeader, assetId, queryParamMap);
-        this.deleteCustomRxt();
+        assertTrue(deleteCustomRxtConfiguration("application.rxt"),"Deleting of added custom rxt encountered a failure");
     }
 
-    private void deleteCustomRxt() throws Exception {
+    /*private void deleteCustomRxt() throws Exception {
         String session = getSessionCookie();
         ResourceAdminServiceClient resourceAdminServiceClient = new ResourceAdminServiceClient(backendURL, session);
         resourceAdminServiceClient.deleteResource(
                 "/_system/governance/repository/components/org.wso2.carbon.governance/types/application.rxt");
     }
-
+*/
     @DataProvider
     private static TestUserMode[][] userModeProvider() {
         return new TestUserMode[][]{
