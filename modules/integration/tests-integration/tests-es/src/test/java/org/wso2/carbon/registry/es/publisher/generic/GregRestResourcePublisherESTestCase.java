@@ -31,7 +31,7 @@ import org.testng.annotations.Test;
 import org.wso2.carbon.automation.engine.context.TestUserMode;
 import org.wso2.carbon.automation.engine.frameworkutils.FrameworkPathUtil;
 import org.wso2.carbon.registry.core.exceptions.RegistryException;
-import org.wso2.greg.integration.common.utils.GREGIntegrationBaseTest;
+import org.wso2.carbon.registry.es.utils.GregESTestBaseTest;
 import org.wso2.greg.integration.common.utils.GenericRestClient;
 
 import javax.ws.rs.core.MediaType;
@@ -40,7 +40,7 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
-public class GregRestResourcePublisherESTestCase extends GREGIntegrationBaseTest {
+public class GregRestResourcePublisherESTestCase extends GregESTestBaseTest {
     private static final Log log = LogFactory.getLog(GregRestResourcePublisherESTestCase.class);
     private TestUserMode userMode;
     String jSessionId;
@@ -65,14 +65,14 @@ public class GregRestResourcePublisherESTestCase extends GREGIntegrationBaseTest
         headerMap = new HashMap<String, String>();
         resourcePath = FrameworkPathUtil.getSystemResourceLocation()
                        + "artifacts" + File.separator + "GREG" + File.separator;
-        publisherUrl=automationContext.getContextUrls()
-                .getSecureServiceUrl().replace("services","publisher/apis");
+        publisherUrl = automationContext.getContextUrls()
+                .getSecureServiceUrl().replace("services", "publisher/apis");
     }
 
     @Test(groups = {"wso2.greg", "wso2.greg.es"}, description = "Authenticate Publisher test")
     public void authenticatePublisher() throws JSONException {
         ClientResponse response =
-                genericRestClient.geneticRestRequestPost(publisherUrl+"/authenticate/",
+                genericRestClient.geneticRestRequestPost(publisherUrl + "/authenticate/",
                                                          MediaType.APPLICATION_FORM_URLENCODED,
                                                          MediaType.APPLICATION_JSON,
                                                          "username=admin&password=admin"
@@ -82,7 +82,7 @@ public class GregRestResourcePublisherESTestCase extends GREGIntegrationBaseTest
                           "Wrong status code ,Expected 200 OK ,Received " +
                           response.getStatusCode());
         jSessionId = obj.getJSONObject("data").getString("sessionId");
-        cookieHeader="JSESSIONID=" + jSessionId;
+        cookieHeader = "JSESSIONID=" + jSessionId;
         Assert.assertNotNull(jSessionId, "Invalid JSessionID received");
     }
 
@@ -90,9 +90,9 @@ public class GregRestResourcePublisherESTestCase extends GREGIntegrationBaseTest
             dependsOnMethods = {"authenticatePublisher"})
     public void createRestServiceAsset() throws JSONException, IOException {
         queryParamMap.put("type", "restservice");
-        String dataBody = readFile(resourcePath+"json"+ File.separator+"publisherPublishRestResource.json");
+        String dataBody = readFile(resourcePath + "json" + File.separator + "publisherPublishRestResource.json");
         ClientResponse response =
-                genericRestClient.geneticRestRequestPost(publisherUrl+"/assets",
+                genericRestClient.geneticRestRequestPost(publisherUrl + "/assets",
                                                          MediaType.APPLICATION_JSON,
                                                          MediaType.APPLICATION_JSON, dataBody
                         , queryParamMap, headerMap, cookieHeader);
@@ -103,17 +103,19 @@ public class GregRestResourcePublisherESTestCase extends GREGIntegrationBaseTest
         assetId = obj.get("id").toString();
         Assert.assertNotNull(assetId, "Empty asset resource id available" +
                                       response.getEntity(String.class));
-        getAllAvailableRestServiceAssets().getEntity(String.class);
-        getRestServiceAssetById(assetId).getEntity(String.class);
+        Assert.assertTrue(
+                this.getAssetsById(genericRestClient, publisherUrl, assetId, cookieHeader, "restservice")
+                        .getEntity(String.class).contains(assetId));
+
     }
 
     @Test(groups = {"wso2.greg", "wso2.greg.es"}, description = "Authenticate Publisher test",
-            dependsOnMethods = {"authenticatePublisher","createRestServiceAsset"})
+            dependsOnMethods = {"authenticatePublisher", "createRestServiceAsset"})
     public void updateRestServiceAsset() throws JSONException, IOException {
         queryParamMap.put("type", "restservice");
-        String dataBody = readFile(resourcePath+"json"+ File.separator+"PublisherRestResourceUpdate.json");
+        String dataBody = readFile(resourcePath + "json" + File.separator + "PublisherRestResourceUpdate.json");
         ClientResponse response =
-                genericRestClient.geneticRestRequestPost(publisherUrl+"/assets/"+assetId,
+                genericRestClient.geneticRestRequestPost(publisherUrl + "/assets/" + assetId,
                                                          MediaType.APPLICATION_JSON,
                                                          MediaType.APPLICATION_JSON, dataBody
                         , queryParamMap, headerMap, cookieHeader);
@@ -126,43 +128,34 @@ public class GregRestResourcePublisherESTestCase extends GREGIntegrationBaseTest
     }
 
     @Test(groups = {"wso2.greg", "wso2.greg.es"}, description = "Delete Publisher test",
-            dependsOnMethods = {"authenticatePublisher","createRestServiceAsset",
-                                "updateRestServiceAsset"})
+            dependsOnMethods = {"authenticatePublisher", "createRestServiceAsset",
+                                "updateRestServiceAsset"}, alwaysRun = true)
     public void deleteRestServiceAsset() throws JSONException {
         queryParamMap.put("type", "restservice");
-        genericRestClient.geneticRestRequestDelete(publisherUrl+"/assets/" + assetId,
+        genericRestClient.geneticRestRequestDelete(publisherUrl + "/assets/" + assetId,
                                                    MediaType.APPLICATION_JSON,
                                                    MediaType.APPLICATION_JSON
                 , queryParamMap, headerMap, cookieHeader);
+
+        Assert.assertTrue(this.getAssetsById(genericRestClient, publisherUrl,
+                                             assetId, cookieHeader, "restservice")
+                                  .getStatusCode() == 404);
     }
 
     @AfterClass(alwaysRun = true)
     public void cleanUp() throws RegistryException {
 
-
+        if (this.getAssetsById(genericRestClient, publisherUrl,
+                               assetId, cookieHeader, "restservice")
+                    .getStatusCode() != 404) {
+            queryParamMap.put("type", "restservice");
+            genericRestClient.geneticRestRequestDelete(publisherUrl + "/assets/" + assetId,
+                                                       MediaType.APPLICATION_JSON,
+                                                       MediaType.APPLICATION_JSON
+                    , queryParamMap, headerMap, cookieHeader);
+        }
     }
 
-
-
-    private ClientResponse getAllAvailableRestServiceAssets()
-    {
-        queryParamMap.put("type", "restservice");
-        ClientResponse response =
-                genericRestClient.geneticRestRequestGet
-                        (publisherUrl+"/assets/"
-                         + assetId, queryParamMap, headerMap, cookieHeader);
-        return response;
-    }
-
-    private ClientResponse getRestServiceAssetById(String id)
-    {
-        queryParamMap.put("type", "restservice");
-        ClientResponse response =
-                genericRestClient.geneticRestRequestGet
-                        (publisherUrl+"/assets/"+id
-                         + assetId, queryParamMap, headerMap, cookieHeader);
-        return response;
-    }
     @DataProvider
     private static TestUserMode[][] userModeProvider() {
         return new TestUserMode[][]{

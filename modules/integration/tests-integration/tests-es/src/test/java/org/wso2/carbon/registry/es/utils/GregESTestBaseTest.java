@@ -108,9 +108,9 @@ public class GregESTestBaseTest extends GREGIntegrationBaseTest {
                 , queryParamMap, headerMap, cookieHeader);
     }
 
-    private JSONObject getAllLifeCycles(String publisherUrl,
-                                        String cookieHeader,
-                                        GenericRestClient genericRestClient) throws JSONException {
+    public JSONObject getAllLifeCycles(String publisherUrl,
+                                       String cookieHeader,
+                                       GenericRestClient genericRestClient) throws JSONException {
 
         ClientResponse response =
                 genericRestClient.geneticRestRequestGet
@@ -119,9 +119,9 @@ public class GregESTestBaseTest extends GREGIntegrationBaseTest {
         return new JSONObject(response.getEntity(String.class));
     }
 
-    private JSONObject getAllAssetsByType(String publisherUrl,
-                                          String cookieHeader,
-                                          GenericRestClient genericRestClient)
+    public JSONObject getAllLifeCycleByType(String publisherUrl,
+                                            String cookieHeader,
+                                            GenericRestClient genericRestClient)
             throws JSONException {
         ClientResponse response =
                 genericRestClient.geneticRestRequestGet
@@ -131,21 +131,21 @@ public class GregESTestBaseTest extends GREGIntegrationBaseTest {
     }
 
     public ClientResponse getAsset(String assetId,
-                                String assetType,
-                                String publisherUrl,
-                                String cookieHeader,
-                                GenericRestClient genericRestClient) throws JSONException {
+                                   String assetType,
+                                   String publisherUrl,
+                                   String cookieHeader,
+                                   GenericRestClient genericRestClient) throws JSONException {
         Map<String, String> assetTypeParamMap = new HashMap<String, String>();
         assetTypeParamMap.put("type", assetType);
         return genericRestClient.geneticRestRequestGet
-                        (publisherUrl + "/assets/" + assetId
-                                , queryParamMap, headerMap, cookieHeader);
+                (publisherUrl + "/assets/" + assetId
+                        , queryParamMap, headerMap, cookieHeader);
     }
 
-    private JSONObject getLifeCycleState(String assetId, String assetType,
-                                         String publisherUrl,
-                                         String cookieHeader,
-                                         GenericRestClient genericRestClient) throws JSONException {
+    public JSONObject getLifeCycleState(String assetId, String assetType,
+                                        String publisherUrl,
+                                        String cookieHeader,
+                                        GenericRestClient genericRestClient) throws JSONException {
         Map<String, String> assetTypeParamMap = new HashMap<String, String>();
         assetTypeParamMap.put("type", assetType);
         ClientResponse response =
@@ -155,9 +155,9 @@ public class GregESTestBaseTest extends GREGIntegrationBaseTest {
         return new JSONObject(response.getEntity(String.class));
     }
 
-    private JSONObject getLifeCycleData(String lifeCycleName, String publisherUrl,
-                                        String cookieHeader,
-                                        GenericRestClient genericRestClient) throws JSONException {
+    public JSONObject getLifeCycleData(String lifeCycleName, String publisherUrl,
+                                       String cookieHeader,
+                                       GenericRestClient genericRestClient) throws JSONException {
         ClientResponse response =
                 genericRestClient.geneticRestRequestGet
                         (publisherUrl + "/lifecycles/" + lifeCycleName
@@ -168,17 +168,21 @@ public class GregESTestBaseTest extends GREGIntegrationBaseTest {
 
     /**
      * Need to refresh the landing page to deploy the new rxt in publisher
-     * @param publisherUrl publisher url
+     *
+     * @param publisherUrl      publisher url
      * @param genericRestClient generic rest client object
-     * @param cookieHeader session cookies header
+     * @param cookieHeader      session cookies header
      */
-    public void refreshPublisherLandingPage(String publisherUrl, GenericRestClient genericRestClient, String cookieHeader) {
+    public void refreshPublisherLandingPage(String publisherUrl,
+                                            GenericRestClient genericRestClient,
+                                            String cookieHeader) {
         Map<String, String> queryParamMap = new HashMap<>();
         String landingUrl = publisherUrl.replace("apis", "pages/gc-landing");
         genericRestClient.geneticRestRequestGet(landingUrl, queryParamMap, headerMap, cookieHeader);
     }
 
     /**
+
      * Can be used to add new rxt configuration
      * @param fileName name of the new rxt file
      * @param resourceFileName saving name for the rxt file
@@ -234,6 +238,7 @@ public class GregESTestBaseTest extends GREGIntegrationBaseTest {
 
 
     public ClientResponse searchAssetByQuery(String publisherUrl, GenericRestClient genericRestClient, String cookieHeader, Map<String, String> queryParamMap) throws JSONException {
+
         ClientResponse clientResponse;
         JSONObject obj;
         double time1 = System.currentTimeMillis();
@@ -245,7 +250,7 @@ public class GregESTestBaseTest extends GREGIntegrationBaseTest {
 //                    headerMap, cookieHeader);
             Assert.assertNotNull(clientResponse, "Client Response for search rest service cannot be null");
             Assert.assertTrue((clientResponse.getStatusCode() == 200), "Wrong status code ,Expected 200 OK " +
-                    clientResponse.getStatusCode());
+                                                                       clientResponse.getStatusCode());
             String response = clientResponse.getEntity(String.class);
             obj = new JSONObject(response);
             double time2 = System.currentTimeMillis();
@@ -263,61 +268,76 @@ public class GregESTestBaseTest extends GREGIntegrationBaseTest {
 
     /**
      * Get Asset By ID
-     * @param publisherUrl publisher url
+     *
+     * @param publisherUrl      publisher url
      * @param genericRestClient generic rest client object
-     * @param cookieHeader  session cookies header
-     * @param id asset ID
-     * @param queryParamMap query ParamMap
+     * @param cookieHeader      session cookies header
+     * @param id                asset ID
+     * @param queryParamMap     query ParamMap
      * @return response
      */
-    public ClientResponse getAssetById(String publisherUrl, GenericRestClient genericRestClient, String cookieHeader, String id, Map<String, String> queryParamMap) {
+    public ClientResponse getAssetById(String publisherUrl, GenericRestClient genericRestClient,
+                                       String cookieHeader, String id,
+                                       Map<String, String> queryParamMap) {
         return genericRestClient.geneticRestRequestGet(publisherUrl + "/assets/" + id, queryParamMap,
-                headerMap, cookieHeader);
+                                                       headerMap, cookieHeader);
     }
 
     /**
      * Delete Assets By ID
-     * @param publisherUrl publisher url
+     *
+     * @param publisherUrl      publisher url
      * @param genericRestClient generic rest client object
-     * @param cookieHeader  session cookies header
-     * @param id asset ID
-     * @param queryParamMap query ParamMap
+     * @param cookieHeader      session cookies header
+     * @param id                asset ID
+     * @param queryParamMap     query ParamMap
      * @return response
      */
-    public boolean deleteAssetById(String publisherUrl, GenericRestClient genericRestClient, String cookieHeader, String id, Map<String, String> queryParamMap) {
+    public boolean deleteAssetById(String publisherUrl, GenericRestClient genericRestClient,
+                                   String cookieHeader, String id,
+                                   Map<String, String> queryParamMap) {
         ClientResponse clientResponse = this.getAssetById(publisherUrl, genericRestClient, cookieHeader, id, queryParamMap);
         if (clientResponse.getStatusCode() != 404) {
             genericRestClient.geneticRestRequestDelete(publisherUrl + "/assets/" + id,
-                    MediaType.APPLICATION_JSON, MediaType.APPLICATION_JSON, queryParamMap, headerMap, cookieHeader);
+                                                       MediaType.APPLICATION_JSON, MediaType.APPLICATION_JSON, queryParamMap, headerMap, cookieHeader);
         }
         return true;
     }
 
     /**
      * Get Associations By ID
-     * @param publisherUrl publisher url
+     *
+     * @param publisherUrl      publisher url
      * @param genericRestClient generic rest client object
-     * @param cookieHeader  session cookies header
-     * @param id asset ID
-     * @param queryParamMap query ParamMap
+     * @param cookieHeader      session cookies header
+     * @param id                asset ID
+     * @param queryParamMap     query ParamMap
      * @return response
      */
-    public ClientResponse getAssociationsById(String publisherUrl, GenericRestClient genericRestClient, String cookieHeader, String id, Map<String, String> queryParamMap) {
+    public ClientResponse getAssociationsById(String publisherUrl,
+                                              GenericRestClient genericRestClient,
+                                              String cookieHeader, String id,
+                                              Map<String, String> queryParamMap) {
         return genericRestClient.geneticRestRequestGet(publisherUrl + "/association/" + queryParamMap.get("type") + "/dependancies/" + id,
-                queryParamMap, headerMap, cookieHeader);
+                                                       queryParamMap, headerMap, cookieHeader);
     }
 
     /**
      * Delete all associations by ID
-     * @param publisherUrl publisher url
+     *
+     * @param publisherUrl      publisher url
      * @param genericRestClient generic rest client object
-     * @param cookieHeader  session cookies header
-     * @param id asset ID
-     * @param queryParamMap query ParamMap
+     * @param cookieHeader      session cookies header
+     * @param id                asset ID
+     * @param queryParamMap     query ParamMap
      * @return response
      * @throws JSONException
      */
-    public boolean deleteAllAssociationsById(String publisherUrl, GenericRestClient genericRestClient, String cookieHeader, String id, Map<String, String> queryParamMap) throws JSONException {
+    public boolean deleteAllAssociationsById(String publisherUrl,
+                                             GenericRestClient genericRestClient,
+                                             String cookieHeader, String id,
+                                             Map<String, String> queryParamMap)
+            throws JSONException {
         boolean result = false;
         if (id != null) {
             ClientResponse clientResponse = this.getAssociationsById(publisherUrl, genericRestClient, cookieHeader, id, queryParamMap);
@@ -329,7 +349,7 @@ public class GregESTestBaseTest extends GREGIntegrationBaseTest {
                 Map<String, String> assocQueryMap = new HashMap<>();
                 assocQueryMap.put("type", assocShortName);
                 this.deleteAssetById(publisherUrl, genericRestClient, cookieHeader, assocId, assocQueryMap);
-                this.deleteAllAssociationsById( publisherUrl, genericRestClient, cookieHeader, assocId, assocQueryMap);
+                this.deleteAllAssociationsById(publisherUrl, genericRestClient, cookieHeader, assocId, assocQueryMap);
             }
             result = true;
         }
@@ -338,18 +358,22 @@ public class GregESTestBaseTest extends GREGIntegrationBaseTest {
 
     /**
      * Read Associations From the pages
-     * @param publisherUrl publisher url
+     *
+     * @param publisherUrl      publisher url
      * @param genericRestClient generic rest client object
-     * @param cookieHeader  session cookies header
-     * @param id asset ID
-     * @param queryParamMap query ParamMap
+     * @param cookieHeader      session cookies header
+     * @param id                asset ID
+     * @param queryParamMap     query ParamMap
      * @return response
      */
-    public Map<String, String> getAssociationsFromPages(String publisherUrl, GenericRestClient genericRestClient, String cookieHeader, String id, Map<String, String> queryParamMap) {
+    public Map<String, String> getAssociationsFromPages(String publisherUrl,
+                                                        GenericRestClient genericRestClient,
+                                                        String cookieHeader, String id,
+                                                        Map<String, String> queryParamMap) {
         String requestUrl = publisherUrl.replace("apis", "pages") + "/associations/" + queryParamMap.get("type") + "/" + id;
         System.out.println("get Association by ID: request url : " + requestUrl);
         ClientResponse clientResponse = genericRestClient.geneticRestRequestGet(requestUrl,
-                queryParamMap, "text/html", headerMap, cookieHeader);
+                                                                                queryParamMap, "text/html", headerMap, cookieHeader);
         String response = clientResponse.getEntity(String.class);
         String[] dataArray = response.split("data-uuid=");
         Map<String, String> assocMap = new HashMap<String, String>();
@@ -367,8 +391,40 @@ public class GregESTestBaseTest extends GREGIntegrationBaseTest {
         return assocMap;
     }
 
+    public ClientResponse getAssetsById(GenericRestClient genericRestClient,
+                                        String publisherUrl,
+                                        String assetId, String cookieHeader,
+                                        String assetType) {
+        queryParamMap.put("type", assetType);
+        ClientResponse response =
+                genericRestClient.geneticRestRequestGet
+                        (publisherUrl + "/assets/"
+                         + assetId, queryParamMap, headerMap, cookieHeader);
+        return response;
+    }
 
+    public ClientResponse getAllAvailableAssets(GenericRestClient genericRestClient,
+                                                String publisherUrl, String assetId,
+                                                String cookieHeader, String assetType) {
+        queryParamMap.put("type", assetType);
+        ClientResponse response =
+                genericRestClient.geneticRestRequestGet
+                        (publisherUrl + "/assets/"
+                         + assetId, queryParamMap, headerMap, cookieHeader);
+        return response;
+    }
 
-
+    public void cleanupAsset(GenericRestClient genericRestClient, String publisherUrl,
+                             String assetId, String cookieHeader, String assetType) {
+        if (this.getAssetsById(genericRestClient, publisherUrl,
+                               assetId, cookieHeader, assetType)
+                    .getStatusCode() != 404) {
+            queryParamMap.put("type", assetType);
+            genericRestClient.geneticRestRequestDelete(publisherUrl + "/assets/" + assetId,
+                                                       MediaType.APPLICATION_JSON,
+                                                       MediaType.APPLICATION_JSON
+                    , queryParamMap, headerMap, cookieHeader);
+        }
+    }
 
 }

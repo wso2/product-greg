@@ -19,26 +19,38 @@ package org.wso2.carbon.registry.es.publisher.associations;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonParser;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.apache.wink.client.ClientResponse;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.json.simple.parser.ParseException;
-import org.testng.annotations.*;
+import org.testng.annotations.AfterClass;
+import org.testng.annotations.BeforeClass;
+import org.testng.annotations.DataProvider;
+import org.testng.annotations.Factory;
+import org.testng.annotations.Test;
 import org.wso2.carbon.automation.engine.context.TestUserMode;
 import org.wso2.carbon.automation.engine.frameworkutils.FrameworkPathUtil;
 import org.wso2.carbon.integration.common.utils.mgt.ServerConfigurationManager;
 import org.wso2.carbon.registry.es.utils.GregESTestBaseTest;
 import org.wso2.greg.integration.common.utils.GenericRestClient;
 
+import javax.activation.DataHandler;
+import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
 import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
+<<<<<<< HEAD
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+=======
+>>>>>>> 4bdd82c253befedf3a4238e239d0fb7420f08239
 
 import static org.testng.Assert.assertNotNull;
 import static org.testng.Assert.assertTrue;
@@ -156,10 +168,29 @@ public class CustomRXTAssociationTestCase extends GregESTestBaseTest {
 
     }
 
+<<<<<<< HEAD
     @AfterClass
     public void clean() throws Exception {
         deleteAsset(testAssetId, publisherUrl, cookieHeader, "restservice", genericRestClient);
         assertTrue(deleteCustomRxtConfiguration("application.rxt"), "Deleting of added custom rxt encountered a failure");
+=======
+    private void deleteCustomAsset() throws JSONException {
+        deleteAsset(assetId, publisherUrl, cookieHeader, "applications", genericRestClient);
+    }
+
+    private void deleteCustomRxt() throws Exception {
+        String session = getSessionCookie();
+        resourceAdminServiceClient = new ResourceAdminServiceClient(backendURL, session);
+        resourceAdminServiceClient.deleteResource(
+                "/_system/governance/repository/components/org.wso2.carbon.governance/types/application.rxt");
+    }
+
+    @AfterClass(alwaysRun = true)
+    public void clean() throws Exception {
+        this.cleanupAsset(genericRestClient, publisherUrl, testAssetId, cookieHeader, "restservice");
+        deleteCustomAsset();
+        deleteCustomRxt();
+>>>>>>> 4bdd82c253befedf3a4238e239d0fb7420f08239
     }
 
     @DataProvider
