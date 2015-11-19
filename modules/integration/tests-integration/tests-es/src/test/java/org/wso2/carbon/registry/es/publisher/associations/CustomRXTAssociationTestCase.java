@@ -187,7 +187,7 @@ public class CustomRXTAssociationTestCase extends GregESTestBaseTest {
 
     @AfterClass(alwaysRun = true)
     public void clean() throws Exception {
-        this.cleanupAsset(genericRestClient,publisherUrl,assetId,cookieHeader,"restservice");
+        this.cleanupAsset(genericRestClient, publisherUrl, testAssetId, cookieHeader, "restservice");
         deleteCustomAsset();
         deleteCustomRxt();
     }
