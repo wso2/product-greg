@@ -315,7 +315,7 @@ public class GregRestResourceLifeCycleManagementTestCase extends GregESTestBaseT
                                                    MediaType.APPLICATION_JSON
                 , queryParamMap, headerMap, cookieHeader);
         resourceAdminServiceClient.deleteResource(resourceRegistryPath);
-        lifeCycleAdminServiceClient.deleteLifeCycle("");
+        lifeCycleAdminServiceClient.deleteLifeCycle(lifeCycleName);
 
 
     }
