@@ -2,7 +2,7 @@
 
 <suite name="ES-Publisher-Store-test-suite">
     <parameter name="useDefaultListeners" value="false"/>
-    <test name="es" preserve-order="true">
+    <test name="es" preserve-order="true" parallel="false">
         <!--<classes>-->
         <!--<class name="org.wso2.carbon.registry.es.publisher.generic.GregRestResourcePublisherESTestCase"/>-->
         <!--<class name="org.wso2.carbon.registry.es.publisher.associations.GregRestResourceAssociationTestCase"/>-->
@@ -23,11 +23,10 @@
         <!--</packages>-->
         <classes>
             <class name="org.wso2.carbon.registry.es.publisher.generic.GregRestResourcePublisherESTestCase"/>
-            <class name="org.wso2.carbon.registry.es.publisher.generic.GregRestResourceTestCase"/>
 
-            <class name="org.wso2.carbon.registry.es.publisher.associations.CustomRXTAssociationTestCase"/>
-            <class name="org.wso2.carbon.registry.es.publisher.associations.GregRestResourceCustomAssociationTestCase"/>
-            <class name="org.wso2.carbon.registry.es.publisher.associations.GregRestResourceWSDLAssociationTestCase"/>
+            <!--<class name="org.wso2.carbon.registry.es.publisher.associations.CustomRXTAssociationTestCase"/>-->
+            <!--<class name="org.wso2.carbon.registry.es.publisher.associations.GregRestResourceCustomAssociationTestCase"/>-->
+            <!--<class name="org.wso2.carbon.registry.es.publisher.associations.GregRestResourceWSDLAssociationTestCase"/>-->
 
             <class name="org.wso2.carbon.registry.es.publisher.lifecycle.GRegPublisherAPILCPermissionCheck"/>
             <class name="org.wso2.carbon.registry.es.publisher.lifecycle.GRegPublisherLifecycleHistoryTest"/>
@@ -47,19 +46,22 @@
 
             <class name="org.wso2.carbon.registry.es.publisher.search.GregRestResourceSearchAndAdvanceSearchTestCase"/>
 
-            <class name="org.wso2.carbon.registry.es.notifications.CustomRXTEmailNotificationTestCase"/>
-            <class name="org.wso2.carbon.registry.es.notifications.CustomRXTSubscriptionTestCase"/>
-            <class name="org.wso2.carbon.registry.es.notifications.GregRestResourceSubscriptionAndNotificationTestCase"/>
-            <class name="org.wso2.carbon.registry.es.notifications.OneTimeEmailVerificationTestCase"/>
-            <class name="org.wso2.carbon.registry.es.notifications.PolicyNotificationAndSubscriptionTestCase"/>
-            <class name="org.wso2.carbon.registry.es.notifications.RestServiceEmailNotificationTestCase"/>
-            <class name="org.wso2.carbon.registry.es.notifications.RestServiceNotificationAndSubscriptionTestCase"/>
-            <class name="org.wso2.carbon.registry.es.notifications.SoapServiceEmailNotificationTestCase"/>
-            <class name="org.wso2.carbon.registry.es.notifications.SoapServiceNotificationAndSubscriptionTestCase"/>
-            <class name="org.wso2.carbon.registry.es.notifications.SwaggerNotificationAndSubscriptionTestCase"/>
-            <class name="org.wso2.carbon.registry.es.notifications.WADLNotificationAndSubscriptionTestCase"/>
-            <class name="org.wso2.carbon.registry.es.notifications.WSDLEmailNotificationTestCase"/>
-            <class name="org.wso2.carbon.registry.es.notifications.WSDLNotificationAndSubscriptionTestCase"/>
+            <!--<class name="org.wso2.carbon.registry.es.notifications.CustomRXTEmailNotificationTestCase"/>-->
+            <!--<class name="org.wso2.carbon.registry.es.notifications.CustomRXTSubscriptionTestCase"/>-->
+            <!--<class name="org.wso2.carbon.registry.es.notifications.GregRestResourceSubscriptionAndNotificationTestCase"/>-->
+            <!--<class name="org.wso2.carbon.registry.es.notifications.OneTimeEmailVerificationTestCase"/>-->
+            <!--<class name="org.wso2.carbon.registry.es.notifications.PolicyNotificationAndSubscriptionTestCase"/>-->
+            <!--<class name="org.wso2.carbon.registry.es.notifications.RestServiceEmailNotificationTestCase"/>-->
+            <!--<class name="org.wso2.carbon.registry.es.notifications.RestServiceNotificationAndSubscriptionTestCase"/>-->
+            <!--<class name="org.wso2.carbon.registry.es.notifications.SoapServiceEmailNotificationTestCase"/>-->
+            <!--<class name="org.wso2.carbon.registry.es.notifications.SoapServiceNotificationAndSubscriptionTestCase"/>-->
+            <!--<class name="org.wso2.carbon.registry.es.notifications.SwaggerNotificationAndSubscriptionTestCase"/>-->
+            <!--<class name="org.wso2.carbon.registry.es.notifications.WADLNotificationAndSubscriptionTestCase"/>-->
+            <!--<class name="org.wso2.carbon.registry.es.notifications.WSDLEmailNotificationTestCase"/>-->
+            <!--<class name="org.wso2.carbon.registry.es.notifications.WSDLNotificationAndSubscriptionTestCase"/>-->
+            <!--<class name="org.wso2.carbon.registry.es.notifications.PolicyEmailNotificationTestCase"/>
+            <class name="org.wso2.carbon.registry.es.notifications.WADLEmailNotificationTestCase"/>
+            <class name="org.wso2.carbon.registry.es.notifications.SwaggerEmailNotiificationTestCase"/>-->
 
             <class name="org.wso2.carbon.registry.es.notes.GregAssertNotesESTestCase"/>
 
