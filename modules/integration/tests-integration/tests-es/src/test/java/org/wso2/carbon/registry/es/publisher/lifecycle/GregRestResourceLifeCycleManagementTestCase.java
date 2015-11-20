@@ -35,6 +35,8 @@ import org.wso2.carbon.automation.engine.exceptions.AutomationFrameworkException
 import org.wso2.carbon.automation.engine.frameworkutils.FrameworkPathUtil;
 import org.wso2.carbon.governance.generic.stub.ManageGenericArtifactServiceRegistryExceptionException;
 import org.wso2.carbon.governance.lcm.stub.LifeCycleManagementServiceExceptionException;
+import org.wso2.carbon.integration.common.utils.exceptions.AutomationUtilException;
+import org.wso2.carbon.integration.common.utils.mgt.ServerConfigurationManager;
 import org.wso2.carbon.registry.core.exceptions.RegistryException;
 import org.wso2.carbon.registry.es.utils.GregESTestBaseTest;
 import org.wso2.carbon.registry.resource.stub.ResourceAdminServiceExceptionException;
@@ -67,6 +69,7 @@ public class GregRestResourceLifeCycleManagementTestCase extends GregESTestBaseT
     ManageGenericArtifactAdminServiceClient manageGenericArtifactAdminServiceClient;
     LifeCycleManagementClient lifeCycleAdminServiceClient;
     ResourceAdminServiceClient resourceAdminServiceClient;
+    private ServerConfigurationManager serverConfigurationManager;
     String resourcePath;
     String lifeCycleName;
 
@@ -85,6 +88,7 @@ public class GregRestResourceLifeCycleManagementTestCase extends GregESTestBaseT
                 new ManageGenericArtifactAdminServiceClient(backendURL, sessionCookie);
         lifeCycleAdminServiceClient = new LifeCycleManagementClient(backendURL, sessionCookie);
         resourceAdminServiceClient = new ResourceAdminServiceClient(backendURL, sessionCookie);
+        serverConfigurationManager = new ServerConfigurationManager(automationContext);
         resourcePath = FrameworkPathUtil.getSystemResourceLocation()
                        + "artifacts" + File.separator + "GREG" + File.separator;
         resourceRegistryPath = "/_system/governance/repository/components" +
@@ -308,7 +312,7 @@ public class GregRestResourceLifeCycleManagementTestCase extends GregESTestBaseT
     @AfterClass(alwaysRun = true)
     public void cleanUp()
             throws RegistryException, LifeCycleManagementServiceExceptionException,
-                   RemoteException, ResourceAdminServiceExceptionException {
+                   RemoteException, ResourceAdminServiceExceptionException, JSONException, AutomationUtilException {
         queryParamMap.put("type", "restservice");
         genericRestClient.geneticRestRequestDelete(publisherUrl + "/assets/" + assetId,
                                                    MediaType.APPLICATION_JSON,
@@ -317,7 +321,7 @@ public class GregRestResourceLifeCycleManagementTestCase extends GregESTestBaseT
         resourceAdminServiceClient.deleteResource(resourceRegistryPath);
         lifeCycleAdminServiceClient.deleteLifeCycle(lifeCycleName);
 
-
+        serverConfigurationManager.restartGracefully();
     }
 
     @DataProvider
