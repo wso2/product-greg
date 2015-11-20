@@ -183,46 +183,4 @@ public class WadlCRUDByUrlTestCase extends GregESTestBaseTest {
         };
     }
 
-    private String getType(String mediaType) {
-        String type;
-        switch (mediaType) {
-            case "application/x-xsd+xml":
-                type = "schema";
-                break;
-            case "application/vnd.wso2-service+xml":
-                type = "service";
-                break;
-            case "application/vnd.wso2-soap-service+xml":
-                type = "soapservice";
-                break;
-            case "application/vnd.wso2-restservice+xml":
-                type = "restservice";
-                break;
-            case "application/policy+xml":
-                type = "policy";
-                break;
-            case "application/vnd.wso2-endpoint+xml":
-                type = "endpoint";
-                break;
-            case "application/vnd.wso2-notes+xml":
-                type = "note";
-                break;
-            case "application/vnd.wso2-server+xml":
-                type = "server";
-                break;
-            case "application/swagger+json":
-                type = "swagger";
-                break;
-            case "application/wadl+xml":
-                type = "wadl";
-                break;
-            case "application/wsdl+xml":
-                type = "wsdl";
-                break;
-            default:
-                type = null;
-                break;
-        }
-        return type;
-    }
 }
