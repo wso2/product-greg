@@ -37,6 +37,9 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
+import static org.testng.Assert.assertNotNull;
+import static org.testng.Assert.assertTrue;
+
 public class GenericCRUDTestCase extends GregESTestBaseTest {
     private static final Log log = LogFactory.getLog(GenericCRUDTestCase.class);
     private TestUserMode userMode;
@@ -79,7 +82,7 @@ public class GenericCRUDTestCase extends GregESTestBaseTest {
     }
 
     private void setTestEnvironment() throws Exception {
-        addNewRxtConfigViaAdminService("event_lc.rxt");
+        assertTrue(addNewRxtConfiguration("event_lc.rxt", "event_lc.rxt"),"Adding new custom event_lc.rxt failure encountered ");
         JSONObject objSessionPublisher =
                 new JSONObject(authenticate(publisherUrl, genericRestClient,
                         automationContext.getSuperTenant().getTenantAdmin().getUserName(),
@@ -89,15 +92,9 @@ public class GenericCRUDTestCase extends GregESTestBaseTest {
         cookieHeader = "JSESSIONID=" + jSessionId;
         //refresh the publisher landing page to deploy new rxt type
         refreshPublisherLandingPage(publisherUrl, genericRestClient, cookieHeader);
-        Assert.assertNotNull(jSessionId, "Invalid JSessionID received");
+        assertNotNull(jSessionId, "Invalid JSessionID received");
     }
 
-    private void deleteCustomRxt() throws Exception {
-        String session = getSessionCookie();
-        ResourceAdminServiceClient resourceAdminServiceClient = new ResourceAdminServiceClient(backendURL, session);
-        resourceAdminServiceClient.deleteResource(
-                "/_system/governance/repository/components/org.wso2.carbon.governance/types/event_lc.rxt");
-    }
 
     @Test(groups = {"wso2.greg", "wso2.greg.es"}, description = "Create Defined Asset(soapservice) without required field in Publisher")
     public void createAssetWithoutRequiredField() throws JSONException, IOException {
@@ -117,23 +114,25 @@ public class GenericCRUDTestCase extends GregESTestBaseTest {
         if (response.getStatusCode() == 201) {
             assetId = (String)resObject.get("id");
         }
-        Assert.assertTrue((response.getStatusCode() == 400),
+        assertTrue((response.getStatusCode() == 400),
                 "Wrong status code ,Expected 400 Bad Request ,Received " +
-                        response.getStatusCode());
+                        response.getStatusCode()
+        );
     }
 
     @Test(groups = {"wso2.greg", "wso2.greg.es"}, description = "Check Option Field Values in Publisher")
     public void checkOptionFieldValues() throws IOException, JSONException {
         ClientResponse response = getAssetCreatePage("evlc");
-        Assert.assertTrue((response.getStatusCode() == 200),
+        assertTrue((response.getStatusCode() == 200),
                 "Wrong status code ,Expected 200 OK ,Received " +
-                        response.getStatusCode());
+                        response.getStatusCode()
+        );
         String createPage = response.getEntity(String.class);
         String [] formGroup = createPage.split("<div class=\"form-group\">");
         for (String form: formGroup) {
             if (form.contains("rules_gender")) {
-                Assert.assertTrue(form.contains("male"));
-                Assert.assertTrue(form.contains("female"));
+                assertTrue(form.contains("male"));
+                assertTrue(form.contains("female"));
                 break;
             }
         }
@@ -142,17 +141,18 @@ public class GenericCRUDTestCase extends GregESTestBaseTest {
     @Test(groups = {"wso2.greg", "wso2.greg.es"}, description = "Check Dynamically Populated values in Publisher")
     public void checkDynamicPopulatorValues() throws IOException, JSONException {
         ClientResponse response = getAssetCreatePage("evlc");
-        Assert.assertTrue((response.getStatusCode() == 200),
+        assertTrue((response.getStatusCode() == 200),
                 "Wrong status code ,Expected 200 OK ,Received " +
-                        response.getStatusCode());
+                        response.getStatusCode()
+        );
         String createPage = response.getEntity(String.class);
         String [] formGroup = createPage.split("<div class=\"form-group\">");
         for (String form: formGroup) {
             if (form.contains("serviceLifecycle_lifecycleName")) {
-                Assert.assertTrue(form.contains("None"));
-                Assert.assertTrue(form.contains("ServerLifeCycle"));
-                Assert.assertTrue(form.contains("EndpointLifeCycle"));
-                Assert.assertTrue(form.contains("ServiceLifeCycle"));
+                assertTrue(form.contains("None"));
+                assertTrue(form.contains("ServerLifeCycle"));
+                assertTrue(form.contains("EndpointLifeCycle"));
+                assertTrue(form.contains("ServiceLifeCycle"));
                 break;
             }
         }
@@ -161,14 +161,15 @@ public class GenericCRUDTestCase extends GregESTestBaseTest {
     @Test(groups = {"wso2.greg", "wso2.greg.es"}, description = "Check Default Values in Publisher")
     public void checkDefaultValues() throws IOException, JSONException {
         ClientResponse response = getAssetCreatePage("evlc");
-        Assert.assertTrue((response.getStatusCode() == 200),
+        assertTrue((response.getStatusCode() == 200),
                 "Wrong status code ,Expected 200 OK ,Received " +
-                        response.getStatusCode());
+                        response.getStatusCode()
+        );
         String createPage = response.getEntity(String.class);
         String [] formGroup = createPage.split("<div class=\"form-group\">");
         for (String form: formGroup) {
             if (form.contains("details_venue")) {
-                Assert.assertTrue(form.contains("value=\"Colombo\""));
+                assertTrue(form.contains("value=\"Colombo\""));
                 break;
             }
         }
@@ -192,9 +193,10 @@ public class GenericCRUDTestCase extends GregESTestBaseTest {
         if (response.getStatusCode() == 201) {
             customAssetId = (String) resObject.get("id");
         }
-        Assert.assertTrue((response.getStatusCode() == 400),
+        assertTrue((response.getStatusCode() == 400),
                 "Wrong status code ,Expected 400 Bad Request ,Received " +
-                        response.getStatusCode());
+                        response.getStatusCode()
+        );
     }
 
     private ClientResponse getAssetCreatePage(String shortName) {
@@ -214,7 +216,7 @@ public class GenericCRUDTestCase extends GregESTestBaseTest {
             queryParamMap.put("type", "evlc");
             deleteAssetById(publisherUrl, genericRestClient, cookieHeader, customAssetId, queryParamMap);
         }
-        deleteCustomRxt();
+        assertTrue(deleteCustomRxtConfiguration("event_lc.rxt"),"Deleting of added custom event_lc.rxt encountered a failure");
     }
 
     @DataProvider

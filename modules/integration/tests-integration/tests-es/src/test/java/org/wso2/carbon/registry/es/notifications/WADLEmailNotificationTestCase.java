@@ -47,6 +47,7 @@ import org.wso2.greg.integration.common.clients.LifeCycleAdminServiceClient;
 import org.wso2.greg.integration.common.clients.UserProfileMgtServiceClient;
 import org.wso2.greg.integration.common.utils.GenericRestClient;
 
+import javax.mail.MessagingException;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.xml.xpath.XPathExpressionException;
@@ -64,7 +65,6 @@ import static org.testng.Assert.assertTrue;
 public class WADLEmailNotificationTestCase extends GregESTestBaseTest {
 
     private TestUserMode userMode;
-    private EmailUtil emailUtil;
     private UserProfileMgtServiceClient userProfileMgtClient;
     private File axis2File;
     private String publisherUrl;
@@ -274,7 +274,7 @@ public class WADLEmailNotificationTestCase extends GregESTestBaseTest {
         ClientResponse responseCheck0 =
                 checkLifeCycleCheckItem(cookieHeader, 0);
         Assert.assertTrue(responseCheck0.getStatusCode() == 200);
-        isNotificationMailAvailable = emailUtil.readGmailInboxForNotification("PublisherCheckListItemChecked");
+        isNotificationMailAvailable = EmailUtil.readGmailInboxForNotification("PublisherCheckListItemChecked");
         assertTrue(isNotificationMailAvailable,
                    "Publisher check list item ticked on life cycle, notification mail has failed to reach Gmail inbox");
         isNotificationMailAvailable = false;
@@ -292,7 +292,7 @@ public class WADLEmailNotificationTestCase extends GregESTestBaseTest {
         ClientResponse responseUncheck0 =
                 uncheckLifeCycleCheckItem(cookieHeader, 0);
         Assert.assertTrue(responseUncheck0.getStatusCode() == 200);
-        isNotificationMailAvailable = emailUtil.readGmailInboxForNotification("PublisherCheckListItemUnchecked");
+        isNotificationMailAvailable = EmailUtil.readGmailInboxForNotification("PublisherCheckListItemUnchecked");
         assertTrue(isNotificationMailAvailable,
                    "Publisher uncheck list item ticked on life cycle, notification mail has failed to reach Gmail inbox");
         isNotificationMailAvailable = false;
@@ -310,7 +310,7 @@ public class WADLEmailNotificationTestCase extends GregESTestBaseTest {
         JSONObject obj = new JSONObject(response.getEntity(String.class));
         String status = obj.get("status").toString();
         Assert.assertEquals(status, STATE_CHANGE_MESSAGE);
-        isNotificationMailAvailable = emailUtil.readGmailInboxForNotification("PublisherLifeCycleStateChanged");
+        isNotificationMailAvailable = EmailUtil.readGmailInboxForNotification("PublisherLifeCycleStateChanged");
         assertTrue(isNotificationMailAvailable,
                    "Publisher lifecycle state changed notification mail has failed to reach Gmail inbox");
         isNotificationMailAvailable = false;
@@ -318,8 +318,9 @@ public class WADLEmailNotificationTestCase extends GregESTestBaseTest {
     }
 
     @AfterClass(alwaysRun = true)
-    public void cleanUp() throws RegistryException, JSONException {
+    public void cleanUp() throws RegistryException, JSONException, IOException, MessagingException {
         deleteWADLAsset();
+        EmailUtil.deleteSentMails();
     }
 
     private void deleteWADLAsset() throws JSONException {

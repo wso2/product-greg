@@ -18,6 +18,8 @@
  */
 package org.wso2.carbon.registry.es.notifications;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.apache.wink.client.ClientResponse;
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -56,40 +58,39 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
-import static org.testng.Assert.assertNotNull;
 import static org.testng.Assert.assertTrue;
 
-/**
- * This test class can be used to check the email notification functionality on swagger resources.
- */
-public class SwaggerEmailNotiificationTestCase extends GregESTestBaseTest {
+public class WADLStoreEmailNotificationTestCase extends GregESTestBaseTest {
 
+    private static final Log log = LogFactory.getLog(WADLStoreEmailNotificationTestCase.class);
     private TestUserMode userMode;
+    String jSessionIdPublisher;
+    String jSessionIdStore;
     private UserProfileMgtServiceClient userProfileMgtClient;
     private File axis2File;
     private String publisherUrl;
+    private String storeUrl;
     private String resourcePath;
     private String assetId;
-    private String cookieHeader;
+    private String cookieHeaderPublisher;
+    private String cookieHeaderStore;
     private GenericRestClient genericRestClient;
     private Map<String, String> queryParamMap;
     private Map<String, String> headerMap;
     private String loginURL;
     private String emailAddress;
+    boolean isNotificationMailAvailable;
     private String assetName;
     private LifeCycleAdminServiceClient lifeCycleAdminServiceClient;
     private CustomLifecyclesChecklistAdminClient customLifecyclesChecklistAdminClient;
     private String path;
     private String lifeCycleName;
     private ESTestCommonUtils crudTestCommonUtils;
-    private String jSessionId;
-    private boolean isNotificationMailAvailable;
     private final static String STATE_CHANGE_MESSAGE = " State changed successfully to Testing!";
     private final static String LIFECYCLE = "ServiceLifeCycle";
-    private final static String EMAIL = "gregtestes@gmail.com";
 
     @Factory(dataProvider = "userModeProvider")
-    public SwaggerEmailNotiificationTestCase(TestUserMode userMode) {
+    public WADLStoreEmailNotificationTestCase(TestUserMode userMode) {
         this.userMode = userMode;
     }
 
@@ -97,18 +98,20 @@ public class SwaggerEmailNotiificationTestCase extends GregESTestBaseTest {
     public void init() throws Exception {
         super.init(userMode);
         loginURL = UrlGenerationUtil.getLoginURL(automationContext.getInstance());
-        emailAddress = EMAIL;
+        emailAddress = "gregtestes@gmail.com";
         genericRestClient = new GenericRestClient();
         queryParamMap = new HashMap<>();
         headerMap = new HashMap<>();
         resourcePath =
                 FrameworkPathUtil.getSystemResourceLocation() + "artifacts" + File.separator + "GREG" + File.separator;
         publisherUrl = automationContext.getContextUrls().getSecureServiceUrl().replace("services", "publisher/apis");
+        storeUrl = automationContext.getContextUrls().getSecureServiceUrl().replace("services", "store/apis");
         userProfileMgtClient = new UserProfileMgtServiceClient(backendURL, sessionCookie);
         axis2File = new File(
                 TestConfigurationProvider.getResourceLocation("GREG") + File.separator + "axis2" + File.separator
                 + "axis2.xml");
-        //need lifeCycleAdminServiceClient to attach a lifecycle to the swagger, as swaggers does not come with
+
+        //need lifeCycleAdminServiceClient to attach a lifecycle to the WADL, as WADLs does not come with
         //a default lifecycle attached
         lifeCycleAdminServiceClient = new LifeCycleAdminServiceClient(backendURL, sessionCookie);
         customLifecyclesChecklistAdminClient = new CustomLifecyclesChecklistAdminClient(backendURL, sessionCookie);
@@ -117,40 +120,43 @@ public class SwaggerEmailNotiificationTestCase extends GregESTestBaseTest {
         setTestEnvironment();
     }
 
-    @Test(groups = {"wso2.greg", "wso2.greg.es"}, description = "create a swagger with a LC attached.")
-    public void createSwaggerAssetWithLC()
+    @Test(groups = {"wso2.greg", "wso2.greg.es"}, description = "create a wadl with a LC attached.")
+    public void createWADLAssetWithLC()
             throws JSONException, InterruptedException, IOException,
                    CustomLifecyclesChecklistAdminServiceExceptionException {
-        queryParamMap.put("type", "swagger");
-        String swaggerTemplate = readFile(resourcePath + "json" + File.separator + "swagger-sample.json");
-        assetName = "swagger.json";
-        String dataBody = String.format(swaggerTemplate, "http://petstore.swagger.io/v2/swagger.json",
-                                        assetName, "1.0.0");
+        queryParamMap.put("type", "wadl");
+        String wadlTemplate = readFile(resourcePath + "json" + File.separator + "wadl-sample.json");
+        assetName = "StorageService.wadl";
+        String dataBody = String.format(wadlTemplate,
+                                        "https://raw.githubusercontent.com/wso2/wso2-qa-artifacts/master/automation-artifacts/greg/wadl/StorageService.wadl",
+                                        assetName,
+                                        "1.0.0");
         ClientResponse response =
                 genericRestClient.geneticRestRequestPost(publisherUrl + "/assets",
                                                          MediaType.APPLICATION_JSON,
                                                          MediaType.APPLICATION_JSON, dataBody
-                        , queryParamMap, headerMap, cookieHeader);
+                        , queryParamMap, headerMap, cookieHeaderPublisher);
         JSONObject obj = new JSONObject(response.getEntity(String.class));
         Assert.assertTrue((response.getStatusCode() == 201),
                           "Wrong status code ,Expected 201 Created ,Received " +
                           response.getStatusCode());
         String resultName = obj.get("overview_name").toString();
         Assert.assertEquals(resultName, assetName);
-        searchSwaggerAsset();
-        //attach a LC to the swagger
+        searchWadlAsset();
+        //attach a LC to the wadl
         lifeCycleAdminServiceClient.addAspect(path, lifeCycleName);
         Assert.assertNotNull(assetId, "Empty asset resource id available" +
                                       response.getEntity(String.class));
-        Assert.assertTrue(this.getAsset(assetId, "swagger").get("lifecycle")
+        Assert.assertTrue(this.getAsset(assetId, "wadl").get("lifecycle")
                                   .equals(lifeCycleName), "LifeCycle not assigned to given asset");
     }
 
     @Test(groups = "wso2.greg", description = "Updating the default user profile and configure axis2.xml file",
-          dependsOnMethods = {"createSwaggerAssetWithLC"})
+          dependsOnMethods = {"createWADLAssetWithLC"})
     private void updateProfileAndEnableEmailConfiguration()
             throws UserProfileMgtServiceUserProfileExceptionException, IOException, XPathExpressionException,
                    AutomationUtilException {
+
         UserProfileDTO profile = new UserProfileDTO();
         profile.setProfileName("default");
 
@@ -181,119 +187,41 @@ public class SwaggerEmailNotiificationTestCase extends GregESTestBaseTest {
         serverConfigurationManager.applyConfiguration(axis2File);
     }
 
-    @Test(groups = {"wso2.greg", "wso2.greg.es"}, description = "Adding subscription to a swagger LC check list item check",
+    @Test(groups = {"wso2.greg", "wso2.greg.es"}, description = "Adding subscription to a wadl LC state change",
           dependsOnMethods = {"updateProfileAndEnableEmailConfiguration"})
-    public void addSubscriptionForLCCheckListItemCheck() throws Exception {
+    public void addSubscriptionForLCStateChange() throws Exception {
         setTestEnvironment();
         JSONObject dataObject = new JSONObject();
-        Map<String, String> newQueryParamMap = new HashMap<String, String>();
-        dataObject.put("notificationType", "PublisherCheckListItemChecked");
+
+        dataObject.put("notificationType", "StoreLifeCycleStateChanged");
         dataObject.put("notificationMethod", "email");
 
         ClientResponse response =
-                genericRestClient.geneticRestRequestPost(publisherUrl + "/subscriptions/swagger/" + assetId, MediaType.APPLICATION_JSON,
+                genericRestClient.geneticRestRequestPost(storeUrl + "/subscription/wadl/" + assetId, MediaType.APPLICATION_JSON,
                                                          MediaType.APPLICATION_JSON, dataObject.toString()
-                        , newQueryParamMap, headerMap, cookieHeader);
-
-        assertTrue((response.getStatusCode() == Response.Status.OK.getStatusCode()),
-                   "Wrong status code ,Expected" + Response.Status.OK.getStatusCode() + "Created ,Received " +
-                   response.getStatusCode());
-
-        // verify e-mail
-        verifyEmail();
-    }
-
-    @Test(groups = {"wso2.greg", "wso2.greg.es"}, description = "Swagger LC check list item check",
-          dependsOnMethods = {"addSubscriptionForLCCheckListItemCheck"})
-    public void checkLCCheckItemsOnSwagger() throws Exception {
-        queryParamMap.put("type", "swagger");
-        queryParamMap.put("lifecycle", lifeCycleName);
-        JSONObject LCStateobj = getLifeCycleState(assetId, "swagger");
-        JSONObject dataObj = LCStateobj.getJSONObject("data");
-        JSONArray checkItems = dataObj.getJSONArray("checkItems");
-        Assert.assertEquals(((JSONObject) checkItems.get(0)).getString("isVisible"), "true");
-        ClientResponse responseCheck0 =
-                checkLifeCycleCheckItem(cookieHeader, 0);
-        Assert.assertTrue(responseCheck0.getStatusCode() == 200);
-        isNotificationMailAvailable = EmailUtil.readGmailInboxForNotification("PublisherCheckListItemChecked");
-        assertTrue(isNotificationMailAvailable,
-                   "Publisher check list item ticked on life cycle, notification mail has failed to reach Gmail inbox");
-        isNotificationMailAvailable = false;
-    }
-
-    @Test(groups = {"wso2.greg", "wso2.greg.es"}, description = "Adding subscription to a swagger LC check list item uncheck",
-          dependsOnMethods = {"checkLCCheckItemsOnSwagger"})
-    public void addSubscriptionForLCCheckListItemUnCheck() throws Exception {
-
-        JSONObject dataObject = new JSONObject();
-
-        dataObject.put("notificationType", "PublisherCheckListItemUnchecked");
-        dataObject.put("notificationMethod", "email");
-
-        ClientResponse response =
-                genericRestClient.geneticRestRequestPost(publisherUrl + "/subscriptions/swagger/" + assetId, MediaType.APPLICATION_JSON,
-                                                         MediaType.APPLICATION_JSON, dataObject.toString()
-                        , queryParamMap, headerMap, cookieHeader);
+                        , queryParamMap, headerMap, cookieHeaderStore);
 
         assertTrue((response.getStatusCode() == Response.Status.OK.getStatusCode()),
                    "Wrong status code ,Expected" + Response.Status.OK.getStatusCode() + "Created ,Received " +
                    response.getStatusCode());
         // verify e-mail
         verifyEmail();
+
     }
 
-    @Test(groups = {"wso2.greg", "wso2.greg.es"}, description = "Swagger LC check list item check",
-          dependsOnMethods = {"addSubscriptionForLCCheckListItemUnCheck"})
-    public void uncheckLCCheckItemsOnSwagger() throws Exception {
-        queryParamMap.put("type", "swagger");
-        queryParamMap.put("lifecycle", lifeCycleName);
-        JSONObject LCStateobj = getLifeCycleState(assetId, "swagger");
-        JSONObject dataObj = LCStateobj.getJSONObject("data");
-        JSONArray checkItems = dataObj.getJSONArray("checkItems");
-        Assert.assertEquals(((JSONObject) checkItems.get(0)).getString("isVisible"), "true");
-        ClientResponse responseUncheck0 =
-                uncheckLifeCycleCheckItem(cookieHeader, 0);
-        Assert.assertTrue(responseUncheck0.getStatusCode() == 200);
-        isNotificationMailAvailable = EmailUtil.readGmailInboxForNotification("PublisherCheckListItemUnchecked");
-        assertTrue(isNotificationMailAvailable,
-                   "Publisher uncheck list item ticked on life cycle, notification mail has failed to reach Gmail inbox");
-        isNotificationMailAvailable = false;
-    }
-
-    @Test(groups = {"wso2.greg", "wso2.greg.es"}, description = "Adding subscription to a swagger LC state change",
-          dependsOnMethods = {"uncheckLCCheckItemsOnSwagger"})
-    public void addSubscriptionForLCStateChange() throws Exception {
-
-        JSONObject dataObject = new JSONObject();
-
-        dataObject.put("notificationType", "PublisherLifeCycleStateChanged");
-        dataObject.put("notificationMethod", "email");
-
-        ClientResponse response =
-                genericRestClient.geneticRestRequestPost(publisherUrl + "/subscriptions/swagger/" + assetId, MediaType.APPLICATION_JSON,
-                                                         MediaType.APPLICATION_JSON, dataObject.toString()
-                        , queryParamMap, headerMap, cookieHeader);
-
-        assertTrue((response.getStatusCode() == Response.Status.OK.getStatusCode()),
-                   "Wrong status code ,Expected" + Response.Status.OK.getStatusCode() + "Created ,Received " +
-                   response.getStatusCode());
-        // verify e-mail
-        verifyEmail();
-    }
-
-    @Test(groups = {"wso2.greg", "wso2.greg.es"}, description = "Change LC state on swagger",
+    @Test(groups = {"wso2.greg", "wso2.greg.es"}, description = "Change LC state on WADL",
           dependsOnMethods = {"addSubscriptionForLCStateChange"})
-    public void changeLCStateSwagger() throws Exception {
+    public void changeLCStateWADL() throws Exception {
         ClientResponse response =
                 genericRestClient.geneticRestRequestPost(publisherUrl + "/assets/" + assetId + "/state",
                                                          MediaType.APPLICATION_FORM_URLENCODED,
                                                          MediaType.APPLICATION_JSON,
                                                          "nextState=Testing&comment=Completed"
-                        , queryParamMap, headerMap, cookieHeader);
+                        , queryParamMap, headerMap, cookieHeaderPublisher);
         JSONObject obj = new JSONObject(response.getEntity(String.class));
         String status = obj.get("status").toString();
         Assert.assertEquals(status, STATE_CHANGE_MESSAGE);
-        isNotificationMailAvailable = EmailUtil.readGmailInboxForNotification("PublisherLifeCycleStateChanged");
+        isNotificationMailAvailable = EmailUtil.readGmailInboxForNotification("StoreLifeCycleStateChanged");
         assertTrue(isNotificationMailAvailable,
                    "Publisher lifecycle state changed notification mail has failed to reach Gmail inbox");
         isNotificationMailAvailable = false;
@@ -301,40 +229,36 @@ public class SwaggerEmailNotiificationTestCase extends GregESTestBaseTest {
 
     @AfterClass(alwaysRun = true)
     public void cleanUp() throws RegistryException, JSONException, IOException, MessagingException {
-        deleteSwaggerAsset();
+        deleteWADLAsset();
         EmailUtil.deleteSentMails();
     }
 
-    private void deleteSwaggerAsset() throws JSONException {
-        queryParamMap.clear();
-        queryParamMap.put("type", "swagger");
-        genericRestClient.geneticRestRequestDelete(publisherUrl + "/assets/" + assetId, MediaType.APPLICATION_JSON,
-                                                   MediaType.APPLICATION_JSON, queryParamMap, headerMap, cookieHeader);
-    }
-
-    private void setTestEnvironment() throws XPathExpressionException, JSONException {
+    private void setTestEnvironment() throws JSONException, IOException, XPathExpressionException {
+        // Authenticate Publisher
         ClientResponse response = authenticate(publisherUrl, genericRestClient,
                                                automationContext.getSuperTenant().getTenantAdmin().getUserName(),
                                                automationContext.getSuperTenant().getTenantAdmin().getPassword());
         JSONObject obj = new JSONObject(response.getEntity(String.class));
-        assertTrue((response.getStatusCode() == 200),
-                   "Wrong status code ,Expected 200 OK ,Received " +
-                   response.getStatusCode()
-        );
-        jSessionId = obj.getJSONObject("data").getString("sessionId");
-        cookieHeader = "JSESSIONID=" + jSessionId;
-        assertNotNull(jSessionId, "Invalid JSessionID received");
-        crudTestCommonUtils.setCookieHeader(cookieHeader);
+        jSessionIdPublisher = obj.getJSONObject("data").getString("sessionId");
+        cookieHeaderPublisher = "JSESSIONID=" + jSessionIdPublisher;
+        crudTestCommonUtils.setCookieHeader(cookieHeaderPublisher);
+        // Authenticate Store
+        ClientResponse responseStore = authenticate(storeUrl, genericRestClient,
+                                                    automationContext.getSuperTenant().getTenantAdmin().getUserName(),
+                                                    automationContext.getSuperTenant().getTenantAdmin().getPassword());
+        obj = new JSONObject(responseStore.getEntity(String.class));
+        jSessionIdStore = obj.getJSONObject("data").getString("sessionId");
+        cookieHeaderStore = "JSESSIONID=" + jSessionIdStore;
     }
 
     /**
-     * This method get all the policies in publisher and select the one created by createSwaggerAssetWithLC method.
+     * This method get all the wadls in publisher and select the one created by createWADLAssetWithLC method.
      *
      * @throws JSONException
      */
-    public void searchSwaggerAsset() throws JSONException {
+    public void searchWadlAsset() throws JSONException {
         Map<String, String> queryParamMap = new HashMap<>();
-        queryParamMap.put("type", "swagger");
+        queryParamMap.put("type", "wadl");
         ClientResponse clientResponse = crudTestCommonUtils.searchAssetByQuery(queryParamMap);
         JSONObject obj = new JSONObject(clientResponse.getEntity(String.class));
         JSONArray jsonArray = obj.getJSONArray("list");
@@ -363,38 +287,20 @@ public class SwaggerEmailNotiificationTestCase extends GregESTestBaseTest {
                                                    automationContext.getContextTenant().getContextUser().getPassword());
     }
 
-    private JSONObject getLifeCycleState(String assetId, String assetType) throws JSONException {
-        Map<String, String> assetTypeParamMap = new HashMap<String, String>();
-        assetTypeParamMap.put("type", assetType);
-        assetTypeParamMap.put("lifecycle", lifeCycleName);
-        ClientResponse response =
-                genericRestClient.geneticRestRequestGet
-                        (publisherUrl + "/asset/" + assetId + "/state"
-                                , queryParamMap, headerMap, cookieHeader);
-        return new JSONObject(response.getEntity(String.class));
-    }
-
-    private ClientResponse checkLifeCycleCheckItem(String managerCookieHeader, int itemId) {
-        return genericRestClient.geneticRestRequestPost(publisherUrl + "/asset/" + assetId + "/update-checklist",
-                                                        MediaType.APPLICATION_JSON,
-                                                        MediaType.APPLICATION_JSON,
-                                                        "{\"checklist\":[{\"index\":" + itemId + ",\"checked\":true}]}"
-                , queryParamMap, headerMap, managerCookieHeader);
-    }
-
-    private ClientResponse uncheckLifeCycleCheckItem(String managerCookieHeader, int itemId) {
-        return genericRestClient.geneticRestRequestPost(publisherUrl + "/asset/" + assetId + "/update-checklist",
-                                                        MediaType.APPLICATION_JSON,
-                                                        MediaType.APPLICATION_JSON,
-                                                        "{\"checklist\":[{\"index\":" + itemId + ",\"checked\":false}]}"
-                , queryParamMap, headerMap, managerCookieHeader);
+    private void deleteWADLAsset() throws JSONException {
+        queryParamMap.clear();
+        queryParamMap.put("type", "wadl");
+        genericRestClient.geneticRestRequestDelete(publisherUrl + "/assets/" + assetId, MediaType.APPLICATION_JSON,
+                                                   MediaType.APPLICATION_JSON, queryParamMap, headerMap, cookieHeaderPublisher);
     }
 
     @DataProvider
     private static TestUserMode[][] userModeProvider() {
-        return new TestUserMode[][]{
-                new TestUserMode[]{TestUserMode.SUPER_TENANT_ADMIN}
-//                new TestUserMode[]{TestUserMode.TENANT_USER},
+        return new TestUserMode[][]{new TestUserMode[]{TestUserMode.SUPER_TENANT_ADMIN}
+                                    //                new TestUserMode[]{TestUserMode.TENANT_USER},
         };
     }
+
+
+
 }
