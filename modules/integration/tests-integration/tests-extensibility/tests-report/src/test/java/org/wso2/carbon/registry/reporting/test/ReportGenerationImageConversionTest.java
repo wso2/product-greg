@@ -82,10 +82,8 @@ public class ReportGenerationImageConversionTest extends ReportingTestCaseSuper 
         removeAppicationArtifact(3);
         removeEditedLCtemplate();
         removeTemplateCollection();
-
         resourceAdminServiceClient.deleteResource(applicationRXT);
         resourceAdminServiceClient.removeExtension(applicationJAR);
-
         removeAllReports();
         deleteDestiationFile();
 
