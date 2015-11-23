@@ -34,7 +34,6 @@ import org.wso2.carbon.automation.engine.context.TestUserMode;
 import org.wso2.carbon.automation.engine.frameworkutils.FrameworkPathUtil;
 import org.wso2.carbon.governance.custom.lifecycles.checklist.stub.CustomLifecyclesChecklistAdminServiceExceptionException;
 import org.wso2.carbon.registry.core.exceptions.RegistryException;
-import org.wso2.carbon.registry.es.utils.ESTestCommonUtils;
 import org.wso2.carbon.registry.es.utils.GregESTestBaseTest;
 import org.wso2.greg.integration.common.clients.LifeCycleAdminServiceClient;
 import org.wso2.greg.integration.common.utils.GenericRestClient;
@@ -54,7 +53,7 @@ import static org.testng.Assert.assertTrue;
  * This class tests subscriptions and notifications on publisher console for Policies
  */
 public class PolicyNotificationAndSubscriptionTestCase extends GregESTestBaseTest {
-    private static final Log log = LogFactory.getLog(WSDLNotificationAndSubscriptionTestCase.class);
+    private static final Log log = LogFactory.getLog(PolicyNotificationAndSubscriptionTestCase.class);
     private TestUserMode userMode;
     String jSessionId;
     String assetId;
@@ -66,7 +65,6 @@ public class PolicyNotificationAndSubscriptionTestCase extends GregESTestBaseTes
     String publisherUrl;
     String resourcePath;
     String assetName;
-    ESTestCommonUtils crudTestCommonUtils;
     LifeCycleAdminServiceClient lifeCycleAdminServiceClient;
     String lifeCycleName;
     String stateChangeMessage = " State changed successfully to Testing!";
@@ -90,7 +88,6 @@ public class PolicyNotificationAndSubscriptionTestCase extends GregESTestBaseTes
         //need lifeCycleAdminServiceClient to attach a lifecycle to the WSDL, as WSDLs does not come with
         //a default lifecycle attached
         lifeCycleAdminServiceClient = new LifeCycleAdminServiceClient(backendURL, sessionCookie);
-        crudTestCommonUtils = new ESTestCommonUtils(genericRestClient, publisherUrl, headerMap);
         lifeCycleName = "ServiceLifeCycle";
         setTestEnvironment();
     }
@@ -107,7 +104,6 @@ public class PolicyNotificationAndSubscriptionTestCase extends GregESTestBaseTes
         jSessionId = obj.getJSONObject("data").getString("sessionId");
         cookieHeader = "JSESSIONID=" + jSessionId;
         assertNotNull(jSessionId, "Invalid JSessionID received");
-        crudTestCommonUtils.setCookieHeader(cookieHeader);
     }
 
     @Test(groups = {"wso2.greg", "wso2.greg.es"}, description = "create a policy with a LC attached.")
@@ -247,7 +243,7 @@ public class PolicyNotificationAndSubscriptionTestCase extends GregESTestBaseTes
     public void searchPolicyAsset() throws JSONException {
         Map<String, String> queryParamMap = new HashMap<>();
         queryParamMap.put("type", "policy");
-        ClientResponse clientResponse = crudTestCommonUtils.searchAssetByQuery(queryParamMap);
+        ClientResponse clientResponse = searchAssetByQuery(publisherUrl,genericRestClient,cookieHeader,queryParamMap);
         JSONObject obj = new JSONObject(clientResponse.getEntity(String.class));
         JSONArray jsonArray = obj.getJSONArray("list");
         for (int i = 0; i < jsonArray.length(); i++) {
@@ -263,7 +259,7 @@ public class PolicyNotificationAndSubscriptionTestCase extends GregESTestBaseTes
     private JSONObject getAsset(String assetId, String assetType) throws JSONException {
         Map<String, String> assetTypeParamMap = new HashMap<String, String>();
         assetTypeParamMap.put("type", assetType);
-        ClientResponse clientResponse = crudTestCommonUtils.getAssetById(assetId, queryParamMap);
+        ClientResponse clientResponse = getAssetById(publisherUrl,genericRestClient,cookieHeader,assetId, queryParamMap);
         return new JSONObject(clientResponse.getEntity(String.class));
     }
 
@@ -298,13 +294,13 @@ public class PolicyNotificationAndSubscriptionTestCase extends GregESTestBaseTes
     public void cleanUp() throws RegistryException, JSONException {
         Map<String, String> queryParamMap = new HashMap<>();
         queryParamMap.put("type", "policy");
-        assocUUIDMap = crudTestCommonUtils.getAssociationsFromPages(assetId, queryParamMap);
-        crudTestCommonUtils.deleteAssetById(assetId, queryParamMap);
-        crudTestCommonUtils.deleteAllAssociationsById(assetId, queryParamMap);
+        assocUUIDMap = getAssociationsFromPages(publisherUrl,genericRestClient,cookieHeader,assetId, queryParamMap);
+        deleteAssetById(publisherUrl,genericRestClient,cookieHeader,assetId, queryParamMap);
+        deleteAllAssociationsById(publisherUrl,genericRestClient,cookieHeader,assetId, queryParamMap);
         queryParamMap.clear();
         for (String uuid : assocUUIDMap.keySet()) {
-            queryParamMap.put("type", crudTestCommonUtils.getType(assocUUIDMap.get(uuid)));
-            crudTestCommonUtils.deleteAssetById(uuid, queryParamMap);
+            queryParamMap.put("type", getType(assocUUIDMap.get(uuid)));
+            deleteAssetById(publisherUrl,genericRestClient,cookieHeader,uuid, queryParamMap);
         }
     }
 
