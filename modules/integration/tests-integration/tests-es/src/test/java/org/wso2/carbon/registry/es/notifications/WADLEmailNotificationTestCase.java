@@ -39,7 +39,6 @@ import org.wso2.carbon.identity.user.profile.stub.types.UserProfileDTO;
 import org.wso2.carbon.integration.common.utils.exceptions.AutomationUtilException;
 import org.wso2.carbon.integration.common.utils.mgt.ServerConfigurationManager;
 import org.wso2.carbon.registry.core.exceptions.RegistryException;
-import org.wso2.carbon.registry.es.utils.ESTestCommonUtils;
 import org.wso2.carbon.registry.es.utils.EmailUtil;
 import org.wso2.carbon.registry.es.utils.GregESTestBaseTest;
 import org.wso2.greg.integration.common.clients.CustomLifecyclesChecklistAdminClient;
@@ -81,7 +80,6 @@ public class WADLEmailNotificationTestCase extends GregESTestBaseTest {
     private CustomLifecyclesChecklistAdminClient customLifecyclesChecklistAdminClient;
     private String path;
     private String lifeCycleName;
-    private ESTestCommonUtils crudTestCommonUtils;
     private String jSessionId;
     private boolean isNotificationMailAvailable;
     private final static String STATE_CHANGE_MESSAGE = " State changed successfully to Testing!";
@@ -112,7 +110,6 @@ public class WADLEmailNotificationTestCase extends GregESTestBaseTest {
         //a default lifecycle attached
         lifeCycleAdminServiceClient = new LifeCycleAdminServiceClient(backendURL, sessionCookie);
         customLifecyclesChecklistAdminClient = new CustomLifecyclesChecklistAdminClient(backendURL, sessionCookie);
-        crudTestCommonUtils = new ESTestCommonUtils(genericRestClient, publisherUrl, headerMap);
         lifeCycleName = LIFECYCLE;
         setTestEnvironment();
     }
@@ -164,7 +161,6 @@ public class WADLEmailNotificationTestCase extends GregESTestBaseTest {
         jSessionId = obj.getJSONObject("data").getString("sessionId");
         cookieHeader = "JSESSIONID=" + jSessionId;
         assertNotNull(jSessionId, "Invalid JSessionID received");
-        crudTestCommonUtils.setCookieHeader(cookieHeader);
     }
 
     @Test(groups = {"wso2.greg", "wso2.greg.es"}, description = "create a wadl with a LC attached.")
@@ -338,7 +334,7 @@ public class WADLEmailNotificationTestCase extends GregESTestBaseTest {
     public void searchWadlAsset() throws JSONException {
         Map<String, String> queryParamMap = new HashMap<>();
         queryParamMap.put("type", "wadl");
-        ClientResponse clientResponse = crudTestCommonUtils.searchAssetByQuery(queryParamMap);
+        ClientResponse clientResponse = searchAssetByQuery(publisherUrl,genericRestClient,cookieHeader,queryParamMap);
         JSONObject obj = new JSONObject(clientResponse.getEntity(String.class));
         JSONArray jsonArray = obj.getJSONArray("list");
         for (int i = 0; i < jsonArray.length(); i++) {
@@ -354,7 +350,7 @@ public class WADLEmailNotificationTestCase extends GregESTestBaseTest {
     private JSONObject getAsset(String assetId, String assetType) throws JSONException {
         Map<String, String> assetTypeParamMap = new HashMap<String, String>();
         assetTypeParamMap.put("type", assetType);
-        ClientResponse clientResponse = crudTestCommonUtils.getAssetById(assetId, queryParamMap);
+        ClientResponse clientResponse = getAssetById(publisherUrl,genericRestClient,cookieHeader,assetId, queryParamMap);
         return new JSONObject(clientResponse.getEntity(String.class));
     }
 
