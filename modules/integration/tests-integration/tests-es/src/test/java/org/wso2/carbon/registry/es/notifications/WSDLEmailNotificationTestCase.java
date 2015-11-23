@@ -39,7 +39,6 @@ import org.wso2.carbon.identity.user.profile.stub.types.UserProfileDTO;
 import org.wso2.carbon.integration.common.utils.exceptions.AutomationUtilException;
 import org.wso2.carbon.integration.common.utils.mgt.ServerConfigurationManager;
 import org.wso2.carbon.registry.core.exceptions.RegistryException;
-import org.wso2.carbon.registry.es.utils.ESTestCommonUtils;
 import org.wso2.carbon.registry.es.utils.EmailUtil;
 import org.wso2.carbon.registry.es.utils.GregESTestBaseTest;
 import org.wso2.greg.integration.common.clients.CustomLifecyclesChecklistAdminClient;
@@ -65,7 +64,6 @@ import static org.testng.Assert.assertTrue;
 public class WSDLEmailNotificationTestCase extends GregESTestBaseTest {
 
     private TestUserMode userMode;
-    private EmailUtil emailUtil;
     private UserProfileMgtServiceClient userProfileMgtClient;
     private File axis2File;
     private String publisherUrl;
@@ -82,7 +80,6 @@ public class WSDLEmailNotificationTestCase extends GregESTestBaseTest {
     private CustomLifecyclesChecklistAdminClient customLifecyclesChecklistAdminClient;
     private String path;
     private String lifeCycleName;
-    private ESTestCommonUtils crudTestCommonUtils;
     private String jSessionId;
     private boolean isNotificationMailAvailable;
     private final static String STATE_CHANGE_MESSAGE = " State changed successfully to Testing!";
@@ -112,7 +109,6 @@ public class WSDLEmailNotificationTestCase extends GregESTestBaseTest {
         //a default lifecycle attached
         lifeCycleAdminServiceClient = new LifeCycleAdminServiceClient(backendURL, sessionCookie);
         customLifecyclesChecklistAdminClient = new CustomLifecyclesChecklistAdminClient(backendURL, sessionCookie);
-        crudTestCommonUtils = new ESTestCommonUtils(genericRestClient, publisherUrl, headerMap);
         lifeCycleName = LIFECYCLE;
         setTestEnvironment();
     }
@@ -170,7 +166,6 @@ public class WSDLEmailNotificationTestCase extends GregESTestBaseTest {
         jSessionId = obj.getJSONObject("data").getString("sessionId");
         cookieHeader = "JSESSIONID=" + jSessionId;
         assertNotNull(jSessionId, "Invalid JSessionID received");
-        crudTestCommonUtils.setCookieHeader(cookieHeader);
     }
 
     @Test(groups = {"wso2.greg", "wso2.greg.es"}, description = "create a wsdl with a LC attached.")
@@ -280,7 +275,7 @@ public class WSDLEmailNotificationTestCase extends GregESTestBaseTest {
         ClientResponse responseCheck0 =
                 checkLifeCycleCheckItem(cookieHeader, 0);
         Assert.assertTrue(responseCheck0.getStatusCode() == 200);
-        isNotificationMailAvailable = emailUtil.readGmailInboxForNotification("PublisherCheckListItemChecked");
+        isNotificationMailAvailable = EmailUtil.readGmailInboxForNotification("PublisherCheckListItemChecked");
         assertTrue(isNotificationMailAvailable,
                    "Publisher check list item ticked on life cycle, notification mail has failed to reach Gmail inbox");
         isNotificationMailAvailable = false;
@@ -298,7 +293,7 @@ public class WSDLEmailNotificationTestCase extends GregESTestBaseTest {
         ClientResponse responseUncheck0 =
                 uncheckLifeCycleCheckItem(cookieHeader, 0);
         Assert.assertTrue(responseUncheck0.getStatusCode() == 200);
-        isNotificationMailAvailable = emailUtil.readGmailInboxForNotification("PublisherCheckListItemUnchecked");
+        isNotificationMailAvailable = EmailUtil.readGmailInboxForNotification("PublisherCheckListItemUnchecked");
         assertTrue(isNotificationMailAvailable,
                    "Publisher uncheck list item ticked on life cycle, notification mail has failed to reach Gmail inbox");
         isNotificationMailAvailable = false;
@@ -316,7 +311,7 @@ public class WSDLEmailNotificationTestCase extends GregESTestBaseTest {
         JSONObject obj = new JSONObject(response.getEntity(String.class));
         String status = obj.get("status").toString();
         Assert.assertEquals(status, STATE_CHANGE_MESSAGE);
-        isNotificationMailAvailable = emailUtil.readGmailInboxForNotification("PublisherLifeCycleStateChanged");
+        isNotificationMailAvailable = EmailUtil.readGmailInboxForNotification("PublisherLifeCycleStateChanged");
         assertTrue(isNotificationMailAvailable,
                    "Publisher lifecycle state changed notification mail has failed to reach Gmail inbox");
         isNotificationMailAvailable = false;
@@ -331,7 +326,7 @@ public class WSDLEmailNotificationTestCase extends GregESTestBaseTest {
     public void searchWsdlAsset() throws JSONException {
         Map<String, String> queryParamMap = new HashMap<>();
         queryParamMap.put("type", "wsdl");
-        ClientResponse clientResponse = crudTestCommonUtils.searchAssetByQuery(queryParamMap);
+        ClientResponse clientResponse = searchAssetByQuery(publisherUrl,genericRestClient,cookieHeader,queryParamMap);
         JSONObject obj = new JSONObject(clientResponse.getEntity(String.class));
         JSONArray jsonArray = obj.getJSONArray("list");
         for (int i = 0; i < jsonArray.length(); i++) {
@@ -347,7 +342,7 @@ public class WSDLEmailNotificationTestCase extends GregESTestBaseTest {
     private JSONObject getAsset(String assetId, String assetType) throws JSONException {
         Map<String, String> assetTypeParamMap = new HashMap<String, String>();
         assetTypeParamMap.put("type", assetType);
-        ClientResponse clientResponse = crudTestCommonUtils.getAssetById(assetId, queryParamMap);
+        ClientResponse clientResponse = getAssetById(publisherUrl,genericRestClient,cookieHeader,assetId, queryParamMap);
         return new JSONObject(clientResponse.getEntity(String.class));
     }
 

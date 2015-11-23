@@ -18,6 +18,8 @@
  */
 package org.wso2.carbon.registry.es.notifications;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.apache.wink.client.ClientResponse;
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -39,6 +41,7 @@ import org.wso2.carbon.identity.user.profile.stub.types.UserProfileDTO;
 import org.wso2.carbon.integration.common.utils.exceptions.AutomationUtilException;
 import org.wso2.carbon.integration.common.utils.mgt.ServerConfigurationManager;
 import org.wso2.carbon.registry.core.exceptions.RegistryException;
+import org.wso2.carbon.registry.es.utils.ESTestCommonUtils;
 import org.wso2.carbon.registry.es.utils.EmailUtil;
 import org.wso2.carbon.registry.es.utils.GregESTestBaseTest;
 import org.wso2.greg.integration.common.clients.CustomLifecyclesChecklistAdminClient;
@@ -55,100 +58,107 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
-import static org.testng.Assert.assertNotNull;
 import static org.testng.Assert.assertTrue;
 
-/**
- * This test class can be used to check the email notification functionality on policy resources.
- */
-public class PolicyEmailNotificationTestCase extends GregESTestBaseTest {
+public class WSDLStoreEmailNotificationTestCase extends GregESTestBaseTest {
 
+    private static final Log log = LogFactory.getLog(WSDLStoreEmailNotificationTestCase.class);
     private TestUserMode userMode;
+    String jSessionIdPublisher;
+    String jSessionIdStore;
     private UserProfileMgtServiceClient userProfileMgtClient;
     private File axis2File;
     private String publisherUrl;
+    private String storeUrl;
     private String resourcePath;
     private String assetId;
-    private String cookieHeader;
+    private String cookieHeaderPublisher;
+    private String cookieHeaderStore;
     private GenericRestClient genericRestClient;
     private Map<String, String> queryParamMap;
     private Map<String, String> headerMap;
     private String loginURL;
     private String emailAddress;
+    boolean isNotificationMailAvailable;
     private String assetName;
     private LifeCycleAdminServiceClient lifeCycleAdminServiceClient;
     private CustomLifecyclesChecklistAdminClient customLifecyclesChecklistAdminClient;
     private String path;
     private String lifeCycleName;
-    private String jSessionId;
-    private boolean isNotificationMailAvailable;
+    private ESTestCommonUtils crudTestCommonUtils;
     private final static String STATE_CHANGE_MESSAGE = " State changed successfully to Testing!";
     private final static String LIFECYCLE = "ServiceLifeCycle";
-    private final static String EMAIL = "gregtestes@gmail.com";
 
     @Factory(dataProvider = "userModeProvider")
-    public PolicyEmailNotificationTestCase(TestUserMode userMode) {
+    public WSDLStoreEmailNotificationTestCase(TestUserMode userMode) {
         this.userMode = userMode;
     }
 
     @BeforeClass(alwaysRun = true)
     public void init() throws Exception {
+
         super.init(userMode);
         loginURL = UrlGenerationUtil.getLoginURL(automationContext.getInstance());
-        emailAddress = EMAIL;
+        emailAddress = "gregtestes@gmail.com";
         genericRestClient = new GenericRestClient();
         queryParamMap = new HashMap<>();
         headerMap = new HashMap<>();
         resourcePath =
                 FrameworkPathUtil.getSystemResourceLocation() + "artifacts" + File.separator + "GREG" + File.separator;
         publisherUrl = automationContext.getContextUrls().getSecureServiceUrl().replace("services", "publisher/apis");
+        storeUrl = automationContext.getContextUrls().getSecureServiceUrl().replace("services", "store/apis");
         userProfileMgtClient = new UserProfileMgtServiceClient(backendURL, sessionCookie);
         axis2File = new File(
                 TestConfigurationProvider.getResourceLocation("GREG") + File.separator + "axis2" + File.separator
                 + "axis2.xml");
-        //need lifeCycleAdminServiceClient to attach a lifecycle to the policy, as policies does not come with
+
+        //need lifeCycleAdminServiceClient to attach a lifecycle to the WSDL, as WSDLs does not come with
         //a default lifecycle attached
         lifeCycleAdminServiceClient = new LifeCycleAdminServiceClient(backendURL, sessionCookie);
         customLifecyclesChecklistAdminClient = new CustomLifecyclesChecklistAdminClient(backendURL, sessionCookie);
+        crudTestCommonUtils = new ESTestCommonUtils(genericRestClient, publisherUrl, headerMap);
         lifeCycleName = LIFECYCLE;
         setTestEnvironment();
+
     }
 
-    @Test(groups = {"wso2.greg", "wso2.greg.es"}, description = "create a policy with a LC attached.")
-    public void createPolicyAssetWithLC()
+    @Test(groups = {"wso2.greg", "wso2.greg.es"}, description = "create a wsdl with a LC attached.")
+    public void createWSDLAssetWithLC()
             throws JSONException, InterruptedException, IOException,
                    CustomLifecyclesChecklistAdminServiceExceptionException {
-        queryParamMap.put("type", "policy");
-        String policyTemplate = readFile(resourcePath + "json" + File.separator + "policy-sample.json");
-        assetName = "UTPolicy.xml";
-        String dataBody = String.format(policyTemplate,
-                                        "https://raw.githubusercontent.com/wso2/wso2-qa-artifacts/master/automation-artifacts/greg/policy/UTPolicy.xml",
-                                        assetName, "1.0.0");
+        queryParamMap.put("type", "wsdl");
+        String wsdlTemplate = readFile(resourcePath + "json" + File.separator + "wsdl-sample.json");
+        assetName = "echo.wsdl";
+        String dataBody = String.format(wsdlTemplate,
+                                        "https://raw.githubusercontent.com/wso2/wso2-qa-artifacts/master/automation-artifacts/greg/wsdl/StockQuote.wsdl",
+                                        assetName,
+                                        "1.0.0");
         ClientResponse response =
                 genericRestClient.geneticRestRequestPost(publisherUrl + "/assets",
                                                          MediaType.APPLICATION_JSON,
                                                          MediaType.APPLICATION_JSON, dataBody
-                        , queryParamMap, headerMap, cookieHeader);
+                        , queryParamMap, headerMap, cookieHeaderPublisher);
         JSONObject obj = new JSONObject(response.getEntity(String.class));
         Assert.assertTrue((response.getStatusCode() == 201),
                           "Wrong status code ,Expected 201 Created ,Received " +
                           response.getStatusCode());
         String resultName = obj.get("overview_name").toString();
         Assert.assertEquals(resultName, assetName);
-        searchPolicyAsset();
-        //attach a LC to the policy
+        searchWsdlAsset();
+        //attach a LC to the wsdl
         lifeCycleAdminServiceClient.addAspect(path, lifeCycleName);
         Assert.assertNotNull(assetId, "Empty asset resource id available" +
                                       response.getEntity(String.class));
-        Assert.assertTrue(this.getAsset(assetId, "policy").get("lifecycle")
+        Assert.assertTrue(this.getAsset(assetId, "wsdl").get("lifecycle")
                                   .equals(lifeCycleName), "LifeCycle not assigned to given asset");
     }
 
     @Test(groups = "wso2.greg", description = "Updating the default user profile and configure axis2.xml file",
-          dependsOnMethods = {"createPolicyAssetWithLC"})
+          dependsOnMethods = {"createWSDLAssetWithLC"})
     private void updateProfileAndEnableEmailConfiguration()
             throws UserProfileMgtServiceUserProfileExceptionException, IOException, XPathExpressionException,
                    AutomationUtilException {
+
         UserProfileDTO profile = new UserProfileDTO();
         profile.setProfileName("default");
 
@@ -179,119 +189,41 @@ public class PolicyEmailNotificationTestCase extends GregESTestBaseTest {
         serverConfigurationManager.applyConfiguration(axis2File);
     }
 
-    @Test(groups = {"wso2.greg", "wso2.greg.es"}, description = "Adding subscription to a policy LC check list item check",
+    @Test(groups = {"wso2.greg", "wso2.greg.es"}, description = "Adding subscription to a wsdl LC state change",
           dependsOnMethods = {"updateProfileAndEnableEmailConfiguration"})
-    public void addSubscriptionForLCCheckListItemCheck() throws Exception {
+    public void addSubscriptionForLCStateChange() throws Exception {
         setTestEnvironment();
         JSONObject dataObject = new JSONObject();
-        Map<String, String> newQueryParamMap = new HashMap<String, String>();
-        dataObject.put("notificationType", "PublisherCheckListItemChecked");
+
+        dataObject.put("notificationType", "StoreLifeCycleStateChanged");
         dataObject.put("notificationMethod", "email");
 
         ClientResponse response =
-                genericRestClient.geneticRestRequestPost(publisherUrl + "/subscriptions/policy/" + assetId, MediaType.APPLICATION_JSON,
+                genericRestClient.geneticRestRequestPost(storeUrl + "/subscription/wsdl/" + assetId, MediaType.APPLICATION_JSON,
                                                          MediaType.APPLICATION_JSON, dataObject.toString()
-                        , newQueryParamMap, headerMap, cookieHeader);
-
-        assertTrue((response.getStatusCode() == Response.Status.OK.getStatusCode()),
-                   "Wrong status code ,Expected" + Response.Status.OK.getStatusCode() + "Created ,Received " +
-                   response.getStatusCode());
-
-        // verify e-mail
-        verifyEmail();
-    }
-
-    @Test(groups = {"wso2.greg", "wso2.greg.es"}, description = "Policy LC check list item check",
-          dependsOnMethods = {"addSubscriptionForLCCheckListItemCheck"})
-    public void checkLCCheckItemsOnPolicy() throws Exception {
-        queryParamMap.put("type", "policy");
-        queryParamMap.put("lifecycle", lifeCycleName);
-        JSONObject LCStateobj = getLifeCycleState(assetId, "policy");
-        JSONObject dataObj = LCStateobj.getJSONObject("data");
-        JSONArray checkItems = dataObj.getJSONArray("checkItems");
-        Assert.assertEquals(((JSONObject) checkItems.get(0)).getString("isVisible"), "true");
-        ClientResponse responseCheck0 =
-                checkLifeCycleCheckItem(cookieHeader, 0);
-        Assert.assertTrue(responseCheck0.getStatusCode() == 200);
-        isNotificationMailAvailable = EmailUtil.readGmailInboxForNotification("PublisherCheckListItemChecked");
-        assertTrue(isNotificationMailAvailable,
-                   "Publisher check list item ticked on life cycle, notification mail has failed to reach Gmail inbox");
-        isNotificationMailAvailable = false;
-    }
-
-    @Test(groups = {"wso2.greg", "wso2.greg.es"}, description = "Adding subscription to a policy LC check list item uncheck",
-          dependsOnMethods = {"checkLCCheckItemsOnPolicy"})
-    public void addSubscriptionForLCCheckListItemUnCheck() throws Exception {
-
-        JSONObject dataObject = new JSONObject();
-
-        dataObject.put("notificationType", "PublisherCheckListItemUnchecked");
-        dataObject.put("notificationMethod", "email");
-
-        ClientResponse response =
-                genericRestClient.geneticRestRequestPost(publisherUrl + "/subscriptions/policy/" + assetId, MediaType.APPLICATION_JSON,
-                                                         MediaType.APPLICATION_JSON, dataObject.toString()
-                        , queryParamMap, headerMap, cookieHeader);
+                        , queryParamMap, headerMap, cookieHeaderStore);
 
         assertTrue((response.getStatusCode() == Response.Status.OK.getStatusCode()),
                    "Wrong status code ,Expected" + Response.Status.OK.getStatusCode() + "Created ,Received " +
                    response.getStatusCode());
         // verify e-mail
         verifyEmail();
+
     }
 
-    @Test(groups = {"wso2.greg", "wso2.greg.es"}, description = "Policy LC check list item check",
-          dependsOnMethods = {"addSubscriptionForLCCheckListItemUnCheck"})
-    public void uncheckLCCheckItemsOnPolicy() throws Exception {
-        queryParamMap.put("type", "policy");
-        queryParamMap.put("lifecycle", lifeCycleName);
-        JSONObject LCStateobj = getLifeCycleState(assetId, "policy");
-        JSONObject dataObj = LCStateobj.getJSONObject("data");
-        JSONArray checkItems = dataObj.getJSONArray("checkItems");
-        Assert.assertEquals(((JSONObject) checkItems.get(0)).getString("isVisible"), "true");
-        ClientResponse responseUncheck0 =
-                uncheckLifeCycleCheckItem(cookieHeader, 0);
-        Assert.assertTrue(responseUncheck0.getStatusCode() == 200);
-        isNotificationMailAvailable = EmailUtil.readGmailInboxForNotification("PublisherCheckListItemUnchecked");
-        assertTrue(isNotificationMailAvailable,
-                   "Publisher uncheck list item ticked on life cycle, notification mail has failed to reach Gmail inbox");
-        isNotificationMailAvailable = false;
-    }
-
-    @Test(groups = {"wso2.greg", "wso2.greg.es"}, description = "Adding subscription to a policy LC state change",
-          dependsOnMethods = {"uncheckLCCheckItemsOnPolicy"})
-    public void addSubscriptionForLCStateChange() throws Exception {
-
-        JSONObject dataObject = new JSONObject();
-
-        dataObject.put("notificationType", "PublisherLifeCycleStateChanged");
-        dataObject.put("notificationMethod", "email");
-
-        ClientResponse response =
-                genericRestClient.geneticRestRequestPost(publisherUrl + "/subscriptions/policy/" + assetId, MediaType.APPLICATION_JSON,
-                                                         MediaType.APPLICATION_JSON, dataObject.toString()
-                        , queryParamMap, headerMap, cookieHeader);
-
-        assertTrue((response.getStatusCode() == Response.Status.OK.getStatusCode()),
-                   "Wrong status code ,Expected" + Response.Status.OK.getStatusCode() + "Created ,Received " +
-                   response.getStatusCode());
-        // verify e-mail
-        verifyEmail();
-    }
-
-    @Test(groups = {"wso2.greg", "wso2.greg.es"}, description = "Change LC state on policy",
+    @Test(groups = {"wso2.greg", "wso2.greg.es"}, description = "Change LC state on WSDL",
           dependsOnMethods = {"addSubscriptionForLCStateChange"})
-    public void changeLCStatePolicy() throws Exception {
+    public void changeLCStateWSDL() throws Exception {
         ClientResponse response =
                 genericRestClient.geneticRestRequestPost(publisherUrl + "/assets/" + assetId + "/state",
                                                          MediaType.APPLICATION_FORM_URLENCODED,
                                                          MediaType.APPLICATION_JSON,
                                                          "nextState=Testing&comment=Completed"
-                        , queryParamMap, headerMap, cookieHeader);
+                        , queryParamMap, headerMap, cookieHeaderPublisher);
         JSONObject obj = new JSONObject(response.getEntity(String.class));
         String status = obj.get("status").toString();
         Assert.assertEquals(status, STATE_CHANGE_MESSAGE);
-        isNotificationMailAvailable = EmailUtil.readGmailInboxForNotification("PublisherLifeCycleStateChanged");
+        isNotificationMailAvailable = EmailUtil.readGmailInboxForNotification("StoreLifeCycleStateChanged");
         assertTrue(isNotificationMailAvailable,
                    "Publisher lifecycle state changed notification mail has failed to reach Gmail inbox");
         isNotificationMailAvailable = false;
@@ -299,40 +231,37 @@ public class PolicyEmailNotificationTestCase extends GregESTestBaseTest {
 
     @AfterClass(alwaysRun = true)
     public void cleanUp() throws RegistryException, JSONException, IOException, MessagingException {
-        deletePolicyAsset();
+        deleteWSDLAsset();
         EmailUtil.deleteSentMails();
     }
 
-    private void deletePolicyAsset() throws JSONException {
-        queryParamMap.clear();
-        queryParamMap.put("type", "policy");
-        genericRestClient.geneticRestRequestDelete(publisherUrl + "/assets/" + assetId, MediaType.APPLICATION_JSON,
-                                                   MediaType.APPLICATION_JSON, queryParamMap, headerMap, cookieHeader);
-    }
-
-    private void setTestEnvironment() throws XPathExpressionException, JSONException {
+    private void setTestEnvironment() throws JSONException, IOException, XPathExpressionException {
+        // Authenticate Publisher
         ClientResponse response = authenticate(publisherUrl, genericRestClient,
                                                automationContext.getSuperTenant().getTenantAdmin().getUserName(),
                                                automationContext.getSuperTenant().getTenantAdmin().getPassword());
         JSONObject obj = new JSONObject(response.getEntity(String.class));
-        assertTrue((response.getStatusCode() == 200),
-                   "Wrong status code ,Expected 200 OK ,Received " +
-                   response.getStatusCode()
-        );
-        jSessionId = obj.getJSONObject("data").getString("sessionId");
-        cookieHeader = "JSESSIONID=" + jSessionId;
-        assertNotNull(jSessionId, "Invalid JSessionID received");
+        jSessionIdPublisher = obj.getJSONObject("data").getString("sessionId");
+        cookieHeaderPublisher = "JSESSIONID=" + jSessionIdPublisher;
+        crudTestCommonUtils.setCookieHeader(cookieHeaderPublisher);
+        // Authenticate Store
+        ClientResponse responseStore = authenticate(storeUrl, genericRestClient,
+                                                    automationContext.getSuperTenant().getTenantAdmin().getUserName(),
+                                                    automationContext.getSuperTenant().getTenantAdmin().getPassword());
+        obj = new JSONObject(responseStore.getEntity(String.class));
+        jSessionIdStore = obj.getJSONObject("data").getString("sessionId");
+        cookieHeaderStore = "JSESSIONID=" + jSessionIdStore;
     }
 
     /**
-     * This method get all the policies in publisher and select the one created by createPolicyAssetWithLC method.
+     * This method get all the wsdls in publisher and select the one created by createWSDLAssetWithLC method.
      *
      * @throws JSONException
      */
-    public void searchPolicyAsset() throws JSONException {
+    public void searchWsdlAsset() throws JSONException {
         Map<String, String> queryParamMap = new HashMap<>();
-        queryParamMap.put("type", "policy");
-        ClientResponse clientResponse = searchAssetByQuery(publisherUrl,genericRestClient,cookieHeader,queryParamMap);
+        queryParamMap.put("type", "wsdl");
+        ClientResponse clientResponse = crudTestCommonUtils.searchAssetByQuery(queryParamMap);
         JSONObject obj = new JSONObject(clientResponse.getEntity(String.class));
         JSONArray jsonArray = obj.getJSONArray("list");
         for (int i = 0; i < jsonArray.length(); i++) {
@@ -348,7 +277,7 @@ public class PolicyEmailNotificationTestCase extends GregESTestBaseTest {
     private JSONObject getAsset(String assetId, String assetType) throws JSONException {
         Map<String, String> assetTypeParamMap = new HashMap<String, String>();
         assetTypeParamMap.put("type", assetType);
-        ClientResponse clientResponse = getAssetById(publisherUrl,genericRestClient,cookieHeader,assetId, queryParamMap);
+        ClientResponse clientResponse = crudTestCommonUtils.getAssetById(assetId, queryParamMap);
         return new JSONObject(clientResponse.getEntity(String.class));
     }
 
@@ -360,38 +289,17 @@ public class PolicyEmailNotificationTestCase extends GregESTestBaseTest {
                                                    automationContext.getContextTenant().getContextUser().getPassword());
     }
 
-    private JSONObject getLifeCycleState(String assetId, String assetType) throws JSONException {
-        Map<String, String> assetTypeParamMap = new HashMap<String, String>();
-        assetTypeParamMap.put("type", assetType);
-        assetTypeParamMap.put("lifecycle", lifeCycleName);
-        ClientResponse response =
-                genericRestClient.geneticRestRequestGet
-                        (publisherUrl + "/asset/" + assetId + "/state"
-                                , queryParamMap, headerMap, cookieHeader);
-        return new JSONObject(response.getEntity(String.class));
-    }
-
-    private ClientResponse checkLifeCycleCheckItem(String managerCookieHeader, int itemId) {
-        return genericRestClient.geneticRestRequestPost(publisherUrl + "/asset/" + assetId + "/update-checklist",
-                                                        MediaType.APPLICATION_JSON,
-                                                        MediaType.APPLICATION_JSON,
-                                                        "{\"checklist\":[{\"index\":" + itemId + ",\"checked\":true}]}"
-                , queryParamMap, headerMap, managerCookieHeader);
-    }
-
-    private ClientResponse uncheckLifeCycleCheckItem(String managerCookieHeader, int itemId) {
-        return genericRestClient.geneticRestRequestPost(publisherUrl + "/asset/" + assetId + "/update-checklist",
-                                                        MediaType.APPLICATION_JSON,
-                                                        MediaType.APPLICATION_JSON,
-                                                        "{\"checklist\":[{\"index\":" + itemId + ",\"checked\":false}]}"
-                , queryParamMap, headerMap, managerCookieHeader);
+    private void deleteWSDLAsset() throws JSONException {
+        queryParamMap.clear();
+        queryParamMap.put("type", "wsdl");
+        genericRestClient.geneticRestRequestDelete(publisherUrl + "/assets/" + assetId, MediaType.APPLICATION_JSON,
+                                                   MediaType.APPLICATION_JSON, queryParamMap, headerMap, cookieHeaderPublisher);
     }
 
     @DataProvider
     private static TestUserMode[][] userModeProvider() {
-        return new TestUserMode[][]{
-                new TestUserMode[]{TestUserMode.SUPER_TENANT_ADMIN}
-//                new TestUserMode[]{TestUserMode.TENANT_USER},
+        return new TestUserMode[][]{new TestUserMode[]{TestUserMode.SUPER_TENANT_ADMIN}
+                                    //                new TestUserMode[]{TestUserMode.TENANT_USER},
         };
     }
 }
