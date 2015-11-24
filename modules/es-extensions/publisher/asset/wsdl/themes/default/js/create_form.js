@@ -49,10 +49,48 @@ $(function() {
             wsdlFileName = wsdlFileName.replace(c, "_");
         }
         $('input[name="overview_name"]').val(wsdlFileName);
+        var ajaxURL = caramel.context + '/apis/assets?type=wsdl&q="name":"' + wsdlFileName + '"';
+        $.ajax({
+            url: ajaxURL,
+            type: 'GET',
+            success: function (data) {
+                if (data.count > 0) {
+                    messages.alertInfo("Wsdls exist with the same name ");
+                }
+            }
+        });
     });
 
     $('#form-asset-create').ajaxForm({
         beforeSubmit:function(){
+            var addSelector = $('#addMethodSelector');
+            var selectedValue = addSelector.val();
+            var version;
+            var name;
+            if (selectedValue == "upload") {
+                name = $('#wsdl_file_name').val();
+                version = $('#file_version').val();
+            } else {
+                name = $('input[name="overview_name"]').val();
+                version = $('input[name="overview_version"]').val();
+            }
+            var ajaxURL = caramel.context + '/apis/assets?type=wsdl&q="name":"' + name + '","version":"' + version + '"';
+            var resourceExist = false;
+            $.ajax({
+                async: false,
+                url: ajaxURL,
+                type: 'GET',
+                success: function (data) {
+                    if (data.count > 0) {
+                        messages.alertError("Wsdl exist with same name and version");
+                        resourceExist = true;
+                    }
+
+                }
+            });
+            if (resourceExist) {
+                return false;
+            }
             var action = "";
             if ($('#importUI').is(":visible")) {
                 action = "addNewAssetButton";

@@ -122,6 +122,21 @@ asset.manager = function(ctx) {
             properties[0][0] = 'version';
             properties[0][1] = version;
 
+            var rxt = require('rxt');
+            var am = rxt.asset.createUserAssetManager(ctx.session, this.type);
+            var query = {};
+            query.overview_name = name;
+            var assets = am.search(query);
+            for (var i = 0; i < assets.length; i++) {
+                if (assets[i].version == version) {
+                    var msg = "resource already exist with Name \"" + name + "\" and version \"" + version + "\"";
+                    var exceptionUtils = require('utils');
+                    var exceptionModule = exceptionUtils.exception;
+                    var constants = rxt.constants;
+                    throw exceptionModule.buildExceptionObject(msg, constants.STATUS_CODES.BAD_REQUEST);
+                }
+            }
+
             log.debug("Grouping attribute " + this.rxtManager.groupingAttributes(this.type));
 
             var path = utils.importResource(parentPath, name, mediaType, '', url, '', userRegistry.registry, properties);
