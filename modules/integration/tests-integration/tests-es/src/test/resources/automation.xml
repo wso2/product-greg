@@ -152,6 +152,13 @@
                             <role>withoutLCAccessrole</role>
                         </roles>
                     </user>
+                    <user key="subscribeUser">
+                        <userName>subscribe_user</userName>
+                        <password>subscribe123</password>
+                        <roles>
+                            <role>subscriber</role>
+                        </roles>
+                    </user>
                 </users>
             </tenant>
         </superTenant>
@@ -215,6 +222,14 @@
                     <permission>/permission/admin/manage/resources/govern/restservice/add</permission>
                     <permission>/permission/admin/manage/resources/govern/restservice/list</permission>
                     <permission>/permission/admin/manage/resources/ws-api</permission>
+                </permissions>
+            </role>
+            <role name="subscriber" key="subscriber">
+                <permissions>
+                    <permission>/permission/admin/login</permission>
+                    <permission>/permission/admin/configure/governance</permission>
+                    <permission>/permission/admin/enterprisestore</permission>
+                    <permission>/permission/admin/manage/resources/govern</permission>
                 </permissions>
             </role>
         </roles>
