@@ -32,7 +32,14 @@ import org.apache.http.conn.ssl.SSLSocketFactory;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.util.EntityUtils;
+import org.wso2.carbon.automation.engine.context.AutomationContext;
 import org.wso2.carbon.automation.test.utils.common.TestConfigurationProvider;
+import org.wso2.carbon.identity.user.profile.stub.UserProfileMgtServiceUserProfileExceptionException;
+import org.wso2.carbon.identity.user.profile.stub.types.UserFieldDTO;
+import org.wso2.carbon.identity.user.profile.stub.types.UserProfileDTO;
+import org.wso2.carbon.integration.common.utils.exceptions.AutomationUtilException;
+import org.wso2.carbon.integration.common.utils.mgt.ServerConfigurationManager;
+import org.wso2.greg.integration.common.clients.UserProfileMgtServiceClient;
 
 import javax.mail.*;
 import javax.net.ssl.HostnameVerifier;
@@ -45,6 +52,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
 
+/**
+ * This util class contains all support methods to run email notification test cases.
+ */
 public class EmailUtil {
 
     private static final Log log = LogFactory.getLog(EmailUtil.class);
@@ -55,6 +65,9 @@ public class EmailUtil {
     private static List<NameValuePair> urlParameters = new ArrayList<>();
     private static final String USER_AGENT = "Apache-HttpClient/4.2.5 (java 1.5)";
 
+    /**
+     * Initializes the httpClient.
+     */
     public static void initialize() throws XPathExpressionException {
 
         DefaultHttpClient client = new DefaultHttpClient();
@@ -70,6 +83,61 @@ public class EmailUtil {
         HttpsURLConnection.setDefaultHostnameVerifier(hostnameVerifier);
     }
 
+    /**
+     * Update user profile for particular user in order to enable e-mail subscription.
+     *
+     * @param automationContext
+     * @param backendURL        URL of the server.
+     * @param session           session cookie obtained after logging in.
+     * @throws UserProfileMgtServiceClient
+     * @throws IOException
+     * @throws XPathExpressionException
+     * @throws AutomationUtilException
+     */
+    public static void updateProfileAndEnableEmailConfiguration(AutomationContext automationContext, String backendURL,
+            String session)
+            throws UserProfileMgtServiceUserProfileExceptionException, IOException, XPathExpressionException,
+            AutomationUtilException {
+        UserProfileMgtServiceClient userProfileMgtClient = new UserProfileMgtServiceClient(backendURL, session);
+        File axis2File = new File(
+                TestConfigurationProvider.getResourceLocation("GREG") + File.separator + "axis2" + File.separator
+                        + "axis2.xml");
+        UserProfileDTO profile = new UserProfileDTO();
+        profile.setProfileName("default");
+
+        UserFieldDTO lastName = new UserFieldDTO();
+        lastName.setClaimUri("http://wso2.org/claims/lastname");
+        lastName.setFieldValue("GregUserFirstName");
+
+        UserFieldDTO givenName = new UserFieldDTO();
+        givenName.setClaimUri("http://wso2.org/claims/givenname");
+        givenName.setFieldValue("GregUserLastName");
+
+        UserFieldDTO email = new UserFieldDTO();
+        email.setClaimUri("http://wso2.org/claims/emailaddress");
+        email.setFieldValue(emailAddress);
+
+        UserFieldDTO[] fields = new UserFieldDTO[3];
+        fields[0] = lastName;
+        fields[1] = givenName;
+        fields[2] = email;
+
+        profile.setFieldValues(fields);
+
+        userProfileMgtClient
+                .setUserProfile(automationContext.getContextTenant().getContextUser().getUserName(), profile);
+
+        // apply new axis2.xml configuration
+        ServerConfigurationManager serverConfigurationManager = new ServerConfigurationManager(automationContext);
+        serverConfigurationManager.applyConfiguration(axis2File);
+    }
+
+    /**
+     * This method read verification e-mail from Gmail inbox and returns the verification URL.
+     *
+     * @return  verification redirection URL.
+     * @throws  Exception
+     */
     public static String readGmailInboxForVerification() throws Exception {
         boolean isEmailVerified = false;
         long waitTime = 10000;
@@ -117,6 +185,13 @@ public class EmailUtil {
         return pointBrowserURL;
     }
 
+    /**
+     * This method read e-mails from Gmail inbox and find whether the notification of particular type is found.
+     *
+     * @param   notificationType    Notification types supported by publisher and store.
+     * @return  whether email is found for particular type.
+     * @throws  Exception
+     */
     public static boolean readGmailInboxForNotification(String notificationType) throws Exception {
         boolean isNotificationMailAvailable = false;
         long waitTime = 10000;
@@ -165,6 +240,12 @@ public class EmailUtil {
         return isNotificationMailAvailable;
     }
 
+    /**
+     * This method delete all the sent mails. Can be used after a particular test class
+     *
+     * @throws  MessagingException
+     * @throws  IOException
+     */
     public static void deleteSentMails() throws MessagingException, IOException {
         Properties props = new Properties();
         props.load(new FileInputStream(new File(
@@ -183,6 +264,16 @@ public class EmailUtil {
         store.close();
     }
 
+    /**
+     * This method is used to access the verification link provided by verification mail.
+     * This method automates the browser redirection process in order to receive notifications
+     *
+     * @param   pointBrowserURL    redirection URL to management console.
+     * @param   loginURL           login URL of the console.
+     * @param   userName           user which is used to log in.
+     * @param   password           password for the user.
+     * @throws  Exception
+     */
     public static void browserRedirectionOnVerification(String pointBrowserURL, String loginURL, String userName,
             String password) throws Exception {
 
@@ -220,6 +311,12 @@ public class EmailUtil {
 
     }
 
+    /**
+     * This method is used to replace the IP address in the point browseURL with localhost.
+     *
+     * @param   pointBrowserURL    redirection URL to management console.
+     * @return  URL replaced with localhost removing IP address.
+     */
     private static String replaceIP(String pointBrowserURL) {
         String IPAddressPattern = "(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)";
         pointBrowserURL = pointBrowserURL.replaceAll(IPAddressPattern, "localhost");
@@ -238,12 +335,25 @@ public class EmailUtil {
         return url;
     }
 
+    /**
+     * This method is used to send a HTTP get request.
+     *
+     * @param   url    destination url
+     * @return         response of the get request.
+     */
     private static HttpResponse sendGetRequest(String url) throws IOException {
         HttpGet request = new HttpGet(url);
         request.addHeader("User-Agent", USER_AGENT);
         return httpClient.execute(request);
     }
 
+    /**
+     * This method is used to send a HTTP post request.
+     *
+     * @param   url             destination url.
+     * @param  urlParameters    list of parameters for post request (username , password etc)
+     * @return                  response of the post request.
+     */
     private static HttpResponse sendPOSTMessage(String url, List<NameValuePair> urlParameters) throws Exception {
         HttpPost post = new HttpPost(url);
         post.setHeader("User-Agent", USER_AGENT);
@@ -252,6 +362,12 @@ public class EmailUtil {
         return httpClient.execute(post);
     }
 
+    /**
+     * This method is used to extract verification URL from the e-mail message.
+     *
+     * @param   message    re-mail message.
+     * @return  verification URL to be redirect to.
+     */
     private static String getBodyFromMessage(Message message) throws IOException, MessagingException {
         if (message.isMimeType("text/plain")) {
             String[] arr = message.getContent().toString().split("\\r?\\n");

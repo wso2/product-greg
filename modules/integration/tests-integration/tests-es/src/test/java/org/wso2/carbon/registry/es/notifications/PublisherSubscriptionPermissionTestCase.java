@@ -34,6 +34,10 @@ import java.util.Map;
 
 import static org.testng.Assert.assertTrue;
 
+/**
+ * This class tests permission for subscriptions by trying to add and get subscriptions from a user
+ * without permission.
+ */
 public class PublisherSubscriptionPermissionTestCase extends GregESTestBaseTest {
 
     private TestUserMode userMode;
@@ -65,6 +69,10 @@ public class PublisherSubscriptionPermissionTestCase extends GregESTestBaseTest 
 
     }
 
+    /**
+     * Method check the permission denial for a user without permission to get all
+     * subscriptions associated with a resource.
+     */
     @Test(groups = { "wso2.greg", "wso2.greg.es" }, description = "Get all subscriptions associated with a "
             + "rest service from a user without permission")
     public void getAllSubscriptionsWithoutPermission()
@@ -78,6 +86,10 @@ public class PublisherSubscriptionPermissionTestCase extends GregESTestBaseTest 
                 "Wrong status code ,Expected 401 Permission Denied , Received " + response.getStatusCode());
     }
 
+    /**
+     * Method to check the permission denial for a user without permission trying to subscribe for publisher
+     * life cycle state change.
+     */
     @Test(groups = { "wso2.greg", "wso2.greg.es" }, description = "Adding subscription to rest service on"
             + " LC state change from a user without permission")
     public void addSubscriptionToLcStateChangeWithoutPermission()
@@ -96,6 +108,10 @@ public class PublisherSubscriptionPermissionTestCase extends GregESTestBaseTest 
                 "Wrong status code ,Expected 401 Permission Denied , Received " + response.getStatusCode());
     }
 
+    /**
+     * Method to check the permission denial for a user without permission trying to subscribe for publisher
+     * resource update.
+     */
     @Test(groups = { "wso2.greg", "wso2.greg.es" },
             description = "Adding subscription to rest service on resource update from a user without permission")
     public void addSubscriptionToResourceUpdateWithoutPermission() throws JSONException, IOException {
@@ -112,6 +128,10 @@ public class PublisherSubscriptionPermissionTestCase extends GregESTestBaseTest 
                 "Wrong status code ,Expected 401 Permission Denied , Received " + response.getStatusCode());
     }
 
+    /**
+     * Method to check the permission denial for a user without permission trying to subscribe for publisher
+     * check list item select.
+     */
     @Test(groups = { "wso2.greg", "wso2.greg.es" },
             description = "Adding subscription to rest service on check list item checked from a "
                     + "user without permission")
@@ -129,6 +149,10 @@ public class PublisherSubscriptionPermissionTestCase extends GregESTestBaseTest 
                 "Wrong status code ,Expected 401 Permission Denied , Received " + response.getStatusCode());
     }
 
+    /**
+     * Method to check the permission denial for a user without permission trying to subscribe for publisher
+     * check list item deselect.
+     */
     @Test(groups = { "wso2.greg", "wso2.greg.es" },
             description = "Adding subscription to rest service on check list item unchecked from a "
                     + "user without permission")
@@ -151,6 +175,10 @@ public class PublisherSubscriptionPermissionTestCase extends GregESTestBaseTest 
                 MediaType.APPLICATION_JSON, queryParamMap, headerMap, cookieHeader);
     }
 
+    /**
+     * Method used to authenticate publisher and create a rest service asset. Created asset
+     * is used by a user without permission to try add subscriptions .
+     */
     private void setTestEnvironment() throws JSONException, IOException, XPathExpressionException {
         // Authenticate Publisher
         ClientResponse response = authenticate(publisherUrl, genericRestClient,
@@ -178,7 +206,7 @@ public class PublisherSubscriptionPermissionTestCase extends GregESTestBaseTest 
         JSONObject obj = new JSONObject(response.getEntity(String.class));
         jSessionId = obj.getJSONObject("data").getString("sessionId");
         cookieHeader = "JSESSIONID=" + jSessionId;
-        deleteRestServiceAsset();
+        deleteAssetById(publisherUrl, genericRestClient, cookieHeader, assetId, queryParamMap);
     }
 
     @DataProvider

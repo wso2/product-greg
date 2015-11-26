@@ -18,8 +18,6 @@
 
 package org.wso2.carbon.registry.es.notifications;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.apache.wink.client.ClientResponse;
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -40,11 +38,9 @@ import java.util.Map;
 import static org.testng.Assert.assertNotNull;
 
 /**
- * This class testes subscription & notification for rest services on publisher notification
+ * This class tests subscription & notification for rest services at publisher.
  */
 public class RestServiceNotificationAndSubscriptionTestCase extends GregESTestBaseTest {
-
-    private static final Log log = LogFactory.getLog(RestServiceNotificationAndSubscriptionTestCase.class);
 
     private TestUserMode userMode;
     String jSessionId;
@@ -74,6 +70,10 @@ public class RestServiceNotificationAndSubscriptionTestCase extends GregESTestBa
         setTestEnvironment();
     }
 
+    /**
+     * This test case add subscription to lifecycle state change and verifies the reception of publisher notification
+     * by changing the life cycle state.
+     */
     @Test(groups = { "wso2.greg",
             "wso2.greg.es" }, description = "Adding subscription to rest service on LC state change",
             dependsOnMethods = { "addSubscriptionCheckListItem", "addSubscriptionUnCheckListItem" })
@@ -102,6 +102,10 @@ public class RestServiceNotificationAndSubscriptionTestCase extends GregESTestBa
 
     }
 
+    /**
+     * This test case add subscription to resource update and verifies the reception of publisher notification
+     * by updating the resource.
+     */
     @Test(groups = { "wso2.greg",
             "wso2.greg.es" }, description = "Adding subscription to rest service on resource update")
     public void addSubscriptionToResourceUpdate() throws JSONException, IOException {
@@ -131,6 +135,10 @@ public class RestServiceNotificationAndSubscriptionTestCase extends GregESTestBa
         // TODO - Since notification not appearing in the publisher
     }
 
+    /**
+     * This test case add subscription to selecting check list item of life cycle and verifies
+     * the reception of publisher notification by selecting the check list item.
+     */
     @Test(groups = { "wso2.greg",
             "wso2.greg.es" }, description = "Adding subscription to rest service on check list item checked")
     public void addSubscriptionCheckListItem() throws JSONException, IOException {
@@ -166,6 +174,10 @@ public class RestServiceNotificationAndSubscriptionTestCase extends GregESTestBa
         // TODO - Since notification not appearing in the publisher
     }
 
+    /**
+     * This test case add subscription to un ticking check list item of life cycle and verifies
+     * the reception of publisher notification by un ticking the check list item.
+     */
     @Test(groups = { "wso2.greg",
             "wso2.greg.es" }, description = "Adding subscription to rest service on check list item unchecked",
             dependsOnMethods = { "addSubscriptionCheckListItem" })
@@ -201,6 +213,9 @@ public class RestServiceNotificationAndSubscriptionTestCase extends GregESTestBa
         // TODO - Since notification not appearing in the publisher
     }
 
+    /**
+     * This test case tries to add a wrong notification method and verifies the reception of error message.
+     */
     @Test(groups = { "wso2.greg",
             "wso2.greg.es" }, description = "Adding wrong subscription method to check the error message")
     public void addWrongSubscriptionMethod() throws JSONException, IOException {
@@ -223,11 +238,10 @@ public class RestServiceNotificationAndSubscriptionTestCase extends GregESTestBa
                         .getEntity(String.class));
     }
 
-    private void deleteRestServiceAsset() throws JSONException {
-        genericRestClient.geneticRestRequestDelete(publisherUrl + "/assets/" + assetId, MediaType.APPLICATION_JSON,
-                MediaType.APPLICATION_JSON, queryParamMap, headerMap, cookieHeader);
-    }
-
+    /**
+     * Method used to authenticate publisher and create a rest service asset. Created asset
+     * is used to add subscriptions and to receive notification.
+     */
     private void setTestEnvironment() throws JSONException, IOException, XPathExpressionException {
         // Authenticate Publisher
         ClientResponse response = authenticate(publisherUrl, genericRestClient,
@@ -249,7 +263,7 @@ public class RestServiceNotificationAndSubscriptionTestCase extends GregESTestBa
 
     @AfterClass(alwaysRun = true)
     public void clean() throws Exception {
-        deleteRestServiceAsset();
+        deleteAssetById(publisherUrl, genericRestClient, cookieHeader, assetId, queryParamMap);
     }
 
 

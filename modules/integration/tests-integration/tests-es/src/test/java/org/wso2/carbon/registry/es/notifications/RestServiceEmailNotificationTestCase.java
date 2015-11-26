@@ -26,16 +26,9 @@ import org.testng.annotations.*;
 import org.wso2.carbon.automation.engine.configurations.UrlGenerationUtil;
 import org.wso2.carbon.automation.engine.context.TestUserMode;
 import org.wso2.carbon.automation.engine.frameworkutils.FrameworkPathUtil;
-import org.wso2.carbon.automation.test.utils.common.TestConfigurationProvider;
-import org.wso2.carbon.identity.user.profile.stub.UserProfileMgtServiceUserProfileExceptionException;
-import org.wso2.carbon.identity.user.profile.stub.types.UserFieldDTO;
-import org.wso2.carbon.identity.user.profile.stub.types.UserProfileDTO;
-import org.wso2.carbon.integration.common.utils.exceptions.AutomationUtilException;
-import org.wso2.carbon.integration.common.utils.mgt.ServerConfigurationManager;
 import org.wso2.carbon.registry.core.exceptions.RegistryException;
 import org.wso2.carbon.registry.es.utils.EmailUtil;
 import org.wso2.carbon.registry.es.utils.GregESTestBaseTest;
-import org.wso2.greg.integration.common.clients.UserProfileMgtServiceClient;
 import org.wso2.greg.integration.common.utils.GenericRestClient;
 
 import javax.mail.MessagingException;
@@ -51,14 +44,13 @@ import static org.testng.Assert.assertNotNull;
 import static org.testng.Assert.assertTrue;
 
 /**
- * This test class can be used to check the email notification functionality
+ * This test class can be used to check the email notification functionality of rest services
+ * at the publisher.
  */
 public class RestServiceEmailNotificationTestCase extends GregESTestBaseTest {
 
     private TestUserMode userMode;
     String jSessionId;
-    private UserProfileMgtServiceClient userProfileMgtClient;
-    private File axis2File;
     private String publisherUrl;
     private String resourcePath;
     private String assetId;
@@ -67,7 +59,6 @@ public class RestServiceEmailNotificationTestCase extends GregESTestBaseTest {
     private Map<String, String> queryParamMap;
     private Map<String, String> headerMap;
     private String loginURL;
-    private String emailAddress;
     boolean isNotificationMailAvailable;
 
 
@@ -81,56 +72,21 @@ public class RestServiceEmailNotificationTestCase extends GregESTestBaseTest {
 
         super.init(userMode);
         loginURL = UrlGenerationUtil.getLoginURL(automationContext.getInstance());
-        emailAddress = "gregtestes@gmail.com";
         genericRestClient = new GenericRestClient();
         queryParamMap = new HashMap<>();
         headerMap = new HashMap<>();
         resourcePath =
                 FrameworkPathUtil.getSystemResourceLocation() + "artifacts" + File.separator + "GREG" + File.separator;
         publisherUrl = automationContext.getContextUrls().getSecureServiceUrl().replace("services", "publisher/apis");
-        userProfileMgtClient = new UserProfileMgtServiceClient(backendURL, sessionCookie);
-        axis2File = new File(
-                TestConfigurationProvider.getResourceLocation("GREG") + File.separator + "axis2" + File.separator
-                        + "axis2.xml");
 
-        updateProfileAndEnableEmailConfiguration();
+        EmailUtil.updateProfileAndEnableEmailConfiguration(automationContext, backendURL, sessionCookie);
         setTestEnvironment();
     }
 
-   private void updateProfileAndEnableEmailConfiguration()
-           throws UserProfileMgtServiceUserProfileExceptionException, IOException, XPathExpressionException,
-           AutomationUtilException {
-
-       UserProfileDTO profile = new UserProfileDTO();
-       profile.setProfileName("default");
-
-       UserFieldDTO lastName = new UserFieldDTO();
-       lastName.setClaimUri("http://wso2.org/claims/lastname");
-       lastName.setFieldValue("GregUserFirstName");
-
-       UserFieldDTO givenName = new UserFieldDTO();
-       givenName.setClaimUri("http://wso2.org/claims/givenname");
-       givenName.setFieldValue("GregUserLastName");
-
-       UserFieldDTO email = new UserFieldDTO();
-       email.setClaimUri("http://wso2.org/claims/emailaddress");
-       email.setFieldValue(emailAddress);
-
-       UserFieldDTO[] fields = new UserFieldDTO[3];
-       fields[0] = lastName;
-       fields[1] = givenName;
-       fields[2] = email;
-
-       profile.setFieldValues(fields);
-
-       userProfileMgtClient
-               .setUserProfile(automationContext.getContextTenant().getContextUser().getUserName(), profile);
-
-       // apply new axis2.xml configuration
-       ServerConfigurationManager serverConfigurationManager = new ServerConfigurationManager(automationContext);
-       serverConfigurationManager.applyConfiguration(axis2File);
-   }
-
+    /**
+     * This test case add subscription to lifecycle state change and verifies the reception of email notification
+     * by changing the life cycle state.
+     */
     @Test(groups = { "wso2.greg",
             "wso2.greg.es" }, description = "Adding subscription to rest service on LC state change",
             dependsOnMethods = { "addSubscriptionCheckListItem" ,"addSubscriptionUnCheckListItem" })
@@ -170,6 +126,10 @@ public class RestServiceEmailNotificationTestCase extends GregESTestBaseTest {
         isNotificationMailAvailable = false;
     }
 
+    /**
+     * This test case add subscription to resource update and verifies the reception of email notification
+     * by updating the resource.
+     */
     @Test(groups = { "wso2.greg",
             "wso2.greg.es" }, description = "Adding subscription to rest service on resource update")
     public void addSubscriptionOnResourceUpdate() throws Exception {
@@ -212,6 +172,10 @@ public class RestServiceEmailNotificationTestCase extends GregESTestBaseTest {
 
     }
 
+    /**
+     * This test case add subscription to selecting check list item of life cycle and verifies
+     * the reception of email notification by selecting the check list item.
+     */
     @Test(groups = { "wso2.greg",
             "wso2.greg.es" }, description = "Adding subscription to rest service on check list item checked")
     public void addSubscriptionCheckListItem() throws Exception {
@@ -257,6 +221,10 @@ public class RestServiceEmailNotificationTestCase extends GregESTestBaseTest {
         isNotificationMailAvailable = false;
     }
 
+    /**
+     * This test case add subscription to un ticking check list item of life cycle and verifies
+     * the reception of email notification by un ticking the check list item.
+     */
     @Test(groups = { "wso2.greg",
             "wso2.greg.es" }, description = "Adding subscription to rest service on check list item unchecked",
             dependsOnMethods = { "addSubscriptionCheckListItem" })
@@ -303,6 +271,10 @@ public class RestServiceEmailNotificationTestCase extends GregESTestBaseTest {
 
     }
 
+    /**
+     * Method used to authenticate publisher and create a rest service asset. Created asset
+     * is used to add subscriptions and to receive notification.
+     */
     private void setTestEnvironment() throws JSONException, IOException, XPathExpressionException {
         // Authenticate Publisher
         ClientResponse response = authenticate(publisherUrl, genericRestClient,
@@ -322,14 +294,9 @@ public class RestServiceEmailNotificationTestCase extends GregESTestBaseTest {
         assetId = createObj.get("id").toString();
     }
 
-    private void deleteRestServiceAsset() throws JSONException {
-        genericRestClient.geneticRestRequestDelete(publisherUrl + "/assets/" + assetId, MediaType.APPLICATION_JSON,
-                MediaType.APPLICATION_JSON, queryParamMap, headerMap, cookieHeader);
-    }
-
     @AfterClass(alwaysRun = true)
     public void cleanUp() throws RegistryException, JSONException, IOException, MessagingException {
-        deleteRestServiceAsset();
+        deleteAssetById(publisherUrl, genericRestClient, cookieHeader, assetId, queryParamMap);
         EmailUtil.deleteSentMails();
     }
 

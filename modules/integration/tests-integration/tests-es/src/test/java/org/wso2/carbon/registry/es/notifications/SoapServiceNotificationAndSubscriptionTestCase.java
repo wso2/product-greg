@@ -69,6 +69,10 @@ public class SoapServiceNotificationAndSubscriptionTestCase extends GregESTestBa
         setTestEnvironment();
     }
 
+    /**
+     * This test case add subscription to lifecycle state change and verifies the reception of publisher notification
+     * by changing the life cycle state.
+     */
     @Test(groups = { "wso2.greg",
             "wso2.greg.es" }, description = "Adding subscription to soap service on LC state change",
             dependsOnMethods = { "addSubscriptionCheckListItem", "addSubscriptionUnCheckListItem" })
@@ -96,6 +100,10 @@ public class SoapServiceNotificationAndSubscriptionTestCase extends GregESTestBa
         // TODO - Since notification not appearing in the publisher
     }
 
+    /**
+     * This test case add subscription to resource update and verifies the reception of publisher notification
+     * by updating the resource.
+     */
     @Test(groups = { "wso2.greg",
             "wso2.greg.es" }, description = "Adding subscription to soap service on resource update")
     public void addSubscriptionToResourceUpdate() throws JSONException, IOException {
@@ -123,6 +131,10 @@ public class SoapServiceNotificationAndSubscriptionTestCase extends GregESTestBa
         // TODO - Since notification not appearing in the publisher
     }
 
+    /**
+     * This test case add subscription to selecting check list item of life cycle and verifies
+     * the reception of publisher notification by selecting the check list item.
+     */
     @Test(groups = { "wso2.greg",
             "wso2.greg.es" }, description = "Adding subscription to soap service on check list item checked")
     public void addSubscriptionCheckListItem() throws JSONException, IOException {
@@ -156,6 +168,10 @@ public class SoapServiceNotificationAndSubscriptionTestCase extends GregESTestBa
         // TODO - Since notification not appearing in the publisher
     }
 
+    /**
+     * This test case add subscription to un ticking check list item of life cycle and verifies
+     * the reception of publisher notification by un ticking the check list item.
+     */
     @Test(groups = { "wso2.greg",
             "wso2.greg.es" }, description = "Adding subscription to soap service on check list item unchecked",
             dependsOnMethods = { "addSubscriptionCheckListItem" })
@@ -190,6 +206,10 @@ public class SoapServiceNotificationAndSubscriptionTestCase extends GregESTestBa
         // TODO - Since notification not appearing in the publisher
     }
 
+
+    /**
+     * This test case tries to add a wrong notification method and verifies the reception of error message.
+     */
     @Test(groups = { "wso2.greg",
             "wso2.greg.es" }, description = "Adding wrong subscription method to check the error message")
     public void addWrongSubscriptionMethod() throws JSONException, IOException {
@@ -211,11 +231,10 @@ public class SoapServiceNotificationAndSubscriptionTestCase extends GregESTestBa
                         .getEntity(String.class));
     }
 
-    private void deleteSoapServiceAsset() throws JSONException {
-        genericRestClient.geneticRestRequestDelete(publisherUrl + "/assets/" + assetId, MediaType.APPLICATION_JSON,
-                MediaType.APPLICATION_JSON, queryParamMap, headerMap, cookieHeader);
-    }
-
+    /**
+     * Method used to authenticate publisher and create a soap service asset. Created asset
+     * is used to add subscriptions and to receive notification.
+     */
     private void setTestEnvironment() throws JSONException, IOException, XPathExpressionException {
         // Authenticate Publisher
         ClientResponse response = authenticate(publisherUrl, genericRestClient,
@@ -225,7 +244,7 @@ public class SoapServiceNotificationAndSubscriptionTestCase extends GregESTestBa
         jSessionId = obj.getJSONObject("data").getString("sessionId");
         cookieHeader = "JSESSIONID=" + jSessionId;
 
-        //Create rest service
+        //Create soap service
         queryParamMap.put("type", "soapservice");
         String dataBody = readFile(resourcePath + "json" + File.separator + "publisherPublishSoapResource.json");
         ClientResponse createResponse = genericRestClient
@@ -237,7 +256,7 @@ public class SoapServiceNotificationAndSubscriptionTestCase extends GregESTestBa
 
     @AfterClass(alwaysRun = true)
     public void clean() throws Exception {
-        deleteSoapServiceAsset();
+        deleteAssetById(publisherUrl, genericRestClient, cookieHeader, assetId, queryParamMap);
     }
 
     @DataProvider

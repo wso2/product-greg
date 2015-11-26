@@ -18,10 +18,7 @@
 
 package org.wso2.carbon.registry.es.notifications;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.apache.wink.client.ClientResponse;
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.testng.annotations.*;
@@ -31,7 +28,6 @@ import org.wso2.carbon.registry.core.exceptions.RegistryException;
 import org.wso2.carbon.registry.es.utils.GregESTestBaseTest;
 import org.wso2.carbon.registry.resource.stub.ResourceAdminServiceExceptionException;
 import org.wso2.greg.integration.common.clients.ResourceAdminServiceClient;
-import org.wso2.greg.integration.common.utils.GREGIntegrationBaseTest;
 import org.wso2.greg.integration.common.utils.GenericRestClient;
 
 import javax.activation.DataHandler;
@@ -49,8 +45,6 @@ import static org.testng.Assert.assertNotNull;
  * This class test subscription & notification for custom rxt type at store.
  */
 public class CustomRXTStoreNotificationTestCase extends GregESTestBaseTest {
-
-    private static final Log log = LogFactory.getLog(CustomRXTStoreNotificationTestCase.class);
 
     private TestUserMode userMode;
     String jSessionIdPublisher;
@@ -87,6 +81,10 @@ public class CustomRXTStoreNotificationTestCase extends GregESTestBaseTest {
         setTestEnvironment();
     }
 
+    /**
+     * This test case add subscription to lifecycle state change and verifies the reception of store notification
+     * by changing the life cycle state.
+     */
     @Test(groups = { "wso2.greg",
             "wso2.greg.es" }, description = "Adding subscription to custom asset on LC state change")
     public void addSubscriptionToLcStateChange() throws JSONException, IOException {
@@ -110,6 +108,10 @@ public class CustomRXTStoreNotificationTestCase extends GregESTestBaseTest {
         // TODO - Since notification not appearing in the store
     }
 
+    /**
+     * This test case add subscription to resource update and verifies the reception of store notification
+     * by updating the resource.
+     */
     @Test(groups = { "wso2.greg",
             "wso2.greg.es" }, description = "Adding subscription to custom asset on resource update")
     public void addSubscriptionToResourceUpdate() throws JSONException, IOException {
@@ -134,6 +136,9 @@ public class CustomRXTStoreNotificationTestCase extends GregESTestBaseTest {
         // TODO - Since notification not appearing in the store
     }
 
+    /**
+     * This test case tries to add a wrong notification method and verifies the reception of error message.
+     */
     @Test(groups = { "wso2.greg",
             "wso2.greg.es" }, description = "Adding wrong subscription method to check the error message")
     public void addWrongSubscriptionMethod() throws JSONException, IOException {
@@ -155,6 +160,9 @@ public class CustomRXTStoreNotificationTestCase extends GregESTestBaseTest {
                         .getEntity(String.class));
     }
 
+    /**
+     * Method used to add custom RXT (application.rxt)
+     */
     private void addCustomRxt()
             throws RegistryException, IOException, ResourceAdminServiceExceptionException, InterruptedException {
         String filePath = getTestArtifactLocation() + "artifacts" + File.separator +
@@ -165,12 +173,9 @@ public class CustomRXTStoreNotificationTestCase extends GregESTestBaseTest {
                 "application/vnd.wso2.registry-ext-type+xml", "desc", dh);
     }
 
-    private void deleteCustomAsset() throws JSONException {
-        genericRestClient.geneticRestRequestDelete(publisherUrl + "/assets/" + assetId, MediaType.APPLICATION_JSON,
-                MediaType.APPLICATION_JSON, queryParamMap, headerMap, cookieHeaderPublisher);
-
-    }
-
+    /**
+     * Method used to delete custom RXT (application.rxt)
+     */
     private void deleteCustomRxt() throws Exception {
         String session = getSessionCookie();
         resourceAdminServiceClient = new ResourceAdminServiceClient(backendURL, session);
@@ -187,6 +192,10 @@ public class CustomRXTStoreNotificationTestCase extends GregESTestBaseTest {
         genericRestClient.geneticRestRequestGet(landingUrl, queryParamMap, headerMap, cookieHeaderPublisher);
     }
 
+    /**
+     * Method used to authenticate publisher,store and create asset of type applications. Created asset
+     * is used to add subscriptions and to receive notification.
+     */
     private void setTestEnvironment() throws JSONException, IOException, XPathExpressionException {
         // Authenticate Publisher
         ClientResponse response = authenticate(publisherUrl, genericRestClient,
@@ -206,7 +215,7 @@ public class CustomRXTStoreNotificationTestCase extends GregESTestBaseTest {
         jSessionIdStore = obj.getJSONObject("data").getString("sessionId");
         cookieHeaderStore = "JSESSIONID=" + jSessionIdStore;
 
-        //Create rest service
+        //Create application asset instance
         queryParamMap.put("type", "applications");
         String dataBody = readFile(resourcePath + "json" + File.separator + "publisherPublishCustomResource.json");
         ClientResponse createResponse = genericRestClient
@@ -218,7 +227,7 @@ public class CustomRXTStoreNotificationTestCase extends GregESTestBaseTest {
 
     @AfterClass(alwaysRun = true)
     public void clean() throws Exception {
-        deleteCustomAsset();
+        deleteAssetById(publisherUrl, genericRestClient, cookieHeaderPublisher, assetId, queryParamMap);
         deleteCustomRxt();
     }
 
