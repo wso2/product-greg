@@ -103,7 +103,12 @@ public class GRegPublisherAPILCPermissionCheck extends GregESTestBaseTest {
 
         //TODO: Following assertion fails due to bug reported at
         // https://wso2.org/jira/browse/STORE-1138
-        Assert.assertTrue(response.getStatusCode() != 200, "Fault user accepted");
+        Assert.assertTrue(response.getStatusCode() == 401, "Fault user accepted");
+
+        JSONObject errorResponse = new JSONObject(response.getEntity(String.class));
+        String dataObj = errorResponse.getString("data");
+
+        Assert.assertTrue("Unauthorized Action - does not have permissions to view lifecycle state".equals(dataObj));
     }
 
 
