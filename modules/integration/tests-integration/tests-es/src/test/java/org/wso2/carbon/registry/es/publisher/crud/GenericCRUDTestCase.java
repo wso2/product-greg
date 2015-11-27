@@ -114,10 +114,9 @@ public class GenericCRUDTestCase extends GregESTestBaseTest {
         if (response.getStatusCode() == 201) {
             assetId = (String)resObject.get("id");
         }
-        assertTrue((response.getStatusCode() == 400),
-                "Wrong status code ,Expected 400 Bad Request ,Received " +
-                        response.getStatusCode()
-        );
+        Assert.assertTrue((response.getStatusCode() == 500),
+                "Wrong status code ,Expected 500 Internal Server Error, Received " +
+                        response.getStatusCode());
     }
 
     @Test(groups = {"wso2.greg", "wso2.greg.es"}, description = "Check Option Field Values in Publisher")

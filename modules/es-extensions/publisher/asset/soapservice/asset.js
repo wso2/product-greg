@@ -31,12 +31,12 @@ asset.manager = function(ctx) {
                 }
             }
         }
-    }
+    };
     var setId = function(artifact, id) {
         if (id) {
             artifact.id = id;
         }
-    }
+    };
     var wsdlAssetManager = function(session){
         var rxt = require('rxt');
         var am = rxt.asset.createUserAssetManager(session, 'wsdl');
@@ -60,7 +60,7 @@ asset.manager = function(ctx) {
         var versions = am.getAssetGroup(asset);
         return (versions.length < 1) ? true : false;
     };
-    var createOMContent = function(attributes) {
+/*    var createOMContent = function(attributes) {
         var omContent = "<metadata xmlns=\"http://www.wso2.org/governance/metadata\"><overview><name>";
         omContent += attributes.overview_name;
         omContent += "</name><namespace>";
@@ -161,8 +161,8 @@ asset.manager = function(ctx) {
         }
         omContent += "</metadata>";
         return omContent;
-    }
-    var createArtifact = function(manager, options) {
+    }*/
+/*    var createArtifact = function(manager, options) {
         var attributes = options.attributes;
         var omContent = createOMContent(attributes);
         var artifact = manager.newGovernanceArtifact(omContent);
@@ -350,11 +350,11 @@ asset.manager = function(ctx) {
         },
         postCreate:function(){
             
-        }
-    }
+        }*/
+    };
 };
 
-asset.renderer = function(ctx) {
+/*asset.renderer = function(ctx) {
     var hideTables = function(page) {
         var tables = [];
         for (var index in page.assets.tables) {
@@ -388,7 +388,7 @@ asset.renderer = function(ctx) {
             return hideTables(page);
         }
     };
-};
+};*/
 asset.configure = function() {
     return {
         meta: {
