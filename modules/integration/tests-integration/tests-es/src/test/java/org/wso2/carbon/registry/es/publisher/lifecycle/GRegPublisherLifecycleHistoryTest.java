@@ -265,10 +265,7 @@ public class GRegPublisherLifecycleHistoryTest extends GregESTestBaseTest {
         Assert.assertEquals(((JSONObject) ((JSONObject) dataObj.get(3)).getJSONArray("action").
                 get(0)).getString("name"), "Promote");
 
-        //TODO: this count becomes 6 because history returns all LC actions performed on deleted resources to
-        //need to fix
-        //https://wso2.org/jira/browse/STORE-1142
-        Assert.assertEquals(dataObj.length(), 4);
+        Assert.assertEquals(dataObj.length(), 6);
     }
 
 

@@ -33,10 +33,10 @@ import org.wso2.carbon.integration.common.utils.exceptions.AutomationUtilExcepti
 import org.wso2.carbon.integration.common.utils.mgt.ServerConfigurationManager;
 import org.wso2.carbon.registry.core.exceptions.RegistryException;
 import org.wso2.carbon.registry.es.utils.EmailUtil;
+import org.wso2.carbon.registry.es.utils.GregESTestBaseTest;
 import org.wso2.carbon.registry.resource.stub.ResourceAdminServiceExceptionException;
 import org.wso2.greg.integration.common.clients.ResourceAdminServiceClient;
 import org.wso2.greg.integration.common.clients.UserProfileMgtServiceClient;
-import org.wso2.greg.integration.common.utils.GREGIntegrationBaseTest;
 import org.wso2.greg.integration.common.utils.GenericRestClient;
 
 import javax.activation.DataHandler;
@@ -54,7 +54,7 @@ import static org.testng.Assert.assertTrue;
 /**
  * This test class can be used to check the email notification functionality on store side for custom asset type.
  */
-public class CustomRXTStoreEmailNotificationTestCase extends GREGIntegrationBaseTest {
+public class CustomRXTStoreEmailNotificationTestCase extends GregESTestBaseTest {
 
     private TestUserMode userMode;
     private String jSessionIdPublisher;
@@ -239,11 +239,11 @@ public class CustomRXTStoreEmailNotificationTestCase extends GREGIntegrationBase
         genericRestClient.geneticRestRequestGet(landingUrl, queryParamMap, headerMap, cookieHeaderPublisher);
     }
 
-    private void setTestEnvironment() throws JSONException, IOException {
-        // Authenticate
-        ClientResponse response = genericRestClient
-                .geneticRestRequestPost(publisherUrl + "/authenticate/", MediaType.APPLICATION_FORM_URLENCODED,
-                        MediaType.APPLICATION_JSON, "username=admin&password=admin", queryParamMap, headerMap, null);
+    private void setTestEnvironment() throws JSONException, IOException, XPathExpressionException {
+        // Authenticate Publisher
+        ClientResponse response = authenticate(publisherUrl, genericRestClient,
+                automationContext.getSuperTenant().getTenantAdmin().getUserName(),
+                automationContext.getSuperTenant().getTenantAdmin().getPassword());
         JSONObject obj = new JSONObject(response.getEntity(String.class));
         jSessionIdPublisher = obj.getJSONObject("data").getString("sessionId");
         cookieHeaderPublisher = "JSESSIONID=" + jSessionIdPublisher;
@@ -251,9 +251,9 @@ public class CustomRXTStoreEmailNotificationTestCase extends GREGIntegrationBase
         refreshPublisherLandingPage();
 
         // Authenticate Store
-        ClientResponse responseStore = genericRestClient
-                .geneticRestRequestPost(storeUrl + "/authenticate/", MediaType.APPLICATION_FORM_URLENCODED,
-                        MediaType.APPLICATION_JSON, "username=admin&password=admin", queryParamMap, headerMap, null);
+        ClientResponse responseStore = authenticate(storeUrl, genericRestClient,
+                automationContext.getSuperTenant().getTenantAdmin().getUserName(),
+                automationContext.getSuperTenant().getTenantAdmin().getPassword());
         obj = new JSONObject(responseStore.getEntity(String.class));
         jSessionIdStore = obj.getJSONObject("data").getString("sessionId");
         cookieHeaderStore = "JSESSIONID=" + jSessionIdStore;
@@ -277,6 +277,7 @@ public class CustomRXTStoreEmailNotificationTestCase extends GREGIntegrationBase
     public void cleanUp() throws Exception {
         deleteCustomAsset();
         deleteCustomRxt();
+        EmailUtil.deleteSentMails();
     }
 
     @DataProvider
