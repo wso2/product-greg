@@ -44,6 +44,9 @@ import java.net.URL;
 import java.io.File;
 import java.io.FileNotFoundException;
 
+/*
+* This class is used to delete all the added sample data.
+ */
 public class CleanUp {
 
     private static String cookie;
@@ -122,6 +125,7 @@ public class CleanUp {
             try {
                 System.out.println("Deleting sample swagger docs .........");
                 deleteArtifacts(gov, "swagger", "json");
+                deleteImportedSwaggers(gov, "swagger");
                 System.out.println("########## Successfully deleted sample swagger docs ###########\n\n");
             } catch (Exception e){
                 System.out.println("######## Unable to delete sample swagger docs ########\n\n");
@@ -161,6 +165,17 @@ public class CleanUp {
         System.exit(0);
     }
 
+    /**
+     *This method delete artifacts added by running sample
+     *
+     * @param govRegistry     registry instance.
+     * @param shortName       rxt short name of the asset type.
+     * @param extension       extension type of the asset.
+     * @throws FileNotFoundException
+     * @throws IOException
+     * @throws RegistryException
+     * @throws GovernanceException
+     */
     private static void deleteArtifacts(Registry govRegistry, String shortName, String extension)
             throws FileNotFoundException, IOException, RegistryException, GovernanceException {
         BufferedReader bufferedReader = new BufferedReader(
@@ -185,6 +200,50 @@ public class CleanUp {
         }
     }
 
+    /**
+     *This method delete swagger docs imported using url.
+     *
+     * @param govRegistry     registry instance.
+     * @param shortName       rxt short name of the asset type.
+     * @throws FileNotFoundException
+     * @throws IOException
+     * @throws RegistryException
+     * @throws GovernanceException
+     */
+    private static void deleteImportedSwaggers(Registry govRegistry, String shortName)
+            throws FileNotFoundException, IOException, RegistryException, GovernanceException {
+        BufferedReader bufferedReader = new BufferedReader(
+                new FileReader(rootpath + "resources/swagger_imported.txt"));
+        String artifactName;
+        GenericArtifactManager manager = new GenericArtifactManager(govRegistry, shortName);
+        while ((artifactName = bufferedReader.readLine()) != null) {
+
+            final String name = artifactName;
+            GenericArtifact[] artifacts = manager.findGenericArtifacts(new GenericArtifactFilter() {
+
+                @Override public boolean matches(GenericArtifact genericArtifact) throws GovernanceException {
+                    return name.equals(genericArtifact.getQName().getLocalPart());
+                }
+            });
+            for (GenericArtifact genericArtifact : artifacts) {
+                for (GovernanceArtifact dependency : genericArtifact.getDependencies()) {
+                    GovernanceUtils.removeArtifact(govRegistry, dependency.getId());
+                }
+                GovernanceUtils.removeArtifact(govRegistry, genericArtifact.getId());
+            }
+        }
+    }
+
+    /**
+     *This method delete soap and rest services.
+     *
+     * @param govRegistry     registry instance.
+     * @param shortName       rxt short name of the asset type.
+     * @throws FileNotFoundException
+     * @throws IOException
+     * @throws RegistryException
+     * @throws GovernanceException
+     */
     private static void deleteServices(Registry govRegistry, String shortName)
             throws FileNotFoundException, IOException, RegistryException, GovernanceException {
         BufferedReader bufferedReader = new BufferedReader(

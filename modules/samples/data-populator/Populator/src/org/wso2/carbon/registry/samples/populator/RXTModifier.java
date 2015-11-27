@@ -22,6 +22,10 @@ import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.lang.StringBuilder;
 
+/*
+* This class is used to back up existing rest and soap service rxt of the server, and add
+* new rxts with categorization feild.
+ */
 public class RXTModifier {
     private static String cookie;
     private static final String username = "admin";
@@ -94,6 +98,14 @@ public class RXTModifier {
         System.exit(0);
     }
 
+    /**
+     *This method is used to back up existing RXTs.
+     *
+     * @param registry      registry instance.
+     * @param path          path of the rxt.
+     * @param fileName      file name of backed up rxt files.
+     * @throws RegistryException
+     */
     private static void backUpRXTs(Registry registry, String path, String fileName) throws RegistryException{
         Resource resource = registry.get(path);
         try {
@@ -103,6 +115,13 @@ public class RXTModifier {
         }
     }
 
+    /**
+     *This method is used to write rxt content to text file.
+     *
+     * @param is        rxt content as a input stream
+     * @param fileName  file name of backed up rxt file.
+     * @throws FileNotFoundException
+     */
     private static void RXTContentToFile(InputStream is, String filename) throws FileNotFoundException {
 
         BufferedReader br = null;

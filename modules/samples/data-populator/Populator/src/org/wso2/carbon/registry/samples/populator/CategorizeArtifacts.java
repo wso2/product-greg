@@ -24,7 +24,10 @@ import java.io.IOException;
 import java.io.BufferedReader;
 import java.io.FileReader;
 
-
+/*
+* This class add categories,tags to rest and soap services, and create publisher and
+* store user roles.
+ */
 public class CategorizeArtifacts {
     private static String cookie;
     private static ConfigurationContext configContext = null;
@@ -39,8 +42,8 @@ public class CategorizeArtifacts {
     private static String host ;
     private static String serverURL;
     private static final String [] categories = new String [] {"Engineering", "Finance", "HR", "Sales", "Marketing"};
-    private static final String[] tagsList = new String[] { "wso2", "greg", "pay", "fb", "twitter", "money", "json",
-            "js", "amazon", "uber", "people", "android", "mac", "instagram", "dollars" };
+    private static final String[] tagsList = new String[] { "wso2", "greg", "pay", "money", "json", "js", "people",
+            "registry", "apps", "services" };
     private static String rootpath = "";
 
     private static WSRegistryServiceClient initialize() throws Exception {
@@ -109,7 +112,7 @@ public class CategorizeArtifacts {
                         artifact.setAttribute("overview_category", category);
                         artifactManager1.updateGenericArtifact(artifact);
                         String path = artifact.getPath();
-                        gov.applyTag(path, tagsList[i % 15]);
+                        gov.applyTag(path, tagsList[i % 10]);
                         changeLcState((i%4), path);
                         i++;
                     }
@@ -146,7 +149,7 @@ public class CategorizeArtifacts {
                         artifact.setAttribute("overview_category", category);
                         artifactManager2.updateGenericArtifact(artifact);
                         String path = artifact.getPath();
-                        gov.applyTag(path, tagsList[j%15]);
+                        gov.applyTag(path, tagsList[j%10]);
                         changeLcState((j%4), path);
                         j++;
                     }
@@ -161,7 +164,13 @@ public class CategorizeArtifacts {
         System.exit(1);
 
     }
-
+    /**
+     *This method assign life cycle state to asset based on state.
+     *
+     * @param state     random number which determines LC state
+     * @param path      path of the resource.
+     * @throws Exception
+     */
     private static void changeLcState(int state, String path) throws Exception {
         path = "_system/governance" + path;
         String items[] = { "false", "false", "false" };
@@ -181,6 +190,12 @@ public class CategorizeArtifacts {
 
     }
 
+    /**
+     *This method create publisher and store user.
+     *
+     * @param configContext
+     * @throws Exception
+     */
     private static void addUsers(ConfigurationContext configContext) throws Exception {
         UserManagementClient userManager = new UserManagementClient(cookie, serverURL, configContext);
         String publisherUser = "Tom";

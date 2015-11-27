@@ -26,6 +26,10 @@ import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.lang.StringBuilder;
 
+/*
+* This class is used to re deploy the existing soap and rest service rxts which were there before adding
+* categorization field.
+ */
 public class RXTReDeploy {
 
     private static String cookie;
@@ -100,6 +104,13 @@ public class RXTReDeploy {
         System.exit(0);
     }
 
+    /**
+     *This method is used to delete a particular user
+     *
+     * @param userName
+     * @param configContext
+     * @throws Exception
+     */
     private static void deleteUsers(String userName, ConfigurationContext configContext) throws Exception{
         UserManagementClient userManager =
                 new UserManagementClient(cookie, serverURL, configContext);
