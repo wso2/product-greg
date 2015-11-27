@@ -106,9 +106,12 @@ public class GRegPublisherAPILCPermissionCheck extends GregESTestBaseTest {
         Assert.assertTrue(response.getStatusCode() == 401, "Fault user accepted");
 
         JSONObject errorResponse = new JSONObject(response.getEntity(String.class));
-        String dataObj = errorResponse.getString("data");
+        JSONObject dataObj = errorResponse.getJSONObject("error");
+        String exception = dataObj.getString("exception");
+        String message = dataObj.getString("message");
 
-        Assert.assertTrue("Unauthorized Action - does not have permissions to view lifecycle state".equals(dataObj));
+        Assert.assertTrue("Unauthorized Action - does not have permissions to view lifecycle state".equals(exception));
+        Assert.assertTrue("User does not have permission to view lifecycle state".equals(message));
     }
 
 
