@@ -118,7 +118,7 @@ public class GenericCRUDTestCase extends GregESTestBaseTest {
             assetId = (String)resObject.get("id");
         }
         Assert.assertTrue((response.getStatusCode() == 400),
-                "Wrong status code ,Expected 400 Bad Request ,Received " +
+                "Wrong status code ,Expected 500 Internal Server Error, Received " +
                         response.getStatusCode());
     }
 
