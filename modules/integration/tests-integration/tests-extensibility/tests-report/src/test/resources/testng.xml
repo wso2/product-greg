@@ -10,7 +10,6 @@
             <class name="org.wso2.carbon.registry.reporting.test.ReportCopyingTestCases"/>
             <class name="org.wso2.carbon.registry.reporting.test.ReportSchedulingTestCases"/>
             <class name="org.wso2.carbon.registry.reporting.test.ReportClassTestCases"/>
-	    <class name="org.wso2.carbon.registry.reporting.test.ReportGenerationImageConversionTest"/>
         </classes>
     </test>
 </suite>
