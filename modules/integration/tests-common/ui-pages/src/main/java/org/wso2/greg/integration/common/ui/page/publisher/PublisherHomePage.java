@@ -27,7 +27,7 @@ import org.openqa.selenium.WebDriver;
 import java.io.IOException;
 
 /**
- * UI Page class of Publisher Home page for Greg
+ * UI Page object class of Publisher Home page for Greg
  */
 public class PublisherHomePage {
 
@@ -44,10 +44,13 @@ public class PublisherHomePage {
     }
 
     /**
-     * Create a API. Resource URL Pattern is"*", resource name is "default" and resource http method is "GET".
+     * Create a rest service
      *
-     * @param restServiceName    name of the Rest Service
-     *
+     * @param restServiceName name of the rest service to be created
+     * @param context context of the rest service to be created
+     * @param version version of the rest service to be created
+     * @throws IOException
+     * @throws InterruptedException
      */
     public void createRestService(String restServiceName, String context,String version)
             throws IOException, InterruptedException {
@@ -75,12 +78,11 @@ public class PublisherHomePage {
     }
 
     /**
-     * Logout from publisher
+     * Performing Logout from publisher
+     * @throws IOException
      */
     public void logOut() throws IOException {
         driver.findElement(By.id("publisher.usermenu.id")).click();
         driver.findElement(By.cssSelector("publisher.logout.button.css")).click();
     }
-
-
 }

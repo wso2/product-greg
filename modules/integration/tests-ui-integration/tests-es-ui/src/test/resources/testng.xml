@@ -17,7 +17,7 @@
 
     <test name="Greg-UI-Test" preserve-order="true" verbose="2">
         <classes>
-            <class name="org.wso2.carbon.greg.ui.test.lifecycle.LifeCycleUITestCase"/>
+            <class name="org.wso2.carbon.greg.ui.test.lifecycle.LifeCycleSmokeUITestCase"/>
         </classes>
     </test>
 
