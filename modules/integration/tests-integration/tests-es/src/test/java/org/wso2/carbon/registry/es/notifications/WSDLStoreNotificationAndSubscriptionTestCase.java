@@ -34,7 +34,6 @@ import org.wso2.carbon.automation.engine.context.TestUserMode;
 import org.wso2.carbon.automation.engine.frameworkutils.FrameworkPathUtil;
 import org.wso2.carbon.governance.custom.lifecycles.checklist.stub.CustomLifecyclesChecklistAdminServiceExceptionException;
 import org.wso2.carbon.registry.core.exceptions.RegistryException;
-import org.wso2.carbon.registry.es.utils.ESTestCommonUtils;
 import org.wso2.carbon.registry.es.utils.GregESTestBaseTest;
 import org.wso2.greg.integration.common.clients.LifeCycleAdminServiceClient;
 import org.wso2.greg.integration.common.utils.GenericRestClient;
@@ -68,7 +67,6 @@ public class WSDLStoreNotificationAndSubscriptionTestCase extends GregESTestBase
     String publisherUrl;
     String storeUrl;
     String resourcePath;
-    ESTestCommonUtils crudTestCommonUtils;
     LifeCycleAdminServiceClient lifeCycleAdminServiceClient;
     String lifeCycleName;
     String assetName;
@@ -94,7 +92,6 @@ public class WSDLStoreNotificationAndSubscriptionTestCase extends GregESTestBase
         //need lifeCycleAdminServiceClient to attach a lifecycle to the WSDL, as WSDLs does not come with
         //a default lifecycle attached
         lifeCycleAdminServiceClient = new LifeCycleAdminServiceClient(backendURL, sessionCookie);
-        crudTestCommonUtils = new ESTestCommonUtils(genericRestClient, publisherUrl, headerMap);
         lifeCycleName = "ServiceLifeCycle";
         setTestEnvironment();
     }
@@ -115,8 +112,6 @@ public class WSDLStoreNotificationAndSubscriptionTestCase extends GregESTestBase
         obj = new JSONObject(responseStore.getEntity(String.class));
         jSessionIdStore = obj.getJSONObject("data").getString("sessionId");
         cookieHeaderStore = "JSESSIONID=" + jSessionIdStore;
-
-        crudTestCommonUtils.setCookieHeader(cookieHeaderPublisher);
     }
 
     @Test(groups = {"wso2.greg", "wso2.greg.es"}, description = "create a wsdl with a LC attached.")
@@ -210,7 +205,7 @@ public class WSDLStoreNotificationAndSubscriptionTestCase extends GregESTestBase
     public void searchWsdlAsset() throws JSONException {
         Map<String, String> queryParamMap = new HashMap<>();
         queryParamMap.put("type", "wsdl");
-        ClientResponse clientResponse = crudTestCommonUtils.searchAssetByQuery(queryParamMap);
+        ClientResponse clientResponse = searchAssetByQuery(publisherUrl,genericRestClient,cookieHeaderPublisher,queryParamMap);
         JSONObject obj = new JSONObject(clientResponse.getEntity(String.class));
         JSONArray jsonArray = obj.getJSONArray("list");
         for (int i = 0; i < jsonArray.length(); i++) {
@@ -226,7 +221,7 @@ public class WSDLStoreNotificationAndSubscriptionTestCase extends GregESTestBase
     private JSONObject getAsset(String assetId, String assetType) throws JSONException {
         Map<String, String> assetTypeParamMap = new HashMap<String, String>();
         assetTypeParamMap.put("type", assetType);
-        ClientResponse clientResponse = crudTestCommonUtils.getAssetById(assetId, queryParamMap);
+        ClientResponse clientResponse = getAssetById(publisherUrl,genericRestClient,cookieHeaderPublisher,assetId, queryParamMap);
         return new JSONObject(clientResponse.getEntity(String.class));
     }
 
@@ -234,13 +229,13 @@ public class WSDLStoreNotificationAndSubscriptionTestCase extends GregESTestBase
     public void cleanUp() throws RegistryException, JSONException {
         Map<String, String> queryParamMap = new HashMap<>();
         queryParamMap.put("type", "wsdl");
-        assocUUIDMap = crudTestCommonUtils.getAssociationsFromPages(assetId, queryParamMap);
-        crudTestCommonUtils.deleteAssetById(assetId, queryParamMap);
-        crudTestCommonUtils.deleteAllAssociationsById(assetId, queryParamMap);
+        assocUUIDMap = getAssociationsFromPages(publisherUrl,genericRestClient,cookieHeaderPublisher,assetId, queryParamMap);
+        deleteAssetById(publisherUrl,genericRestClient,cookieHeaderPublisher,assetId, queryParamMap);
+        deleteAllAssociationsById(publisherUrl,genericRestClient,cookieHeaderPublisher,assetId, queryParamMap);
         queryParamMap.clear();
         for (String uuid : assocUUIDMap.keySet()) {
-            queryParamMap.put("type", crudTestCommonUtils.getType(assocUUIDMap.get(uuid)));
-            crudTestCommonUtils.deleteAssetById(uuid, queryParamMap);
+            queryParamMap.put("type", getType(assocUUIDMap.get(uuid)));
+            deleteAssetById(publisherUrl,genericRestClient,cookieHeaderPublisher,uuid, queryParamMap);
         }
     }
 
