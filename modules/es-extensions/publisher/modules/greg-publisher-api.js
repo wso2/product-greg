@@ -495,7 +495,7 @@ var gregAPI = {};
         var path = "/_system/config/repository/components/secure-vault";
         var resource;
 
-        if(registry.resourceExists(path)){
+        if (registry.resourceExists(path)) {
             resource = registry.get(path);
         }
         else {
@@ -503,20 +503,19 @@ var gregAPI = {};
         }
 
         // Osgi service used to encrypt password.
-        var securityService =  carbon.server.osgiService('org.wso2.carbon.registry.security.vault.service.RegistrySecurityService');
+        var securityService = carbon.server.
+            osgiService('org.wso2.carbon.registry.security.vault.service.RegistrySecurityService');
         var properties = [];
         properties[1] = "";
-        if (key != null && value != null){
+        if (key != null && value != null) {
             var encryptedText = securityService.doEncrypt(value);
             resource.setProperty(key, encryptedText);
-            registry.beginTransaction();
             registry.put(path, resource);
-            registry.commitTransaction();
             properties[1] = "Password Saved Successfully";
         }
 
         var properties;
-        if(registry.resourceExists(path)){
+        if (registry.resourceExists(path)) {
             var collection = registry.get(path);
             properties[0] = collection.getProperties();
         }
