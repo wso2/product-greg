@@ -47,7 +47,6 @@ asset.manager = function(ctx) {
     var createArtifact = function (manager, options) {
         var name, attribute, i, length, lc, artifact,
             attributes = options.attributes;
-        log.info("create Attribute.... "+ stringify(attributes));
         if(attributes.overview_namespace) {
             artifact = manager.newGovernanceArtifact(new QName(attributes.overview_namespace, options.name))
         } else {
@@ -66,7 +65,6 @@ asset.manager = function(ctx) {
         if (options.id) {
             artifact.id = options.id;
         }
-        log.info("create content.... "+ stringify(options.content));
         if (options.content) {
             if (options.content instanceof Stream) {
                 artifact.setContent(IOUtils.toByteArray(options.content.getStream()));
@@ -191,7 +189,11 @@ asset.manager = function(ctx) {
             if (asset.wsdl_url) {
                 var wsdlURL = asset.wsdl_url;
                 modAsset.wsdl_url = wsdlURL;
-                modAsset.tables[2].fields.wsdlURL.value = modAsset.wsdl_url;
+                for(var table in modAsset.tables) {
+                    if (table.name == "interface") {
+                        table.fields.wsdlURL.value = modAsset.wsdl_url;
+                    }
+                }
             }
             if (asset.interfaceType) {
                 var interfaceType = asset.interfaceType;
