@@ -23,6 +23,7 @@ import org.apache.commons.logging.LogFactory;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.Select;
 import org.wso2.greg.integration.common.ui.page.main.HomePage;
 import org.wso2.greg.integration.common.ui.page.util.UIElementMapper;
 
@@ -101,6 +102,19 @@ public class LoginPage {
         }
     }
 
+    public void assignLCToRestService(String restServiceName) throws Exception{
+
+        driver.findElement(By.cssSelector("span")).click();
+        driver.findElement(By.linkText("REST Services")).click();
+        driver.findElement(By.linkText(restServiceName)).click();
+
+        Select select = new Select(driver.findElement(By.id("aspect")));
+        select.selectByVisibleText("SampleLifeCycle");
+
+        driver.findElement(By.id("add-lifecycle-div")).click();
+        driver.findElement(By.xpath("(//input[@value='Add'])[4]")).click();
+
+    }
 }
 
 
