@@ -15,12 +15,44 @@
  */
 asset.manager = function(ctx) {
     var configs = require("/extensions/assets/soapservice/config/properties.json");
+    var QName = Packages.javax.xml.namespace.QName;
     var getRegistry = function(cSession) {
         var userMod = require('store').user;
         var userRegistry = userMod.userRegistry(cSession);
         return userRegistry;
     };
-    var setAttributes = function(artifact, attributes) {
+
+    var wsdlAssetManager = function(session){
+        var rxt = require('rxt');
+        var am = rxt.asset.createUserAssetManager(session, 'wsdl');
+        return am;
+    };
+
+    /**
+     * Checks if there are any other asset versions
+     * @param  {[type]}  asset [description]
+     * @return {Boolean}       [description]
+     */
+    var isOnlyAssetVersion = function(asset, am) {
+        var versions = am.getAssetGroup(asset);
+        return (versions.length < 1) ? true : false;
+    };
+
+    /**
+     * Method to create artifact in create and update asset
+     * @param manager
+     * @param options
+     * @returns {*}
+     */
+    var createArtifact = function (manager, options) {
+        var name, attribute, i, length, lc, artifact,
+            attributes = options.attributes;
+        log.info("create Attribute.... "+ stringify(attributes));
+        if(attributes.overview_namespace) {
+            artifact = manager.newGovernanceArtifact(new QName(attributes.overview_namespace, options.name))
+        } else {
+            artifact = manager.newGovernanceArtifact(new QName(options.name))
+        }
         for (name in attributes) {
             if (attributes.hasOwnProperty(name)) {
                 attribute = attributes[name];
@@ -31,155 +63,27 @@ asset.manager = function(ctx) {
                 }
             }
         }
-    }
-    var setId = function(artifact, id) {
-        if (id) {
-            artifact.id = id;
+        if (options.id) {
+            artifact.id = options.id;
         }
-    }
-    var wsdlAssetManager = function(session){
-        var rxt = require('rxt');
-        var am = rxt.asset.createUserAssetManager(session, 'wsdl');
-        return am;
-    };
-    var setContent = function(artifact, content) {
-        if (content) {
-            if (content instanceof Stream) {
-                artifact.setContent(IOUtils.toByteArray(content.getStream()));
+        log.info("create content.... "+ stringify(options.content));
+        if (options.content) {
+            if (options.content instanceof Stream) {
+                artifact.setContent(IOUtils.toByteArray(options.content.getStream()));
             } else {
-                artifact.setContent(new java.lang.String(content).getBytes());
+                artifact.setContent(new java.lang.String(options.content).getBytes());
             }
         }
-    };
-    /**
-     * Checks if there are any other asset versions
-     * @param  {[type]}  asset [description]
-     * @return {Boolean}       [description]
-     */
-    var isOnlyAssetVersion = function(asset, am) {
-        var versions = am.getAssetGroup(asset);
-        return (versions.length < 1) ? true : false;
-    };
-    var createOMContent = function(attributes) {
-        var omContent = "<metadata xmlns=\"http://www.wso2.org/governance/metadata\"><overview><name>";
-        omContent += attributes.overview_name;
-        omContent += "</name><namespace>";
-        omContent += attributes.overview_namespace;
-        omContent += "</namespace><version>";
-        omContent += attributes.overview_version;
-        omContent += "</version>";
-        if (attributes.overview_description) {
-            omContent += "<description>";
-            omContent += attributes.overview_description;
-            omContent += "</description>";
-        }
-        omContent += "</overview>";
-
-        if(attributes.contacts_entry) {
-            omContent += "<contacts>";
-            for(var index = 0; index< attributes.contacts_entry.length; index++){
-                omContent += "<entry>";
-                omContent += attributes.contacts_entry[index];
-                omContent += "</entry>";
-            }
-
-            omContent += "</contacts>";
-        }
-
-        omContent += "<interface>";
-        if (attributes.interface_wsdlURL || attributes.interface_wsdlUrl) {
-            omContent += "<wsdlURL>";
-            if (attributes.interface_wsdlUrl) {
-                omContent += attributes.interface_wsdlUrl;
-            } else {
-                omContent += attributes.interface_wsdlURL;
-            }
-            omContent += "</wsdlURL>";
-        }
-        if (attributes.interface_transportProtocols) {
-            omContent += "<transportProtocols>";
-            omContent += attributes.interface_transportProtocols;
-            omContent += "</transportProtocols>";
-        }
-        if (attributes.interface_messageFormats) {
-            omContent += "<messageFormats>";
-            omContent += attributes.interface_messageFormats;
-            omContent += "</messageFormats>";
-        }
-        if (attributes.interface_messageExchangePatterns) {
-            omContent += "<messageExchangePatterns>";
-            omContent += attributes.interface_messageExchangePatterns;
-            omContent += "</messageExchangePatterns>";
-        }
-        omContent += "</interface>";
-        if (attributes.docLinks_documentType) {
-            omContent += "<docLinks>";
-            omContent += "<documentType>";
-            omContent += attributes.docLinks_documentType;
-            omContent += "</documentType>";
-            if (attributes.docLinks_url) {
-                omContent += "<url>";
-                omContent += attributes.docLinks_url;
-                omContent += "</url>";
-            }
-            if (attributes.docLinks_documentComment) {
-                omContent += "<documentComment>";
-                omContent += attributes.docLinks_documentComment;
-                omContent += "</documentComment>";
-            }
-            if (attributes.docLinks_documentType1) {
-                omContent += "<documentType1>";
-                omContent += attributes.docLinks_documentType1;
-                omContent += "</documentType1>";
-                if (attributes.docLinks_url1) {
-                    omContent += "<url1>";
-                    omContent += attributes.docLinks_url1;
-                    omContent += "</url1>";
-                }
-                if (attributes.docLinks_documentComment1) {
-                    omContent += "<documentComment1>";
-                    omContent += attributes.docLinks_documentComment1;
-                    omContent += "</documentComment1>";
-                }
-            }
-            if (attributes.docLinks_documentType2) {
-                omContent += "<documentType2>";
-                omContent += attributes.docLinks_documentType2;
-                omContent += "</documentType2>";
-                if (attributes.docLinks_url2) {
-                    omContent += "<url2>";
-                    omContent += attributes.docLinks_url2;
-                    omContent += "</url2>";
-                }
-                if (attributes.docLinks_documentComment2) {
-                    omContent += "<documentComment2>";
-                    omContent += attributes.docLinks_documentComment2;
-                    omContent += "</documentComment2>";
-                }
-            }
-            omContent += "</docLinks>";
-        }
-        omContent += "</metadata>";
-        return omContent;
-    }
-    var createArtifact = function(manager, options) {
-        var attributes = options.attributes;
-        var omContent = createOMContent(attributes);
-        var artifact = manager.newGovernanceArtifact(omContent);
-        log.debug('Finished creating Governance Artifact');
-        setAttributes(artifact, attributes);
-        setId(artifact, options.id);
-        setContent(artifact, options.content);
-        var lc = options.lifecycles;
+        lc = options.lifecycles;
         if (lc) {
             length = lc.length;
-            for (var i = 0; i < length; i++) {
+            for (i = 0; i < length; i++) {
                 artifact.attachLifeCycle(lc[i]);
             }
         }
-        log.debug('lifecycle is attached');
         return artifact;
     };
+
     var setCustomAssetAttributes = function(asset, userRegistry) {
         var interfaceUrl=asset.attributes.interface_wsdlURL;
         if (interfaceUrl != null) {
@@ -354,7 +258,8 @@ asset.manager = function(ctx) {
     }
 };
 
-asset.renderer = function(ctx) {
+// removing custom asset renderer to use the default one. we need to show endpoints in publisher
+/*asset.renderer = function(ctx) {
     var hideTables = function(page) {
         var tables = [];
         for (var index in page.assets.tables) {
@@ -388,7 +293,7 @@ asset.renderer = function(ctx) {
             return hideTables(page);
         }
     };
-};
+};*/
 asset.configure = function() {
     return {
         meta: {

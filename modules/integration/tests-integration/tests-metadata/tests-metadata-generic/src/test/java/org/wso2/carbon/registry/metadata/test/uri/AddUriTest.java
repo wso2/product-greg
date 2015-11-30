@@ -273,9 +273,8 @@ public class AddUriTest extends GREGIntegrationBaseTest {
         GenericArtifactManager artifactManager = new GenericArtifactManager(governance, "uri");
         GenericArtifact artifact = artifactManager.newGovernanceArtifact(new QName
                 ("nonExistingUrl"));
-
         artifact.setAttribute("overview_uri", "https://raw.githubusercontent.com/wso2/wso2-qa-artifacts/" +
-                "master/automation-artifacts/greg/wsdl/AmazonWebServices.wsdl");
+                                              "master/automation-artifacts/non-existing/wsdl/AmazonWebServices.wsdl");
         artifact.setAttribute("overview_type", "WSDL");
         artifactManager.addGenericArtifact(artifact);
 
