@@ -30,19 +30,21 @@ import java.io.FileReader;
 * store user roles.
  */
 public class CategorizeArtifacts {
+
     private static String cookie;
     private static ConfigurationContext configContext = null;
     private static LifeCycleManagementClient lifeCycleManagementClient;
     private static final String CARBON_HOME = System.getProperty("carbon.home");
-    private static final String axis2Repo = CARBON_HOME + File.separator + "repository" + File.separator + "deployment" + File.separator + "client";
-    private static final String axis2Conf =
-            ServerConfiguration.getInstance().getFirstProperty("Axis2Config.clientAxis2XmlLocation");
+    private static final String axis2Repo =
+            CARBON_HOME + File.separator + "repository" + File.separator + "deployment" + File.separator + "client";
+    private static final String axis2Conf = ServerConfiguration.getInstance()
+            .getFirstProperty("Axis2Config.clientAxis2XmlLocation");
     private static final String username = "admin";
     private static final String password = "admin";
-    private static String port ;
-    private static String host ;
+    private static String port;
+    private static String host;
     private static String serverURL;
-    private static final String [] categories = new String [] {"Engineering", "Finance", "HR", "Sales", "Marketing"};
+    private static final String[] categories = new String[] { "Engineering", "Finance", "HR", "Sales", "Marketing" };
     private static final String[] tagsList = new String[] { "wso2", "greg", "pay", "money", "json", "js", "people",
             "registry", "apps", "services" };
     private static String rootpath = "";
@@ -56,8 +58,7 @@ public class CategorizeArtifacts {
         System.setProperty("javax.net.ssl.trustStorePassword", "wso2carbon");
         System.setProperty("javax.net.ssl.trustStoreType", "JKS");
         System.setProperty("carbon.repo.write.mode", "true");
-        configContext = ConfigurationContextFactory.createConfigurationContextFromFileSystem(
-                axis2Repo, axis2Conf);
+        configContext = ConfigurationContextFactory.createConfigurationContextFromFileSystem(axis2Repo, axis2Conf);
         if (System.getProperty("carbon.home").equals("../../../../")) {
             rootpath = "../";
         }
@@ -73,26 +74,24 @@ public class CategorizeArtifacts {
     public static void main(String[] args) throws Exception {
         try {
             port = args[0];
-            if(port == null || port.length() ==0){
+            if (port == null || port.length() == 0) {
                 port = "9443";
             }
-            host =args [1];
-            if(host == null || host.length() ==0){
+            host = args[1];
+            if (host == null || host.length() == 0) {
                 host = "localhost";
             }
-            serverURL = "https://"+host+":"+port+"/services/";
+            serverURL = "https://" + host + ":" + port + "/services/";
             final Registry registry = initialize();
             ResourceServiceClient resourceServiceClient = new ResourceServiceClient(cookie, serverURL, configContext);
             Registry gov = GovernanceUtils.getGovernanceUserRegistry(registry, "admin");
             // Should be load the governance artifact.
             GovernanceUtils.loadGovernanceArtifacts((UserRegistry) gov);
 
-            GenericArtifactManager artifactManager1 =
-                    new GenericArtifactManager(gov, "restservice");
+            GenericArtifactManager artifactManager1 = new GenericArtifactManager(gov, "restservice");
 
             GenericArtifact[] restServices = artifactManager1.getAllGenericArtifacts();
-            lifeCycleManagementClient = new LifeCycleManagementClient(
-                    cookie, serverURL, configContext);
+            lifeCycleManagementClient = new LifeCycleManagementClient(cookie, serverURL, configContext);
 
             if (restServices.length == 0) {
                 System.out.println("No rest services found ..");
@@ -116,7 +115,7 @@ public class CategorizeArtifacts {
                         artifactManager1.updateGenericArtifact(artifact);
                         String path = artifact.getPath();
                         gov.applyTag(path, tagsList[i % 10]);
-                        changeLcState((i%4), path);
+                        changeLcState((i % 4), path);
                         if (i % 3 == 0) {
                             addAnonymousViewToAssets(resourceServiceClient, artifact);
                         }
@@ -129,8 +128,7 @@ public class CategorizeArtifacts {
 
             Thread.sleep(5 * 1000);
 
-            GenericArtifactManager artifactManager2 =
-                    new GenericArtifactManager(gov, "soapservice");
+            GenericArtifactManager artifactManager2 = new GenericArtifactManager(gov, "soapservice");
 
             GenericArtifact[] soapServices = artifactManager2.getAllGenericArtifacts();
 
@@ -155,8 +153,8 @@ public class CategorizeArtifacts {
                         artifact.setAttribute("overview_category", category);
                         artifactManager2.updateGenericArtifact(artifact);
                         String path = artifact.getPath();
-                        gov.applyTag(path, tagsList[j%10]);
-                        changeLcState((j%4), path);
+                        gov.applyTag(path, tagsList[j % 10]);
+                        changeLcState((j % 4), path);
                         if (j % 3 == 0) {
                             addAnonymousViewToAssets(resourceServiceClient, artifact);
                         }
