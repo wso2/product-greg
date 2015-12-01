@@ -211,7 +211,7 @@ public class WADLNotificationAndSubscriptionTestCase extends GregESTestBaseTest 
 
     @Test(groups = {"wso2.greg", "wso2.greg.es"}, description = "Change LC state on WADL",
           dependsOnMethods = {"createWADLAssetWithLC", "addSubscriptionForLCStateChange", "checkLCCheckItemsOnWADL","uncheckLCCheckItemsOnWADL" })
-    public void changeLCStateWSDL() throws JSONException, IOException {
+    public void changeLCStateWADL() throws JSONException, IOException {
         ClientResponse response =
                 genericRestClient.geneticRestRequestPost(publisherUrl + "/assets/" + assetId + "/state",
                                                          MediaType.APPLICATION_FORM_URLENCODED,
