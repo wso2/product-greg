@@ -10,6 +10,6 @@ for i in `ls ../../../../repository/components/plugins/*.jar`
   THE_CLASSPATH=${THE_CLASSPATH}:${i}
 done
 javac  -classpath ".:${THE_CLASSPATH}" -source 1.7 -target 1.7 $PROGRAM_NAME
-java   -classpath ".:${THE_CLASSPATH}" "$PROP" $CLASS_NAME 
+java   -classpath ".:${THE_CLASSPATH}" "$PROP" $CLASS_NAME 9443 localhost
 
 
