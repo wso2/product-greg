@@ -14,6 +14,7 @@ import org.wso2.carbon.registry.core.session.UserRegistry;
 import org.wso2.carbon.registry.samples.populator.utils.LifeCycleManagementClient;
 import org.wso2.carbon.registry.samples.populator.utils.UserManagementClient;
 import org.wso2.carbon.user.mgt.stub.types.carbon.ClaimValue;
+import org.wso2.carbon.registry.resource.ui.clients.ResourceServiceClient;
 
 import javax.xml.namespace.QName;
 import java.io.File;
@@ -45,6 +46,7 @@ public class CategorizeArtifacts {
     private static final String[] tagsList = new String[] { "wso2", "greg", "pay", "money", "json", "js", "people",
             "registry", "apps", "services" };
     private static String rootpath = "";
+    private static String governancePath = "/_system/governance";
 
     private static WSRegistryServiceClient initialize() throws Exception {
 
@@ -80,6 +82,7 @@ public class CategorizeArtifacts {
             }
             serverURL = "https://"+host+":"+port+"/services/";
             final Registry registry = initialize();
+            ResourceServiceClient resourceServiceClient = new ResourceServiceClient(cookie, serverURL, configContext);
             Registry gov = GovernanceUtils.getGovernanceUserRegistry(registry, "admin");
             // Should be load the governance artifact.
             GovernanceUtils.loadGovernanceArtifacts((UserRegistry) gov);
@@ -114,6 +117,9 @@ public class CategorizeArtifacts {
                         String path = artifact.getPath();
                         gov.applyTag(path, tagsList[i % 10]);
                         changeLcState((i%4), path);
+                        if (i % 3 == 0) {
+                            addAnonymousViewToAssets(resourceServiceClient, artifact);
+                        }
                         i++;
                     }
                 }
@@ -151,6 +157,9 @@ public class CategorizeArtifacts {
                         String path = artifact.getPath();
                         gov.applyTag(path, tagsList[j%10]);
                         changeLcState((j%4), path);
+                        if (j % 3 == 0) {
+                            addAnonymousViewToAssets(resourceServiceClient, artifact);
+                        }
                         j++;
                     }
                 }
@@ -172,7 +181,7 @@ public class CategorizeArtifacts {
      * @throws Exception
      */
     private static void changeLcState(int state, String path) throws Exception {
-        path = "_system/governance" + path;
+        path = governancePath + path;
         String items[] = { "false", "false", "false" };
         if (state == 0) {
             lifeCycleManagementClient.invokeAspect(path, "ServiceLifeCycle", "Promote", items);
@@ -188,6 +197,24 @@ public class CategorizeArtifacts {
             lifeCycleManagementClient.invokeAspect(path, "ServiceLifeCycle", "Promote", items);
         }
 
+    }
+
+    /**
+     *This method add anonymous view permission to resources, its dependencies and dependants.
+     *
+     * @param resourceServiceClient     client used to call the admin service.
+     * @param artifact                  generic artifact which permission should b allowed
+     * @throws Exception
+     */
+    private static void addAnonymousViewToAssets(ResourceServiceClient resourceServiceClient, GenericArtifact artifact)
+            throws Exception {
+        String path = governancePath + artifact.getPath();
+        resourceServiceClient.addRolePermission(path, "system/wso2.anonymous.role", "2", "1");
+
+        for (GovernanceArtifact dependency : artifact.getDependencies()) {
+            String dependencyPath = governancePath + dependency.getPath();
+            resourceServiceClient.addRolePermission(dependencyPath, "system/wso2.anonymous.role", "2", "1");
+        }
     }
 
     /**
