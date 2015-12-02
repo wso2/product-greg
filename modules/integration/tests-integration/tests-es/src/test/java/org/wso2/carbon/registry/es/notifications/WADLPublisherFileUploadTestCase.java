@@ -18,8 +18,7 @@
  */
 package org.wso2.carbon.registry.es.notifications;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.apache.commons.httpclient.methods.PostMethod;
 import org.apache.wink.client.ClientResponse;
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -34,8 +33,8 @@ import org.wso2.carbon.automation.engine.context.TestUserMode;
 import org.wso2.carbon.automation.engine.frameworkutils.FrameworkPathUtil;
 import org.wso2.carbon.governance.custom.lifecycles.checklist.stub.CustomLifecyclesChecklistAdminServiceExceptionException;
 import org.wso2.carbon.registry.core.exceptions.RegistryException;
+import org.wso2.carbon.registry.es.utils.FileUploadWithAttachmentUtil;
 import org.wso2.carbon.registry.es.utils.GregESTestBaseTest;
-import org.wso2.greg.integration.common.clients.LifeCycleAdminServiceClient;
 import org.wso2.greg.integration.common.utils.GenericRestClient;
 
 import javax.ws.rs.core.MediaType;
@@ -50,11 +49,10 @@ import static org.testng.Assert.assertNotNull;
 import static org.testng.Assert.assertTrue;
 
 /**
- * This class tests subscriptions and notifications on publisher console for WADLs
+ * This class tests the subscription functionality of wadls by uploading them to G-Reg.
  */
-public class WADLNotificationAndSubscriptionTestCase extends GregESTestBaseTest {
+public class WADLPublisherFileUploadTestCase extends GregESTestBaseTest {
 
-    private static final Log log = LogFactory.getLog(WADLNotificationAndSubscriptionTestCase.class);
     private TestUserMode userMode;
     String jSessionId;
     String assetId;
@@ -66,13 +64,14 @@ public class WADLNotificationAndSubscriptionTestCase extends GregESTestBaseTest 
     String publisherUrl;
     String resourcePath;
     String assetName;
-    LifeCycleAdminServiceClient lifeCycleAdminServiceClient;
+    org.wso2.greg.integration.common.clients.LifeCycleAdminServiceClient lifeCycleAdminServiceClient;
     String lifeCycleName;
     String stateChangeMessage = " State changed successfully to Testing!";
     Map<String, String> assocUUIDMap;
+    private static final String WADL_UPLOAD_API_URL = "assets/wadl/apis/wadls";
 
     @Factory(dataProvider = "userModeProvider")
-    public WADLNotificationAndSubscriptionTestCase(TestUserMode userMode) {
+    public WADLPublisherFileUploadTestCase(TestUserMode userMode) {
         this.userMode = userMode;
     }
 
@@ -86,56 +85,34 @@ public class WADLNotificationAndSubscriptionTestCase extends GregESTestBaseTest 
                        + "artifacts" + File.separator + "GREG" + File.separator;
         publisherUrl = automationContext.getContextUrls()
                 .getSecureServiceUrl().replace("services", "publisher/apis");
-        //need lifeCycleAdminServiceClient to attach a lifecycle to the WADL, as WADLs does not come with
+        //need lifeCycleAdminServiceClient to attach a lifecycle to the WSDL, as WSDLs does not come with
         //a default lifecycle attached
-        lifeCycleAdminServiceClient = new LifeCycleAdminServiceClient(backendURL, sessionCookie);
+        lifeCycleAdminServiceClient = new org.wso2.greg.integration.common.clients.LifeCycleAdminServiceClient(backendURL, sessionCookie);
         lifeCycleName = "ServiceLifeCycle";
         setTestEnvironment();
     }
 
-    private void setTestEnvironment() throws XPathExpressionException, JSONException {
-        ClientResponse response = authenticate(publisherUrl, genericRestClient,
-                                               automationContext.getSuperTenant().getTenantAdmin().getUserName(),
-                                               automationContext.getSuperTenant().getTenantAdmin().getPassword());
-        JSONObject obj = new JSONObject(response.getEntity(String.class));
-        assertTrue((response.getStatusCode() == 200),
-                   "Wrong status code ,Expected 200 OK ,Received " +
-                   response.getStatusCode()
-        );
-        jSessionId = obj.getJSONObject("data").getString("sessionId");
-        cookieHeader = "JSESSIONID=" + jSessionId;
-        assertNotNull(jSessionId, "Invalid JSessionID received");
-    }
-
-    @Test(groups = {"wso2.greg", "wso2.greg.es"}, description = "create a wadl with a LC attached.")
+    @Test(groups = {"wso2.greg", "wso2.greg.es"}, description = "upload a wadl and attach a lifecycle")
     public void createWADLAssetWithLC()
             throws JSONException, InterruptedException, IOException,
                    CustomLifecyclesChecklistAdminServiceExceptionException {
         queryParamMap.put("type", "wadl");
-        String wadlTemplate = readFile(resourcePath + "json" + File.separator + "wadl-sample.json");
+        String wsdlFilePath = resourcePath + "wadl" + File.separator + "StorageService.wadl";
         assetName = "StorageService.wadl";
-        String dataBody = String.format(wadlTemplate,
-                                        "https://raw.githubusercontent.com/wso2/wso2-qa-artifacts/master/automation-artifacts/greg/wadl/StorageService.wadl",
-                                        assetName,
-                                        "2.0.0");
-        ClientResponse response =
-                genericRestClient.geneticRestRequestPost(publisherUrl + "/assets",
-                                                         MediaType.APPLICATION_JSON,
-                                                         MediaType.APPLICATION_JSON, dataBody
-                        , queryParamMap, headerMap, cookieHeader);
-        JSONObject obj = new JSONObject(response.getEntity(String.class));
-        Assert.assertTrue((response.getStatusCode() == 201),
-                          "Wrong status code ,Expected 201 Created ,Received " +
-                          response.getStatusCode());
-        String resultName = obj.get("overview_name").toString();
-        Assert.assertEquals(resultName, assetName);
+        //The api-for wadl upload path is  in format of https://localhost:9443/publisher/assets/wadl/apis/wadls
+        String url = publisherUrl.replace("apis", WADL_UPLOAD_API_URL);
+        PostMethod httpMethod = FileUploadWithAttachmentUtil.uploadContentTypeAssets(wsdlFilePath, "1.0.0", assetName,
+                                                                                     "wadl", cookieHeader, url);
+        Assert.assertTrue((httpMethod.getStatusCode() == 200),
+                          "Wrong status code ,Expected 200 ,Received " +
+                          httpMethod.getStatusCode());
         searchWadlAsset();
         //attach a LC to the wsdl
         lifeCycleAdminServiceClient.addAspect(path, lifeCycleName);
-        Assert.assertNotNull(assetId, "Empty asset resource id available" +
-                                      response.getEntity(String.class));
+        Assert.assertNotNull(assetId, "Empty asset resource id available");
         Assert.assertTrue(this.getAsset(assetId, "wadl").get("lifecycle")
                                   .equals(lifeCycleName), "LifeCycle not assigned to given asset");
+
     }
 
     @Test(groups = {"wso2.greg", "wso2.greg.es"}, description = "Adding subscription to a wadl LC check list item check",
@@ -158,7 +135,7 @@ public class WADLNotificationAndSubscriptionTestCase extends GregESTestBaseTest 
     }
 
     @Test(groups = {"wso2.greg", "wso2.greg.es"}, description = "Adding subscription to a wadl LC check list item uncheck",
-          dependsOnMethods = {"createWADLAssetWithLC"})
+          dependsOnMethods = {"addSubscriptionForLCCheckListItemCheck"})
     public void addSubscriptionForLCCheckListItemUnCheck() throws JSONException, IOException {
 
         JSONObject dataObject = new JSONObject();
@@ -177,7 +154,7 @@ public class WADLNotificationAndSubscriptionTestCase extends GregESTestBaseTest 
     }
 
     @Test(groups = {"wso2.greg", "wso2.greg.es"}, description = "Adding subscription to a wadl LC state change",
-          dependsOnMethods = {"createWADLAssetWithLC"})
+          dependsOnMethods = {"addSubscriptionForLCCheckListItemUnCheck"})
     public void addSubscriptionForLCStateChange() throws JSONException, IOException {
 
         JSONObject dataObject = new JSONObject();
@@ -209,22 +186,8 @@ public class WADLNotificationAndSubscriptionTestCase extends GregESTestBaseTest 
         Assert.assertTrue(responseCheck0.getStatusCode() == 200);
     }
 
-    @Test(groups = {"wso2.greg", "wso2.greg.es"}, description = "Change LC state on WADL",
-          dependsOnMethods = {"createWADLAssetWithLC", "addSubscriptionForLCStateChange", "checkLCCheckItemsOnWADL","uncheckLCCheckItemsOnWADL" })
-    public void changeLCStateWADL() throws JSONException, IOException {
-        ClientResponse response =
-                genericRestClient.geneticRestRequestPost(publisherUrl + "/assets/" + assetId + "/state",
-                                                         MediaType.APPLICATION_FORM_URLENCODED,
-                                                         MediaType.APPLICATION_JSON,
-                                                         "nextState=Testing&comment=Completed"
-                        , queryParamMap, headerMap, cookieHeader);
-        JSONObject obj = new JSONObject(response.getEntity(String.class));
-        String status = obj.get("status").toString();
-        Assert.assertEquals(status, stateChangeMessage);
-    }
-
     @Test(groups = {"wso2.greg", "wso2.greg.es"}, description = "WADL LC check list item check",
-          dependsOnMethods = {"createWADLAssetWithLC", "addSubscriptionForLCCheckListItemUnCheck", "checkLCCheckItemsOnWADL"})
+          dependsOnMethods = {"addSubscriptionForLCCheckListItemUnCheck", "checkLCCheckItemsOnWADL"})
     public void uncheckLCCheckItemsOnWADL() throws JSONException, IOException {
         queryParamMap.put("type", "wadl");
         queryParamMap.put("lifecycle", lifeCycleName);
@@ -237,8 +200,36 @@ public class WADLNotificationAndSubscriptionTestCase extends GregESTestBaseTest 
         Assert.assertTrue(responseUncheck0.getStatusCode() == 200);
     }
 
+    @Test(groups = {"wso2.greg", "wso2.greg.es"}, description = "Change LC state on WADL",
+          dependsOnMethods = {"addSubscriptionForLCStateChange","uncheckLCCheckItemsOnWADL" })
+    public void changeLCStateWADL() throws JSONException, IOException {
+        ClientResponse response =
+                genericRestClient.geneticRestRequestPost(publisherUrl + "/assets/" + assetId + "/state",
+                                                         MediaType.APPLICATION_FORM_URLENCODED,
+                                                         MediaType.APPLICATION_JSON,
+                                                         "nextState=Testing&comment=Completed"
+                        , queryParamMap, headerMap, cookieHeader);
+        JSONObject obj = new JSONObject(response.getEntity(String.class));
+        String status = obj.get("status").toString();
+        Assert.assertEquals(status, stateChangeMessage);
+    }
+
+    private void setTestEnvironment() throws XPathExpressionException, JSONException {
+        ClientResponse response = authenticate(publisherUrl, genericRestClient,
+                                               automationContext.getSuperTenant().getTenantAdmin().getUserName(),
+                                               automationContext.getSuperTenant().getTenantAdmin().getPassword());
+        JSONObject obj = new JSONObject(response.getEntity(String.class));
+        assertTrue((response.getStatusCode() == 200),
+                   "Wrong status code ,Expected 200 OK ,Received " +
+                   response.getStatusCode()
+        );
+        jSessionId = obj.getJSONObject("data").getString("sessionId");
+        cookieHeader = "JSESSIONID=" + jSessionId;
+        assertNotNull(jSessionId, "Invalid JSessionID received");
+    }
+
     /**
-     * This method get all the wsdls in publisher and select the one created by createWSDLAssetWithLC method.
+     * This method get all the wadls in publisher and select the one created by createWADLAssetWithLC method.
      *
      * @throws JSONException
      */
@@ -265,17 +256,6 @@ public class WADLNotificationAndSubscriptionTestCase extends GregESTestBaseTest 
         return new JSONObject(clientResponse.getEntity(String.class));
     }
 
-    private JSONObject getLifeCycleState(String assetId, String assetType) throws JSONException {
-        Map<String, String> assetTypeParamMap = new HashMap<String, String>();
-        assetTypeParamMap.put("type", assetType);
-        assetTypeParamMap.put("lifecycle", lifeCycleName);
-        ClientResponse response =
-                genericRestClient.geneticRestRequestGet
-                        (publisherUrl + "/asset/" + assetId + "/state"
-                                , queryParamMap, headerMap, cookieHeader);
-        return new JSONObject(response.getEntity(String.class));
-    }
-
     private ClientResponse checkLifeCycleCheckItem(String managerCookieHeader, int itemId) {
         return genericRestClient.geneticRestRequestPost(publisherUrl + "/asset/" + assetId + "/update-checklist",
                                                         MediaType.APPLICATION_JSON,
@@ -290,6 +270,17 @@ public class WADLNotificationAndSubscriptionTestCase extends GregESTestBaseTest 
                                                         MediaType.APPLICATION_JSON,
                                                         "{\"checklist\":[{\"index\":" + itemId + ",\"checked\":false}]}"
                 , queryParamMap, headerMap, managerCookieHeader);
+    }
+
+    private JSONObject getLifeCycleState(String assetId, String assetType) throws JSONException {
+        Map<String, String> assetTypeParamMap = new HashMap<String, String>();
+        assetTypeParamMap.put("type", assetType);
+        assetTypeParamMap.put("lifecycle", lifeCycleName);
+        ClientResponse response =
+                genericRestClient.geneticRestRequestGet
+                        (publisherUrl + "/asset/" + assetId + "/state"
+                                , queryParamMap, headerMap, cookieHeader);
+        return new JSONObject(response.getEntity(String.class));
     }
 
     @AfterClass(alwaysRun = true)
