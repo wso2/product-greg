@@ -57,6 +57,10 @@ public class IndexFromNoCacheTestCase extends GREGIntegrationBaseTest {
         logViewerClient = new LogViewerClient(backendURL, sessionCookie);
     }
 
+    /**
+     * Test case used to verify that resource path is added to no cache path list. So the
+     * resource is fetched database directly.
+     */
     @Test(groups = "wso2.greg", description = "Add resource for indexing and check it is fetched from database")
     public void testResoucesFetchFromDatabase()
             throws RegistryException, InterruptedException, LogViewerLogViewerException, RemoteException {
@@ -69,6 +73,10 @@ public class IndexFromNoCacheTestCase extends GREGIntegrationBaseTest {
         assertNotNull(logEvents, "Resource not added as no cache path");
     }
 
+    /**
+     * Test case used to verify that resource path is removed from no cache path list. So the
+     * resource is fetched from cache registry if available.
+     */
     @Test(groups = "wso2.greg", description = "Remove resource from no cache path")
     public void testResoucesremoveFromNoCachePath()
             throws RegistryException, InterruptedException, LogViewerLogViewerException, RemoteException {
@@ -88,7 +96,8 @@ public class IndexFromNoCacheTestCase extends GREGIntegrationBaseTest {
         return logEvents;
     }
 
-    @AfterClass(groups = "wso2.greg", alwaysRun = true, description = "cleaning up the artifacts added") public void cleanUp()
+    @AfterClass(groups = "wso2.greg", alwaysRun = true, description = "cleaning up the artifacts added")
+    public void cleanUp()
             throws RegistryException {
         if (wsRegistry.resourceExists(path)) {
             wsRegistry.delete(path);
