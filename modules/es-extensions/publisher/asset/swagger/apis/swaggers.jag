@@ -76,7 +76,8 @@ require('/modules/publisher.js').exec(function (ctx) {
         var assets = am.search(query);
         for (var i = 0; i < assets.length; i++) {
             if (assets[i].version == version) {
-                var msg = "Resource already exist with name \"" + swaggerFileName + "\" and version \"" + version + "\"";
+                var msg = "Resource already exist with name \"" + swaggerFileName +
+                        "\" and version \"" + version + "\"";
                 throw msg;
             }
         }

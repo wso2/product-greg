@@ -76,7 +76,8 @@ $(function() {
                 name = $('input[name="overview_name"]').val();
                 version = $('input[name="overview_version"]').val();
             }
-            var ajaxURL = caramel.context + '/apis/assets?type=schema&q="name":"' + name + '","version":"' + version + '"';
+            var ajaxURL = caramel.context + '/apis/assets?type=schema&q="name":"' + name +
+                '","version":"' + version + '"';
             var resourceExist = false;
             $.ajax({
                 async: false,
