@@ -40,11 +40,12 @@ import static org.testng.Assert.assertTrue;
 /**
  * This UI test class covers a full testing scenario of,
  *
- *  1. uploading a LC to greg,
- *  2. implementation of rest service,
- *  3. adding the LC to rest service,
- *  4. attaching of LC for rest service
+ *  1. Uploading a LC to greg,
+ *  2. Implementation of rest service,
+ *  3. Adding the LC to rest service,
+ *  4. Attaching of LC for rest service
  *  5. Promoting of rest service
+ *  6. Store related operations - JIRA STORE-1156
  *
  */
 public class LifeCycleSmokeUITestCase extends GREGIntegrationUIBaseTest {
