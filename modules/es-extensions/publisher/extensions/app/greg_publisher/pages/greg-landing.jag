@@ -27,7 +27,8 @@ require('/modules/publisher.js').exec(function(ctx) {
 	//Obtain the meta information for each asset type
 	//We need this to resolve the default icons
 	for(var index = 0; index < activatedAssets.length; index++){
-		var haveListPermission = permissionAPI.hasAssetPermission(permissionAPI.ASSET_LIST, activatedAssets[index], ctx.session);
+        var haveListPermission = permissionAPI.hasAssetPermission(permissionAPI.ASSET_LIST,
+                activatedAssets[index], ctx.session);
 		if(haveListPermission){
 			entry = {};
 			entry.type = activatedAssets[index];
