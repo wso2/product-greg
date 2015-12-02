@@ -32,16 +32,28 @@ import org.wso2.greg.integration.common.ui.page.lifecycle.LifeCyclesPage;
 import org.wso2.greg.integration.common.ui.page.publisher.PublisherHomePage;
 import org.wso2.greg.integration.common.ui.page.publisher.PublisherLoginPage;
 import org.wso2.greg.integration.common.ui.page.store.StoreLoginPage;
+import org.wso2.greg.integration.common.ui.page.util.UIElementMapper;
 import org.wso2.greg.integration.common.utils.GREGIntegrationUIBaseTest;
 
 import static org.testng.Assert.assertTrue;
 
+/**
+ * This UI test class covers a full testing scenario of,
+ *
+ *  1. uploading a LC to greg,
+ *  2. implementation of rest service,
+ *  3. adding the LC to rest service,
+ *  4. attaching of LC for rest service
+ *  5. Promoting of rest service
+ *
+ */
 public class LifeCycleSmokeUITestCase extends GREGIntegrationUIBaseTest {
 
     private WebDriver driver;
     private User userInfo;
 
     private String restServiceName = "DimuthuD";
+    private UIElementMapper uiElementMapper;
 
     @BeforeClass(alwaysRun = true)
     public void setUp() throws Exception {
@@ -49,6 +61,7 @@ public class LifeCycleSmokeUITestCase extends GREGIntegrationUIBaseTest {
         super.init(TestUserMode.SUPER_TENANT_ADMIN);
         userInfo = automationContext.getContextTenant().getContextUser();
         driver = BrowserManager.getWebDriver();
+        this.uiElementMapper = UIElementMapper.getInstance();
     }
 
     @AfterClass(alwaysRun = true)
@@ -57,7 +70,7 @@ public class LifeCycleSmokeUITestCase extends GREGIntegrationUIBaseTest {
     }
 
     @Test(groups = "wso2.greg", description = "verify login to governance registry")
-    public void performingLoginManagementConsole() throws Exception {
+    public void performingLoginToManagementConsole() throws Exception {
 
         driver.get(getLoginURL());
         LoginPage test = new LoginPage(driver);
@@ -132,8 +145,8 @@ public class LifeCycleSmokeUITestCase extends GREGIntegrationUIBaseTest {
         log.info("Login test case is completed ");
     }
 
-    @Test(groups = "wso2.greg", description = "verify creating a user is successful",
-            dependsOnMethods = "performingLoginManagementConsole")
+    @Test(groups = "wso2.greg", description = "logging to publisher",
+            dependsOnMethods = "performingLoginToManagementConsole")
     public void performingLoginToPublisher() throws Exception {
 
         // Setting publisher home page
@@ -158,7 +171,7 @@ public class LifeCycleSmokeUITestCase extends GREGIntegrationUIBaseTest {
     }
 
 
-    @Test(groups = "wso2.greg", description = "verify creating a user is successful",
+    @Test(groups = "wso2.greg", description = "Adding of LC to the rest service",
             dependsOnMethods = "performingLoginToPublisher")
     public void addingLCToRestService() throws Exception {
 
@@ -175,7 +188,7 @@ public class LifeCycleSmokeUITestCase extends GREGIntegrationUIBaseTest {
         Thread.sleep(3000);
     }
 
-    @Test(groups = "wso2.greg", description = "verify creating a user is successful",
+    @Test(groups = "wso2.greg", description = "Promoting of rest service with the LC",
             dependsOnMethods = "addingLCToRestService")
     public void lifeCycleEventsOfRestService() throws Exception {
 
@@ -198,19 +211,19 @@ public class LifeCycleSmokeUITestCase extends GREGIntegrationUIBaseTest {
         driver.findElement(By.linkText("Other lifecycles")).click();
         driver.findElement(By.linkText("SampleLifeCycle")).click();
 
-        driver.findElement(By.xpath("//*[@id=\"lifecycle-checklist\"]/div[1]/label/input")).click();
+        driver.findElement(By.xpath(uiElementMapper.getElement("publisher.promote.checkbox1.xpath"))).click();
         Thread.sleep(2000);
-        driver.findElement(By.xpath("//*[@id=\"lifecycle-checklist\"]/div[2]/label/input")).click();
+        driver.findElement(By.xpath(uiElementMapper.getElement("publisher.promote.checkbox2.xpath"))).click();
         Thread.sleep(2000);
-        driver.findElement(By.xpath("//*[@id=\"lifecycle-checklist\"]/div[3]/label/input")).click();
+        driver.findElement(By.xpath(uiElementMapper.getElement("publisher.promote.checkbox3.xpath"))).click();
         Thread.sleep(2000);
         driver.findElement(By.id("lcActionPromote")).click();
         Thread.sleep(2000);
-        driver.findElement(By.xpath("//*[@id=\"lifecycle-checklist\"]/div[1]/label/input")).click();
+        driver.findElement(By.xpath(uiElementMapper.getElement("publisher.promote.checkbox1.xpath"))).click();
         Thread.sleep(2000);
-        driver.findElement(By.xpath("//*[@id=\"lifecycle-checklist\"]/div[2]/label/input")).click();
+        driver.findElement(By.xpath(uiElementMapper.getElement("publisher.promote.checkbox2.xpath"))).click();
         Thread.sleep(2000);
-        driver.findElement(By.xpath("//*[@id=\"lifecycle-checklist\"]/div[3]/label/input")).click();
+        driver.findElement(By.xpath(uiElementMapper.getElement("publisher.promote.checkbox3.xpath"))).click();
         Thread.sleep(2000);
         driver.findElement(By.id("lcActionPromote")).click();
 
