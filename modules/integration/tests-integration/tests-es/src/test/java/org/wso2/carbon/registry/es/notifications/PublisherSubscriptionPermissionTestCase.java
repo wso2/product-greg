@@ -19,18 +19,22 @@ package org.wso2.carbon.registry.es.notifications;
 import org.apache.wink.client.ClientResponse;
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.testng.annotations.*;
+import org.testng.annotations.AfterClass;
+import org.testng.annotations.BeforeClass;
+import org.testng.annotations.DataProvider;
+import org.testng.annotations.Factory;
+import org.testng.annotations.Test;
 import org.wso2.carbon.automation.engine.context.TestUserMode;
 import org.wso2.carbon.automation.engine.frameworkutils.FrameworkPathUtil;
 import org.wso2.carbon.registry.es.utils.GregESTestBaseTest;
 import org.wso2.greg.integration.common.utils.GenericRestClient;
 
-import javax.ws.rs.core.MediaType;
-import javax.xml.xpath.XPathExpressionException;
 import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
+import javax.ws.rs.core.MediaType;
+import javax.xml.xpath.XPathExpressionException;
 
 import static org.testng.Assert.assertTrue;
 
@@ -41,7 +45,6 @@ import static org.testng.Assert.assertTrue;
 public class PublisherSubscriptionPermissionTestCase extends GregESTestBaseTest {
 
     private TestUserMode userMode;
-    String jSessionId;
     String assetId;
     String cookieHeader;
     GenericRestClient genericRestClient;
@@ -59,8 +62,8 @@ public class PublisherSubscriptionPermissionTestCase extends GregESTestBaseTest 
     public void init() throws Exception {
         super.init(userMode);
         genericRestClient = new GenericRestClient();
-        queryParamMap = new HashMap<String, String>();
-        headerMap = new HashMap<String, String>();
+        queryParamMap = new HashMap<>();
+        headerMap = new HashMap<>();
         resourcePath = FrameworkPathUtil.getSystemResourceLocation()
                 + "artifacts" + File.separator + "GREG" + File.separator;
         publisherUrl = automationContext.getContextUrls()
@@ -184,8 +187,8 @@ public class PublisherSubscriptionPermissionTestCase extends GregESTestBaseTest 
         ClientResponse response = authenticate(publisherUrl, genericRestClient,
                 automationContext.getSuperTenant().getTenantUser("subscribeUser").getUserName(),
                 automationContext.getSuperTenant().getTenantUser("subscribeUser").getPassword());
-        JSONObject obj = new JSONObject(response.getEntity(String.class));
-        jSessionId = obj.getJSONObject("data").getString("sessionId");
+        JSONObject responseObject = new JSONObject(response.getEntity(String.class));
+        String jSessionId = responseObject.getJSONObject("data").getString("sessionId");
         cookieHeader = "JSESSIONID=" + jSessionId;
 
         //Create custom asset
@@ -203,8 +206,8 @@ public class PublisherSubscriptionPermissionTestCase extends GregESTestBaseTest 
         ClientResponse response = authenticate(publisherUrl, genericRestClient,
                 automationContext.getSuperTenant().getTenantAdmin().getUserName(),
                 automationContext.getSuperTenant().getTenantAdmin().getPassword());
-        JSONObject obj = new JSONObject(response.getEntity(String.class));
-        jSessionId = obj.getJSONObject("data").getString("sessionId");
+        JSONObject responseObject = new JSONObject(response.getEntity(String.class));
+        String jSessionId = responseObject.getJSONObject("data").getString("sessionId");
         cookieHeader = "JSESSIONID=" + jSessionId;
         deleteAssetById(publisherUrl, genericRestClient, cookieHeader, assetId, queryParamMap);
     }

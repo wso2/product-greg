@@ -22,7 +22,11 @@ import org.apache.wink.client.ClientResponse;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.testng.annotations.*;
+import org.testng.annotations.AfterClass;
+import org.testng.annotations.BeforeClass;
+import org.testng.annotations.DataProvider;
+import org.testng.annotations.Factory;
+import org.testng.annotations.Test;
 import org.wso2.carbon.automation.engine.configurations.UrlGenerationUtil;
 import org.wso2.carbon.automation.engine.context.TestUserMode;
 import org.wso2.carbon.automation.engine.frameworkutils.FrameworkPathUtil;
@@ -31,13 +35,13 @@ import org.wso2.carbon.registry.es.utils.EmailUtil;
 import org.wso2.carbon.registry.es.utils.GregESTestBaseTest;
 import org.wso2.greg.integration.common.utils.GenericRestClient;
 
-import javax.mail.MessagingException;
-import javax.ws.rs.core.MediaType;
-import javax.xml.xpath.XPathExpressionException;
 import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
+import javax.mail.MessagingException;
+import javax.ws.rs.core.MediaType;
+import javax.xml.xpath.XPathExpressionException;
 
 import static org.testng.Assert.assertNotNull;
 import static org.testng.Assert.assertTrue;
@@ -49,7 +53,6 @@ import static org.testng.Assert.assertTrue;
 public class OneTimeEmailVerificationTestCase extends GregESTestBaseTest {
 
     private TestUserMode userMode;
-    String jSessionId;
     private String publisherUrl;
     private String resourcePath;
     private String assetId;
@@ -101,8 +104,8 @@ public class OneTimeEmailVerificationTestCase extends GregESTestBaseTest {
 
         String payLoad = response.getEntity(String.class);
         payLoad = payLoad.substring(payLoad.indexOf('{'));
-        JSONObject obj = new JSONObject(payLoad);
-        assertNotNull(obj.get("id"),
+        JSONObject payLoadObject = new JSONObject(payLoad);
+        assertNotNull(payLoadObject.get("id"),
                 "Response payload is not the in the correct format" + response.getEntity(String.class));
 
         // verify e-mail
@@ -155,8 +158,8 @@ public class OneTimeEmailVerificationTestCase extends GregESTestBaseTest {
 
         String payLoad = response.getEntity(String.class);
         payLoad = payLoad.substring(payLoad.indexOf('{'));
-        JSONObject obj = new JSONObject(payLoad);
-        assertNotNull(obj.get("id"),
+        JSONObject payLoadObject = new JSONObject(payLoad);
+        assertNotNull(payLoadObject.get("id"),
                 "Response payload is not the in the correct format" + response.getEntity(String.class));
 
         // verify e-mail
@@ -174,7 +177,7 @@ public class OneTimeEmailVerificationTestCase extends GregESTestBaseTest {
                 "Publisher resource updated mail has failed to reach Gmail inbox");
 
         // update again in order to retrieve the e-mail
-        dataBody = readFile(resourcePath + "json" + File.separator + "publisherPublishSoapResource.json");
+        dataBody = readFile(resourcePath + "json" + File.separator + "PublisherSoapResourceUpdateFile.json");
         genericRestClient.geneticRestRequestPost(publisherUrl + "/assets/" + assetId, MediaType.APPLICATION_JSON,
                 MediaType.APPLICATION_JSON, dataBody, queryParamMap, headerMap, cookieHeader);
         assertTrue(EmailUtil.readGmailInboxForNotification("PublisherResourceUpdated"),
@@ -200,8 +203,8 @@ public class OneTimeEmailVerificationTestCase extends GregESTestBaseTest {
 
         String payLoad = response.getEntity(String.class);
         payLoad = payLoad.substring(payLoad.indexOf('{'));
-        JSONObject obj = new JSONObject(payLoad);
-        assertNotNull(obj.get("id"),
+        JSONObject payLoadObject = new JSONObject(payLoad);
+        assertNotNull(payLoadObject.get("id"),
                 "Response payload is not the in the correct format" + response.getEntity(String.class));
 
         // verify e-mail
@@ -281,8 +284,8 @@ public class OneTimeEmailVerificationTestCase extends GregESTestBaseTest {
 
         String payLoad = response.getEntity(String.class);
         payLoad = payLoad.substring(payLoad.indexOf('{'));
-        JSONObject obj = new JSONObject(payLoad);
-        assertNotNull(obj.get("id"),
+        JSONObject payLoadObject = new JSONObject(payLoad);
+        assertNotNull(payLoadObject.get("id"),
                 "Response payload is not the in the correct format" + response.getEntity(String.class));
 
         // verify e-mail
@@ -351,8 +354,8 @@ public class OneTimeEmailVerificationTestCase extends GregESTestBaseTest {
         ClientResponse response = authenticate(publisherUrl, genericRestClient,
                 automationContext.getSuperTenant().getTenantAdmin().getUserName(),
                 automationContext.getSuperTenant().getTenantAdmin().getPassword());
-        JSONObject obj = new JSONObject(response.getEntity(String.class));
-        jSessionId = obj.getJSONObject("data").getString("sessionId");
+        JSONObject responseObject = new JSONObject(response.getEntity(String.class));
+        String jSessionId = responseObject.getJSONObject("data").getString("sessionId");
         cookieHeader = "JSESSIONID=" + jSessionId;
 
         //Create soap service

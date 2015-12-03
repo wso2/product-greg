@@ -21,7 +21,11 @@ package org.wso2.carbon.registry.es.notifications;
 import org.apache.wink.client.ClientResponse;
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.testng.annotations.*;
+import org.testng.annotations.AfterClass;
+import org.testng.annotations.BeforeClass;
+import org.testng.annotations.DataProvider;
+import org.testng.annotations.Factory;
+import org.testng.annotations.Test;
 import org.wso2.carbon.automation.engine.context.TestUserMode;
 import org.wso2.carbon.automation.engine.frameworkutils.FrameworkPathUtil;
 import org.wso2.carbon.registry.core.exceptions.RegistryException;
@@ -30,14 +34,14 @@ import org.wso2.carbon.registry.resource.stub.ResourceAdminServiceExceptionExcep
 import org.wso2.greg.integration.common.clients.ResourceAdminServiceClient;
 import org.wso2.greg.integration.common.utils.GenericRestClient;
 
-import javax.activation.DataHandler;
-import javax.ws.rs.core.MediaType;
-import javax.xml.xpath.XPathExpressionException;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
+import javax.activation.DataHandler;
+import javax.ws.rs.core.MediaType;
+import javax.xml.xpath.XPathExpressionException;
 
 import static org.testng.Assert.assertNotNull;
 
@@ -47,8 +51,6 @@ import static org.testng.Assert.assertNotNull;
 public class CustomRXTStoreNotificationTestCase extends GregESTestBaseTest {
 
     private TestUserMode userMode;
-    String jSessionIdPublisher;
-    String jSessionIdStore;
     String assetId;
     String cookieHeaderPublisher;
     String cookieHeaderStore;
@@ -70,8 +72,8 @@ public class CustomRXTStoreNotificationTestCase extends GregESTestBaseTest {
         super.init(userMode);
         String session = getSessionCookie();
         genericRestClient = new GenericRestClient();
-        queryParamMap = new HashMap<String, String>();
-        headerMap = new HashMap<String, String>();
+        queryParamMap = new HashMap<>();
+        headerMap = new HashMap<>();
         resourcePath =
                 FrameworkPathUtil.getSystemResourceLocation() + "artifacts" + File.separator + "GREG" + File.separator;
         publisherUrl = automationContext.getContextUrls().getSecureServiceUrl().replace("services", "publisher/apis");
@@ -125,8 +127,8 @@ public class CustomRXTStoreNotificationTestCase extends GregESTestBaseTest {
 
         String payLoad = response.getEntity(String.class);
         payLoad = payLoad.substring(payLoad.indexOf('{'));
-        JSONObject obj = new JSONObject(payLoad);
-        assertNotNull(obj.get("id"),
+        JSONObject payLoadObject = new JSONObject(payLoad);
+        assertNotNull(payLoadObject.get("id"),
                 "Response payload is not the in the correct format" + response.getEntity(String.class));
 
         queryParamMap.put("type", "applications");
@@ -154,8 +156,8 @@ public class CustomRXTStoreNotificationTestCase extends GregESTestBaseTest {
 
         String payLoad = response.getEntity(String.class);
         payLoad = payLoad.substring(payLoad.indexOf('{'));
-        JSONObject obj = new JSONObject(payLoad);
-        assertNotNull(obj.get("error"),
+        JSONObject payLoadObject = new JSONObject(payLoad);
+        assertNotNull(payLoadObject.get("error"),
                 "Error message is not contained in the response for notification method \"test\"" + response
                         .getEntity(String.class));
     }
@@ -201,8 +203,8 @@ public class CustomRXTStoreNotificationTestCase extends GregESTestBaseTest {
         ClientResponse response = authenticate(publisherUrl, genericRestClient,
                 automationContext.getSuperTenant().getTenantAdmin().getUserName(),
                 automationContext.getSuperTenant().getTenantAdmin().getPassword());
-        JSONObject obj = new JSONObject(response.getEntity(String.class));
-        jSessionIdPublisher = obj.getJSONObject("data").getString("sessionId");
+        JSONObject reponseObject = new JSONObject(response.getEntity(String.class));
+        String jSessionIdPublisher = reponseObject.getJSONObject("data").getString("sessionId");
         cookieHeaderPublisher = "JSESSIONID=" + jSessionIdPublisher;
         //refresh the publisher landing page to deploy new rxt type
         refreshPublisherLandingPage();
@@ -211,8 +213,8 @@ public class CustomRXTStoreNotificationTestCase extends GregESTestBaseTest {
         ClientResponse responseStore = authenticate(storeUrl, genericRestClient,
                 automationContext.getSuperTenant().getTenantAdmin().getUserName(),
                 automationContext.getSuperTenant().getTenantAdmin().getPassword());
-        obj = new JSONObject(responseStore.getEntity(String.class));
-        jSessionIdStore = obj.getJSONObject("data").getString("sessionId");
+        reponseObject = new JSONObject(responseStore.getEntity(String.class));
+        String jSessionIdStore = reponseObject.getJSONObject("data").getString("sessionId");
         cookieHeaderStore = "JSESSIONID=" + jSessionIdStore;
 
         //Create application asset instance

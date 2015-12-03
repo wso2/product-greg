@@ -53,7 +53,6 @@ import static org.testng.Assert.assertTrue;
 public class CustomRXTEmailNotificationTestCase extends GregESTestBaseTest {
 
     private TestUserMode userMode;
-    private String jSessionId;
     private UserProfileMgtServiceClient userProfileMgtClient;
     private ResourceAdminServiceClient resourceAdminServiceClient;
     private String publisherUrl;
@@ -110,8 +109,8 @@ public class CustomRXTEmailNotificationTestCase extends GregESTestBaseTest {
 
         String payLoad = response.getEntity(String.class);
         payLoad = payLoad.substring(payLoad.indexOf('{'));
-        JSONObject obj = new JSONObject(payLoad);
-        assertNotNull(obj.get("id"),
+        JSONObject payLoadObject = new JSONObject(payLoad);
+        assertNotNull(payLoadObject.get("id"),
                 "Response payload is not the in the correct format" + response.getEntity(String.class));
 
         // verify e-mail
@@ -152,8 +151,8 @@ public class CustomRXTEmailNotificationTestCase extends GregESTestBaseTest {
 
         String payLoad = response.getEntity(String.class);
         payLoad = payLoad.substring(payLoad.indexOf('{'));
-        JSONObject obj = new JSONObject(payLoad);
-        assertNotNull(obj.get("id"),
+        JSONObject payLoadObject = new JSONObject(payLoad);
+        assertNotNull(payLoadObject.get("id"),
                 "Response payload is not the in the correct format" + response.getEntity(String.class));
 
         // verify e-mail
@@ -193,8 +192,8 @@ public class CustomRXTEmailNotificationTestCase extends GregESTestBaseTest {
 
         String payLoad = response.getEntity(String.class);
         payLoad = payLoad.substring(payLoad.indexOf('{'));
-        JSONObject obj = new JSONObject(payLoad);
-        assertNotNull(obj.get("id"),
+        JSONObject payLoadObject = new JSONObject(payLoad);
+        assertNotNull(payLoadObject.get("id"),
                 "Response payload is not the in the correct format" + response.getEntity(String.class));
 
         // verify e-mail
@@ -242,8 +241,8 @@ public class CustomRXTEmailNotificationTestCase extends GregESTestBaseTest {
 
         String payLoad = response.getEntity(String.class);
         payLoad = payLoad.substring(payLoad.indexOf('{'));
-        JSONObject obj = new JSONObject(payLoad);
-        assertNotNull(obj.get("id"),
+        JSONObject payLoadObject = new JSONObject(payLoad);
+        assertNotNull(payLoadObject.get("id"),
                 "Response payload is not the in the correct format" + response.getEntity(String.class));
 
         // verify e-mail
@@ -313,8 +312,8 @@ public class CustomRXTEmailNotificationTestCase extends GregESTestBaseTest {
         ClientResponse response = authenticate(publisherUrl, genericRestClient,
                 automationContext.getSuperTenant().getTenantAdmin().getUserName(),
                 automationContext.getSuperTenant().getTenantAdmin().getPassword());
-        JSONObject obj = new JSONObject(response.getEntity(String.class));
-        jSessionId = obj.getJSONObject("data").getString("sessionId");
+        JSONObject responseObject = new JSONObject(response.getEntity(String.class));
+        String jSessionId = responseObject.getJSONObject("data").getString("sessionId");
         cookieHeader = "JSESSIONID=" + jSessionId;
         //refresh the publisher landing page to deploy new rxt type
         refreshPublisherLandingPage();

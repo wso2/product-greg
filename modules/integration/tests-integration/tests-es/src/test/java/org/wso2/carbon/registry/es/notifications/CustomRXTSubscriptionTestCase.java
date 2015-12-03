@@ -22,7 +22,11 @@ import org.apache.wink.client.ClientResponse;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.testng.annotations.*;
+import org.testng.annotations.AfterClass;
+import org.testng.annotations.BeforeClass;
+import org.testng.annotations.DataProvider;
+import org.testng.annotations.Factory;
+import org.testng.annotations.Test;
 import org.wso2.carbon.automation.engine.context.TestUserMode;
 import org.wso2.carbon.automation.engine.frameworkutils.FrameworkPathUtil;
 import org.wso2.carbon.registry.core.exceptions.RegistryException;
@@ -31,14 +35,14 @@ import org.wso2.carbon.registry.resource.stub.ResourceAdminServiceExceptionExcep
 import org.wso2.greg.integration.common.clients.ResourceAdminServiceClient;
 import org.wso2.greg.integration.common.utils.GenericRestClient;
 
-import javax.activation.DataHandler;
-import javax.ws.rs.core.MediaType;
-import javax.xml.xpath.XPathExpressionException;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
+import javax.activation.DataHandler;
+import javax.ws.rs.core.MediaType;
+import javax.xml.xpath.XPathExpressionException;
 
 import static org.testng.Assert.assertNotNull;
 
@@ -48,7 +52,6 @@ import static org.testng.Assert.assertNotNull;
 public class CustomRXTSubscriptionTestCase extends GregESTestBaseTest {
 
     private TestUserMode userMode;
-    String jSessionId;
     String assetId;
     String cookieHeader;
     GenericRestClient genericRestClient;
@@ -99,8 +102,8 @@ public class CustomRXTSubscriptionTestCase extends GregESTestBaseTest {
 
         String payLoad = response.getEntity(String.class);
         payLoad = payLoad.substring(payLoad.indexOf('{'));
-        JSONObject obj = new JSONObject(payLoad);
-        assertNotNull(obj.get("id"),
+        JSONObject payLoadObject = new JSONObject(payLoad);
+        assertNotNull(payLoadObject.get("id"),
                 "Response payload is not the in the correct format" + response.getEntity(String.class));
 
         response = genericRestClient.geneticRestRequestPost(publisherUrl + "/assets/" + assetId + "/state",
@@ -129,8 +132,8 @@ public class CustomRXTSubscriptionTestCase extends GregESTestBaseTest {
 
         String payLoad = response.getEntity(String.class);
         payLoad = payLoad.substring(payLoad.indexOf('{'));
-        JSONObject obj = new JSONObject(payLoad);
-        assertNotNull(obj.get("id"),
+        JSONObject payLoadObject = new JSONObject(payLoad);
+        assertNotNull(payLoadObject.get("id"),
                 "Response payload is not the in the correct format" + response.getEntity(String.class));
 
         queryParamMap.put("type", "applications");
@@ -161,8 +164,8 @@ public class CustomRXTSubscriptionTestCase extends GregESTestBaseTest {
 
         String payLoad = response.getEntity(String.class);
         payLoad = payLoad.substring(payLoad.indexOf('{'));
-        JSONObject obj = new JSONObject(payLoad);
-        assertNotNull(obj.get("id"),
+        JSONObject payLoadObject = new JSONObject(payLoad);
+        assertNotNull(payLoadObject.get("id"),
                 "Response payload is not the in the correct format" + response.getEntity(String.class));
 
         JSONObject checkListObject = new JSONObject();
@@ -200,8 +203,8 @@ public class CustomRXTSubscriptionTestCase extends GregESTestBaseTest {
 
         String payLoad = response.getEntity(String.class);
         payLoad = payLoad.substring(payLoad.indexOf('{'));
-        JSONObject obj = new JSONObject(payLoad);
-        assertNotNull(obj.get("id"),
+        JSONObject payLoadObject = new JSONObject(payLoad);
+        assertNotNull(payLoadObject.get("id"),
                 "Response payload is not the in the correct format" + response.getEntity(String.class));
 
         JSONObject checkListObject = new JSONObject();
@@ -237,8 +240,8 @@ public class CustomRXTSubscriptionTestCase extends GregESTestBaseTest {
 
         String payLoad = response.getEntity(String.class);
         payLoad = payLoad.substring(payLoad.indexOf('{'));
-        JSONObject obj = new JSONObject(payLoad);
-        assertNotNull(obj.get("error").toString(),
+        JSONObject payLoadObject = new JSONObject(payLoad);
+        assertNotNull(payLoadObject.get("error").toString(),
                 "Error message is not contained in the response for notification method \"test\"" + response
                         .getEntity(String.class));
     }
@@ -284,8 +287,8 @@ public class CustomRXTSubscriptionTestCase extends GregESTestBaseTest {
         ClientResponse response = authenticate(publisherUrl, genericRestClient,
                 automationContext.getSuperTenant().getTenantAdmin().getUserName(),
                 automationContext.getSuperTenant().getTenantAdmin().getPassword());
-        JSONObject obj = new JSONObject(response.getEntity(String.class));
-        jSessionId = obj.getJSONObject("data").getString("sessionId");
+        JSONObject responseObject = new JSONObject(response.getEntity(String.class));
+        String jSessionId = responseObject.getJSONObject("data").getString("sessionId");
         cookieHeader = "JSESSIONID=" + jSessionId;
         //refresh the publisher landing page to deploy new rxt type
         refreshPublisherLandingPage();
