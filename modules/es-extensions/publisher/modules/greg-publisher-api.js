@@ -505,19 +505,17 @@ var gregAPI = {};
         // Osgi service used to encrypt password.
         var securityService = carbon.server.
             osgiService('org.wso2.carbon.registry.security.vault.service.RegistrySecurityService');
-        var properties = [];
-        properties[1] = "";
+        var properties = {};
         if (key != null && value != null) {
             var encryptedText = securityService.doEncrypt(value);
             resource.setProperty(key, encryptedText);
             registry.put(path, resource);
-            properties[1] = "Password Saved Successfully";
         }
 
         var properties;
         if (registry.resourceExists(path)) {
             var collection = registry.get(path);
-            properties[0] = collection.getProperties();
+            properties = collection.getProperties();
         }
 
         return properties;
