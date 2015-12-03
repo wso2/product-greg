@@ -24,12 +24,14 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.testng.Assert;
+import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Factory;
 import org.testng.annotations.Test;
 import org.wso2.carbon.automation.engine.context.TestUserMode;
 import org.wso2.carbon.automation.engine.frameworkutils.FrameworkPathUtil;
+import org.wso2.carbon.registry.core.exceptions.RegistryException;
 import org.wso2.carbon.registry.es.utils.GregESTestBaseTest;
 import org.wso2.greg.integration.common.utils.GenericRestClient;
 
@@ -37,6 +39,7 @@ import javax.ws.rs.core.MediaType;
 import javax.xml.xpath.XPathExpressionException;
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -52,10 +55,10 @@ public class GovernanceRestAPITestCase extends GregESTestBaseTest {
     private String governaceAPIUrl;
     private static final String AUTHORIZATION_HEADER = "Authorization";
     private static final String AUTHORIZATION_HEADER_VALUE = "Basic YWRtaW46YWRtaW4=";
-    String resourcePath;
-    String publisherUrl;
-    String cookieHeader;
-    String assetId;
+    private String resourcePath;
+    private String publisherUrl;
+    private String cookieHeader;
+    private ArrayList<String> assetId;
 
     @Factory(dataProvider = "userModeProvider")
     public GovernanceRestAPITestCase(TestUserMode userMode) {
@@ -74,6 +77,7 @@ public class GovernanceRestAPITestCase extends GregESTestBaseTest {
                        + "artifacts" + File.separator + "GREG" + File.separator;
         publisherUrl = automationContext.getContextUrls()
                 .getSecureServiceUrl().replace("services", "publisher/apis");
+        assetId = new ArrayList<String>();
     }
 
     @Test(groups = {"wso2.greg", "wso2.greg.governance.rest.api"}, description = "Get list of available artifact types")
@@ -166,9 +170,18 @@ public class GovernanceRestAPITestCase extends GregESTestBaseTest {
                                                          MediaType.APPLICATION_JSON, dataBody
                         , queryParamMap, headerMap, cookieHeader);
         JSONObject obj = new JSONObject(response.getEntity(String.class));
-        assetId = (String)obj.get("id");
+        assetId.add((String)obj.get("id"));
     }
 
+
+    @AfterClass(alwaysRun = true)
+    public void cleanUp() throws RegistryException, JSONException {
+        Map<String, String> queryParamMap = new HashMap<>();
+        queryParamMap.put("type", "restservice");
+        for(int i=0;i<assetId.size();i++) {
+            deleteAssetById(publisherUrl, genericRestClient, cookieHeader, assetId.get(i), queryParamMap);
+        }
+    }
 
     @DataProvider
     private static TestUserMode[][] userModeProvider() {
