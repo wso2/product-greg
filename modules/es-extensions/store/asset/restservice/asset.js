@@ -67,7 +67,7 @@ asset.manager = function(ctx) {
             for (var index in genericArtifacts) {
                 var deps = {};
                 var path = genericArtifacts[index].getPath();
-                var resource = userRegistry.registry.get('/_system/governance/'+ path);
+                var resource = userRegistry.registry.get('/_system/governance' + path);
                 var mediaType = resource.getMediaType();
                 var name = genericArtifacts[index].getQName().getLocalPart();
                 var govUtils = Packages.org.wso2.carbon.governance.api.util.GovernanceUtils
