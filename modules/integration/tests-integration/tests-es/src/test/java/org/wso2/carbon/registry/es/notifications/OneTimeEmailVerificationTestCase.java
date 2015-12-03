@@ -102,7 +102,7 @@ public class OneTimeEmailVerificationTestCase extends GregESTestBaseTest {
         String payLoad = response.getEntity(String.class);
         payLoad = payLoad.substring(payLoad.indexOf('{'));
         JSONObject obj = new JSONObject(payLoad);
-        assertNotNull(obj.get("id").toString(),
+        assertNotNull(obj.get("id"),
                 "Response payload is not the in the correct format" + response.getEntity(String.class));
 
         // verify e-mail
@@ -156,7 +156,7 @@ public class OneTimeEmailVerificationTestCase extends GregESTestBaseTest {
         String payLoad = response.getEntity(String.class);
         payLoad = payLoad.substring(payLoad.indexOf('{'));
         JSONObject obj = new JSONObject(payLoad);
-        assertNotNull(obj.get("id").toString(),
+        assertNotNull(obj.get("id"),
                 "Response payload is not the in the correct format" + response.getEntity(String.class));
 
         // verify e-mail
@@ -201,7 +201,7 @@ public class OneTimeEmailVerificationTestCase extends GregESTestBaseTest {
         String payLoad = response.getEntity(String.class);
         payLoad = payLoad.substring(payLoad.indexOf('{'));
         JSONObject obj = new JSONObject(payLoad);
-        assertNotNull(obj.get("id").toString(),
+        assertNotNull(obj.get("id"),
                 "Response payload is not the in the correct format" + response.getEntity(String.class));
 
         // verify e-mail
@@ -282,7 +282,7 @@ public class OneTimeEmailVerificationTestCase extends GregESTestBaseTest {
         String payLoad = response.getEntity(String.class);
         payLoad = payLoad.substring(payLoad.indexOf('{'));
         JSONObject obj = new JSONObject(payLoad);
-        assertNotNull(obj.get("id").toString(),
+        assertNotNull(obj.get("id"),
                 "Response payload is not the in the correct format" + response.getEntity(String.class));
 
         // verify e-mail
@@ -362,7 +362,7 @@ public class OneTimeEmailVerificationTestCase extends GregESTestBaseTest {
                 .geneticRestRequestPost(publisherUrl + "/assets", MediaType.APPLICATION_JSON,
                         MediaType.APPLICATION_JSON, dataBody, queryParamMap, headerMap, cookieHeader);
         JSONObject createObj = new JSONObject(createResponse.getEntity(String.class));
-        assetId = createObj.get("id").toString();
+        assetId = (String) createObj.get("id");
     }
 
     @AfterClass(alwaysRun = true)

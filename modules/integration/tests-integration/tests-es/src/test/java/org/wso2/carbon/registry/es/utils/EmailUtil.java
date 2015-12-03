@@ -41,7 +41,13 @@ import org.wso2.carbon.integration.common.utils.exceptions.AutomationUtilExcepti
 import org.wso2.carbon.integration.common.utils.mgt.ServerConfigurationManager;
 import org.wso2.greg.integration.common.clients.UserProfileMgtServiceClient;
 
-import javax.mail.*;
+import javax.mail.Folder;
+import javax.mail.Message;
+import javax.mail.Session;
+import javax.mail.Store;
+import javax.mail.Flags;
+import javax.mail.MessageRemovedException;
+import javax.mail.MessagingException;
 import javax.net.ssl.HostnameVerifier;
 import javax.net.ssl.HttpsURLConnection;
 import javax.xml.xpath.XPathExpressionException;
@@ -318,7 +324,8 @@ public class EmailUtil {
      * @return  URL replaced with localhost removing IP address.
      */
     private static String replaceIP(String pointBrowserURL) {
-        String IPAddressPattern = "(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)";
+        String IPAddressPattern =
+                "(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)";
         pointBrowserURL = pointBrowserURL.replaceAll(IPAddressPattern, "localhost");
         return pointBrowserURL;
     }

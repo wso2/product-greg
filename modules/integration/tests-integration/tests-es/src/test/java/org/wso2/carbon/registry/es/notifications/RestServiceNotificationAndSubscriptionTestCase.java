@@ -92,7 +92,7 @@ public class RestServiceNotificationAndSubscriptionTestCase extends GregESTestBa
         String payLoad = response.getEntity(String.class);
         payLoad = payLoad.substring(payLoad.indexOf('{'));
         JSONObject obj = new JSONObject(payLoad);
-        assertNotNull(obj.get("id").toString(),
+        assertNotNull(obj.get("id"),
                 "Response payload is not the in the correct format" + response.getEntity(String.class));
 
         response = genericRestClient.geneticRestRequestPost(publisherUrl + "/assets/" + assetId + "/state",
@@ -123,7 +123,7 @@ public class RestServiceNotificationAndSubscriptionTestCase extends GregESTestBa
         String payLoad = response.getEntity(String.class);
         payLoad = payLoad.substring(payLoad.indexOf('{'));
         JSONObject obj = new JSONObject(payLoad);
-        assertNotNull(obj.get("id").toString(),
+        assertNotNull(obj.get("id"),
                 "Response payload is not the in the correct format" + response.getEntity(String.class));
 
         String dataBody = readFile(resourcePath + "json" + File.separator + "PublisherRestResourceUpdate.json");
@@ -156,7 +156,7 @@ public class RestServiceNotificationAndSubscriptionTestCase extends GregESTestBa
         String payLoad = response.getEntity(String.class);
         payLoad = payLoad.substring(payLoad.indexOf('{'));
         JSONObject obj = new JSONObject(payLoad);
-        assertNotNull(obj.get("id").toString(),
+        assertNotNull(obj.get("id"),
                 "Response payload is not the in the correct format" + response.getEntity(String.class));
 
         queryParamMap.put("lifecycle", "ServiceLifeCycle");
@@ -196,7 +196,7 @@ public class RestServiceNotificationAndSubscriptionTestCase extends GregESTestBa
         String payLoad = response.getEntity(String.class);
         payLoad = payLoad.substring(payLoad.indexOf('{'));
         JSONObject obj = new JSONObject(payLoad);
-        assertNotNull(obj.get("id").toString(),
+        assertNotNull(obj.get("id"),
                 "Response payload is not the in the correct format" + response.getEntity(String.class));
 
         JSONObject checkListObject = new JSONObject();
@@ -233,7 +233,7 @@ public class RestServiceNotificationAndSubscriptionTestCase extends GregESTestBa
         String payLoad = response.getEntity(String.class);
         payLoad = payLoad.substring(payLoad.indexOf('{'));
         JSONObject obj = new JSONObject(payLoad);
-        assertNotNull(obj.get("error").toString(),
+        assertNotNull(obj.get("error"),
                 "Error message is not contained in the response for notification method \"test\"" + response
                         .getEntity(String.class));
     }
@@ -258,7 +258,7 @@ public class RestServiceNotificationAndSubscriptionTestCase extends GregESTestBa
                 .geneticRestRequestPost(publisherUrl + "/assets", MediaType.APPLICATION_JSON,
                         MediaType.APPLICATION_JSON, dataBody, queryParamMap, headerMap, cookieHeader);
         JSONObject createObj = new JSONObject(createResponse.getEntity(String.class));
-        assetId = createObj.get("id").toString();
+        assetId = (String) createObj.get("id");
     }
 
     @AfterClass(alwaysRun = true)

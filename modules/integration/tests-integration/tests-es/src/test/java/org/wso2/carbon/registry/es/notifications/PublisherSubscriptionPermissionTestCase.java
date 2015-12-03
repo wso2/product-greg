@@ -195,7 +195,7 @@ public class PublisherSubscriptionPermissionTestCase extends GregESTestBaseTest 
                 .geneticRestRequestPost(publisherUrl + "/assets", MediaType.APPLICATION_JSON,
                         MediaType.APPLICATION_JSON, dataBody, queryParamMap, headerMap, cookieHeader);
         JSONObject createObj = new JSONObject(createResponse.getEntity(String.class));
-        assetId = createObj.get("id").toString();
+        assetId = (String) createObj.get("id");
     }
 
     @AfterClass
