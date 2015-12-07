@@ -228,7 +228,7 @@ public class GenericRestClient {
      * @param queryParamMap   Map of Query parameters
      * @param headerMap       Map of headers
      * @param cookie          jSessionID in form of JSESSIONID=<ID>
-     * @return
+     * @return                Returns the response from the REST client
      */
     public ClientResponse genericRestRequestPut(String resourceUrl, String contentType, String acceptMediaType,
             Object postBody, Map<String, String> queryParamMap, Map<String, String> headerMap, String cookie) {
