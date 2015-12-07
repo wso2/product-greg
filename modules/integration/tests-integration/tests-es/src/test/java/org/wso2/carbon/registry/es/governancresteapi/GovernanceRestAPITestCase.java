@@ -106,6 +106,37 @@ public class GovernanceRestAPITestCase extends GregESTestBaseTest {
         Assert.assertTrue(allAssetTypes.contains("Swagger"), "Swagger is not in the list of asset types");
     }
 
+    @Test(groups = {"wso2.greg", "wso2.greg.governance.rest.api"}, description = "Create an asset of certain type." +
+                                                                                 "This test case uses restservices for testing.")
+    public void createAsset() throws IOException, JSONException, XPathExpressionException {
+
+        ClientResponse response = createRestService(restService1Name, context1, version);
+        assetId1 = searchRestService(restService1Name);
+        Assert.assertTrue((response.getStatusCode() == 201),
+                          "Wrong status code ,Expected 201 Created ,Received " +
+                          response.getStatusCode());
+        String locationHeader = governaceAPIUrl + "/restservices/" + assetId1;
+        Assert.assertEquals(response.getHeaders().get("Location").get(0), locationHeader,
+                            "Incorrect header. Asset not added Successfully");
+    }
+
+    @Test(groups = {"wso2.greg", "wso2.greg.governance.rest.api"}, description = "Get an individual asset of certain type." +
+                                                                                 "This test case uses restservices for testing.",
+          dependsOnMethods = {"createAsset"})
+    public void getAnIndividualAssetByUUID() throws JSONException, InterruptedException {
+
+        ClientResponse response = getAssetById(assetId1);
+        JSONObject jsonObject = new JSONObject(response.getEntity(String.class));
+        JSONArray jsonArray = jsonObject.getJSONArray("assets");
+        String name = (String) jsonArray.getJSONObject(ASSET_ID_ONE_INDEX).get("name");
+        String context = (String) jsonArray.getJSONObject(ASSET_ID_ONE_INDEX).get("context");
+        String id = (String) jsonArray.getJSONObject(ASSET_ID_ONE_INDEX).get("id");
+        Assert.assertEquals(name, restService1Name, "Incorrect asset name. Expected " + restService1Name + " received " + name);
+        Assert.assertEquals(context, context1, "Incorrect context. Expected " + context1 + " received " + context);
+        Assert.assertEquals(id, assetId1, "Incorrect asset id. Expected " +
+                                          assetId1 + " received " + id);
+    }
+
     @Test(groups = {"wso2.greg", "wso2.greg.governance.rest.api"}, description = "Get list of available asset Type.This " +
                                                                                  "test case uses restservices for testing",
           dependsOnMethods = {"getAnIndividualAssetByUUID"})
@@ -143,38 +174,26 @@ public class GovernanceRestAPITestCase extends GregESTestBaseTest {
         }
     }
 
-    @Test(groups = {"wso2.greg", "wso2.greg.governance.rest.api"}, description = "Get an individual asset of certain type." +
-                                                                                 "This test case uses restservices for testing.",
-          dependsOnMethods = {"createAsset"})
-    public void getAnIndividualAssetByUUID() throws JSONException, InterruptedException {
-        ClientResponse response = genericRestClient.geneticRestRequestGet(governaceAPIUrl + "/restservices/" +
-                                                                          assetId1,
-                                                                          queryParamMap,
-                                                                          headerMap, null);
-        JSONObject jsonObject = new JSONObject(response.getEntity(String.class));
+    @Test(groups = {"wso2.greg", "wso2.greg.governance.rest.api"}, description = "Update the context of a REST service",
+          dependsOnMethods = {"getListOfAssets"})
+    public void updateAnAsset() throws IOException, JSONException {
+
+        String updatedContext = "/rest1-new";
+        ClientResponse response = updateRestService(restService1Name, updatedContext, version, assetId1);
+        Assert.assertTrue((response.getStatusCode() == 201),
+                          "Wrong status code ,Expected 201 Created ,Received " +
+                          response.getStatusCode());
+        ClientResponse clientResponse = getAssetById(assetId1);
+        JSONObject jsonObject = new JSONObject(clientResponse.getEntity(String.class));
         JSONArray jsonArray = jsonObject.getJSONArray("assets");
         String name = (String) jsonArray.getJSONObject(ASSET_ID_ONE_INDEX).get("name");
         String context = (String) jsonArray.getJSONObject(ASSET_ID_ONE_INDEX).get("context");
         String id = (String) jsonArray.getJSONObject(ASSET_ID_ONE_INDEX).get("id");
         Assert.assertEquals(name, restService1Name, "Incorrect asset name. Expected " + restService1Name + " received " + name);
-        Assert.assertEquals(context, context1, "Incorrect context. Expected " + context1 + " received " + context);
+        //Check for updated context
+        Assert.assertEquals(context, updatedContext, "Incorrect context. Expected " + updatedContext + " received " + context);
         Assert.assertEquals(id, assetId1, "Incorrect asset id. Expected " +
                                           assetId1 + " received " + id);
-    }
-
-    @Test(groups = {"wso2.greg", "wso2.greg.governance.rest.api"}, description = "Create an asset of certain type." +
-                                                                                 "This test case uses restservices for testing.")
-    public void createAsset() throws IOException, JSONException, XPathExpressionException {
-
-        ClientResponse response = createRestService(restService1Name, context1, version);
-        assetId1 = searchRestService(restService1Name);
-        Assert.assertTrue((response.getStatusCode() == 201),
-                          "Wrong status code ,Expected 201 Created ,Received " +
-                          response.getStatusCode());
-        String locationHeader = "https://localhost:10343/governance/restservices/" +
-                                assetId1;
-        Assert.assertEquals(response.getHeaders().get("Location").get(0), locationHeader,
-                            "Incorrect header. Asset not added Successfully");
     }
 
     /**
@@ -194,6 +213,41 @@ public class GovernanceRestAPITestCase extends GregESTestBaseTest {
                                                                            MediaType.APPLICATION_JSON,
                                                                            MediaType.APPLICATION_JSON, dataBody
                 , queryParamMap, headerMap, null);
+        return response;
+    }
+
+    /**
+     *
+     * @param name
+     * @param context
+     * @param version
+     * @param uuid
+     * @return the update response from the REST client
+     * @throws IOException
+     */
+    private ClientResponse updateRestService(String name, String context, String version, String uuid) throws IOException {
+
+        String restTemplate = readFile(resourcePath + "json" + File.separator + "restservice-sample-gov-rest-api.json");
+        String dataBody = String.format(restTemplate, name, "restservice", context, version);
+        ClientResponse response = genericRestClient.genericRestRequestPut(governaceAPIUrl + "/restservices/" + uuid,
+                                                                          MediaType.APPLICATION_JSON,
+                                                                          MediaType.APPLICATION_JSON, dataBody
+                , queryParamMap, headerMap, null);
+        return response;
+
+    }
+
+    /**
+     *
+     * @param uuid
+     * @return the response for asset GET request by REST client
+     */
+    private ClientResponse getAssetById(String uuid){
+
+        ClientResponse response = genericRestClient.geneticRestRequestGet(governaceAPIUrl + "/restservices/" +
+                                                                          uuid,
+                                                                          queryParamMap,
+                                                                          headerMap, null);
         return response;
     }
 
