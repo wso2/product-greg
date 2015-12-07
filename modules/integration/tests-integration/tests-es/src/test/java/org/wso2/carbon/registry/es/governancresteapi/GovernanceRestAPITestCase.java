@@ -20,6 +20,7 @@ package org.wso2.carbon.registry.es.governancresteapi;
 
 
 import org.apache.wink.client.ClientResponse;
+import org.apache.wink.common.http.HttpStatus;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -39,7 +40,6 @@ import org.wso2.greg.integration.common.utils.GenericRestClient;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import javax.ws.rs.core.MediaType;
@@ -62,7 +62,6 @@ public class GovernanceRestAPITestCase extends GregESTestBaseTest {
     private String resourcePath;
     private String publisherUrl;
     private String cookieHeader;
-    private ArrayList<String> assetIdList;
     private String restService1Name = "restService1";
     private String context1 = "/rest1";
     private String version = "1.0.0";
@@ -73,26 +72,32 @@ public class GovernanceRestAPITestCase extends GregESTestBaseTest {
         this.userMode = userMode;
     }
 
+    @DataProvider
+    private static TestUserMode[][] userModeProvider() {
+        return new TestUserMode[][]{
+                new TestUserMode[]{TestUserMode.SUPER_TENANT_ADMIN}
+                //                new TestUserMode[]{TestUserMode.TENANT_USER},
+        };
+    }
+
     @BeforeClass(alwaysRun = true)
     public void init() throws Exception {
         super.init(userMode);
         genericRestClient = new GenericRestClient();
-        queryParamMap = new HashMap<String, String>();
-        headerMap = new HashMap<String, String>();
+        queryParamMap = new HashMap<>();
+        headerMap = new HashMap<>();
         governaceAPIUrl = automationContext.getContextUrls()
                 .getSecureServiceUrl().replace("services", "governance");
         resourcePath = FrameworkPathUtil.getSystemResourceLocation()
                        + "artifacts" + File.separator + "GREG" + File.separator;
         publisherUrl = automationContext.getContextUrls()
                 .getSecureServiceUrl().replace("services", "publisher/apis");
-        assetIdList = new ArrayList<String>();
         headerMap.put(AUTHORIZATION_HEADER, AUTHORIZATION_HEADER_VALUE);
     }
 
     @Test(groups = {"wso2.greg", "wso2.greg.governance.rest.api"}, description = "Get list of available artifact types")
     public void getAssetTypes() throws JSONException {
 
-        headerMap.put(AUTHORIZATION_HEADER, AUTHORIZATION_HEADER_VALUE);
         ClientResponse response =
                 genericRestClient.geneticRestRequestGet
                         (governaceAPIUrl + "/types"
@@ -107,21 +112,22 @@ public class GovernanceRestAPITestCase extends GregESTestBaseTest {
     }
 
     @Test(groups = {"wso2.greg", "wso2.greg.governance.rest.api"}, description = "Create an asset of certain type." +
-                                                                                 "This test case uses restservices for testing.")
+                                                                                 "This test case uses restservices for " +
+                                                                                 "testing.")
     public void createAsset() throws IOException, JSONException, XPathExpressionException {
 
         ClientResponse response = createRestService(restService1Name, context1, version);
         assetId1 = searchRestService(restService1Name);
-        Assert.assertTrue((response.getStatusCode() == 201),
-                          "Wrong status code ,Expected 201 Created ,Received " +
-                          response.getStatusCode());
+        Assert.assertTrue(response.getStatusCode() == HttpStatus.CREATED.getCode(),
+                          "Wrong status code ,Expected 201 Created ,Received " + response.getStatusCode());
         String locationHeader = governaceAPIUrl + "/restservices/" + assetId1;
         Assert.assertEquals(response.getHeaders().get("Location").get(0), locationHeader,
                             "Incorrect header. Asset not added Successfully");
     }
 
     @Test(groups = {"wso2.greg", "wso2.greg.governance.rest.api"}, description = "Get an individual asset of certain type." +
-                                                                                 "This test case uses restservices for testing.",
+                                                                                 "This test case uses restservices for " +
+                                                                                 "testing.",
           dependsOnMethods = {"createAsset"})
     public void getAnIndividualAssetByUUID() throws JSONException, InterruptedException {
 
@@ -131,7 +137,8 @@ public class GovernanceRestAPITestCase extends GregESTestBaseTest {
         String name = (String) jsonArray.getJSONObject(ASSET_ID_ONE_INDEX).get("name");
         String context = (String) jsonArray.getJSONObject(ASSET_ID_ONE_INDEX).get("context");
         String id = (String) jsonArray.getJSONObject(ASSET_ID_ONE_INDEX).get("id");
-        Assert.assertEquals(name, restService1Name, "Incorrect asset name. Expected " + restService1Name + " received " + name);
+        Assert.assertEquals(name, restService1Name, "Incorrect asset name. Expected " + restService1Name + " received "
+                                                    + name);
         Assert.assertEquals(context, context1, "Incorrect context. Expected " + context1 + " received " + context);
         Assert.assertEquals(id, assetId1, "Incorrect asset id. Expected " +
                                           assetId1 + " received " + id);
@@ -157,17 +164,20 @@ public class GovernanceRestAPITestCase extends GregESTestBaseTest {
         JSONObject jsonObject = new JSONObject(listOfRestServices.getEntity(String.class));
         JSONArray jsonArray = jsonObject.getJSONArray("assets");
         Assert.assertEquals(jsonArray.length(), numOfRestServices, "Wrong number of rest services. Expected " +
-                                                                   numOfRestServices + " But received " + jsonArray.length());
+                                                                   numOfRestServices + " But received " +
+                                                                   jsonArray.length());
         for (int i = 0; i < jsonArray.length(); i++) {
             String name = (String) jsonArray.getJSONObject(i).get("name");
             String context = (String) jsonArray.getJSONObject(i).get("context");
             String id = (String) jsonArray.getJSONObject(i).get("id");
             if (restService1Name.equals(name)) {
-                Assert.assertEquals(context, context1, "Incorrect context. Expected " + context1 + " received " + context);
+                Assert.assertEquals(context, context1, "Incorrect context. Expected " + context1 + " received " +
+                                                       context);
                 Assert.assertEquals(id, assetId1, "Incorrect asset ID. Expected " + assetId1
                                                   + " Received " + id);
             } else if (restService2Name.equals(name)) {
-                Assert.assertEquals(context, context2, "Incorrect context. Expected " + context2 + " received " + context);
+                Assert.assertEquals(context, context2, "Incorrect context. Expected " + context2 + " received " +
+                                                       context);
                 Assert.assertEquals(id, assetId2, "Incorrect asset ID. Expected " + assetId2 +
                                                   " Received " + id);
             }
@@ -180,7 +190,7 @@ public class GovernanceRestAPITestCase extends GregESTestBaseTest {
 
         String updatedContext = "/rest1-new";
         ClientResponse response = updateRestService(restService1Name, updatedContext, version, assetId1);
-        Assert.assertTrue((response.getStatusCode() == 201),
+        Assert.assertTrue((response.getStatusCode() == HttpStatus.CREATED.getCode()),
                           "Wrong status code ,Expected 201 Created ,Received " +
                           response.getStatusCode());
         ClientResponse clientResponse = getAssetById(assetId1);
@@ -189,11 +199,26 @@ public class GovernanceRestAPITestCase extends GregESTestBaseTest {
         String name = (String) jsonArray.getJSONObject(ASSET_ID_ONE_INDEX).get("name");
         String context = (String) jsonArray.getJSONObject(ASSET_ID_ONE_INDEX).get("context");
         String id = (String) jsonArray.getJSONObject(ASSET_ID_ONE_INDEX).get("id");
-        Assert.assertEquals(name, restService1Name, "Incorrect asset name. Expected " + restService1Name + " received " + name);
+        Assert.assertEquals(name, restService1Name, "Incorrect asset name. Expected " + restService1Name + " received "
+                                                    + name);
         //Check for updated context
-        Assert.assertEquals(context, updatedContext, "Incorrect context. Expected " + updatedContext + " received " + context);
+        Assert.assertEquals(context, updatedContext, "Incorrect context. Expected " + updatedContext + " received " +
+                                                     context);
         Assert.assertEquals(id, assetId1, "Incorrect asset id. Expected " +
                                           assetId1 + " received " + id);
+    }
+
+    @Test(groups = {"wso2.greg", "wso2.greg.governance.rest.api"}, description = "Delete a rest service",
+          dependsOnMethods = {"updateAnAsset"})
+    private void deleteAnAsset() throws JSONException {
+
+        genericRestClient.geneticRestRequestDelete(governaceAPIUrl + "/restservices/" + assetId1,
+                                                   MediaType.APPLICATION_JSON,
+                                                   MediaType.APPLICATION_JSON, queryParamMap,
+                                                   headerMap, null);
+        //Check whether asset got deleted.
+        ClientResponse clientResponse = getAssetById(assetId1);
+        Assert.assertNull(clientResponse.getEntity(String.class));
     }
 
     /**
@@ -217,7 +242,6 @@ public class GovernanceRestAPITestCase extends GregESTestBaseTest {
     }
 
     /**
-     *
      * @param name
      * @param context
      * @param version
@@ -225,7 +249,8 @@ public class GovernanceRestAPITestCase extends GregESTestBaseTest {
      * @return the update response from the REST client
      * @throws IOException
      */
-    private ClientResponse updateRestService(String name, String context, String version, String uuid) throws IOException {
+    private ClientResponse updateRestService(String name, String context, String version, String uuid)
+            throws IOException {
 
         String restTemplate = readFile(resourcePath + "json" + File.separator + "restservice-sample-gov-rest-api.json");
         String dataBody = String.format(restTemplate, name, "restservice", context, version);
@@ -238,11 +263,10 @@ public class GovernanceRestAPITestCase extends GregESTestBaseTest {
     }
 
     /**
-     *
      * @param uuid
      * @return the response for asset GET request by REST client
      */
-    private ClientResponse getAssetById(String uuid){
+    private ClientResponse getAssetById(String uuid) {
 
         ClientResponse response = genericRestClient.geneticRestRequestGet(governaceAPIUrl + "/restservices/" +
                                                                           uuid,
@@ -304,13 +328,5 @@ public class GovernanceRestAPITestCase extends GregESTestBaseTest {
         queryParamMap.put("type", "restservice");
         deleteAssetById(publisherUrl, genericRestClient, cookieHeader, assetId1, queryParamMap);
         deleteAssetById(publisherUrl, genericRestClient, cookieHeader, assetId2, queryParamMap);
-    }
-
-    @DataProvider
-    private static TestUserMode[][] userModeProvider() {
-        return new TestUserMode[][]{
-                new TestUserMode[]{TestUserMode.SUPER_TENANT_ADMIN}
-                //                new TestUserMode[]{TestUserMode.TENANT_USER},
-        };
     }
 }
