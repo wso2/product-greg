@@ -218,5 +218,39 @@ public class GenericRestClient {
         return response;
     }
 
+    /**
+     * Generic rest client for basic rest PUT calls over REST based on Apache Wink
+     *
+     * @param resourceUrl     Resource endpoint Url
+     * @param contentType     ContentType of request
+     * @param acceptMediaType ContentType for response
+     * @param postBody        Body
+     * @param queryParamMap   Map of Query parameters
+     * @param headerMap       Map of headers
+     * @param cookie          jSessionID in form of JSESSIONID=<ID>
+     * @return
+     */
+    public ClientResponse genericRestRequestPut(String resourceUrl, String contentType, String acceptMediaType,
+            Object postBody, Map<String, String> queryParamMap, Map<String, String> headerMap, String cookie) {
+
+        Resource resource = client.resource(resourceUrl);
+
+        if (!(queryParamMap.size() <= 0)) {
+            for (Map.Entry<String, String> queryParamEntry : queryParamMap.entrySet()) {
+                resource.queryParam(queryParamEntry.getKey(), queryParamEntry.getValue());
+            }
+        }
+        if (!(headerMap.size() <= 0)) {
+            for (Map.Entry<String, String> headerEntry : headerMap.entrySet()) {
+                resource.header(headerEntry.getKey(), headerEntry.getValue());
+            }
+        }
+        if (cookie != null) {
+            resource.cookie(cookie);
+        }
+        response = resource.contentType(contentType).
+                accept(acceptMediaType).put(postBody);
+        return response;
+    }
 
 }
