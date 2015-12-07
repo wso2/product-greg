@@ -1,3 +1,7 @@
-petstore-with-external-docs
 api-docs
-petstore
+basicAuth
+echo
+instagram
+petstore-expanded
+twitter
+uber
