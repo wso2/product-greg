@@ -35,6 +35,7 @@ import org.testng.annotations.Test;
 import org.wso2.carbon.automation.engine.context.TestUserMode;
 import org.wso2.carbon.automation.engine.frameworkutils.FrameworkPathUtil;
 import org.wso2.carbon.registry.core.exceptions.RegistryException;
+import org.wso2.carbon.registry.es.utils.GovernanceRestApiUtil;
 import org.wso2.carbon.registry.es.utils.GregESTestBaseTest;
 import org.wso2.greg.integration.common.utils.GenericRestClient;
 
@@ -53,7 +54,6 @@ public class GovernanceRestAPITestCase extends GregESTestBaseTest {
     private static final String AUTHORIZATION_HEADER = "Authorization";
     private static final String AUTHORIZATION_HEADER_VALUE = "Basic YWRtaW46YWRtaW4=";
     private static final int ASSET_ID_ONE_INDEX = 0;
-    private static final int ASSET_ID_TWO_INDEX = 1;
     private TestUserMode userMode;
     private GenericRestClient genericRestClient;
     private Map<String, String> queryParamMap;
@@ -116,7 +116,11 @@ public class GovernanceRestAPITestCase extends GregESTestBaseTest {
                                                                                  "testing.")
     public void createAsset() throws IOException, JSONException, XPathExpressionException {
 
-        ClientResponse response = createRestService(restService1Name, context1, version);
+        String restTemplate = readFile(resourcePath + "json" + File.separator + "restservice-sample-gov-rest-api.json");
+        String dataBody = String.format(restTemplate, restService1Name, "restservice", context1, version);
+        String governanceRestApiUrlForRestServices = governaceAPIUrl + "/restservices";
+        ClientResponse response = GovernanceRestApiUtil.createAsset(genericRestClient, dataBody, queryParamMap,
+                                                                    headerMap, governanceRestApiUrlForRestServices);
         assetId1 = searchRestService(restService1Name);
         Assert.assertTrue(response.getStatusCode() == HttpStatus.CREATED.getCode(),
                           "Wrong status code ,Expected 201 Created ,Received " + response.getStatusCode());
@@ -131,7 +135,9 @@ public class GovernanceRestAPITestCase extends GregESTestBaseTest {
           dependsOnMethods = {"createAsset"})
     public void getAnIndividualAssetByUUID() throws JSONException, InterruptedException {
 
-        ClientResponse response = getAssetById(assetId1);
+        String governanceRestApiUrl = governaceAPIUrl + "/restservices/" + assetId1;
+        ClientResponse response = GovernanceRestApiUtil.getAssetById(genericRestClient, queryParamMap, headerMap,
+                                                                     governanceRestApiUrl);
         JSONObject jsonObject = new JSONObject(response.getEntity(String.class));
         JSONArray jsonArray = jsonObject.getJSONArray("assets");
         String name = (String) jsonArray.getJSONObject(ASSET_ID_ONE_INDEX).get("name");
@@ -154,7 +160,11 @@ public class GovernanceRestAPITestCase extends GregESTestBaseTest {
         String restService2Name = "restService2";
         String context2 = "/rest2";
         String version = "1.0.0";
-        ClientResponse response = createRestService(restService2Name, context2, version);
+        String restTemplate = readFile(resourcePath + "json" + File.separator + "restservice-sample-gov-rest-api.json");
+        String dataBody = String.format(restTemplate, restService2Name, "restservice", context2, version);
+        String governanceRestApiUrlForRestServices = governaceAPIUrl + "/restservices";
+        GovernanceRestApiUtil.createAsset(genericRestClient, dataBody, queryParamMap,
+                                          headerMap, governanceRestApiUrlForRestServices);
         assetId2 = searchRestService(restService2Name);
         queryParamMap.clear();
         ClientResponse listOfRestServices =
@@ -189,11 +199,16 @@ public class GovernanceRestAPITestCase extends GregESTestBaseTest {
     public void updateAnAsset() throws IOException, JSONException {
 
         String updatedContext = "/rest1-new";
-        ClientResponse response = updateRestService(restService1Name, updatedContext, version, assetId1);
+        String restTemplate = readFile(resourcePath + "json" + File.separator + "restservice-sample-gov-rest-api.json");
+        String dataBody = String.format(restTemplate, restService1Name, "restservice", updatedContext, version);
+        String governanceRestApiUrl = governaceAPIUrl + "/restservices/" + assetId1;
+        ClientResponse response = GovernanceRestApiUtil.updateAsset(genericRestClient, dataBody, queryParamMap,
+                                                                    headerMap, governanceRestApiUrl);
         Assert.assertTrue((response.getStatusCode() == HttpStatus.CREATED.getCode()),
                           "Wrong status code ,Expected 201 Created ,Received " +
                           response.getStatusCode());
-        ClientResponse clientResponse = getAssetById(assetId1);
+        ClientResponse clientResponse = GovernanceRestApiUtil.getAssetById(genericRestClient, queryParamMap, headerMap,
+                                                                     governanceRestApiUrl);
         JSONObject jsonObject = new JSONObject(clientResponse.getEntity(String.class));
         JSONArray jsonArray = jsonObject.getJSONArray("assets");
         String name = (String) jsonArray.getJSONObject(ASSET_ID_ONE_INDEX).get("name");
@@ -210,82 +225,28 @@ public class GovernanceRestAPITestCase extends GregESTestBaseTest {
 
     @Test(groups = {"wso2.greg", "wso2.greg.governance.rest.api"}, description = "Delete a rest service",
           dependsOnMethods = {"updateAnAsset"})
-    private void deleteAnAsset() throws JSONException {
+    public void deleteAnAsset() throws JSONException {
 
         genericRestClient.geneticRestRequestDelete(governaceAPIUrl + "/restservices/" + assetId1,
                                                    MediaType.APPLICATION_JSON,
                                                    MediaType.APPLICATION_JSON, queryParamMap,
                                                    headerMap, null);
+        String governanceRestApiUrl = governaceAPIUrl + "/restservices/" + assetId1;
         //Check whether asset got deleted.
-        ClientResponse clientResponse = getAssetById(assetId1);
+        ClientResponse clientResponse = GovernanceRestApiUtil.getAssetById(genericRestClient, queryParamMap, headerMap,
+                                                                           governanceRestApiUrl);
         Assert.assertNull(clientResponse.getEntity(String.class));
     }
 
     /**
-     * This method creates a rest service using governance REST api.
-     *
-     * @param name
-     * @param context
-     * @param version
-     * @return response
-     * @throws IOException
-     */
-    private ClientResponse createRestService(String name, String context, String version) throws IOException {
-
-        String restTemplate = readFile(resourcePath + "json" + File.separator + "restservice-sample-gov-rest-api.json");
-        String dataBody = String.format(restTemplate, name, "restservice", context, version);
-        ClientResponse response = genericRestClient.geneticRestRequestPost(governaceAPIUrl + "/restservices",
-                                                                           MediaType.APPLICATION_JSON,
-                                                                           MediaType.APPLICATION_JSON, dataBody
-                , queryParamMap, headerMap, null);
-        return response;
-    }
-
-    /**
-     * @param name
-     * @param context
-     * @param version
-     * @param uuid
-     * @return the update response from the REST client
-     * @throws IOException
-     */
-    private ClientResponse updateRestService(String name, String context, String version, String uuid)
-            throws IOException {
-
-        String restTemplate = readFile(resourcePath + "json" + File.separator + "restservice-sample-gov-rest-api.json");
-        String dataBody = String.format(restTemplate, name, "restservice", context, version);
-        ClientResponse response = genericRestClient.genericRestRequestPut(governaceAPIUrl + "/restservices/" + uuid,
-                                                                          MediaType.APPLICATION_JSON,
-                                                                          MediaType.APPLICATION_JSON, dataBody
-                , queryParamMap, headerMap, null);
-        return response;
-
-    }
-
-    /**
-     * @param uuid
-     * @return the response for asset GET request by REST client
-     */
-    private ClientResponse getAssetById(String uuid) {
-
-        ClientResponse response = genericRestClient.geneticRestRequestGet(governaceAPIUrl + "/restservices/" +
-                                                                          uuid,
-                                                                          queryParamMap,
-                                                                          headerMap, null);
-        return response;
-    }
-
-    /**
      * This method search for a particular asset and returns the corresponding asset id.
-     *
-     * @param assetName
+     * @param assetName name of the artifact
      * @return asset id
      * @throws JSONException
      * @throws XPathExpressionException
      */
     private String searchRestService(String assetName) throws JSONException, XPathExpressionException {
         setTestEnvironment();
-        boolean assetFound = false;
         Map<String, String> queryParamMap = new HashMap<>();
         queryParamMap.put("q", "\"name" + "\":" + "\"" + assetName + "\"");
         ClientResponse clientResponse = searchAssetByQuery(publisherUrl, genericRestClient, cookieHeader, queryParamMap);
@@ -303,7 +264,6 @@ public class GovernanceRestAPITestCase extends GregESTestBaseTest {
 
     /**
      * This method creates the cookieHeader neede fot publisher REST api calls
-     *
      * @throws JSONException
      * @throws XPathExpressionException
      */
