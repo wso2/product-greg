@@ -21,7 +21,10 @@ package org.wso2.greg.integration.common.clients;
 import org.apache.axis2.AxisFault;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.wso2.carbon.logging.admin.stub.LoggingAdminException;
 import org.wso2.carbon.logging.admin.stub.LoggingAdminStub;
+
+import java.rmi.RemoteException;
 
 public class LoggingAdminClient {
 
@@ -29,8 +32,6 @@ public class LoggingAdminClient {
     private final String serviceName = "LoggingAdmin";
     private String endpoint = null;
     private LoggingAdminStub loggingAdminStub;
-
-    public static enum logLevel {OFF, TRACE, DEBUG, INFO, WARN, ERROR, FATAL}
 
     public LoggingAdminClient(String backEndUrl, String sessionCookie) throws AxisFault {
         this.endpoint = backEndUrl + serviceName;
@@ -56,10 +57,11 @@ public class LoggingAdminClient {
      *
      * @return Status of the function.
      *
-     * @throws Exception
+     * @throws RemoteException
+     * @throws LoggingAdminException
      */
     public boolean updateLoggerData(String loggerName, String logLevel, boolean additivity, boolean persist)
-            throws Exception {
+            throws RemoteException, LoggingAdminException {
 
         loggingAdminStub.updateLoggerData(loggerName, logLevel, additivity, persist);
         return true;
