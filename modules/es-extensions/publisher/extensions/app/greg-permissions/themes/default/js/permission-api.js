@@ -191,7 +191,7 @@ $(function () {
                 modifiedRole = "Public";
                 break;
             default:
-                if (roleLower.contains("internal/")) {
+                if (roleLower.startsWith("internal/")) {
                     modifiedRole = capitalize(roleLower.split("/")[1]);
                     break;
                 } else {
@@ -307,6 +307,7 @@ $(function () {
                 data.assetType = assetType;
                 data.pathWithVersion = pathWithVersion;
                 data.roleToRemove = roleToRemove;
+                $(this).attr("disabled", "disabled");
                 invokeRemovePermissionAPI(data, formattedRoleName);
                 addOptionsToSelect2(roleToRemove);
                 renderSelect2();

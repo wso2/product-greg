@@ -53,6 +53,8 @@ var gregPermissionUtil = {};
         var readAllow = "ra";
         var writeAllow = "wa";
         var deleteAllow = "da";
+        var writeDeny = "wd";
+        var deleteDeny = "dd";
 
         for (var role in permissionObject) {
             if (permissionObject.hasOwnProperty(role)) {
@@ -61,9 +63,9 @@ var gregPermissionUtil = {};
                 var rolePermissionType = permissionObject[role];
                 var actions = ":";
                 if (rolePermissionType == readAllow) {
-                    actions = actions + readAllow + "^true";
+                    actions = actions + readAllow + "^true:" + writeDeny + "^true:" + deleteDeny + "^true";
                 } else if (rolePermissionType == writeAllow) {
-                    actions = actions + readAllow + "^true:" + writeAllow + "^true";
+                    actions = actions + readAllow + "^true:" + writeAllow + "^true:" + deleteDeny + "^true";
                 } else if (rolePermissionType == deleteAllow) {
                     actions = actions + readAllow + "^true:" + writeAllow + "^true:" + deleteAllow + "^true";
                 }
