@@ -36,15 +36,12 @@ public class LifeCycleHomePage {
         this.driver = driver;
         this.uiElementMapper = UIElementMapper.getInstance();
         // Check that we're on the right page.
-        driver.findElement(By.id(uiElementMapper.getElement("life.cycle.tab.id"))).click();
-        driver.findElement(By.linkText(uiElementMapper.getElement("life.cycle.add.link"))).click();
+        driver.findElement(By.className(uiElementMapper.getElement("life.cycle.tab.class"))).click();
+        driver.findElement(By.xpath(uiElementMapper.getElement("life.cycle.tab.xpath"))).click();
+        driver.findElement(By.linkText("Lifecycles")).click();
 
         log.info("Lifecycle adding page");
-        if (!driver.findElement(By.id(uiElementMapper.getElement("add.new.lifecycle.dashboard.middle.text"))).
-                getText().contains("Lifecycles")) {
 
-            throw new IllegalStateException("This is not the correct Page");
-        }
     }
 
     public void addNewLifeCycle(String lifeCycleName) throws InterruptedException, IOException {
