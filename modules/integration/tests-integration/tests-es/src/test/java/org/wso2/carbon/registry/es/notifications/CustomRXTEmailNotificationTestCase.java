@@ -55,7 +55,7 @@ import static org.testng.Assert.assertTrue;
 public class CustomRXTEmailNotificationTestCase extends GregESTestBaseTest {
 
     public static final String RXT_STORAGE_PATH =
-            "/_system/governance/repository/components/org.wso2.carbon.governance/types/application.rxt";
+            "/_system/governance/repository/components/org.wso2.carbon.governance/types/applications.rxt";
     private TestUserMode userMode;
     private ResourceAdminServiceClient resourceAdminServiceClient;
     private String publisherUrl;
