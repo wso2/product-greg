@@ -67,8 +67,10 @@ public class SoapServiceStoreNotificationTestCase extends GregESTestBaseTest {
         genericRestClient = new GenericRestClient();
         queryParamMap = new HashMap<>();
         headerMap = new HashMap<>();
-        resourcePath = FrameworkPathUtil.getSystemResourceLocation()
-                + "artifacts" + File.separator + "GREG" + File.separator;
+        StringBuilder builder = new StringBuilder();
+        builder.append(FrameworkPathUtil.getSystemResourceLocation()).append("artifacts").append(File.separator)
+                .append("GREG").append(File.separator);
+        resourcePath = builder.toString();
         publisherUrl = automationContext.getContextUrls()
                 .getSecureServiceUrl().replace("services", "publisher/apis");
         storeUrl = automationContext.getContextUrls()
@@ -198,7 +200,6 @@ public class SoapServiceStoreNotificationTestCase extends GregESTestBaseTest {
     private static TestUserMode[][] userModeProvider() {
         return new TestUserMode[][]{
                 new TestUserMode[]{TestUserMode.SUPER_TENANT_ADMIN}
-                //                new TestUserMode[]{TestUserMode.TENANT_USER},
         };
     }
 }

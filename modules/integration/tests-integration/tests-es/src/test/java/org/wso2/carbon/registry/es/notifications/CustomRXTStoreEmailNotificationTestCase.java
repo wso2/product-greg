@@ -53,6 +53,8 @@ import static org.testng.Assert.assertTrue;
  */
 public class CustomRXTStoreEmailNotificationTestCase extends GregESTestBaseTest {
 
+    public static final String RXT_STORAGE_PATH =
+            "/_system/governance/repository/components/org.wso2.carbon.governance/types/application.rxt";
     private TestUserMode userMode;
 
     private ResourceAdminServiceClient resourceAdminServiceClient;
@@ -82,8 +84,10 @@ public class CustomRXTStoreEmailNotificationTestCase extends GregESTestBaseTest 
         genericRestClient = new GenericRestClient();
         queryParamMap = new HashMap<>();
         headerMap = new HashMap<>();
-        resourcePath =
-                FrameworkPathUtil.getSystemResourceLocation() + "artifacts" + File.separator + "GREG" + File.separator;
+        StringBuilder builder = new StringBuilder();
+        builder.append(FrameworkPathUtil.getSystemResourceLocation()).append("artifacts").append(File.separator)
+                .append("GREG").append(File.separator);
+        resourcePath = builder.toString();
         publisherUrl = automationContext.getContextUrls().getSecureServiceUrl().replace("services", "publisher/apis");
         storeUrl = automationContext.getContextUrls().getSecureServiceUrl().replace("services", "store/apis");
         resourceAdminServiceClient = new ResourceAdminServiceClient(backendURL, sessionCookie);
@@ -178,12 +182,13 @@ public class CustomRXTStoreEmailNotificationTestCase extends GregESTestBaseTest 
      */
     private void addCustomRxt()
             throws RegistryException, IOException, ResourceAdminServiceExceptionException, InterruptedException {
-        String filePath = getTestArtifactLocation() + "artifacts" + File.separator +
-                "GREG" + File.separator + "rxt" + File.separator + "application.rxt";
+        StringBuilder builder = new StringBuilder();
+        builder.append(getTestArtifactLocation()).append("artifacts").append(File.separator).append("GREG").
+                append(File.separator).append("rxt").append(File.separator).append("application.rxt");
+        String filePath = builder.toString();
         DataHandler dh = new DataHandler(new URL("file:///" + filePath));
-        resourceAdminServiceClient.addResource(
-                "/_system/governance/repository/components/org.wso2.carbon.governance/types/application.rxt",
-                "application/vnd.wso2.registry-ext-type+xml", "desc", dh);
+        resourceAdminServiceClient
+                .addResource(RXT_STORAGE_PATH, "application/vnd.wso2.registry-ext-type+xml", "desc", dh);
     }
 
     /**
@@ -192,8 +197,7 @@ public class CustomRXTStoreEmailNotificationTestCase extends GregESTestBaseTest 
     private void deleteCustomRxt() throws Exception {
         String session = getSessionCookie();
         resourceAdminServiceClient = new ResourceAdminServiceClient(backendURL, session);
-        resourceAdminServiceClient.deleteResource(
-                "/_system/governance/repository/components/org.wso2.carbon.governance/types/application.rxt");
+        resourceAdminServiceClient.deleteResource(RXT_STORAGE_PATH);
     }
 
     /**
@@ -250,7 +254,6 @@ public class CustomRXTStoreEmailNotificationTestCase extends GregESTestBaseTest 
     private static TestUserMode[][] userModeProvider() {
         return new TestUserMode[][]{
                 new TestUserMode[]{TestUserMode.SUPER_TENANT_ADMIN}
-                //                new TestUserMode[]{TestUserMode.TENANT_USER},
         };
     }
 }

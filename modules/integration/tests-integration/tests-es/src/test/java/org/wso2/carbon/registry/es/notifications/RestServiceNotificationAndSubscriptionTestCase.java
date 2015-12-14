@@ -64,10 +64,12 @@ public class RestServiceNotificationAndSubscriptionTestCase extends GregESTestBa
     public void init() throws Exception {
         super.init(userMode);
         genericRestClient = new GenericRestClient();
-        queryParamMap = new HashMap<String, String>();
-        headerMap = new HashMap<String, String>();
-        resourcePath = FrameworkPathUtil.getSystemResourceLocation()
-                + "artifacts" + File.separator + "GREG" + File.separator;
+        queryParamMap = new HashMap<>();
+        headerMap = new HashMap<>();
+        StringBuilder builder = new StringBuilder();
+        builder.append(FrameworkPathUtil.getSystemResourceLocation()).append("artifacts").append(File.separator)
+                .append("GREG").append(File.separator);
+        resourcePath = builder.toString();
         publisherUrl = automationContext.getContextUrls()
                 .getSecureServiceUrl().replace("services", "publisher/apis");
         setTestEnvironment();
@@ -274,7 +276,6 @@ public class RestServiceNotificationAndSubscriptionTestCase extends GregESTestBa
     private static TestUserMode[][] userModeProvider() {
         return new TestUserMode[][]{
                 new TestUserMode[]{TestUserMode.SUPER_TENANT_ADMIN}
-                //                new TestUserMode[]{TestUserMode.TENANT_USER},
         };
     }
 }
