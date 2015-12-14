@@ -7,20 +7,9 @@ import org.wso2.carbon.registry.core.Resource;
 import org.wso2.carbon.registry.core.exceptions.RegistryException;
 import org.wso2.carbon.registry.resource.ui.clients.ResourceServiceClient;
 import org.wso2.carbon.registry.ws.client.registry.WSRegistryServiceClient;
-import javax.activation.DataHandler;
-import java.io.File;
-import java.net.URL;
 
-import javax.xml.namespace.QName;
-import java.util.ArrayList;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.PrintWriter;
-import java.lang.StringBuilder;
+import java.net.URL;
+import javax.activation.DataHandler;
 
 /*
 * This class is used to back up existing rest and soap service rxt of the server, and add
@@ -33,11 +22,15 @@ public class RXTModifier {
     private static String port ;
     private static String host ;
     private static String serverURL;
-    private static final String serviceRxtPath = "/_system/governance/repository/components/org.wso2.carbon.governance/types/";
+    private static final String serviceRxtPath =
+            "/_system/governance/repository/components/org.wso2.carbon.governance/types/";
 
     private static void setSystemProperties() {
-        String trustStore = System.getProperty("carbon.home") + File.separator + "repository" + File.separator +
-                "resources" + File.separator + "security" + File.separator + "wso2carbon.jks";
+        StringBuilder builder = new StringBuilder();
+        builder.append(System.getProperty("carbon.home")).append(File.separator).append("repository")
+                .append(File.separator).append("resources").append(File.separator).append("security")
+                .append(File.separator).append("wso2carbon.jks")
+        String trustStore = builder.toString();
         System.setProperty("javax.net.ssl.trustStore", trustStore);
         System.setProperty("javax.net.ssl.trustStorePassword", "wso2carbon");
         System.setProperty("javax.net.ssl.trustStoreType", "JKS");
@@ -57,8 +50,11 @@ public class RXTModifier {
             serverURL = "https://"+host+":"+port+"/services/";
             setSystemProperties();
             String projectPath = System.getProperty("user.dir");
-            String axis2Configuration = System.getProperty("carbon.home") + File.separator + "repository" +
-                    File.separator + "conf" + File.separator + "axis2" + File.separator + "axis2_client.xml";
+            StringBuilder builder = new StringBuilder();
+            builder.append(System.getProperty("carbon.home")).append(File.separator).append("repository")
+                    .append(File.separator).append("conf").append(File.separator).append("axis2").append(File.separator)
+                    .append("axis2_client.xml");
+            String axis2Configuration = builder.toString();
             ConfigurationContext configContext = ConfigurationContextFactory
                     .createConfigurationContextFromFileSystem(axis2Configuration);
 

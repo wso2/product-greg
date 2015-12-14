@@ -19,10 +19,10 @@
 package org.wso2.carbon.registry.samples.populator.utils;
 
 import org.apache.axis2.AxisFault;
-import org.apache.axis2.context.ConfigurationContext;
 import org.apache.axis2.client.Options;
 import org.apache.axis2.client.ServiceClient;
 import org.apache.axis2.client.Stub;
+import org.apache.axis2.context.ConfigurationContext;
 import org.wso2.carbon.identity.user.profile.stub.UserProfileMgtServiceStub;
 import org.wso2.carbon.identity.user.profile.stub.types.UserProfileDTO;
 import org.wso2.carbon.registry.core.exceptions.RegistryException;
@@ -31,7 +31,6 @@ import org.wso2.carbon.tenant.mgt.stub.TenantMgtAdminServiceStub;
 import org.wso2.carbon.tenant.mgt.stub.beans.xsd.TenantInfoBean;
 import org.wso2.carbon.user.mgt.stub.UserAdminStub;
 import org.wso2.carbon.user.mgt.stub.types.carbon.ClaimValue;
-import org.wso2.carbon.user.mgt.ui.Util;
 
 import java.util.Calendar;
 
@@ -134,7 +133,8 @@ public class UserManagementClient {
      * @param profileName
      * @throws Exception
      */
-    public void addUser(String userName, String password, String[] roles, ClaimValue[] claims, String profileName) throws Exception {
+    public void addUser(String userName, String password, String[] roles, ClaimValue[] claims, String profileName)
+            throws Exception {
         userAdminStub.addUser(userName, password, roles, claims, profileName);
     }
 

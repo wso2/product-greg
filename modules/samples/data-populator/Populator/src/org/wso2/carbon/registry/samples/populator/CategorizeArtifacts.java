@@ -52,9 +52,12 @@ public class CategorizeArtifacts {
 
     private static WSRegistryServiceClient initialize() throws Exception {
 
-        System.setProperty("javax.net.ssl.trustStore", CARBON_HOME + File.separator + "repository" +
-                File.separator + "resources" + File.separator + "security" + File.separator +
-                "wso2carbon.jks");
+        StringBuilder builder = new StringBuilder();
+        builder.append(CARBON_HOME).append(File.separator).append("repository")
+                .append(File.separator).append("resources").append(File.separator).append("security")
+                .append(File.separator).append("wso2carbon.jks")
+        String trustStore = builder.toString();
+        System.setProperty("javax.net.ssl.trustStore", trustStore);
         System.setProperty("javax.net.ssl.trustStorePassword", "wso2carbon");
         System.setProperty("javax.net.ssl.trustStoreType", "JKS");
         System.setProperty("carbon.repo.write.mode", "true");
