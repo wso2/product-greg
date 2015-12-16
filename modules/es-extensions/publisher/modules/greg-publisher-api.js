@@ -494,11 +494,9 @@ var gregAPI = {};
         // Collection path used to store key and encrypted password value.
         var path = "/_system/config/repository/components/secure-vault";
         var resource;
-
         if (registry.resourceExists(path)) {
             resource = registry.get(path);
-        }
-        else {
+        } else {
             resource = registry.newCollection();
         }
 
@@ -511,13 +509,11 @@ var gregAPI = {};
             resource.setProperty(key, encryptedText);
             registry.put(path, resource);
         }
-
         var properties;
         if (registry.resourceExists(path)) {
             var collection = registry.get(path);
             properties = collection.getProperties();
         }
-
         return properties;
     }
 }(gregAPI));

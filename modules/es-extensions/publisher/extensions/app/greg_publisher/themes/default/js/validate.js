@@ -18,15 +18,13 @@
  */
 
 var validate = function () {
-
     var password = $('#value').val();
     var passwordVerify = $('#valueVerify').val();
 
     if (password != passwordVerify) {
         messages.alertError("Re-entered password does not match");
         return false;
-    }
-    else {
+    } else {
         var ajaxURL = caramel.context + '/pages/password?type=server';
         $.ajax({
             url: ajaxURL,
@@ -34,11 +32,9 @@ var validate = function () {
             async: false,
             success: function (data) {
                 messages.alertSuccess("Property Saved Successfully");
-
             },
             error: function (data) {
                 messages.alertSuccess("Property Could Not Be Saved Successfully");
-
             }
         });
         return true;
