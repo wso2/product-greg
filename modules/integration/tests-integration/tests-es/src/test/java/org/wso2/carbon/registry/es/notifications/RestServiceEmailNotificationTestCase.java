@@ -103,10 +103,10 @@ public class RestServiceEmailNotificationTestCase extends GregESTestBaseTest {
                         MediaType.APPLICATION_JSON, MediaType.APPLICATION_JSON, dataObject.toString(), queryParamMap,
                         headerMap, cookieHeader);
 
-        String payLoad = response.getEntity(String.class);
-        payLoad = payLoad.substring(payLoad.indexOf('{'));
-        JSONObject payLoadObject = new JSONObject(payLoad);
-        assertNotNull(payLoadObject.get("id"),
+        String payload = response.getEntity(String.class);
+        payload = payload.substring(payload.indexOf('{'));
+        JSONObject payloadObject = new JSONObject(payload);
+        assertNotNull(payloadObject.get("id"),
                 "Response payload is not the in the correct format" + response.getEntity(String.class));
 
         // verify e-mail
@@ -143,10 +143,10 @@ public class RestServiceEmailNotificationTestCase extends GregESTestBaseTest {
                         MediaType.APPLICATION_JSON, MediaType.APPLICATION_JSON, dataObject.toString(), queryParamMap,
                         headerMap, cookieHeader);
 
-        String payLoad = response.getEntity(String.class);
-        payLoad = payLoad.substring(payLoad.indexOf('{'));
-        JSONObject payLoadObject = new JSONObject(payLoad);
-        assertNotNull(payLoadObject.get("id"),
+        String payload = response.getEntity(String.class);
+        payload = payload.substring(payload.indexOf('{'));
+        JSONObject payloadObject = new JSONObject(payload);
+        assertNotNull(payloadObject.get("id"),
                 "Response payload is not the in the correct format" + response.getEntity(String.class));
 
         //verify e-mail
@@ -161,10 +161,10 @@ public class RestServiceEmailNotificationTestCase extends GregESTestBaseTest {
         response = genericRestClient
                 .geneticRestRequestPost(publisherUrl + "/assets/" + assetId, MediaType.APPLICATION_JSON,
                         MediaType.APPLICATION_JSON, dataBody, queryParamMap, headerMap, cookieHeader);
-        payLoadObject = new JSONObject(response.getEntity(String.class));
+        payloadObject = new JSONObject(response.getEntity(String.class));
         assertTrue((response.getStatusCode() == Response.Status.ACCEPTED.getStatusCode()),
                 "Wrong status code ,Expected 202 Created ,Received " + response.getStatusCode());
-        assertTrue(payLoadObject.getJSONObject("attributes").get("overview_context").equals("/changed/Context"));
+        assertTrue(payloadObject.getJSONObject("attributes").get("overview_context").equals("/changed/Context"));
         isNotificationMailAvailable = EmailUtil.readGmailInboxForNotification("PublisherResourceUpdated");
         assertTrue(isNotificationMailAvailable, "Publisher resource updated mail has failed to reach Gmail nbox");
         isNotificationMailAvailable = false;
@@ -186,10 +186,10 @@ public class RestServiceEmailNotificationTestCase extends GregESTestBaseTest {
                         MediaType.APPLICATION_JSON, MediaType.APPLICATION_JSON, dataObject.toString(), queryParamMap,
                         headerMap, cookieHeader);
 
-        String payLoad = response.getEntity(String.class);
-        payLoad = payLoad.substring(payLoad.indexOf('{'));
-        JSONObject payLoadObject = new JSONObject(payLoad);
-        assertNotNull(payLoadObject.get("id"),
+        String payload = response.getEntity(String.class);
+        payload = payload.substring(payload.indexOf('{'));
+        JSONObject payloadObject = new JSONObject(payload);
+        assertNotNull(payloadObject.get("id"),
                 "Response payload is not the in the correct format" + response.getEntity(String.class));
 
         // verify e-mail
@@ -235,10 +235,10 @@ public class RestServiceEmailNotificationTestCase extends GregESTestBaseTest {
                         MediaType.APPLICATION_JSON, MediaType.APPLICATION_JSON, dataObject.toString(), queryParamMap,
                         headerMap, cookieHeader);
 
-        String payLoad = response.getEntity(String.class);
-        payLoad = payLoad.substring(payLoad.indexOf('{'));
-        JSONObject payLoadObject = new JSONObject(payLoad);
-        assertNotNull(payLoadObject.get("id"),
+        String payload = response.getEntity(String.class);
+        payload = payload.substring(payload.indexOf('{'));
+        JSONObject payloadObject = new JSONObject(payload);
+        assertNotNull(payloadObject.get("id"),
                 "Response payload is not the in the correct format" + response.getEntity(String.class));
 
         // verify e-mail

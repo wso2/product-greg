@@ -102,9 +102,9 @@ public class CustomRXTStoreNotificationTestCase extends GregESTestBaseTest {
                 .geneticRestRequestPost(storeUrl + "/subscription/applications/" + assetId, MediaType.APPLICATION_JSON,
                         MediaType.APPLICATION_JSON, dataObject.toString(), queryParamMap, headerMap, cookieHeaderStore);
 
-        String payLoad = response.getEntity(String.class);
-        payLoad = payLoad.substring(payLoad.indexOf('{'));
-        JSONObject obj = new JSONObject(payLoad);
+        String payload = response.getEntity(String.class);
+        payload = payload.substring(payload.indexOf('{'));
+        JSONObject obj = new JSONObject(payload);
         assertNotNull(obj.get("id"),
                 "Response payload is not the in the correct format" + response.getEntity(String.class));
 
@@ -129,10 +129,10 @@ public class CustomRXTStoreNotificationTestCase extends GregESTestBaseTest {
                 .geneticRestRequestPost(storeUrl + "/subscription/applications/" + assetId, MediaType.APPLICATION_JSON,
                         MediaType.APPLICATION_JSON, dataObject.toString(), queryParamMap, headerMap, cookieHeaderStore);
 
-        String payLoad = response.getEntity(String.class);
-        payLoad = payLoad.substring(payLoad.indexOf('{'));
-        JSONObject payLoadObject = new JSONObject(payLoad);
-        assertNotNull(payLoadObject.get("id"),
+        String payload = response.getEntity(String.class);
+        payload = payload.substring(payload.indexOf('{'));
+        JSONObject payloadObject = new JSONObject(payload);
+        assertNotNull(payloadObject.get("id"),
                 "Response payload is not the in the correct format" + response.getEntity(String.class));
 
         queryParamMap.put("type", "applications");
@@ -158,10 +158,10 @@ public class CustomRXTStoreNotificationTestCase extends GregESTestBaseTest {
                         MediaType.APPLICATION_JSON, MediaType.APPLICATION_JSON, dataObject.toString(), queryParamMap,
                         headerMap, cookieHeaderStore);
 
-        String payLoad = response.getEntity(String.class);
-        payLoad = payLoad.substring(payLoad.indexOf('{'));
-        JSONObject payLoadObject = new JSONObject(payLoad);
-        assertNotNull(payLoadObject.get("error"),
+        String payload = response.getEntity(String.class);
+        payload = payload.substring(payload.indexOf('{'));
+        JSONObject payloadObject = new JSONObject(payload);
+        assertNotNull(payloadObject.get("error"),
                 "Error message is not contained in the response for notification method \"test\"" + response
                         .getEntity(String.class));
     }
