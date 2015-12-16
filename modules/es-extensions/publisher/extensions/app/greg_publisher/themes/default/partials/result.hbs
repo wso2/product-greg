@@ -6,9 +6,12 @@
                     <h3 class="ast-name">{{this.attributes.overview_name}}</h3>
                 </a>
 
-                <span class="ast-ver">V{{this.attributes.overview_version}}, </span><span class="ast-auth">{{this.attributes.overview_provider}}</span>
+                <span class="ast-ver">V{{this.attributes.overview_version}}, </span><span class="ast-auth">
+                {{this.attributes.overview_provider}}</span>
                 <span class="ast-published">{{this.attributes.overview_createdtime}}</span>
-                <span class="lifecycle-state"><small><i class="icon-circle lc-state-{{this.lifecycleState}}"></i> {{this.lifecycleState}}</small></span>
+                <span class="lifecycle-state"><small><i class="icon-circle lc-state-{{this.lifecycleState}}"></i>
+                    {{>lifecycle-state-duration .}}
+                    {{this.lifecycleState}}</small></span>
             </div>
             <br class="c-both" />
         </div><br class="c-both" />
