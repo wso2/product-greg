@@ -196,18 +196,18 @@ public class RegistryConfiguratorTestCase extends GREGIntegrationBaseTest {
             AXIOMXPath xpathExpression3 = new AXIOMXPath("/wso2registry/indexingConfiguration/indexerPoolSize");
             OMElement indexConfigNode3 = (OMElement) xpathExpression3.selectSingleNode(documentElement);
             indexConfigNode3.setText("50");
-            OMElement diasableIndexingCache = documentElement.getFirstChildWithName(new QName("indexingConfiguration"))
+            OMElement disableIndexingCache = documentElement.getFirstChildWithName(new QName("indexingConfiguration"))
                     .getFirstChildWithName(new QName("skipCache"));
-            if (diasableIndexingCache == null) {
+            if (disableIndexingCache == null) {
                 OMFactory fac = OMAbstractFactory.getOMFactory();
                 OMElement indexConfiguration = documentElement
                         .getFirstChildWithName(new QName("indexingConfiguration"));
-                diasableIndexingCache = fac.createOMElement("skipCache", "", "");
-                diasableIndexingCache.setText("true");
-                indexConfiguration.addChild(diasableIndexingCache);
+                disableIndexingCache = fac.createOMElement("skipCache", "", "");
+                disableIndexingCache.setText("true");
+                indexConfiguration.addChild(disableIndexingCache);
 
-            } else if (diasableIndexingCache != null && diasableIndexingCache.getText().equals("false")) {
-                diasableIndexingCache.setText("true");
+            } else if (disableIndexingCache != null && disableIndexingCache.getText().equals("false")) {
+                disableIndexingCache.setText("true");
             }
 
             fileOutputStream = new FileOutputStream(getRegistryXMLPath());

@@ -26,21 +26,34 @@ import org.wso2.carbon.logging.admin.stub.LoggingAdminStub;
 
 import java.rmi.RemoteException;
 
+/**
+ * This class is used to enable logging for server. This is a client for the logging admin service.
+ */
 public class LoggingAdminClient {
 
-    private static final Log log = LogFactory.getLog(LoggingAdminClient.class);
     private final String serviceName = "LoggingAdmin";
     private String endpoint = null;
     private LoggingAdminStub loggingAdminStub;
 
+    /**
+     * Constructor used to initiate logging admin client.
+     * @param  backEndUrl       server url.
+     * @param  sessionCookie    session cookie of the server.
+     */
     public LoggingAdminClient(String backEndUrl, String sessionCookie) throws AxisFault {
         this.endpoint = backEndUrl + serviceName;
         loggingAdminStub = new LoggingAdminStub(this.endpoint);
         AuthenticateStub.authenticateStub(sessionCookie, loggingAdminStub);
     }
 
-    public LoggingAdminClient(String backEndURL, String userName, String password) throws AxisFault {
-        this.endpoint = backEndURL + serviceName;
+    /**
+     * Constructor used to initiate logging admin client.
+     * @param  backEndUrl       server url.
+     * @param  userName         Logged in user.
+     * @param  password         password for the user.
+     */
+    public LoggingAdminClient(String backEndUrl, String userName, String password) throws AxisFault {
+        this.endpoint = backEndUrl + serviceName;
         loggingAdminStub = new LoggingAdminStub(this.endpoint);
         AuthenticateStub.authenticateStub(userName, password, loggingAdminStub);
     }
@@ -51,7 +64,7 @@ public class LoggingAdminClient {
      *
      * @param loggerName The package which logging to be enabled.
      * @param logLevel   The global log level to be set.
-     * @param additivity
+     * @param additivity  if true all the levels below specified logLevel will be logged.
      * @param persist    true - indicates persist these changes to the DB; false - indicates make
      *                   changes only in memory and do not persist the changes to DB.
      *
@@ -62,9 +75,7 @@ public class LoggingAdminClient {
      */
     public boolean updateLoggerData(String loggerName, String logLevel, boolean additivity, boolean persist)
             throws RemoteException, LoggingAdminException {
-
         loggingAdminStub.updateLoggerData(loggerName, logLevel, additivity, persist);
         return true;
     }
-
 }
