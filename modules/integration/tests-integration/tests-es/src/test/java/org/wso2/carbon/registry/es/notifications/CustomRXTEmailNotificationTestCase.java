@@ -75,7 +75,6 @@ public class CustomRXTEmailNotificationTestCase extends GregESTestBaseTest {
 
     @BeforeClass(alwaysRun = true)
     public void init() throws Exception {
-
         super.init(userMode);
         loginURL = UrlGenerationUtil.getLoginURL(automationContext.getInstance());
         genericRestClient = new GenericRestClient();
@@ -88,9 +87,7 @@ public class CustomRXTEmailNotificationTestCase extends GregESTestBaseTest {
         publisherUrl = automationContext.getContextUrls().getSecureServiceUrl().replace("services", "publisher/apis");
         resourceAdminServiceClient = new ResourceAdminServiceClient(backendURL, sessionCookie);
         addCustomRxt();
-
         queryParamMap.put("type", "applications");
-
         EmailUtil.updateProfileAndEnableEmailConfiguration(automationContext, backendURL, sessionCookie);
         setTestEnvironment();
     }
@@ -103,7 +100,6 @@ public class CustomRXTEmailNotificationTestCase extends GregESTestBaseTest {
             "wso2.greg.es" }, description = "Adding subscription to custom asset on LC state change",
             dependsOnMethods = { "addSubscriptionCheckListItem" , "addSubscriptionUnCheckListItem"})
     public void addSubscriptionToLcStateChange() throws Exception {
-
         JSONObject dataObject = new JSONObject();
         dataObject.put("notificationType", "PublisherLifeCycleStateChanged");
         dataObject.put("notificationMethod", "email");
@@ -126,7 +122,6 @@ public class CustomRXTEmailNotificationTestCase extends GregESTestBaseTest {
                 automationContext.getContextTenant().getContextUser().getPassword());
 
         // Change the life cycle state in order to retrieve e-mail
-
         genericRestClient.geneticRestRequestPost(publisherUrl + "/assets/" + assetId + "/state",
                 MediaType.APPLICATION_FORM_URLENCODED, MediaType.APPLICATION_JSON,
                 "nextState=Testing&comment=Completed", queryParamMap, headerMap, cookieHeader);
@@ -144,7 +139,6 @@ public class CustomRXTEmailNotificationTestCase extends GregESTestBaseTest {
     @Test(groups = { "wso2.greg",
             "wso2.greg.es" }, description = "Adding subscription to custom asset on resource update")
     public void addSubscriptionOnResourceUpdate() throws Exception {
-
         JSONObject dataObject = new JSONObject();
         dataObject.put("notificationType", "PublisherResourceUpdated");
         dataObject.put("notificationMethod", "email");
@@ -171,11 +165,9 @@ public class CustomRXTEmailNotificationTestCase extends GregESTestBaseTest {
         String dataBody = readFile(resourcePath + "json" + File.separator + "PublisherCustomResourceUpdate.json");
         genericRestClient.geneticRestRequestPost(publisherUrl + "/assets/" + assetId, MediaType.APPLICATION_JSON,
                 MediaType.APPLICATION_JSON, dataBody, queryParamMap, headerMap, cookieHeader);
-
         isNotificationMailAvailable = EmailUtil.readGmailInboxForNotification("PublisherResourceUpdated");
         assertTrue(isNotificationMailAvailable, "Publisher resource updated mail has failed to reach Gmail inbox");
         isNotificationMailAvailable = false;
-
     }
 
     /**
@@ -185,7 +177,6 @@ public class CustomRXTEmailNotificationTestCase extends GregESTestBaseTest {
     @Test(groups = { "wso2.greg",
             "wso2.greg.es" }, description = "Adding subscription to custom asset on check list item checked")
     public void addSubscriptionCheckListItem() throws Exception {
-
         JSONObject dataObject = new JSONObject();
         dataObject.put("notificationType", "PublisherCheckListItemChecked");
         dataObject.put("notificationMethod", "email");
@@ -235,7 +226,6 @@ public class CustomRXTEmailNotificationTestCase extends GregESTestBaseTest {
             "wso2.greg.es" }, description = "Adding subscription to custom asset on check list item unchecked",
             dependsOnMethods = { "addSubscriptionCheckListItem"})
     public void addSubscriptionUnCheckListItem() throws Exception {
-
         JSONObject dataObject = new JSONObject();
         dataObject.put("notificationType", "PublisherCheckListItemUnchecked");
         dataObject.put("notificationMethod", "email");
@@ -273,7 +263,6 @@ public class CustomRXTEmailNotificationTestCase extends GregESTestBaseTest {
         assertTrue(isNotificationMailAvailable,
                 "Publisher un check list item on life cycle, notification mail has failed to reached Gmail inbox");
         isNotificationMailAvailable = false;
-
     }
 
     /**
@@ -346,5 +335,4 @@ public class CustomRXTEmailNotificationTestCase extends GregESTestBaseTest {
                 new TestUserMode[]{TestUserMode.SUPER_TENANT_ADMIN}
         };
     }
-
 }

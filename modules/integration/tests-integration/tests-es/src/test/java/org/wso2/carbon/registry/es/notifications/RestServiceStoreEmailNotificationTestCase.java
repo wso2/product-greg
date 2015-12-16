@@ -62,8 +62,7 @@ public class RestServiceStoreEmailNotificationTestCase extends GregESTestBaseTes
     private Map<String, String> queryParamMap;
     private Map<String, String> headerMap;
     private String loginURL;
-    boolean isNotificationMailAvailable;
-
+    private boolean isNotificationMailAvailable;
 
     @Factory(dataProvider = "userModeProvider")
     public RestServiceStoreEmailNotificationTestCase(TestUserMode userMode) {
@@ -72,7 +71,6 @@ public class RestServiceStoreEmailNotificationTestCase extends GregESTestBaseTes
 
     @BeforeClass(alwaysRun = true)
     public void init() throws Exception {
-
         super.init(userMode);
         loginURL = UrlGenerationUtil.getLoginURL(automationContext.getInstance());
         genericRestClient = new GenericRestClient();
@@ -96,7 +94,6 @@ public class RestServiceStoreEmailNotificationTestCase extends GregESTestBaseTes
     @Test(groups = { "wso2.greg",
             "wso2.greg.es" }, description = "Adding subscription to rest service on LC state change")
     public void addSubscriptionToLcStateChange() throws Exception {
-
         JSONObject dataObject = new JSONObject();
         dataObject.put("notificationType", "StoreLifeCycleStateChanged");
         dataObject.put("notificationMethod", "email");
@@ -123,7 +120,6 @@ public class RestServiceStoreEmailNotificationTestCase extends GregESTestBaseTes
         genericRestClient.geneticRestRequestPost(publisherUrl + "/assets/" + assetId + "/state",
                 MediaType.APPLICATION_FORM_URLENCODED, MediaType.APPLICATION_JSON,
                 "nextState=Testing&comment=Completed", queryParamMap, headerMap, cookieHeaderPublisher);
-
         isNotificationMailAvailable = EmailUtil.readGmailInboxForNotification("StoreLifeCycleStateChanged");
         assertTrue(isNotificationMailAvailable,
                 "Store lifecycle state changed notification mail has failed to reach Gmail inbox");
@@ -137,7 +133,6 @@ public class RestServiceStoreEmailNotificationTestCase extends GregESTestBaseTes
     @Test(groups = { "wso2.greg",
             "wso2.greg.es" }, description = "Adding subscription to rest service on resource update")
     public void addSubscriptionOnResourceUpdate() throws Exception {
-
         JSONObject dataObject = new JSONObject();
         dataObject.put("notificationType", "StoreResourceUpdated");
         dataObject.put("notificationMethod", "email");
@@ -168,7 +163,6 @@ public class RestServiceStoreEmailNotificationTestCase extends GregESTestBaseTes
         assertTrue((response.getStatusCode() == Response.Status.ACCEPTED.getStatusCode()),
                 "Wrong status code ,Expected 202 Created ,Received " + response.getStatusCode());
         assertTrue(payLoadObject.getJSONObject("attributes").get("overview_context").equals("/changed/Context"));
-
         isNotificationMailAvailable = EmailUtil.readGmailInboxForNotification("StoreResourceUpdated");
         assertTrue(isNotificationMailAvailable, "Publisher resource updated mail has failed to reach Gmail nbox");
         isNotificationMailAvailable = false;

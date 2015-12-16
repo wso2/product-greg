@@ -46,15 +46,15 @@ import static org.testng.Assert.assertNotNull;
 public class SoapServiceStoreNotificationTestCase extends GregESTestBaseTest {
 
     private TestUserMode userMode;
-    String assetId;
-    String cookieHeaderPublisher;
-    String cookieHeaderStore;
-    GenericRestClient genericRestClient;
-    Map<String, String> queryParamMap;
-    Map<String, String> headerMap;
-    String publisherUrl;
-    String storeUrl;
-    String resourcePath;
+    private String assetId;
+    private String cookieHeaderPublisher;
+    private String cookieHeaderStore;
+    private GenericRestClient genericRestClient;
+    private Map<String, String> queryParamMap;
+    private Map<String, String> headerMap;
+    private String publisherUrl;
+    private String storeUrl;
+    private String resourcePath;
 
     @Factory(dataProvider = "userModeProvider")
     public SoapServiceStoreNotificationTestCase(TestUserMode userMode) {
@@ -85,7 +85,6 @@ public class SoapServiceStoreNotificationTestCase extends GregESTestBaseTest {
     @Test(groups = { "wso2.greg",
             "wso2.greg.es" }, description = "Adding subscription to soap service on LC state change")
     public void addSubscriptionToLcStateChange() throws JSONException, IOException {
-
         JSONObject dataObject = new JSONObject();
         dataObject.put("notificationType", "StoreLifeCycleStateChanged");
         dataObject.put("notificationMethod", "work");
@@ -104,7 +103,6 @@ public class SoapServiceStoreNotificationTestCase extends GregESTestBaseTest {
                 MediaType.APPLICATION_FORM_URLENCODED, MediaType.APPLICATION_JSON,
                 "nextState=Testing&comment=Completed", queryParamMap, headerMap, cookieHeaderPublisher);
         // TODO - Since notification not appearing in the store
-
     }
 
     /**
@@ -114,7 +112,6 @@ public class SoapServiceStoreNotificationTestCase extends GregESTestBaseTest {
     @Test(groups = { "wso2.greg",
             "wso2.greg.es" }, description = "Adding subscription to soap service on resource update")
     public void addSubscriptionToResourceUpdate() throws JSONException, IOException {
-
         JSONObject dataObject = new JSONObject();
         dataObject.put("notificationType", "StoreResourceUpdated");
         dataObject.put("notificationMethod", "work");
@@ -133,7 +130,6 @@ public class SoapServiceStoreNotificationTestCase extends GregESTestBaseTest {
         genericRestClient.geneticRestRequestPost(publisherUrl + "/assets/" + assetId, MediaType.APPLICATION_JSON,
                 MediaType.APPLICATION_JSON, dataBody, queryParamMap, headerMap, cookieHeaderPublisher);
         // TODO - Since notification not appearing in the store
-
     }
 
     /**
@@ -142,7 +138,6 @@ public class SoapServiceStoreNotificationTestCase extends GregESTestBaseTest {
     @Test(groups = { "wso2.greg",
             "wso2.greg.es" }, description = "Adding wrong subscription method to check the error message")
     public void addWrongSubscriptionMethod() throws JSONException, IOException {
-
         JSONObject dataObject = new JSONObject();
         dataObject.put("notificationType", "StoreResourceUpdated");
         dataObject.put("notificationMethod", "test");

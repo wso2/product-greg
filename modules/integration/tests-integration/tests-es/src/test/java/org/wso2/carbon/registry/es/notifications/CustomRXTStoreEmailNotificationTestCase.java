@@ -56,7 +56,6 @@ public class CustomRXTStoreEmailNotificationTestCase extends GregESTestBaseTest 
     public static final String RXT_STORAGE_PATH =
             "/_system/governance/repository/components/org.wso2.carbon.governance/types/applications.rxt";
     private TestUserMode userMode;
-
     private ResourceAdminServiceClient resourceAdminServiceClient;
     private String publisherUrl;
     private String storeUrl;
@@ -70,7 +69,6 @@ public class CustomRXTStoreEmailNotificationTestCase extends GregESTestBaseTest 
     private String loginURL;
     private boolean isNotificationMailAvailable;
 
-
     @Factory (dataProvider = "userModeProvider")
     public CustomRXTStoreEmailNotificationTestCase(TestUserMode userMode) {
         this.userMode = userMode;
@@ -78,7 +76,6 @@ public class CustomRXTStoreEmailNotificationTestCase extends GregESTestBaseTest 
 
     @BeforeClass (alwaysRun = true)
     public void init() throws Exception {
-
         super.init(userMode);
         loginURL = UrlGenerationUtil.getLoginURL(automationContext.getInstance());
         genericRestClient = new GenericRestClient();
@@ -92,7 +89,6 @@ public class CustomRXTStoreEmailNotificationTestCase extends GregESTestBaseTest 
         storeUrl = automationContext.getContextUrls().getSecureServiceUrl().replace("services", "store/apis");
         resourceAdminServiceClient = new ResourceAdminServiceClient(backendURL, sessionCookie);
         addCustomRxt();
-
         queryParamMap.put("type", "applications");
         EmailUtil.updateProfileAndEnableEmailConfiguration(automationContext, backendURL, sessionCookie);
         setTestEnvironment();
@@ -105,7 +101,6 @@ public class CustomRXTStoreEmailNotificationTestCase extends GregESTestBaseTest 
     @Test(groups = { "wso2.greg",
             "wso2.greg.es" }, description = "Adding subscription to custom asset on LC state change")
     public void addSubscriptionToLcStateChange() throws Exception {
-
         JSONObject dataObject = new JSONObject();
         dataObject.put("notificationType", "StoreLifeCycleStateChanged");
         dataObject.put("notificationMethod", "email");
@@ -131,7 +126,6 @@ public class CustomRXTStoreEmailNotificationTestCase extends GregESTestBaseTest 
         genericRestClient.geneticRestRequestPost(publisherUrl + "/assets/" + assetId + "/state",
                 MediaType.APPLICATION_FORM_URLENCODED, MediaType.APPLICATION_JSON,
                 "nextState=Testing&comment=Completed", queryParamMap, headerMap, cookieHeaderPublisher);
-
         isNotificationMailAvailable = EmailUtil.readGmailInboxForNotification("StoreLifeCycleStateChanged");
         assertTrue(isNotificationMailAvailable,
                 "Publisher LC state changed notification mail has failed to reach Gmail inbox");
@@ -145,7 +139,6 @@ public class CustomRXTStoreEmailNotificationTestCase extends GregESTestBaseTest 
     @Test(groups = { "wso2.greg",
             "wso2.greg.es" }, description = "Adding subscription to custom asset on resource update")
     public void addSubscriptionOnResourceUpdate() throws Exception {
-
         JSONObject dataObject = new JSONObject();
         dataObject.put("notificationType", "StoreResourceUpdated");
         dataObject.put("notificationMethod", "email");
@@ -171,7 +164,6 @@ public class CustomRXTStoreEmailNotificationTestCase extends GregESTestBaseTest 
         String dataBody = readFile(resourcePath + "json" + File.separator + "PublisherCustomResourceUpdate.json");
         genericRestClient.geneticRestRequestPost(publisherUrl + "/assets/" + assetId, MediaType.APPLICATION_JSON,
                 MediaType.APPLICATION_JSON, dataBody, queryParamMap, headerMap, cookieHeaderPublisher);
-
         isNotificationMailAvailable = EmailUtil.readGmailInboxForNotification("StoreResourceUpdated");
         assertTrue(isNotificationMailAvailable, "Publisher resource updated mail has failed to reach Gmail inbox");
         isNotificationMailAvailable = false;

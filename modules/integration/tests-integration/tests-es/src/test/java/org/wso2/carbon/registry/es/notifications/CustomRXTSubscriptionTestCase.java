@@ -54,13 +54,13 @@ public class CustomRXTSubscriptionTestCase extends GregESTestBaseTest {
     public static final String RXT_STORAGE_PATH =
             "/_system/governance/repository/components/org.wso2.carbon.governance/types/applications.rxt";
     private TestUserMode userMode;
-    String assetId;
-    String cookieHeader;
-    GenericRestClient genericRestClient;
-    Map<String, String> queryParamMap;
-    Map<String, String> headerMap;
-    String publisherUrl;
-    String resourcePath;
+    private String assetId;
+    private String cookieHeader;
+    private GenericRestClient genericRestClient;
+    private Map<String, String> queryParamMap;
+    private Map<String, String> headerMap;
+    private String publisherUrl;
+    private String resourcePath;
     private ResourceAdminServiceClient resourceAdminServiceClient;
 
     @Factory(dataProvider = "userModeProvider")
@@ -93,9 +93,7 @@ public class CustomRXTSubscriptionTestCase extends GregESTestBaseTest {
             "wso2.greg.es" }, description = "Adding subscription to custom asset on LC state change",
             dependsOnMethods = { "addSubscriptionCheckListItem", "addSubscriptionUnCheckListItem" })
     public void addSubscriptionToLcStateChange() throws JSONException, IOException {
-
         JSONObject dataObject = new JSONObject();
-
         dataObject.put("notificationType", "PublisherLifeCycleStateChanged");
         dataObject.put("notificationMethod", "work");
 
@@ -123,9 +121,7 @@ public class CustomRXTSubscriptionTestCase extends GregESTestBaseTest {
     @Test(groups = { "wso2.greg",
             "wso2.greg.es" }, description = "Adding subscription to custom asset on resource update")
     public void addSubscriptionToResourceUpdate() throws JSONException, IOException {
-
         JSONObject dataObject = new JSONObject();
-
         dataObject.put("notificationType", "PublisherResourceUpdated");
         dataObject.put("notificationMethod", "work");
 
@@ -155,9 +151,7 @@ public class CustomRXTSubscriptionTestCase extends GregESTestBaseTest {
     @Test(groups = { "wso2.greg",
             "wso2.greg.es" }, description = "Adding subscription to custom asset on check list item checked")
     public void addSubscriptionCheckListItem() throws JSONException, IOException {
-
         JSONObject dataObject = new JSONObject();
-
         dataObject.put("notificationType", "PublisherCheckListItemChecked");
         dataObject.put("notificationMethod", "work");
 
@@ -194,9 +188,7 @@ public class CustomRXTSubscriptionTestCase extends GregESTestBaseTest {
             "wso2.greg.es" }, description = "Adding subscription to custom asset on check list item unchecked",
             dependsOnMethods = { "addSubscriptionCheckListItem" })
     public void addSubscriptionUnCheckListItem() throws JSONException, IOException {
-
         JSONObject dataObject = new JSONObject();
-
         dataObject.put("notificationType", "PublisherCheckListItemUnchecked");
         dataObject.put("notificationMethod", "work");
 
@@ -231,9 +223,7 @@ public class CustomRXTSubscriptionTestCase extends GregESTestBaseTest {
     @Test(groups = { "wso2.greg",
             "wso2.greg.es" }, description = "Adding wrong subscription method to check the error message")
     public void addWrongSubscriptionMethod() throws JSONException, IOException {
-
         JSONObject dataObject = new JSONObject();
-
         dataObject.put("notificationType", "PublisherCheckListItemUnchecked");
         dataObject.put("notificationMethod", "test");
 

@@ -47,13 +47,13 @@ import static org.testng.Assert.assertNotNull;
 public class RestServiceNotificationAndSubscriptionTestCase extends GregESTestBaseTest {
 
     private TestUserMode userMode;
-    String assetId;
-    String cookieHeader;
-    GenericRestClient genericRestClient;
-    Map<String, String> queryParamMap;
-    Map<String, String> headerMap;
-    String publisherUrl;
-    String resourcePath;
+    private String assetId;
+    private String cookieHeader;
+    private GenericRestClient genericRestClient;
+    private Map<String, String> queryParamMap;
+    private Map<String, String> headerMap;
+    private String publisherUrl;
+    private String resourcePath;
 
     @Factory(dataProvider = "userModeProvider")
     public RestServiceNotificationAndSubscriptionTestCase(TestUserMode userMode) {
@@ -83,9 +83,7 @@ public class RestServiceNotificationAndSubscriptionTestCase extends GregESTestBa
             "wso2.greg.es" }, description = "Adding subscription to rest service on LC state change",
             dependsOnMethods = { "addSubscriptionCheckListItem", "addSubscriptionUnCheckListItem" })
     public void addSubscriptionToLcStateChange() throws JSONException, IOException {
-
         JSONObject dataObject = new JSONObject();
-
         dataObject.put("notificationType", "PublisherLifeCycleStateChanged");
         dataObject.put("notificationMethod", "work");
 
@@ -114,9 +112,7 @@ public class RestServiceNotificationAndSubscriptionTestCase extends GregESTestBa
     @Test(groups = { "wso2.greg",
             "wso2.greg.es" }, description = "Adding subscription to rest service on resource update")
     public void addSubscriptionToResourceUpdate() throws JSONException, IOException {
-
         JSONObject dataObject = new JSONObject();
-
         dataObject.put("notificationType", "PublisherResourceUpdated");
         dataObject.put("notificationMethod", "work");
 
@@ -147,9 +143,7 @@ public class RestServiceNotificationAndSubscriptionTestCase extends GregESTestBa
     @Test(groups = { "wso2.greg",
             "wso2.greg.es" }, description = "Adding subscription to rest service on check list item checked")
     public void addSubscriptionCheckListItem() throws JSONException, IOException {
-
         JSONObject dataObject = new JSONObject();
-
         dataObject.put("notificationType", "PublisherCheckListItemChecked");
         dataObject.put("notificationMethod", "work");
 
@@ -187,9 +181,7 @@ public class RestServiceNotificationAndSubscriptionTestCase extends GregESTestBa
             "wso2.greg.es" }, description = "Adding subscription to rest service on check list item unchecked",
             dependsOnMethods = { "addSubscriptionCheckListItem" })
     public void addSubscriptionUnCheckListItem() throws JSONException, IOException {
-
         JSONObject dataObject = new JSONObject();
-
         dataObject.put("notificationType", "PublisherCheckListItemUnchecked");
         dataObject.put("notificationMethod", "work");
 
@@ -224,9 +216,7 @@ public class RestServiceNotificationAndSubscriptionTestCase extends GregESTestBa
     @Test(groups = { "wso2.greg",
             "wso2.greg.es" }, description = "Adding wrong subscription method to check the error message")
     public void addWrongSubscriptionMethod() throws JSONException, IOException {
-
         JSONObject dataObject = new JSONObject();
-
         dataObject.put("notificationType", "PublisherCheckListItemUnchecked");
         dataObject.put("notificationMethod", "test");
 
@@ -270,7 +260,6 @@ public class RestServiceNotificationAndSubscriptionTestCase extends GregESTestBa
     public void clean() throws Exception {
         deleteAssetById(publisherUrl, genericRestClient, cookieHeader, assetId, queryParamMap);
     }
-
 
     @DataProvider
     private static TestUserMode[][] userModeProvider() {

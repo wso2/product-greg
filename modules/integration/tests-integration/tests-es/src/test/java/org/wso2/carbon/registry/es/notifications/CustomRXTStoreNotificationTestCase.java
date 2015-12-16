@@ -53,15 +53,15 @@ public class CustomRXTStoreNotificationTestCase extends GregESTestBaseTest {
     public static final String RXT_STORAGE_PATH =
             "/_system/governance/repository/components/org.wso2.carbon.governance/types/applications.rxt";
     private TestUserMode userMode;
-    String assetId;
-    String cookieHeaderPublisher;
-    String cookieHeaderStore;
-    GenericRestClient genericRestClient;
-    Map<String, String> queryParamMap;
-    Map<String, String> headerMap;
-    String publisherUrl;
-    String storeUrl;
-    String resourcePath;
+    private String assetId;
+    private String cookieHeaderPublisher;
+    private String cookieHeaderStore;
+    private GenericRestClient genericRestClient;
+    private Map<String, String> queryParamMap;
+    private Map<String, String> headerMap;
+    private String publisherUrl;
+    private String storeUrl;
+    private String resourcePath;
     private ResourceAdminServiceClient resourceAdminServiceClient;
 
     @Factory(dataProvider = "userModeProvider")

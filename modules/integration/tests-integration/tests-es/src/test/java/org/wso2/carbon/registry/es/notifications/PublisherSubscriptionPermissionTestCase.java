@@ -45,13 +45,13 @@ import static org.testng.Assert.assertTrue;
 public class PublisherSubscriptionPermissionTestCase extends GregESTestBaseTest {
 
     private TestUserMode userMode;
-    String assetId;
-    String cookieHeader;
-    GenericRestClient genericRestClient;
-    Map<String, String> queryParamMap;
-    Map<String, String> headerMap;
-    String publisherUrl;
-    String resourcePath;
+    private String assetId;
+    private String cookieHeader;
+    private GenericRestClient genericRestClient;
+    private Map<String, String> queryParamMap;
+    private Map<String, String> headerMap;
+    private String publisherUrl;
+    private String resourcePath;
 
     @Factory(dataProvider = "userModeProvider")
     public PublisherSubscriptionPermissionTestCase(TestUserMode userMode) {
@@ -64,12 +64,13 @@ public class PublisherSubscriptionPermissionTestCase extends GregESTestBaseTest 
         genericRestClient = new GenericRestClient();
         queryParamMap = new HashMap<>();
         headerMap = new HashMap<>();
-        resourcePath = FrameworkPathUtil.getSystemResourceLocation()
-                + "artifacts" + File.separator + "GREG" + File.separator;
+        StringBuilder builder = new StringBuilder();
+        builder.append(FrameworkPathUtil.getSystemResourceLocation()).append("artifacts").append(File.separator)
+                .append("GREG").append(File.separator);
+        resourcePath = builder.toString();
         publisherUrl = automationContext.getContextUrls()
                 .getSecureServiceUrl().replace("services", "publisher/apis");
         setTestEnvironment();
-
     }
 
     /**
@@ -80,11 +81,9 @@ public class PublisherSubscriptionPermissionTestCase extends GregESTestBaseTest 
             + "rest service from a user without permission")
     public void getAllSubscriptionsWithoutPermission()
             throws JSONException, IOException {
-
         ClientResponse response = genericRestClient
                 .geneticRestRequestGet(publisherUrl + "/subscriptions/restservice/" + assetId, queryParamMap, headerMap,
                         cookieHeader);
-
         assertTrue((response.getStatusCode() == 401),
                 "Wrong status code ,Expected 401 Permission Denied , Received " + response.getStatusCode());
     }
@@ -97,7 +96,6 @@ public class PublisherSubscriptionPermissionTestCase extends GregESTestBaseTest 
             + " LC state change from a user without permission")
     public void addSubscriptionToLcStateChangeWithoutPermission()
             throws JSONException, IOException {
-
         JSONObject dataObject = new JSONObject();
         dataObject.put("notificationType", "PublisherLifeCycleStateChanged");
         dataObject.put("notificationMethod", "work");
@@ -106,7 +104,6 @@ public class PublisherSubscriptionPermissionTestCase extends GregESTestBaseTest 
                 .geneticRestRequestPost(publisherUrl + "/subscriptions/restservice/" + assetId,
                         MediaType.APPLICATION_JSON, MediaType.APPLICATION_JSON, dataObject.toString(), queryParamMap,
                         headerMap, cookieHeader);
-
         assertTrue((response.getStatusCode() == 401),
                 "Wrong status code ,Expected 401 Permission Denied , Received " + response.getStatusCode());
     }
@@ -118,7 +115,6 @@ public class PublisherSubscriptionPermissionTestCase extends GregESTestBaseTest 
     @Test(groups = { "wso2.greg", "wso2.greg.es" },
             description = "Adding subscription to rest service on resource update from a user without permission")
     public void addSubscriptionToResourceUpdateWithoutPermission() throws JSONException, IOException {
-
         JSONObject dataObject = new JSONObject();
         dataObject.put("notificationType", "PublisherResourceUpdated");
         dataObject.put("notificationMethod", "work");
@@ -139,7 +135,6 @@ public class PublisherSubscriptionPermissionTestCase extends GregESTestBaseTest 
             description = "Adding subscription to rest service on check list item checked from a "
                     + "user without permission")
     public void addSubscriptionCheckListItemWithoutPermission() throws JSONException, IOException {
-
         JSONObject dataObject = new JSONObject();
         dataObject.put("notificationType", "PublisherCheckListItemChecked");
         dataObject.put("notificationMethod", "work");
@@ -160,7 +155,6 @@ public class PublisherSubscriptionPermissionTestCase extends GregESTestBaseTest 
             description = "Adding subscription to rest service on check list item unchecked from a "
                     + "user without permission")
     public void addSubscriptionUnCheckListItemWithoutPermission() throws JSONException, IOException {
-
         JSONObject dataObject = new JSONObject();
         dataObject.put("notificationType", "PublisherCheckListItemUnchecked");
         dataObject.put("notificationMethod", "work");
@@ -171,11 +165,6 @@ public class PublisherSubscriptionPermissionTestCase extends GregESTestBaseTest 
                         headerMap, cookieHeader);
         assertTrue((response.getStatusCode() == 401),
                 "Wrong status code ,Expected 401 Permission Denied , Received " + response.getStatusCode());
-    }
-
-    private void deleteRestServiceAsset() throws JSONException {
-        genericRestClient.geneticRestRequestDelete(publisherUrl + "/assets/" + assetId, MediaType.APPLICATION_JSON,
-                MediaType.APPLICATION_JSON, queryParamMap, headerMap, cookieHeader);
     }
 
     /**
@@ -219,5 +208,4 @@ public class PublisherSubscriptionPermissionTestCase extends GregESTestBaseTest 
                 //                new TestUserMode[]{TestUserMode.TENANT_USER},
         };
     }
-
 }
