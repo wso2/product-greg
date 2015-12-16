@@ -20,6 +20,8 @@ package org.wso2.greg.integration.common.clients;
 import org.apache.axis2.AxisFault;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.wso2.carbon.registry.core.pagination.PaginationContext;
+import org.wso2.carbon.registry.core.pagination.PaginationUtils;
 import org.wso2.carbon.registry.search.stub.SearchAdminServiceRegistryExceptionException;
 import org.wso2.carbon.registry.search.stub.SearchAdminServiceStub;
 import org.wso2.carbon.registry.search.stub.beans.xsd.AdvancedSearchResultsBean;
@@ -67,6 +69,9 @@ public class SearchAdminServiceClient {
     public AdvancedSearchResultsBean getAdvancedSearchResults(
             CustomSearchParameterBean searchParams)
             throws SearchAdminServiceRegistryExceptionException, RemoteException {
+        if (PaginationContext.getInstance() != null) {
+            PaginationUtils.copyPaginationContext(searchAdminServiceStub._getServiceClient());
+        }
         return searchAdminServiceStub.getAdvancedSearchResults(searchParams);
     }
 
