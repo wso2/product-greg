@@ -65,9 +65,13 @@ public class GovernanceRestApiEndpointTestCase extends GregESTestBaseTest {
     private String publisherUrl;
     private String cookieHeader;
     private String endpoint1Name = "endpoint-1";
-    private String enviornment1 = "QA";
-    private String assetId1, assetId2;
+    private String enviornment_qa = "QA";
+    private String endpointId1, endpointId2;
     private String restTemplate;
+    private String associationEndpointName = "endpoint-association";
+    private String restServiceName = "TestRESTService";
+    private String restServiceVersion = "1.0.0";
+    private String assetIdOfRestService;
 
 
     @Factory(dataProvider = "userModeProvider")
@@ -102,7 +106,7 @@ public class GovernanceRestApiEndpointTestCase extends GregESTestBaseTest {
     @Test(groups = {"wso2.greg", "wso2.greg.governance.rest.api"}, description = "Create new endpoint")
     public void createAsset() throws IOException, JSONException, XPathExpressionException {
 
-        String dataBody = String.format(restTemplate, endpoint1Name, enviornment1);
+        String dataBody = String.format(restTemplate, endpoint1Name, enviornment_qa);
         String governanceRestApiUrlForEndpoints = governaceAPIUrl + "/endpoints";
         ClientResponse response = GovernanceRestApiUtil.createAsset(genericRestClient, dataBody, queryParamMap,
                                                                     headerMap, governanceRestApiUrlForEndpoints);
@@ -110,7 +114,7 @@ public class GovernanceRestApiEndpointTestCase extends GregESTestBaseTest {
         Assert.assertTrue(response.getStatusCode() == HttpStatus.CREATED.getCode(),
                           "Wrong status code ,Expected 201 Created ,Received " + response.getStatusCode());
         String locationHeader = response.getHeaders().get("Location").get(0);
-        assetId1 = locationHeader.substring(locationHeader.lastIndexOf("/") + 1);
+        endpointId1 = locationHeader.substring(locationHeader.lastIndexOf("/") + 1);
     }
 
 
@@ -118,9 +122,7 @@ public class GovernanceRestApiEndpointTestCase extends GregESTestBaseTest {
           dependsOnMethods = {"createAsset"})
     public void getAnIndividualAssetByUUID() throws JSONException {
 
-        String governanceRestApiUrl = governaceAPIUrl + "/endpoints/" + assetId1;
-        ClientResponse response = GovernanceRestApiUtil.getAssetById(genericRestClient, queryParamMap, headerMap,
-                                                                     governanceRestApiUrl);
+        ClientResponse response = getEndpointByID();
         JSONObject jsonObject = new JSONObject(response.getEntity(String.class));
         JSONArray jsonArray = jsonObject.getJSONArray("assets");
         String name = (String) jsonArray.getJSONObject(ASSET_ID_ONE_INDEX).get("name");
@@ -129,11 +131,11 @@ public class GovernanceRestApiEndpointTestCase extends GregESTestBaseTest {
         String type = (String) jsonArray.getJSONObject(ASSET_ID_ONE_INDEX).get("type");
         Assert.assertEquals(name, endpoint1Name, "Incorrect asset name. Expected " + endpoint1Name + " received "
                                                  + name);
-        Assert.assertEquals(id, assetId1, "Incorrect asset id. Expected " + assetId1 + " received "
-                                          + id);
-        Assert.assertEquals(enviornment, enviornment1, "Incorrect asset enviornment. Expected " + enviornment1 +
-                                                       " received "
-                                                       + enviornment);
+        Assert.assertEquals(id, endpointId1, "Incorrect asset id. Expected " + endpointId1 + " received "
+                                             + id);
+        Assert.assertEquals(enviornment, enviornment_qa, "Incorrect asset enviornment. Expected " + enviornment_qa +
+                                                         " received "
+                                                         + enviornment);
         Assert.assertEquals(type, "endpoint", "Incorrect asset type. Expected " + "endpoint" + " received "
                                               + type);
     }
@@ -153,7 +155,7 @@ public class GovernanceRestApiEndpointTestCase extends GregESTestBaseTest {
         Assert.assertTrue(response.getStatusCode() == HttpStatus.CREATED.getCode(),
                           "Wrong status code ,Expected 201 Created ,Received " + response.getStatusCode());
         String locationHeader = response.getHeaders().get("Location").get(0);
-        assetId2 = locationHeader.substring(locationHeader.lastIndexOf("/") + 1);
+        endpointId2 = locationHeader.substring(locationHeader.lastIndexOf("/") + 1);
         Thread.sleep(1000);//for asset indexing
         ClientResponse listOfEndpoints = genericRestClient.geneticRestRequestGet(governanceRestApiUrlForEndpoints,
                                                                                  queryParamMap, headerMap, null);
@@ -167,17 +169,17 @@ public class GovernanceRestApiEndpointTestCase extends GregESTestBaseTest {
             String environment = (String) jsonArray.getJSONObject(i).get("environment");
             String id = (String) jsonArray.getJSONObject(i).get("id");
             if (endpoint1Name.equals(name)) {
-                Assert.assertEquals(environment, enviornment1, "Incorrect context. Expected " + enviornment1 +
-                                                               " received " +
-                                                               environment);
-                Assert.assertEquals(id, assetId1, "Incorrect asset ID. Expected " + assetId1
-                                                  + " Received " + id);
+                Assert.assertEquals(environment, enviornment_qa, "Incorrect context. Expected " + enviornment_qa +
+                                                                 " received " +
+                                                                 environment);
+                Assert.assertEquals(id, endpointId1, "Incorrect asset ID. Expected " + endpointId1
+                                                     + " Received " + id);
             } else if (endpoint2Name.equals(name)) {
                 Assert.assertEquals(environment, environment2, "Incorrect context. Expected " + environment2 +
                                                                " received " +
                                                                environment);
-                Assert.assertEquals(id, assetId2, "Incorrect asset ID. Expected " + assetId2 +
-                                                  " Received " + id);
+                Assert.assertEquals(id, endpointId2, "Incorrect asset ID. Expected " + endpointId2 +
+                                                     " Received " + id);
             }
         }
 
@@ -186,16 +188,14 @@ public class GovernanceRestApiEndpointTestCase extends GregESTestBaseTest {
     @Test(groups = {"wso2.greg", "wso2.greg.governance.rest.api"}, description = "Create an endpoint and associate it " +
                                                                                  "with a REST service",
           dependsOnMethods = {"getAllEndpoints"})
-    public void createEndpointAsAnAssociation()
+    public void createEndpointAsAnAssociationWithUUID()
             throws IOException, JSONException, XPathExpressionException, InterruptedException {
 
-        String endpointName = "endpoint-association";
-        String environment = "QA";
-        String dataBody = String.format(restTemplate, endpointName, environment);
+
         setTestEnvironment();
-        String assetIdOfRestService = createRestService();
+        assetIdOfRestService = createRestService();
         String governanceRestApiUrlForEndpoints = governaceAPIUrl + "/endpoints/restservices/" + assetIdOfRestService;
-        ClientResponse response = GovernanceRestApiUtil.createAsset(genericRestClient, dataBody, queryParamMap,
+        ClientResponse response = GovernanceRestApiUtil.createAsset(genericRestClient, createEndpointDataBody(), queryParamMap,
                                                                     headerMap, governanceRestApiUrlForEndpoints);
 
         Assert.assertTrue(response.getStatusCode() == HttpStatus.CREATED.getCode(),
@@ -212,23 +212,78 @@ public class GovernanceRestApiEndpointTestCase extends GregESTestBaseTest {
         JsonArray jsonObject = new JsonParser().parse(associationList.getEntity(String.class)).
                 getAsJsonObject().get("results").getAsJsonArray();
         assertTrue(jsonObject.toString().contains(assetIdOfEndpoint));
-        assertTrue(jsonObject.toString().contains(endpointName));
+        assertTrue(jsonObject.toString().contains(associationEndpointName));
         setTestEnvironment();
-        //delete the endpoint and rest service in the end
+        //delete the endpoint in the end
         queryParamMap.put("type", "endpoint");
         deleteAssetById(publisherUrl, genericRestClient, cookieHeader, assetIdOfEndpoint, queryParamMap);
         queryParamMap.clear();
-        queryParamMap.put("type", "restservice");
+        /*queryParamMap.put("type", "restservice");
         deleteAssetById(publisherUrl, genericRestClient, cookieHeader, assetIdOfRestService, queryParamMap);
+        queryParamMap.clear();*/
+    }
+
+    @Test(groups = {"wso2.greg", "wso2.greg.governance.rest.api"}, description = "Create an endpoint and associate it " +
+                                                                                 "with a REST service using name and " +
+                                                                                 "version of REST service",
+          dependsOnMethods = {"createEndpointAsAnAssociationWithUUID"})
+    public void createEndpointAsAnAssociationWithNameAndVersion()
+            throws IOException, InterruptedException, XPathExpressionException, JSONException {
+        String governanceRestApiUrlForEndpoints = governaceAPIUrl + "/endpoints/restservices";
+        queryParamMap.put("name", restServiceName);
+        queryParamMap.put("version", restServiceVersion);
+        ClientResponse response = GovernanceRestApiUtil.createAsset(genericRestClient, createEndpointDataBody(), queryParamMap,
+                                                                    headerMap, governanceRestApiUrlForEndpoints);
+        Assert.assertTrue(response.getStatusCode() == HttpStatus.CREATED.getCode(),
+                          "Wrong status code ,Expected 201 Created ,Received " + response.getStatusCode());
+        String locationHeader = response.getHeaders().get("Location").get(0);
+        String assetIdOfEndpoint = locationHeader.substring(locationHeader.lastIndexOf("/") + 1);
+        Thread.sleep(1000);
+        Map<String, String> headerMap = new HashMap<>();
+        ClientResponse associationList = genericRestClient.geneticRestRequestGet(publisherUrl +
+                                                                                 "/association/restservice/dependancies/"
+                                                                                 + assetIdOfRestService, queryParamMap,
+                                                                                 headerMap, cookieHeader);
+        JsonArray jsonObject = new JsonParser().parse(associationList.getEntity(String.class)).
+                getAsJsonObject().get("results").getAsJsonArray();
+        assertTrue(jsonObject.toString().contains(assetIdOfEndpoint));
+        assertTrue(jsonObject.toString().contains(associationEndpointName));
+        setTestEnvironment();
+        //delete the endpoint in the end
+        queryParamMap.put("type", "endpoint");
+        deleteAssetById(publisherUrl, genericRestClient, cookieHeader, assetIdOfEndpoint, queryParamMap);
         queryParamMap.clear();
+    }
+
+    @Test(groups = {"wso2.greg", "wso2.greg.governance.rest.api"}, description = "Delete an endpoint",
+          dependsOnMethods = {"createEndpointAsAnAssociationWithNameAndVersion"})
+    public void deleteAnEndpoint() {
+        String governanceRestApiUrlForEndpoints = governaceAPIUrl + "/endpoints/" + endpointId1;
+        genericRestClient.geneticRestRequestDelete(governanceRestApiUrlForEndpoints,
+                                                   MediaType.APPLICATION_JSON,
+                                                   MediaType.APPLICATION_JSON, queryParamMap,
+                                                   headerMap, null);
+        ClientResponse clientResponse = getEndpointByID();
+        //Check whether asset got deleted by checking the response for get method returns null
+        Assert.assertNull(clientResponse.getEntity(String.class));
+
+    }
+
+    private ClientResponse getEndpointByID() {
+        String governanceRestApiUrl = governaceAPIUrl + "/endpoints/" + endpointId1;
+        return GovernanceRestApiUtil.getAssetById(genericRestClient, queryParamMap, headerMap,
+                                                  governanceRestApiUrl);
+    }
+
+    private String createEndpointDataBody() {
+        return String.format(restTemplate, associationEndpointName, enviornment_qa);
     }
 
     private String createRestService() throws IOException, JSONException {
         Map<String, String> queryParamMap = new HashMap<>();
         queryParamMap.put("type", "restservice");
         String restTemplate = readFile(resourcePath + "json" + File.separator + "restservice-sample.json");
-        String assetName = "restService1";
-        String dataBody = String.format(restTemplate, assetName, "wso2", "/rest", "1.0.0");
+        String dataBody = String.format(restTemplate, restServiceName, "wso2", "/rest", restServiceVersion);
         ClientResponse response =
                 genericRestClient.geneticRestRequestPost(publisherUrl + "/assets",
                                                          MediaType.APPLICATION_JSON,
@@ -270,10 +325,11 @@ public class GovernanceRestApiEndpointTestCase extends GregESTestBaseTest {
         Map<String, String> queryParamMap = new HashMap<>();
         setTestEnvironment();
         queryParamMap.put("type", "endpoint");
-        deleteAssetById(publisherUrl, genericRestClient, cookieHeader, assetId1, queryParamMap);
-        deleteAssetById(publisherUrl, genericRestClient, cookieHeader, assetId2, queryParamMap);
-
-        //deleteAssetById(publisherUrl, genericRestClient, cookieHeader, assetId2, queryParamMap);
+        deleteAssetById(publisherUrl, genericRestClient, cookieHeader, endpointId2, queryParamMap);
+        //delete the rest service created
+        queryParamMap.clear();
+        queryParamMap.put("type", "restservice");
+        deleteAssetById(publisherUrl, genericRestClient, cookieHeader, assetIdOfRestService, queryParamMap);
     }
 
 }
