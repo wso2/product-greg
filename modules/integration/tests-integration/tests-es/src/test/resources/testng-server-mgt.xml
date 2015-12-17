@@ -11,7 +11,12 @@
     </listeners>
     <test name="InitializedAndSetupServer" preserve-order="true" parallel="false">
         <classes>
-            <!--<class name="org.wso2.carbon.registry.server.mgt.test.RegistryConfiguratorTestCase"/>-->
+            <class name="org.wso2.carbon.registry.es.registry.GovernanceRestAPIAssociationsTestCase"/>
+            <class name="org.wso2.carbon.registry.es.registry.GovernanceRestAPICommentsTestCase"/>
+            <class name="org.wso2.carbon.registry.es.registry.GovernanceRestAPIPropertyTestCase"/>
+            <class name="org.wso2.carbon.registry.es.registry.GovernanceRestAPIRatingsTestCase"/>
+            <class name="org.wso2.carbon.registry.es.registry.GovernanceRestAPIResourcesImplementationTestCase"/>
+            <class name="org.wso2.carbon.registry.es.registry.GovernanceRestAPIResourcesTagsTestCase"/>
         </classes>
     </test>
 </suite>
