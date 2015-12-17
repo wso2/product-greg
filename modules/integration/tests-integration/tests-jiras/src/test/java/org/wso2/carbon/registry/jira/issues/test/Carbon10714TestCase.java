@@ -50,9 +50,7 @@ public class Carbon10714TestCase extends GREGIntegrationBaseTest {
 
     private static final String SERVICE_LIFE_CYCLE = "ServiceLifeCycle";
     private final static String WSDL_URL =
-            "https://svn.wso2.org/repos/wso2/carbon/platform/trunk/"
-            + "platform-integration/clarity-tests/org.wso2.carbon.automation.test.repo/"
-            + "src/main/resources/artifacts/GREG/wsdl/info.wsdl";
+            "https://raw.githubusercontent.com/wso2/wso2-qa-artifacts/master/automation-artifacts/greg/wsdl/info.wsdl";
     ServiceManager serviceManager;
     ResourceAdminServiceClient resourceAdminServiceClient;
     private LifeCycleManagementClient lifeCycleManagerAdminService;

@@ -19,7 +19,7 @@
     <overview><description>description 1</description><name>a b c</name><namespace>http://a b c.com</namespace><states>0</states></overview>
     <contacts><contact>0</contact></contacts>
     <interface>
-        <wsdlURL>http://svn.wso2.org/repos/wso2/carbon/platform/trunk/components/governance/org.wso2.carbon.governance.api/src/test/resources/test-resources/wsdl/BizService.wsdl</wsdlURL>
+        <wsdlURL>https://raw.githubusercontent.com/wso2/wso2-qa-artifacts/master/automation-artifacts/greg/wsdl/BizService.wsdl</wsdlURL>
         <transportProtocols>0</transportProtocols>
         <messageFormats>0</messageFormats>
         <messageExchangePatterns>0</messageExchangePatterns>

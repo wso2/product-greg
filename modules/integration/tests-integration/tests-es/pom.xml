@@ -3,9 +3,10 @@
     <parent>
         <groupId>org.wso2.greg</groupId>
         <artifactId>org.wso2.greg.integration.tests</artifactId>
-        <version>5.0.1-SNAPSHOT</version>
+        <version>5.1.1-SNAPSHOT</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
+
 
     <modelVersion>4.0.0</modelVersion>
     <name>Es Test Module</name>
@@ -17,11 +18,12 @@
             <plugin>
                 <artifactId>maven-surefire-plugin</artifactId>
                 <inherited>false</inherited>
-                <version>2.12.4</version>
+                <version>2.19</version>
                 <configuration>
-                    <argLine>-Xmx1024m -XX:PermSize=256m -XX:MaxPermSize=512m</argLine>
-                    <!--<argLine>-Xmx1024m -XX:PermSize=256m -XX:MaxPermSize=512m -Xdebug -Xnoagent -Djava.compiler=NONE -Xrunjdwp:transport=dt_socket,server=y,suspend=y,address=5005</argLine>-->
-                    <parallel>false</parallel>
+                    <trimStackTrace>false</trimStackTrace>
+                    <parallel>classes</parallel>
+                    <threadCount>1</threadCount>
+                    <!--<argLine>-Xmx1024m -XX:PermSize=256m -XX:MaxPermSize=512m</argLine>-->
                     <suiteXmlFiles>
                         <suiteXmlFile>src/test/resources/testng-server-mgt.xml</suiteXmlFile>
                         <suiteXmlFile>src/test/resources/testng.xml</suiteXmlFile>
@@ -284,5 +286,19 @@
             <groupId>org.jacoco</groupId>
             <artifactId>org.jacoco.agent</artifactId>
         </dependency>
+        <dependency>
+            <groupId>org.apache.wink</groupId>
+            <artifactId>wink-client</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.json.wso2</groupId>
+            <artifactId>json</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.testng</groupId>
+            <artifactId>testng</artifactId>
+            <version>6.9.9</version>
+        </dependency>
+
     </dependencies>
 </project>

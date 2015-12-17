@@ -93,7 +93,7 @@ public class SchemaAddMetadataTestCase extends GREGIntegrationBaseTest {
     public void addSchemaMultipleImports()
             throws Exception, RemoteException, ResourceAdminServiceExceptionException {
         String resourceUrl =
-                "https://svn.wso2.org/repos/wso2/trunk/commons/qa/qa-artifacts/greg/xsd/company.xsd";
+                "https://raw.githubusercontent.com/wso2/wso2-qa-artifacts/master/automation-artifacts/greg/xsd/company.xsd";
         String resourceName = "company.xsd";
         String referenceSchemaFile = "person.xsd";
         resourceAdminServiceClient.importResource(schemaPath, resourceName,

@@ -58,73 +58,62 @@ public class AddUriTest extends GREGIntegrationBaseTest {
         GovernanceUtils.loadGovernanceArtifacts((UserRegistry) governance);
         GenericArtifactManager artifactManager = new GenericArtifactManager(governance, "uri");
         GenericArtifact artifactWsdl = artifactManager.newGovernanceArtifact(new QName
-                                                                             ("AmazonWebServices"));
+                ("AmazonWebServices"));
 
-        artifactWsdl.setAttribute("overview_uri", "https://svn.wso2.org/repos/wso2/carbon/platform/trunk/" +
-                                                  "platform-integration/platform-automated-test-suite/org.wso2.carbon.automation.test.repo" +
-                                                  "/src/main/resources/artifacts/GREG/wsdl/AmazonWebServices.wsdl");
+        artifactWsdl.setAttribute("overview_uri", "https://raw.githubusercontent.com/wso2/" +
+                "wso2-qa-artifacts/master/automation-artifacts/greg/wsdl/AmazonWebServices.wsdl");
 
         artifactWsdl.setAttribute("overview_type", "WSDL");
         artifactManager.addGenericArtifact(artifactWsdl);
 
-        assertTrue(artifactWsdl.getAttribute("overview_uri").equals("https://svn.wso2.org/repos/wso2/carbon/platform/trunk/" +
-                                                                    "platform-integration/platform-automated-test-suite/org.wso2.carbon.automation.test.repo" +
-                                                                    "/src/main/resources/artifacts/GREG/" +
-                                                                    "wsdl/AmazonWebServices.wsdl"), "artifact URI not found");
+        assertTrue(artifactWsdl.getAttribute("overview_uri").equals("https://raw.githubusercontent.com/wso2/" +
+                "wso2-qa-artifacts/master/automation-artifacts/greg/wsdl/AmazonWebServices.wsdl"), "artifact URI not found");
         assertTrue(artifactWsdl.getAttribute("overview_name").equals("AmazonWebServices"), "artifact name not found");
         assertTrue(artifactWsdl.getAttribute("overview_type").equals("WSDL"), "artifact WSDL not found");
         assertTrue(governance.resourceExists("uris/WSDL/AmazonWebServices.wsdl"), "AmazonWebServices.wsdl URI doesn't exists");
 
 
         GenericArtifact artifactSchema = artifactManager.newGovernanceArtifact(new QName
-                                                                               ("purchasing"));
+                ("purchasing"));
 
-        artifactSchema.setAttribute("overview_uri", "https://svn.wso2.org/repos/wso2/carbon/platform/trunk/" +
-                                                    "platform-integration/platform-automated-test-suite/org.wso2.carbon.automation.test.repo" +
-                                                    "/src/main/resources/artifacts/GREG/xsd/purchasing.xsd");
+        artifactSchema.setAttribute("overview_uri", "https://raw.githubusercontent.com/wso2/wso2-qa-artifacts/" +
+                "master/automation-artifacts/greg/xsd/purchasing.xsd");
 
         artifactSchema.setAttribute("overview_type", "XSD");
         artifactManager.addGenericArtifact(artifactSchema);
 
-        assertTrue(artifactSchema.getAttribute("overview_uri").equals("https://svn.wso2.org/repos/wso2/carbon/platform/" +
-                                                                      "trunk/platform-integration/platform-automated-test-suite/" +
-                                                                      "org.wso2.carbon.automation.test.repo/src/main/resources/artifacts/" +
-                                                                      "GREG/xsd/purchasing.xsd"), "artifact URI not found");
+        assertTrue(artifactSchema.getAttribute("overview_uri").equals("https://raw.githubusercontent.com/wso2/" +
+                "wso2-qa-artifacts/master/automation-artifacts/greg/xsd/purchasing.xsd"), "artifact URI not found");
         assertTrue(artifactSchema.getAttribute("overview_name").equals("purchasing"), "artifact name not found");
         assertTrue(artifactSchema.getAttribute("overview_type").equals("XSD"), "artifact XSD not found");
         assertTrue(governance.resourceExists("uris/XSD/purchasing.xsd"), "purchasing.xsd URI doesn't exists");
 
 
         GenericArtifact artifactPolicy = artifactManager.newGovernanceArtifact(new QName
-                                                                               ("policy"));
+                ("policy"));
 
-        artifactPolicy.setAttribute("overview_uri", "https://svn.wso2.org/repos/wso2/carbon/platform/trunk/" +
-                                                    "platform-integration/platform-automated-test-suite/org.wso2.carbon.automation.test.repo" +
-                                                    "/src/main/resources/artifacts/GREG/policy/policy.xml");
+        artifactPolicy.setAttribute("overview_uri", "https://raw.githubusercontent.com/wso2/wso2-qa-artifacts/master/" +
+                "automation-artifacts/greg/policy/policy.xml");
         artifactPolicy.setAttribute("overview_type", "Policy");
         artifactManager.addGenericArtifact(artifactPolicy);
 
-        assertTrue(artifactPolicy.getAttribute("overview_uri").equals("https://svn.wso2.org/repos/wso2/carbon/platform/" +
-                                                                      "trunk/platform-integration/platform-automated-test-suite/org.wso2.carbon.automation.test.repo/" +
-                                                                      "src/main/resources/artifacts/" +
-                                                                      "GREG/policy/policy.xml"), "artifact URI not found");
+        assertTrue(artifactPolicy.getAttribute("overview_uri").equals("https://raw.githubusercontent.com/" +
+                "wso2/wso2-qa-artifacts/master/automation-artifacts/greg/policy/policy.xml"), "artifact URI not found");
         assertTrue(artifactPolicy.getAttribute("overview_name").equals("policy"), "artifact name not found");
         assertTrue(artifactPolicy.getAttribute("overview_type").equals("Policy"), "artifact Policy not found");
         assertTrue(governance.resourceExists("uris/Policy/policy.xml"), "policy.xml URI doesn't exists");
 
 
         GenericArtifact artifactGeneric = artifactManager.newGovernanceArtifact(new QName
-                                                                                ("resource.txt"));
+                ("resource.txt"));
 
-        artifactGeneric.setAttribute("overview_uri", "https://svn.wso2.org/repos/wso2/carbon/platform/trunk/" +
-                                                     "platform-integration/platform-automated-test-suite/org.wso2.carbon.automation.test.repo/src/main/resources/" +
-                                                     "artifacts/GREG/resource.txt");
+        artifactGeneric.setAttribute("overview_uri", "https://raw.githubusercontent.com/wso2/wso2-qa-artifacts/" +
+                "master/automation-artifacts/greg/resource.txt");
         artifactGeneric.setAttribute("overview_type", "Generic");
         artifactManager.addGenericArtifact(artifactGeneric);
 
-        assertTrue(artifactGeneric.getAttribute("overview_uri").equals("https://svn.wso2.org/repos/wso2/carbon/platform/" +
-                                                                       "trunk/platform-integration/platform-automated-test-suite/org.wso2.carbon.automation.test.repo/src/main/resources/artifacts/" +
-                                                                       "GREG/resource.txt"), "artifact URI not found");
+        assertTrue(artifactGeneric.getAttribute("overview_uri").equals("https://raw.githubusercontent.com/wso2/" +
+                "wso2-qa-artifacts/master/automation-artifacts/greg/resource.txt"), "artifact URI not found");
         assertTrue(artifactGeneric.getAttribute("overview_name").equals("resource.txt"), "artifact name not found");
         assertTrue(artifactGeneric.getAttribute("overview_type").equals("Generic"), "artifact Generic not found");
         assertTrue(governance.resourceExists("uris/Generic/resource.txt"), "resource.txt URI doesn't exists");
@@ -138,34 +127,31 @@ public class AddUriTest extends GREGIntegrationBaseTest {
         GovernanceUtils.loadGovernanceArtifacts((UserRegistry) governance);
         GenericArtifactManager artifactManager = new GenericArtifactManager(governance, "uri");
         GenericArtifact artifactWsdlWithWsdl = artifactManager.newGovernanceArtifact(new QName
-                                                                                     ("Axis2Service_Wsdl_With_Wsdl_Imports"));
+                ("Axis2Service_Wsdl_With_Wsdl_Imports"));
 
-        artifactWsdlWithWsdl.setAttribute("overview_uri", "https://svn.wso2.org/repos/wso2/carbon/platform/trunk/" +
-                                                          "platform-integration/platform-automated-test-suite/org.wso2.carbon.automation.test.repo/src/main/resources/artifacts/GREG/wsdl/" +
-                                                          "Axis2Service_Wsdl_With_Wsdl_Imports.wsdl");
+        artifactWsdlWithWsdl.setAttribute("overview_uri", "https://raw.githubusercontent.com/wso2/wso2-qa-artifacts/master/automation-artifacts/greg/wsdl/Axis2Service_Wsdl_With_Wsdl_Imports.wsdl");
         artifactWsdlWithWsdl.setAttribute("overview_type", "WSDL");
         artifactManager.addGenericArtifact(artifactWsdlWithWsdl);
 
-        assertTrue(artifactWsdlWithWsdl.getAttribute("overview_uri").equals("https://svn.wso2.org/repos/wso2/carbon/platform/" +
-                                                                            "trunk/platform-integration/platform-automated-test-suite/org.wso2.carbon.automation.test.repo/src/main/resources/artifacts/" +
-                                                                            "GREG/wsdl/Axis2Service_Wsdl_With_Wsdl_Imports.wsdl"), "artifact URI not found");
+        assertTrue(artifactWsdlWithWsdl.getAttribute("overview_uri").equals("https://raw.githubusercontent.com/wso2/" +
+                "wso2-qa-artifacts/master/automation-artifacts/greg/wsdl/Axis2Service_Wsdl_With_Wsdl_Imports.wsdl"), "artifact URI not found");
         assertTrue(artifactWsdlWithWsdl.getAttribute("overview_name").equals("Axis2Service_Wsdl_With_Wsdl_Imports"), "artifact name not found");
         assertTrue(artifactWsdlWithWsdl.getAttribute("overview_type").equals("WSDL"), "artifact type not found");
         assertTrue(governance.resourceExists("uris/WSDL/Axis2Service_Wsdl_With_Wsdl_Imports.wsdl"),
-                   "Axis2Service_Wsdl_With_Wsdl_Imports.wsdl URI doesn't exists");
+                "Axis2Service_Wsdl_With_Wsdl_Imports.wsdl URI doesn't exists");
         assertTrue(governance.resourceExists("uris/WSDL/Axis2ImportedWsdl.wsdl"), "Dependency Axis2ImportedWsdl.wsdl doesn't exists");
 
         GenericArtifact artifactWsdlWithSchema = artifactManager.newGovernanceArtifact(new QName
-                                                                                       ("wsdl_with_EncrOnlyAnonymous"));
+                ("wsdl_with_EncrOnlyAnonymous"));
 
-        artifactWsdlWithSchema.setAttribute("overview_uri", "https://svn.wso2.org/repos/wso2/carbon/platform/trunk/" +
-                                                            "platform-integration/platform-automated-test-suite/org.wso2.carbon.automation.test.repo/src/main/resources/artifacts/GREG/wsdl/wsdl_with_EncrOnlyAnonymous.wsdl");
+        artifactWsdlWithSchema.setAttribute("overview_uri", "https://raw.githubusercontent.com/wso2/wso2-qa-artifacts/" +
+                "master/automation-artifacts/greg/wsdl/wsdl_with_EncrOnlyAnonymous.wsdl");
         artifactWsdlWithSchema.setAttribute("overview_type", "WSDL");
         artifactManager.addGenericArtifact(artifactWsdlWithSchema);
 
-        assertTrue(artifactWsdlWithSchema.getAttribute("overview_uri").equals("https://svn.wso2.org/repos/wso2/carbon/platform/" +
-                                                                              "trunk/platform-integration/platform-automated-test-suite/org.wso2.carbon.automation.test.repo/src/main/resources/artifacts/GREG/wsdl/" +
-                                                                              "wsdl_with_EncrOnlyAnonymous.wsdl"), "artifact URI not found");
+        assertTrue(artifactWsdlWithSchema.getAttribute("overview_uri").equals("https://raw.githubusercontent.com/wso2/" +
+                "wso2-qa-artifacts/master/automation-artifacts/greg/wsdl/" +
+                "wsdl_with_EncrOnlyAnonymous.wsdl"), "artifact URI not found");
         assertTrue(artifactWsdlWithSchema.getAttribute("overview_name").equals("wsdl_with_EncrOnlyAnonymous"), "artifact name not found");
         assertTrue(artifactWsdlWithSchema.getAttribute("overview_type").equals("WSDL"), "artifact type not found");
         assertTrue(governance.resourceExists("uris/WSDL/wsdl_with_EncrOnlyAnonymous.wsdl"), "wsdl_with_EncrOnlyAnonymous.wsdl URI doesn't exists");
@@ -173,16 +159,16 @@ public class AddUriTest extends GREGIntegrationBaseTest {
 
 
         GenericArtifact artifactWsdlWitPolicy = artifactManager.newGovernanceArtifact(new QName
-                                                                                      ("wsdl_with_SigEncr"));
+                ("wsdl_with_SigEncr"));
 
-        artifactWsdlWitPolicy.setAttribute("overview_uri", "https://svn.wso2.org/repos/wso2/carbon/platform/trunk/" +
-                                                           "platform-integration/platform-automated-test-suite/org.wso2.carbon.automation.test.repo/src/main/resources/artifacts/GREG/wsdl/wsdl_with_SigEncr.wsdl");
+        artifactWsdlWitPolicy.setAttribute("overview_uri", "https://raw.githubusercontent.com/wso2/wso2-qa-artifacts/" +
+                "master/automation-artifacts/greg/wsdl/wsdl_with_SigEncr.wsdl");
         artifactWsdlWitPolicy.setAttribute("overview_type", "WSDL");
         artifactManager.addGenericArtifact(artifactWsdlWitPolicy);
 
-        assertTrue(artifactWsdlWitPolicy.getAttribute("overview_uri").equals("https://svn.wso2.org/repos/wso2/carbon/platform/trunk/" +
-                                                                             "platform-integration/platform-automated-test-suite/org.wso2.carbon.automation.test.repo/src/main/resources/artifacts/GREG/wsdl/" +
-                                                                             "wsdl_with_SigEncr.wsdl"), "artifact URI not found");
+        assertTrue(artifactWsdlWitPolicy.getAttribute("overview_uri").equals("https://raw.githubusercontent.com/" +
+                "wso2/wso2-qa-artifacts/master/automation-artifacts/greg/wsdl/" +
+                "wsdl_with_SigEncr.wsdl"), "artifact URI not found");
         assertTrue(artifactWsdlWitPolicy.getAttribute("overview_name").equals("wsdl_with_SigEncr"), "artifact name not found");
         assertTrue(artifactWsdlWitPolicy.getAttribute("overview_type").equals("WSDL"), "artifact type not found");
         assertTrue(governance.resourceExists("uris/WSDL/wsdl_with_SigEncr.wsdl"), "wsdl_with_EncrOnlyAnonymous.wsdl URI doesn't exists");
@@ -203,20 +189,19 @@ public class AddUriTest extends GREGIntegrationBaseTest {
         GovernanceUtils.loadGovernanceArtifacts((UserRegistry) governance);
         GenericArtifactManager artifactManager = new GenericArtifactManager(governance, "uri");
         GenericArtifact artifactSchemaWithSchema = artifactManager.newGovernanceArtifact(new QName
-                                                                                         ("SchemaImportSample"));
+                ("SchemaImportSample"));
 
-        artifactSchemaWithSchema.setAttribute("overview_uri", "https://svn.wso2.org/repos/wso2/carbon/platform/trunk/" +
-                                                              "platform-integration/platform-automated-test-suite/org.wso2.carbon.automation.test.repo/" +
-                                                              "src/main/resources/artifacts/GREG/schema/SchemaImportSample.xsd");
+        artifactSchemaWithSchema.setAttribute("overview_uri", "https://raw.githubusercontent.com/wso2/wso2-qa-artifacts/" +
+                "master/automation-artifacts/greg/schema/SchemaImportSample.xsd");
         artifactSchemaWithSchema.setAttribute("overview_type", "XSD");
         artifactManager.addGenericArtifact(artifactSchemaWithSchema);
 
-        assertTrue(artifactSchemaWithSchema.getAttribute("overview_uri").equals("https://svn.wso2.org/repos/wso2/carbon/" +
-                                                                                "platform/trunk/platform-integration/platform-automated-test-suite/" +
-                                                                                "org.wso2.carbon.automation.test.repo/src/main/resources/" +
-                                                                                "artifacts/" + "GREG/schema/SchemaImportSample.xsd"),
-                   "artifact URI not found");
-        assertTrue(artifactSchemaWithSchema.getAttribute("overview_name").equals("SchemaImportSample"), "artifact name not found");
+        assertTrue(artifactSchemaWithSchema.getAttribute("overview_uri").equals("https://raw.githubusercontent.com/wso2/" +
+                        "wso2-qa-artifacts/master/automation-artifacts/greg/schema/SchemaImportSample.xsd"),
+                "artifact URI not found"
+        );
+        assertTrue(artifactSchemaWithSchema.getAttribute("overview_name").equals("SchemaImportSample"),
+                "artifact name not found");
         assertTrue(artifactSchemaWithSchema.getAttribute("overview_type").equals("XSD"), "artifact type not found");
         assertTrue(governance.resourceExists("uris/XSD/SchemaImportSample.xsd"), "SchemaImportSample.xsd URI doesn't exists");
         assertTrue(governance.resourceExists("uris/XSD/LinkedSchema.xsd"), "Dependency LinkedSchema.xsd doesn't exists");
@@ -230,17 +215,16 @@ public class AddUriTest extends GREGIntegrationBaseTest {
     }
 
     @Test(groups = "wso2.greg", description = "Test invalid URIs",
-          dependsOnMethods = "testUriSchemaWithSchema", expectedExceptions = RegistryException.class)
+            dependsOnMethods = "testUriSchemaWithSchema", expectedExceptions = RegistryException.class)
     public void testInvalidUriWsdl() throws RegistryException, FileNotFoundException {
 
         GovernanceUtils.loadGovernanceArtifacts((UserRegistry) governance);
         GenericArtifactManager artifactManager = new GenericArtifactManager(governance, "uri");
         GenericArtifact artifact = artifactManager.newGovernanceArtifact(new QName
-                                                                         ("AutomatedInvalidWSDL"));
+                ("AutomatedInvalidWSDL"));
 
-        artifact.setAttribute("overview_uri", "https://svn.wso2.org/repos/wso2/carbon/platform/trunk/" +
-                                              "platform-integration/platform-automated-test-suite/org.wso2.carbon.automation.test.repo/" +
-                                              "src/main/resources/artifacts/GREG/wsdl/AutomatedInvalidWSDL.wsdl");
+        artifact.setAttribute("overview_uri", "https://raw.githubusercontent.com/wso2/wso2-qa-artifacts/" +
+                "master/automation-artifacts/greg/wsdl/AutomatedInvalidWSDL.wsdl");
         artifact.setAttribute("overview_type", "WSDL");
         artifactManager.addGenericArtifact(artifact);
 
@@ -254,11 +238,10 @@ public class AddUriTest extends GREGIntegrationBaseTest {
         GovernanceUtils.loadGovernanceArtifacts((UserRegistry) governance);
         GenericArtifactManager artifactManager = new GenericArtifactManager(governance, "uri");
         GenericArtifact artifact = artifactManager.newGovernanceArtifact(new QName
-                                                                         ("XmlInvalidSchema"));
+                ("XmlInvalidSchema"));
 
-        artifact.setAttribute("overview_uri", "https://svn.wso2.org/repos/wso2/carbon/platform/trunk/" +
-                                              "platform-integration/platform-automated-test-suite/org.wso2.carbon.automation.test.repo/" +
-                                              "src/main/resources/artifacts/GREG/schema/XmlInvalidSchema.xsd");
+        artifact.setAttribute("overview_uri", "https://raw.githubusercontent.com/wso2/wso2-qa-artifacts/" +
+                "master/automation-artifacts/greg/schema/XmlInvalidSchema.xsd");
         artifact.setAttribute("overview_type", "XSD");
         artifactManager.addGenericArtifact(artifact);
 
@@ -266,34 +249,32 @@ public class AddUriTest extends GREGIntegrationBaseTest {
     }
 
     @Test(groups = "wso2.greg", description = "Test invalid URIs",
-          dependsOnMethods = "testInvalidUriSchema", expectedExceptions = RegistryException.class)
+            dependsOnMethods = "testInvalidUriSchema", expectedExceptions = RegistryException.class)
     public void testInvalidUriPolicy() throws RegistryException, FileNotFoundException {
 
         GovernanceUtils.loadGovernanceArtifacts((UserRegistry) governance);
         GenericArtifactManager artifactManager = new GenericArtifactManager(governance, "uri");
         GenericArtifact artifact = artifactManager.newGovernanceArtifact(new QName
-                                                                         ("invlidPolicy"));
+                ("invlidPolicy"));
 
-        artifact.setAttribute("overview_uri", "https://svn.wso2.org/repos/wso2/carbon/platform/trunk/" +
-                                              "platform-integration/platform-automated-test-suite/org.wso2.carbon.automation.test.repo/" +
-                                              "src/main/resources/artifacts/GREG/policy/invlidPolicy.xml");
+        artifact.setAttribute("overview_uri", "https://raw.githubusercontent.com/wso2/wso2-qa-artifacts/" +
+                "master/automation-artifacts/greg/policy/invlidPolicy.xml");
         artifact.setAttribute("overview_type", "Policy");
         artifactManager.addGenericArtifact(artifact);
 
 
     }
 
-    @Test(groups = "wso2.greg", description = "Test invalid URIs", dependsOnMethods = "testInvalidUriPolicy", expectedExceptions = RegistryException.class)
+    @Test(groups = "wso2.greg", description = "Test invalid URIs", dependsOnMethods = "testInvalidUriPolicy",
+            expectedExceptions = RegistryException.class)
     public void testNonExistingUrl() throws RegistryException, FileNotFoundException {
 
         GovernanceUtils.loadGovernanceArtifacts((UserRegistry) governance);
         GenericArtifactManager artifactManager = new GenericArtifactManager(governance, "uri");
         GenericArtifact artifact = artifactManager.newGovernanceArtifact(new QName
-                                                                         ("nonExistingUrl"));
-
-        artifact.setAttribute("overview_uri", "https://svn.wso2.org/repos/wso2/carbon/platform/trunk/" +
-                                              "platform-integration/platform-automated-test-suite/org.wso2.carbon.automation.test.repo/" +
-                                              "src/main/resources/artifacts/wsdl/AmazonWebServices.wsdl");
+                ("nonExistingUrl"));
+        artifact.setAttribute("overview_uri", "https://raw.githubusercontent.com/wso2/wso2-qa-artifacts/" +
+                                              "master/automation-artifacts/non-existing/wsdl/AmazonWebServices.wsdl");
         artifact.setAttribute("overview_type", "WSDL");
         artifactManager.addGenericArtifact(artifact);
 
@@ -316,7 +297,7 @@ public class AddUriTest extends GREGIntegrationBaseTest {
                 serviceManager.removeService(s.getId());
             }
         }
-	
+
         governance.delete("trunk/endpoints");
         governance.delete("uris");
         governance = null;

@@ -82,23 +82,20 @@ public class WsdlDependencyVerificationTestCase extends GREGIntegrationBaseTest 
                 .addWSDL(
                         "AmazonWebServices",
                         "for the dependency verification",
-                        "https://svn.wso2.org/repos/wso2/carbon/platform/trunk/"
-                                + "platform-integration/platform-automated-test-suite/org.wso2.carbon.automation.test.repo/"
-                                + "src/main/resources/artifacts/GREG/wsdl/AmazonWebServices.wsdl");
+                        "https://raw.githubusercontent.com/wso2/wso2-qa-artifacts/master/automation-artifacts/greg/" +
+                                "wsdl/AmazonWebServices.wsdl");
         resourceAdminServiceClient
                 .addWSDL(
                         "Automated",
                         "a dependency of AmazonWebServices",
-                        "https://svn.wso2.org/repos/wso2/carbon/platform/trunk/platform-integration/"
-                                + "platform-automated-test-suite/org.wso2.carbon.automation.test.repo/src/main/resources/artifacts"
-                                + "/GREG/wsdl/Automated.wsdl");
+                        "https://raw.githubusercontent.com/wso2/wso2-qa-artifacts/master/automation-artifacts/greg/" +
+                                "wsdl/Automated.wsdl");
         resourceAdminServiceClient
                 .addWSDL(
                         "BizService",
                         "a dependency of AmazonWebServices",
-                        "https://svn.wso2.org/repos/wso2/carbon/platform/trunk/"
-                                + "platform-integration/platform-automated-test-suite/org.wso2.carbon.automation.test.repo/"
-                                + "src/main/resources/artifacts/GREG/wsdl/BizService.wsdl");
+                        "https://raw.githubusercontent.com/wso2/wso2-qa-artifacts/master/automation-artifacts/greg/" +
+                                "wsdl/BizService.wsdl");
 
     }
 

@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='utf-8'?><wsdl:definitions name="ClinicalNotesImplService" targetNamespace="http://impl.lemrs.migration.ihc.org/" xmlns:ns1="http://lemrs.migration.ihc.org/" xmlns:ns2="http://cxf.apache.org/bindings/xformat" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tns="http://impl.lemrs.migration.ihc.org/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
-  <wsdl:import location="http://svn.wso2.org/repos/wso2/carbon/platform/trunk/platform-integration/system-test-framework/core/org.wso2.automation.platform.core/src/main/resources/artifacts/GREG/wsdl/IClinicalNotes.wsdl" namespace="http://lemrs.migration.ihc.org/">
+  <wsdl:import location="https://raw.githubusercontent.com/wso2/wso2-qa-artifacts/master/automation-artifacts/greg/wsdl/IClinicalNotes.wsdl" namespace="http://lemrs.migration.ihc.org/">
     </wsdl:import>
   <wsdl:binding name="ClinicalNotesImplServiceSoapBinding" type="ns1:IClinicalNotes">
     <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"></soap:binding>
