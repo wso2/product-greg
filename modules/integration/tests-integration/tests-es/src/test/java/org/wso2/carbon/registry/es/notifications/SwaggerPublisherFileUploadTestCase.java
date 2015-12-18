@@ -29,6 +29,8 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Factory;
 import org.testng.annotations.Test;
+import org.wso2.carbon.automation.engine.annotations.ExecutionEnvironment;
+import org.wso2.carbon.automation.engine.annotations.SetEnvironment;
 import org.wso2.carbon.automation.engine.context.TestUserMode;
 import org.wso2.carbon.automation.engine.frameworkutils.FrameworkPathUtil;
 import org.wso2.carbon.governance.custom.lifecycles.checklist.stub.CustomLifecyclesChecklistAdminServiceExceptionException;
@@ -52,6 +54,7 @@ import static org.testng.Assert.assertTrue;
 /**
  * This class tests the subscription functionality of swaggers by uploading them to G-Reg.
  */
+@SetEnvironment(executionEnvironments = {ExecutionEnvironment.ALL})
 public class SwaggerPublisherFileUploadTestCase extends GregESTestBaseTest {
 
     private TestUserMode userMode;
@@ -81,7 +84,7 @@ public class SwaggerPublisherFileUploadTestCase extends GregESTestBaseTest {
         headerMap = new HashMap<String, String>();
         resourcePath = FrameworkPathUtil.getSystemResourceLocation()
                        + "artifacts" + File.separator + "GREG" + File.separator;
-        publisherUrl = automationContext.getContextUrls()
+        publisherUrl = publisherContext.getContextUrls()
                 .getSecureServiceUrl().replace("services", "publisher/apis");
         //need lifeCycleAdminServiceClient to attach a lifecycle to the WSDL, as WSDLs does not come with
         //a default lifecycle attached

@@ -10,8 +10,123 @@
         <listener class-name="org.wso2.carbon.automation.engine.testlisteners.TestTransformerListener"/>
     </listeners>
     <test name="InitializedAndSetupServer" preserve-order="true" parallel="false">
+
+
         <classes>
-            <!--<class name="org.wso2.carbon.registry.server.mgt.test.RegistryConfiguratorTestCase"/>-->
+
+
+            <!--Corrected-->
+
+            <class name="org.wso2.carbon.registry.es.governancresteapi.GovernanceRestAPITestCase"/>
+
+            <class name="org.wso2.carbon.registry.es.notes.GregAssertNotesESTestCase"/>
+
+
+
+            <class name="org.wso2.carbon.registry.es.publisher.associations.GregRestResourceOwnedByAssociationTestCase"/>
+            <class name="org.wso2.carbon.registry.es.publisher.associations.GregRestResourceUsedByAssociationTestCase"/>
+            <class name="org.wso2.carbon.registry.es.publisher.associations.GregRestResourceSecurityAssociationTestCase"/>
+            <class name="org.wso2.carbon.registry.es.publisher.associations.GregRestResourceWSDLAssociationTestCase"/>
+
+            <class name="org.wso2.carbon.registry.es.publisher.category.GregRestResourceCategoryTestCase"/>
+
+            <class name="org.wso2.carbon.registry.es.publisher.crud.PolicyCRUDByUrlTestCase"/>
+            <class name="org.wso2.carbon.registry.es.publisher.crud.RestServiceCRUDTestCase"/>
+            <class name="org.wso2.carbon.registry.es.publisher.crud.SoapServiceCRUDTestCase"/>
+            <class name="org.wso2.carbon.registry.es.publisher.crud.SwaggerCRUDByUrlTestCase"/>
+            <class name="org.wso2.carbon.registry.es.publisher.crud.SchemaCRUDByUrlTestCase"/>
+            <class name="org.wso2.carbon.registry.es.publisher.crud.WadlCRUDByUrlTestCase"/>
+            <class name="org.wso2.carbon.registry.es.publisher.crud.WsdlCRUDUrlTestCase"/>
+
+            <class name="org.wso2.carbon.registry.es.publisher.generic.GregRestResourcePublisherESTestCase"/>
+
+            <class name="org.wso2.carbon.registry.es.publisher.lifecycle.GRegPublisherAPILCPermissionCheck"/>
+            <class name="org.wso2.carbon.registry.es.publisher.lifecycle.GRegPublisherLifecycleHistoryTest"/>
+            <class name="org.wso2.carbon.registry.es.publisher.lifecycle.GregPublisherPermissionCheckForLCOperations"/>
+
+            <class name="org.wso2.carbon.registry.es.publisher.search.GregRestResourceSearchAndAdvanceSearchTestCase"/>
+
+            <class name="org.wso2.carbon.registry.es.publisher.GregRestResourceAssociationTestCase"/>
+
+            <class name="org.wso2.carbon.registry.es.store.search.GregRestResourceStoreSearchTestCase"/>
+
+
+            <class name="org.wso2.carbon.registry.es.tags.GregAssetsTagsESTestCase"/>
+
+            <class name="org.wso2.carbon.registry.es.notifications.SwaggerPublisherFileUploadTestCase"/>
+            <class name="org.wso2.carbon.registry.es.notifications.SwaggerNotificationAndSubscriptionTestCase"/>
+
+            <class name="org.wso2.carbon.registry.es.registry.GovernanceRestAPIAssociationsTestCase"/>
+            <class name="org.wso2.carbon.registry.es.registry.GovernanceRestAPICommentsTestCase"/>
+            <class name="org.wso2.carbon.registry.es.registry.GovernanceRestAPIPropertyTestCase"/>
+            <class name="org.wso2.carbon.registry.es.registry.GovernanceRestAPIRatingsTestCase"/>
+            <class name="org.wso2.carbon.registry.es.registry.GovernanceRestAPIResourcesImplementationTestCase"/>
+            <class name="org.wso2.carbon.registry.es.registry.GovernanceRestAPIResourcesTagsTestCase"/>
+
+
+
+            <!--
+            To be tested
+
+
+            Notification
+            1.
+            1. org.wso2.carbon.registry.es.notifications.CustomRXTSubscriptionTestCase
+            1. org.wso2.carbon.registry.es.notifications.GregRestResourceSubscriptionAndNotificationTestCase
+            1. org.wso2.carbon.registry.es.notifications.PolicyNotificationAndSubscriptionTestCase
+            1. org.wso2.carbon.registry.es.notifications.PolicyPublisherFileUploadTestCase
+            1. org.wso2.carbon.registry.es.notifications.PolicyStoreNotificatonAndSubscriptionTestCase
+            1. org.wso2.carbon.registry.es.notifications.PublisherSubscriptionPermissionTestCase
+            1. org.wso2.carbon.registry.es.notifications.RestServiceNotificationAndSubscriptionTestCase
+            1. org.wso2.carbon.registry.es.notifications.RestServiceStoreNotificationTestCase
+            1. org.wso2.carbon.registry.es.notifications.SoapServiceNotificationAndSubscriptionTestCase
+            1.<class name="org.wso2.carbon.registry.es.notifications.CustomRXTSubscriptionTestCase"/>
+            1.
+            1.
+            1.
+            1. org.wso2.carbon.registry.es.notifications.WADLNotificationAndSubscriptionTestCase
+            1. org.wso2.carbon.registry.es.notifications.WADLPublisherFileUploadTestCase
+            1. org.wso2.carbon.registry.es.notifications.WADLStoreNotificationAndSubscriptionTestCase
+            1. org.wso2.carbon.registry.es.notifications.WSDLNotificationAndSubscriptionTestCase
+            1. org.wso2.carbon.registry.es.notifications.WSDLPublisherFileUploadTestCase
+            1. org.wso2.carbon.registry.es.notifications.WSDLStoreNotificationAndSubscriptionTestCase
+
+            <class name="org.wso2.carbon.registry.es.notifications.CustomRXTStoreNotificationTestCase"/>
+
+            <class name="org.wso2.carbon.registry.es.notifications.SwaggerStoreNotificationAndSubscriptionTestCase"/>
+
+            <class name="org.wso2.carbon.registry.es.notifications.SoapServiceStoreNotificationTestCase"/>
+
+
+            -->
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+            <!--Not Corrected-->
+            <!--
+                                <class name="org.wso2.carbon.registry.es.publisher.crud.CustomAssetCRUDTestCase"/>
+                                <class name="org.wso2.carbon.registry.es.publisher.crud.GenericCRUDTestCase"/>
+
+                                  <class name="org.wso2.carbon.registry.notes.test.PublisherNotesTestCase"/>
+
+
+                                  -->
+
+
+
         </classes>
     </test>
 </suite>

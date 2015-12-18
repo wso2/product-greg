@@ -25,6 +25,8 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import org.testng.Assert;
 import org.testng.annotations.*;
+import org.wso2.carbon.automation.engine.annotations.ExecutionEnvironment;
+import org.wso2.carbon.automation.engine.annotations.SetEnvironment;
 import org.wso2.carbon.automation.engine.context.TestUserMode;
 import org.wso2.carbon.automation.engine.frameworkutils.FrameworkPathUtil;
 import org.wso2.carbon.registry.es.utils.GregESTestBaseTest;
@@ -42,6 +44,7 @@ import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertNotNull;
 import static org.testng.Assert.assertTrue;
 
+@SetEnvironment(executionEnvironments = {ExecutionEnvironment.ALL})
 public class CustomAssetCRUDTestCase extends GregESTestBaseTest {
     private static final Log log = LogFactory.getLog(CustomAssetCRUDTestCase.class);
     private TestUserMode userMode;
@@ -66,7 +69,7 @@ public class CustomAssetCRUDTestCase extends GregESTestBaseTest {
         headerMap = new HashMap<>();
         resourcePath = FrameworkPathUtil.getSystemResourceLocation()
                 + "artifacts" + File.separator + "GREG" + File.separator;
-        publisherUrl = automationContext.getContextUrls()
+        publisherUrl = publisherContext.getContextUrls()
                 .getSecureServiceUrl().replace("services", "publisher/apis");
         setTestEnvironment();
     }

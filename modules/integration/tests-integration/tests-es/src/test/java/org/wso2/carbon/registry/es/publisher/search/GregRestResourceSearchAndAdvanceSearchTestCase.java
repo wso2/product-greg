@@ -23,6 +23,8 @@ import org.json.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 import org.testng.annotations.*;
+import org.wso2.carbon.automation.engine.annotations.ExecutionEnvironment;
+import org.wso2.carbon.automation.engine.annotations.SetEnvironment;
 import org.wso2.carbon.automation.engine.context.TestUserMode;
 import org.wso2.carbon.automation.engine.frameworkutils.FrameworkPathUtil;
 import org.wso2.carbon.registry.core.exceptions.RegistryException;
@@ -45,6 +47,8 @@ import static org.testng.Assert.assertTrue;
 /**
  * This class can be used to test search functionality & advance search functionality
  */
+
+@SetEnvironment(executionEnvironments = {ExecutionEnvironment.ALL})
 public class GregRestResourceSearchAndAdvanceSearchTestCase extends GregESTestBaseTest {
 
     private TestUserMode userMode;
@@ -75,7 +79,7 @@ public class GregRestResourceSearchAndAdvanceSearchTestCase extends GregESTestBa
         headerMap = new HashMap<>();
         resourcePath =
                 FrameworkPathUtil.getSystemResourceLocation() + "artifacts" + File.separator + "GREG" + File.separator;
-        publisherUrl = automationContext.getContextUrls().getSecureServiceUrl().replace("services", "publisher/apis");
+        publisherUrl = publisherContext.getContextUrls().getSecureServiceUrl().replace("services", "publisher/apis");
         crudTestCommonUtils = new ESTestCommonUtils(genericRestClient, publisherUrl, headerMap);
     }
 

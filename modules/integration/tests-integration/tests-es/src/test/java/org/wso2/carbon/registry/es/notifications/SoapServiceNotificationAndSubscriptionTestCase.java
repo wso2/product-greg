@@ -23,6 +23,8 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.testng.annotations.*;
+import org.wso2.carbon.automation.engine.annotations.ExecutionEnvironment;
+import org.wso2.carbon.automation.engine.annotations.SetEnvironment;
 import org.wso2.carbon.automation.engine.context.TestUserMode;
 import org.wso2.carbon.automation.engine.frameworkutils.FrameworkPathUtil;
 import org.wso2.carbon.registry.es.utils.GregESTestBaseTest;
@@ -40,6 +42,7 @@ import static org.testng.Assert.assertNotNull;
 /**
  * This class testes subscription & notification for soap services on publisher side.
  */
+@SetEnvironment(executionEnvironments = {ExecutionEnvironment.ALL})
 public class SoapServiceNotificationAndSubscriptionTestCase extends GregESTestBaseTest {
 
     private TestUserMode userMode;
@@ -65,7 +68,7 @@ public class SoapServiceNotificationAndSubscriptionTestCase extends GregESTestBa
         headerMap = new HashMap<String, String>();
         resourcePath =
                 FrameworkPathUtil.getSystemResourceLocation() + "artifacts" + File.separator + "GREG" + File.separator;
-        publisherUrl = automationContext.getContextUrls().getSecureServiceUrl().replace("services", "publisher/apis");
+        publisherUrl = publisherContext.getContextUrls().getSecureServiceUrl().replace("services", "publisher/apis");
         setTestEnvironment();
     }
 

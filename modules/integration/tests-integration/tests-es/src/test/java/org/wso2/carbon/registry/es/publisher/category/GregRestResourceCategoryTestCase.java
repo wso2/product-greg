@@ -22,6 +22,8 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import org.json.simple.parser.ParseException;
 import org.testng.annotations.*;
+import org.wso2.carbon.automation.engine.annotations.ExecutionEnvironment;
+import org.wso2.carbon.automation.engine.annotations.SetEnvironment;
 import org.wso2.carbon.automation.engine.context.TestUserMode;
 import org.wso2.carbon.automation.engine.frameworkutils.FrameworkPathUtil;
 import org.wso2.carbon.registry.core.exceptions.RegistryException;
@@ -46,6 +48,7 @@ import static org.testng.Assert.assertTrue;
 /**
  * This class can be used to test category related functionality
  */
+@SetEnvironment(executionEnvironments = {ExecutionEnvironment.ALL})
 public class GregRestResourceCategoryTestCase extends GregESTestBaseTest {
 
     private TestUserMode userMode;
@@ -73,7 +76,7 @@ public class GregRestResourceCategoryTestCase extends GregESTestBaseTest {
         headerMap = new HashMap<>();
         resourcePath =
                 FrameworkPathUtil.getSystemResourceLocation() + "artifacts" + File.separator + "GREG" + File.separator;
-        publisherUrl = automationContext.getContextUrls().getSecureServiceUrl().replace("services", "publisher/apis");
+        publisherUrl = publisherContext.getContextUrls().getSecureServiceUrl().replace("services", "publisher/apis");
         assertTrue(addNewRxtConfiguration("restserviceCategory.rxt", "restservice.rxt"),
                 "Addition of new rest service rxt failed");
 
@@ -147,7 +150,7 @@ public class GregRestResourceCategoryTestCase extends GregESTestBaseTest {
         JSONObject obj = new JSONObject(response.getEntity(String.class));
 
         assertTrue((response.getStatusCode() == Response.Status.ACCEPTED.getStatusCode()),
-                "Wrong status code ,Expected 202 Created ,Received " + response.getStatusCode());
+                "Wrong status code ,Expected 201 Created ,Received " + response.getStatusCode());
 
         assertTrue(obj.get("attributes").toString().contains("overview_name" + "\":" + "\"" + restServiceName + "\""),
                 "Rest service name mismatched");
@@ -158,7 +161,7 @@ public class GregRestResourceCategoryTestCase extends GregESTestBaseTest {
         queryParamMap.put("paginationLimit", "20");
         queryParamMap.put("start", "0");
         queryParamMap.put("count", "20");
-        queryParamMap.put("q", "\"category" + "\":" + "\"" + "Category2" + "\"");
+        queryParamMap.put("q", "\"category" + "\":" + "\"" + "Category5" + "\"");
 
         // Verify whether rest service lists incorrectly for irrelevant category
         ClientResponse searchedIrrelevantCategoryResponse = genericRestClient.geneticRestRequestGet

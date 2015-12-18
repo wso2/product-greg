@@ -23,6 +23,8 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.testng.annotations.*;
+import org.wso2.carbon.automation.engine.annotations.ExecutionEnvironment;
+import org.wso2.carbon.automation.engine.annotations.SetEnvironment;
 import org.wso2.carbon.automation.engine.configurations.UrlGenerationUtil;
 import org.wso2.carbon.automation.engine.context.TestUserMode;
 import org.wso2.carbon.automation.engine.frameworkutils.FrameworkPathUtil;
@@ -55,6 +57,7 @@ import static org.testng.Assert.assertTrue;
 /**
  * This test class can be used to check the email notification functionality
  */
+
 public class CustomRXTEmailNotificationTestCase extends GregESTestBaseTest {
 
     private TestUserMode userMode;

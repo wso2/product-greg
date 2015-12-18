@@ -48,6 +48,8 @@ import static org.testng.Assert.assertNotNull;
 /**
  * This class test subscription & notification for custom rxt type.
  */
+
+
 public class CustomRXTSubscriptionTestCase extends GregESTestBaseTest {
 
     private static final Log log = LogFactory.getLog(RestServiceNotificationAndSubscriptionTestCase.class);
@@ -77,7 +79,7 @@ public class CustomRXTSubscriptionTestCase extends GregESTestBaseTest {
         headerMap = new HashMap<String, String>();
         resourcePath =
                 FrameworkPathUtil.getSystemResourceLocation() + "artifacts" + File.separator + "GREG" + File.separator;
-        publisherUrl = automationContext.getContextUrls().getSecureServiceUrl().replace("services", "publisher/apis");
+        publisherUrl = publisherContext.getContextUrls().getSecureServiceUrl().replace("services", "publisher/apis");
         resourceAdminServiceClient = new ResourceAdminServiceClient(backendURL, session);
         addCustomRxt();
         setTestEnvironment();
@@ -275,7 +277,7 @@ public class CustomRXTSubscriptionTestCase extends GregESTestBaseTest {
         queryParamMap.put("type", "applications");
         String dataBody = readFile(resourcePath + "json" + File.separator + "publisherPublishCustomResource.json");
         ClientResponse createResponse = genericRestClient
-                .geneticRestRequestPost(publisherUrl + "/assets", MediaType.APPLICATION_JSON,
+                .geneticRestRequestPost(publisherUrl + "/assets", MediaType.APPLICATION_JSON, // https://localhost:10343/publisher/apis/assets  https://publisher.wso2.com:443/publisher/apis/assets
                         MediaType.APPLICATION_JSON, dataBody, queryParamMap, headerMap, cookieHeader);
         JSONObject createObj = new JSONObject(createResponse.getEntity(String.class));
         assetId = createObj.get("id").toString();

@@ -27,6 +27,8 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import org.json.simple.parser.ParseException;
 import org.testng.annotations.*;
+import org.wso2.carbon.automation.engine.annotations.ExecutionEnvironment;
+import org.wso2.carbon.automation.engine.annotations.SetEnvironment;
 import org.wso2.carbon.automation.engine.context.TestUserMode;
 import org.wso2.carbon.automation.engine.frameworkutils.FrameworkPathUtil;
 import org.wso2.carbon.registry.core.exceptions.RegistryException;
@@ -46,6 +48,7 @@ import static org.testng.Assert.assertTrue;
 /**
  * This class testes association scenarios between rest services
  */
+@SetEnvironment(executionEnvironments = {ExecutionEnvironment.ALL})
 public class GregRestResourceAssociationTestCase extends GREGIntegrationBaseTest {
 
     private static final Log log = LogFactory.getLog(GregRestResourceAssociationTestCase.class);
@@ -74,7 +77,7 @@ public class GregRestResourceAssociationTestCase extends GREGIntegrationBaseTest
         headerMap = new HashMap<String, String>();
         resourcePath = FrameworkPathUtil.getSystemResourceLocation()
                 + "artifacts" + File.separator + "GREG" + File.separator;
-        publisherUrl = automationContext.getContextUrls()
+        publisherUrl = publisherContext.getContextUrls()
                 .getSecureServiceUrl().replace("services", "publisher/apis");
     }
 
