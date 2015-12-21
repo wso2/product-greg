@@ -157,8 +157,8 @@ public class CustomAssetCRUDTestCase extends GregESTestBaseTest {
     public void updateCustomAsset() throws JSONException, IOException {
         Map<String, String> queryParamMap = new HashMap<>();
         queryParamMap.put("type", "applications");
-        String customTemplate = readFile(resourcePath + "json" + File.separator + "custom-applications-sample.json");
-        String dataBody = String.format(customTemplate, assetName, "1.2.3", "Test update asset");
+        String customTemplate = readFile(resourcePath + "json" + File.separator + "custom-application-update.json");
+        String dataBody = String.format(customTemplate, "1.2.3", "Test update asset");
         ClientResponse response =
                 genericRestClient.geneticRestRequestPost(publisherUrl + "/assets/" + assetId,
                         MediaType.APPLICATION_JSON,
