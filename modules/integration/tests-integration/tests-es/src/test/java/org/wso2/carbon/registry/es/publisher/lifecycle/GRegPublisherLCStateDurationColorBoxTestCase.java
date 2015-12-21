@@ -148,9 +148,8 @@ public class GRegPublisherLCStateDurationColorBoxTestCase extends GregESTestBase
         changeLifecycleState();
         log.info("Lifecycle State Changed to Testing " + CLASS_NAME);
         restResponseBean = getRESTDetailsBean();
-        Assert.assertTrue(!restResponseBean.getLifecycleStateDurationState(),
+        Assert.assertFalse(restResponseBean.getLifecycleStateDurationState(),
                 "Configuration is not correct when checkpoint is not null and color is null ");
-
     }
 
     @Test(groups = { "wso2.greg", "wso2.greg.es" }, description = "Check StateDuration Details After Lifecycle " +
@@ -204,10 +203,9 @@ public class GRegPublisherLCStateDurationColorBoxTestCase extends GregESTestBase
      * @throws JSONException
      */
     private LifeCycleBean getRESTDetailsBean() throws JSONException {
-        ClientResponse response;
         queryParamMap.put("type", LifeCycleConstants.SERVICE_TYPE);
         queryParamMap.put("lifecycle", LifeCycleConstants.LIFECYCLE_NAME);
-        response = genericRestClient
+        ClientResponse response = genericRestClient
                 .geneticRestRequestGet(publisherUrl + "/assets/" + assetId, queryParamMap, headerMap, cookieHeader);
         JSONObject responseJSONObject = new JSONObject(response.getEntity(String.class));
         LifeCycleBean restResponseBean = new LifeCycleBean();
@@ -221,10 +219,10 @@ public class GRegPublisherLCStateDurationColorBoxTestCase extends GregESTestBase
         if (responseJSONObject.has(LifeCycleConstants.LC_STATE_DURATION_META_DATA)) {
             restResponseBean.setLifecycleMetaDataState(true);
             restResponseBean.setLifecycleStateDurationState(true);
-            JSONObject durationDetailsObject = responseJSONObject
-                    .getJSONObject(LifeCycleConstants.LC_STATE_DURATION_META_DATA);
-            restResponseBean
-                    .setLifecycleStateDuration(durationDetailsObject.getString(LifeCycleConstants.LC_STATE_DURATION));
+            JSONObject durationDetailsObject = responseJSONObject.
+                    getJSONObject(LifeCycleConstants.LC_STATE_DURATION_META_DATA);
+            restResponseBean.setLifecycleStateDuration(durationDetailsObject.
+                    getString(LifeCycleConstants.LC_STATE_DURATION));
             restResponseBean.setLifecycleStateDurationColor(durationDetailsObject.
                     getString(LifeCycleConstants.LC_STATE_DURATION_COLOR));
         } else {

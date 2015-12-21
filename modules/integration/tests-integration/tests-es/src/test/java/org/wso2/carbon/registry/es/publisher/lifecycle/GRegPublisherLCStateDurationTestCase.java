@@ -109,7 +109,8 @@ public class GRegPublisherLCStateDurationTestCase extends GregESTestBaseTest {
         restResponseBean = getRESTDetailsBean();
         Assert.assertFalse(restResponseBean.getLifecycleStateDurationState(),
                 "Configuration is not correct in asset.js");
-        Assert.assertFalse(restResponseBean.getLifecycleMetaDataState(), "Even configuration disabled data is visible");
+        Assert.assertFalse(restResponseBean.getLifecycleMetaDataState(),
+                "Even configuration disabled data is visible");
         LifeCycleUtils.changeConfigurationAssetJS(LifeCycleConstants.STRING_FALSE, LifeCycleConstants.STRING_TRUE);
         serverConfigurationManager.restartGracefully();
     }
@@ -158,17 +159,16 @@ public class GRegPublisherLCStateDurationTestCase extends GregESTestBaseTest {
      * @throws JSONException
      */
     private LifeCycleBean getRESTDetailsBean() throws JSONException {
-        ClientResponse response;
         queryParamMap.put("type", LifeCycleConstants.SERVICE_TYPE);
         queryParamMap.put("lifecycle", LifeCycleConstants.LIFECYCLE_NAME);
         LifeCycleBean restResponseBean = new LifeCycleBean();
-        response = genericRestClient.geneticRestRequestGet(publisherUrl + "/asset/" + assetId +
+        ClientResponse response = genericRestClient.geneticRestRequestGet(publisherUrl + "/asset/" + assetId +
                 "/state", queryParamMap, headerMap, cookieHeader);
         JSONObject responseJSONObject = new JSONObject(response.getEntity(String.class));
         JSONObject dataObject = responseJSONObject.getJSONObject("data");
         if (dataObject.has(LifeCycleConstants.IS_LC_STATE_DURATION_ENABLED)) {
-            restResponseBean.setLifecycleStateDurationState(
-                    responseJSONObject.getBoolean(LifeCycleConstants.IS_LC_STATE_DURATION_ENABLED));
+            restResponseBean.setLifecycleStateDurationState(dataObject.
+                    getBoolean(LifeCycleConstants.IS_LC_STATE_DURATION_ENABLED));
         } else {
             restResponseBean.setLifecycleStateDurationState(false);
         }
