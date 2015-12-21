@@ -81,4 +81,11 @@ public class GovernanceRestApiUtil {
         return genericRestClient.geneticRestRequestGet(governaceAPIUrl, queryParamMap, headerMap, null);
     }
 
+    public static ClientResponse getEndpointByID(GenericRestClient genericRestClient, Map<String, String> queryParamMap,
+                                           Map<String, String> headerMap,String governaceAPIUrl) {
+        String governanceRestApiUrl = governaceAPIUrl;
+        return GovernanceRestApiUtil.getAssetById(genericRestClient, queryParamMap, headerMap,
+                                                  governanceRestApiUrl);
+    }
+
 }
