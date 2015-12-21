@@ -22,43 +22,37 @@ import org.apache.wink.client.ClientResponse;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.testng.annotations.*;
+import org.testng.annotations.AfterClass;
+import org.testng.annotations.BeforeClass;
+import org.testng.annotations.DataProvider;
+import org.testng.annotations.Factory;
+import org.testng.annotations.Test;
 import org.wso2.carbon.automation.engine.configurations.UrlGenerationUtil;
 import org.wso2.carbon.automation.engine.context.TestUserMode;
 import org.wso2.carbon.automation.engine.frameworkutils.FrameworkPathUtil;
-import org.wso2.carbon.automation.test.utils.common.TestConfigurationProvider;
-import org.wso2.carbon.identity.user.profile.stub.UserProfileMgtServiceUserProfileExceptionException;
-import org.wso2.carbon.identity.user.profile.stub.types.UserFieldDTO;
-import org.wso2.carbon.identity.user.profile.stub.types.UserProfileDTO;
-import org.wso2.carbon.integration.common.utils.exceptions.AutomationUtilException;
-import org.wso2.carbon.integration.common.utils.mgt.ServerConfigurationManager;
 import org.wso2.carbon.registry.core.exceptions.RegistryException;
 import org.wso2.carbon.registry.es.utils.EmailUtil;
 import org.wso2.carbon.registry.es.utils.GregESTestBaseTest;
-import org.wso2.greg.integration.common.clients.UserProfileMgtServiceClient;
 import org.wso2.greg.integration.common.utils.GenericRestClient;
 
-import javax.mail.MessagingException;
-import javax.ws.rs.core.MediaType;
-import javax.xml.xpath.XPathExpressionException;
 import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
+import javax.mail.MessagingException;
+import javax.ws.rs.core.MediaType;
+import javax.xml.xpath.XPathExpressionException;
 
 import static org.testng.Assert.assertNotNull;
 import static org.testng.Assert.assertTrue;
 
 /**
  * This test class can be used to check the email notification functionality for
- * multiple updates after a single verification.
+ * multiple updates after a single verification at the publisher.
  */
 public class OneTimeEmailVerificationTestCase extends GregESTestBaseTest {
 
     private TestUserMode userMode;
-    String jSessionId;
-    private UserProfileMgtServiceClient userProfileMgtClient;
-    private File axis2File;
     private String publisherUrl;
     private String resourcePath;
     private String assetId;
@@ -67,7 +61,6 @@ public class OneTimeEmailVerificationTestCase extends GregESTestBaseTest {
     private Map<String, String> queryParamMap;
     private Map<String, String> headerMap;
     private String loginURL;
-    private String emailAddress;
 
 
     @Factory(dataProvider = "userModeProvider")
@@ -80,56 +73,23 @@ public class OneTimeEmailVerificationTestCase extends GregESTestBaseTest {
 
         super.init(userMode);
         loginURL = UrlGenerationUtil.getLoginURL(automationContext.getInstance());
-        emailAddress = "gregtestes@gmail.com";
         genericRestClient = new GenericRestClient();
         queryParamMap = new HashMap<>();
         headerMap = new HashMap<>();
-        resourcePath =
-                FrameworkPathUtil.getSystemResourceLocation() + "artifacts" + File.separator + "GREG" + File.separator;
+        StringBuilder builder = new StringBuilder();
+        builder.append(FrameworkPathUtil.getSystemResourceLocation()).append("artifacts").append(File.separator)
+                .append("GREG").append(File.separator);
+        resourcePath = builder.toString();
         publisherUrl = automationContext.getContextUrls().getSecureServiceUrl().replace("services", "publisher/apis");
-        userProfileMgtClient = new UserProfileMgtServiceClient(backendURL, sessionCookie);
-        axis2File = new File(
-                TestConfigurationProvider.getResourceLocation("GREG") + File.separator + "axis2" + File.separator
-                        + "axis2.xml");
 
-        updateProfileAndEnableEmailConfiguration();
+        EmailUtil.updateProfileAndEnableEmailConfiguration(automationContext, backendURL, sessionCookie);
         setTestEnvironment();
     }
 
-    private void updateProfileAndEnableEmailConfiguration()
-            throws UserProfileMgtServiceUserProfileExceptionException, IOException, XPathExpressionException,
-            AutomationUtilException {
-
-        UserProfileDTO profile = new UserProfileDTO();
-        profile.setProfileName("default");
-
-        UserFieldDTO lastName = new UserFieldDTO();
-        lastName.setClaimUri("http://wso2.org/claims/lastname");
-        lastName.setFieldValue("GregUserFirstName");
-
-        UserFieldDTO givenName = new UserFieldDTO();
-        givenName.setClaimUri("http://wso2.org/claims/givenname");
-        givenName.setFieldValue("GregUserLastName");
-
-        UserFieldDTO email = new UserFieldDTO();
-        email.setClaimUri("http://wso2.org/claims/emailaddress");
-        email.setFieldValue(emailAddress);
-
-        UserFieldDTO[] fields = new UserFieldDTO[3];
-        fields[0] = lastName;
-        fields[1] = givenName;
-        fields[2] = email;
-
-        profile.setFieldValues(fields);
-
-        userProfileMgtClient
-                .setUserProfile(automationContext.getContextTenant().getContextUser().getUserName(), profile);
-
-        // apply new axis2.xml configuration
-        ServerConfigurationManager serverConfigurationManager = new ServerConfigurationManager(automationContext);
-        serverConfigurationManager.applyConfiguration(axis2File);
-    }
-
+    /**
+     * This test case add subscription to lifecycle state change and verifies the reception of multiple
+     * email notifications by changing the life cycle state several times.
+     */
     @Test(groups = { "wso2.greg",
             "wso2.greg.es" }, description = "Check multiple LC state change notifications after a single verification",
             dependsOnMethods = { "addSubscriptionCheckListItem", "addSubscriptionUnCheckListItem" })
@@ -146,8 +106,8 @@ public class OneTimeEmailVerificationTestCase extends GregESTestBaseTest {
 
         String payLoad = response.getEntity(String.class);
         payLoad = payLoad.substring(payLoad.indexOf('{'));
-        JSONObject obj = new JSONObject(payLoad);
-        assertNotNull(obj.get("id").toString(),
+        JSONObject payLoadObject = new JSONObject(payLoad);
+        assertNotNull(payLoadObject.get("id"),
                 "Response payload is not the in the correct format" + response.getEntity(String.class));
 
         // verify e-mail
@@ -181,6 +141,10 @@ public class OneTimeEmailVerificationTestCase extends GregESTestBaseTest {
 
     }
 
+    /**
+     * This test case add subscription to resource update and verifies the reception of multiple email notifications
+     * by updating the resource several times.
+     */
     @Test(groups = { "wso2.greg",
             "wso2.greg.es" }, description = "Check multiple resource update notifications after a single verification")
     public void addSubscriptionOnResourceUpdate() throws Exception {
@@ -196,8 +160,8 @@ public class OneTimeEmailVerificationTestCase extends GregESTestBaseTest {
 
         String payLoad = response.getEntity(String.class);
         payLoad = payLoad.substring(payLoad.indexOf('{'));
-        JSONObject obj = new JSONObject(payLoad);
-        assertNotNull(obj.get("id").toString(),
+        JSONObject payLoadObject = new JSONObject(payLoad);
+        assertNotNull(payLoadObject.get("id"),
                 "Response payload is not the in the correct format" + response.getEntity(String.class));
 
         // verify e-mail
@@ -215,13 +179,17 @@ public class OneTimeEmailVerificationTestCase extends GregESTestBaseTest {
                 "Publisher resource updated mail has failed to reach Gmail inbox");
 
         // update again in order to retrieve the e-mail
-        dataBody = readFile(resourcePath + "json" + File.separator + "publisherPublishSoapResource.json");
+        dataBody = readFile(resourcePath + "json" + File.separator + "PublisherSoapResourceUpdateFile.json");
         genericRestClient.geneticRestRequestPost(publisherUrl + "/assets/" + assetId, MediaType.APPLICATION_JSON,
                 MediaType.APPLICATION_JSON, dataBody, queryParamMap, headerMap, cookieHeader);
         assertTrue(EmailUtil.readGmailInboxForNotification("PublisherResourceUpdated"),
                 "Publisher resource updated mail has failed to reach Gmail inbox");
     }
 
+    /**
+     * This test case add subscription to selecting check list item of life cycle and verifies
+     * the reception of multiple email notifications by selecting multiple check list items.
+     */
     @Test(groups = { "wso2.greg", "wso2.greg.es" }, description =
             "Test notifications of multiple items selecting on LC check list after a single verification ")
     public void addSubscriptionCheckListItem() throws Exception {
@@ -237,8 +205,8 @@ public class OneTimeEmailVerificationTestCase extends GregESTestBaseTest {
 
         String payLoad = response.getEntity(String.class);
         payLoad = payLoad.substring(payLoad.indexOf('{'));
-        JSONObject obj = new JSONObject(payLoad);
-        assertNotNull(obj.get("id").toString(),
+        JSONObject payLoadObject = new JSONObject(payLoad);
+        assertNotNull(payLoadObject.get("id"),
                 "Response payload is not the in the correct format" + response.getEntity(String.class));
 
         // verify e-mail
@@ -298,6 +266,10 @@ public class OneTimeEmailVerificationTestCase extends GregESTestBaseTest {
 
     }
 
+    /**
+     * This test case add subscription to un ticking check list item of life cycle and verifies
+     * the reception of multiple email notifications by un ticking multiple check list items.
+     */
     @Test(groups = { "wso2.greg", "wso2.greg.es" }, description =
             "Test notifications of multiple items un ticking on LC check list after "
                     + "a single verification ", dependsOnMethods = { "addSubscriptionCheckListItem" })
@@ -314,8 +286,8 @@ public class OneTimeEmailVerificationTestCase extends GregESTestBaseTest {
 
         String payLoad = response.getEntity(String.class);
         payLoad = payLoad.substring(payLoad.indexOf('{'));
-        JSONObject obj = new JSONObject(payLoad);
-        assertNotNull(obj.get("id").toString(),
+        JSONObject payLoadObject = new JSONObject(payLoad);
+        assertNotNull(payLoadObject.get("id"),
                 "Response payload is not the in the correct format" + response.getEntity(String.class));
 
         // verify e-mail
@@ -375,13 +347,17 @@ public class OneTimeEmailVerificationTestCase extends GregESTestBaseTest {
 
     }
 
+    /**
+     * Method used to authenticate publisher and create a soap service asset. Created asset
+     * is used to add subscriptions and to receive notification.
+     */
     private void setTestEnvironment() throws JSONException, IOException, XPathExpressionException {
         // Authenticate Publisher
         ClientResponse response = authenticate(publisherUrl, genericRestClient,
                 automationContext.getSuperTenant().getTenantAdmin().getUserName(),
                 automationContext.getSuperTenant().getTenantAdmin().getPassword());
-        JSONObject obj = new JSONObject(response.getEntity(String.class));
-        jSessionId = obj.getJSONObject("data").getString("sessionId");
+        JSONObject responseObject = new JSONObject(response.getEntity(String.class));
+        String jSessionId = responseObject.getJSONObject("data").getString("sessionId");
         cookieHeader = "JSESSIONID=" + jSessionId;
 
         //Create soap service
@@ -391,17 +367,12 @@ public class OneTimeEmailVerificationTestCase extends GregESTestBaseTest {
                 .geneticRestRequestPost(publisherUrl + "/assets", MediaType.APPLICATION_JSON,
                         MediaType.APPLICATION_JSON, dataBody, queryParamMap, headerMap, cookieHeader);
         JSONObject createObj = new JSONObject(createResponse.getEntity(String.class));
-        assetId = createObj.get("id").toString();
-    }
-
-    private void deleteSoapServiceAsset() throws JSONException {
-        genericRestClient.geneticRestRequestDelete(publisherUrl + "/assets/" + assetId, MediaType.APPLICATION_JSON,
-                MediaType.APPLICATION_JSON, queryParamMap, headerMap, cookieHeader);
+        assetId = (String) createObj.get("id");
     }
 
     @AfterClass(alwaysRun = true)
     public void cleanUp() throws RegistryException, JSONException, IOException, MessagingException {
-        deleteSoapServiceAsset();
+        deleteAssetById(publisherUrl, genericRestClient, cookieHeader, assetId, queryParamMap);
         EmailUtil.deleteSentMails();
     }
 
@@ -409,7 +380,6 @@ public class OneTimeEmailVerificationTestCase extends GregESTestBaseTest {
     private static TestUserMode[][] userModeProvider() {
         return new TestUserMode[][]{
                 new TestUserMode[]{TestUserMode.SUPER_TENANT_ADMIN}
-                //                new TestUserMode[]{TestUserMode.TENANT_USER},
         };
     }
 }
