@@ -21,30 +21,27 @@ package org.wso2.carbon.registry.es.notifications;
 import org.apache.wink.client.ClientResponse;
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.testng.annotations.*;
+import org.testng.annotations.AfterClass;
+import org.testng.annotations.BeforeClass;
+import org.testng.annotations.DataProvider;
+import org.testng.annotations.Factory;
+import org.testng.annotations.Test;
 import org.wso2.carbon.automation.engine.configurations.UrlGenerationUtil;
 import org.wso2.carbon.automation.engine.context.TestUserMode;
 import org.wso2.carbon.automation.engine.frameworkutils.FrameworkPathUtil;
-import org.wso2.carbon.automation.test.utils.common.TestConfigurationProvider;
-import org.wso2.carbon.identity.user.profile.stub.UserProfileMgtServiceUserProfileExceptionException;
-import org.wso2.carbon.identity.user.profile.stub.types.UserFieldDTO;
-import org.wso2.carbon.identity.user.profile.stub.types.UserProfileDTO;
-import org.wso2.carbon.integration.common.utils.exceptions.AutomationUtilException;
-import org.wso2.carbon.integration.common.utils.mgt.ServerConfigurationManager;
 import org.wso2.carbon.registry.core.exceptions.RegistryException;
 import org.wso2.carbon.registry.es.utils.EmailUtil;
 import org.wso2.carbon.registry.es.utils.GregESTestBaseTest;
-import org.wso2.greg.integration.common.clients.UserProfileMgtServiceClient;
 import org.wso2.greg.integration.common.utils.GenericRestClient;
 
-import javax.mail.MessagingException;
-import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.Response;
-import javax.xml.xpath.XPathExpressionException;
 import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
+import javax.mail.MessagingException;
+import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
+import javax.xml.xpath.XPathExpressionException;
 
 import static org.testng.Assert.assertNotNull;
 import static org.testng.Assert.assertTrue;
@@ -55,10 +52,6 @@ import static org.testng.Assert.assertTrue;
 public class RestServiceStoreEmailNotificationTestCase extends GregESTestBaseTest {
 
     private TestUserMode userMode;
-    String jSessionIdPublisher;
-    String jSessionIdStore;
-    private UserProfileMgtServiceClient userProfileMgtClient;
-    private File axis2File;
     private String publisherUrl;
     private String storeUrl;
     private String resourcePath;
@@ -69,9 +62,7 @@ public class RestServiceStoreEmailNotificationTestCase extends GregESTestBaseTes
     private Map<String, String> queryParamMap;
     private Map<String, String> headerMap;
     private String loginURL;
-    private String emailAddress;
-    boolean isNotificationMailAvailable;
-
+    private boolean isNotificationMailAvailable;
 
     @Factory(dataProvider = "userModeProvider")
     public RestServiceStoreEmailNotificationTestCase(TestUserMode userMode) {
@@ -80,64 +71,29 @@ public class RestServiceStoreEmailNotificationTestCase extends GregESTestBaseTes
 
     @BeforeClass(alwaysRun = true)
     public void init() throws Exception {
-
         super.init(userMode);
         loginURL = UrlGenerationUtil.getLoginURL(automationContext.getInstance());
-        emailAddress = "gregtestes@gmail.com";
         genericRestClient = new GenericRestClient();
         queryParamMap = new HashMap<>();
         headerMap = new HashMap<>();
-        resourcePath =
-                FrameworkPathUtil.getSystemResourceLocation() + "artifacts" + File.separator + "GREG" + File.separator;
+        StringBuilder builder = new StringBuilder();
+        builder.append(FrameworkPathUtil.getSystemResourceLocation()).append("artifacts").append(File.separator)
+                .append("GREG").append(File.separator);
+        resourcePath = builder.toString();
         publisherUrl = automationContext.getContextUrls().getSecureServiceUrl().replace("services", "publisher/apis");
         storeUrl = automationContext.getContextUrls().getSecureServiceUrl().replace("services", "store/apis");
-        userProfileMgtClient = new UserProfileMgtServiceClient(backendURL, sessionCookie);
-        axis2File = new File(
-                TestConfigurationProvider.getResourceLocation("GREG") + File.separator + "axis2" + File.separator
-                        + "axis2.xml");
 
-        updateProfileAndEnableEmailConfiguration();
+        EmailUtil.updateProfileAndEnableEmailConfiguration(automationContext, backendURL, sessionCookie);
         setTestEnvironment();
     }
 
-    private void updateProfileAndEnableEmailConfiguration()
-            throws UserProfileMgtServiceUserProfileExceptionException, IOException, XPathExpressionException,
-            AutomationUtilException {
-
-        UserProfileDTO profile = new UserProfileDTO();
-        profile.setProfileName("default");
-
-        UserFieldDTO lastName = new UserFieldDTO();
-        lastName.setClaimUri("http://wso2.org/claims/lastname");
-        lastName.setFieldValue("GregUserFirstName");
-
-        UserFieldDTO givenName = new UserFieldDTO();
-        givenName.setClaimUri("http://wso2.org/claims/givenname");
-        givenName.setFieldValue("GregUserLastName");
-
-        UserFieldDTO email = new UserFieldDTO();
-        email.setClaimUri("http://wso2.org/claims/emailaddress");
-        email.setFieldValue(emailAddress);
-
-        UserFieldDTO[] fields = new UserFieldDTO[3];
-        fields[0] = lastName;
-        fields[1] = givenName;
-        fields[2] = email;
-
-        profile.setFieldValues(fields);
-
-        userProfileMgtClient
-                .setUserProfile(automationContext.getContextTenant().getContextUser().getUserName(), profile);
-
-        // apply new axis2.xml configuration
-        ServerConfigurationManager serverConfigurationManager = new ServerConfigurationManager(automationContext);
-        serverConfigurationManager.applyConfiguration(axis2File);
-    }
-
+    /**
+     * This test case add subscription to lifecycle state change and verifies the reception of email notification
+     * by changing the life cycle state.
+     */
     @Test(groups = { "wso2.greg",
             "wso2.greg.es" }, description = "Adding subscription to rest service on LC state change")
     public void addSubscriptionToLcStateChange() throws Exception {
-
         JSONObject dataObject = new JSONObject();
         dataObject.put("notificationType", "StoreLifeCycleStateChanged");
         dataObject.put("notificationMethod", "email");
@@ -146,10 +102,10 @@ public class RestServiceStoreEmailNotificationTestCase extends GregESTestBaseTes
                 .geneticRestRequestPost(storeUrl + "/subscription/restservice/" + assetId, MediaType.APPLICATION_JSON,
                         MediaType.APPLICATION_JSON, dataObject.toString(), queryParamMap, headerMap, cookieHeaderStore);
 
-        String payLoad = response.getEntity(String.class);
-        payLoad = payLoad.substring(payLoad.indexOf('{'));
-        JSONObject obj = new JSONObject(payLoad);
-        assertNotNull(obj.get("id").toString(),
+        String payload = response.getEntity(String.class);
+        payload = payload.substring(payload.indexOf('{'));
+        JSONObject payloadObject = new JSONObject(payload);
+        assertNotNull(payloadObject.get("id"),
                 "Response payload is not the in the correct format" + response.getEntity(String.class));
 
         // verify e-mail
@@ -164,17 +120,19 @@ public class RestServiceStoreEmailNotificationTestCase extends GregESTestBaseTes
         genericRestClient.geneticRestRequestPost(publisherUrl + "/assets/" + assetId + "/state",
                 MediaType.APPLICATION_FORM_URLENCODED, MediaType.APPLICATION_JSON,
                 "nextState=Testing&comment=Completed", queryParamMap, headerMap, cookieHeaderPublisher);
-
         isNotificationMailAvailable = EmailUtil.readGmailInboxForNotification("StoreLifeCycleStateChanged");
         assertTrue(isNotificationMailAvailable,
                 "Store lifecycle state changed notification mail has failed to reach Gmail inbox");
         isNotificationMailAvailable = false;
     }
 
+    /**
+     * This test case add subscription to resource update and verifies the reception of email notification
+     * by updating the resource.
+     */
     @Test(groups = { "wso2.greg",
             "wso2.greg.es" }, description = "Adding subscription to rest service on resource update")
     public void addSubscriptionOnResourceUpdate() throws Exception {
-
         JSONObject dataObject = new JSONObject();
         dataObject.put("notificationType", "StoreResourceUpdated");
         dataObject.put("notificationMethod", "email");
@@ -183,10 +141,10 @@ public class RestServiceStoreEmailNotificationTestCase extends GregESTestBaseTes
                 .geneticRestRequestPost(storeUrl + "/subscription/restservice/" + assetId, MediaType.APPLICATION_JSON,
                         MediaType.APPLICATION_JSON, dataObject.toString(), queryParamMap, headerMap, cookieHeaderStore);
 
-        String payLoad = response.getEntity(String.class);
-        payLoad = payLoad.substring(payLoad.indexOf('{'));
-        JSONObject obj = new JSONObject(payLoad);
-        assertNotNull(obj.get("id").toString(),
+        String payload = response.getEntity(String.class);
+        payload = payload.substring(payload.indexOf('{'));
+        JSONObject payloadObject = new JSONObject(payload);
+        assertNotNull(payloadObject.get("id"),
                 "Response payload is not the in the correct format" + response.getEntity(String.class));
 
         //verify e-mail
@@ -201,31 +159,34 @@ public class RestServiceStoreEmailNotificationTestCase extends GregESTestBaseTes
         response = genericRestClient
                 .geneticRestRequestPost(publisherUrl + "/assets/" + assetId, MediaType.APPLICATION_JSON,
                         MediaType.APPLICATION_JSON, dataBody, queryParamMap, headerMap, cookieHeaderPublisher);
-        obj = new JSONObject(response.getEntity(String.class));
+        payloadObject = new JSONObject(response.getEntity(String.class));
         assertTrue((response.getStatusCode() == Response.Status.ACCEPTED.getStatusCode()),
                 "Wrong status code ,Expected 202 Created ,Received " + response.getStatusCode());
-        assertTrue(obj.getJSONObject("attributes").get("overview_context").equals("/changed/Context"));
-
+        assertTrue(payloadObject.getJSONObject("attributes").get("overview_context").equals("/changed/Context"));
         isNotificationMailAvailable = EmailUtil.readGmailInboxForNotification("StoreResourceUpdated");
         assertTrue(isNotificationMailAvailable, "Publisher resource updated mail has failed to reach Gmail nbox");
         isNotificationMailAvailable = false;
     }
 
+    /**
+     * Method used to authenticate publisher,store and create a rest service asset. Created asset
+     * is used to add subscriptions and to receive notification.
+     */
     private void setTestEnvironment() throws JSONException, IOException, XPathExpressionException {
         // Authenticate Publisher
         ClientResponse response = authenticate(publisherUrl, genericRestClient,
                 automationContext.getSuperTenant().getTenantAdmin().getUserName(),
                 automationContext.getSuperTenant().getTenantAdmin().getPassword());
-        JSONObject obj = new JSONObject(response.getEntity(String.class));
-        jSessionIdPublisher = obj.getJSONObject("data").getString("sessionId");
+        JSONObject responseObject = new JSONObject(response.getEntity(String.class));
+        String jSessionIdPublisher = responseObject.getJSONObject("data").getString("sessionId");
         cookieHeaderPublisher = "JSESSIONID=" + jSessionIdPublisher;
 
         // Authenticate Store
         ClientResponse responseStore = authenticate(storeUrl, genericRestClient,
                 automationContext.getSuperTenant().getTenantAdmin().getUserName(),
                 automationContext.getSuperTenant().getTenantAdmin().getPassword());
-        obj = new JSONObject(responseStore.getEntity(String.class));
-        jSessionIdStore = obj.getJSONObject("data").getString("sessionId");
+        responseObject = new JSONObject(responseStore.getEntity(String.class));
+        String jSessionIdStore = responseObject.getJSONObject("data").getString("sessionId");
         cookieHeaderStore = "JSESSIONID=" + jSessionIdStore;
 
         //Create rest service
@@ -235,24 +196,18 @@ public class RestServiceStoreEmailNotificationTestCase extends GregESTestBaseTes
                 .geneticRestRequestPost(publisherUrl + "/assets", MediaType.APPLICATION_JSON,
                         MediaType.APPLICATION_JSON, dataBody, queryParamMap, headerMap, cookieHeaderPublisher);
         JSONObject createObj = new JSONObject(createResponse.getEntity(String.class));
-        assetId = createObj.get("id").toString();
-    }
-
-    private void deleteRestServiceAsset() throws JSONException {
-        genericRestClient.geneticRestRequestDelete(publisherUrl + "/assets/" + assetId, MediaType.APPLICATION_JSON,
-                MediaType.APPLICATION_JSON, queryParamMap, headerMap, cookieHeaderPublisher);
+        assetId = (String) createObj.get("id");
     }
 
     @AfterClass(alwaysRun = true)
     public void cleanUp() throws RegistryException, JSONException, IOException, MessagingException {
-        deleteRestServiceAsset();
+        deleteAssetById(publisherUrl, genericRestClient, cookieHeaderPublisher, assetId, queryParamMap);
         EmailUtil.deleteSentMails();
     }
 
     @DataProvider
     private static TestUserMode[][] userModeProvider() {
         return new TestUserMode[][] { new TestUserMode[] { TestUserMode.SUPER_TENANT_ADMIN }
-                //                new TestUserMode[]{TestUserMode.TENANT_USER},
         };
     }
 }
