@@ -45,6 +45,7 @@
             <class name="org.wso2.carbon.registry.es.publisher.crud.WsdlCRUDUrlTestCase"/>
 
             <class name="org.wso2.carbon.registry.es.publisher.search.GregRestResourceSearchAndAdvanceSearchTestCase"/>
+            <class name="org.wso2.carbon.registry.es.publisher.search.GregRestResourceSearchAndAdvancedSearchWithAmpersandTestCase"/>
 
             <!--<class name="org.wso2.carbon.registry.es.notifications.CustomRXTEmailNotificationTestCase"/>-->
             <!--<class name="org.wso2.carbon.registry.es.notifications.CustomRXTSubscriptionTestCase"/>-->
