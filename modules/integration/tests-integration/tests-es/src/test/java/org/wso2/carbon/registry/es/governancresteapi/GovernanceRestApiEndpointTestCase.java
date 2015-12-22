@@ -77,6 +77,7 @@ public class GovernanceRestApiEndpointTestCase extends GregESTestBaseTest {
     private String lifeCycleName;
     private String lifeCycleState;
     private String endpointLifecycle = "EndpointLifeCycle";
+    private String activeState = "Active";
 
 
     @Factory(dataProvider = "userModeProvider")
@@ -112,7 +113,7 @@ public class GovernanceRestApiEndpointTestCase extends GregESTestBaseTest {
     @Test(groups = {"wso2.greg", "wso2.greg.governance.rest.api"}, description = "Create new endpoint")
     public void createAsset() throws IOException, JSONException, XPathExpressionException {
 
-        String dataBody = String.format(restTemplate, endpoint1Name, enviornment_qa);
+        String dataBody = GovernanceRestApiUtil.createEndpointDataBody(restTemplate, endpoint1Name, enviornment_qa);
         ClientResponse response = GovernanceRestApiUtil.createAsset(genericRestClient, dataBody, queryParamMap,
                                                                     headerMap, governanceRestApiUrlForEndpoints);
 
@@ -127,7 +128,7 @@ public class GovernanceRestApiEndpointTestCase extends GregESTestBaseTest {
     public void getAnIndividualAssetByUUID() throws JSONException {
 
         String governanceRestApiUrl = governanceRestApiUrlForEndpoints + "/" + endpointId1;
-        ClientResponse response = GovernanceRestApiUtil.getEndpointByID(genericRestClient,queryParamMap,headerMap,
+        ClientResponse response = GovernanceRestApiUtil.getEndpointByID(genericRestClient, queryParamMap, headerMap,
                                                                         governanceRestApiUrl);
         JSONObject jsonObject = new JSONObject(response.getEntity(String.class));
         JSONArray jsonArray = jsonObject.getJSONArray("assets");
@@ -154,7 +155,7 @@ public class GovernanceRestApiEndpointTestCase extends GregESTestBaseTest {
         //create another endpoint
         String endpoint2Name = "endpoint-2";
         String environment2 = "DEV";
-        String dataBody = String.format(restTemplate, endpoint2Name, environment2);
+        String dataBody = GovernanceRestApiUtil.createEndpointDataBody(restTemplate, endpoint2Name, environment2);
         ClientResponse response = GovernanceRestApiUtil.createAsset(genericRestClient, dataBody, queryParamMap,
                                                                     headerMap, governanceRestApiUrlForEndpoints);
         Assert.assertTrue(response.getStatusCode() == HttpStatus.CREATED.getCode(),
@@ -198,8 +199,10 @@ public class GovernanceRestApiEndpointTestCase extends GregESTestBaseTest {
 
         setTestEnvironment();
         assetIdOfRestService = createRestService();
-        String governanceRestApiUrlForEndpointsAssociation = governanceRestApiUrlForEndpoints + "/restservices/" + assetIdOfRestService;
-        ClientResponse response = GovernanceRestApiUtil.createAsset(genericRestClient, createEndpointDataBody(), queryParamMap,
+        String governanceRestApiUrlForEndpointsAssociation = governanceRestApiUrlForEndpoints + "/restservices/" +
+                                                             assetIdOfRestService;
+        String dataBody = GovernanceRestApiUtil.createEndpointDataBody(restTemplate, associationEndpointName, enviornment_qa);
+        ClientResponse response = GovernanceRestApiUtil.createAsset(genericRestClient, dataBody, queryParamMap,
                                                                     headerMap, governanceRestApiUrlForEndpointsAssociation);
 
         Assert.assertTrue(response.getStatusCode() == HttpStatus.CREATED.getCode(),
@@ -234,7 +237,8 @@ public class GovernanceRestApiEndpointTestCase extends GregESTestBaseTest {
         String governanceRestApiUrlForEndpointsAssociation = governanceRestApiUrlForEndpoints + "/restservices";
         queryParamMap.put("name", restServiceName);
         queryParamMap.put("version", restServiceVersion);
-        ClientResponse response = GovernanceRestApiUtil.createAsset(genericRestClient, createEndpointDataBody(), queryParamMap,
+        String dataBody = GovernanceRestApiUtil.createEndpointDataBody(restTemplate, associationEndpointName, enviornment_qa);
+        ClientResponse response = GovernanceRestApiUtil.createAsset(genericRestClient, dataBody, queryParamMap,
                                                                     headerMap, governanceRestApiUrlForEndpointsAssociation);
         Assert.assertTrue(response.getStatusCode() == HttpStatus.CREATED.getCode(),
                           "Wrong status code ,Expected 201 Created ,Received " + response.getStatusCode());
@@ -258,20 +262,19 @@ public class GovernanceRestApiEndpointTestCase extends GregESTestBaseTest {
     }
 
     //Blocked due to https://wso2.org/jira/browse/REGISTRY-3142
-    /*@Test(groups = {"wso2.greg", "wso2.greg.governance.rest.api"}, description = "Get an endpoint lifecycle status",
+    @Test(groups = {"wso2.greg", "wso2.greg.governance.rest.api"}, description = "Get an endpoint lifecycle status",
           dependsOnMethods = {"createEndpointAsAnAssociationWithNameAndVersion"})
-    public void getEndpointState(){
+    public void getEndpointState() throws JSONException {
 
-        String governanceRestApiUrlForEndpointState = governaceAPIUrl + "/endpoints/" + endpointId1 + "states";
-        String temp = governanceRestApiUrlForEndpointState.replace("localhost","10.100.5.90");
-        ClientResponse response = genericRestClient.geneticRestRequestGet(temp,
+        String governanceRestApiUrlForEndpointState = governaceAPIUrl + "/endpoints/" + endpointId1 + "/states";
+        ClientResponse response = genericRestClient.geneticRestRequestGet(governanceRestApiUrlForEndpointState,
                                                                           queryParamMap, headerMap, null);
-        System.out.println(response.getEntity(String.class));
-
-    }*/
+        JSONObject obj = new JSONObject(response.getEntity(String.class));
+        Assert.assertEquals(obj.get(endpointLifecycle), activeState);
+    }
 
     @Test(groups = {"wso2.greg", "wso2.greg.governance.rest.api"}, description = "Deactivate an endpoint",
-          dependsOnMethods = {"createEndpointAsAnAssociationWithNameAndVersion"})
+          dependsOnMethods = {"getEndpointState"})
     public void deactivateEndpoint()
             throws JSONException, RemoteException {
 
@@ -310,12 +313,17 @@ public class GovernanceRestApiEndpointTestCase extends GregESTestBaseTest {
                                                    MediaType.APPLICATION_JSON, queryParamMap,
                                                    headerMap, null);
         String governanceRestApiUrl = governanceRestApiUrlForEndpoints + "/" + endpointId1;
-        ClientResponse clientResponse = GovernanceRestApiUtil.getEndpointByID(genericRestClient,queryParamMap,headerMap,
+        ClientResponse clientResponse = GovernanceRestApiUtil.getEndpointByID(genericRestClient, queryParamMap, headerMap,
                                                                               governanceRestApiUrl);
         //Check whether asset got deleted by checking the response for get method returns null
         Assert.assertNull(clientResponse.getEntity(String.class));
     }
 
+    /**
+     * This method get the list of endpoints and filters the lifecycle detail of endpoint1.
+     *
+     * @throws JSONException
+     */
     private void searchEndpoint() throws JSONException {
 
         Map<String, String> queryParamMap = new HashMap<>();
@@ -333,10 +341,15 @@ public class GovernanceRestApiEndpointTestCase extends GregESTestBaseTest {
         }
     }
 
-    private String createEndpointDataBody() {
-        return String.format(restTemplate, associationEndpointName, enviornment_qa);
-    }
 
+
+    /**
+     * This method creates a rest service.This is later used to associate an endpoint.
+     *
+     * @return asset id of the created rest service
+     * @throws IOException
+     * @throws JSONException
+     */
     private String createRestService() throws IOException, JSONException {
         Map<String, String> queryParamMap = new HashMap<>();
         queryParamMap.put("type", "restservice");
@@ -358,7 +371,7 @@ public class GovernanceRestApiEndpointTestCase extends GregESTestBaseTest {
     }
 
     /**
-     * This method creates the cookieHeader neede fot publisher REST api calls
+     * This method creates the cookieHeader needed fot publisher REST api calls
      *
      * @throws JSONException
      * @throws XPathExpressionException
