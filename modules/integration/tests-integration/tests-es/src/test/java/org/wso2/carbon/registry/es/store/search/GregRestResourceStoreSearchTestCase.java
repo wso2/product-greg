@@ -171,7 +171,7 @@ public class GregRestResourceStoreSearchTestCase extends GregESTestBaseTest {
 
         ClientResponse response = genericRestClient.geneticRestRequestGet
                 (storeUrl.split("/apis")[0] + "/assets/restservice/list", queryParamMap, headerMap, storeCookieHeader);
-        // https://store.wso2.com:443/store/assets/restservice/list , https://localhost:10343/store/assets/restservice/list
+
         assertTrue((response.getStatusCode() == Response.Status.OK.getStatusCode()),
                 "Wrong status code ,Expected 200 OK ,But Received " + response.getStatusCode());
 

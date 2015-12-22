@@ -277,7 +277,7 @@ public class CustomRXTSubscriptionTestCase extends GregESTestBaseTest {
         queryParamMap.put("type", "applications");
         String dataBody = readFile(resourcePath + "json" + File.separator + "publisherPublishCustomResource.json");
         ClientResponse createResponse = genericRestClient
-                .geneticRestRequestPost(publisherUrl + "/assets", MediaType.APPLICATION_JSON, // https://localhost:10343/publisher/apis/assets  https://publisher.wso2.com:443/publisher/apis/assets
+                .geneticRestRequestPost(publisherUrl + "/assets", MediaType.APPLICATION_JSON,
                         MediaType.APPLICATION_JSON, dataBody, queryParamMap, headerMap, cookieHeader);
         JSONObject createObj = new JSONObject(createResponse.getEntity(String.class));
         assetId = createObj.get("id").toString();

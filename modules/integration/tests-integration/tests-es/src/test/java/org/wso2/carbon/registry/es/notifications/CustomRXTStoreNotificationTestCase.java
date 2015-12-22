@@ -183,17 +183,6 @@ public class CustomRXTStoreNotificationTestCase extends GregESTestBaseTest {
                 "GREG" + File.separator + "rxt" + File.separator + "application.rxt";
         DataHandler dh = new DataHandler(new URL("file:///" + filePath));
 
-
-
-
-
-        ManageGenericArtifactAdminServiceClient manageGenericArtifactAdminServiceClient =new ManageGenericArtifactAdminServiceClient(backendURL, getSessionCookie());
-
-        final InputStream in = dh.getInputStream();
-        byte[] byteArray=org.apache.commons.io.IOUtils.toByteArray(in);
-
-
-
         resourceAdminServiceClient.addResource(
                 "/_system/governance/repository/components/org.wso2.carbon.governance/types/applications.rxt",
                 "application/vnd.wso2.registry-ext-type+xml", "desc", dh);
@@ -263,89 +252,5 @@ public class CustomRXTStoreNotificationTestCase extends GregESTestBaseTest {
                 new TestUserMode[]{TestUserMode.SUPER_TENANT_ADMIN}
                 //                new TestUserMode[]{TestUserMode.TENANT_USER},
         };
-    }
-
-    public void buildMenuItems(String cookie, String s, String s1, String s2) throws Exception{
-            try {
-                WSRegistryServiceClient wsRegistryServiceClient = new RegistryProviderUtil().getWSRegistry(publisherContext);
-
-                Registry governance = new RegistryProviderUtil().getGovernanceRegistry(wsRegistryServiceClient, publisherContext);
-                GovernanceUtils.loadGovernanceArtifacts((UserRegistry) governance,
-                        GovernanceUtils.findGovernanceArtifactConfigurations(governance));
-                List<GovernanceArtifactConfiguration> configurations =
-                        GovernanceUtils.findGovernanceArtifactConfigurations(wsRegistryServiceClient);
-                Map<String, String> customAddUIMap = new LinkedHashMap<String, String>();
-                Map<String, String> customViewUIMap = new LinkedHashMap<String, String>();
-                List<Menu> userCustomMenuItemsList = new LinkedList<Menu>();
-                String configurationPath = RegistryConstants.CONFIG_REGISTRY_BASE_PATH +
-                        RegistryConstants.GOVERNANCE_COMPONENT_PATH +
-                        "/configuration/";
-                wsRegistryServiceClient.delete(configurationPath);
-                for (GovernanceArtifactConfiguration configuration : configurations) {
-                    Component component = new Component();
-                    OMElement uiConfigurations = configuration.getUIConfigurations();
-                    String key = configuration.getKey();
-
-                    String layoutStoragePath = configurationPath
-                            + key;
-                    RealmService realmService = wsRegistryServiceClient.getRegistryContext().getRealmService();
-                    //if (realmService.getTenantUserRealm(realmService.getTenantManager().getTenantId(s1))
-                     //       .getAuthorizationManager().isUserAuthorized(s, configurationPath, ActionConstants.PUT)
-                     //       || wsRegistryServiceClient.resourceExists(layoutStoragePath)) {
-                        List<Menu> menuList = component.getMenusList();
-                        if (uiConfigurations != null) {
-                            ComponentBuilder
-                                    .processMenus("artifactType", uiConfigurations, component);
-                            ComponentBuilder.processCustomUIs(uiConfigurations, component);
-                        }
-                        userCustomMenuItemsList.addAll(menuList);
-                        customAddUIMap.putAll(component.getCustomAddUIMap());
-                        Map<String, String> viewUIMap =
-                                component.getCustomViewUIMap();
-                        if (viewUIMap.isEmpty()) {
-                            // if no custom UI definitions were present, define the default.
-                            buildViewUI(configuration, viewUIMap, key);
-                        }
-                        customViewUIMap.putAll(viewUIMap);
-                        OMElement layout = configuration.getContentDefinition();
-                        if (layout != null && !wsRegistryServiceClient.resourceExists(layoutStoragePath)) {
-                            Resource resource = wsRegistryServiceClient.newResource();
-                            resource.setContent(RegistryUtils.encodeString(layout.toString()));
-                            resource.setMediaType("application/xml");
-                            wsRegistryServiceClient.put(layoutStoragePath, resource);
-                        }
-                    //}
-                }
-            } catch (RegistryException e) {
-                log.error("unable to create connection to registry");
-            } catch (org.wso2.carbon.user.api.UserStoreException e) {
-                log.error("unable to realm service");
-            }
-        }
-
-    private static void buildViewUI(GovernanceArtifactConfiguration configuration,
-                                    Map<String, String> viewUIMap, String key) {
-        String singularLabel = configuration.getSingularLabel();
-        String pluralLabel = configuration.getPluralLabel();
-
-        String lifecycleAttribute = key + "Lifecycle_lifecycleName";
-
-        if (singularLabel == null || pluralLabel == null) {
-            log.error("The singular label and plural label have not " +
-                    "been defined for the artifact type: " + key);
-        } else {
-            String contentURL = configuration.getContentURL();
-            if (contentURL != null) {
-                if (!contentURL.toLowerCase().equals("default")) {
-                    viewUIMap.put(configuration.getMediaType(), contentURL);
-                }
-            } else {
-                String path = "../generic/edit_ajaxprocessor.jsp?hideEditView=true&key=" + key +
-                        "&lifecycleAttribute=" + lifecycleAttribute +"&add_edit_breadcrumb=" +
-                        singularLabel + "&add_edit_region=region3&add_edit_item=governance_add_" +
-                        key + "_menu&breadcrumb=" + singularLabel;
-                viewUIMap.put(configuration.getMediaType(), path);
-            }
-        }
     }
 }

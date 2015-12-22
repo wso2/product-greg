@@ -246,22 +246,22 @@
             <instance name="store" type="standalone" nonBlockingTransportEnabled="false">
 
                 <hosts>
-                    <host type="default">store.wso2.com</host>
+                    <host type="default">localhost</host>
                 </hosts>
                 <ports>
-                    <port type="http">80</port>
-                    <port type="https">443</port>
+                    <port type="http">10663</port>
+                    <port type="https">10343</port>
                 </ports>
                 <properties>
                 </properties>
             </instance>
             <instance name="publisher" type="standalone" nonBlockingTransportEnabled="false">
                 <hosts>
-                    <host type="default">publisher.wso2.com</host>
+                    <host type="default">localhost</host>
                 </hosts>
                 <ports>
-                    <port type="http">80</port>
-                    <port type="https">443</port>
+                    <port type="http">10663</port>
+                    <port type="https">10343</port>
                 </ports>
                 <properties>
                 </properties>
@@ -302,14 +302,14 @@
         </platformExecutionManager-->
         <platformExecutionManager>
             <extentionClasses>
-                  <!--<class>
+                  <class>
                       <name>org.wso2.carbon.automation.extensions.servers.carbonserver.CarbonServerExtension</name>
                       <parameter name="-DportOffset" value="900"/>
-                      &lt;!&ndash;<parameter name="cmdArg" value="debug 5005" />&ndash;&gt;
+                      <!--<parameter name="cmdArg" value="debug 5005" />-->
                   </class>
                    <class>
                        <name>org.wso2.carbon.integration.common.extensions.usermgt.UserPopulateExtension</name>
-                   </class>-->
+                   </class>
             </extentionClasses>
         </platformExecutionManager>
 
