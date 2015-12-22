@@ -81,4 +81,28 @@ public class GovernanceRestApiUtil {
         return genericRestClient.geneticRestRequestGet(governaceAPIUrl, queryParamMap, headerMap, null);
     }
 
+    /**
+     *
+     * @param genericRestClient generic rest client instance
+     * @param queryParamMap query parameters
+     * @param headerMap header parameters
+     * @param governaceAPIUrl rest api url for the request
+     * @return response for the endpoint ID get request
+     */
+    public static ClientResponse getEndpointByID(GenericRestClient genericRestClient, Map<String, String> queryParamMap,
+                                           Map<String, String> headerMap,String governaceAPIUrl) {
+        String governanceRestApiUrl = governaceAPIUrl;
+        return GovernanceRestApiUtil.getAssetById(genericRestClient, queryParamMap, headerMap,
+                                                  governanceRestApiUrl);
+    }
+
+    /**
+     * This method creates the endpoint data body.
+     *
+     * @return formatted databody of endpoint
+     */
+    public static String createEndpointDataBody(String template, String endpointName, String enviornment) {
+        return String.format(template, endpointName, enviornment);
+    }
+
 }
