@@ -81,7 +81,7 @@ public class SoapServiceStoreEmailNotificationTestCase extends GregESTestBaseTes
                 .append("GREG").append(File.separator);
         resourcePath = builder.toString();
         storeUrl = automationContext.getContextUrls().getSecureServiceUrl().replace("services", "store/apis");
-
+        publisherUrl = automationContext.getContextUrls().getSecureServiceUrl().replace("services", "publisher/apis");
         EmailUtil.updateProfileAndEnableEmailConfiguration(automationContext, backendURL, sessionCookie);
         setTestEnvironment();
     }
