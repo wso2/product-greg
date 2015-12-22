@@ -103,7 +103,7 @@ public class CustomRXTStoreNotificationTestCase extends GregESTestBaseTest {
         dataObject.put("notificationMethod", "work");
 
         ClientResponse response = genericRestClient
-                .geneticRestRequestPost(publisherUrl + "/subscription/applications/" + assetId, MediaType.APPLICATION_JSON,
+                .geneticRestRequestPost(storeUrl + "/subscription/applications/" + assetId, MediaType.APPLICATION_JSON,
                         MediaType.APPLICATION_JSON, dataObject.toString(), queryParamMap, headerMap, cookieHeaderStore);
 
         String payload = response.getEntity(String.class);
