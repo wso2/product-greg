@@ -10,20 +10,8 @@
         <listener class-name="org.wso2.carbon.automation.engine.testlisteners.TestTransformerListener"/>
     </listeners>
     <test name="InitializedAndSetupServer" preserve-order="true" parallel="false">
-        <packages>
-            <package name="org.wso2.carbon.registry.es.publisher.generic"/>
-            <package name="org.wso2.carbon.registry.es.publisher.crud"/>
-            <package name="org.wso2.carbon.registry.es.publisher.search"/>
-            <package name="org.wso2.carbon.registry.es.notes"/>
-            <package name="org.wso2.carbon.registry.es.tags"/>
-            <package name="org.wso2.carbon.registry.es.store.search"/>
-        </packages>
-
+        <classes>
+            <!--<class name="org.wso2.carbon.registry.server.mgt.test.RegistryConfiguratorTestCase"/>-->
+        </classes>
     </test>
-
-    <test name="Ies" preserve-order="true" parallel="false">
-        <packages>
-        <package name="org.wso2.carbon.registry.es.notifications"/>
-        </packages>
-            </test>
 </suite>

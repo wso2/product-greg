@@ -2,69 +2,35 @@
 
 <suite name="ES-Publisher-Store-test-suite">
     <parameter name="useDefaultListeners" value="false"/>
+
+    <!--<test name="es" preserve-order="true" parallel="false"> -->
+    <!--<classes>-->
+    <!-- <class name="org.wso2.carbon.registry.es.publisher.generic.GregRestResourcePublisherESTestCase"/> -->
+    <!--<class name="org.wso2.carbon.registry.es.notifications.GregRestResourceSubscriptionAndNotificationTestCase"/>-->
+    <!-- -->
+    <!--<class name="org.wso2.carbon.registry.es.publisher.crud.CustomAssetCRUDTestCase"/>-->
+    <!-- -->
+    <!--<class name="org.wso2.carbon.registry.es.publisher.crud.RestServiceCRUDTestCase"/>-->
+    <!-- <class name="org.wso2.carbon.registry.es.publisher.crud.SoapServiceCRUDTestCase"/> -->
+    <!--</classes>-->
+    <!--</test>-->
+
+
     <test name="es" preserve-order="true" parallel="false">
-        <!--<classes>-->
-        <!--<class name="org.wso2.carbon.registry.es.publisher.generic.GregRestResourcePublisherESTestCase"/>-->
-        <!--<class name="org.wso2.carbon.registry.es.publisher.associations.GregRestResourceAssociationTestCase"/>-->
-        <!--<class name="org.wso2.carbon.registry.es.notifications.GregRestResourceSubscriptionAndNotificationTestCase"/>-->
-        <!--<class name="org.wso2.carbon.registry.es.tags.GregAssetsTagsESTestCase"/>-->
-        <!--<class name="org.wso2.carbon.registry.es.notes.GregAssertNotesESTestCase"/>-->
-        <!--&lt;!&ndash;<class name="org.wso2.carbon.registry.es.publisher.lifecycle.GregRestResourceLCWithTwoActionsPointingToSameStateWithExecutor"/>&ndash;&gt;-->
-        <!--</classes>-->
-      <!--  <packages>
-        <package name="org.wso2.carbon.registry.es.notifications"/>
+        <packages>
+            <package name="org.wso2.carbon.registry.es.publisher.generic"/>
+            <package name="org.wso2.carbon.registry.es.publisher.crud"/>
+            <package name="org.wso2.carbon.registry.es.publisher.search"/>
+            <package name="org.wso2.carbon.registry.es.notes"/>
+            <package name="org.wso2.carbon.registry.es.tags"/>
+            <package name="org.wso2.carbon.registry.es.store.search"/>
+        </packages>
 
-        </packages>-->
-        <classes>
-         <!--   <class name="org.wso2.carbon.registry.es.publisher.generic.GregRestResourcePublisherESTestCase"/>
+    </test>
+    <test name="Ies" preserve-order="true" parallel="false">
+        <packages>
+            <package name="org.wso2.carbon.registry.es.notifications"/>
+        </packages>
 
-            &lt;!&ndash;<class name="org.wso2.carbon.registry.es.publisher.associations.CustomRXTAssociationTestCase"/>&ndash;&gt;
-            &lt;!&ndash;<class name="org.wso2.carbon.registry.es.publisher.associations.GregRestResourceCustomAssociationTestCase"/>&ndash;&gt;
-            &lt;!&ndash;<class name="org.wso2.carbon.registry.es.publisher.associations.GregRestResourceWSDLAssociationTestCase"/>&ndash;&gt;
-
-            <class name="org.wso2.carbon.registry.es.publisher.lifecycle.GRegPublisherAPILCPermissionCheck"/>
-            <class name="org.wso2.carbon.registry.es.publisher.lifecycle.GRegPublisherLifecycleHistoryTest"/>
-            <class name="org.wso2.carbon.registry.es.publisher.lifecycle.GregPublisherPermissionCheckForLCOperations"/>
-            <class name="org.wso2.carbon.registry.es.publisher.lifecycle.GregRestResourceLCWithTwoActionsPointingToSameStateWithExecutor"/>
-            <class name="org.wso2.carbon.registry.es.publisher.lifecycle.GregRestResourceLifeCycleManagementTestCase"/>
-
-            <class name="org.wso2.carbon.registry.es.publisher.crud.CustomAssetCRUDTestCase"/>
-            <class name="org.wso2.carbon.registry.es.publisher.crud.PolicyCRUDByUrlTestCase"/>
-            <class name="org.wso2.carbon.registry.es.publisher.crud.GenericCRUDTestCase"/>
-            <class name="org.wso2.carbon.registry.es.publisher.crud.RestServiceCRUDTestCase"/>
-            <class name="org.wso2.carbon.registry.es.publisher.crud.SchemaCRUDByUrlTestCase"/>
-            <class name="org.wso2.carbon.registry.es.publisher.crud.SoapServiceCRUDTestCase"/>
-            <class name="org.wso2.carbon.registry.es.publisher.crud.SwaggerCRUDByUrlTestCase"/>
-            <class name="org.wso2.carbon.registry.es.publisher.crud.WadlCRUDByUrlTestCase"/>
-            <class name="org.wso2.carbon.registry.es.publisher.crud.WsdlCRUDUrlTestCase"/>
-
-            <class name="org.wso2.carbon.registry.es.publisher.search.GregRestResourceSearchAndAdvanceSearchTestCase"/>
-
-            &lt;!&ndash;<class name="org.wso2.carbon.registry.es.notifications.CustomRXTEmailNotificationTestCase"/>&ndash;&gt;
-            &lt;!&ndash;<class name="org.wso2.carbon.registry.es.notifications.CustomRXTSubscriptionTestCase"/>&ndash;&gt;
-            &lt;!&ndash;<class name="org.wso2.carbon.registry.es.notifications.GregRestResourceSubscriptionAndNotificationTestCase"/>&ndash;&gt;
-            &lt;!&ndash;<class name="org.wso2.carbon.registry.es.notifications.OneTimeEmailVerificationTestCase"/>&ndash;&gt;
-            &lt;!&ndash;<class name="org.wso2.carbon.registry.es.notifications.PolicyNotificationAndSubscriptionTestCase"/>&ndash;&gt;
-            &lt;!&ndash;<class name="org.wso2.carbon.registry.es.notifications.RestServiceEmailNotificationTestCase"/>&ndash;&gt;
-            &lt;!&ndash;<class name="org.wso2.carbon.registry.es.notifications.RestServiceNotificationAndSubscriptionTestCase"/>&ndash;&gt;
-            &lt;!&ndash;<class name="org.wso2.carbon.registry.es.notifications.SoapServiceEmailNotificationTestCase"/>&ndash;&gt;
-            &lt;!&ndash;<class name="org.wso2.carbon.registry.es.notifications.SoapServiceNotificationAndSubscriptionTestCase"/>&ndash;&gt;
-            &lt;!&ndash;<class name="org.wso2.carbon.registry.es.notifications.SwaggerNotificationAndSubscriptionTestCase"/>&ndash;&gt;
-            &lt;!&ndash;<class name="org.wso2.carbon.registry.es.notifications.WADLNotificationAndSubscriptionTestCase"/>&ndash;&gt;
-            &lt;!&ndash;<class name="org.wso2.carbon.registry.es.notifications.WSDLEmailNotificationTestCase"/>&ndash;&gt;
-            &lt;!&ndash;<class name="org.wso2.carbon.registry.es.notifications.WSDLNotificationAndSubscriptionTestCase"/>&ndash;&gt;
-            &lt;!&ndash;<class name="org.wso2.carbon.registry.es.notifications.PolicyEmailNotificationTestCase"/>
-            <class name="org.wso2.carbon.registry.es.notifications.WADLEmailNotificationTestCase"/>
-            <class name="org.wso2.carbon.registry.es.notifications.SwaggerEmailNotiificationTestCase"/>&ndash;&gt;
-            &lt;!&ndash;<class name="org.wso2.carbon.registry.es.notifications.WSDLStoreNotificationAndSubscriptionTestCase"/>
-            <class name="org.wso2.carbon.registry.es.notifications.WADLStoreNotificationAndSubscriptionTestCase"/>
-            <class name="org.wso2.carbon.registry.es.notifications.PolicyStoreNotificatonAndSubscriptionTestCase"/>
-            <class name="org.wso2.carbon.registry.es.notifications.SwaggerStoreNotificationAndSubscriptionTestCase"/>&ndash;&gt;
-
-            <class name="org.wso2.carbon.registry.es.notes.GregAssertNotesESTestCase"/>
--->
-            <!--<class name="org.wso2.carbon.registry.es.publisher.category.GregRestResourceCategoryTestCase"/>-->
-
-        </classes>
     </test>
 </suite>
