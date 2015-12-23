@@ -28,6 +28,8 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Factory;
 import org.testng.annotations.Test;
+import org.wso2.carbon.automation.engine.annotations.ExecutionEnvironment;
+import org.wso2.carbon.automation.engine.annotations.SetEnvironment;
 import org.wso2.carbon.automation.engine.context.TestUserMode;
 import org.wso2.carbon.automation.engine.frameworkutils.FrameworkPathUtil;
 import org.wso2.carbon.logging.view.stub.LogViewerLogViewerException;
@@ -40,6 +42,7 @@ import java.rmi.RemoteException;
 import java.util.HashMap;
 import java.util.Map;
 
+@SetEnvironment(executionEnvironments = {ExecutionEnvironment.ALL})
 public class GRegPublisherLifecycleHistoryTest extends GregESTestBaseTest {
 
     private TestUserMode userMode;
@@ -64,9 +67,9 @@ public class GRegPublisherLifecycleHistoryTest extends GregESTestBaseTest {
     @BeforeClass(alwaysRun = true)
     public void init() throws Exception {
         super.init(userMode);
-        publisherUrl = automationContext.getContextUrls()
+        publisherUrl = publisherContext.getContextUrls()
                 .getSecureServiceUrl().replace("services", "publisher/apis");
-        storeUrl = automationContext.getContextUrls()
+        storeUrl = storeContext.getContextUrls()
                 .getSecureServiceUrl().replace("services", "store/apis");
     }
 

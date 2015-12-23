@@ -52,6 +52,7 @@ import static org.testng.Assert.assertTrue;
 /**
  * This test class can be used to check the email notification functionality for custom asset type at the publisher.
  */
+
 public class CustomRXTEmailNotificationTestCase extends GregESTestBaseTest {
 
     public static final String RXT_STORAGE_PATH =

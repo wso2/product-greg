@@ -49,6 +49,8 @@ import static org.testng.Assert.assertNotNull;
 /**
  * This class test subscription & notification for custom rxt type at the publisher.
  */
+
+
 public class CustomRXTSubscriptionTestCase extends GregESTestBaseTest {
 
     public static final String RXT_STORAGE_PATH =
@@ -79,7 +81,7 @@ public class CustomRXTSubscriptionTestCase extends GregESTestBaseTest {
         builder.append(FrameworkPathUtil.getSystemResourceLocation()).append("artifacts").append(File.separator)
                 .append("GREG").append(File.separator);
         resourcePath = builder.toString();
-        publisherUrl = automationContext.getContextUrls().getSecureServiceUrl().replace("services", "publisher/apis");
+        publisherUrl = publisherContext.getContextUrls().getSecureServiceUrl().replace("services", "publisher/apis");
         resourceAdminServiceClient = new ResourceAdminServiceClient(backendURL, session);
         addCustomRxt();
         setTestEnvironment();

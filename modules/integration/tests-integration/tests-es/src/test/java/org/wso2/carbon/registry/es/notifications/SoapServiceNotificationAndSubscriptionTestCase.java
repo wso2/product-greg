@@ -27,6 +27,8 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Factory;
 import org.testng.annotations.Test;
+import org.wso2.carbon.automation.engine.annotations.ExecutionEnvironment;
+import org.wso2.carbon.automation.engine.annotations.SetEnvironment;
 import org.wso2.carbon.automation.engine.context.TestUserMode;
 import org.wso2.carbon.automation.engine.frameworkutils.FrameworkPathUtil;
 import org.wso2.carbon.registry.es.utils.GregESTestBaseTest;
@@ -44,6 +46,7 @@ import static org.testng.Assert.assertNotNull;
 /**
  * This class testes subscription & notification for soap services on publisher side.
  */
+@SetEnvironment(executionEnvironments = {ExecutionEnvironment.ALL})
 public class SoapServiceNotificationAndSubscriptionTestCase extends GregESTestBaseTest {
 
     private TestUserMode userMode;
@@ -70,7 +73,7 @@ public class SoapServiceNotificationAndSubscriptionTestCase extends GregESTestBa
         builder.append(FrameworkPathUtil.getSystemResourceLocation()).append("artifacts").append(File.separator)
                 .append("GREG").append(File.separator);
         resourcePath = builder.toString();
-        publisherUrl = automationContext.getContextUrls().getSecureServiceUrl().replace("services", "publisher/apis");
+        publisherUrl = publisherContext.getContextUrls().getSecureServiceUrl().replace("services", "publisher/apis");
         setTestEnvironment();
     }
 
@@ -225,7 +228,8 @@ public class SoapServiceNotificationAndSubscriptionTestCase extends GregESTestBa
         JSONObject payloadObject = new JSONObject(payload);
         assertNotNull(payloadObject.get("error"),
                 "Error message is not contained in the response for notification method \"test\"" + response
-                        .getEntity(String.class));
+                        .getEntity(String.class)
+        );
     }
 
     /**

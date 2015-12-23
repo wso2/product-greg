@@ -26,6 +26,8 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Factory;
 import org.testng.annotations.Test;
+import org.wso2.carbon.automation.engine.annotations.ExecutionEnvironment;
+import org.wso2.carbon.automation.engine.annotations.SetEnvironment;
 import org.wso2.carbon.automation.engine.context.TestUserMode;
 import org.wso2.carbon.automation.engine.frameworkutils.FrameworkPathUtil;
 import org.wso2.carbon.registry.core.exceptions.RegistryException;
@@ -48,6 +50,8 @@ import static org.testng.Assert.assertNotNull;
 /**
  * This class test subscription & notification for custom rxt type at store.
  */
+
+@SetEnvironment(executionEnvironments = {ExecutionEnvironment.ALL})
 public class CustomRXTStoreNotificationTestCase extends GregESTestBaseTest {
 
     public static final String RXT_STORAGE_PATH =
@@ -80,8 +84,8 @@ public class CustomRXTStoreNotificationTestCase extends GregESTestBaseTest {
         builder.append(FrameworkPathUtil.getSystemResourceLocation()).append("artifacts").append(File.separator)
                 .append("GREG").append(File.separator);
         resourcePath = builder.toString();
-        publisherUrl = automationContext.getContextUrls().getSecureServiceUrl().replace("services", "publisher/apis");
-        storeUrl = automationContext.getContextUrls().getSecureServiceUrl().replace("services", "store/apis");
+        publisherUrl = publisherContext.getContextUrls().getSecureServiceUrl().replace("services", "publisher/apis");
+        storeUrl = storeContext.getContextUrls().getSecureServiceUrl().replace("services", "store/apis");
         resourceAdminServiceClient = new ResourceAdminServiceClient(backendURL, session);
         addCustomRxt();
         setTestEnvironment();
@@ -180,9 +184,15 @@ public class CustomRXTStoreNotificationTestCase extends GregESTestBaseTest {
                 .addResource(RXT_STORAGE_PATH, "application/vnd.wso2.registry-ext-type+xml", "desc", dh);
     }
 
-    /**
-     * Method used to delete custom RXT (application.rxt)
-     */
+/*    private void deleteCustomAsset() throws JSONException {
+        genericRestClient.geneticRestRequestDelete(publisherUrl + "/assets/" + assetId, MediaType.APPLICATION_JSON,
+                MediaType.APPLICATION_JSON, queryParamMap, headerMap, cookieHeaderPublisher);
+
+    }*/
+
+        /**
+         * Method used to delete custom RXT (application.rxt)
+         */
     private void deleteCustomRxt() throws Exception {
         String session = getSessionCookie();
         resourceAdminServiceClient = new ResourceAdminServiceClient(backendURL, session);

@@ -26,6 +26,8 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Factory;
 import org.testng.annotations.Test;
+import org.wso2.carbon.automation.engine.annotations.ExecutionEnvironment;
+import org.wso2.carbon.automation.engine.annotations.SetEnvironment;
 import org.wso2.carbon.automation.engine.context.TestUserMode;
 import org.wso2.carbon.automation.engine.frameworkutils.FrameworkPathUtil;
 import org.wso2.carbon.registry.es.utils.GregESTestBaseTest;
@@ -43,6 +45,7 @@ import static org.testng.Assert.assertNotNull;
 /**
  * This class testes subscription & notification for soap services at store.
  */
+@SetEnvironment(executionEnvironments = {ExecutionEnvironment.ALL})
 public class SoapServiceStoreNotificationTestCase extends GregESTestBaseTest {
 
     private TestUserMode userMode;
@@ -71,9 +74,9 @@ public class SoapServiceStoreNotificationTestCase extends GregESTestBaseTest {
         builder.append(FrameworkPathUtil.getSystemResourceLocation()).append("artifacts").append(File.separator)
                 .append("GREG").append(File.separator);
         resourcePath = builder.toString();
-        publisherUrl = automationContext.getContextUrls()
+        publisherUrl = publisherContext.getContextUrls()
                 .getSecureServiceUrl().replace("services", "publisher/apis");
-        storeUrl = automationContext.getContextUrls()
+        storeUrl = storeContext.getContextUrls()
                 .getSecureServiceUrl().replace("services", "store/apis");
         setTestEnvironment();
     }
@@ -152,7 +155,8 @@ public class SoapServiceStoreNotificationTestCase extends GregESTestBaseTest {
         JSONObject payloadObject = new JSONObject(payload);
         assertNotNull(payloadObject.get("error"),
                 "Error message is not contained in the response for wrong notification method \"test\"" + response
-                        .getEntity(String.class));
+                        .getEntity(String.class)
+        );
     }
 
     /**

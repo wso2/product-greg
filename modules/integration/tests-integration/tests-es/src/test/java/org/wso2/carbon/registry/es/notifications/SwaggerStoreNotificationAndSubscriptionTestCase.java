@@ -28,6 +28,8 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Factory;
 import org.testng.annotations.Test;
+import org.wso2.carbon.automation.engine.annotations.ExecutionEnvironment;
+import org.wso2.carbon.automation.engine.annotations.SetEnvironment;
 import org.wso2.carbon.automation.engine.context.TestUserMode;
 import org.wso2.carbon.automation.engine.frameworkutils.FrameworkPathUtil;
 import org.wso2.carbon.governance.custom.lifecycles.checklist.stub.CustomLifecyclesChecklistAdminServiceExceptionException;
@@ -50,6 +52,7 @@ import static org.testng.Assert.assertTrue;
 /**
  * This class testes subscription & notification for swaggers on store notification
  */
+@SetEnvironment(executionEnvironments = {ExecutionEnvironment.ALL})
 public class SwaggerStoreNotificationAndSubscriptionTestCase extends GregESTestBaseTest {
 
     private TestUserMode userMode;
@@ -84,8 +87,8 @@ public class SwaggerStoreNotificationAndSubscriptionTestCase extends GregESTestB
         headerMap = new HashMap<String, String>();
         resourcePath =
                 FrameworkPathUtil.getSystemResourceLocation() + "artifacts" + File.separator + "GREG" + File.separator;
-        publisherUrl = automationContext.getContextUrls().getSecureServiceUrl().replace("services", "publisher/apis");
-        storeUrl = automationContext.getContextUrls().getSecureServiceUrl().replace("services", "store/apis");
+        publisherUrl = publisherContext.getContextUrls().getSecureServiceUrl().replace("services", "publisher/apis");
+        storeUrl = storeContext.getContextUrls().getSecureServiceUrl().replace("services", "store/apis");
         //need lifeCycleAdminServiceClient to attach a lifecycle to the Swagger, as swaggers does not come with
         //a default lifecycle attached
         lifeCycleAdminServiceClient = new LifeCycleAdminServiceClient(backendURL, sessionCookie);
