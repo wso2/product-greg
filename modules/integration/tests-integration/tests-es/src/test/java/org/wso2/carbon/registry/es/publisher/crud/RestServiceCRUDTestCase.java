@@ -141,9 +141,9 @@ public class RestServiceCRUDTestCase extends GregESTestBaseTest {
     public void updateRestServiceAsset() throws JSONException, IOException {
         Map<String, String> queryParamMap = new HashMap<>();
         queryParamMap.put("type", "restservice");
-        String restTemplate = readFile(resourcePath + "json" + File.separator + "restservice-sample.json");
+        String restTemplate = readFile(resourcePath + "json" + File.separator + "restservice-sample-update.json");
         assetName = "bbb";
-        String dataBody = String.format(restTemplate, assetName, "wso2", "/changed/Context", "1.0.0");
+        String dataBody = String.format(restTemplate, "wso2", "Updated Asset");
         ClientResponse response =
                 genericRestClient.geneticRestRequestPost(publisherUrl + "/assets/" + assetId,
                         MediaType.APPLICATION_JSON,
@@ -153,8 +153,8 @@ public class RestServiceCRUDTestCase extends GregESTestBaseTest {
         Assert.assertTrue((response.getStatusCode() == 202),
                 "Wrong status code ,Expected 202 Created ,Received " +
                         response.getStatusCode());
-        Assert.assertTrue(obj.getJSONObject("attributes").get("overview_context")
-                .equals("/changed/Context"));
+        Assert.assertTrue(obj.getJSONObject("attributes").get("overview_description")
+                .equals("Updated Asset"));
     }
 
     @Test(groups = {"wso2.greg", "wso2.greg.es"}, description = "Delete Rest Service in Publisher",
