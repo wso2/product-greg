@@ -148,8 +148,11 @@ public class SoapServiceCRUDTestCase extends GregESTestBaseTest {
     public void updateSoapServiceAsset() throws JSONException, IOException {
         Map<String, String> queryParamMap = new HashMap<>();
         queryParamMap.put("type", "soapservice");
-        String soapTemplate = readFile(resourcePath + "json" + File.separator + "soapservice-sample.json");
-        String dataBody = String.format(soapTemplate, assetName, "bbb", "1.0.0", "updating soap service ...");
+
+
+
+        String soapTemplate = readFile(resourcePath + "json" + File.separator + "soapservice-sample-update.json");
+        String dataBody = String.format(soapTemplate, "bbb", "updating soap service ...");
         ClientResponse response =
                 genericRestClient.geneticRestRequestPost(publisherUrl + "/assets/" + assetId,
                         MediaType.APPLICATION_JSON,
