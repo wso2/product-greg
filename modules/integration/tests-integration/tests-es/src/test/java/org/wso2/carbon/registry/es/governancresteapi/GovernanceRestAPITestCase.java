@@ -214,7 +214,25 @@ public class GovernanceRestAPITestCase extends GregESTestBaseTest {
     public void getAssetWithName() throws JSONException {
 
         String governanceRestApiUrl = governaceAPIUrl + "/restservices";
+        queryParamMap.put("name", restService1Name);
+        ClientResponse clientResponse = genericRestClient.geneticRestRequestGet(governanceRestApiUrl, queryParamMap,
+                                                                                headerMap, null);
+        JSONObject jsonObject = new JSONObject(clientResponse.getEntity(String.class));
+        JSONArray jsonArray = jsonObject.getJSONArray("assets");
+        Assert.assertEquals(jsonArray.getJSONObject(ASSET_ID_ONE_INDEX).get("name"), restService1Name);
+        Assert.assertEquals(jsonArray.getJSONObject(ASSET_ID_ONE_INDEX).get("context"), context1);
+        Assert.assertEquals(jsonArray.getJSONObject(ASSET_ID_ONE_INDEX).get("id"), assetId1);
+        queryParamMap.clear();
+    }
+
+    @Test(groups = {"wso2.greg", "wso2.greg.governance.rest.api"}, description = "Looks for artifacts with name and " +
+                                                                                 "version",
+          dependsOnMethods = {"getAssetWithName"})
+    public void getAssetWithNameAndVersion() throws JSONException {
+
+        String governanceRestApiUrl = governaceAPIUrl + "/restservices";
         queryParamMap.put("name",restService1Name);
+        queryParamMap.put("version",version);
         ClientResponse clientResponse = genericRestClient.geneticRestRequestGet(governanceRestApiUrl,queryParamMap,
                                                                                 headerMap,null);
         JSONObject jsonObject = new JSONObject(clientResponse.getEntity(String.class));
@@ -226,7 +244,7 @@ public class GovernanceRestAPITestCase extends GregESTestBaseTest {
     }
 
     @Test(groups = {"wso2.greg", "wso2.greg.governance.rest.api"}, description = "Update the context of a REST service",
-          dependsOnMethods = {"getAssetWithName"})
+          dependsOnMethods = {"getAssetWithNameAndVersion"})
     public void updateAnAsset() throws IOException, JSONException {
 
         String updatedContext = "/rest1-new";
