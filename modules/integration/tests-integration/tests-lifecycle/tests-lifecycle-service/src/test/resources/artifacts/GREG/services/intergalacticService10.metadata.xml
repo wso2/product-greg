@@ -19,7 +19,7 @@
     <overview><name>IntergalacticService10</name><namespace>http://abb.com</namespace><states>0</states></overview>
     <contacts><contact>0</contact></contacts>
     <interface>
-        <wsdlURL>https://raw.githubusercontent.com/wso2/wso2-qa-artifacts/master/automation-artifacts/gregG/wsdl/BizService.wsdl</wsdlURL>
+        <wsdlURL>https://raw.githubusercontent.com/wso2/wso2-qa-artifacts/master/automation-artifacts/greg/wsdl/BizService.wsdl</wsdlURL>
         <transportProtocols>0</transportProtocols>
         <messageFormats>0</messageFormats>
         <messageExchangePatterns>0</messageExchangePatterns>
