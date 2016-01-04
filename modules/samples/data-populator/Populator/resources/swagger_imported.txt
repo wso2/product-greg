@@ -1,0 +1,15 @@
+copy
+rate
+move
+associations
+properties
+tags
+property
+comment
+metadata
+revision
+association
+rating
+revisions
+comments
+artifact
