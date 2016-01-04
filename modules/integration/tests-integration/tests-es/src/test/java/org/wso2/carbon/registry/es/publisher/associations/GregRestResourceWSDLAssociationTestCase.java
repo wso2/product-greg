@@ -27,6 +27,8 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import org.json.simple.parser.ParseException;
 import org.testng.annotations.*;
+import org.wso2.carbon.automation.engine.annotations.ExecutionEnvironment;
+import org.wso2.carbon.automation.engine.annotations.SetEnvironment;
 import org.wso2.carbon.automation.engine.context.TestUserMode;
 import org.wso2.carbon.automation.engine.frameworkutils.FrameworkPathUtil;
 import org.wso2.carbon.registry.core.exceptions.RegistryException;
@@ -42,6 +44,7 @@ import java.util.Map;
 
 import static org.testng.Assert.assertTrue;
 
+@SetEnvironment(executionEnvironments = {ExecutionEnvironment.ALL})
 public class GregRestResourceWSDLAssociationTestCase extends GregESTestBaseTest {
     private static final Log log =
             LogFactory.getLog(GregRestResourceWSDLAssociationTestCase.class);
@@ -68,7 +71,7 @@ public class GregRestResourceWSDLAssociationTestCase extends GregESTestBaseTest 
         assetType = "wsdl";
         genericRestClient = new GenericRestClient();
         headerMap = new HashMap<String, String>();
-        publisherUrl = automationContext.getContextUrls()
+        publisherUrl = publisherContext.getContextUrls()
                 .getSecureServiceUrl().replace("services", "publisher/apis");
         resourcePath = FrameworkPathUtil.getSystemResourceLocation()
                 + "artifacts" + File.separator + "GREG" + File.separator + "json" + File.separator + "publisherPublishWSDLResource.json";

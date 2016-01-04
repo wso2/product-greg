@@ -28,6 +28,8 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Factory;
 import org.testng.annotations.Test;
+import org.wso2.carbon.automation.engine.annotations.ExecutionEnvironment;
+import org.wso2.carbon.automation.engine.annotations.SetEnvironment;
 import org.wso2.carbon.automation.engine.context.TestUserMode;
 import org.wso2.carbon.automation.engine.frameworkutils.FrameworkPathUtil;
 import org.wso2.carbon.registry.core.exceptions.RegistryException;
@@ -41,6 +43,7 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
+@SetEnvironment(executionEnvironments = {ExecutionEnvironment.ALL})
 public class GregAssertNotesESTestCase extends GregESTestBaseTest {
     private static final Log log = LogFactory.getLog(GregAssertNotesESTestCase.class);
     private TestUserMode userMode;
@@ -74,7 +77,7 @@ public class GregAssertNotesESTestCase extends GregESTestBaseTest {
         headerMap = new HashMap<String, String>();
         resourcePath = FrameworkPathUtil.getSystemResourceLocation()
                        + "artifacts" + File.separator + "GREG" + File.separator + "json" + File.separator;
-        publisherUrl = automationContext.getContextUrls()
+        publisherUrl = publisherContext.getContextUrls()
                 .getSecureServiceUrl().replace("services", "publisher/apis");
         SetTestEnvironment();
     }

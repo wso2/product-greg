@@ -21,6 +21,8 @@ import org.apache.wink.client.ClientResponse;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.testng.annotations.*;
+import org.wso2.carbon.automation.engine.annotations.ExecutionEnvironment;
+import org.wso2.carbon.automation.engine.annotations.SetEnvironment;
 import org.wso2.carbon.automation.engine.context.TestUserMode;
 import org.wso2.carbon.automation.engine.frameworkutils.FrameworkPathUtil;
 import org.wso2.carbon.registry.core.exceptions.RegistryException;
@@ -41,6 +43,8 @@ import static org.testng.Assert.assertTrue;
 /**
  * This class can be used to test search functionality & advance search functionality
  */
+
+@SetEnvironment(executionEnvironments = {ExecutionEnvironment.ALL})
 public class GregRestResourceStoreSearchTestCase extends GregESTestBaseTest {
 
     private TestUserMode userMode;
@@ -73,8 +77,8 @@ public class GregRestResourceStoreSearchTestCase extends GregESTestBaseTest {
         headerMap = new HashMap<>();
         resourcePath =
                 FrameworkPathUtil.getSystemResourceLocation() + "artifacts" + File.separator + "GREG" + File.separator;
-        publisherUrl = automationContext.getContextUrls().getSecureServiceUrl().replace("services", "publisher/apis");
-        storeUrl = automationContext.getContextUrls().getSecureServiceUrl().replace("services", "store/apis");
+        publisherUrl = publisherContext.getContextUrls().getSecureServiceUrl().replace("services", "publisher/apis");
+        storeUrl = storeContext.getContextUrls().getSecureServiceUrl().replace("services", "store/apis");
 
     }
 
@@ -163,7 +167,7 @@ public class GregRestResourceStoreSearchTestCase extends GregESTestBaseTest {
         // https://localhost:9443/store/assets/restservice/list?q=%22version%22:%221.2.2%22
         queryParamMap.put("q", "\"name" + "\":" + "\"" + restServiceName + "\"");
 
-        Thread.sleep(2000);
+        Thread.sleep(10000);
 
         ClientResponse response = genericRestClient.geneticRestRequestGet
                 (storeUrl.split("/apis")[0] + "/assets/restservice/list", queryParamMap, headerMap, storeCookieHeader);

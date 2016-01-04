@@ -22,46 +22,43 @@ import org.apache.wink.client.ClientResponse;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.testng.annotations.*;
+import org.testng.annotations.AfterClass;
+import org.testng.annotations.BeforeClass;
+import org.testng.annotations.DataProvider;
+import org.testng.annotations.Factory;
+import org.testng.annotations.Test;
 import org.wso2.carbon.automation.engine.configurations.UrlGenerationUtil;
 import org.wso2.carbon.automation.engine.context.TestUserMode;
 import org.wso2.carbon.automation.engine.frameworkutils.FrameworkPathUtil;
-import org.wso2.carbon.automation.test.utils.common.TestConfigurationProvider;
-import org.wso2.carbon.identity.user.profile.stub.UserProfileMgtServiceUserProfileExceptionException;
-import org.wso2.carbon.identity.user.profile.stub.types.UserFieldDTO;
-import org.wso2.carbon.identity.user.profile.stub.types.UserProfileDTO;
-import org.wso2.carbon.integration.common.utils.exceptions.AutomationUtilException;
-import org.wso2.carbon.integration.common.utils.mgt.ServerConfigurationManager;
 import org.wso2.carbon.registry.core.exceptions.RegistryException;
 import org.wso2.carbon.registry.es.utils.EmailUtil;
 import org.wso2.carbon.registry.es.utils.GregESTestBaseTest;
 import org.wso2.carbon.registry.resource.stub.ResourceAdminServiceExceptionException;
 import org.wso2.greg.integration.common.clients.ResourceAdminServiceClient;
-import org.wso2.greg.integration.common.clients.UserProfileMgtServiceClient;
 import org.wso2.greg.integration.common.utils.GenericRestClient;
 
-import javax.activation.DataHandler;
-import javax.ws.rs.core.MediaType;
-import javax.xml.xpath.XPathExpressionException;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
+import javax.activation.DataHandler;
+import javax.ws.rs.core.MediaType;
+import javax.xml.xpath.XPathExpressionException;
 
 import static org.testng.Assert.assertNotNull;
 import static org.testng.Assert.assertTrue;
 
 /**
- * This test class can be used to check the email notification functionality
+ * This test class can be used to check the email notification functionality for custom asset type at the publisher.
  */
+
 public class CustomRXTEmailNotificationTestCase extends GregESTestBaseTest {
 
+    public static final String RXT_STORAGE_PATH =
+            "/_system/governance/repository/components/org.wso2.carbon.governance/types/applications.rxt";
     private TestUserMode userMode;
-    private String jSessionId;
-    private UserProfileMgtServiceClient userProfileMgtClient;
     private ResourceAdminServiceClient resourceAdminServiceClient;
-    private File axis2File;
     private String publisherUrl;
     private String resourcePath;
     private String assetId;
@@ -70,7 +67,6 @@ public class CustomRXTEmailNotificationTestCase extends GregESTestBaseTest {
     private Map<String, String> queryParamMap;
     private Map<String, String> headerMap;
     private String loginURL;
-    private String emailAddress;
     private boolean isNotificationMailAvailable;
 
     @Factory(dataProvider = "userModeProvider")
@@ -80,69 +76,31 @@ public class CustomRXTEmailNotificationTestCase extends GregESTestBaseTest {
 
     @BeforeClass(alwaysRun = true)
     public void init() throws Exception {
-
         super.init(userMode);
-        String session = getSessionCookie();
         loginURL = UrlGenerationUtil.getLoginURL(automationContext.getInstance());
-        emailAddress = "gregtestes@gmail.com";
         genericRestClient = new GenericRestClient();
         queryParamMap = new HashMap<>();
         headerMap = new HashMap<>();
-        resourcePath =
-                FrameworkPathUtil.getSystemResourceLocation() + "artifacts" + File.separator + "GREG" + File.separator;
+        StringBuilder builder = new StringBuilder();
+        builder.append(FrameworkPathUtil.getSystemResourceLocation()).append("artifacts").append(File.separator)
+                .append("GREG").append(File.separator);
+        resourcePath = builder.toString();
         publisherUrl = automationContext.getContextUrls().getSecureServiceUrl().replace("services", "publisher/apis");
-        resourceAdminServiceClient = new ResourceAdminServiceClient(backendURL, session);
+        resourceAdminServiceClient = new ResourceAdminServiceClient(backendURL, sessionCookie);
         addCustomRxt();
-        userProfileMgtClient = new UserProfileMgtServiceClient(backendURL, session);
-
         queryParamMap.put("type", "applications");
-        axis2File = new File(
-                TestConfigurationProvider.getResourceLocation("GREG") + File.separator + "axis2" + File.separator
-                        + "axis2.xml");
-
-        updateProfileAndEnableEmailConfiguration();
+        EmailUtil.updateProfileAndEnableEmailConfiguration(automationContext, backendURL, sessionCookie);
         setTestEnvironment();
     }
 
-    private void updateProfileAndEnableEmailConfiguration()
-            throws UserProfileMgtServiceUserProfileExceptionException, IOException, XPathExpressionException,
-            AutomationUtilException {
-
-        UserProfileDTO profile = new UserProfileDTO();
-        profile.setProfileName("default");
-
-        UserFieldDTO lastName = new UserFieldDTO();
-        lastName.setClaimUri("http://wso2.org/claims/lastname");
-        lastName.setFieldValue("GregUserFirstName");
-
-        UserFieldDTO givenName = new UserFieldDTO();
-        givenName.setClaimUri("http://wso2.org/claims/givenname");
-        givenName.setFieldValue("GregUserLastName");
-
-        UserFieldDTO email = new UserFieldDTO();
-        email.setClaimUri("http://wso2.org/claims/emailaddress");
-        email.setFieldValue(emailAddress);
-
-        UserFieldDTO[] fields = new UserFieldDTO[3];
-        fields[0] = lastName;
-        fields[1] = givenName;
-        fields[2] = email;
-
-        profile.setFieldValues(fields);
-
-        userProfileMgtClient
-                .setUserProfile(automationContext.getContextTenant().getContextUser().getUserName(), profile);
-
-        // apply new axis2.xml configuration
-        ServerConfigurationManager serverConfigurationManager = new ServerConfigurationManager(automationContext);
-        serverConfigurationManager.applyConfiguration(axis2File);
-    }
-
+    /**
+     * This test case add subscription to lifecycle state change and verifies the reception of email notification
+     * by changing the life cycle state.
+     */
     @Test(groups = { "wso2.greg",
             "wso2.greg.es" }, description = "Adding subscription to custom asset on LC state change",
             dependsOnMethods = { "addSubscriptionCheckListItem" , "addSubscriptionUnCheckListItem"})
     public void addSubscriptionToLcStateChange() throws Exception {
-
         JSONObject dataObject = new JSONObject();
         dataObject.put("notificationType", "PublisherLifeCycleStateChanged");
         dataObject.put("notificationMethod", "email");
@@ -151,10 +109,10 @@ public class CustomRXTEmailNotificationTestCase extends GregESTestBaseTest {
                         MediaType.APPLICATION_JSON, MediaType.APPLICATION_JSON, dataObject.toString(), queryParamMap,
                         headerMap, cookieHeader);
 
-        String payLoad = response.getEntity(String.class);
-        payLoad = payLoad.substring(payLoad.indexOf('{'));
-        JSONObject obj = new JSONObject(payLoad);
-        assertNotNull(obj.get("id").toString(),
+        String payload = response.getEntity(String.class);
+        payload = payload.substring(payload.indexOf('{'));
+        JSONObject payloadObject = new JSONObject(payload);
+        assertNotNull(payloadObject.get("id"),
                 "Response payload is not the in the correct format" + response.getEntity(String.class));
 
         // verify e-mail
@@ -165,7 +123,6 @@ public class CustomRXTEmailNotificationTestCase extends GregESTestBaseTest {
                 automationContext.getContextTenant().getContextUser().getPassword());
 
         // Change the life cycle state in order to retrieve e-mail
-
         genericRestClient.geneticRestRequestPost(publisherUrl + "/assets/" + assetId + "/state",
                 MediaType.APPLICATION_FORM_URLENCODED, MediaType.APPLICATION_JSON,
                 "nextState=Testing&comment=Completed", queryParamMap, headerMap, cookieHeader);
@@ -176,10 +133,13 @@ public class CustomRXTEmailNotificationTestCase extends GregESTestBaseTest {
         isNotificationMailAvailable = false;
     }
 
+    /**
+     * This test case add subscription to resource update and verifies the reception of email notification
+     * by updating the resource.
+     */
     @Test(groups = { "wso2.greg",
             "wso2.greg.es" }, description = "Adding subscription to custom asset on resource update")
     public void addSubscriptionOnResourceUpdate() throws Exception {
-
         JSONObject dataObject = new JSONObject();
         dataObject.put("notificationType", "PublisherResourceUpdated");
         dataObject.put("notificationMethod", "email");
@@ -189,10 +149,10 @@ public class CustomRXTEmailNotificationTestCase extends GregESTestBaseTest {
                         MediaType.APPLICATION_JSON, MediaType.APPLICATION_JSON, dataObject.toString(), queryParamMap,
                         headerMap, cookieHeader);
 
-        String payLoad = response.getEntity(String.class);
-        payLoad = payLoad.substring(payLoad.indexOf('{'));
-        JSONObject obj = new JSONObject(payLoad);
-        assertNotNull(obj.get("id").toString(),
+        String payload = response.getEntity(String.class);
+        payload = payload.substring(payload.indexOf('{'));
+        JSONObject payloadObject = new JSONObject(payload);
+        assertNotNull(payloadObject.get("id"),
                 "Response payload is not the in the correct format" + response.getEntity(String.class));
 
         // verify e-mail
@@ -206,17 +166,18 @@ public class CustomRXTEmailNotificationTestCase extends GregESTestBaseTest {
         String dataBody = readFile(resourcePath + "json" + File.separator + "PublisherCustomResourceUpdate.json");
         genericRestClient.geneticRestRequestPost(publisherUrl + "/assets/" + assetId, MediaType.APPLICATION_JSON,
                 MediaType.APPLICATION_JSON, dataBody, queryParamMap, headerMap, cookieHeader);
-
         isNotificationMailAvailable = EmailUtil.readGmailInboxForNotification("PublisherResourceUpdated");
         assertTrue(isNotificationMailAvailable, "Publisher resource updated mail has failed to reach Gmail inbox");
         isNotificationMailAvailable = false;
-
     }
 
+    /**
+     * This test case add subscription to selecting check list item of life cycle and verifies
+     * the reception of email notification by selecting the check list item.
+     */
     @Test(groups = { "wso2.greg",
             "wso2.greg.es" }, description = "Adding subscription to custom asset on check list item checked")
     public void addSubscriptionCheckListItem() throws Exception {
-
         JSONObject dataObject = new JSONObject();
         dataObject.put("notificationType", "PublisherCheckListItemChecked");
         dataObject.put("notificationMethod", "email");
@@ -226,10 +187,10 @@ public class CustomRXTEmailNotificationTestCase extends GregESTestBaseTest {
                         MediaType.APPLICATION_JSON, MediaType.APPLICATION_JSON, dataObject.toString(), queryParamMap,
                         headerMap, cookieHeader);
 
-        String payLoad = response.getEntity(String.class);
-        payLoad = payLoad.substring(payLoad.indexOf('{'));
-        JSONObject obj = new JSONObject(payLoad);
-        assertNotNull(obj.get("id").toString(),
+        String payload = response.getEntity(String.class);
+        payload = payload.substring(payload.indexOf('{'));
+        JSONObject payloadObject = new JSONObject(payload);
+        assertNotNull(payloadObject.get("id"),
                 "Response payload is not the in the correct format" + response.getEntity(String.class));
 
         // verify e-mail
@@ -258,11 +219,14 @@ public class CustomRXTEmailNotificationTestCase extends GregESTestBaseTest {
         isNotificationMailAvailable = false;
     }
 
+    /**
+     * This test case add subscription to un ticking check list item of life cycle and verifies
+     * the reception of email notification by un ticking the check list item.
+     */
     @Test(groups = { "wso2.greg",
             "wso2.greg.es" }, description = "Adding subscription to custom asset on check list item unchecked",
             dependsOnMethods = { "addSubscriptionCheckListItem"})
     public void addSubscriptionUnCheckListItem() throws Exception {
-
         JSONObject dataObject = new JSONObject();
         dataObject.put("notificationType", "PublisherCheckListItemUnchecked");
         dataObject.put("notificationMethod", "email");
@@ -271,10 +235,10 @@ public class CustomRXTEmailNotificationTestCase extends GregESTestBaseTest {
                         MediaType.APPLICATION_JSON, MediaType.APPLICATION_JSON, dataObject.toString(), queryParamMap,
                         headerMap, cookieHeader);
 
-        String payLoad = response.getEntity(String.class);
-        payLoad = payLoad.substring(payLoad.indexOf('{'));
-        JSONObject obj = new JSONObject(payLoad);
-        assertNotNull(obj.get("id").toString(),
+        String payload = response.getEntity(String.class);
+        payload = payload.substring(payload.indexOf('{'));
+        JSONObject payloadObject = new JSONObject(payload);
+        assertNotNull(payloadObject.get("id"),
                 "Response payload is not the in the correct format" + response.getEntity(String.class));
 
         // verify e-mail
@@ -300,24 +264,29 @@ public class CustomRXTEmailNotificationTestCase extends GregESTestBaseTest {
         assertTrue(isNotificationMailAvailable,
                 "Publisher un check list item on life cycle, notification mail has failed to reached Gmail inbox");
         isNotificationMailAvailable = false;
-
     }
 
+    /**
+     * Method used to add custom RXT (application.rxt)
+     */
     private void addCustomRxt()
             throws RegistryException, IOException, ResourceAdminServiceExceptionException, InterruptedException {
-        String filePath = getTestArtifactLocation() + "artifacts" + File.separator +
-                "GREG" + File.separator + "rxt" + File.separator + "application.rxt";
+        StringBuilder builder = new StringBuilder();
+        builder.append(getTestArtifactLocation()).append("artifacts").append(File.separator).append("GREG").
+                append(File.separator).append("rxt").append(File.separator).append("application.rxt");
+        String filePath = builder.toString();
         DataHandler dh = new DataHandler(new URL("file:///" + filePath));
-        resourceAdminServiceClient.addResource(
-                "/_system/governance/repository/components/org.wso2.carbon.governance/types/application.rxt",
-                "application/vnd.wso2.registry-ext-type+xml", "desc", dh);
+        resourceAdminServiceClient
+                .addResource(RXT_STORAGE_PATH, "application/vnd.wso2.registry-ext-type+xml", "desc", dh);
     }
 
+    /**
+     * Method used to delete custom RXT (application.rxt)
+     */
     private void deleteCustomRxt() throws Exception {
         String session = getSessionCookie();
         resourceAdminServiceClient = new ResourceAdminServiceClient(backendURL, session);
-        resourceAdminServiceClient.deleteResource(
-                "/_system/governance/repository/components/org.wso2.carbon.governance/types/application.rxt");
+        resourceAdminServiceClient.deleteResource(RXT_STORAGE_PATH);
     }
 
     /**
@@ -329,13 +298,17 @@ public class CustomRXTEmailNotificationTestCase extends GregESTestBaseTest {
         genericRestClient.geneticRestRequestGet(landingUrl, queryParamMap, headerMap, cookieHeader);
     }
 
+    /**
+     * Method used to authenticate publisher and create asset of type applications. Created asset
+     * is used to add subscriptions and to receive notification.
+     */
     private void setTestEnvironment() throws JSONException, IOException, XPathExpressionException {
         // Authenticate Publisher
         ClientResponse response = authenticate(publisherUrl, genericRestClient,
                 automationContext.getSuperTenant().getTenantAdmin().getUserName(),
                 automationContext.getSuperTenant().getTenantAdmin().getPassword());
-        JSONObject obj = new JSONObject(response.getEntity(String.class));
-        jSessionId = obj.getJSONObject("data").getString("sessionId");
+        JSONObject responseObject = new JSONObject(response.getEntity(String.class));
+        String jSessionId = responseObject.getJSONObject("data").getString("sessionId");
         cookieHeader = "JSESSIONID=" + jSessionId;
         //refresh the publisher landing page to deploy new rxt type
         refreshPublisherLandingPage();
@@ -347,17 +320,12 @@ public class CustomRXTEmailNotificationTestCase extends GregESTestBaseTest {
                 .geneticRestRequestPost(publisherUrl + "/assets", MediaType.APPLICATION_JSON,
                         MediaType.APPLICATION_JSON, dataBody, queryParamMap, headerMap, cookieHeader);
         JSONObject createObj = new JSONObject(createResponse.getEntity(String.class));
-        assetId = createObj.get("id").toString();
-    }
-
-    private void deleteCustomAsset() throws JSONException {
-        genericRestClient.geneticRestRequestDelete(publisherUrl + "/assets/" + assetId, MediaType.APPLICATION_JSON,
-                MediaType.APPLICATION_JSON, queryParamMap, headerMap, cookieHeader);
+        assetId = (String) createObj.get("id");
     }
 
     @AfterClass(alwaysRun = true)
     public void cleanUp() throws Exception {
-        deleteCustomAsset();
+        deleteAssetById(publisherUrl, genericRestClient, cookieHeader, assetId, queryParamMap);
         deleteCustomRxt();
         EmailUtil.deleteSentMails();
     }
@@ -366,8 +334,6 @@ public class CustomRXTEmailNotificationTestCase extends GregESTestBaseTest {
     private static TestUserMode[][] userModeProvider() {
         return new TestUserMode[][]{
                 new TestUserMode[]{TestUserMode.SUPER_TENANT_ADMIN}
-                //                new TestUserMode[]{TestUserMode.TENANT_USER},
         };
     }
-
 }

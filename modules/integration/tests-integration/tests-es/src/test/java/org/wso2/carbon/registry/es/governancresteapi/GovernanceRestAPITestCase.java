@@ -32,6 +32,8 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Factory;
 import org.testng.annotations.Test;
+import org.wso2.carbon.automation.engine.annotations.ExecutionEnvironment;
+import org.wso2.carbon.automation.engine.annotations.SetEnvironment;
 import org.wso2.carbon.automation.engine.context.TestUserMode;
 import org.wso2.carbon.automation.engine.frameworkutils.FrameworkPathUtil;
 import org.wso2.carbon.registry.core.exceptions.RegistryException;
@@ -49,6 +51,8 @@ import javax.xml.xpath.XPathExpressionException;
 /**
  * This class tests the wso2 governance REST api.
  */
+
+@SetEnvironment(executionEnvironments = {ExecutionEnvironment.ALL})
 public class GovernanceRestAPITestCase extends GregESTestBaseTest {
 
     private static final String AUTHORIZATION_HEADER = "Authorization";
@@ -66,6 +70,10 @@ public class GovernanceRestAPITestCase extends GregESTestBaseTest {
     private String context1 = "/rest1";
     private String version = "1.0.0";
     private String assetId1, assetId2;
+    private static final String LIFECYCLE_STATE = "Development";
+    private static final String NEXT_LIFECYCLE_STATE = "Testing";
+    private static final String LIFECYCLE = "ServiceLifeCycle";
+    private static final String LIFECYCLE_STATE_CHANGE_ACTION = "Promote";
 
     @Factory(dataProvider = "userModeProvider")
     public GovernanceRestAPITestCase(TestUserMode userMode) {
@@ -86,11 +94,11 @@ public class GovernanceRestAPITestCase extends GregESTestBaseTest {
         genericRestClient = new GenericRestClient();
         queryParamMap = new HashMap<>();
         headerMap = new HashMap<>();
-        governaceAPIUrl = automationContext.getContextUrls()
+        governaceAPIUrl = publisherContext.getContextUrls()
                 .getSecureServiceUrl().replace("services", "governance");
         resourcePath = FrameworkPathUtil.getSystemResourceLocation()
                        + "artifacts" + File.separator + "GREG" + File.separator;
-        publisherUrl = automationContext.getContextUrls()
+        publisherUrl = publisherContext.getContextUrls()
                 .getSecureServiceUrl().replace("services", "publisher/apis");
         headerMap.put(AUTHORIZATION_HEADER, AUTHORIZATION_HEADER_VALUE);
     }
@@ -124,7 +132,14 @@ public class GovernanceRestAPITestCase extends GregESTestBaseTest {
         assetId1 = searchRestService(restService1Name);
         Assert.assertTrue(response.getStatusCode() == HttpStatus.CREATED.getCode(),
                           "Wrong status code ,Expected 201 Created ,Received " + response.getStatusCode());
-        String locationHeader = governaceAPIUrl + "/restservices/" + assetId1;
+        String locationHeader;
+        if(governaceAPIUrl.contains(defaultHTTPPort)){
+            locationHeader = governaceAPIUrl.replace(defaultHTTPPort,"") + "/restservices/" + assetId1;
+        }else{
+            locationHeader = governaceAPIUrl + "/restservices/" + assetId1;
+        }
+
+
         Assert.assertEquals(response.getHeaders().get("Location").get(0), locationHeader,
                             "Incorrect header. Asset not added Successfully");
     }
@@ -194,8 +209,42 @@ public class GovernanceRestAPITestCase extends GregESTestBaseTest {
         }
     }
 
-    @Test(groups = {"wso2.greg", "wso2.greg.governance.rest.api"}, description = "Update the context of a REST service",
+    @Test(groups = {"wso2.greg", "wso2.greg.governance.rest.api"}, description = "Looks for artifacts with given name",
           dependsOnMethods = {"getListOfAssets"})
+    public void getAssetWithName() throws JSONException {
+
+        String governanceRestApiUrl = governaceAPIUrl + "/restservices";
+        queryParamMap.put("name", restService1Name);
+        ClientResponse clientResponse = genericRestClient.geneticRestRequestGet(governanceRestApiUrl, queryParamMap,
+                                                                                headerMap, null);
+        JSONObject jsonObject = new JSONObject(clientResponse.getEntity(String.class));
+        JSONArray jsonArray = jsonObject.getJSONArray("assets");
+        Assert.assertEquals(jsonArray.getJSONObject(ASSET_ID_ONE_INDEX).get("name"), restService1Name);
+        Assert.assertEquals(jsonArray.getJSONObject(ASSET_ID_ONE_INDEX).get("context"), context1);
+        Assert.assertEquals(jsonArray.getJSONObject(ASSET_ID_ONE_INDEX).get("id"), assetId1);
+        queryParamMap.clear();
+    }
+
+    @Test(groups = {"wso2.greg", "wso2.greg.governance.rest.api"}, description = "Looks for artifacts with name and " +
+                                                                                 "version",
+          dependsOnMethods = {"getAssetWithName"})
+    public void getAssetWithNameAndVersion() throws JSONException {
+
+        String governanceRestApiUrl = governaceAPIUrl + "/restservices";
+        queryParamMap.put("name",restService1Name);
+        queryParamMap.put("version",version);
+        ClientResponse clientResponse = genericRestClient.geneticRestRequestGet(governanceRestApiUrl,queryParamMap,
+                                                                                headerMap,null);
+        JSONObject jsonObject = new JSONObject(clientResponse.getEntity(String.class));
+        JSONArray jsonArray = jsonObject.getJSONArray("assets");
+        Assert.assertEquals(jsonArray.getJSONObject(ASSET_ID_ONE_INDEX).get("name"),restService1Name);
+        Assert.assertEquals(jsonArray.getJSONObject(ASSET_ID_ONE_INDEX).get("context"),context1);
+        Assert.assertEquals(jsonArray.getJSONObject(ASSET_ID_ONE_INDEX).get("id"),assetId1);
+        queryParamMap.clear();
+    }
+
+    @Test(groups = {"wso2.greg", "wso2.greg.governance.rest.api"}, description = "Update the context of a REST service",
+          dependsOnMethods = {"getAssetWithNameAndVersion"})
     public void updateAnAsset() throws IOException, JSONException {
 
         String updatedContext = "/rest1-new";
@@ -223,8 +272,49 @@ public class GovernanceRestAPITestCase extends GregESTestBaseTest {
                                           assetId1 + " received " + id);
     }
 
-    @Test(groups = {"wso2.greg", "wso2.greg.governance.rest.api"}, description = "Delete a rest service",
+    @Test(groups = {"wso2.greg", "wso2.greg.governance.rest.api"}, description = "Get lifecycle state of an asset",
           dependsOnMethods = {"updateAnAsset"})
+    public void getLifeCycleStateOfAsset() throws JSONException {
+
+        String lCState = LIFECYCLE_STATE;
+        String governanceRestApiUrl = governaceAPIUrl + "/restservices/" + assetId1 + "/states";
+        ClientResponse responseOne = genericRestClient.geneticRestRequestGet(governanceRestApiUrl, queryParamMap,
+                                                                             headerMap, null);
+        JSONObject jsonObject = new JSONObject(responseOne.getEntity(String.class));
+        Assert.assertEquals(jsonObject.get(LIFECYCLE), lCState, "Incorrect life cycle state. Expected " + lCState
+                                                                + " ,received " + jsonObject.get(LIFECYCLE));
+        queryParamMap.clear();
+        queryParamMap.put("lc", "ServiceLifeCycle");
+        ClientResponse responseTwo = genericRestClient.geneticRestRequestGet(governanceRestApiUrl, queryParamMap,
+                                                                             headerMap, null);
+        JSONObject lifeCycleState = new JSONObject(responseTwo.getEntity(String.class));
+        Assert.assertEquals(lifeCycleState.get("state"), lCState, "Incorrect life cycle state. Expected " + lCState
+                                                                  + " ,received " + lifeCycleState.get("state"));
+        queryParamMap.clear();
+    }
+
+    @Test(groups = {"wso2.greg", "wso2.greg.governance.rest.api"}, description = "Update lifecycle change of an asset",
+          dependsOnMethods = {"getLifeCycleStateOfAsset"})
+    public void updateLifeCycle() throws IOException, JSONException {
+
+        String governanceRestApiUrl = governaceAPIUrl + "/restservices/" + assetId1 + "/states";
+        String lcStateChangeTemplate = readFile(resourcePath + "json" + File.separator +
+                                                "lifecycle-info-gov-rest-api.json");
+        String dataBody = String.format(lcStateChangeTemplate, LIFECYCLE, LIFECYCLE_STATE_CHANGE_ACTION);
+        ClientResponse response = genericRestClient.genericRestRequestPut(governanceRestApiUrl,
+                                                                          MediaType.APPLICATION_JSON,
+                                                                          MediaType.APPLICATION_JSON, dataBody,
+                                                                          queryParamMap, headerMap,
+                                                                          null);
+        JSONObject jsonObject = new JSONObject(response.getEntity(String.class));
+        Assert.assertEquals(jsonObject.get(LIFECYCLE), NEXT_LIFECYCLE_STATE, "Incorrect life cycle state. Expected " +
+                                                                             NEXT_LIFECYCLE_STATE
+                                                                             + " ,received " +
+                                                                             jsonObject.get(LIFECYCLE));
+    }
+
+    @Test(groups = {"wso2.greg", "wso2.greg.governance.rest.api"}, description = "Delete a rest service",
+          dependsOnMethods = {"updateLifeCycle"})
     public void deleteAnAsset() throws JSONException {
 
         genericRestClient.geneticRestRequestDelete(governaceAPIUrl + "/restservices/" + assetId1,
@@ -237,6 +327,8 @@ public class GovernanceRestAPITestCase extends GregESTestBaseTest {
                                                                            governanceRestApiUrl);
         Assert.assertNull(clientResponse.getEntity(String.class));
     }
+
+
 
     /**
      * This method search for a particular asset and returns the corresponding asset id.

@@ -25,6 +25,8 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import org.testng.Assert;
 import org.testng.annotations.*;
+import org.wso2.carbon.automation.engine.annotations.ExecutionEnvironment;
+import org.wso2.carbon.automation.engine.annotations.SetEnvironment;
 import org.wso2.carbon.automation.engine.context.TestUserMode;
 import org.wso2.carbon.automation.engine.frameworkutils.FrameworkPathUtil;
 import org.wso2.carbon.registry.core.exceptions.RegistryException;
@@ -38,6 +40,7 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
+@SetEnvironment(executionEnvironments = {ExecutionEnvironment.ALL})
 public class RestServiceCRUDTestCase extends GregESTestBaseTest {
     private static final Log log = LogFactory.getLog(RestServiceCRUDTestCase.class);
     private TestUserMode userMode;
@@ -62,7 +65,7 @@ public class RestServiceCRUDTestCase extends GregESTestBaseTest {
         headerMap = new HashMap<>();
         resourcePath = FrameworkPathUtil.getSystemResourceLocation()
                 + "artifacts" + File.separator + "GREG" + File.separator;
-        publisherUrl = automationContext.getContextUrls()
+        publisherUrl = publisherContext.getContextUrls()
                 .getSecureServiceUrl().replace("services", "publisher/apis");
         setTestEnvironment();
     }
@@ -141,9 +144,9 @@ public class RestServiceCRUDTestCase extends GregESTestBaseTest {
     public void updateRestServiceAsset() throws JSONException, IOException {
         Map<String, String> queryParamMap = new HashMap<>();
         queryParamMap.put("type", "restservice");
-        String restTemplate = readFile(resourcePath + "json" + File.separator + "restservice-sample.json");
+        String restTemplate = readFile(resourcePath + "json" + File.separator + "restservice-sample-update.json");
         assetName = "bbb";
-        String dataBody = String.format(restTemplate, assetName, "wso2", "/changed/Context", "1.0.0");
+        String dataBody = String.format(restTemplate, "wso2", "Updated Asset");
         ClientResponse response =
                 genericRestClient.geneticRestRequestPost(publisherUrl + "/assets/" + assetId,
                         MediaType.APPLICATION_JSON,
@@ -153,8 +156,8 @@ public class RestServiceCRUDTestCase extends GregESTestBaseTest {
         Assert.assertTrue((response.getStatusCode() == 202),
                 "Wrong status code ,Expected 202 Created ,Received " +
                         response.getStatusCode());
-        Assert.assertTrue(obj.getJSONObject("attributes").get("overview_context")
-                .equals("/changed/Context"));
+        Assert.assertTrue(obj.getJSONObject("attributes").get("overview_description")
+                .equals("Updated Asset"));
     }
 
     @Test(groups = {"wso2.greg", "wso2.greg.es"}, description = "Delete Rest Service in Publisher",

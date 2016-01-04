@@ -30,6 +30,8 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Factory;
 import org.testng.annotations.Test;
+import org.wso2.carbon.automation.engine.annotations.ExecutionEnvironment;
+import org.wso2.carbon.automation.engine.annotations.SetEnvironment;
 import org.wso2.carbon.automation.engine.context.TestUserMode;
 import org.wso2.carbon.automation.engine.frameworkutils.FrameworkPathUtil;
 import org.wso2.carbon.governance.custom.lifecycles.checklist.stub.CustomLifecyclesChecklistAdminServiceExceptionException;
@@ -52,6 +54,7 @@ import static org.testng.Assert.assertTrue;
 /**
  * This class tests subscriptions and notifications on publisher console for Swagger artifacts.
  */
+@SetEnvironment(executionEnvironments = {ExecutionEnvironment.ALL})
 public class SwaggerNotificationAndSubscriptionTestCase extends GregESTestBaseTest {
 
     private static final Log log = LogFactory.getLog(SwaggerNotificationAndSubscriptionTestCase.class);
@@ -84,7 +87,7 @@ public class SwaggerNotificationAndSubscriptionTestCase extends GregESTestBaseTe
         headerMap = new HashMap<String, String>();
         resourcePath = FrameworkPathUtil.getSystemResourceLocation()
                        + "artifacts" + File.separator + "GREG" + File.separator;
-        publisherUrl = automationContext.getContextUrls()
+        publisherUrl =publisherContext.getContextUrls()
                 .getSecureServiceUrl().replace("services", "publisher/apis");
         //need lifeCycleAdminServiceClient to attach a lifecycle to the Swagger, as Swaggers does not come with
         //a default lifecycle attached
