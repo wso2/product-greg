@@ -79,7 +79,7 @@ public class Carbon11572TestCase extends GREGIntegrationBaseTest {
         init();
     }
 
-    private void init() throws Exception {
+    public void init() throws Exception {
         super.init(TestUserMode.SUPER_TENANT_ADMIN);
         String session = getSessionCookie();
 

@@ -1,6 +1,3 @@
-basicAuth
-echo
-instagram
-petstore-expanded
-twitter
-uber
+petstore-with-external-docs
+api-docs
+petstore

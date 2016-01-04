@@ -107,7 +107,7 @@
                 if (String(allRoles[i]) === 'admin') {
                     log.debug('hasAdminRole');
                     hasAdminRole = true;
-                } else if (allRoles[i].startsWith('Internal') && !allRoles[i].endsWith('everyone')) {
+                } else if (allRoles[i].startsWith('Internal') && !allRoles[i].endsWith('everyone') && !allRoles[i].endsWith('publisher')) {
                     userRole = allRoles[i];
                 }
             };

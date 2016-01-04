@@ -22,11 +22,17 @@ import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.lang.StringBuilder;
 
+/*
+* This class is used to back up existing rest and soap service rxt of the server, and add
+* new rxts with categorization feild.
+ */
 public class RXTModifier {
     private static String cookie;
     private static final String username = "admin";
     private static final String password = "admin";
-    private static final String serverURL = "https://localhost:9443/services/";
+    private static String port ;
+    private static String host ;
+    private static String serverURL;
     private static final String serviceRxtPath = "/_system/governance/repository/components/org.wso2.carbon.governance/types/";
 
     private static void setSystemProperties() {
@@ -40,7 +46,15 @@ public class RXTModifier {
 
     public static void main(String[] args) {
         try {
-
+            port = args[0];
+            if(port == null || port.length() ==0){
+                port = "9443";
+            }
+            host =args [1];
+            if(host == null || host.length() ==0){
+                host = "localhost";
+            }
+            serverURL = "https://"+host+":"+port+"/services/";
             setSystemProperties();
             String projectPath = System.getProperty("user.dir");
             String axis2Configuration = System.getProperty("carbon.home") + File.separator + "repository" +
@@ -84,6 +98,14 @@ public class RXTModifier {
         System.exit(0);
     }
 
+    /**
+     *This method is used to back up existing RXTs.
+     *
+     * @param registry      registry instance.
+     * @param path          path of the rxt.
+     * @param fileName      file name of backed up rxt files.
+     * @throws RegistryException
+     */
     private static void backUpRXTs(Registry registry, String path, String fileName) throws RegistryException{
         Resource resource = registry.get(path);
         try {
@@ -93,6 +115,13 @@ public class RXTModifier {
         }
     }
 
+    /**
+     *This method is used to write rxt content to text file.
+     *
+     * @param is        rxt content as a input stream
+     * @param fileName  file name of backed up rxt file.
+     * @throws FileNotFoundException
+     */
     private static void RXTContentToFile(InputStream is, String filename) throws FileNotFoundException {
 
         BufferedReader br = null;
