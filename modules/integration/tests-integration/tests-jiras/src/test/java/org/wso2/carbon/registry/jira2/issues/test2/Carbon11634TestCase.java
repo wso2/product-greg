@@ -134,9 +134,7 @@ public class Carbon11634TestCase extends GREGIntegrationBaseTest {
         for (Service service : services) {
             String name = service.getQName().getLocalPart();
             if (name.equals("test_name1")) {
-                String WSDL_URL = "https://svn.wso2.org/repos/wso2/carbon/platform/trunk/platform-integration" +
-                        "/platform-automated-test-suite/org.wso2.carbon.automation.test.repo/src/main/resources/" +
-                        "artifacts/GREG/wsdl/Axis2ImportedWsdl.wsdl";
+                String WSDL_URL = "https://raw.githubusercontent.com/wso2/wso2-qa-artifacts/master/automation-artifacts/greg/wsdl/Axis2ImportedWsdl.wsdl";
 
                 service.addAttribute("interface_wsdlURL", WSDL_URL);
                 serviceManager.updateService(service);

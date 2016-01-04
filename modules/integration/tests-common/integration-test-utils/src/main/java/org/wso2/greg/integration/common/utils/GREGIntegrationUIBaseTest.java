@@ -27,6 +27,14 @@ public class GREGIntegrationUIBaseTest extends GREGIntegrationBaseTest{
     protected String getLoginURL() throws XPathExpressionException {
         return UrlGenerationUtil.getLoginURL(automationContext.getInstance());
     }
+
+    protected String getPublisherUrl() throws XPathExpressionException{
+        return automationContext.getContextUrls().getSecureServiceUrl().replace("services", "publisher/apis");
+    }
+
+    protected String getStoreUrl() throws XPathExpressionException{
+        return automationContext.getContextUrls().getSecureServiceUrl().replace("services", "store/apis");
+    }
 }
 
 

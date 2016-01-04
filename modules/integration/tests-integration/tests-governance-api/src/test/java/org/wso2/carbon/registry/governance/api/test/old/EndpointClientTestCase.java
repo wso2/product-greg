@@ -94,9 +94,7 @@ public class EndpointClientTestCase {
     public void testAddWsdlWithEndpoints() throws Exception {
         WsdlManager wsdlManager = new WsdlManager(governance);
 
-        Wsdl wsdl = wsdlManager.newWsdl("http://svn.wso2.org/repos/wso2/trunk/graphite/components/" +
-                "governance/org.wso2.carbon.governance.api/src/test/resources" +
-                "/test-resources/wsdl/BizService.wsdl");
+        Wsdl wsdl = wsdlManager.newWsdl("https://raw.githubusercontent.com/wso2/wso2-qa-artifacts/master/automation-artifacts/greg/wsdl/BizService.wsdl");
         wsdlManager.addWsdl(wsdl);
 
         Endpoint[] endpoints = wsdl.getAttachedEndpoints();
@@ -311,9 +309,7 @@ public class EndpointClientTestCase {
 
         // now we just add an endpoints
         WsdlManager wsdlManager = new WsdlManager(governance);
-        Wsdl wsdl = wsdlManager.newWsdl("http://svn.wso2.org/repos/wso2/trunk/graphite/components/" +
-                "governance/org.wso2.carbon.governance.api/src/test/resources/" +
-                "test-resources/wsdl/MyChangedBizService.wsdl");
+        Wsdl wsdl = wsdlManager.newWsdl("https://raw.githubusercontent.com/wso2/wso2-qa-artifacts/master/automation-artifacts/greg/wsdl/MyChangedBizService.wsdl");
         wsdl.addAttribute("boom", "hahahaha");
 
         wsdlManager.addWsdl(wsdl);

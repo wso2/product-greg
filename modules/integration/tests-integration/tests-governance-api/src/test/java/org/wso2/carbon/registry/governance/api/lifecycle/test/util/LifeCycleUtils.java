@@ -84,7 +84,6 @@ public class LifeCycleUtils {
             }
         }
         Assert.assertTrue(found, "Life Cycle list not contain newly added life cycle");
-
     }
 
     public static void deleteLifeCycleIfExist(String lifeCycleName

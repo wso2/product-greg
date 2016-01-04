@@ -20,7 +20,8 @@
         <module>tests-extensibility</module>
         <module>tests-governance-api</module>
         <module>tests-smoke</module>
-        <!-- <module>tests-load</module> -->
+        <module>tests-es</module>
+        <!-- <module>tests-load</module>-->
         <module>tests-jiras</module>
         <module>tests-search-version</module>
         <module>tests-soapservice</module>

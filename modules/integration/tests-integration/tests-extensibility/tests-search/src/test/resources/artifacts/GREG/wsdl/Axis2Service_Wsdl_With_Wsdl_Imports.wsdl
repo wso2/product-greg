@@ -1,7 +1,7 @@
 <?xml version='1.0' encoding='utf-8'?>
 <wsdl:definitions xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:ns1="http://org.apache.axis2/xsd" xmlns:ns="http://service.carbon.wso2.org" xmlns:wsaw="http://www.w3.org/2006/05/addressing/wsdl" xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" targetNamespace="http://impl.service.carbon.wso2.org">
 
-<wsdl:import location="https://svn.wso2.org/repos/wso2/carbon/platform/trunk/platform-integration/system-test-framework/core/org.wso2.automation.platform.core/src/main/resources/artifacts/GREG/wsdl/Axis2ImportedWsdl.wsdl" namespace="http://service.carbon.wso2.org">
+<wsdl:import location="https://raw.githubusercontent.com/wso2/wso2-qa-artifacts/master/automation-artifacts/greg/wsdl/Axis2ImportedWsdl.wsdl" namespace="http://service.carbon.wso2.org">
 </wsdl:import>
     
     <wsdl:binding name="Axis2ServiceSoap11Binding" type="ns:Axis2ServicePortType">

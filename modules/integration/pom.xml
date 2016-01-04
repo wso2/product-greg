@@ -14,14 +14,15 @@
     <packaging>pom</packaging>
 
     <modules>
+        <module>tests-artifacts</module>
         <module>tests-common/admin-clients</module>
         <module>tests-common/ui-pages</module>
         <module>tests-common/integration-test-utils</module>
         <module>tests-common/test-artifacts</module>
         <module>tests-common/platform-tests-utils</module>
         <module>tests-integration</module>
-        <module>tests-ui-integration</module>
-        <module>tests-platform</module>
+        <!--<module>tests-ui-integration</module>-->
+        <!--<module>tests-platform</module>-->
     </modules>
 
 </project>

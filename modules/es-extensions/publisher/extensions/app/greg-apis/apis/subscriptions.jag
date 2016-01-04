@@ -29,9 +29,21 @@
         }
         return output;
     }
+    var hasPermission = function () {
+        var rxtAPI = require('rxt');
+        var userName = server.current(session).username;
+        var isAuthorized = rxtAPI.permissions.hasAppPermission("GREG_COMMUNITY_FEATURES", tenantId, userName);
+        return isAuthorized;
+    };
     switch (httpMethod) {
         case 'GET':
             options = matcher.match(SUB_LIST) || matcher.match(SUB_ITEM);
+            if (!hasPermission()) {
+                var message = {'error': 'Permission denied'};
+                response.status = 401;
+                print(message);
+                return;
+            }
             //print(options.id + "\n");
             if (options.id) {
                 var assert = assetManager(session, options.type);
@@ -72,6 +84,12 @@
             break;
         case 'POST':
             options = matcher.match(SUB_LIST) || matcher.match(SUB_ITEM);
+            if (!hasPermission()) {
+                var message = {'error': 'Permission denied'};
+                response.status = 401;
+                print(message);
+                return;
+            }
             var assert = assetManager(session, options.type);
             var registryPath = assert.get(options.id).path;
             var parms = getParameters(request);
@@ -151,6 +169,12 @@
             break;
         case 'DELETE':
             options = matcher.match(SUB_LIST) || matcher.match(SUB_ITEM);
+            if (!hasPermission()) {
+                var message = {'error': 'Permission denied'};
+                response.status = 401;
+                print(message);
+                return;
+            }
             var parms = getParameters(request);
             //log.info(parms.subcriptionid);
             try{
