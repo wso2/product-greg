@@ -1,5 +1,4 @@
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
-
 <suite name="ES-Publisher-Store-test-suite">
     <parameter name="useDefaultListeners" value="false"/>
     <test name="es" preserve-order="true" parallel="false">
@@ -11,18 +10,5 @@
             <package name="org.wso2.carbon.registry.es.tags"/>
             <package name="org.wso2.carbon.registry.es.store.search"/>
         </packages>
-
     </test>
-    <test name="Ies" preserve-order="true" parallel="false">
-        <packages>
-            <package name="org.wso2.carbon.registry.es.notifications"/>
-        </packages>
-    </test>
-    <!--<test name="Ies" preserve-order="true" parallel="false">-->
-    <!--<classes>-->
-    <!--<class name="org.wso2.carbon.registry.es.publisher.crud.CustomAssetCRUDTestCase"/>-->
-    <!--<class name="org.wso2.carbon.registry.es.publisher.crud.RestServiceCRUDTestCase"/>-->
-    <!--<class name="org.wso2.carbon.registry.es.publisher.crud.SoapServiceCRUDTestCase"/>-->
-    <!--</classes>-->
-    <!--</test>-->
 </suite>

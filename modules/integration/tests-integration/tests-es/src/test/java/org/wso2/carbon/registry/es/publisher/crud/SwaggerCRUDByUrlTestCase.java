@@ -161,7 +161,7 @@ public class SwaggerCRUDByUrlTestCase extends GregESTestBaseTest {
         Map<String, String> queryParamMap = new HashMap<>();
         queryParamMap.put("type", "swagger");
         deleteAssetById(publisherUrl, genericRestClient, cookieHeader, assetId, queryParamMap);
-        deleteAllAssociationsById(publisherUrl, genericRestClient, cookieHeader, assetId, queryParamMap);
+        //deleteAllAssociationsById(publisherUrl, genericRestClient, cookieHeader, assetId, queryParamMap);
     }
 
     @DataProvider

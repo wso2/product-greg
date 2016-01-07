@@ -216,7 +216,7 @@ public class SoapServiceCRUDTestCase extends GregESTestBaseTest {
         queryParamMap.put("type", "soapservice");
         deleteAssetById(publisherUrl, genericRestClient, cookieHeader, assetId, queryParamMap);
         deleteAssetById(publisherUrl, genericRestClient, cookieHeader, assocAssetId, queryParamMap);
-        deleteAllAssociationsById(publisherUrl, genericRestClient, cookieHeader, assocAssetId, queryParamMap);
+        //deleteAllAssociationsById(publisherUrl, genericRestClient, cookieHeader, assocAssetId, queryParamMap);
     }
 
     @DataProvider
