@@ -13,11 +13,11 @@
         </packages>
 
     </test>
-    <test name="Ies" preserve-order="true" parallel="false">
-        <packages>
-            <package name="org.wso2.carbon.registry.es.notifications"/>
-        </packages>
-    </test>
+    <!--<test name="Ies" preserve-order="true" parallel="false">-->
+        <!--<packages>-->
+            <!--<package name="org.wso2.carbon.registry.es.notifications"/>-->
+        <!--</packages>-->
+    <!--</test>-->
     <!--<test name="Ies" preserve-order="true" parallel="false">-->
     <!--<classes>-->
     <!--<class name="org.wso2.carbon.registry.es.publisher.crud.CustomAssetCRUDTestCase"/>-->
