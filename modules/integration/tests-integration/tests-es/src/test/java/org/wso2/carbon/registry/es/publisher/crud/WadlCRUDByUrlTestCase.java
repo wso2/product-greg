@@ -168,7 +168,7 @@ public class WadlCRUDByUrlTestCase extends GregESTestBaseTest {
             assocUUIDMap = getAssociationsFromPages(publisherUrl, genericRestClient, cookieHeader, assetId, queryParamMap);
         }
         deleteAssetById(publisherUrl, genericRestClient, cookieHeader, assetId, queryParamMap);
-        deleteAllAssociationsById(publisherUrl, genericRestClient, cookieHeader, assetId, queryParamMap);
+        //deleteAllAssociationsById(publisherUrl, genericRestClient, cookieHeader, assetId, queryParamMap);
         queryParamMap.clear();
         if (assocUUIDMap != null) {
             for (String uuid : assocUUIDMap.keySet()) {
