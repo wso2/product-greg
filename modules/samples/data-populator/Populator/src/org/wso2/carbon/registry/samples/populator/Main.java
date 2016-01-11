@@ -48,7 +48,7 @@ public class Main {
         StringBuilder builder = new StringBuilder();
         builder.append(System.getProperty("carbon.home")).append(File.separator).append("repository")
                 .append(File.separator).append("resources").append(File.separator).append("security")
-                .append(File.separator).append("wso2carbon.jks")
+                .append(File.separator).append("wso2carbon.jks");
         String trustStore = builder.toString();
         System.setProperty("javax.net.ssl.trustStore", trustStore);
         System.setProperty("javax.net.ssl.trustStorePassword", "wso2carbon");
