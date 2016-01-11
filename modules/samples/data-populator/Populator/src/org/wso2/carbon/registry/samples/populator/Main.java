@@ -18,29 +18,25 @@
  */
 package org.wso2.carbon.registry.samples.populator;
 
-
-import org.apache.axis2.AxisFault;
 import org.apache.axis2.context.ConfigurationContext;
 import org.apache.axis2.context.ConfigurationContextFactory;
 import org.wso2.carbon.registry.core.Registry;
-import org.wso2.carbon.user.mgt.stub.types.carbon.ClaimValue;
-import org.wso2.carbon.registry.samples.populator.utils.UserManagementClient;
-import org.wso2.carbon.registry.samples.populator.utils.SwaggerImportClient;
-import org.wso2.carbon.registry.resource.ui.clients.ResourceServiceClient;
 import org.wso2.carbon.registry.resource.stub.ResourceAdminServiceExceptionException;
+import org.wso2.carbon.registry.resource.ui.clients.ResourceServiceClient;
+import org.wso2.carbon.registry.samples.populator.utils.SwaggerImportClient;
 import org.wso2.carbon.registry.ws.client.registry.WSRegistryServiceClient;
 
-import javax.activation.DataHandler;
-import java.lang.String;
-import java.lang.Thread;
-import java.net.URL;
 import java.io.File;
+import java.net.URL;
 import java.rmi.RemoteException;
+import javax.activation.DataHandler;
 
 /*
 * This class is used to add sample wsdls ,wadls,swagger doces, policies and scehmas to G-Reg server.
  */
 public class Main {
+
+    public static final String GOVERNANCE_ARCHIVE_MEDIA_TYPE = "application/vnd.wso2.governance-archive";
     private static String cookie;
     private static final String username = "admin";
     private static final String password = "admin";
@@ -49,8 +45,11 @@ public class Main {
     private static String serverURL;
 
     private static void setSystemProperties() {
-        String trustStore = System.getProperty("carbon.home") + File.separator + "repository" + File.separator +
-                "resources" + File.separator + "security" + File.separator + "wso2carbon.jks";
+        StringBuilder builder = new StringBuilder();
+        builder.append(System.getProperty("carbon.home")).append(File.separator).append("repository")
+                .append(File.separator).append("resources").append(File.separator).append("security")
+                .append(File.separator).append("wso2carbon.jks")
+        String trustStore = builder.toString();
         System.setProperty("javax.net.ssl.trustStore", trustStore);
         System.setProperty("javax.net.ssl.trustStorePassword", "wso2carbon");
         System.setProperty("javax.net.ssl.trustStoreType", "JKS");
@@ -70,8 +69,11 @@ public class Main {
             serverURL = "https://"+host+":"+port+"/services/";
             setSystemProperties();
 
-            String axis2Configuration = System.getProperty("carbon.home") + File.separator + "repository" +
-                    File.separator + "conf" + File.separator + "axis2" + File.separator + "axis2_client.xml";
+            StringBuilder builder = new StringBuilder();
+            builder.append(System.getProperty("carbon.home")).append(File.separator).append("repository")
+                    .append(File.separator).append("conf").append(File.separator).append("axis2").append(File.separator)
+                    .append("axis2_client.xml");
+            String axis2Configuration = builder.toString();
             ConfigurationContext configContext = ConfigurationContextFactory
                     .createConfigurationContextFromFileSystem(axis2Configuration);
 
@@ -149,9 +151,10 @@ public class Main {
      * @throws Exception
      */
     private static void addWadlGar(ResourceServiceClient resourceServiceClient, String projectPath) throws Exception {
-	DataHandler dh = new DataHandler(new URL("file://"+projectPath+"/resources/wadls.gar"));
-        resourceServiceClient.addResource("/_system/governance/trunk/test/wadls/",
-                "application/vnd.wso2.governance-archive", null, dh, null, null);
+        DataHandler dh = new DataHandler(new URL("file://" + projectPath + "/resources/wadls.gar"));
+        resourceServiceClient
+                .addResource("/_system/governance/trunk/test/wadls/", GOVERNANCE_ARCHIVE_MEDIA_TYPE, null, dh, null,
+                        null);
     }
 
     /**
@@ -163,8 +166,9 @@ public class Main {
      */
 	private static void addWsdlGar(ResourceServiceClient resourceServiceClient, String projectPath) throws Exception {       
         DataHandler dh = new DataHandler(new URL("file://"+projectPath+"/resources/wsdl_new.gar"));
-        resourceServiceClient.addResource("/_system/governance/trunk/test/wsdls/",
-                "application/vnd.wso2.governance-archive", null, dh, null, null);
+        resourceServiceClient
+                .addResource("/_system/governance/trunk/test/wsdls/", GOVERNANCE_ARCHIVE_MEDIA_TYPE, null, dh, null,
+                        null);
     }
 
     /**
@@ -174,10 +178,11 @@ public class Main {
      * @param projectPath  absolute path of the gar file.
      * @throws Exception
      */
-	private static void addSchemaGar(ResourceServiceClient resourceServiceClient, String projectPath) throws Exception {
-	DataHandler dh = new DataHandler(new URL("file://"+projectPath+"/resources/schemas.gar"));
-        resourceServiceClient.addResource("/_system/governance/trunk/test/schemas/",
-                                               "application/vnd.wso2.governance-archive", null, dh, null,null);
+    private static void addSchemaGar(ResourceServiceClient resourceServiceClient, String projectPath) throws Exception {
+        DataHandler dh = new DataHandler(new URL("file://"+projectPath+"/resources/schemas.gar"));
+        resourceServiceClient
+                .addResource("/_system/governance/trunk/test/schemas/", GOVERNANCE_ARCHIVE_MEDIA_TYPE, null, dh, null,
+                        null);
     }
 
     /**
@@ -187,10 +192,12 @@ public class Main {
      * @param projectPath  absolute path of the gar file.
      * @throws Exception
      */
-    private static void addSwaggerGar(ResourceServiceClient resourceServiceClient, String projectPath) throws Exception {
+    private static void addSwaggerGar(ResourceServiceClient resourceServiceClient, String projectPath)
+            throws Exception {
         DataHandler dh = new DataHandler(new URL("file://"+projectPath+"/resources/swagger.gar"));
-        resourceServiceClient.addResource("/_system/governance/trunk/test/schemas/",
-                "application/vnd.wso2.governance-archive", null, dh, null,null);
+        resourceServiceClient
+                .addResource("/_system/governance/trunk/test/schemas/", GOVERNANCE_ARCHIVE_MEDIA_TYPE, null, dh, null,
+                        null);
     }
 
     /**
@@ -204,8 +211,8 @@ public class Main {
         String[][] properties = { { "registry.mediaType", "application/policy+xml" }, { "version", "1.0.0" } };
         DataHandler dh = new DataHandler(new URL("file://" + projectPath + "/resources/policies.gar"));
         resourceServiceClient
-                .addResource("/_system/governance/trunk/test/1.0.0/policies/",
-                        "application/vnd.wso2.governance-archive", null, dh, null, properties);
+                .addResource("/_system/governance/trunk/test/1.0.0/policies/", GOVERNANCE_ARCHIVE_MEDIA_TYPE, null, dh,
+                        null, properties);
     }
 
     /**

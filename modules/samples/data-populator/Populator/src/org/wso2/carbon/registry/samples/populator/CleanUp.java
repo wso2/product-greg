@@ -58,8 +58,11 @@ public class CleanUp {
     private static String serverURL;
 
     private static void setSystemProperties() {
-        String trustStore = System.getProperty("carbon.home") + File.separator + "repository" + File.separator +
-                "resources" + File.separator + "security" + File.separator + "wso2carbon.jks";
+        StringBuilder builder = new StringBuilder();
+        builder.append(System.getProperty("carbon.home")).append(File.separator).append("repository")
+                .append(File.separator).append("resources").append(File.separator).append("security")
+                .append(File.separator).append("wso2carbon.jks")
+        String trustStore = builder.toString();
         System.setProperty("javax.net.ssl.trustStore", trustStore);
         System.setProperty("javax.net.ssl.trustStorePassword", "wso2carbon");
         System.setProperty("javax.net.ssl.trustStoreType", "JKS");
@@ -82,8 +85,11 @@ public class CleanUp {
             serverURL = "https://"+host+":"+port+"/services/";
             setSystemProperties();
 
-            String axis2Configuration = System.getProperty("carbon.home") + File.separator + "repository" +
-                    File.separator + "conf" + File.separator + "axis2" + File.separator + "axis2_client.xml";
+            StringBuilder builder = new StringBuilder();
+            builder.append(System.getProperty("carbon.home")).append(File.separator).append("repository")
+                    .append(File.separator).append("conf").append(File.separator).append("axis2").append(File.separator)
+                    .append("axis2_client.xml");
+            String axis2Configuration = builder.toString();
             ConfigurationContext configContext = ConfigurationContextFactory
                     .createConfigurationContextFromFileSystem(axis2Configuration);
 
