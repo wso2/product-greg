@@ -332,9 +332,11 @@ var gregAPI = {};
             if (results[i].src == path){
                 var destPath = results[i].dest
                 try {
-                    artifact = Packages.org.wso2.carbon.governance.api.util.GovernanceUtils.findGovernanceArtifactConfigurationByMediaType(am.registry.registry.get(destPath).getMediaType(), am.registry.registry);
-                } catch (e){
-                    log.warn("Association can not be retrieved. Resource does not exist at path "+destPath);
+                    artifact = Packages.org.wso2.carbon.governance.api.util.GovernanceUtils.
+                        findGovernanceArtifactConfigurationByMediaType(am.registry.registry.get(destPath).
+                            getMediaType(), am.registry.registry);
+                } catch (e) {
+                    log.warn("Association can not be retrieved. Resource does not exist at path " + destPath);
                     continue;
                 }
 
