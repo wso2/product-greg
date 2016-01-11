@@ -20,29 +20,22 @@ package org.wso2.carbon.registry.samples.populator;
 
 import org.apache.axis2.context.ConfigurationContext;
 import org.apache.axis2.context.ConfigurationContextFactory;
-import org.wso2.carbon.registry.core.Registry;
-import org.wso2.carbon.registry.resource.ui.clients.ResourceServiceClient;
-import org.wso2.carbon.registry.ws.client.registry.WSRegistryServiceClient;
-import org.wso2.carbon.governance.api.util.GovernanceUtils;
-import org.wso2.carbon.governance.api.generic.dataobjects.GenericArtifact;
 import org.wso2.carbon.governance.api.common.dataobjects.GovernanceArtifact;
-import org.wso2.carbon.governance.api.generic.GenericArtifactManager;
-import org.wso2.carbon.governance.api.generic.GenericArtifactFilter;
 import org.wso2.carbon.governance.api.exception.GovernanceException;
-import org.wso2.carbon.registry.core.pagination.PaginationContext;
-import org.wso2.carbon.registry.core.session.UserRegistry;
+import org.wso2.carbon.governance.api.generic.GenericArtifactFilter;
+import org.wso2.carbon.governance.api.generic.GenericArtifactManager;
+import org.wso2.carbon.governance.api.generic.dataobjects.GenericArtifact;
+import org.wso2.carbon.governance.api.util.GovernanceUtils;
+import org.wso2.carbon.registry.core.Registry;
 import org.wso2.carbon.registry.core.exceptions.RegistryException;
-import org.wso2.carbon.registry.samples.populator.utils.UserManagementClient;
+import org.wso2.carbon.registry.core.session.UserRegistry;
+import org.wso2.carbon.registry.ws.client.registry.WSRegistryServiceClient;
 
-import javax.activation.DataHandler;
 import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.IOException;
-import java.lang.Exception;
-import java.lang.String;
-import java.net.URL;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
 
 /*
 * This class is used to delete all the added sample data.
@@ -61,7 +54,7 @@ public class CleanUp {
         StringBuilder builder = new StringBuilder();
         builder.append(System.getProperty("carbon.home")).append(File.separator).append("repository")
                 .append(File.separator).append("resources").append(File.separator).append("security")
-                .append(File.separator).append("wso2carbon.jks")
+                .append(File.separator).append("wso2carbon.jks");
         String trustStore = builder.toString();
         System.setProperty("javax.net.ssl.trustStore", trustStore);
         System.setProperty("javax.net.ssl.trustStorePassword", "wso2carbon");

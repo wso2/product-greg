@@ -8,6 +8,13 @@ import org.wso2.carbon.registry.core.exceptions.RegistryException;
 import org.wso2.carbon.registry.resource.ui.clients.ResourceServiceClient;
 import org.wso2.carbon.registry.ws.client.registry.WSRegistryServiceClient;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.PrintWriter;
 import java.net.URL;
 import javax.activation.DataHandler;
 
@@ -29,7 +36,7 @@ public class RXTModifier {
         StringBuilder builder = new StringBuilder();
         builder.append(System.getProperty("carbon.home")).append(File.separator).append("repository")
                 .append(File.separator).append("resources").append(File.separator).append("security")
-                .append(File.separator).append("wso2carbon.jks")
+                .append(File.separator).append("wso2carbon.jks");
         String trustStore = builder.toString();
         System.setProperty("javax.net.ssl.trustStore", trustStore);
         System.setProperty("javax.net.ssl.trustStorePassword", "wso2carbon");
@@ -118,7 +125,7 @@ public class RXTModifier {
      * @param fileName  file name of backed up rxt file.
      * @throws FileNotFoundException
      */
-    private static void RXTContentToFile(InputStream is, String filename) throws FileNotFoundException {
+    private static void RXTContentToFile(InputStream is, String fileName) throws FileNotFoundException {
 
         BufferedReader br = null;
         StringBuilder sb = new StringBuilder();
@@ -141,7 +148,7 @@ public class RXTModifier {
                 }
             }
         }
-        PrintWriter out = new PrintWriter("resources/" + filename);
+        PrintWriter out = new PrintWriter("resources/" + fileName);
         out.println(sb.toString());
         out.flush();
         out.close();
