@@ -1072,7 +1072,7 @@
 
         <axis2-transports.wso2.version>1.1.0-wso2v12</axis2-transports.wso2.version>
 
-	<ciphertool.version>1.0.0-wso2v3</ciphertool.version>
+        <ciphertool.version>1.0.0-wso2v3</ciphertool.version>
         <jacoco.agent.version>0.7.4.201502262128</jacoco.agent.version>
         <org.apache.wink.version>1.4</org.apache.wink.version>
         <org.json.wso2.version>2.0.0.wso2v1</org.json.wso2.version>
