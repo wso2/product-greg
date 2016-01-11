@@ -287,10 +287,17 @@ var gregAPI = {};
             map = CommonUtil.getAssociationConfig("default");
         }
         var assetsTypes = (map.get(association)).split(",");
+        var paging = {
+            'start': 0,
+            'count': 1000,
+            'sortOrder': 'ASC',
+            'sortBy': 'overview_name',
+            'paginationLimit': 1000
+        };
         for (var i = 0; i < assetsTypes.length; i++) {
             try {
                 var manager = assetManager(session, assetsTypes[i]).am;
-                var artifacts = manager.search();
+                var artifacts = manager.search(null,paging);
                 for (var j = 0; j < artifacts.length; j++) {
                     var assetJson = new Object();
                     assetJson.uuid = manager.registry.registry.get(artifacts[j].path).getUUID();
