@@ -2,6 +2,15 @@
     <div class="col-lg-12">
         <div id='wsdl-viewer'>
             <legend><h4>WSDL</h4></legend>
+            <div class="col-lg-12 table table-striped table-hover divrow">
+                <div class="col-lg-2">
+                    Raw Content :
+                </div>
+                <div class="col-lg-10">
+                    <a href="../../../../governance/wsdls/{{id}}/content">Link</a>
+                </div>
+            </div>
+
             {{#if wsdlContent}}
                 <textarea id="wsdlcontent" name="wsdlcontent" style="width:100%">{{../wsdlContent}}</textarea>
             {{else}}
