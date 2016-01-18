@@ -22,9 +22,8 @@ import org.testng.annotations.AfterClass;
 import org.testng.annotations.Test;
 import org.wso2.carbon.automation.engine.context.TestUserMode;
 import org.wso2.carbon.governance.api.common.dataobjects.GovernanceArtifact;
-import org.wso2.carbon.governance.api.generic.GenericArtifactManager;
-import org.wso2.carbon.governance.api.generic.dataobjects.GenericArtifact;
 import org.wso2.carbon.governance.api.services.ServiceManager;
+import org.wso2.carbon.governance.api.services.dataobjects.Service;
 import org.wso2.carbon.governance.api.util.GovernanceUtils;
 import org.wso2.carbon.registry.core.Registry;
 import org.wso2.carbon.registry.core.exceptions.RegistryException;
@@ -37,8 +36,8 @@ import javax.xml.namespace.QName;
 
 
 public class ServiceDependencyCountTestCase extends GREGIntegrationBaseTest {
-    GenericArtifactManager artifactManager;
-    GenericArtifact service1, service2;
+    Service service1, service2;
+    ServiceManager serviceManager;
 
     @Test(groups = {"wso2.greg"}, description = "Dependency Verification")
     public void testServiceDependencyCount() throws Exception {
@@ -48,21 +47,16 @@ public class ServiceDependencyCountTestCase extends GREGIntegrationBaseTest {
 
         Registry registry = GovernanceUtils.getGovernanceUserRegistry(wsRegistry
                 , automationContext.getContextTenant().getContextUser().getUserName());
-        ServiceManager serviceManager = new ServiceManager(registry);
+        serviceManager = new ServiceManager(registry);
         GovernanceUtils.loadGovernanceArtifacts((UserRegistry) registry);
 
-        //"service" is the short name of the RXT
-        artifactManager = new GenericArtifactManager(registry, "service");
-
-        service1 =
-                artifactManager.newGovernanceArtifact(new QName("http://dp.com", "S1-REGISTRY-1595"));
+        service1 = serviceManager.newService(new QName("http://dp.com", "S1-REGISTRY-1595"));
         service1.addAttribute("overview_version", "1.1.1");
-        artifactManager.addGenericArtifact(service1);
+        serviceManager.addService(service1);
 
-        service2 =
-                artifactManager.newGovernanceArtifact(new QName("http://dp.com", "S2-REGISTRY-1595"));
+        service2 = serviceManager.newService(new QName("http://dp.com", "S2-REGISTRY-1595"));
         service2.addAttribute("overview_version", "1.1.2");
-        artifactManager.addGenericArtifact(service2);
+        serviceManager.addService(service2);
 
         wsRegistry.addAssociation("/_system/governance/trunk/services/com/dp/1.1.1/S1-REGISTRY-1595",
                 "/_system/governance/trunk/services/com/dp/1.1.2/S2-REGISTRY-1595", "depends");
@@ -71,8 +65,8 @@ public class ServiceDependencyCountTestCase extends GREGIntegrationBaseTest {
                 "/_system/governance/trunk/services/com/dp/1.1.1/S1-REGISTRY-1595", "depends");
 
         boolean isCorrectCount = false;
-        GenericArtifact[] artifacts = artifactManager.getAllGenericArtifacts();
-        for (GenericArtifact artifact : artifacts) {
+        Service[] artifacts = serviceManager.getAllServices();
+        for (Service artifact : artifacts) {
             if (artifact.getAttribute("overview_name").equals("S1-REGISTRY-1595")) {
 
                 GovernanceArtifact artifact1[] = artifact.getDependencies();
@@ -87,8 +81,8 @@ public class ServiceDependencyCountTestCase extends GREGIntegrationBaseTest {
 
     @AfterClass(alwaysRun = true)
     public void endTest() throws RegistryException {
-        artifactManager.removeGenericArtifact(service1.getId());
-        artifactManager.removeGenericArtifact(service2.getId());
+        serviceManager.removeService(service1.getId());
+        serviceManager.removeService(service2.getId());
     }
 }
 
