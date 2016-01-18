@@ -20,12 +20,8 @@
         <java classname="org.wso2.carbon.registry.samples.populator.Main" classpathref="javac.classpath"
               fork="true">             
             <sysproperty key="carbon.home"  value="${registry.home}"/>
-            <arg value="-ch" />
-            <arg value="${registry.home}"/>
-            <arg value="-h"/>
-            <arg value="${host}"/>
-            <arg value="-p" />
             <arg value="${port}"/>
+            <arg value="${host}"/>
         </java>
     </target>
 
@@ -33,12 +29,8 @@
         <java classname="org.wso2.carbon.registry.samples.populator.RXTModifier" classpathref="javac.classpath"
               fork="true">
             <sysproperty key="carbon.home"  value="${registry.home}"/>
-            <arg value="-ch" />
-            <arg value="${registry.home}"/>
-            <arg value="-h"/>
-            <arg value="${host}"/>
-            <arg value="-p" />
             <arg value="${port}"/>
+            <arg value="${host}"/>
         </java>
     </target>
 
@@ -46,12 +38,8 @@
         <java classname="org.wso2.carbon.registry.samples.populator.RXTReDeploy" classpathref="javac.classpath"
               fork="true">
             <sysproperty key="carbon.home"  value="${registry.home}"/>
-            <arg value="-ch" />
-            <arg value="${registry.home}"/>
-            <arg value="-h"/>
-            <arg value="${host}"/>
-            <arg value="-p" />
             <arg value="${port}"/>
+            <arg value="${host}"/>
         </java>
     </target>
 
@@ -59,12 +47,8 @@
         <java classname="org.wso2.carbon.registry.samples.populator.CategorizeArtifacts" classpathref="javac.classpath"
               fork="true">
             <sysproperty key="carbon.home"  value="${registry.home}"/>
-            <arg value="-ch" />
-            <arg value="${registry.home}"/>
-            <arg value="-h"/>
-            <arg value="${host}"/>
-            <arg value="-p" />
             <arg value="${port}"/>
+            <arg value="${host}"/>
         </java>
     </target>
 
@@ -72,12 +56,8 @@
         <java classname="org.wso2.carbon.registry.samples.populator.CleanUp" classpathref="javac.classpath"
               fork="true">
             <sysproperty key="carbon.home"  value="${registry.home}"/>
-            <arg value="-ch" />
-            <arg value="${registry.home}"/>
-            <arg value="-h"/>
-            <arg value="${host}"/>
-            <arg value="-p" />
             <arg value="${port}"/>
+            <arg value="${host}"/>
         </java>
     </target>
     

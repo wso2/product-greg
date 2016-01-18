@@ -7,31 +7,37 @@ import org.wso2.carbon.registry.core.Resource;
 import org.wso2.carbon.registry.core.exceptions.RegistryException;
 import org.wso2.carbon.registry.resource.ui.clients.ResourceServiceClient;
 import org.wso2.carbon.registry.ws.client.registry.WSRegistryServiceClient;
-import javax.activation.DataHandler;
-import java.io.File;
-import java.net.URL;
 
-import javax.xml.namespace.QName;
-import java.util.ArrayList;
+import java.io.BufferedReader;
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.io.BufferedReader;
-import java.io.FileReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
-import java.lang.StringBuilder;
+import java.net.URL;
+import javax.activation.DataHandler;
 
+/*
+* This class is used to back up existing rest and soap service rxt of the server, and add
+* new rxts with categorization feild.
+ */
 public class RXTModifier {
     private static String cookie;
     private static final String username = "admin";
     private static final String password = "admin";
-    private static final String serverURL = "https://localhost:9443/services/";
-    private static final String serviceRxtPath = "/_system/governance/repository/components/org.wso2.carbon.governance/types/";
+    private static String port ;
+    private static String host ;
+    private static String serverURL;
+    private static final String serviceRxtPath =
+            "/_system/governance/repository/components/org.wso2.carbon.governance/types/";
 
     private static void setSystemProperties() {
-        String trustStore = System.getProperty("carbon.home") + File.separator + "repository" + File.separator +
-                "resources" + File.separator + "security" + File.separator + "wso2carbon.jks";
+        StringBuilder builder = new StringBuilder();
+        builder.append(System.getProperty("carbon.home")).append(File.separator).append("repository")
+                .append(File.separator).append("resources").append(File.separator).append("security")
+                .append(File.separator).append("wso2carbon.jks");
+        String trustStore = builder.toString();
         System.setProperty("javax.net.ssl.trustStore", trustStore);
         System.setProperty("javax.net.ssl.trustStorePassword", "wso2carbon");
         System.setProperty("javax.net.ssl.trustStoreType", "JKS");
@@ -40,11 +46,22 @@ public class RXTModifier {
 
     public static void main(String[] args) {
         try {
-
+            port = args[0];
+            if(port == null || port.length() ==0){
+                port = "9443";
+            }
+            host =args [1];
+            if(host == null || host.length() ==0){
+                host = "localhost";
+            }
+            serverURL = "https://"+host+":"+port+"/services/";
             setSystemProperties();
             String projectPath = System.getProperty("user.dir");
-            String axis2Configuration = System.getProperty("carbon.home") + File.separator + "repository" +
-                    File.separator + "conf" + File.separator + "axis2" + File.separator + "axis2_client.xml";
+            StringBuilder builder = new StringBuilder();
+            builder.append(System.getProperty("carbon.home")).append(File.separator).append("repository")
+                    .append(File.separator).append("conf").append(File.separator).append("axis2").append(File.separator)
+                    .append("axis2_client.xml");
+            String axis2Configuration = builder.toString();
             ConfigurationContext configContext = ConfigurationContextFactory
                     .createConfigurationContextFromFileSystem(axis2Configuration);
 
@@ -84,6 +101,14 @@ public class RXTModifier {
         System.exit(0);
     }
 
+    /**
+     *This method is used to back up existing RXTs.
+     *
+     * @param registry      registry instance.
+     * @param path          path of the rxt.
+     * @param fileName      file name of backed up rxt files.
+     * @throws RegistryException
+     */
     private static void backUpRXTs(Registry registry, String path, String fileName) throws RegistryException{
         Resource resource = registry.get(path);
         try {
@@ -93,7 +118,14 @@ public class RXTModifier {
         }
     }
 
-    private static void RXTContentToFile(InputStream is, String filename) throws FileNotFoundException {
+    /**
+     *This method is used to write rxt content to text file.
+     *
+     * @param is        rxt content as a input stream
+     * @param fileName  file name of backed up rxt file.
+     * @throws FileNotFoundException
+     */
+    private static void RXTContentToFile(InputStream is, String fileName) throws FileNotFoundException {
 
         BufferedReader br = null;
         StringBuilder sb = new StringBuilder();
@@ -116,7 +148,7 @@ public class RXTModifier {
                 }
             }
         }
-        PrintWriter out = new PrintWriter("resources/" + filename);
+        PrintWriter out = new PrintWriter("resources/" + fileName);
         out.println(sb.toString());
         out.flush();
         out.close();

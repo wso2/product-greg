@@ -52,7 +52,7 @@ public class WsdlImportTestCase extends GREGIntegrationBaseTest{
         Thread.sleep(6000);
 
         String url =
-                "https://svn.wso2.org/repos/wso2/trunk/commons/qa/qa-artifacts/greg/xsd/complextypedoclit.wsdl";
+                "https://raw.githubusercontent.com/wso2/wso2-qa-artifacts/master/automation-artifacts/greg/xsd/complextypedoclit.wsdl";
         Resource r1 = registry.newResource();
         r1.setDescription("WSDL imported from url");
         r1.setMediaType("application/wsdl+xml");

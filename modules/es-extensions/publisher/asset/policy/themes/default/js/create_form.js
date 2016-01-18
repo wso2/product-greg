@@ -51,10 +51,49 @@ $(function() {
             policyFileName = policyFileName.replace(c, "_");
         }
         $('input[name="overview_name"]').val(policyFileName);
+        var ajaxURL = caramel.context + '/apis/assets?type=policy&q="name":"' + policyFileName + '"';
+        $.ajax({
+            url: ajaxURL,
+            type: 'GET',
+            success: function (data) {
+                if (data.count > 0) {
+                    messages.alertInfo("Policies exist with the same name ");
+                }
+            }
+        });
     });
 
     $('#form-asset-create').ajaxForm({
         beforeSubmit:function(){
+            var addSelector = $('#addMethodSelector');
+            var selectedValue = addSelector.val();
+            var version;
+            var name;
+            if (selectedValue == "upload") {
+                name = $('#policy_file_name').val();
+                version = $('#file_version').val();
+            } else {
+                name = $('input[name="overview_name"]').val();
+                version = $('input[name="overview_version"]').val();
+            }
+            var ajaxURL = caramel.context + '/apis/assets?type=policy&q="name":"' + name +
+                '","version":"' + version + '"';
+            var resourceExist = false;
+            $.ajax({
+                async: false,
+                url: ajaxURL,
+                type: 'GET',
+                success: function (data) {
+                    if (data.count > 0) {
+                        messages.alertError("Policy exist with same name and version");
+                        resourceExist = true;
+                    }
+
+                }
+            });
+            if (resourceExist) {
+                return false;
+            }
             var action = "";
             if ($('#importUI').is(":visible")) {
                 action = "addNewAssetButton";

@@ -82,6 +82,7 @@ public class ReportingTestCaseSuper extends GREGIntegrationBaseTest {
     private String backEndUrl;
     private String userName;
     private String userNameWithoutDomain;
+    private String serverPort;
 
 
     protected void init() throws Exception {
@@ -111,6 +112,7 @@ public class ReportingTestCaseSuper extends GREGIntegrationBaseTest {
                 new ResourceAdminServiceClient(backEndUrl,
                                                sessionCookie);
         artifactIDs = new String[5];
+        serverPort = automationContext.getDefaultInstance().getPorts().get("https");
     }
 
     /**
@@ -350,7 +352,7 @@ public class ReportingTestCaseSuper extends GREGIntegrationBaseTest {
 
         artifact.setAttribute("functionalTestCases_feature", "REST API");
         artifact.setAttribute("functionalTestCases_url",
-                              "https://10.200.3.57:10343/carbon/REST");
+                              "https://10.200.3.57:" + serverPort + "/carbon/REST");
         artifact.setAttribute("functionalTestCases_comment",
                               "Created by Sameera");
 

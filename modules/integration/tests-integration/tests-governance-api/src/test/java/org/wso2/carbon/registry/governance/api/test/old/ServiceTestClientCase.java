@@ -178,10 +178,7 @@ public class ServiceTestClientCase extends GREGIntegrationBaseTest{
         // first put a WSDL
         WsdlManager wsdlManager = new WsdlManager(governance);
 
-        Wsdl wsdl = wsdlManager.newWsdl("https://svn.wso2.org/repos/wso2/carbon/platform/trunk/" +
-                "platform-integration/system-test-framework/core/" +
-                "org.wso2.automation.platform.core/src/main/resources/" +
-                "artifacts/GREG/wsdl/BizService.wsdl");
+        Wsdl wsdl = wsdlManager.newWsdl("https://raw.githubusercontent.com/wso2/wso2-qa-artifacts/master/automation-artifacts/greg/wsdl/BizService.wsdl");
         wsdlManager.addWsdl(wsdl);
 
         ServiceManager serviceManager = new ServiceManager(governance);
@@ -419,8 +416,7 @@ public class ServiceTestClientCase extends GREGIntegrationBaseTest{
         // first put a WSDL
         WsdlManager wsdlManager = new WsdlManager(governance);
 
-        Wsdl wsdl = wsdlManager.newWsdl("https://svn.wso2.org/repos/wso2/carbon/platform/branches/4.0.0/platform-integration" +
-                "/clarity-tests/1.0.1/org.wso2.carbon.automation.test.repo/src/main/resources/artifacts/GREG/wsdl/BizService.wsdl");
+        Wsdl wsdl = wsdlManager.newWsdl("https://raw.githubusercontent.com/wso2/wso2-qa-artifacts/master/automation-artifacts/greg/wsdl/BizService.wsdl");
         wsdlManager.addWsdl(wsdl);
 
         ServiceManager serviceManager = new ServiceManager(governance);
@@ -573,9 +569,7 @@ public class ServiceTestClientCase extends GREGIntegrationBaseTest{
         Service service = serviceManager.newService(new QName("http://wso2.org/automation/test",
                 "WSDLWithPolicyTest"));
         service.addAttribute("interface_wsdlURL",
-                "https://svn.wso2.org/repos/wso2/carbon/platform/trunk/" +
-                        "platform-integration/system-test-framework/core/org.wso2.automation." +
-                        "platform.core/src/main/resources/artifacts/GREG/wsdl/wsdl_with_SigEncr.wsdl");
+                "https://raw.githubusercontent.com/wso2/wso2-qa-artifacts/master/automation-artifacts/greg/wsdl/wsdl_with_SigEncr.wsdl");
         serviceManager.addService(service);
 
         service = serviceManager.getService(service.getId());
@@ -624,9 +618,7 @@ public class ServiceTestClientCase extends GREGIntegrationBaseTest{
         Service service = serviceManager.newService(new QName("http://wso2.org/automation/test",
                 "WSDLImportWSDLTest"));
         service.addAttribute("interface_wsdlURL",
-                "https://svn.wso2.org/repos/wso2/carbon/platform/trunk/platform-integration/" +
-                        "system-test-framework/core/org.wso2.automation.platform.core/src/" +
-                        "main/resources/artifacts/GREG/wsdl/" +
+                "https://raw.githubusercontent.com/wso2/wso2-qa-artifacts/master/automation-artifacts/greg/wsdl/" +
                         "Axis2Service_Wsdl_With_Wsdl_Imports.wsdl");
 
         serviceManager.addService(service);

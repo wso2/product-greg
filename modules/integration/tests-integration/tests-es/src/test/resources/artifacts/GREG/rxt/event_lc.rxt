@@ -20,7 +20,7 @@
                 <field required="true" type="text">
                     <name>Date</name>
                 </field>
-                <field required="true" type="text">
+                <field default="Colombo" type="text">
                     <name>Venue</name>
                 </field>
             </table>
@@ -53,7 +53,7 @@
             <table name="Service Lifecycle">
                 <field type="options">
                     <name label="Lifecycle Name">Lifecycle Name</name>
-                    <values class="org.wso2.carbon.governance.services.ui.utils.LifecycleListPopulator">
+                    <values class="org.wso2.carbon.governance.generic.ui.utils.LifecycleListPopulator">
                 </values></field>
             </table>
             <table name="SLA" columns="3">

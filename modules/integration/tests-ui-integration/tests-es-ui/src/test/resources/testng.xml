@@ -1,0 +1,27 @@
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
+
+<suite name="GREGESUITestSuite" parallel="false">
+    <listeners>
+        <listener class-name="org.wso2.carbon.automation.engine.testlisteners.TestManagerListener"/>
+        <listener class-name="org.wso2.carbon.automation.engine.testlisteners.TestReportListener"/>
+        <listener class-name="org.wso2.carbon.automation.engine.testlisteners.TestExecutionListener"/>
+        <listener class-name="org.wso2.carbon.automation.engine.testlisteners.TestSuiteListener"/>
+        <listener class-name="org.wso2.carbon.automation.engine.testlisteners.TestTransformerListener"/>
+    </listeners>
+
+   <!-- <test name="Greg-server-mgt-Test" preserve-order="true" verbose="2">
+        <packages>
+            <package name="org.wso2.carbon.greg.server.mgt"/>
+        </packages>
+    </test>-->
+
+    <test name="Greg-ES-UI-Test" preserve-order="true" verbose="2">
+        <classes>
+            <class name="org.wso2.carbon.greg.server.mgt.RegistryConfiguratorTestCase"/>
+            <class name="org.wso2.carbon.greg.ui.test.lifecycle.LifeCycleSmokeUITestCase"/>
+        </classes>
+    </test>
+
+</suite>
+
+

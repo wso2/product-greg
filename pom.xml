@@ -713,6 +713,26 @@
                 <artifactId>org.jacoco.agent</artifactId>
                 <version>${jacoco.agent.version}</version>
             </dependency>
+            <dependency>
+                <groupId>org.apache.wink</groupId>
+                <artifactId>wink-client</artifactId>
+                <version>${org.apache.wink.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.json.wso2</groupId>
+                <artifactId>json</artifactId>
+                <version>${org.json.wso2.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>javax.ws.rs</groupId>
+                <artifactId>javax.ws.rs-api</artifactId>
+                <version>${javax.ws.rs.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.jboss.resteasy</groupId>
+                <artifactId>resteasy-client</artifactId>
+                <version>${resteasy.version}</version>
+            </dependency>
         </dependencies>
     </dependencyManagement>
 
@@ -921,8 +941,8 @@
         <carbon.feature.version>1.4.4</carbon.feature.version>
         <uuid.feature.version>1.4.4</uuid.feature.version>
         <sso.feature.version>1.4.4</sso.feature.version>
-        <es.feature.version>2.3.9</es.feature.version>
-        <carbon.social.version>2.3.9</carbon.social.version>
+        <es.feature.version>2.3.10-SNAPSHOT</es.feature.version>
+        <carbon.social.version>2.3.10-SNAPSHOT</carbon.social.version>
         <i18n.feature.version>1.4.4</i18n.feature.version>
         <!--<event.feature.version>1.0.0</event.feature.version>-->
         <!--<login.feature.version>1.0.0</login.feature.version>-->
@@ -1052,8 +1072,11 @@
 
         <axis2-transports.wso2.version>1.1.0-wso2v12</axis2-transports.wso2.version>
 
-	<ciphertool.version>1.0.0-wso2v3</ciphertool.version>
+        <ciphertool.version>1.0.0-wso2v3</ciphertool.version>
         <jacoco.agent.version>0.7.4.201502262128</jacoco.agent.version>
-
+        <org.apache.wink.version>1.4</org.apache.wink.version>
+        <org.json.wso2.version>2.0.0.wso2v1</org.json.wso2.version>
+        <resteasy.version>3.0.2.Final</resteasy.version>
+        <javax.ws.rs.version>2.0.1</javax.ws.rs.version>
     </properties>
 </project>

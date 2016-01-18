@@ -96,15 +96,11 @@ public class ServicesResourceInformationManagementTestCase extends GREGIntegrati
             serviceForDependencyVerification, serviceForRetentionVerification,
             serviceForNotificationVerification, serviceForNotificationVerification2;
     private final static String WSDL_URL =
-            "https://svn.wso2.org/repos/wso2/carbon/platform/trunk/products/greg/modules/integration/registry/tests-new/" +
-            "src/test/resources/artifacts/GREG/wsdl/info.wsdl";
+            "https://raw.githubusercontent.com/wso2/wso2-qa-artifacts/master/automation-artifacts/greg/wsdl/info.wsdl";
     private final static String POLICY_URL =
-            "http://svn.wso2.org/repos/wso2/carbon/platform/trunk/"
-            + "platform-integration/platform-automated-test-suite/org.wso2.carbon.automation.test.repo/"
-            + "src/main/resources/artifacts/GREG/policy/UTPolicy.xml";
+            "https://raw.githubusercontent.com/wso2/wso2-qa-artifacts/master/automation-artifacts/greg/policy/UTPolicy.xml";
     private final static String SCHEMA_URL =
-            "https://svn.wso2.org/repos/wso2/trunk/commons/qa/"
-            + "qa-artifacts/greg/xsd/calculator.xsd";
+            "https://raw.githubusercontent.com/wso2/wso2-qa-artifacts/master/automation-artifacts/greg/xsd/calculator.xsd";
     private final static String DEPENDENCY_PATH = "/_system/governance/trunk/";
     private final static String ROOT = "/_system/governance";
     private ServiceManager serviceManager, serviceManager2;

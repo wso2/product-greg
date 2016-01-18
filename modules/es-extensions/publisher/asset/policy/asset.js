@@ -73,6 +73,22 @@ asset.manager = function(ctx) {
             var properties = javaArray.newInstance(java.lang.String, 1, 2);
             properties[0][0] = 'version';
             properties[0][1] = version;
+
+            var rxt = require('rxt');
+            var am = rxt.asset.createUserAssetManager(ctx.session, this.type);
+            var query = {};
+            query.overview_name = name;
+            var assets = am.search(query);
+            for (var i = 0; i < assets.length; i++) {
+                if (assets[i].version == version) {
+                    var msg = "resource already exist with Name \"" + name + "\" and version \"" + version + "\"";
+                    var exceptionUtils = require('utils');
+                    var exceptionModule = exceptionUtils.exception;
+                    var constants = rxt.constants;
+                    throw exceptionModule.buildExceptionObject(msg, constants.STATUS_CODES.BAD_REQUEST);
+                }
+            }
+
             var path = utils.importResource(parentPath, name, mediaType, '', url, null, userRegistry.registry, properties);
 
             if(!this.rxtManager.isGroupingEnabled(this.type)){

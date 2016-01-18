@@ -237,7 +237,7 @@ var gregAPI = {};
                     var key = String(attifact.getKey());
                     workList.uuid = uuid;
                     workList.type = String(attifact.getKey());
-                    if (key === 'wsdl' || key === 'wadl' || key === 'policy' || key === 'schema' || key === 'endpoint') {
+                    if (key === 'wsdl' || key === 'wadl' || key === 'policy' || key === 'schema' || key === 'endpoint' || key === 'swagger') {
                         var subPaths = pathValue.split('/');
                         workList.overviewName = subPaths[subPaths.length - 1];
                     } else {
@@ -287,10 +287,17 @@ var gregAPI = {};
             map = CommonUtil.getAssociationConfig("default");
         }
         var assetsTypes = (map.get(association)).split(",");
+        var paging = {
+            'start': 0,
+            'count': 1000,
+            'sortOrder': 'ASC',
+            'sortBy': 'overview_name',
+            'paginationLimit': 1000
+        };
         for (var i = 0; i < assetsTypes.length; i++) {
             try {
                 var manager = assetManager(session, assetsTypes[i]).am;
-                var artifacts = manager.search();
+                var artifacts = manager.search(null,paging);
                 for (var j = 0; j < artifacts.length; j++) {
                     var assetJson = new Object();
                     assetJson.uuid = manager.registry.registry.get(artifacts[j].path).getUUID();
@@ -332,9 +339,11 @@ var gregAPI = {};
             if (results[i].src == path){
                 var destPath = results[i].dest
                 try {
-                    artifact = Packages.org.wso2.carbon.governance.api.util.GovernanceUtils.findGovernanceArtifactConfigurationByMediaType(am.registry.registry.get(destPath).getMediaType(), am.registry.registry);
-                } catch (e){
-                    log.warn("Association can not be retrieved. Resource does not exist at path "+destPath);
+                    artifact = Packages.org.wso2.carbon.governance.api.util.GovernanceUtils.
+                        findGovernanceArtifactConfigurationByMediaType(am.registry.registry.get(destPath).
+                            getMediaType(), am.registry.registry);
+                } catch (e) {
+                    log.warn("Association can not be retrieved. Resource does not exist at path " + destPath);
                     continue;
                 }
 
@@ -494,33 +503,26 @@ var gregAPI = {};
         // Collection path used to store key and encrypted password value.
         var path = "/_system/config/repository/components/secure-vault";
         var resource;
-
-        if(registry.resourceExists(path)){
+        if (registry.resourceExists(path)) {
             resource = registry.get(path);
-        }
-        else {
+        } else {
             resource = registry.newCollection();
         }
 
         // Osgi service used to encrypt password.
-        var securityService =  carbon.server.osgiService('org.wso2.carbon.registry.security.vault.service.RegistrySecurityService');
-        var properties = [];
-        properties[1] = "";
-        if (key != null && value != null){
+        var securityService = carbon.server.
+            osgiService('org.wso2.carbon.registry.security.vault.service.RegistrySecurityService');
+        var properties = {};
+        if (key != null && value != null) {
             var encryptedText = securityService.doEncrypt(value);
             resource.setProperty(key, encryptedText);
-            registry.beginTransaction();
             registry.put(path, resource);
-            registry.commitTransaction();
-            properties[1] = "Password Saved Successfully";
         }
-
         var properties;
-        if(registry.resourceExists(path)){
+        if (registry.resourceExists(path)) {
             var collection = registry.get(path);
-            properties[0] = collection.getProperties();
+            properties = collection.getProperties();
         }
-
         return properties;
     }
 }(gregAPI));

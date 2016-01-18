@@ -15,12 +15,43 @@
  */
 asset.manager = function(ctx) {
     var configs = require("/extensions/assets/soapservice/config/properties.json");
+    var QName = Packages.javax.xml.namespace.QName;
     var getRegistry = function(cSession) {
         var userMod = require('store').user;
         var userRegistry = userMod.userRegistry(cSession);
         return userRegistry;
     };
-    var setAttributes = function(artifact, attributes) {
+
+    var wsdlAssetManager = function(session){
+        var rxt = require('rxt');
+        var am = rxt.asset.createUserAssetManager(session, 'wsdl');
+        return am;
+    };
+
+    /**
+     * Checks if there are any other asset versions
+     * @param  {[type]}  asset [description]
+     * @return {Boolean}       [description]
+     */
+    var isOnlyAssetVersion = function(asset, am) {
+        var versions = am.getAssetGroup(asset);
+        return (versions.length < 1) ? true : false;
+    };
+
+    /**
+     * Method to create artifact in create and update asset
+     * @param manager
+     * @param options
+     * @returns {*}
+     */
+    var createArtifact = function (manager, options) {
+        var name, attribute, i, length, lc, artifact,
+            attributes = options.attributes;
+        if(attributes.overview_namespace) {
+            artifact = manager.newGovernanceArtifact(new QName(attributes.overview_namespace, options.name))
+        } else {
+            artifact = manager.newGovernanceArtifact(new QName(options.name))
+        }
         for (name in attributes) {
             if (attributes.hasOwnProperty(name)) {
                 attribute = attributes[name];
@@ -31,155 +62,26 @@ asset.manager = function(ctx) {
                 }
             }
         }
-    }
-    var setId = function(artifact, id) {
-        if (id) {
-            artifact.id = id;
+        if (options.id) {
+            artifact.id = options.id;
         }
-    }
-    var wsdlAssetManager = function(session){
-        var rxt = require('rxt');
-        var am = rxt.asset.createUserAssetManager(session, 'wsdl');
-        return am;
-    };
-    var setContent = function(artifact, content) {
-        if (content) {
-            if (content instanceof Stream) {
-                artifact.setContent(IOUtils.toByteArray(content.getStream()));
+        if (options.content) {
+            if (options.content instanceof Stream) {
+                artifact.setContent(IOUtils.toByteArray(options.content.getStream()));
             } else {
-                artifact.setContent(new java.lang.String(content).getBytes());
+                artifact.setContent(new java.lang.String(options.content).getBytes());
             }
         }
-    };
-    /**
-     * Checks if there are any other asset versions
-     * @param  {[type]}  asset [description]
-     * @return {Boolean}       [description]
-     */
-    var isOnlyAssetVersion = function(asset, am) {
-        var versions = am.getAssetGroup(asset);
-        return (versions.length < 1) ? true : false;
-    };
-    var createOMContent = function(attributes) {
-        var omContent = "<metadata xmlns=\"http://www.wso2.org/governance/metadata\"><overview><name>";
-        omContent += attributes.overview_name;
-        omContent += "</name><namespace>";
-        omContent += attributes.overview_namespace;
-        omContent += "</namespace><version>";
-        omContent += attributes.overview_version;
-        omContent += "</version>";
-        if (attributes.overview_description) {
-            omContent += "<description>";
-            omContent += attributes.overview_description;
-            omContent += "</description>";
-        }
-        omContent += "</overview>";
-
-        if(attributes.contacts_entry) {
-            omContent += "<contacts>";
-            for(var index = 0; index< attributes.contacts_entry.length; index++){
-                omContent += "<entry>";
-                omContent += attributes.contacts_entry[index];
-                omContent += "</entry>";
-            }
-
-            omContent += "</contacts>";
-        }
-
-        omContent += "<interface>";
-        if (attributes.interface_wsdlURL || attributes.interface_wsdlUrl) {
-            omContent += "<wsdlURL>";
-            if (attributes.interface_wsdlUrl) {
-                omContent += attributes.interface_wsdlUrl;
-            } else {
-                omContent += attributes.interface_wsdlURL;
-            }
-            omContent += "</wsdlURL>";
-        }
-        if (attributes.interface_transportProtocols) {
-            omContent += "<transportProtocols>";
-            omContent += attributes.interface_transportProtocols;
-            omContent += "</transportProtocols>";
-        }
-        if (attributes.interface_messageFormats) {
-            omContent += "<messageFormats>";
-            omContent += attributes.interface_messageFormats;
-            omContent += "</messageFormats>";
-        }
-        if (attributes.interface_messageExchangePatterns) {
-            omContent += "<messageExchangePatterns>";
-            omContent += attributes.interface_messageExchangePatterns;
-            omContent += "</messageExchangePatterns>";
-        }
-        omContent += "</interface>";
-        if (attributes.docLinks_documentType) {
-            omContent += "<docLinks>";
-            omContent += "<documentType>";
-            omContent += attributes.docLinks_documentType;
-            omContent += "</documentType>";
-            if (attributes.docLinks_url) {
-                omContent += "<url>";
-                omContent += attributes.docLinks_url;
-                omContent += "</url>";
-            }
-            if (attributes.docLinks_documentComment) {
-                omContent += "<documentComment>";
-                omContent += attributes.docLinks_documentComment;
-                omContent += "</documentComment>";
-            }
-            if (attributes.docLinks_documentType1) {
-                omContent += "<documentType1>";
-                omContent += attributes.docLinks_documentType1;
-                omContent += "</documentType1>";
-                if (attributes.docLinks_url1) {
-                    omContent += "<url1>";
-                    omContent += attributes.docLinks_url1;
-                    omContent += "</url1>";
-                }
-                if (attributes.docLinks_documentComment1) {
-                    omContent += "<documentComment1>";
-                    omContent += attributes.docLinks_documentComment1;
-                    omContent += "</documentComment1>";
-                }
-            }
-            if (attributes.docLinks_documentType2) {
-                omContent += "<documentType2>";
-                omContent += attributes.docLinks_documentType2;
-                omContent += "</documentType2>";
-                if (attributes.docLinks_url2) {
-                    omContent += "<url2>";
-                    omContent += attributes.docLinks_url2;
-                    omContent += "</url2>";
-                }
-                if (attributes.docLinks_documentComment2) {
-                    omContent += "<documentComment2>";
-                    omContent += attributes.docLinks_documentComment2;
-                    omContent += "</documentComment2>";
-                }
-            }
-            omContent += "</docLinks>";
-        }
-        omContent += "</metadata>";
-        return omContent;
-    }
-    var createArtifact = function(manager, options) {
-        var attributes = options.attributes;
-        var omContent = createOMContent(attributes);
-        var artifact = manager.newGovernanceArtifact(omContent);
-        log.debug('Finished creating Governance Artifact');
-        setAttributes(artifact, attributes);
-        setId(artifact, options.id);
-        setContent(artifact, options.content);
-        var lc = options.lifecycles;
+        lc = options.lifecycles;
         if (lc) {
             length = lc.length;
-            for (var i = 0; i < length; i++) {
+            for (i = 0; i < length; i++) {
                 artifact.attachLifeCycle(lc[i]);
             }
         }
-        log.debug('lifecycle is attached');
         return artifact;
     };
+
     var setCustomAssetAttributes = function(asset, userRegistry) {
         var interfaceUrl=asset.attributes.interface_wsdlURL;
         if (interfaceUrl != null) {
@@ -287,7 +189,11 @@ asset.manager = function(ctx) {
             if (asset.wsdl_url) {
                 var wsdlURL = asset.wsdl_url;
                 modAsset.wsdl_url = wsdlURL;
-                modAsset.tables[2].fields.wsdlURL.value = modAsset.wsdl_url;
+                for(var table in modAsset.tables) {
+                    if (table.name == "interface") {
+                        table.fields.wsdlURL.value = modAsset.wsdl_url;
+                    }
+                }
             }
             if (asset.interfaceType) {
                 var interfaceType = asset.interfaceType;
@@ -302,6 +208,54 @@ asset.manager = function(ctx) {
                 modAsset.dependents = dependents;
             }
             return modAsset;
+        },
+        createVersion: function(options, newAsset) {
+            var rxtModule = require('rxt');
+            var existingAttributes = {};
+            var isLCEnabled = false;
+            var isDefaultLCEnabled = false;
+            if (!options.id || !newAsset) {
+                log.error('Unable to process create-version without having a proper ID or a new asset instance.');
+                return false;
+            }
+            var existingAsset = this.get(options.id);
+            var ctx = rxtModule.core.createUserAssetContext(session, options.type);
+            var context = rxtModule.core.createUserAssetContext(session, options.type);
+            var oldId = existingAsset.id;
+            delete existingAsset.id;
+            for (var key in newAsset) {
+                existingAsset.attributes[key] = newAsset[key];
+            }
+            existingAttributes.attributes = existingAsset.attributes;
+            existingAttributes.name = existingAsset.attributes['overview_name'];
+            var tags = this.registry.tags(existingAsset.path);
+            //remove wsdlurl and endpoint to make the soap service a shallow copy
+            delete existingAttributes.attributes.interface_wsdlURL;
+            delete existingAttributes.attributes.endpoints;
+            delete existingAttributes.attributes.endpoints_entry;
+            this.create(existingAttributes);
+            createdAsset = this.get(existingAttributes.id);
+            this.addTags(existingAttributes.id, tags);
+            isLCEnabled = context.rxtManager.isLifecycleEnabled(options.type);
+            isDefaultLCEnabled = context.rxtManager.isDefaultLifecycleEnabled(options.type);
+            this.postCreate(createdAsset, ctx);
+            this.update(existingAttributes);
+            //Continue attaching the lifecycle
+            if (isDefaultLCEnabled && isLCEnabled) {
+                var isLcAttached = this.attachLifecycle(existingAttributes);
+                //Check if the lifecycle was attached
+                if (isLcAttached) {
+                    var synched = this.synchAsset(existingAttributes);
+                    if (synched) {
+                        this.invokeDefaultLcAction(existingAttributes);
+                    } else {
+                        if (log.isDebugEnabled()) {
+                            log.debug('Failed to invoke default action as the asset could not be synched.')
+                        }
+                    }
+                }
+            }
+            return existingAttributes.id;
         },
         create: function(options) {
             var log = new Log();
@@ -354,7 +308,8 @@ asset.manager = function(ctx) {
     }
 };
 
-asset.renderer = function(ctx) {
+// removing custom asset renderer to use the default one. we need to show endpoints in publisher
+/*asset.renderer = function(ctx) {
     var hideTables = function(page) {
         var tables = [];
         for (var index in page.assets.tables) {
@@ -388,7 +343,7 @@ asset.renderer = function(ctx) {
             return hideTables(page);
         }
     };
-};
+};*/
 asset.configure = function() {
     return {
         meta: {
