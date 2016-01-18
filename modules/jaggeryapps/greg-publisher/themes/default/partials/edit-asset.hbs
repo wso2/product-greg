@@ -80,7 +80,7 @@
                                                                    placeholder="Upload a new file"/>
                                                         </td>
                                                         <td width="25%">
-                                                            <button class="btn btn-upload">Browse</button>
+                                                            <button class="btn btn-upload">{{t "Browse"}}</button>
                                                             <input id='{{this.name}}' type='file' name='{{this.name}}'
                                                                    class='fm-managed'
                                                                    data-required="{{this.isRequired}}"
@@ -115,7 +115,7 @@
                         {{/each}}
 
                         <div class="control-group">
-                            <b><label class="control-label">Tags: </label></b>
+                            <b><label class="control-label">{{t "Tags"}}: </label></b>
 
                             <div class="controls">
                                 <input type='text' id='tag-test' name='tags'>

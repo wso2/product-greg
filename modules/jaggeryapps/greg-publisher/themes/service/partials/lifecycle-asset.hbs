@@ -4,7 +4,7 @@
 			<div class="widget wlightblue widget-lifecycle">
 				<div class="widget-head">
 					<div class="pull-left">
-						Lifecycle - {{{snoop "fields(name=overview_name).value" this.data}}}
+						{{t "Lifecycle"}} - {{{snoop "fields(name=overview_name).value" this.data}}}
 					</div>
 					{{#if data.info.lifecycleState}}
 					<span id='state' class="pull-right">{{data.info.lifecycleState}}</span>
@@ -17,7 +17,7 @@
 					</div>
 					<form class="form-horizontal lifecycle">
 						<div class="lifecycle-tip">
-							<i class="icon-long-arrow-up"></i> &nbsp; Click on a circle to change state
+							<i class="icon-long-arrow-up"></i> &nbsp; {{t "Click on a circle to change state"}}
 						</div>
 						<div>
 							<div id='checklist'></div>
@@ -27,14 +27,14 @@
 						</div>
 						<div id="commentModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="commentModalLabel" aria-hidden="true">
 							<div class="modal-header">
-								<h3 id="commentModalLabel">Add a comment</h3>
+								<h3 id="commentModalLabel">{{t "Add a comment"}}</h3>
 							</div>
 							<div class="modal-body">
 								<textarea class="span12" id="commentModalText"></textarea>
 							</div>
 							<div class="modal-footer">
-								<button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
-								<button id="commentModalSave" class="btn btn-primary">Submit change</button>
+								<button class="btn" data-dismiss="modal" aria-hidden="true">{{t "Close"}}</button>
+								<button id="commentModalSave" class="btn btn-primary">{{t "Submit change"}}</button>
 							</div>
 						</div>
 						<!--
