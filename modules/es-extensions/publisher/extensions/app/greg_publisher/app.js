@@ -23,19 +23,19 @@ app.server = function(ctx) {
     return {
     	endpoints:{
 	    	pages:[{
-		    	title:'GREG landing page',
+		    	title:'Landing page',
 	    		url:'gc-landing',
 	    		path:'greg-landing.jag',
 	    		secured:true  		
 	    	},
             {
-                title:'GREG search results',
+                title:'Search results',
                 url:'search-results',
                 path:'search-results.jag',
                 secured:true        
             },
             {
-                title: 'password',
+                title: 'Password',
                 url: 'password',
                 path: 'password.jag',
                 secured: true
@@ -45,7 +45,8 @@ app.server = function(ctx) {
             landingPage: '/pages/gc-landing',
             disabledAssets: ['ebook','proxy','sequence','service','servicex','uri',
                              'site','provider','gadget','document','endpoint','topic','reply', 'server'],
-            uiDisabledAssets: ['note']
+            uiDisabledAssets: ['note'],
+            title : "WSO2 Governance Center - Publisher"
         }
     }
 };
