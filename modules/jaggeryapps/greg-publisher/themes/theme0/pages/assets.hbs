@@ -1,19 +1,19 @@
 <html>
 	<head>
-		<title>Assets Page</title>
+		<title>{{t "Assets Page"}}</title>
     		<link href="{{url "/themes/theme0/libs/bootstrap/css/bootstrap.css"}}" rel="stylesheet">
 	</head>
 	<body>
 		<legend>{{shortName}} 
-			<a href='/publisher/asset/{{shortName}}' class="btn btn-primary">Add</a>
+			<a href='/publisher/asset/{{shortName}}' class="btn btn-primary">{{t "Add"}}</a>
 		</legend>
 
 		<table class="table table-bordered">
 			<thead>
 				<tr>
-					<th>Asset Id</th>
-					<th>Asset Name</th>
-					<th>View</th>
+					<th>{{t "Asset Id"}}</th>
+					<th>{{t "Asset Name"}}</th>
+					<th>{{t "View"}}</th>
 
 				</tr>
 			</thead>
@@ -23,11 +23,11 @@
 					<td>{{this.id}}</td>
 					<td>{{this.attributes.overview_name}}</td>
 					<td>
-						<a href='/publisher/asset/{{../shortName}}/{{this.id}}'>View</a>
+						<a href='/publisher/asset/{{../shortName}}/{{this.id}}'>{{t "View"}}</a>
 					</td>
 				</tr>
 				{{else}}
-					<p>No Artifacts!</p>
+					<p>{{t "No Artifacts"}}!</p>
 				{{/each}}
 			</tbody>
 		</table>

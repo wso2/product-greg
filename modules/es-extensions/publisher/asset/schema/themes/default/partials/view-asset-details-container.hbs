@@ -40,11 +40,11 @@
                             {{#if isDependentsPresent}} 
                             <table class="table table-striped table-hover">
                                 <thead>
-                                <h4>Associations</h4>
+                                <h4>{{t "Associations"}}</h4>
                                 </thead>
                                 <tbody>
                                 <tr>
-                                    <th>Dependent WADLs :</th>
+                                    <th>{{t "Dependent WADLs"}} :</th>
                                 {{#each dependencies}}
                                     <tr>
                                         <td><a href="../../../assets/{{this.associationType}}/details/{{this.associationUUID}}">{{this.associationName}}</a></td>

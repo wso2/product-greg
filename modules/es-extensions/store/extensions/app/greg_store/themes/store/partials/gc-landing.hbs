@@ -4,15 +4,15 @@
         <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 ">
             
             <form class="form-group" id="assetSearchForm" action="/store/assets/restservice/list">
-                <label class="search-label">Search for Assets</label>
+                <label class="search-label">{{t "Search for Assets"}}</label>
                 <div class="form-group has-feedback form-search">
                     <input type="text" name="query" id="inp_searchAsset" class="form-control" placeholder="Search..">
-                    <a href="javascript:void(0)" id="searchButton" class="form-control-feedback search" title="Search">
+                    <a href="javascript:void(0)" id="searchButton" class="form-control-feedback search" title="{{t "Search"}}">
                         <i class="fw fw-search" aria-hidden="true"></i>
                     </a>
                     <a href="/store/pages/advanced-search" class="form-control-feedback advance" title="Advance Search">
                         <i class="fw fw-settings" aria-hidden="true"></i>
-                        <span>Advanced Search</span>
+                        <span>{{t "Advanced Search"}}</span>
                     </a>
                     <input type="hidden" name="sortby" value=""/>
                     <input type="hidden" name="sort" value=""/>
@@ -21,7 +21,7 @@
 
             <div class="page-header no-border">
                 <h1>Assets</h1>
-                <p class="lead">Select an asset type to view available assets.</p>
+                <p class="lead">{{t "Select an asset type to view available assets"}}.</p>
             </div>
 
            <!-- content -->
