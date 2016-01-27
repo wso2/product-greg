@@ -34,9 +34,13 @@ import org.wso2.carbon.automation.engine.context.TestUserMode;
 import org.wso2.carbon.automation.engine.frameworkutils.FrameworkPathUtil;
 import org.wso2.carbon.registry.core.exceptions.RegistryException;
 import org.wso2.carbon.registry.es.utils.GregESTestBaseTest;
+import org.wso2.carbon.registry.resource.stub.ResourceAdminServiceExceptionException;
+import org.wso2.greg.integration.common.clients.ResourceAdminServiceClient;
 import org.wso2.greg.integration.common.utils.GenericRestClient;
 
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileReader;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
@@ -63,6 +67,9 @@ public class SoapServiceVersioningTestCase extends GregESTestBaseTest {
     String resourcePath;
     private static final String NEW_VERSION = "5.0.0";
     Map<String, String> assocUUIDMap;
+    public static final String RXT_STORAGE_PATH =
+            "/_system/governance/repository/components/org.wso2.carbon.governance/types/endpoint.rxt";
+    private ResourceAdminServiceClient resourceAdminServiceClient;
 
     @Factory(dataProvider = "userModeProvider")
     public SoapServiceVersioningTestCase(TestUserMode userMode) {
@@ -79,8 +86,10 @@ public class SoapServiceVersioningTestCase extends GregESTestBaseTest {
         publisherUrl = automationContext.getContextUrls().getSecureServiceUrl().replace("services", "publisher/apis");
         publisherUrlForVersion = automationContext.getContextUrls().getSecureServiceUrl().replace("services",
                                                                                                   "publisher/assets");
+        String session = getSessionCookie();
+        resourceAdminServiceClient = new ResourceAdminServiceClient(backendURL, session);
+        updateEndpointRxt();
         setTestEnvironment();
-
     }
 
     @Test(groups = {"wso2.greg", "wso2.greg.es"}, description = "Version a soap service")
@@ -111,7 +120,7 @@ public class SoapServiceVersioningTestCase extends GregESTestBaseTest {
         Assert.assertTrue((response.getStatusCode() == 200),
                           "Wrong status code ,Expected 200 Ok ,Received " +
                           response.getStatusCode());
-        //Cretae the versioned soapservice.
+        //Create the versioned soapservice.
         queryParamMap.put("type", "soapservice");
         String soapVersionTemplate = readFile(resourcePath + "json" + File.separator + "soapservice-version.json");
         String dataBody = String.format(soapVersionTemplate, NEW_VERSION);
@@ -120,6 +129,7 @@ public class SoapServiceVersioningTestCase extends GregESTestBaseTest {
                                                          MediaType.APPLICATION_FORM_URLENCODED,
                                                          MediaType.APPLICATION_JSON, dataBody
                         , queryParamMap, headerMap, cookieHeader);
+
         JSONObject obj = new JSONObject(createVersionResponse.getEntity(String.class));
 
         Assert.assertTrue((createVersionResponse.getStatusCode() == 200),
@@ -135,7 +145,35 @@ public class SoapServiceVersioningTestCase extends GregESTestBaseTest {
     }
 
     /**
+     * Method used to update endpoint RXT
+     */
+    private void updateEndpointRxt()
+            throws RegistryException, IOException, ResourceAdminServiceExceptionException, InterruptedException {
+        StringBuilder builder = new StringBuilder();
+        builder.append(getTestArtifactLocation()).append("artifacts").append(File.separator).append("GREG").
+                append(File.separator).append("rxt").append(File.separator).append("endpoint.rxt");
+        String filePath = builder.toString();
+        BufferedReader br = new BufferedReader(new FileReader(filePath));
+        StringBuilder sb = new StringBuilder();
+        try {
+            String line = br.readLine();
+            while (line != null) {
+                sb.append(line);
+                sb.append("\n");
+                line = br.readLine();
+            }
+        } catch (IOException e) {
+            log.error("Error while reading endpoint.rxt file",e);
+        } finally {
+            br.close();
+        }
+        resourceAdminServiceClient
+                .updateTextContent(RXT_STORAGE_PATH, sb.toString());
+    }
+
+    /**
      * This method creates a wsdl from a url
+     *
      * @throws JSONException
      * @throws InterruptedException
      * @throws IOException
@@ -147,8 +185,7 @@ public class SoapServiceVersioningTestCase extends GregESTestBaseTest {
         String wsdlTemplate = readFile(resourcePath + "json" + File.separator + "wsdl-sample.json");
         assetName = "echo.wsdl";
         String dataBody = String.format(wsdlTemplate,
-                                        "https://raw.githubusercontent.com/wso2/wso2-qa-artifacts/master/" +
-                                        "automation-artifacts/greg/wsdl/StockQuote.wsdl",
+                                        "https://raw.githubusercontent.com/wso2/wso2-qa-artifacts/master/automation-artifacts/greg/wsdl/echo.wsdl",
                                         assetName,
                                         "1.0.0");
         ClientResponse response =
@@ -167,6 +204,7 @@ public class SoapServiceVersioningTestCase extends GregESTestBaseTest {
 
     /**
      * This method retrieves a soapservice when provide its uuid
+     *
      * @param assetId the uuid of the created soapservice
      * @throws JSONException
      */
@@ -216,10 +254,8 @@ public class SoapServiceVersioningTestCase extends GregESTestBaseTest {
 
     @AfterClass(alwaysRun = true)
     public void cleanUp() throws RegistryException, JSONException {
-        Map<String, String> queryParamMap = new HashMap<>();
 
-        // deleteAssetById(publisherUrl, genericRestClient, cookieHeader, assocAssetId, queryParamMap);
-        //deleteAllAssociationsById(publisherUrl, genericRestClient, cookieHeader, assocAssetId, queryParamMap);
+        Map<String, String> queryParamMap = new HashMap<>();
         queryParamMap.put("type", "wsdl");
         assocUUIDMap = getAssociationsFromPages(publisherUrl, genericRestClient, cookieHeader, wsdlAssetId, queryParamMap);
         deleteAssetById(publisherUrl, genericRestClient, cookieHeader, wsdlAssetId, queryParamMap);
