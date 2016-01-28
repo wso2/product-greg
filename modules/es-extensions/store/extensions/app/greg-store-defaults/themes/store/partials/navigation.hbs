@@ -21,7 +21,7 @@
                 <div class="left-menu">
                     <nav class="navigation">
                         <a href='{{tenantedUrl ""}}/pages/top-assets' class="{{#if navigationBar.landingPage}} active home top-item {{else}} home all-item  {{/if}}">
-                            <span class="icon"><i class="fw fw-store"></i></span> <span class="left-menu-item">ALL</span>
+                            <span class="icon"><i class="fw fw-store"></i></span> <span class="left-menu-item">{{t "ALL"}}</span>
                         </a>
                         {{#with navigationBar}}
                             {{#each types}}
@@ -33,7 +33,7 @@
                     </nav>
                     {{#if tags}}
                         <div class="tags-wrapper">
-                            <div class="tag-title"> Tags </div>
+                            <div class="tag-title"> {{t "Tags"}} </div>
                             <div class="tag-content">
                                 {{#each tags}}
                                     {{#if this.selected}}
@@ -64,7 +64,7 @@
                 <input  id="search"  type="text" class="form-control" placeholder="Search in all asset types" value="{{searchQuery}}">
             {{/if}}
             <div class="input-group-btn">
-                <button class="btn btn-default wrap-input-right" type="button" title="Search" id="search-button" >
+                <button class="btn btn-default wrap-input-right" type="button" title="{{t "Search"}}" id="search-button" >
                     <i class="fw fw-search" aria-hidden="true"></i>
                 </button>
             </div>
@@ -116,13 +116,13 @@
                         {{#if assetCategoryDetails.selectedCategory}}
                             {{assetCategoryDetails.selectedCategory}}
                         {{else}}
-                            <span>All Categories</span>
+                            <span>{{t "All Categories"}}</span>
                         {{/if}}
                     </a>
                     <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
                         <input type="hidden" name="selectedTag" id="selectedTag" value="{{selectedTag.value}}">
                         {{#if assetCategoryDetails.selectedCategory}}
-                            <li><a tabindex="-1" href="#">All Categories</a></li>
+                            <li><a tabindex="-1" href="#">{{t "All Categories"}}</a></li>
                         {{/if}}
                         {{#each assetCategoryDetails.values}}
                             <li><a tabindex="-1" href="#">{{this}}</a></li>

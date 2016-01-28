@@ -209,6 +209,54 @@ asset.manager = function(ctx) {
             }
             return modAsset;
         },
+        createVersion: function(options, newAsset) {
+            var rxtModule = require('rxt');
+            var existingAttributes = {};
+            var isLCEnabled = false;
+            var isDefaultLCEnabled = false;
+            if (!options.id || !newAsset) {
+                log.error('Unable to process create-version without having a proper ID or a new asset instance.');
+                return false;
+            }
+            var existingAsset = this.get(options.id);
+            var ctx = rxtModule.core.createUserAssetContext(session, options.type);
+            var context = rxtModule.core.createUserAssetContext(session, options.type);
+            var oldId = existingAsset.id;
+            delete existingAsset.id;
+            for (var key in newAsset) {
+                existingAsset.attributes[key] = newAsset[key];
+            }
+            existingAttributes.attributes = existingAsset.attributes;
+            existingAttributes.name = existingAsset.attributes['overview_name'];
+            var tags = this.registry.tags(existingAsset.path);
+            //remove wsdlurl and endpoint to make the soap service a shallow copy
+            delete existingAttributes.attributes.interface_wsdlURL;
+            delete existingAttributes.attributes.endpoints;
+            delete existingAttributes.attributes.endpoints_entry;
+            this.create(existingAttributes);
+            createdAsset = this.get(existingAttributes.id);
+            this.addTags(existingAttributes.id, tags);
+            isLCEnabled = context.rxtManager.isLifecycleEnabled(options.type);
+            isDefaultLCEnabled = context.rxtManager.isDefaultLifecycleEnabled(options.type);
+            this.postCreate(createdAsset, ctx);
+            this.update(existingAttributes);
+            //Continue attaching the lifecycle
+            if (isDefaultLCEnabled && isLCEnabled) {
+                var isLcAttached = this.attachLifecycle(existingAttributes);
+                //Check if the lifecycle was attached
+                if (isLcAttached) {
+                    var synched = this.synchAsset(existingAttributes);
+                    if (synched) {
+                        this.invokeDefaultLcAction(existingAttributes);
+                    } else {
+                        if (log.isDebugEnabled()) {
+                            log.debug('Failed to invoke default action as the asset could not be synched.')
+                        }
+                    }
+                }
+            }
+            return existingAttributes.id;
+        },
         create: function(options) {
             var log = new Log();
             var isDefault = false;

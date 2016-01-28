@@ -1,6 +1,6 @@
 <html>
 	<head>
-		<title>Asset Page</title>
+		<title>{{t "Asset Page"}}</title>
     		<link href="{{url "/themes/theme0/libs/bootstrap/css/bootstrap.css"}}" rel="stylesheet">
 	</head>
 	<body>
@@ -9,7 +9,7 @@
 
 		<form id='form-asset-create' class="form-horizontal">
 				<div class="control-group">
-						<b><label class="control-label">Id:</label>
+						<b><label class="control-label">{{t "Id"}}:</label>
 						</b>
 						<div class="controls">
 							<label id='meta-asset-id' >{{artifact.id}}</label>
@@ -30,7 +30,7 @@
 
 			<input id='btn-create-asset' class='btn btn-primary' type='button' value='Create'></input>
 			<input id='btn-delete-asset' class="btn btn-danger" type='button' value='Delete'></input>
-			<a class='btn' href='/publisher/assets/{{shortName}}/' >Back</a>
+			<a class='btn' href='/publisher/assets/{{shortName}}/' >{{t "Back"}}</a>
 		</form>
 		<script src="{{url "/themes/theme0/js/libs/jquery-1.8.3.min.js"}}"></script>
 		<script src="{{url "/themes/theme0/js/libs/handlebars.js"}}"></script>
