@@ -137,6 +137,9 @@ asset.configure = function() {
             grouping: {
                 groupingEnabled: false,
                 groupingAttributes: ['overview_name']
+            },
+            notifications:{
+                enabled:false
             }
         }
     };
