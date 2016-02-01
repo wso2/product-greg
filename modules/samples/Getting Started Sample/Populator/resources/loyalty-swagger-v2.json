@@ -1,0 +1,36 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "version": "1.0",
+    "title": "BuyMore Loyalty REST API"
+  },
+  "host": "localhost:8888",
+  "basePath": "/services/loyal_customer",
+  "schemes": [
+    "http"
+  ],
+  "produces": [
+    "*/*"
+  ],
+  "paths": {
+    "/loyalty/{id}": {
+      "get": {
+        "description": "Returns 0 is not a loyal customer and 1,2,3 values according to the loyalty tier",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Customer ID",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "valid responses 0,1,2,3"
+          }
+        }
+      }
+    }
+  }
+}
