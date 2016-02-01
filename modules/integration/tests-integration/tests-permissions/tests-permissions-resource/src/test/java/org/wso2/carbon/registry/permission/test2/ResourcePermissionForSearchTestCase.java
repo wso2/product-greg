@@ -117,9 +117,6 @@ public class ResourcePermissionForSearchTestCase extends GREGIntegrationBaseTest
         searchQuery.setParameterValues(paramList);
         AdvancedSearchResultsBean result = adminSearchAdminClient.getAdvancedSearchResults(searchQuery);
         assertNotNull(result.getResourceDataList());
-/*        LogEvent[] logEvents = logViewerClient.getLogs("DEBUG",
-                "user roles filter query values: (internal/everyone OR admin)", "", "");
-        Assert.assertEquals(logEvents.length, 1);*/
         boolean logFound = getLogEvents("user roles filter query values: (internal/everyone OR admin)", 1);
         Assert.assertTrue(logFound);
     }
@@ -135,9 +132,6 @@ public class ResourcePermissionForSearchTestCase extends GREGIntegrationBaseTest
         searchQuery.setParameterValues(paramList);
         AdvancedSearchResultsBean result = nonAdminSearchAdminClient.getAdvancedSearchResults(searchQuery);
         assertNull(result.getResourceDataList());
-/*        LogEvent[] logEvents = logViewerClient.getLogs("DEBUG",
-                "user roles filter query values: (searchenabledrole OR internal/everyone)", "", "");
-        Assert.assertEquals(logEvents.length, 1);*/
         boolean logFound = getLogEvents("user roles filter query values: (searchenabledrole OR internal/everyone)", 1);
         Assert.assertTrue(logFound);
     }
