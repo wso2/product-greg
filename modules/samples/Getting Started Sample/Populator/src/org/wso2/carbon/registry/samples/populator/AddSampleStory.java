@@ -163,7 +163,7 @@ public class AddSampleStory {
                     }
                 }
             }
-
+            completedMessage();
         } catch (Exception e) {
             System.out.println("An error occurred.");
             e.printStackTrace();
@@ -177,7 +177,16 @@ public class AddSampleStory {
      */
     private static void startUpMessage() {
         System.out.println("********************************************************************************\n");
-        System.out.println("Sample Data Populating Started. This may take 2-3 minutes depend on your system\n");
+        System.out.println("Sample Data population initiated. This may take some time depending on your system.\n");
+        System.out.println("********************************************************************************\n\n");
+    }
+
+    /**
+     * This method is used to print the completed message for the sample populator. .
+     */
+    private static void completedMessage() {
+        System.out.println("********************************************************************************\n");
+        System.out.println("Sample Data population completed. \n");
         System.out.println("********************************************************************************\n\n");
     }
 
@@ -223,11 +232,15 @@ public class AddSampleStory {
                 String [] credentials = userNamePwd.split(":");
                 publisherUser = credentials[0];
                 publisherUserPassword = credentials[1];
+                System.out.println("New user added. Please use following credentials to login.\n");
+                System.out.println("Username : "+publisherUser+"\n");
+                System.out.println("Password : "+publisherUserPassword+"\n");
             }
         }
         userManager.addRole("demorole", null, DEMO_USER_PERMISSION);
         String[] demoRole = {"demorole"};
         userManager.addUser(publisherUser, publisherUserPassword, demoRole, new ClaimValue[0], null);
+        System.out.println("********************************************************************************\n\n");
     }
 
 }
