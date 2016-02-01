@@ -347,6 +347,10 @@ var gregAPI = {};
                     continue;
                 }
 
+                if (!artifact) { //if associated artifact is not a resource we are not displaying it in publisher
+                    continue;
+                }
+
                 var assetJson = new Object();
                 var uuid = am.registry.registry.get(destPath).getUUID();
                 var key = String(artifact.getKey());
