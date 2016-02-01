@@ -31,6 +31,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
+import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.xml.xpath.XPathExpressionException;
 
@@ -40,7 +41,7 @@ import static org.testng.Assert.assertTrue;
 /**
  * This class can be used to test search functionality & advance search functionality with an ampersand
  */
-public class GregRestResourceSearchAndAdvancedSearchWithAmpersandTestCase extends GregESTestBaseTest {
+public class GregRestResourceSearchWithAmpersandTestCase extends GregESTestBaseTest {
     private TestUserMode userMode;
     private String publisherUrl;
     private String resourcePath;
@@ -51,11 +52,12 @@ public class GregRestResourceSearchAndAdvancedSearchWithAmpersandTestCase extend
     private String lcState;
     private GenericRestClient genericRestClient;
     private Map<String, String> queryParamMap;
+    private Map<String, String> headerMap;
 
     String cookieHeader;
 
     @Factory(dataProvider = "userModeProvider")
-    public GregRestResourceSearchAndAdvancedSearchWithAmpersandTestCase(TestUserMode userMode) {
+    public GregRestResourceSearchWithAmpersandTestCase(TestUserMode userMode) {
         this.userMode = userMode;
     }
 
@@ -64,9 +66,11 @@ public class GregRestResourceSearchAndAdvancedSearchWithAmpersandTestCase extend
         super.init(userMode);
         genericRestClient = new GenericRestClient();
         queryParamMap = new HashMap<>();
+        headerMap = new HashMap<>();
         resourcePath =
                 FrameworkPathUtil.getSystemResourceLocation() + "artifacts" + File.separator + "GREG" + File.separator;
         publisherUrl = automationContext.getContextUrls().getSecureServiceUrl().replace("services", "publisher/apis");
+        setTestEnvironment();
     }
 
     @AfterClass(alwaysRun = true)
@@ -74,30 +78,18 @@ public class GregRestResourceSearchAndAdvancedSearchWithAmpersandTestCase extend
         deleteAsset(assetId, publisherUrl, cookieHeader, type, genericRestClient);
     }
 
-    @Test(groups = {"wso2.greg", "wso2.greg.es"}, description = "Authenticate Publisher test")
-    public void authenticatePublisher() throws JSONException, XPathExpressionException {
-
-        ClientResponse response = authenticate(publisherUrl, genericRestClient,
-                automationContext.getContextTenant().getContextUser().getUserName(),
-                automationContext.getContextTenant().getContextUser().getPassword());
-        JSONObject obj = new JSONObject(response.getEntity(String.class));
-        assertTrue((response.getStatusCode() == Response.Status.OK.getStatusCode()),
-                "Wrong status code ,Expected 200 OK ,Received " +
-                        response.getStatusCode()
-        );
-        String jSessionId = obj.getJSONObject("data").getString("sessionId");
-        cookieHeader = "JSESSIONID=" + jSessionId;
-        assertNotNull(jSessionId, "Invalid JSessionID received");
-    }
-
-
-    @Test(groups = {"wso2.greg", "wso2.greg.es"}, description = "Create Test Rest Service with ampersand",
-            dependsOnMethods = {"authenticatePublisher"})
-    public void createTestRestServicesWithAmpersand() throws JSONException, IOException {
-
-        ClientResponse response = createAsset(
-                resourcePath + "json" + File.separator + "publisherPublishRestResourceWithAmpersand.json",
-                publisherUrl, cookieHeader, type, genericRestClient);
+    @Test(groups = {"wso2.greg", "wso2.greg.es"}, description = "Create Test Rest Service with ampersand")
+    public void createTestRestServices() throws JSONException, IOException {
+        Map<String, String> queryParamMap = new HashMap<>();
+        queryParamMap.put("type", type);
+        String restTemplate = readFile(resourcePath + "json" + File.separator + "restservice-sample.json");
+        restServiceName = "test&test";
+        String dataBody = String.format(restTemplate, restServiceName, "wso2", "/rest", "1.0.0");
+        ClientResponse response =
+                genericRestClient.geneticRestRequestPost(publisherUrl + "/assets",
+                        MediaType.APPLICATION_JSON,
+                        MediaType.APPLICATION_JSON, dataBody
+                        , queryParamMap, headerMap, cookieHeader);
 
         JSONObject obj = new JSONObject(response.getEntity(String.class));
         assertTrue((response.getStatusCode() == Response.Status.CREATED.getStatusCode()),
@@ -108,39 +100,32 @@ public class GregRestResourceSearchAndAdvancedSearchWithAmpersandTestCase extend
         restServiceName = obj.get("name").toString();
         version = obj.get("version").toString();
         lcState = obj.get("lifecycleState").toString();
-
         assertNotNull(assetId, "Empty asset resource id available" +
                 response.getEntity(String.class));
     }
 
     @Test(groups = {"wso2.greg", "wso2.greg.es"}, description = "Search Added Rest Service with ampersand",
-            dependsOnMethods = {"createTestRestServicesWithAmpersand"})
-    public void searchAddedRestServiceWithAmpersand() throws JSONException, IOException, InterruptedException {
+            dependsOnMethods = {"createTestRestServices"})
+    public void searchAddedRestService() throws JSONException, IOException, InterruptedException {
         queryParamMap.clear();
-
         queryParamMap.put("q", "\"name" + "\":" + "\"" + restServiceName + "\"");
-
         ClientResponse response = searchAssetByQuery(publisherUrl, genericRestClient, cookieHeader, queryParamMap);
-
         assertTrue(response.getEntity(String.class).contains(restServiceName),
                 "Response does not contain Rest service name " + restServiceName);
 
     }
 
     @Test(groups = {"wso2.greg", "wso2.greg.es"}, description = "Advance search with ampersand",
-            dependsOnMethods = {"searchAddedRestServiceWithAmpersand"})
-    public void advancedSearchAddedRestServiceWithAmpersand()
+            dependsOnMethods = {"searchAddedRestService"})
+    public void advancedSearchAddedRestService()
             throws JSONException, IOException, XPathExpressionException {
         queryParamMap.clear();
-
         queryParamMap.put("q", "\"name" + "\":" + "\"" + restServiceName + "\"" + "," +
                 "\"provider" + "\":" + "\"" + automationContext.getContextTenant().getContextUser().getUserName()
                 + "\"" + "," +
                 "\"version" + "\":" + "\"" + version + "\"" + "," +
                 "\"lcState" + "\":" + "\"" + lcState + "\"");
-
         ClientResponse response = searchAssetByQuery(publisherUrl, genericRestClient, cookieHeader, queryParamMap);
-
         assertTrue(response.getEntity(String.class).contains(restServiceName),
                 "Response does not contain Rest service name " + restServiceName);
         assertTrue(response.getEntity(String.class).contains(version),
@@ -156,5 +141,20 @@ public class GregRestResourceSearchAndAdvancedSearchWithAmpersandTestCase extend
                 new TestUserMode[]{TestUserMode.SUPER_TENANT_ADMIN}
                 //                new TestUserMode[]{TestUserMode.TENANT_USER},
         };
+    }
+
+    private void setTestEnvironment() throws JSONException, IOException, XPathExpressionException {
+        // Authenticate
+        ClientResponse response = authenticate(publisherUrl, genericRestClient,
+                automationContext.getContextTenant().getContextUser().getUserName(),
+                automationContext.getContextTenant().getContextUser().getPassword());
+        JSONObject obj = new JSONObject(response.getEntity(String.class));
+        assertTrue((response.getStatusCode() == Response.Status.OK.getStatusCode()),
+                "Wrong status code ,Expected 200 OK ,Received " +
+                        response.getStatusCode()
+        );
+        String jSessionId = obj.getJSONObject("data").getString("sessionId");
+        cookieHeader = "JSESSIONID=" + jSessionId;
+        assertNotNull(jSessionId, "Invalid JSessionID received");
     }
 }
