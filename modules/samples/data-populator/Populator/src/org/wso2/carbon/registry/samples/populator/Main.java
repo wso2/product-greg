@@ -234,7 +234,7 @@ public class Main {
      */
     private static void startUpMessage(){
         System.out.println("********************************************************************************\n");
-        System.out.println("Sample Data Populating Started. This may take 2-3 minutes depend on your system\n");
+        System.out.println("Sample Data Populating Started. This may take some time depending on your system\n");
         System.out.println("********************************************************************************\n\n");
     }
 }
