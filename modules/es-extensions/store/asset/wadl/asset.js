@@ -181,7 +181,8 @@ asset.configure = function() {
             ui: {
                 icon: 'fw fw-wadl',
                 iconColor: 'blue'
-            }
+            },
+            downloadable:true
         }
     }
 };

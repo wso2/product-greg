@@ -146,3 +146,29 @@ asset.configure = function () {
         }
     }
 };
+
+asset.renderer = function(ctx){
+    return {
+        pageDecorators:{
+            downloadPopulator:function(page){
+                //Populate the links for downloading content RXTs
+                if(page.meta.pageName === 'details'){
+                    var config = require('/config/store.js').config();
+                    var pluralType = 'wadls'; //Assume it is a WADl
+                    page.assets.downloadMetaData = {}; 
+                    page.assets.downloadMetaData.enabled = false;
+                    var downloadFile = page.assets.dependencies.filter(function(item){
+                        return ((item.associationType == 'wadl')||(item.associationType == 'swagger'));
+                    })[0];
+                    if(downloadFile){
+                      var typeDetails = ctx.rxtManager.getRxtTypeDetails(downloadFile.associationType);
+                      page.assets.downloadMetaData.enabled = true;  
+                      page.assets.downloadMetaData.downloadFileType = typeDetails.singularLabel.toUpperCase();
+                      pluralType = typeDetails.pluralLabel.toLowerCase();
+                      page.assets.downloadMetaData.url = config.server.https+'/governance/'+pluralType+'/'+downloadFile.associationUUID+'/content?tenantId='+ctx.tenantId;          
+                    }
+                }
+            }
+        }
+    };
+};
