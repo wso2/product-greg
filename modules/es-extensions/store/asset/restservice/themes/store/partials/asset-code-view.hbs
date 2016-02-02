@@ -13,9 +13,10 @@
             </div>
             {{/if}}
             {{#if wadlContent}}
-                <textarea id="wadlcontent" name="wadlcontent" style="width:100%">{{../wadlContent}}</textarea>
-            {{else}}
-                <p>{{t "No WADL Content To Display"}}</p>
+                <textarea id="wadlcontent" name="wadlcontent" style="width:100%">{{wadlContent}}</textarea>
+            {{/if}}
+            {{#if swaggerContent}}
+                <textarea id="swaggercontent" name="swaggercontent" style="width:100%">{{swaggerContent}}</textarea>
             {{/if}}
         </div>
     </div>

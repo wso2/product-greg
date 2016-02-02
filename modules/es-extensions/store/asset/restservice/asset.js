@@ -16,16 +16,34 @@
  *  under the License.
  *
  */
-asset.manager = function(ctx) {   
-    var setCustomAssetAttributes = function(asset, userRegistry) {
-        var wadlUrl=asset.attributes.interface_wadl;
+asset.manager = function(ctx) {
+    var setCustomAssetAttributes = function (asset, userRegistry) {
+        var wadlUrl = asset.attributes.interface_wadl;
         if (wadlUrl != null) {
             try {
                 var resource = userRegistry.registry.get(wadlUrl);
                 var wadlContent = getInterfaceTypeContent(resource);
+                var ComparatorUtils = Packages.org.wso2.carbon.governance.comparator.utils.ComparatorUtils;
+                var comparatorUtils = new ComparatorUtils();
+                var mediaType = "application/wadl+xml";
+                try {
+                    wadlContent = comparatorUtils.prettyFormatText(wadlContent, mediaType);
+                } catch (ex) {
+
+                }
                 asset.wadlContent = wadlContent;
-            } catch(e) {
+            } catch (e) {
                 asset.wadlContent = "";
+            }
+        }
+        var swaggerUrl = asset.attributes.interface_swagger;
+        if (swaggerUrl != null) {
+            try {
+                var resource = userRegistry.registry.get(swaggerUrl);
+                var swaggerContent = getInterfaceTypeContent(resource);
+                asset.swaggerContent = swaggerContent;
+            } catch (e) {
+                asset.swaggerContent = "";
             }
         }
     }; 
