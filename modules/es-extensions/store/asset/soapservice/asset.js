@@ -150,3 +150,21 @@ asset.configure = function() {
         }
     }
 };
+
+asset.renderer = function(ctx){
+    return {
+        pageDecorators:{
+            downloadPopulator:function(page){
+                //Populate the links for downloading content RXTs
+                if(page.meta.pageName === 'details'){
+                    var config = require('/config/store.js').config();
+                    var pluralType = 'wsdls';
+                    page.assets.downloadMetaData = {}; 
+                    page.assets.downloadMetaData.enabled = true;
+                    page.assets.downloadMetaData.downloadFileType = 'WSDL';
+                    page.assets.downloadMetaData.url = config.server.https+'/governance/'+pluralType+'/'+page.assets.wsdl_uuid+'/content?tenantId='+ctx.tenantId;
+                }
+            }
+        }
+    };
+};
