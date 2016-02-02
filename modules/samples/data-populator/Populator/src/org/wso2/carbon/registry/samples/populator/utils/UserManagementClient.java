@@ -201,6 +201,16 @@ public class UserManagementClient {
         userAdminStub.deleteUser(userName);
     }
 
+    /**
+     * deleting a role
+     *
+     * @param userName
+     * @throws Exception
+     */
+    public void deleteRole(String roleName) throws Exception {
+        userAdminStub.deleteRole(roleName);
+    }
+
     private static void setCookie(Stub stub, String cookie) {
         ServiceClient client = stub._getServiceClient();
         Options option = client.getOptions();
