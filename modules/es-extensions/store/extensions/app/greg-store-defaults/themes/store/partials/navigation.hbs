@@ -14,7 +14,7 @@
    ~ limitations under the License.
    -->
 <!-- secondary header - app bar -->
-<div id="nav" class="row wr-app-bar">
+<div id="nav" class="row-ovr row wr-app-bar">
     <div class="col-md-12 wr-action-container">
         <div class="wr-asset-type-switcher">
             <div class="ctrl-asset-type-switcher">
@@ -57,13 +57,14 @@
                 </div>
             </div>
         </div>
-        <div class="input-group input-wrap">
+        <div class="input-group-ovr input-group input-wrap">
             {{#if rxt.pluralLabel}}
-                <input  id="search"  type="text" class="form-control" placeholder="Search in {{rxt.pluralLabel}}" value="{{searchQuery}}">
+                <input  id="search"  type="text" class="form-control-ovr form-control" placeholder="Search in {{rxt.pluralLabel}}">
             {{else}}
-                <input  id="search"  type="text" class="form-control" placeholder="Search in all asset types" value="{{searchQuery}}">
+                <input  id="search"  type="text" class="form-control-ovr form-control" placeholder="Search in all asset types">
+
             {{/if}}
-            <div class="input-group-btn">
+            <div class="input-group-btn-ovr input-group-btn">
                 <button class="btn btn-default wrap-input-right" type="button" title="{{t "Search"}}" id="search-button" >
                     <i class="fw fw-search" aria-hidden="true"></i>
                 </button>
@@ -119,7 +120,7 @@
                             <span>{{t "All Categories"}}</span>
                         {{/if}}
                     </a>
-                    <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
+                    <ul class="dropdown-menu-ovr dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
                         <input type="hidden" name="selectedTag" id="selectedTag" value="{{selectedTag.value}}">
                         {{#if assetCategoryDetails.selectedCategory}}
                             <li><a tabindex="-1" href="#">{{t "All Categories"}}</a></li>
