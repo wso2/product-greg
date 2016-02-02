@@ -74,6 +74,14 @@ asset.manager = function(ctx) {
             asset.attributes.overview_version = version;
             asset.overview_version = version;
             asset.authorUserName = authorUserName;
+            var ComparatorUtils = Packages.org.wso2.carbon.governance.comparator.utils.ComparatorUtils;
+            var comparatorUtils = new ComparatorUtils();
+            var mediaType = "application/wadl+xml";
+            try {
+                value = comparatorUtils.prettyFormatText(value,mediaType);
+            } catch (ex){
+
+            }
             asset.wadlContent = value;
         }
     };
