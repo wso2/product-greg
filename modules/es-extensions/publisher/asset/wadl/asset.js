@@ -194,8 +194,8 @@ asset.manager = function(ctx) {
                 var comparatorUtils = new ComparatorUtils();
                 var mediaType = "application/wadl+xml";
                 try {
-                    value = comparatorUtils.prettyFormatText(value,mediaType);
-                } catch (ex){
+                    value = comparatorUtils.prettyFormatText(value, mediaType);
+                } catch (ex) {
 
                 }
                 item.content = value;
