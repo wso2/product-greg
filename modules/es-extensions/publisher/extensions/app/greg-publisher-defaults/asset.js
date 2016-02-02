@@ -131,6 +131,7 @@ asset.configure = function() {
                 defaultLifecycleEnabled: false,
                 publishedStates: ['Published']
             },
+            providerAttribute:'',
             ui:{
                 icon:'fw fw-resource'
             },
