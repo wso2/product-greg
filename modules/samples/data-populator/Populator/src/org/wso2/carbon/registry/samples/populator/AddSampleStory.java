@@ -55,10 +55,10 @@ public class AddSampleStory {
     private static String rootpath = "";
     private static String serverURL;
     private static final String MEDIA_TYPE_SWAGGER = "application/swagger+json";
+    private static final String MEDIA_TYPE_WSDL = "application/wsdl+xml";
+    private static final String MEDIA_TYPE_POLICY = "application/policy+xml";
     private static ResourceServiceClient resourceServiceClient;
     private static LifeCycleManagementClient lifeCycleManagementClient;
-    private static final String serviceRxtPath = "/_system/governance/repository/"
-            + "components/org.wso2.carbon.governance/types/";
     private static String governancePath = "/_system/governance";
     private static final String[] DEMO_USER_PERMISSION = {"/permission/admin/login",
             "/permission/admin/enterprisestore",
@@ -110,12 +110,6 @@ public class AddSampleStory {
             addUsers(configContext);
             lifeCycleManagementClient.createLifecycle(readFile(projectPath + "/resources/BuyMoreLC.xml"));
 
-            String restServiceRxtPath = serviceRxtPath + "restservice.rxt";
-            Utils.backUpRXTs(registry, restServiceRxtPath, "restserviceExisting.rxt");
-            resourceServiceClient.delete(restServiceRxtPath);
-            DataHandler dh1 = new DataHandler(new URL("file://" + projectPath + "/resources/buymore-restservice.rxt"));
-            resourceServiceClient.addResource(restServiceRxtPath,
-                    "application/vnd.wso2.registry-ext-type+xml", null, dh1, null, null);
             Thread.sleep(5 * 1000);
 
             String[][] developmentProperties = {{"version", "3.0.0"}};
@@ -137,7 +131,13 @@ public class AddSampleStory {
                     new DataHandler(new URL("file:///" + projectPath + "/resources/loyalty-swagger-v2.json")),
                     testingProperties);
 
-            System.out.println("Added Swagger");
+            //adding legacy service with a WSDL and attaching a policy to it
+            addWsdl("Adding the WSDL file file. ", new DataHandler(new URL("file:///" + projectPath +
+                    "/resources/BuyMore.wsdl")), null);
+            addPolicy("Adding the WS-Policy file. ", new DataHandler(new URL("file:///" + projectPath +
+                    "/resources/BuyMoreUTPolicy.xml")), null);
+
+            System.out.println("Added Swagger files, WSDL and WS-Policy");
             Thread.sleep(3 * 1000);
 
             Registry gov = GovernanceUtils.getGovernanceUserRegistry(registry, "admin");
@@ -167,10 +167,12 @@ public class AddSampleStory {
             System.out.println("Found " + loyaltyServices.length + " loyalty services");
 
             for (GenericArtifact genericArtifact : calcServices) {
+                genericArtifact.attachLifecycle("BuyMoreLifeCycle");
                 if (genericArtifact.getAttribute("overview_version").equals("2.0.0")) {
                     changeLcState("Promote", genericArtifact.getPath());
                     if (loyaltyServices != null && loyaltyService.length() > 0) {
                         for (GenericArtifact loyaltyServiceArtifact : loyaltyServices) {
+                            loyaltyServiceArtifact.attachLifecycle("BuyMoreLifeCycle");
                             if (loyaltyServiceArtifact.getAttribute("overview_version").equals("1.0.0")) {
                                 genericArtifact.addAssociation("DependsOn", loyaltyServiceArtifact);
                                 loyaltyServiceArtifact.addAssociation("UsedBy", genericArtifact);
@@ -192,6 +194,41 @@ public class AddSampleStory {
                     }
                 }
             }
+
+            GenericArtifactManager soapServiceManager = new GenericArtifactManager(gov, "soapservice");
+            final String buyMoreSoapService = "BuyMore";
+            GenericArtifact[] soapService = soapServiceManager.findGenericArtifacts(new GenericArtifactFilter() {
+
+                @Override
+                public boolean matches(GenericArtifact genericArtifact) throws GovernanceException {
+                    return buyMoreSoapService.equals(genericArtifact.getQName().getLocalPart());
+                }
+            });
+
+            if (soapService != null && soapService.length > 0) {
+                soapService[0].attachLifecycle("BuyMoreLifeCycle");
+                changeLcState("Promote", soapService[0].getPath());
+                Thread.sleep(1 * 500);
+                changeLcState("Promote", soapService[0].getPath());
+                Thread.sleep(1 * 500);
+                changeLcState("Deprecate", soapService[0].getPath());
+                Thread.sleep(1 * 500);
+                GenericArtifactManager policyManager = new GenericArtifactManager(gov, "policy");
+                final String buyMorePolicy = "BuyMoreUTPolicy.xml";
+                GenericArtifact[] policy = policyManager.findGenericArtifacts(new GenericArtifactFilter() {
+
+                    @Override
+                    public boolean matches(GenericArtifact genericArtifact) throws GovernanceException {
+                        return buyMorePolicy.equals(genericArtifact.getQName().getLocalPart());
+                    }
+                });
+
+                if (policy != null && policy.length > 0) {
+                    soapService[0].addAssociation("DependsOn", policy[0]);
+                    policy[0].addAssociation("EnforcedsOn", soapService[0]);
+                }
+            }
+
             completedMessage();
         } catch (Exception e) {
             System.out.println("An error occurred.");
@@ -224,6 +261,20 @@ public class AddSampleStory {
         String fileName;
         fileName = dh.getName().substring(dh.getName().lastIndexOf('/') + 1);
         resourceServiceClient.addResource("/" + fileName, MEDIA_TYPE_SWAGGER, description, dh, null, props);
+    }
+
+    private static void addWsdl(String description, DataHandler dh, String[][] props)
+            throws Exception {
+        String fileName;
+        fileName = dh.getName().substring(dh.getName().lastIndexOf('/') + 1);
+        resourceServiceClient.addResource("/" + fileName, MEDIA_TYPE_WSDL, description, dh, null, props);
+    }
+
+    private static void addPolicy(String description, DataHandler dh, String[][] props)
+            throws Exception {
+        String fileName;
+        fileName = dh.getName().substring(dh.getName().lastIndexOf('/') + 1);
+        resourceServiceClient.addResource("/" + fileName, MEDIA_TYPE_POLICY, description, dh, null, props);
     }
 
     private static String readFile(String filePath) throws IOException {

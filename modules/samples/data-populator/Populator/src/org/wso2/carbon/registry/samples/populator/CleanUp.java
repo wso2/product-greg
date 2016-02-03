@@ -29,6 +29,7 @@ import org.wso2.carbon.governance.api.util.GovernanceUtils;
 import org.wso2.carbon.registry.core.Registry;
 import org.wso2.carbon.registry.core.exceptions.RegistryException;
 import org.wso2.carbon.registry.core.session.UserRegistry;
+import org.wso2.carbon.registry.samples.populator.utils.LifeCycleManagementClient;
 import org.wso2.carbon.registry.ws.client.registry.WSRegistryServiceClient;
 import org.wso2.carbon.registry.samples.populator.utils.UserManagementClient;
 
@@ -158,7 +159,7 @@ public class CleanUp {
 
             try {
                 System.out.println("Deleting sample users .........");
-                String [] users = {"demouser"};
+                String [] users = {"demouser", "Tom", "Jerry"};
                 deleteUsers(users, configContext);
                 System.out.println("########## Successfully deleted sample users ###########\n\n");
             } catch (Exception e){
@@ -172,6 +173,15 @@ public class CleanUp {
                 System.out.println("########## Successfully deleted sample roles ###########\n\n");
             } catch (Exception e){
                 System.out.println("######## Unable to delete sample roles ########\n\n");
+            }
+
+            try {
+                System.out.println("Deleting sample life-cycles .........");
+                String [] lifeCycles = {"BuyMoreLifeCycle"};
+                deleteLifeCycles(lifeCycles, configContext);
+                System.out.println("########## Successfully deleted sample life-cycles ###########\n\n");
+            } catch (Exception e){
+                System.out.println("######## Unable to delete sample life-cycles ########\n\n");
             }
 
 
@@ -296,8 +306,8 @@ public class CleanUp {
      */
     private static void deleteUsers(String [] userNames, ConfigurationContext configContext) throws Exception{
         if (userNames != null && userNames.length > 0) {
+            UserManagementClient userManager = new UserManagementClient(cookie, serverURL, configContext);
             for (int i =0; i < userNames.length; i++) {
-                UserManagementClient userManager = new UserManagementClient(cookie, serverURL, configContext);
                 userManager.deleteUser(userNames[i]);
             }
         }
@@ -312,9 +322,26 @@ public class CleanUp {
      */
     private static void deleteRoles(String [] rolesNames, ConfigurationContext configContext) throws Exception{
         if (rolesNames != null && rolesNames.length > 0) {
+            UserManagementClient userManager = new UserManagementClient(cookie, serverURL, configContext);
             for (int i =0; i < rolesNames.length; i++) {
-                UserManagementClient userManager = new UserManagementClient(cookie, serverURL, configContext);
                 userManager.deleteRole(rolesNames[i]);
+            }
+        }
+    }
+
+    /***
+     * This method is used to delete roles
+     *
+     * @param lcNames
+     * @param configContext
+     * @throws Exception
+     */
+    private static void deleteLifeCycles(String [] lcNames, ConfigurationContext configContext) throws Exception{
+        if (lcNames != null && lcNames.length > 0) {
+            LifeCycleManagementClient lifeCycleManagementClient = new LifeCycleManagementClient(cookie, serverURL,
+                    configContext);
+            for (int i =0; i < lcNames.length; i++) {
+                lifeCycleManagementClient.deleteLifecycle(lcNames[i]);
             }
         }
     }
