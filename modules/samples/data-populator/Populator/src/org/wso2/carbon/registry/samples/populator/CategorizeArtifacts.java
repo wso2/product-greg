@@ -20,6 +20,7 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.lang.String;
 import java.util.ArrayList;
 
 /*
@@ -28,6 +29,8 @@ import java.util.ArrayList;
  */
 public class CategorizeArtifacts {
 
+    private static final String SERVICE_LIFE_CYCLE = "ServiceLifeCycle";
+    private static final String BUYMORE_LIFE_CYCLE = "BuyMoreLifeCycle";
     private static String cookie;
     private static ConfigurationContext configContext = null;
     private static LifeCycleManagementClient lifeCycleManagementClient;
@@ -110,16 +113,19 @@ public class CategorizeArtifacts {
                 int i = 0;
                 for (GenericArtifact artifact : restServices) {
                     if (restServicesList.contains(artifact.getQName().getLocalPart())) {
-                        String category = categories[i % 5];
-                        artifact.setAttribute("overview_category", category);
-                        artifactManager1.updateGenericArtifact(artifact);
-                        String path = artifact.getPath();
-                        gov.applyTag(path, tagsList[i % 10]);
-                        changeLcState((i % 4), path);
-                        if (i % 3 == 0) {
-                            addAnonymousViewToAssets(resourceServiceClient, artifact);
+                        String lifeCycleName = artifact.getLifecycleName();
+                        if(!BUYMORE_LIFE_CYCLE.equals(lifeCycleName)) {
+                            String category = categories[i % 5];
+                            artifact.setAttribute("overview_category", category);
+                            artifactManager1.updateGenericArtifact(artifact);
+                            String path = artifact.getPath();
+                            gov.applyTag(path, tagsList[i % 10]);
+                            changeLcState((i % 4), path);
+                            if (i % 3 == 0) {
+                                addAnonymousViewToAssets(resourceServiceClient, artifact);
+                            }
+                            i++;
                         }
-                        i++;
                     }
                 }
             } catch (FileNotFoundException e) {
@@ -182,17 +188,17 @@ public class CategorizeArtifacts {
         path = governancePath + path;
         String items[] = { "false", "false", "false" };
         if (state == 0) {
-            lifeCycleManagementClient.invokeAspect(path, "ServiceLifeCycle", "Promote", items);
+            lifeCycleManagementClient.invokeAspect(path, SERVICE_LIFE_CYCLE, "Promote", items);
         } else if (state == 1) {
             items[0] = "true";
-            lifeCycleManagementClient.invokeAspect(path, "ServiceLifeCycle", "itemClick", items);
+            lifeCycleManagementClient.invokeAspect(path, SERVICE_LIFE_CYCLE, "itemClick", items);
         } else if (state == 2) {
             items[0] = "true";
             items[1] = "true";
-            lifeCycleManagementClient.invokeAspect(path, "ServiceLifeCycle", "itemClick", items);
+            lifeCycleManagementClient.invokeAspect(path, SERVICE_LIFE_CYCLE, "itemClick", items);
         } else {
-            lifeCycleManagementClient.invokeAspect(path, "ServiceLifeCycle", "Promote", items);
-            lifeCycleManagementClient.invokeAspect(path, "ServiceLifeCycle", "Promote", items);
+            lifeCycleManagementClient.invokeAspect(path, SERVICE_LIFE_CYCLE, "Promote", items);
+            lifeCycleManagementClient.invokeAspect(path, SERVICE_LIFE_CYCLE, "Promote", items);
         }
 
     }
