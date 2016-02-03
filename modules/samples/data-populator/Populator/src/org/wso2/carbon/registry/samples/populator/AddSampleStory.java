@@ -57,7 +57,8 @@ public class AddSampleStory {
     private static final String MEDIA_TYPE_SWAGGER = "application/swagger+json";
     private static ResourceServiceClient resourceServiceClient;
     private static LifeCycleManagementClient lifeCycleManagementClient;
-    private static final String serviceRxtPath = "/_system/governance/repository/components/org.wso2.carbon.governance/types/";
+    private static final String serviceRxtPath = "/_system/governance/repository/"
+            + "components/org.wso2.carbon.governance/types/";
     private static String governancePath = "/_system/governance";
     private static final String[] DEMO_USER_PERMISSION = {"/permission/admin/login",
             "/permission/admin/enterprisestore",
@@ -120,11 +121,21 @@ public class AddSampleStory {
             String[][] developmentProperties = {{"version", "3.0.0"}};
             String[][] testingProperties = {{"version", "2.0.0"}};
             String[][] productionProperties = {{"version", "1.0.0"}};
-            addSwagger("Adding a swagger 2.0 definition from file. ", new DataHandler(new URL("file:///" + projectPath + "/resources/calc-swagger-v3.json")), developmentProperties);
-            addSwagger("Adding a swagger 2.0 definition from file. ", new DataHandler(new URL("file:///" + projectPath + "/resources/calc-swagger-v2.json")), testingProperties);
-            addSwagger("Adding a swagger 2.0 definition from file. ", new DataHandler(new URL("file:///" + projectPath + "/resources/calc-swagger.json")), productionProperties);
-            addSwagger("Adding a swagger 2.0 definition from file. ", new DataHandler(new URL("file:///" + projectPath + "/resources/loyalty-swagger.json")), productionProperties);
-            addSwagger("Adding a swagger 2.0 definition from file. ", new DataHandler(new URL("file:///" + projectPath + "/resources/loyalty-swagger-v2.json")), testingProperties);
+            addSwagger("Adding a swagger 2.0 definition from file. ",
+                    new DataHandler(new URL("file:///" + projectPath + "/resources/calc-swagger-v3.json")),
+                    developmentProperties);
+            addSwagger("Adding a swagger 2.0 definition from file. ",
+                    new DataHandler(new URL("file:///" + projectPath + "/resources/calc-swagger-v2.json")),
+                    testingProperties);
+            addSwagger("Adding a swagger 2.0 definition from file. ",
+                    new DataHandler(new URL("file:///" + projectPath + "/resources/calc-swagger.json")),
+                    productionProperties);
+            addSwagger("Adding a swagger 2.0 definition from file. ",
+                    new DataHandler(new URL("file:///" + projectPath + "/resources/loyalty-swagger.json")),
+                    productionProperties);
+            addSwagger("Adding a swagger 2.0 definition from file. ",
+                    new DataHandler(new URL("file:///" + projectPath + "/resources/loyalty-swagger-v2.json")),
+                    testingProperties);
 
             System.out.println("Added Swagger");
             Thread.sleep(3 * 1000);

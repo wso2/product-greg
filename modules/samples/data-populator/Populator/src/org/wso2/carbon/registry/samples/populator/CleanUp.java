@@ -81,8 +81,8 @@ public class CleanUp {
 
             StringBuilder builder = new StringBuilder();
             builder.append(System.getProperty("carbon.home")).append(File.separator).append("repository")
-                    .append(File.separator).append("conf").append(File.separator).append("axis2").append(File.separator)
-                    .append("axis2_client.xml");
+                    .append(File.separator).append("conf").append(File.separator).append("axis2")
+                    .append(File.separator).append("axis2_client.xml");
             String axis2Configuration = builder.toString();
             ConfigurationContext configContext = ConfigurationContextFactory
                     .createConfigurationContextFromFileSystem(axis2Configuration);
