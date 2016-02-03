@@ -160,7 +160,7 @@ public class CleanUp {
 
             try {
                 System.out.println("Deleting sample users .........");
-                String [] users = {"demouser"};
+                String [] users = {"bob", "mark", "john", "chris"};
                 deleteUsers(users, configContext);
                 System.out.println("########## Successfully deleted sample users ###########\n\n");
             } catch (Exception e){
@@ -169,7 +169,7 @@ public class CleanUp {
 
             try {
                 System.out.println("Deleting sample roles .........");
-                String [] roles = {"demorole"};
+                String [] roles = {"dev", "devops", "qamanager", "strategymanager"};
                 deleteRoles(roles, configContext);
                 System.out.println("########## Successfully deleted sample roles ###########\n\n");
             } catch (Exception e){

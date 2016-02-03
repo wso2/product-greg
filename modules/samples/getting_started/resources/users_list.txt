@@ -1,1 +1,4 @@
-demouser:demouser@123
+bob:bob@buymore:dev
+mark:mark@buymore:devops
+john:john@buymore:qamanager
+chris:chris@buymore:strategymanager

@@ -61,7 +61,16 @@ public class AddSampleStory {
     private static ResourceServiceClient resourceServiceClient;
     private static LifeCycleManagementClient lifeCycleManagementClient;
     private static String governancePath = "/_system/governance";
-    private static final String[] DEMO_USER_PERMISSION = {"/permission/admin/login",
+    private static final String[] DEV_ROLE_PERMISSION = {"/permission/admin/login",
+            "/permission/admin/enterprisestore",
+            "/permission/admin/manage"};
+    private static final String[] DEVOPS_ROLE_PERMISSION = {"/permission/admin/login",
+            "/permission/admin/enterprisestore",
+            "/permission/admin/manage"};
+    private static final String[] QAMGR_ROLE_PERMISSION = {"/permission/admin/login",
+            "/permission/admin/enterprisestore",
+            "/permission/admin/manage"};
+    private static final String[] STRGMGR_ROLE_PERMISSION = {"/permission/admin/login",
             "/permission/admin/enterprisestore",
             "/permission/admin/manage"};
 
@@ -185,6 +194,7 @@ public class AddSampleStory {
                 } else if (genericArtifact.getAttribute("overview_version").equals("1.0.0")) {
                     changeLcState("Promote", genericArtifact.getPath());
                     changeLcState("Promote", genericArtifact.getPath());
+                    changeLcState("Promote", genericArtifact.getPath());
                 } else if (genericArtifact.getAttribute("overview_version").equals("3.0.0")) {
                     if (loyaltyServices != null && loyaltyService.length() > 0) {
                         for (GenericArtifact loyaltyServiceArtifact : loyaltyServices) {
@@ -210,6 +220,8 @@ public class AddSampleStory {
 
             if (soapService != null && soapService.length > 0) {
                 soapService[0].attachLifecycle("BuyMoreLifeCycle");
+                changeLcState("Promote", soapService[0].getPath());
+                Thread.sleep(1 * 500);
                 changeLcState("Promote", soapService[0].getPath());
                 Thread.sleep(1 * 500);
                 changeLcState("Promote", soapService[0].getPath());
@@ -262,22 +274,22 @@ public class AddSampleStory {
     private static void addSwagger(String description, DataHandler dh, String[][] props)
             throws Exception {
         String fileName;
-        fileName = dh.getName().substring(dh.getName().lastIndexOf('/') + 1);
-        resourceServiceClient.addResource("/" + fileName, MEDIA_TYPE_SWAGGER, description, dh, null, props);
+        fileName = dh.getName().substring(dh.getName().lastIndexOf(File.separator) + 1);
+        resourceServiceClient.addResource(File.separator + fileName, MEDIA_TYPE_SWAGGER, description, dh, null, props);
     }
 
     private static void addWsdl(String description, DataHandler dh, String[][] props)
             throws Exception {
         String fileName;
-        fileName = dh.getName().substring(dh.getName().lastIndexOf('/') + 1);
-        resourceServiceClient.addResource("/" + fileName, MEDIA_TYPE_WSDL, description, dh, null, props);
+        fileName = dh.getName().substring(dh.getName().lastIndexOf(File.separator) + 1);
+        resourceServiceClient.addResource(File.separator + fileName, MEDIA_TYPE_WSDL, description, dh, null, props);
     }
 
     private static void addPolicy(String description, DataHandler dh, String[][] props)
             throws Exception {
         String fileName;
-        fileName = dh.getName().substring(dh.getName().lastIndexOf('/') + 1);
-        resourceServiceClient.addResource("/" + fileName, MEDIA_TYPE_POLICY, description, dh, null, props);
+        fileName = dh.getName().substring(dh.getName().lastIndexOf(File.separator) + 1);
+        resourceServiceClient.addResource(File.separator + fileName, MEDIA_TYPE_POLICY, description, dh, null, props);
     }
 
     private static String readFile(String filePath) throws IOException {
@@ -310,19 +322,28 @@ public class AddSampleStory {
         String userNamePwd;
         String publisherUser = "";
         String publisherUserPassword = "";
+        String demoUserRole = "";
+
+        userManager.addRole("dev", null, DEV_ROLE_PERMISSION);
+        userManager.addRole("devops", null, DEVOPS_ROLE_PERMISSION);
+        userManager.addRole("qamanager", null, QAMGR_ROLE_PERMISSION);
+        userManager.addRole("strategymanager", null, STRGMGR_ROLE_PERMISSION);
+
         while ((userNamePwd = bufferedReader.readLine()) != null) {
             if (userNamePwd != null && !userNamePwd.equals("")) {
                 String [] credentials = userNamePwd.split(":");
                 publisherUser = credentials[0];
                 publisherUserPassword = credentials[1];
+                demoUserRole = credentials[2];
                 System.out.println("New user added. Please use following credentials to login.\n");
                 System.out.println("Username : "+publisherUser+"\n");
                 System.out.println("Password : "+publisherUserPassword+"\n");
+                System.out.println("Role : "+demoUserRole+"\n");
+                String[] role = {demoUserRole};
+                userManager.addUser(publisherUser, publisherUserPassword, role, new ClaimValue[0], null);
             }
         }
-        userManager.addRole("demorole", null, DEMO_USER_PERMISSION);
-        String[] demoRole = {"demorole"};
-        userManager.addUser(publisherUser, publisherUserPassword, demoRole, new ClaimValue[0], null);
+
         System.out.println("********************************************************************************\n\n");
     }
 
