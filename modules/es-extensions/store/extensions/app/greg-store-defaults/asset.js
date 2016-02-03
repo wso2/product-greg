@@ -91,6 +91,7 @@ asset.renderer = function(ctx) {
                     var config = require('/config/store.js').config();
                     var pluralType = page.rxt.pluralLabel.toLowerCase();
                     page.downloadMetaData = {}; 
+                    page.downloadMetaData.downloadFileType = page.rxt.singularLabel;
                     page.downloadMetaData.enabled = isDownloadable;
                     page.downloadMetaData.url = config.server.https+'/governance/'+pluralType+'/'+page.assets.id+'/content?tenantId='+ctx.tenantId;
                 }
