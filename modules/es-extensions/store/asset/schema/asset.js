@@ -170,7 +170,8 @@ asset.configure = function() {
             ui: {
                 icon: 'fw fw-schema',
                 iconColor: 'red'
-            }
+            },
+            downloadable:true
         }
     }
 };
