@@ -838,20 +838,20 @@
             <fileMode>644</fileMode>
         </file>
         <file>
-            <source>../samples/data-populator/README.md</source>
-            <outputDirectory>${pom.artifactId}-${build.version}/samples/data-populator/</outputDirectory>
+            <source>../samples/getting_started/README.md</source>
+            <outputDirectory>${pom.artifactId}-${build.version}/samples/getting_started</outputDirectory>
             <filtered>true</filtered>
             <fileMode>644</fileMode>
         </file>
         <file>
-            <source>../samples/data-populator/Populator/populator.sh</source>
-            <outputDirectory>${pom.artifactId}-${build.version}/samples/data-populator/Populator</outputDirectory>
+            <source>../samples/getting_started/populator.sh</source>
+            <outputDirectory>${pom.artifactId}-${build.version}/samples/getting_started</outputDirectory>
             <filtered>true</filtered>
             <fileMode>644</fileMode>
         </file>
         <file>
-            <source>../samples/data-populator/Populator/cleanup.sh</source>
-            <outputDirectory>${pom.artifactId}-${build.version}/samples/data-populator/Populator</outputDirectory>
+            <source>../samples/getting_started/cleanup.sh</source>
+            <outputDirectory>${pom.artifactId}-${build.version}/samples/getting_started</outputDirectory>
             <filtered>true</filtered>
             <fileMode>644</fileMode>
         </file>

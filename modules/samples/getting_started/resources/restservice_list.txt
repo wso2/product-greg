@@ -1,0 +1,17 @@
+cxf
+tavserv
+application
+SwaggerPetstore
+OrderingService
+Employee
+CtoFConversion
+FtoC_Conversion
+CD_store
+SwaggerdocumentationforGovernanceregistryRESTAPI
+BasicAuthExample
+InstagramAPI
+Echo
+TwitterRESTAPI
+UberAPI
+BuyMoreBillCalculateRESTAPI
+BuyMoreLoyaltyRESTAPI
