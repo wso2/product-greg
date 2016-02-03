@@ -82,9 +82,11 @@ asset.renderer = function(ctx) {
                     entry.iconClass = 'btn-lifecycle';
                     entry.url = this.buildAppPageUrl('associations') + '/' + page.assets.type + '/' + page.assets.id
                     ptr.push(entry);
-                    var temp = ptr[5];
-                    ptr[5] = ptr[4];
-                    ptr[4] =  temp;
+                    if (ptr[5] != null && ptr[4] != null) {
+                        var temp = ptr[5];
+                        ptr[5] = ptr[4];
+                        ptr[4] = temp;
+                    }
                 }
             },
             notes: function (page) {
