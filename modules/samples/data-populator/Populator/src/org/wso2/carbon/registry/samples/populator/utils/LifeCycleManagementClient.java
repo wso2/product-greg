@@ -111,6 +111,16 @@ public class LifeCycleManagementClient {
         stub.removeAspect(path, aspect);
     }
 
+    /**
+     * Delete lifecycle
+     *
+     * @param name
+     * @throws Exception
+     */
+    public void deleteLifecycle(String name) throws Exception {
+        lcmStub.deleteLifecycle(name);
+    }
+
     private static void setCookie(Stub stub, String cookie) {
         ServiceClient client = stub._getServiceClient();
         Options option = client.getOptions();

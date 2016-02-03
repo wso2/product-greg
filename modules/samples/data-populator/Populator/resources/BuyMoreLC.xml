@@ -127,11 +127,9 @@
                         <data name="transitionExecution">
                             <execution forEvent="Demote" class="org.wso2.carbon.governance.registry.extensions.executors.DemoteActionExecutor">
                             </execution>
-                            <execution forEvent="Deprecate" class="org.wso2.carbon.governance.registry.extensions.executors.CopyExecutor">
-                            </execution>
                         </data>
                         <data name="transitionPermission">
-                            <permission forEvent="Deprecate" roles="demorole">
+                            <permission forEvent="Deprecate" roles="demorole,admin">
                             </permission>
                         </data>
                     </datamodel>
@@ -139,6 +137,20 @@
                     <transition event="Demote" target="Testing"/>
                 </state>
                 <state id="Deprecated">
+                    <datamodel>
+                        <data name="transitionExecution">
+                            <execution forEvent="Demote" class="org.wso2.carbon.governance.registry.extensions.executors.DemoteActionExecutor">
+                            </execution>
+                        </data>
+                        <data name="transitionPermission">
+                            <permission forEvent="Obsolete" roles="demorole,admin">
+                            </permission>
+                        </data>
+                    </datamodel>
+                    <transition event="Obsolete" target="Obsolete"/>
+                    <transition event="Demote" target="Production"/>
+                </state>
+                <state id="Obsolete">
                 </state>
             </scxml>
         </lifecycle>
