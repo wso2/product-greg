@@ -330,30 +330,55 @@ var gregAPI = {};
     }
 
     gregAPI.associations.list = function(session, type, path) {
+        var username = require('store').server.current(session).username;
         var am = assetManager(session, type);
         var resultList = new Object();
         resultList.results = [];
         var results = am.registry.associations(path);
-        var artifact;
+        var artifact,artifactConfig;
         for(var i=0; i < results.length; i++){
             if (results[i].src == path){
                 var destPath = results[i].dest
                 try {
+                    var artifactPath = destPath.replace("/_system/governance", "");
+                    var govRegistry = Packages.org.wso2.carbon.governance.api.util.GovernanceUtils.
+                        getGovernanceUserRegistry(am.registry.registry, username);
                     artifact = Packages.org.wso2.carbon.governance.api.util.GovernanceUtils.
-                        findGovernanceArtifactConfigurationByMediaType(am.registry.registry.get(destPath).
-                            getMediaType(), am.registry.registry);
+                        retrieveGovernanceArtifactByPath(govRegistry, artifactPath);
                 } catch (e) {
                     log.warn("Association can not be retrieved. Resource does not exist at path " + destPath);
                     continue;
                 }
 
-                if (!artifact) { //if associated artifact is not a resource we are not displaying it in publisher
+
+                if (artifact == null) { //if associated artifact is not a resource we are not displaying it in publisher
+                    log.info("resource at path /_system/governance " + destPath + " is not a governance artifact!");
                     continue;
                 }
+                    artifactConfig = Packages.org.wso2.carbon.governance.api.util.GovernanceUtils.
+                        findGovernanceArtifactConfigurationByMediaType(am.registry.registry.get(destPath).
+                            getMediaType(), am.registry.registry);
 
                 var assetJson = new Object();
                 var uuid = am.registry.registry.get(destPath).getUUID();
-                var key = String(artifact.getKey());
+                var key = String(artifactConfig.getKey());
+
+                var uniqueAttributesNames = artifactConfig.getUniqueAttributes();
+                var artifactNameAttribute = artifactConfig.getArtifactNameAttribute();
+
+                assetJson.uniqueAttributesValues = [];
+                assetJson.uniqueAttributesNames = [];
+
+                for (var j = 0; j < uniqueAttributesNames.size(); j++) {
+                    if (artifactNameAttribute == uniqueAttributesNames.get(j)) {
+                        continue;
+                    }
+                    if (artifact.getAttributes(uniqueAttributesNames.get(j)) != null) {
+                        assetJson.uniqueAttributesNames[j] = uniqueAttributesNames.get(j);
+                        assetJson.uniqueAttributesValues[j] = artifact.getAttributes(uniqueAttributesNames.get(j))[0];
+                    }
+                };
+
                 if (key === 'wsdl' || key === 'wadl' || key === 'policy' || key === 'schema' || key === 'endpoint' || key === 'swagger'){
                     var subPaths = destPath.split('/');
                     assetJson.text = subPaths[subPaths.length - 1];
@@ -373,9 +398,9 @@ var gregAPI = {};
                 resultList.results.push(assetJson);
             }
         }
-        return resultList
-
+        return resultList;
     }
+
     gregAPI.associations.listTypes = function(type) {
         var map = CommonUtil.getAssociationConfig(type);
         if(!map){
