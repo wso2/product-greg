@@ -14,7 +14,8 @@ $(function() {
 		"<div class='item' data-uuid='{{uuid}}' data-type='{{shortName}}'>" +
 		"<div class='text'>" +
 		"   <div class='resource-name' data-resource-name='{{text}}'>{{text}}</div>" +
-		"   <div class='resource-type' data-resource-type='{{type}}'>{{type}}</div>" +
+		"   <div class='resource-version' data-resource-version='{{version}}'>{{version}}</div>" +
+		"   <div class='resource-type' data-resource-type='{{type}}'>{{shortName}}</div>" +
 		"</div>" +
 		" <div class='icon'>" +
 		"     <i class='fw fw-{{iconClass}}'></i>" +

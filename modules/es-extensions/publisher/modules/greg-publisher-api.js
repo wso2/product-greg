@@ -307,6 +307,15 @@ var gregAPI = {};
                         var subPaths =  artifacts[j].path.split('/');
                         assetJson.text = subPaths[subPaths.length - 1]
                     }
+
+                    var version = artifacts[j].attributes.overview_version;
+                    if(version == null) {
+                        version = artifacts[j].attributes.version;
+                    }
+                    if(version != null) {
+                        assetJson.version = version;
+                    }
+
                     assetJson.type = artifacts[j].mediaType;
                     assetJson.shortName = artifacts[j].type;
                     resultList.results.push(assetJson);
