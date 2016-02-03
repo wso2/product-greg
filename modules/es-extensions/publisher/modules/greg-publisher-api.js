@@ -373,9 +373,14 @@ var gregAPI = {};
                     if (artifactNameAttribute == uniqueAttributesNames.get(j)) {
                         continue;
                     }
-                    if (artifact.getAttributes(uniqueAttributesNames.get(j)) != null) {
-                        assetJson.uniqueAttributesNames[j] = uniqueAttributesNames.get(j);
-                        assetJson.uniqueAttributesValues[j] = artifact.getAttributes(uniqueAttributesNames.get(j))[0];
+                    var attributeName = uniqueAttributesNames.get(j);
+                    if (key === 'wsdl' || key === 'wadl' || key === 'policy' || 
+                        key === 'schema' || key === 'endpoint' || key === 'swagger'){
+                        attributeName = attributeName.replace("overview_", "");
+                    }
+                    if (artifact.getAttributes(attributeName) != null) {
+                        assetJson.uniqueAttributesNames[j] = attributeName;
+                        assetJson.uniqueAttributesValues[j] = artifact.getAttributes(attributeName)[0];
                     }
                 };
 
