@@ -80,7 +80,22 @@ asset.renderer = function(ctx) {
         			var isDependentsPresent =  ( dependencies.length > 0 ) || (dependents.length > 0 );
         			page.assets.isDependentsPresent = isDependentsPresent;
         		}
-        	}
+        	},
+            downloadPopulator:function(page){
+                //Populate the links for downloading content RXTs
+                if(page.meta.pageName === 'details'){
+                    var isDownloadable = ctx.rxtManager.isDownloadable(page.assets.type);
+                    if(!isDownloadable){
+                        return;
+                    }
+                    var config = require('/config/store.js').config();
+                    var pluralType = page.rxt.pluralLabel.toLowerCase();
+                    page.downloadMetaData = {}; 
+                    page.downloadMetaData.downloadFileType = page.rxt.singularLabel;
+                    page.downloadMetaData.enabled = isDownloadable;
+                    page.downloadMetaData.url = config.server.https+'/governance/'+pluralType+'/'+page.assets.id+'/content?tenantId='+ctx.tenantId;
+                }
+            }
         }
     }
 }

@@ -1,0 +1,13 @@
+SampleSchema
+calculator
+library
+transcript-schema
+books
+version
+LinkedSchema
+Person
+purchasing
+xml
+exchange-documents-v2.0
+fulltext-documents
+ops_legal

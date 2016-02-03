@@ -16,16 +16,34 @@
  *  under the License.
  *
  */
-asset.manager = function(ctx) {   
-    var setCustomAssetAttributes = function(asset, userRegistry) {
-        var wadlUrl=asset.attributes.interface_wadl;
+asset.manager = function(ctx) {
+    var setCustomAssetAttributes = function (asset, userRegistry) {
+        var wadlUrl = asset.attributes.interface_wadl;
         if (wadlUrl != null) {
             try {
                 var resource = userRegistry.registry.get(wadlUrl);
                 var wadlContent = getInterfaceTypeContent(resource);
+                var ComparatorUtils = Packages.org.wso2.carbon.governance.comparator.utils.ComparatorUtils;
+                var comparatorUtils = new ComparatorUtils();
+                var mediaType = "application/wadl+xml";
+                try {
+                    wadlContent = comparatorUtils.prettyFormatText(wadlContent, mediaType);
+                } catch (ex) {
+
+                }
                 asset.wadlContent = wadlContent;
-            } catch(e) {
+            } catch (e) {
                 asset.wadlContent = "";
+            }
+        }
+        var swaggerUrl = asset.attributes.interface_swagger;
+        if (swaggerUrl != null) {
+            try {
+                var resource = userRegistry.registry.get(swaggerUrl);
+                var swaggerContent = getInterfaceTypeContent(resource);
+                asset.swaggerContent = swaggerContent;
+            } catch (e) {
+                asset.swaggerContent = "";
             }
         }
     }; 
@@ -78,6 +96,7 @@ asset.manager = function(ctx) {
                 deps.associationName = associationName;
                 deps.associationType = keyName;
                 deps.associationUUID = associationUUID;
+                deps.associationPath = resource.getPath();
 
                 if(deps.associationType == "wadl") {
                     associations.push(deps);
@@ -127,4 +146,33 @@ asset.configure = function () {
             }
         }
     }
+};
+
+asset.renderer = function(ctx){
+    return {
+        pageDecorators:{
+            downloadPopulator:function(page){
+                //Populate the links for downloading content RXTs
+                if(page.meta.pageName === 'details'){
+                    var config = require('/config/store.js').config();
+                    var pluralType = 'wadls'; //Assume it is a WADl
+                    page.assets.downloadMetaData = {}; 
+                    page.assets.downloadMetaData.enabled = false;
+                    var downloadFile = page.assets.dependencies.filter(function(item){
+                        return ((item.associationType == 'wadl')||(item.associationType == 'swagger'));
+                    })[0];
+                    if(downloadFile){
+                      var typeDetails = ctx.rxtManager.getRxtTypeDetails(downloadFile.associationType);
+                      page.assets.downloadMetaData.enabled = true;  
+                      page.assets.downloadMetaData.downloadFileType = typeDetails.singularLabel.toUpperCase();
+                      pluralType = typeDetails.pluralLabel.toLowerCase();
+                      page.assets.downloadMetaData.url = config.server.https+'/governance/'+pluralType+'/'+downloadFile.associationUUID+'/content?tenantId='+ctx.tenantId;          
+                      if(downloadFile.associationType == 'swagger'){
+                        page.assets.downloadMetaData.swaggerUrl = '/pages/swagger?path='+downloadFile.associationPath;
+                      }
+                    }
+                }
+            }
+        }
+    };
 };

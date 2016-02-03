@@ -42,7 +42,9 @@ var resources = function(page, meta) {
     o.css.push('sidepanel.css');
     o.css.push('asset-styles.css');
     o.code.push('view-details-meta.hbs');
+    o.js.push('ZeroClipboard.min.js');
     o.js.push('sidepanel.js');
     o.js.push('greg-page-api.js');
+    o.js.push('copy-to-clipboard.js');
     return o;
 };

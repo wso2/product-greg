@@ -82,6 +82,9 @@ asset.renderer = function(ctx) {
                     entry.iconClass = 'btn-lifecycle';
                     entry.url = this.buildAppPageUrl('associations') + '/' + page.assets.type + '/' + page.assets.id
                     ptr.push(entry);
+                    var temp = ptr[5];
+                    ptr[5] = ptr[4];
+                    ptr[4] =  temp;
                 }
             },
             notes: function (page) {
@@ -131,6 +134,7 @@ asset.configure = function() {
                 defaultLifecycleEnabled: false,
                 publishedStates: ['Published']
             },
+            providerAttribute:'',
             ui:{
                 icon:'fw fw-resource'
             },

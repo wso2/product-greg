@@ -42,5 +42,28 @@ $(function() {
             });
             editor.setSize(widthOfWadlViewer, heightOfWadlViewer);
         }
+
+
+        var swaggerRenderingCanvas = '#swaggercontent';
+        //If the Wsdl Viewer exists and a parent container also exists
+        //we will inherit the width
+        if (parent) {
+            widthOfWadlViewer = parent.width();
+        }
+        //Attempt to get the rendering canvas
+        var canvasAreaSwagger = $(swaggerRenderingCanvas) ? $(swaggerRenderingCanvas)[0] : null;
+        //Only try to render the editor if the canvas is found
+        if (canvasAreaSwagger) {
+            var editor = CodeMirror.fromTextArea(canvasAreaSwagger, {
+                mode: "application/json",
+                lineNumbers: false,
+                readOnly: true,
+                lineWrapping: true
+            });
+            editor.setSize(widthOfWadlViewer, heightOfWadlViewer);
+            var totalLines = editor.lineCount();
+            var totalChars = editor.getTextArea().value.length;
+            editor.autoFormatRange({line:0, ch:0}, {line:totalLines, ch:totalChars});
+        }
     });
 });
