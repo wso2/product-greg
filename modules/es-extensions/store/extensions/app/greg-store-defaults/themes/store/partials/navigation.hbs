@@ -14,7 +14,7 @@
    ~ limitations under the License.
    -->
 <!-- secondary header - app bar -->
-<div id="nav" class="row-ovr row wr-app-bar">
+<div id="nav" class="es-row row wr-app-bar">
     <div class="col-md-12 wr-action-container">
         <div class="wr-asset-type-switcher">
             <div class="ctrl-asset-type-switcher">
@@ -57,14 +57,14 @@
                 </div>
             </div>
         </div>
-        <div class="input-group-ovr input-group input-wrap">
+        <div class="es-input-group input-group input-wrap">
             {{#if rxt.pluralLabel}}
-                <input  id="search"  type="text" class="form-control-ovr form-control" placeholder="Search in {{rxt.pluralLabel}}">
+                <input  id="search"  type="text" class="es-form-control form-control" placeholder="Search in {{rxt.pluralLabel}}">
             {{else}}
-                <input  id="search"  type="text" class="form-control-ovr form-control" placeholder="Search in all asset types">
+                <input  id="search"  type="text" class="es-form-control form-control" placeholder="Search in all asset types">
 
             {{/if}}
-            <div class="input-group-btn-ovr input-group-btn">
+            <div class="es-input-group-btn input-group-btn">
                 <button class="btn btn-default wrap-input-right" type="button" title="{{t "Search"}}" id="search-button" >
                     <i class="fw fw-search" aria-hidden="true"></i>
                 </button>
@@ -75,7 +75,7 @@
                 {{#hasAppPermission . key="APP_MYITEMS" username=cuser.username tenantId=cuser.tenantId}}
                     <a href="{{url "/pages/my-items"}}" class="bookmark-link" style="display: none;">{{t "My bookmarks "}}<i class="fw fw-store fw-inverse fw-lg"></i></a>
                 {{/hasAppPermission}}
-                 <ul class="nav-ovr nav navbar-nav-ovr navbar-nav navbar-right">
+                 <ul class="es-nav nav es-navbar-nav navbar-nav navbar-right">
                     {{#if isSidebarEnabled}}
                         <li>
                             {{#hasAppPermission . key="GREG_COMMUNITY_FEATURES" username=cuser.username tenantId=cuser.tenantId}}
@@ -120,7 +120,7 @@
                             <span>{{t "All Categories"}}</span>
                         {{/if}}
                     </a>
-                    <ul class="dropdown-menu-ovr dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
+                    <ul class="es-dropdown-menu dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
                         <input type="hidden" name="selectedTag" id="selectedTag" value="{{selectedTag.value}}">
                         {{#if assetCategoryDetails.selectedCategory}}
                             <li><a tabindex="-1" href="#">{{t "All Categories"}}</a></li>
