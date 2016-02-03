@@ -87,6 +87,10 @@
     font-weight: 500;
 }
 
+.wr-associations-list .wr-asset-desc .resource-unique {
+    font-weight: 200;
+}
+
 .wr-associations-list .wr-security-status {
     /*background: #97C543;*/
     background: #989898;
