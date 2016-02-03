@@ -182,3 +182,22 @@ asset.configure = function() {
         }
     }
 };
+
+asset.renderer = function(ctx){
+    return {
+        pageDecorators:{
+            downloadPopulator:function(page){
+                //Populate the links for downloading content RXTs
+                if(page.meta.pageName === 'details'){
+                    var config = require('/config/store.js').config();
+                    var pluralType = 'swaggers';
+                    page.assets.downloadMetaData = {}; 
+                    page.assets.downloadMetaData.enabled = true;
+                    page.assets.downloadMetaData.downloadFileType = 'Swagger';
+                    page.assets.downloadMetaData.url = config.server.https+'/governance/'+pluralType+'/'+page.assets.id+'/content?tenantId='+ctx.tenantId;
+                    page.assets.downloadMetaData.swaggerUrl = '/pages/swagger?path='+page.assets.path;
+                }
+            }
+        }
+    };
+};
