@@ -180,3 +180,25 @@ asset.configure = function() {
         }
     }
 };
+
+asset.renderer = function(ctx){
+    return {
+        pageDecorators:{
+            downloadPopulator:function(page){
+                //Populate the links for downloading content RXTs
+                if(page.meta.pageName === 'details'){
+                    var isDownloadable = ctx.rxtManager.isDownloadable(page.assets.type);
+                    if(!isDownloadable){
+                        return;
+                    }
+                    var config = require('/config/store.js').config();
+                    var pluralType = 'policys';
+                    page.downloadMetaData = {}; 
+                    page.downloadMetaData.downloadFileType = page.rxt.singularLabel;
+                    page.downloadMetaData.enabled = isDownloadable;
+                    page.downloadMetaData.url = config.server.https+'/governance/'+pluralType+'/'+page.assets.id+'/content?tenantId='+ctx.tenantId;
+                }
+            }
+        }
+    };
+};
