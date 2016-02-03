@@ -1,0 +1,36 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "version": "1.0",
+        "title": "BuyMore Loyalty REST API"
+    },
+    "host": "localhost:8888",
+    "basePath": "/services/loyal_customer",
+    "schemes": [
+        "http"
+    ],
+    "produces": [
+        "*/*"
+    ],
+    "paths": {
+        "/loyalty/{id}": {
+            "get": {
+                "description": "Returns Y if the customer is a loyal customer and N otherwise",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Customer ID",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "response of Y or N for customer ID"
+                    }
+                }
+            }
+        }
+    }
+}

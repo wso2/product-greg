@@ -5,3 +5,8 @@ instagram
 petstore-expanded
 twitter
 uber
+calc-swagger
+calc-swagger-v2
+calc-swagger-v3
+loyalty-swagger
+loyalty-swagger-v2

@@ -7,6 +7,7 @@
 
     <target name="run">
         <antcall target="populate"/>
+        <antcall target="buymore"/>
         <antcall target="rxt-modify"/>
         <antcall target="categorize"/>
     </target>
@@ -19,6 +20,15 @@
     <target name="populate" depends="jar">
         <java classname="org.wso2.carbon.registry.samples.populator.Main" classpathref="javac.classpath"
               fork="true">             
+            <sysproperty key="carbon.home"  value="${registry.home}"/>
+            <arg value="${port}"/>
+            <arg value="${host}"/>
+        </java>
+    </target>
+
+    <target name="buymore" depends="jar">
+        <java classname="org.wso2.carbon.registry.samples.populator.AddSampleStory" classpathref="javac.classpath"
+              fork="true">
             <sysproperty key="carbon.home"  value="${registry.home}"/>
             <arg value="${port}"/>
             <arg value="${host}"/>

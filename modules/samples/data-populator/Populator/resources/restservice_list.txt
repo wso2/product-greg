@@ -13,3 +13,5 @@ InstagramAPI
 Echo
 TwitterRESTAPI
 UberAPI
+BuyMoreBillCalculateRESTAPI
+BuyMoreLoyaltyRESTAPI
