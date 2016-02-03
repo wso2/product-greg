@@ -96,6 +96,7 @@ asset.manager = function(ctx) {
                 deps.associationName = associationName;
                 deps.associationType = keyName;
                 deps.associationUUID = associationUUID;
+                deps.associationPath = resource.getPath();
 
                 if(deps.associationType == "wadl") {
                     associations.push(deps);
@@ -166,6 +167,9 @@ asset.renderer = function(ctx){
                       page.assets.downloadMetaData.downloadFileType = typeDetails.singularLabel.toUpperCase();
                       pluralType = typeDetails.pluralLabel.toLowerCase();
                       page.assets.downloadMetaData.url = config.server.https+'/governance/'+pluralType+'/'+downloadFile.associationUUID+'/content?tenantId='+ctx.tenantId;          
+                      if(downloadFile.associationType == 'swagger'){
+                        page.assets.downloadMetaData.swaggerUrl = '/pages/swagger?path='+downloadFile.associationPath;
+                      }
                     }
                 }
             }

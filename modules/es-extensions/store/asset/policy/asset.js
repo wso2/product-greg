@@ -175,7 +175,8 @@ asset.configure = function() {
             ui: {
                 icon: 'fw fw-policy',
                 iconColor: 'yellow'
-            }
+            },
+            downloadable:true
         }
     }
 };
