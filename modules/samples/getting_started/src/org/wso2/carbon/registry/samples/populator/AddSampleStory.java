@@ -53,6 +53,7 @@ public class AddSampleStory {
     private static String port;
     private static String host;
     private static String rootpath = "";
+    private static String fileSeperator = File.separator + File.separator + File.separator;
     private static String serverURL;
     private static final String MEDIA_TYPE_SWAGGER = "application/swagger+json";
     private static final String MEDIA_TYPE_WSDL = "application/wsdl+xml";
@@ -71,8 +72,9 @@ public class AddSampleStory {
         System.setProperty("javax.net.ssl.trustStorePassword", "wso2carbon");
         System.setProperty("javax.net.ssl.trustStoreType", "JKS");
         System.setProperty("carbon.repo.write.mode", "true");
-        if (System.getProperty("carbon.home").equals("../../../")) {
-            rootpath = "../";
+        if (System.getProperty("carbon.home").equals(".." + File.separator + ".." + File.separator + ".." + File
+                .separator)) {
+            rootpath = ".." + File.separator;
         }
     }
 
@@ -108,7 +110,8 @@ public class AddSampleStory {
             String projectPath = System.getProperty("user.dir");
             startUpMessage();
             addUsers(configContext);
-            lifeCycleManagementClient.createLifecycle(readFile(projectPath + "/resources/BuyMoreLC.xml"));
+            lifeCycleManagementClient.createLifecycle(readFile(projectPath + File.separator + "resources" +
+                    File.separator + "BuyMoreLC.xml"));
 
             Thread.sleep(5 * 1000);
 
@@ -116,26 +119,26 @@ public class AddSampleStory {
             String[][] testingProperties = {{"version", "2.0.0"}};
             String[][] productionProperties = {{"version", "1.0.0"}};
             addSwagger("Adding a swagger 2.0 definition from file. ",
-                    new DataHandler(new URL("file:///" + projectPath + "/resources/calc-swagger-v3.json")),
-                    developmentProperties);
+                    new DataHandler(new URL("file:" + fileSeperator + projectPath + File.separator +
+                            "resources" + File.separator + "calc-swagger-v3.json")), developmentProperties);
             addSwagger("Adding a swagger 2.0 definition from file. ",
-                    new DataHandler(new URL("file:///" + projectPath + "/resources/calc-swagger-v2.json")),
-                    testingProperties);
+                    new DataHandler(new URL("file:" + fileSeperator + projectPath + File.separator +
+                            "resources" + File.separator + "calc-swagger-v2.json")),testingProperties);
             addSwagger("Adding a swagger 2.0 definition from file. ",
-                    new DataHandler(new URL("file:///" + projectPath + "/resources/calc-swagger.json")),
-                    productionProperties);
+                    new DataHandler(new URL("file:" + fileSeperator + projectPath + File.separator +
+                            "resources" + File.separator + "calc-swagger.json")), productionProperties);
             addSwagger("Adding a swagger 2.0 definition from file. ",
-                    new DataHandler(new URL("file:///" + projectPath + "/resources/loyalty-swagger.json")),
-                    productionProperties);
-            addSwagger("Adding a swagger 2.0 definition from file. ",
-                    new DataHandler(new URL("file:///" + projectPath + "/resources/loyalty-swagger-v2.json")),
-                    testingProperties);
+                    new DataHandler(new URL("file:" + fileSeperator + projectPath + File.separator +
+                            "resources" + File.separator + "loyalty-swagger.json")), productionProperties);
+            addSwagger("Adding a swagger 2.0 definition from file. ", new DataHandler( new URL("file:" +
+                    fileSeperator + projectPath + File.separator + "resources" + File.separator
+                            + "loyalty-swagger-v2.json")), testingProperties);
 
             //adding legacy service with a WSDL and attaching a policy to it
-            addWsdl("Adding the WSDL file file. ", new DataHandler(new URL("file:///" + projectPath +
-                    "/resources/BuyMore.wsdl")), null);
-            addPolicy("Adding the WS-Policy file. ", new DataHandler(new URL("file:///" + projectPath +
-                    "/resources/BuyMoreUTPolicy.xml")), null);
+            addWsdl("Adding the WSDL file file. ", new DataHandler(new URL("file:" + fileSeperator + projectPath +
+                    File.separator + "resources" + File.separator + "BuyMore.wsdl")), null);
+            addPolicy("Adding the WS-Policy file. ", new DataHandler(new URL("file:" + fileSeperator + projectPath +
+                    File.separator + "resources" + File.separator + "BuyMoreUTPolicy.xml")), null);
 
             System.out.println("Added Swagger files, WSDL and WS-Policy");
             Thread.sleep(3 * 1000);
@@ -303,7 +306,7 @@ public class AddSampleStory {
     private static void addUsers(ConfigurationContext configContext) throws Exception {
         UserManagementClient userManager = new UserManagementClient(cookie, serverURL, configContext);
         BufferedReader bufferedReader = new BufferedReader(
-                new FileReader(rootpath + "resources/" + "users_list.txt"));
+                new FileReader(rootpath + "resources" + File.separator + "users_list.txt"));
         String userNamePwd;
         String publisherUser = "";
         String publisherUserPassword = "";

@@ -62,8 +62,9 @@ public class CleanUp {
         System.setProperty("javax.net.ssl.trustStorePassword", "wso2carbon");
         System.setProperty("javax.net.ssl.trustStoreType", "JKS");
         System.setProperty("carbon.repo.write.mode", "true");
-        if (System.getProperty("carbon.home").equals("../../../")) {
-            rootpath = "../";
+        if (System.getProperty("carbon.home").equals(".." + File.separator + ".." + File.separator + ".." + File
+                .separator)) {
+            rootpath = ".." + File.separator;
         }
     }
 
@@ -159,7 +160,7 @@ public class CleanUp {
 
             try {
                 System.out.println("Deleting sample users .........");
-                String [] users = {"demouser", "Tom", "Jerry"};
+                String [] users = {"demouser"};
                 deleteUsers(users, configContext);
                 System.out.println("########## Successfully deleted sample users ###########\n\n");
             } catch (Exception e){
@@ -207,7 +208,7 @@ public class CleanUp {
     private static void deleteArtifacts(Registry govRegistry, String shortName, String extension)
             throws FileNotFoundException, IOException, RegistryException, GovernanceException {
         BufferedReader bufferedReader = new BufferedReader(
-                new FileReader(rootpath + "resources/" + shortName + "_list.txt"));
+                new FileReader(rootpath + "resources" + File.separator + shortName + "_list.txt"));
         String artifactName;
         GenericArtifactManager manager = new GenericArtifactManager(govRegistry, shortName);
         while ((artifactName = bufferedReader.readLine()) != null) {
@@ -241,7 +242,7 @@ public class CleanUp {
     private static void deleteImportedSwaggers(Registry govRegistry, String shortName)
             throws FileNotFoundException, IOException, RegistryException, GovernanceException {
         BufferedReader bufferedReader = new BufferedReader(
-                new FileReader(rootpath + "resources/swagger_imported.txt"));
+                new FileReader(rootpath + "resources" + File.separator + "swagger_imported.txt"));
         String artifactName;
         GenericArtifactManager manager = new GenericArtifactManager(govRegistry, shortName);
         while ((artifactName = bufferedReader.readLine()) != null) {
@@ -275,7 +276,7 @@ public class CleanUp {
     private static void deleteServices(Registry govRegistry, String shortName)
             throws FileNotFoundException, IOException, RegistryException, GovernanceException {
         BufferedReader bufferedReader = new BufferedReader(
-                new FileReader(rootpath + "resources/" + shortName + "_list.txt"));
+                new FileReader(rootpath + "resources" + File.separator + shortName + "_list.txt"));
         String artifactName;
         GenericArtifactManager manager = new GenericArtifactManager(govRegistry, shortName);
 

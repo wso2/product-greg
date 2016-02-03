@@ -40,6 +40,7 @@ public class Main {
     private static String cookie;
     private static final String username = "admin";
     private static final String password = "admin";
+    private static final String fileSeparator = File.separator + File.separator;
     private static String port ;
     private static String host ;
     private static String serverURL;
@@ -151,7 +152,8 @@ public class Main {
      * @throws Exception
      */
     private static void addWadlGar(ResourceServiceClient resourceServiceClient, String projectPath) throws Exception {
-        DataHandler dh = new DataHandler(new URL("file://" + projectPath + "/resources/wadls.gar"));
+        DataHandler dh = new DataHandler(new URL("file:" + fileSeparator + projectPath + File.separator +
+                "resources" + File.separator + "wadls.gar"));
         resourceServiceClient
                 .addResource("/_system/governance/trunk/test/wadls/", GOVERNANCE_ARCHIVE_MEDIA_TYPE, null, dh, null,
                         null);
@@ -165,7 +167,8 @@ public class Main {
      * @throws Exception
      */
 	private static void addWsdlGar(ResourceServiceClient resourceServiceClient, String projectPath) throws Exception {       
-        DataHandler dh = new DataHandler(new URL("file://"+projectPath+"/resources/wsdl_new.gar"));
+        DataHandler dh = new DataHandler(new URL("file:" + fileSeparator + projectPath + File.separator +
+                "resources" + File.separator + "wsdl_new.gar"));
         resourceServiceClient
                 .addResource("/_system/governance/trunk/test/wsdls/", GOVERNANCE_ARCHIVE_MEDIA_TYPE, null, dh, null,
                         null);
@@ -179,7 +182,8 @@ public class Main {
      * @throws Exception
      */
     private static void addSchemaGar(ResourceServiceClient resourceServiceClient, String projectPath) throws Exception {
-        DataHandler dh = new DataHandler(new URL("file://"+projectPath+"/resources/schemas.gar"));
+        DataHandler dh = new DataHandler(new URL("file:" + fileSeparator + projectPath + File
+                .separator+ "resources" + File.separator+ "schemas.gar"));
         resourceServiceClient
                 .addResource("/_system/governance/trunk/test/schemas/", GOVERNANCE_ARCHIVE_MEDIA_TYPE, null, dh, null,
                         null);
@@ -194,7 +198,8 @@ public class Main {
      */
     private static void addSwaggerGar(ResourceServiceClient resourceServiceClient, String projectPath)
             throws Exception {
-        DataHandler dh = new DataHandler(new URL("file://"+projectPath+"/resources/swagger.gar"));
+        DataHandler dh = new DataHandler(new URL("file:" +fileSeparator + projectPath + File.separator +
+                "resources" + File.separator + "swagger.gar"));
         resourceServiceClient
                 .addResource("/_system/governance/trunk/test/schemas/", GOVERNANCE_ARCHIVE_MEDIA_TYPE, null, dh, null,
                         null);
@@ -209,7 +214,8 @@ public class Main {
      */
     private static void addPolicyGar(ResourceServiceClient resourceServiceClient, String projectPath) throws Exception {
         String[][] properties = { { "registry.mediaType", "application/policy+xml" }, { "version", "1.0.0" } };
-        DataHandler dh = new DataHandler(new URL("file://" + projectPath + "/resources/policies.gar"));
+        DataHandler dh = new DataHandler(new URL("file:" + fileSeparator + projectPath + File.separator +
+                "resources" + File.separator + "policies.gar"));
         resourceServiceClient
                 .addResource("/_system/governance/trunk/test/1.0.0/policies/", GOVERNANCE_ARCHIVE_MEDIA_TYPE, null, dh,
                         null, properties);
