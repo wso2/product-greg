@@ -1,0 +1,29 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "version": "1.0.0",
+        "title": "Basic Auth Example",
+        "description": "An example for how to use Basic Auth with Swagger."
+    },
+    "schemes": [
+        "http"
+    ],
+    "host": "basic-auth-server.herokuapp.com",
+    "securityDefinitions": {
+        "basicAuth": {
+            "type": "basic",
+            "description": "HTTP Basic Authentication. Works over `HTTP` and `HTTPS`"
+        }
+    },
+    "paths": {
+        "/": {
+            "get": {
+                "responses": {
+                    "200": {
+                        "description": "Will send `Authenticated` if authentication is succesful, otherwise it will send `Unauthorized`"
+                    }
+                }
+            }
+        }
+    }
+}

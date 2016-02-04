@@ -37,6 +37,8 @@ import javax.activation.DataHandler;
 public class Main {
 
     public static final String GOVERNANCE_ARCHIVE_MEDIA_TYPE = "application/vnd.wso2.governance-archive";
+    private static final String MEDIA_TYPE_WSDL = "application/wsdl+xml";
+    private static final String MEDIA_TYPE_SWAGGER = "application/swagger+json";
     private static String cookie;
     private static final String username = "admin";
     private static final String password = "admin";
@@ -96,9 +98,27 @@ public class Main {
 
             try {
                 System.out.println("Uploading sample wsdls .........");
-                addWsdlGar(resourceServiceClient, projectPath);
-                Thread.sleep(10*1000);
+                final File wsdlFolder = new File(projectPath + File.separator +
+                        "resources" + File.separator + "wsdls");
+                String fileName = null;
+                for (final File fileEntry : wsdlFolder.listFiles()) {
+                    try {
+                        fileName = fileEntry.getName();
+                        if ("xsd".equals(fileName.split("\\.")[fileName.split("\\.").length - 1])) {
+                            continue;
+                        }
+                        addWsdl(resourceServiceClient, "Adding the WSDL file  "+fileName,
+                                new DataHandler(new URL("file:" + fileSeparator + projectPath +
+                                        File.separator + "resources" + File.separator + "wsdls" + File.separator
+                                        + fileName)), null);
+                    } catch (Exception e) {
+                        continue;
+                    }
+
+                }
                 System.out.println("######## Successfully uploaded sample wsdls ########\n\n");
+                Thread.sleep(6 * 1000);
+
             } catch (Exception e) {
                 System.out.println("######## Unable to upload sample wsdls ########\n\n");
             }
@@ -122,7 +142,22 @@ public class Main {
 
             try {
                 System.out.println("Uploading sample swagger docs .........");
-                addSwaggerGar(resourceServiceClient, projectPath);
+                final File swaggerFolder = new File(projectPath + File.separator +
+                        "resources" + File.separator + "swagger");
+                String swaggerName = null;
+                for (final File fileEntry : swaggerFolder.listFiles()) {
+                    try {
+                        swaggerName = fileEntry.getName();
+                        System.out.println(swaggerName);
+
+                        addSwagger(resourceServiceClient, "Adding the Swagger file "+ swaggerName,
+                                new DataHandler(new URL("file:" + fileSeparator + projectPath +
+                                        File.separator + "resources" + File.separator + "swagger" + File.separator
+                                        + swaggerName)), null);
+                    } catch (Exception e) {
+                        continue;
+                    }
+                }
                 addSwaggerFromURL(swaggerImportClient);
                 System.out.println("######## Successfully uploaded sample swagger docs ########\n\n");
             } catch (Exception e) {
@@ -172,6 +207,20 @@ public class Main {
         resourceServiceClient
                 .addResource("/_system/governance/trunk/test/wsdls/", GOVERNANCE_ARCHIVE_MEDIA_TYPE, null, dh, null,
                         null);
+    }
+
+    private static void addWsdl(ResourceServiceClient resourceServiceClient, String description, DataHandler dh,
+            String[][] props) throws Exception {
+        String fileName;
+        fileName = dh.getName().substring(dh.getName().lastIndexOf(File.separator) + 1);
+        resourceServiceClient.addResource(File.separator + fileName, MEDIA_TYPE_WSDL, description, dh, null, props);
+    }
+
+    private static void addSwagger(ResourceServiceClient resourceServiceClient, String description, DataHandler dh,
+            String[][] props) throws Exception {
+        String fileName;
+        fileName = dh.getName().substring(dh.getName().lastIndexOf(File.separator) + 1);
+        resourceServiceClient.addResource(File.separator + fileName, MEDIA_TYPE_SWAGGER, description, dh, null, props);
     }
 
     /**
