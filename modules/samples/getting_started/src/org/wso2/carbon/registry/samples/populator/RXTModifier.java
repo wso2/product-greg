@@ -29,6 +29,7 @@ public class RXTModifier {
     private static String port ;
     private static String host ;
     private static String serverURL;
+    private static final String fileSeparator = File.separator + File.separator + File.separator;
     private static final String serviceRxtPath =
             "/_system/governance/repository/components/org.wso2.carbon.governance/types/";
 
@@ -75,12 +76,13 @@ public class RXTModifier {
             };
 
             backUpRXTs(registry,serviceRxtPath + "restservice.rxt", "restserviceExisting.rxt");
-            backUpRXTs(registry,serviceRxtPath + "soapservice.rxt", "soapserviceExisting.rxt");
+            backUpRXTs(registry, serviceRxtPath + "soapservice.rxt", "soapserviceExisting.rxt");
             ResourceServiceClient resourceServiceClient = new ResourceServiceClient(cookie,
                     serverURL, configContext);
             String restServiceRxtPath = serviceRxtPath + "restservice.rxt";
             resourceServiceClient.delete(restServiceRxtPath);
-            DataHandler dh1 = new DataHandler(new URL("file://"+projectPath+"/resources/restservice.rxt"));
+            DataHandler dh1 = new DataHandler(new URL("file:" + fileSeparator + projectPath+ File
+                    .separator + "resources" +File.separator + "restservice.rxt"));
             resourceServiceClient.addResource(restServiceRxtPath,
                     "application/vnd.wso2.registry-ext-type+xml", null, dh1, null, null);
             Thread.sleep(5 * 1000);
@@ -88,7 +90,8 @@ public class RXTModifier {
 
             String soapServiceRxtPath = serviceRxtPath + "soapservice.rxt";
             resourceServiceClient.delete(soapServiceRxtPath);
-            DataHandler dh2 = new DataHandler(new URL("file://"+projectPath+"/resources/soapservice.rxt"));
+            DataHandler dh2 = new DataHandler(new URL("file:" + fileSeparator + projectPath+ File
+                    .separator + "resources" + File.separator + "soapservice.rxt"));
             resourceServiceClient.addResource(soapServiceRxtPath,
                     "application/vnd.wso2.registry-ext-type+xml", null, dh2, null, null);
             Thread.sleep(5 * 1000);
@@ -148,7 +151,7 @@ public class RXTModifier {
                 }
             }
         }
-        PrintWriter out = new PrintWriter("resources/" + fileName);
+        PrintWriter out = new PrintWriter("resources" + File.separator + fileName);
         out.println(sb.toString());
         out.flush();
         out.close();

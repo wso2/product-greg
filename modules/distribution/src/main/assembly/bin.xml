@@ -844,18 +844,6 @@
             <fileMode>644</fileMode>
         </file>
         <file>
-            <source>../samples/getting_started/populator.sh</source>
-            <outputDirectory>${pom.artifactId}-${build.version}/samples/getting_started</outputDirectory>
-            <filtered>true</filtered>
-            <fileMode>644</fileMode>
-        </file>
-        <file>
-            <source>../samples/getting_started/cleanup.sh</source>
-            <outputDirectory>${pom.artifactId}-${build.version}/samples/getting_started</outputDirectory>
-            <filtered>true</filtered>
-            <fileMode>644</fileMode>
-        </file>
-        <file>
             <source>../../release-notes.html</source>
             <outputDirectory>${pom.artifactId}-${build.version}/</outputDirectory>
             <filtered>true</filtered>

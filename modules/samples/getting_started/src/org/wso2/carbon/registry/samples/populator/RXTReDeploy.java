@@ -24,6 +24,7 @@ public class RXTReDeploy {
     private static String port ;
     private static String host ;
     private static String serverURL;
+    private static final String fileSeparator = File.separator + File.separator + File.separator;
     private static final String serviceRxtPath =
             "/_system/governance/repository/components/org.wso2.carbon.governance/types/";
 
@@ -71,20 +72,20 @@ public class RXTReDeploy {
             ResourceServiceClient resourceServiceClient = new ResourceServiceClient(cookie, serverURL, configContext);
             String restServiceRxtPath = serviceRxtPath + "restservice.rxt";
             resourceServiceClient.delete(restServiceRxtPath);
-            DataHandler dh1 = new DataHandler(new URL("file://" + projectPath + "/resources/restserviceExisting.rxt"));
+            DataHandler dh1 = new DataHandler(new URL("file:" + fileSeparator + projectPath + File.separator +
+                    "resources" + File.separator + "restserviceExisting.rxt"));
             resourceServiceClient.addResource(restServiceRxtPath, RXT_MEDIA_TYPE, null, dh1, null, null);
             Thread.sleep(5 * 1000);
             System.out.println("Successfully re deployed Rest Service RXT");
 
             String soapServiceRxtPath = serviceRxtPath + "soapservice.rxt";
             resourceServiceClient.delete(soapServiceRxtPath);
-            DataHandler dh2 = new DataHandler(new URL("file://" + projectPath + "/resources/soapserviceExisting.rxt"));
+            DataHandler dh2 = new DataHandler(new URL("file:" +fileSeparator + projectPath + File.separator +
+                    "resources" + File.separator + "soapserviceExisting.rxt"));
             resourceServiceClient.addResource(soapServiceRxtPath, RXT_MEDIA_TYPE, null, dh2, null, null);
             Thread.sleep(5 * 1000);
             System.out.println("Successfully re deployed Soap Service RXT");
 
-            deleteUsers("Tom", configContext);
-            deleteUsers("Jerry", configContext);
 
         } catch (Exception e) {
             System.out.println("An error occurred.");
@@ -92,18 +93,4 @@ public class RXTReDeploy {
         }
         System.exit(0);
     }
-
-    /**
-     *This method is used to delete a particular user
-     *
-     * @param userName
-     * @param configContext
-     * @throws Exception
-     */
-    private static void deleteUsers(String userName, ConfigurationContext configContext) throws Exception{
-        UserManagementClient userManager =
-                new UserManagementClient(cookie, serverURL, configContext);
-        userManager.deleteUser(userName);
-    }
-
 }

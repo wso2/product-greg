@@ -25,18 +25,19 @@
                     <datamodel>
                         <data name="checkItems">
                             <item name="Code Completed" forEvent="">
-                                <!--<permissions>
-                                    <permission roles=""/>
+                                <permissions>
+                                    <permission roles="dev,admin"/>
                                 </permissions>
-                                <validations>
-                                    <validation forEvent="" class="">
-                                        <parameter name="" value=""/>
-                                    </validation>
-                                </validations>-->
                             </item>
                             <item name="WSDL, Schema Created" forEvent="">
+                                <permissions>
+                                    <permission roles="dev,admin"/>
+                                </permissions>
                             </item>
                             <item name="QoS Created" forEvent="">
+                                <permissions>
+                                    <permission roles="dev,admin"/>
+                                </permissions>
                             </item>
                         </data>
                         <data name="transitionExecution">
@@ -82,6 +83,10 @@
                                 </console>
                             </js>
                         </data>
+                        <data name="transitionPermission">
+                            <permission forEvent="Promote" roles="dev,admin">
+                            </permission>
+                        </data>
                     </datamodel>
                     <transition event="Promote" target="Testing"/>
                 </state>
@@ -89,10 +94,19 @@
                     <datamodel>
                         <data name="checkItems">
                             <item name="Effective Inspection Completed" forEvent="">
+                                <permissions>
+                                    <permission roles="qamanager,admin"/>
+                                </permissions>
                             </item>
                             <item name="Test Cases Passed" forEvent="">
+                                <permissions>
+                                    <permission roles="qamanager,admin"/>
+                                </permissions>
                             </item>
                             <item name="Smoke Test Passed" forEvent="">
+                                <permissions>
+                                    <permission roles="qamanager,admin"/>
+                                </permissions>
                             </item>
                         </data>
                         <data name="transitionExecution">
@@ -118,9 +132,31 @@
                                 </console>
                             </js>
                         </data>
+                        <data name="transitionPermission">
+                            <permission forEvent="Promote" roles="qamanager,admin">
+                            </permission>
+                            <permission forEvent="Demote" roles="qamanager,admin">
+                            </permission>
+                        </data>
+                    </datamodel>
+                    <transition event="Promote" target="PreProd"/>
+                    <transition event="Demote" target="Development"/>
+                </state>
+                <state id="PreProd">
+                    <datamodel>
+                        <data name="transitionExecution">
+                            <execution forEvent="Demote" class="org.wso2.carbon.governance.registry.extensions.executors.DemoteActionExecutor">
+                            </execution>
+                        </data>
+                        <data name="transitionPermission">
+                            <permission forEvent="Promote" roles="devops,admin">
+                            </permission>
+                            <permission forEvent="Demote" roles="devops,admin">
+                            </permission>
+                        </data>
                     </datamodel>
                     <transition event="Promote" target="Production"/>
-                    <transition event="Demote" target="Development"/>
+                    <transition event="Demote" target="Testing"/>
                 </state>
                 <state id="Production">
                     <datamodel>
@@ -129,7 +165,9 @@
                             </execution>
                         </data>
                         <data name="transitionPermission">
-                            <permission forEvent="Deprecate" roles="demorole,admin">
+                            <permission forEvent="Deprecate" roles="devops,admin">
+                            </permission>
+                            <permission forEvent="Demote" roles="devops,admin">
                             </permission>
                         </data>
                     </datamodel>
@@ -143,7 +181,7 @@
                             </execution>
                         </data>
                         <data name="transitionPermission">
-                            <permission forEvent="Obsolete" roles="demorole,admin">
+                            <permission forEvent="Obsolete" roles="devops,admin">
                             </permission>
                         </data>
                     </datamodel>

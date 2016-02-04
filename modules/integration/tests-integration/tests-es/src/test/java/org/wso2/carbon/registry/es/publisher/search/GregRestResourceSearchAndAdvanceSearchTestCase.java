@@ -177,8 +177,6 @@ public class GregRestResourceSearchAndAdvanceSearchTestCase extends GregESTestBa
         queryParamMap.clear();
 
         queryParamMap.put("q", "\"name" + "\":" + "\"" + restServiceName + "\"" + "," +
-                "\"provider" + "\":" + "\"" + automationContext.getContextTenant().getContextUser().getUserName()
-                + "\"" + "," +
                 "\"version" + "\":" + "\"" + version + "\"" + "," +
                 "\"lcState" + "\":" + "\"" + lcState + "\"");
 
@@ -201,8 +199,6 @@ public class GregRestResourceSearchAndAdvanceSearchTestCase extends GregESTestBa
         queryParamMap.clear();
 
         queryParamMap.put("q", "\"name" + "\":" + "\"" + restServiceName + "\"" + "," +
-                "\"provider" + "\":" + "\"" + automationContext.getContextTenant().getContextUser().getUserName()
-                + "\"" + "," +
                 "\"version" + "\":" + "\"" + "1.5.0" + "\"" + "," +
                 "\"lcState" + "\":" + "\"" + lcState + "\"");
 
