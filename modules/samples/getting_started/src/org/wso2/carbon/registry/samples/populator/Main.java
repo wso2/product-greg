@@ -198,11 +198,12 @@ public class Main {
      */
     private static void addSwaggerGar(ResourceServiceClient resourceServiceClient, String projectPath)
             throws Exception {
+        String[][] properties = { { "registry.mediaType", "application/swagger+json" }, { "version", "1.0.0" } };
         DataHandler dh = new DataHandler(new URL("file:" +fileSeparator + projectPath + File.separator +
                 "resources" + File.separator + "swagger.gar"));
         resourceServiceClient
-                .addResource("/_system/governance/trunk/test/schemas/", GOVERNANCE_ARCHIVE_MEDIA_TYPE, null, dh, null,
-                        null);
+                .addResource("/_system/governance/apimgt/applicationdata/api-docs/", GOVERNANCE_ARCHIVE_MEDIA_TYPE, null, dh, null,
+                        properties);
     }
 
     /**
