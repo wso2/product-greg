@@ -161,7 +161,6 @@ public class CategorizeArtifacts {
                         artifactManager2.updateGenericArtifact(artifact);
                         String path = artifact.getPath();
                         gov.applyTag(path, tagsList[j % 10]);
-                        changeLcState((j % 4), path);
                         if (j % 3 == 0) {
                             addAnonymousViewToAssets(resourceServiceClient, artifact);
                         }
