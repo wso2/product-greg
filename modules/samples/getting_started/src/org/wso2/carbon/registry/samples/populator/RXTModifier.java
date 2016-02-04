@@ -29,7 +29,7 @@ public class RXTModifier {
     private static String port ;
     private static String host ;
     private static String serverURL;
-    private static final String fileSeparator = File.separator + File.separator;
+    private static final String fileSeparator = File.separator + File.separator + File.separator;
     private static final String serviceRxtPath =
             "/_system/governance/repository/components/org.wso2.carbon.governance/types/";
 
