@@ -188,6 +188,7 @@ public class AddSampleStory {
                             if (loyaltyServiceArtifact.getAttribute("overview_version").equals("1.0.0")) {
                                 genericArtifact.addAssociation("DependsOn", loyaltyServiceArtifact);
                                 loyaltyServiceArtifact.addAssociation("UsedBy", genericArtifact);
+                                changeLcState("Promote", loyaltyServiceArtifact.getPath());
                             }
                         }
                     }
@@ -201,7 +202,6 @@ public class AddSampleStory {
                             if (loyaltyServiceArtifact.getAttribute("overview_version").equals("2.0.0")) {
                                 genericArtifact.addAssociation("DependsOn", loyaltyServiceArtifact);
                                 loyaltyServiceArtifact.addAssociation("UsedBy", genericArtifact);
-                                changeLcState("Promote", loyaltyServiceArtifact.getPath());
                             }
                         }
                     }
