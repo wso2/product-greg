@@ -62,8 +62,9 @@ public class CategorizeArtifacts {
         System.setProperty("javax.net.ssl.trustStoreType", "JKS");
         System.setProperty("carbon.repo.write.mode", "true");
         configContext = ConfigurationContextFactory.createConfigurationContextFromFileSystem(axis2Repo, axis2Conf);
-        if (System.getProperty("carbon.home").equals("../../../")) {
-            rootpath = "../";
+        if (System.getProperty("carbon.home").equals(".." + File.separator + ".." + File.separator + ".." + File
+                .separator)) {
+            rootpath = ".." + File.separator;
         }
         return new WSRegistryServiceClient(serverURL, username, password, configContext) {
 
@@ -105,7 +106,7 @@ public class CategorizeArtifacts {
             ArrayList<String> restServicesList = new ArrayList<String>();
             try {
                 BufferedReader bufferedReader = new BufferedReader(
-                        new FileReader(rootpath + "resources/restservice_list.txt"));
+                        new FileReader(rootpath + "resources" + File.separator + "restservice_list.txt"));
                 String artifactName;
                 while ((artifactName = bufferedReader.readLine()) != null) {
                     restServicesList.add(artifactName);
@@ -147,7 +148,7 @@ public class CategorizeArtifacts {
             ArrayList<String> soapServicesList = new ArrayList<String>();
             try {
                 BufferedReader bufferedReader = new BufferedReader(
-                        new FileReader(rootpath + "resources/soapservice_list.txt"));
+                        new FileReader(rootpath + "resources" + File.separator + "soapservice_list.txt"));
                 String artifactName;
                 while ((artifactName = bufferedReader.readLine()) != null) {
                     soapServicesList.add(artifactName);
@@ -160,7 +161,6 @@ public class CategorizeArtifacts {
                         artifactManager2.updateGenericArtifact(artifact);
                         String path = artifact.getPath();
                         gov.applyTag(path, tagsList[j % 10]);
-                        changeLcState((j % 4), path);
                         if (j % 3 == 0) {
                             addAnonymousViewToAssets(resourceServiceClient, artifact);
                         }
@@ -170,7 +170,6 @@ public class CategorizeArtifacts {
             } catch (FileNotFoundException e) {
                 System.out.println("Could not read soapservice list");
             }
-            addUsers(configContext);
         } finally {
             PaginationContext.destroy();
         }
@@ -219,40 +218,5 @@ public class CategorizeArtifacts {
             String dependencyPath = governancePath + dependency.getPath();
             resourceServiceClient.addRolePermission(dependencyPath, "system/wso2.anonymous.role", "2", "1");
         }
-    }
-
-    /**
-     *This method create publisher and store user.
-     *
-     * @param configContext
-     * @throws Exception
-     */
-    private static void addUsers(ConfigurationContext configContext) throws Exception {
-        UserManagementClient userManager = new UserManagementClient(cookie, serverURL, configContext);
-        String publisherUser = "Tom";
-        String publisherUserPassword = "publisher@123";
-        String[] publisherRole = { "internal/publisher" };
-        userManager.addUser(publisherUser, publisherUserPassword, publisherRole, new ClaimValue[0], null);
-
-        System.out.println("----------------------------------------------------------------------------------------");
-        System.out.println("Publisher Role created. Log in with following credentials to view added assets");
-        System.out.println("User Name : Tom");
-        System.out.println("Password : publisher@123");
-
-        String storeUserName = "Jerry";
-        String storeUserPassword = "store@123";
-        String[] storeRole = { "internal/store" };
-        userManager.addUser(storeUserName, storeUserPassword, storeRole, new ClaimValue[0], null);
-
-        System.out.println("----------------------------------------------------------------------------------------");
-        System.out.println("Store Role created. Log in with following credentials to view added assets");
-        System.out.println("User Name : Jerry");
-        System.out.println("Password : store@123");
-
-        System.out.println("----------------------------------------------------------------------------------------");
-        System.out.println("Or Login as admin to both Publisher and Store to view added assets ");
-        System.out.println("User Name : admin");
-        System.out.println("Password : admin");
-
     }
 }

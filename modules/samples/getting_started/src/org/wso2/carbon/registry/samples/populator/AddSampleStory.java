@@ -53,6 +53,7 @@ public class AddSampleStory {
     private static String port;
     private static String host;
     private static String rootpath = "";
+    private static String fileSeperator = File.separator + File.separator + File.separator;
     private static String serverURL;
     private static final String MEDIA_TYPE_SWAGGER = "application/swagger+json";
     private static final String MEDIA_TYPE_WSDL = "application/wsdl+xml";
@@ -60,7 +61,16 @@ public class AddSampleStory {
     private static ResourceServiceClient resourceServiceClient;
     private static LifeCycleManagementClient lifeCycleManagementClient;
     private static String governancePath = "/_system/governance";
-    private static final String[] DEMO_USER_PERMISSION = {"/permission/admin/login",
+    private static final String[] DEV_ROLE_PERMISSION = {"/permission/admin/login",
+            "/permission/admin/enterprisestore",
+            "/permission/admin/manage"};
+    private static final String[] DEVOPS_ROLE_PERMISSION = {"/permission/admin/login",
+            "/permission/admin/enterprisestore",
+            "/permission/admin/manage"};
+    private static final String[] QAMGR_ROLE_PERMISSION = {"/permission/admin/login",
+            "/permission/admin/enterprisestore",
+            "/permission/admin/manage"};
+    private static final String[] STRGMGR_ROLE_PERMISSION = {"/permission/admin/login",
             "/permission/admin/enterprisestore",
             "/permission/admin/manage"};
 
@@ -71,8 +81,9 @@ public class AddSampleStory {
         System.setProperty("javax.net.ssl.trustStorePassword", "wso2carbon");
         System.setProperty("javax.net.ssl.trustStoreType", "JKS");
         System.setProperty("carbon.repo.write.mode", "true");
-        if (System.getProperty("carbon.home").equals("../../../")) {
-            rootpath = "../";
+        if (System.getProperty("carbon.home").equals(".." + File.separator + ".." + File.separator + ".." + File
+                .separator)) {
+            rootpath = ".." + File.separator;
         }
     }
 
@@ -108,7 +119,8 @@ public class AddSampleStory {
             String projectPath = System.getProperty("user.dir");
             startUpMessage();
             addUsers(configContext);
-            lifeCycleManagementClient.createLifecycle(readFile(projectPath + "/resources/BuyMoreLC.xml"));
+            lifeCycleManagementClient.createLifecycle(readFile(projectPath + File.separator + "resources" +
+                    File.separator + "BuyMoreLC.xml"));
 
             Thread.sleep(5 * 1000);
 
@@ -116,26 +128,26 @@ public class AddSampleStory {
             String[][] testingProperties = {{"version", "2.0.0"}};
             String[][] productionProperties = {{"version", "1.0.0"}};
             addSwagger("Adding a swagger 2.0 definition from file. ",
-                    new DataHandler(new URL("file:///" + projectPath + "/resources/calc-swagger-v3.json")),
-                    developmentProperties);
+                    new DataHandler(new URL("file:" + fileSeperator + projectPath + File.separator +
+                            "resources" + File.separator + "calc-swagger-v3.json")), developmentProperties);
             addSwagger("Adding a swagger 2.0 definition from file. ",
-                    new DataHandler(new URL("file:///" + projectPath + "/resources/calc-swagger-v2.json")),
-                    testingProperties);
+                    new DataHandler(new URL("file:" + fileSeperator + projectPath + File.separator +
+                            "resources" + File.separator + "calc-swagger-v2.json")),testingProperties);
             addSwagger("Adding a swagger 2.0 definition from file. ",
-                    new DataHandler(new URL("file:///" + projectPath + "/resources/calc-swagger.json")),
-                    productionProperties);
+                    new DataHandler(new URL("file:" + fileSeperator + projectPath + File.separator +
+                            "resources" + File.separator + "calc-swagger.json")), productionProperties);
             addSwagger("Adding a swagger 2.0 definition from file. ",
-                    new DataHandler(new URL("file:///" + projectPath + "/resources/loyalty-swagger.json")),
-                    productionProperties);
-            addSwagger("Adding a swagger 2.0 definition from file. ",
-                    new DataHandler(new URL("file:///" + projectPath + "/resources/loyalty-swagger-v2.json")),
-                    testingProperties);
+                    new DataHandler(new URL("file:" + fileSeperator + projectPath + File.separator +
+                            "resources" + File.separator + "loyalty-swagger.json")), productionProperties);
+            addSwagger("Adding a swagger 2.0 definition from file. ", new DataHandler( new URL("file:" +
+                    fileSeperator + projectPath + File.separator + "resources" + File.separator
+                            + "loyalty-swagger-v2.json")), testingProperties);
 
             //adding legacy service with a WSDL and attaching a policy to it
-            addWsdl("Adding the WSDL file file. ", new DataHandler(new URL("file:///" + projectPath +
-                    "/resources/BuyMore.wsdl")), null);
-            addPolicy("Adding the WS-Policy file. ", new DataHandler(new URL("file:///" + projectPath +
-                    "/resources/BuyMoreUTPolicy.xml")), null);
+            addWsdl("Adding the WSDL file file. ", new DataHandler(new URL("file:" + fileSeperator + projectPath +
+                    File.separator + "resources" + File.separator + "BuyMore.wsdl")), null);
+            addPolicy("Adding the WS-Policy file. ", new DataHandler(new URL("file:" + fileSeperator + projectPath +
+                    File.separator + "resources" + File.separator + "BuyMoreUTPolicy.xml")), null);
 
             System.out.println("Added Swagger files, WSDL and WS-Policy");
             Thread.sleep(3 * 1000);
@@ -176,10 +188,12 @@ public class AddSampleStory {
                             if (loyaltyServiceArtifact.getAttribute("overview_version").equals("1.0.0")) {
                                 genericArtifact.addAssociation("DependsOn", loyaltyServiceArtifact);
                                 loyaltyServiceArtifact.addAssociation("UsedBy", genericArtifact);
+                                changeLcState("Promote", loyaltyServiceArtifact.getPath());
                             }
                         }
                     }
                 } else if (genericArtifact.getAttribute("overview_version").equals("1.0.0")) {
+                    changeLcState("Promote", genericArtifact.getPath());
                     changeLcState("Promote", genericArtifact.getPath());
                     changeLcState("Promote", genericArtifact.getPath());
                 } else if (genericArtifact.getAttribute("overview_version").equals("3.0.0")) {
@@ -188,7 +202,6 @@ public class AddSampleStory {
                             if (loyaltyServiceArtifact.getAttribute("overview_version").equals("2.0.0")) {
                                 genericArtifact.addAssociation("DependsOn", loyaltyServiceArtifact);
                                 loyaltyServiceArtifact.addAssociation("UsedBy", genericArtifact);
-                                changeLcState("Promote", loyaltyServiceArtifact.getPath());
                             }
                         }
                     }
@@ -207,6 +220,8 @@ public class AddSampleStory {
 
             if (soapService != null && soapService.length > 0) {
                 soapService[0].attachLifecycle("BuyMoreLifeCycle");
+                changeLcState("Promote", soapService[0].getPath());
+                Thread.sleep(1 * 500);
                 changeLcState("Promote", soapService[0].getPath());
                 Thread.sleep(1 * 500);
                 changeLcState("Promote", soapService[0].getPath());
@@ -259,22 +274,22 @@ public class AddSampleStory {
     private static void addSwagger(String description, DataHandler dh, String[][] props)
             throws Exception {
         String fileName;
-        fileName = dh.getName().substring(dh.getName().lastIndexOf('/') + 1);
-        resourceServiceClient.addResource("/" + fileName, MEDIA_TYPE_SWAGGER, description, dh, null, props);
+        fileName = dh.getName().substring(dh.getName().lastIndexOf(File.separator) + 1);
+        resourceServiceClient.addResource(File.separator + fileName, MEDIA_TYPE_SWAGGER, description, dh, null, props);
     }
 
     private static void addWsdl(String description, DataHandler dh, String[][] props)
             throws Exception {
         String fileName;
-        fileName = dh.getName().substring(dh.getName().lastIndexOf('/') + 1);
-        resourceServiceClient.addResource("/" + fileName, MEDIA_TYPE_WSDL, description, dh, null, props);
+        fileName = dh.getName().substring(dh.getName().lastIndexOf(File.separator) + 1);
+        resourceServiceClient.addResource(File.separator + fileName, MEDIA_TYPE_WSDL, description, dh, null, props);
     }
 
     private static void addPolicy(String description, DataHandler dh, String[][] props)
             throws Exception {
         String fileName;
-        fileName = dh.getName().substring(dh.getName().lastIndexOf('/') + 1);
-        resourceServiceClient.addResource("/" + fileName, MEDIA_TYPE_POLICY, description, dh, null, props);
+        fileName = dh.getName().substring(dh.getName().lastIndexOf(File.separator) + 1);
+        resourceServiceClient.addResource(File.separator + fileName, MEDIA_TYPE_POLICY, description, dh, null, props);
     }
 
     private static String readFile(String filePath) throws IOException {
@@ -303,23 +318,32 @@ public class AddSampleStory {
     private static void addUsers(ConfigurationContext configContext) throws Exception {
         UserManagementClient userManager = new UserManagementClient(cookie, serverURL, configContext);
         BufferedReader bufferedReader = new BufferedReader(
-                new FileReader(rootpath + "resources/" + "users_list.txt"));
+                new FileReader(rootpath + "resources" + File.separator + "users_list.txt"));
         String userNamePwd;
         String publisherUser = "";
         String publisherUserPassword = "";
+        String demoUserRole = "";
+
+        userManager.addRole("dev", null, DEV_ROLE_PERMISSION);
+        userManager.addRole("devops", null, DEVOPS_ROLE_PERMISSION);
+        userManager.addRole("qamanager", null, QAMGR_ROLE_PERMISSION);
+        userManager.addRole("strategymanager", null, STRGMGR_ROLE_PERMISSION);
+
         while ((userNamePwd = bufferedReader.readLine()) != null) {
             if (userNamePwd != null && !userNamePwd.equals("")) {
                 String [] credentials = userNamePwd.split(":");
                 publisherUser = credentials[0];
                 publisherUserPassword = credentials[1];
+                demoUserRole = credentials[2];
                 System.out.println("New user added. Please use following credentials to login.\n");
                 System.out.println("Username : "+publisherUser+"\n");
                 System.out.println("Password : "+publisherUserPassword+"\n");
+                System.out.println("Role : "+demoUserRole+"\n");
+                String[] role = {demoUserRole};
+                userManager.addUser(publisherUser, publisherUserPassword, role, new ClaimValue[0], null);
             }
         }
-        userManager.addRole("demorole", null, DEMO_USER_PERMISSION);
-        String[] demoRole = {"demorole"};
-        userManager.addUser(publisherUser, publisherUserPassword, demoRole, new ClaimValue[0], null);
+
         System.out.println("********************************************************************************\n\n");
     }
 

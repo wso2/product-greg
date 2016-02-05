@@ -377,8 +377,8 @@ public class GregESTestBaseTest extends GREGIntegrationBaseTest {
         Map<String, String> assocMap = new HashMap<String, String>();
         for (int i = 1; i < dataArray.length; i++) {
             String mediaType = null;
-            if (dataArray[i].contains("application")) {
-                int startIndex = dataArray[i].indexOf("application");
+            if (dataArray[i].contains("resource-type")) {
+                int startIndex = dataArray[i].indexOf("resource-type");
                 mediaType = dataArray[i].substring(startIndex, dataArray[i].indexOf("<", startIndex));
             }
             String uuid = dataArray[i].substring(1, dataArray[1].indexOf('\"', 1));

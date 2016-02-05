@@ -7,7 +7,12 @@
         </div>
         <div class="wr-asset-details" data-uuid="{{uuid}}">
             <div class="resource-name">{{text}}</div>
-            <div class="resource-type">{{type}}</div>
+
+            {{#each uniqueAttributesValues}}
+            <div class="resource-unique">{{this}}</div>               
+            {{/each}}
+
+            <div class="resource-type">{{shortName}}</div>
         </div>
     </div>
      <div class="wr-association-operations">
