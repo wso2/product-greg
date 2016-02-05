@@ -134,8 +134,9 @@ public class ResourcePermissionForSearchTestCase extends GREGIntegrationBaseTest
         searchQuery.setParameterValues(paramList);
         AdvancedSearchResultsBean result = adminSearchAdminClient.getAdvancedSearchResults(searchQuery);
         assertNotNull(result.getResourceDataList());
-        boolean logFound = getLogEvents("user roles filter query values: (internal/everyone OR admin)", 1);
-        Assert.assertTrue(logFound);
+        boolean logFound1 = getLogEvents("user roles filter query values: (internal/everyone OR admin)", 1);
+        boolean logFound2 = getLogEvents("user roles filter query values: (admin OR internal/everyone)", 1);
+        Assert.assertTrue(logFound1 || logFound2);
     }
 
     @Test(groups = "wso2.greg", description = "Test search resources with not allowed user",
@@ -149,8 +150,9 @@ public class ResourcePermissionForSearchTestCase extends GREGIntegrationBaseTest
         searchQuery.setParameterValues(paramList);
         AdvancedSearchResultsBean result = nonAdminSearchAdminClient.getAdvancedSearchResults(searchQuery);
         assertNull(result.getResourceDataList());
-        boolean logFound = getLogEvents("user roles filter query values: (searchenabledrole OR internal/everyone)", 1);
-        Assert.assertTrue(logFound);
+        boolean logFound1 = getLogEvents("user roles filter query values: (searchenabledrole OR internal/everyone)", 1);
+        boolean logFound2 = getLogEvents("user roles filter query values: (internal/everyone OR searchenabledrole)", 1);
+        Assert.assertTrue(logFound1 || logFound2);
     }
 
     private boolean getLogEvents(String message, int length) throws RemoteException, LogViewerLogViewerException {
