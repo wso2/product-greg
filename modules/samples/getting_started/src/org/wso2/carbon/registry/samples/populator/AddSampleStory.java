@@ -275,6 +275,11 @@ public class AddSampleStory {
             throws Exception {
         String fileName;
         fileName = dh.getName().substring(dh.getName().lastIndexOf(File.separator) + 1);
+        if (fileName.contains("-v")) {
+            fileName = fileName.substring(0,fileName.lastIndexOf('-'));
+        } else {
+            fileName = fileName.substring(0,fileName.lastIndexOf('.'));
+        }
         resourceServiceClient.addResource(File.separator + fileName, MEDIA_TYPE_SWAGGER, description, dh, null, props);
     }
 
