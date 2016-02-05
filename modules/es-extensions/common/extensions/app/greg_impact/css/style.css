@@ -120,6 +120,9 @@ svg text.resource-name {
     font-size: 18px;
     font-weight: 400;
 }
+svg text.uniqueAttributes {
+    font-weight: 400;
+}
 svg [nodetype=parent] text.media-type { font-size:16px; }
 svg [nodetype=parent] text.resource-name { font-size:22px; }
 svg line {
