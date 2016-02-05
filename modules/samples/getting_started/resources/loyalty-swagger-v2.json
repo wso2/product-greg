@@ -15,7 +15,7 @@
   "paths": {
     "/loyalty/{id}": {
       "get": {
-        "description": "Returns 0 is not a loyal customer and 1,2,3 values according to the loyalty tier",
+        "description": "Returns 0 if not a loyal customer and 1,2,3,4,5 values according to the loyalty tier",
         "parameters": [
           {
             "name": "id",
@@ -27,7 +27,27 @@
         ],
         "responses": {
           "200": {
-            "description": "valid responses 0,1,2,3"
+            "description": "valid responses 0,1,2,3,4,5"
+          }
+        }
+      }
+    },
+    "/loyalty/tier/{id}": {
+      "post": {
+        "description": "Add new loyal customer with tier level.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "level": "tier",
+            "description": "Customer ID",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successfully added new loyal customer"
           }
         }
       }
