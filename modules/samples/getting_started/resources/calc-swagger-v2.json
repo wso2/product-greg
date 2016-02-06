@@ -25,6 +25,13 @@
             "schema": {
               "$ref": "#/definitions/total"
             }
+          },
+          {
+            "name": "tier",
+            "in": "path",
+            "description": "Tier Level",
+            "required": true,
+            "type": "string"
           }
         ],
         "responses": {
@@ -38,6 +45,7 @@
       }
     }
   },
+
   "definitions": {
     "total": {
       "type": "object",
@@ -52,9 +60,6 @@
       "properties": {
         "billTotal": {
           "type": "integer"
-        },
-        "customerId": {
-          "type": "string"
         }
       }
     }

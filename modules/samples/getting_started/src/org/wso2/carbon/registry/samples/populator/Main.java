@@ -276,7 +276,7 @@ public class Main {
      */
     private static void addSwaggerFromURL(SwaggerImportClient swaggerImportClient)
             throws ResourceAdminServiceExceptionException, RemoteException {
-        String resourceUrl = "https://localhost:9443/resource/1.0.0/swagger/api-docs";
+        String resourceUrl = "https://" + host + ":" + port + "/resource/1.0.0/swagger/api-docs";
         String resourceName = "api-docs.json";
         swaggerImportClient.addSwagger(resourceName, "adding From URL", resourceUrl);
 

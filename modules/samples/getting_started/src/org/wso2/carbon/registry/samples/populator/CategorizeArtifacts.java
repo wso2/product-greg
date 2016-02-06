@@ -212,6 +212,12 @@ public class CategorizeArtifacts {
     private static void addAnonymousViewToAssets(ResourceServiceClient resourceServiceClient, GenericArtifact artifact)
             throws Exception {
         String path = governancePath + artifact.getPath();
+        String artifactName = artifact.getQName().getLocalPart();
+        if (artifactName.contains("calc-swagger") || artifactName.contains("loyalty-swagger") ||
+                artifactName.contains("BuyMore")){
+            return;
+        }
+
         resourceServiceClient.addRolePermission(path, "system/wso2.anonymous.role", "2", "1");
 
         for (GovernanceArtifact dependency : artifact.getDependencies()) {
