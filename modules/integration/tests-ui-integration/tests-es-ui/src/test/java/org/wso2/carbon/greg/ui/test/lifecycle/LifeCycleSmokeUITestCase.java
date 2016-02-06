@@ -207,7 +207,7 @@ public class LifeCycleSmokeUITestCase extends GREGIntegrationUIBaseTest {
         driver.findElement(By.linkText("REST Services")).click();
         driver.findElement(By.linkText(restServiceName)).click();
 
-        driver.findElement(By.id("LifeCycle")).click();
+        driver.findElement(By.id("Lifecycle")).click();
 
         driver.findElement(By.linkText("Other lifecycles")).click();
         driver.findElement(By.linkText("SampleLifeCycle")).click();
