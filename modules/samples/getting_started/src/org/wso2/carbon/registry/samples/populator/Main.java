@@ -148,8 +148,6 @@ public class Main {
                 for (final File fileEntry : swaggerFolder.listFiles()) {
                     try {
                         swaggerName = fileEntry.getName();
-                        System.out.println(swaggerName);
-
                         addSwagger(resourceServiceClient, "Adding the Swagger file "+ swaggerName,
                                 new DataHandler(new URL("file:" + fileSeparator + projectPath +
                                         File.separator + "resources" + File.separator + "swagger" + File.separator

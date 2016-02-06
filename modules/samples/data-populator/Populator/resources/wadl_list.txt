@@ -1,8 +1,0 @@
-cxf
-tavserv
-application
-OrderingService
-Employee
-CtoFConversion
-FtoC_Conversion
-CD_store
