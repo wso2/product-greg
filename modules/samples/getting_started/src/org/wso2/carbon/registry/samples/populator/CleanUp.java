@@ -185,6 +185,7 @@ public class CleanUp {
                 System.out.println("######## Unable to delete sample life-cycles ########\n\n");
             }
 
+            cleanUpMessage();
 
         } catch (Exception e) {
             System.out.println("An error occurred.");
@@ -345,6 +346,15 @@ public class CleanUp {
                 lifeCycleManagementClient.deleteLifecycle(lcNames[i]);
             }
         }
+    }
+
+    /**
+     * This method is used to print the clean up message for the sample populator. .
+     */
+    private static void cleanUpMessage() {
+        System.out.println("********************************************************************************\n");
+        System.out.println("All sample data populated by this sample are deleted successfully.");
+        System.out.println("********************************************************************************\n\n");
     }
 
 }
