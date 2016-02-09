@@ -1,7 +1,0 @@
-api-docs
-basicAuth
-echo
-instagram
-petstore-expanded
-twitter
-uber

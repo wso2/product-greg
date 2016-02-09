@@ -49,6 +49,7 @@ $(document).ready(function() {
             return  '<div class="item" id="search_' + object.id + '">' +
                         '<div class="text">' +
                             '<div class="resource-name">' + object.text + '</div>' +
+                            '<div class="uniqueAttributes">' + getuniqueattributestring(object) + '</div>' +
                             '<div class="media-type">' + object.shortName + '</div>' +
                         '</div>' +
                         '<div class="icon">' +
@@ -246,6 +247,7 @@ function update(d) {
         .attr("active-status", "");
 
     nodeEnter.attr("nodetype", nodeType);
+    nodeEnter.attr("isuniqueattributespresent", isuniqueattributespresent);
 
     node.select("[nodetype=parent] circle")
         .attr("r", 65);
@@ -276,16 +278,39 @@ function update(d) {
         .text(function(d) { return d.name; });
 
     nodeEnter.append("text")
+        .attr("class", "uniqueAttributes")
+        .attr("dy", 78)
+        .attr("dx", -40)
+        .text(function(d) {
+            if (isuniqueattributespresent(d)) {
+                var content = "";
+                for (key in d.uniqueAttributes) {
+                    content = content + ", " + d.uniqueAttributes[key];
+                }
+                return content.substring(2);
+            }
+            return null;
+        });
+
+    nodeEnter.append("text")
         .attr("class", "media-type")
         .attr("dy", 78)
         .attr("dx", -40)
         .text(function(d) { return d.shortName; });
+
+    nodeEnter.selectAll("[isuniqueattributespresent=true] text.media-type")
+        .attr("dy", 95)
+        .attr("dx", -40);
 
     nodeEnter.select("[nodetype=parent] text.resource-name")
         .attr("dy", 100)
         .attr("dx", -70);
 
     nodeEnter.select("[nodetype=parent] text.media-type")
+        .attr("dy", function(d) { return (isuniqueattributespresent(d) == "true") ? 140 : 120; })
+        .attr("dx", -70);
+
+    nodeEnter.select("[nodetype=parent] text.uniqueAttributes")
         .attr("dy", 120)
         .attr("dx", -70);
 
@@ -309,6 +334,25 @@ function nodeType(d) {
     }
 
     return d.nodeType;
+}
+
+/*
+ * Returns wheather any associated unique attributes are present
+ * @param d: Data
+ */
+function isuniqueattributespresent(d) {
+    return (jQuery.isEmptyObject(d.uniqueAttributes)) ? "false" : "true";
+}
+
+function getuniqueattributestring(d) {
+    if (isuniqueattributespresent(d)) {
+        var content = "";
+        for (key in d.uniqueAttributes) {
+            content = content + ", " + d.uniqueAttributes[key];
+        }
+        return content.substring(2);
+    }
+    return null;
 }
 
 /* Defining icons for resource type.

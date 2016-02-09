@@ -190,6 +190,14 @@ asset.manager = function(ctx) {
                 item.authorUserName = resource.getAuthorUserName();
                 var content = resource.getContent();
                 var value = '' + new Stream(new ByteArrayInputStream(content));
+                var ComparatorUtils = Packages.org.wso2.carbon.governance.comparator.utils.ComparatorUtils;
+                var comparatorUtils = new ComparatorUtils();
+                var mediaType = "application/wadl+xml";
+                try {
+                    value = comparatorUtils.prettyFormatText(value, mediaType);
+                } catch (ex) {
+
+                }
                 item.content = value;
 
                 var userRegistry = getRegistry(ctx.session);

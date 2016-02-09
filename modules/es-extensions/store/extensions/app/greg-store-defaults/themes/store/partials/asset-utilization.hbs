@@ -35,23 +35,3 @@
     {{/if}}
 
 </div>
-
-
-
-<!--
-  Asset utilization icons that do not need to be secured
--->
-{{#with assets}}
-    <div class="action-container float-right right">
-        {{#attributes }}
-            <div class="action-sub-container left">
-      <span class="action-icon-button">
-          <span class="find-text">
-        <a class="" href="{{overview_url}}" target="_blank" data-placement="bottom" data-toggle="tooltip" title="{{>asset-overview-text}}"><img src="{{../../rxt.meta.ui.icon_src}}" class="circle"  align="middle"></a>
-          </span>
-      </span>
-            </div>
-
-        {{/attributes}}
-    </div>
-{{/with}}

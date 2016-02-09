@@ -54,7 +54,7 @@ var generateLeftNavJson = function(data, listPartial) {
                     url : "/publisher/asset/operations/edit/" + data.shortName + "/" + data.artifact.id + ""
                 },
                 {
-                    name : "Life Cycle",
+                    name : "Lifecycle",
                     iconClass : "icon-retweet",
                      additionalClasses : (listPartial == "lifecycle-asset" ) ? "prominent-link" : null,
                     url : "/publisher/asset/operations/lifecycle/" + data.shortName + "/" + data.artifact.id + ""

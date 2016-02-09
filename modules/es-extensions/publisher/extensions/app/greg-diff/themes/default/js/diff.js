@@ -83,10 +83,10 @@ function addTitle() {
         var title;
         switch (i) {
             case 0:
-                title = 'Old';
+                title = 'Base';
                 break;
             case 1:
-                title = 'New';
+                title = 'Other';
                 break;
         }
 

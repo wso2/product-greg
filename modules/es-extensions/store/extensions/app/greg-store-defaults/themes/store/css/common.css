@@ -13,7 +13,7 @@ h1 {
     border-bottom:0px solid #f0f0f0;
 }
 
-a.cu-btn-inner.inverse, .btn-primary, .btn-default {
+a.cu-btn-inner.inverse {
     background: #fff !important;
     color: #333 !important;
     border: none;

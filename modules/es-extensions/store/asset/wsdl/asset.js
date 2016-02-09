@@ -173,7 +173,8 @@ asset.configure = function() {
             ui: {
                 icon: 'fw fw-wsdl',
                 iconColor: 'green'
-            }
+            },
+            downloadable:true
         }
     }
 };

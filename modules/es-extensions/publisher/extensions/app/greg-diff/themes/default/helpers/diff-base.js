@@ -18,10 +18,10 @@
  */
 var resources = function () {
     return {
-        css: ['ambiance.css', 'diff.css', 'codemirror.css', 'merge.css'],
+        css: ['ambiance.css', 'codemirror.css', 'merge.css', 'diff.css'],
         //code:['greg-association-meta.hbs'],
         js: ['codemirror.js', 'css.js', 'diff_match_patch.js', 'htmlmixed.js', 'javascript.js', 'jquery-ui.js',
-            'diff.js', 'diff-api.js', 'merge.js', 'xml.js'],
+            'diff.js', 'merge.js', 'xml.js', 'diff-api.js'],
         code: ['greg-diff-meta.hbs']
     }
 };
