@@ -7,6 +7,7 @@ var gregAPI = {};
     var CommonUtil = Packages.org.wso2.carbon.governance.registry.extensions.utils.CommonUtil;
 
     var carbon = require('carbon');
+    var time = require('utils').time;
     var taskOperationService = carbon.server.osgiService('org.wso2.carbon.humantask.core.TaskOperationService');
     gregAPI.notifications = {};
     gregAPI.subscriptions = {};
@@ -256,7 +257,7 @@ var gregAPI = {};
                 workList.presentationName = String(row.getPresentationName());
                 workList.priority = String(row.getPriority());
                 workList.status = String(row.getStatus());
-                workList.time = String(row.getCreatedTime().getTime());
+                workList.time = time.formatTimeAsTimeSince(getDateTime(row.getCreatedTime()));
                 //workList.createdTime = String(row.getCreatedTime());
                 workList.user = String(taskOperationService.loadTask(row.getId()).getActualOwner().getTUser());
                 result.push(workList);
@@ -265,6 +266,18 @@ var gregAPI = {};
         results.list = result;
         return results;
     };
+
+    var getDateTime = function(date) {
+        var year = date.get(date.YEAR);
+        var month = date.get(date.MONTH);
+        var day = date.get(date.DAY_OF_MONTH);
+        var hours = date.get(date.HOUR_OF_DAY);
+        var minutes = date.get(date.MINUTE);
+        var seconds = date.get(date.SECOND);
+
+        return new Date(year,month,day,hours,minutes,seconds);
+    };
+
     var endsWith = function(suffix, val) {
         return val.indexOf(suffix, val.length - suffix.length) !== -1;
     };
