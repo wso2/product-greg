@@ -166,7 +166,6 @@ public class GovernanceRestApiEndpointTestCase extends GregESTestBaseTest {
         Thread.sleep(1000);//for asset indexing
         ClientResponse listOfEndpoints = genericRestClient.geneticRestRequestGet(governanceRestApiUrlForEndpoints,
                                                                                  queryParamMap, headerMap, null);
-
         JSONObject jsonObject = new JSONObject(listOfEndpoints.getEntity(String.class));
         JSONArray jsonArray = jsonObject.getJSONArray("assets");
         Assert.assertEquals(jsonArray.length(), numOfEndpoints, "Wrong number of endpoints. Expected " + numOfEndpoints +
@@ -396,21 +395,25 @@ public class GovernanceRestApiEndpointTestCase extends GregESTestBaseTest {
      * @throws JSONException
      * @throws XPathExpressionException
      */
-    private void clearPreviousEndpoints() throws JSONException, XPathExpressionException {
-        Map<String, String> queryParamMap = new HashMap<>();
-        ClientResponse listOfEndpoints = genericRestClient.geneticRestRequestGet(governanceRestApiUrlForEndpoints,
-                                                                                 queryParamMap, headerMap, null);
-        JSONObject jsonObject = new JSONObject(listOfEndpoints.getEntity(String.class));
-        JSONArray jsonArray = jsonObject.getJSONArray("assets");
-        setTestEnvironment();
-        queryParamMap.put("type", "endpoint");
-        for (int i = 0; i < jsonArray.length(); i++) {
-            String id = (String) jsonArray.getJSONObject(i).get("id");
-            if (!endpointId1.equals(id)) {
-                deleteAssetById(publisherUrl, genericRestClient, cookieHeader, id, queryParamMap);
+    private void clearPreviousEndpoints() throws JSONException, XPathExpressionException, InterruptedException {
+
+        Thread.sleep(1000);
+        ClientResponse listOfEndpointsBefore = genericRestClient.geneticRestRequestGet(governanceRestApiUrlForEndpoints,
+                                                                                       queryParamMap, headerMap, null);
+        JSONObject jsonObject = new JSONObject(listOfEndpointsBefore.getEntity(String.class));
+        if (listOfEndpointsBefore != null) {
+            JSONArray jsonArray = jsonObject.getJSONArray("assets");
+            setTestEnvironment();
+            queryParamMap.put("type", "endpoint");
+            for (int i = 0; i < jsonArray.length(); i++) {
+                String id = (String) jsonArray.getJSONObject(i).get("id");
+                if (!endpointId1.equals(id)) {
+                    deleteAssetById(publisherUrl, genericRestClient, cookieHeader, id, queryParamMap);
+                }
             }
+            queryParamMap.clear();
         }
-        queryParamMap.clear();
+
     }
 
     @AfterClass(alwaysRun = true)
