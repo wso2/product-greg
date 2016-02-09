@@ -180,11 +180,19 @@ public class AddSampleStory {
 
             for (GenericArtifact genericArtifact : calcServices) {
                 genericArtifact.attachLifecycle("BuyMoreLifeCycle");
+                genericArtifact.addAttribute("endpoints_entry", "Dev:http://dev.buymore.com/services/bill_calculator");
+                genericArtifact.addAttribute("endpoints_entry", "Test:http://qa.buymore" +
+                        ".com/services/bill_calculator");
+                artifactManager.updateGenericArtifact(genericArtifact);
                 if (genericArtifact.getAttribute("overview_version").equals("2.0.0")) {
                     changeLcState("Promote", genericArtifact.getPath());
                     if (loyaltyServices != null && loyaltyService.length() > 0) {
                         for (GenericArtifact loyaltyServiceArtifact : loyaltyServices) {
                             loyaltyServiceArtifact.attachLifecycle("BuyMoreLifeCycle");
+                            loyaltyServiceArtifact.addAttribute("endpoints_entry", "Dev:http://dev.buymore.com/services/loyal_customer");
+                            loyaltyServiceArtifact.addAttribute("endpoints_entry", "Test:http://qa.buymore" +
+                                    ".com/services/loyal_customer");
+                            artifactManager.updateGenericArtifact(loyaltyServiceArtifact);
                             if (loyaltyServiceArtifact.getAttribute("overview_version").equals("1.0.0")) {
                                 genericArtifact.addAssociation("DependsOn", loyaltyServiceArtifact);
                                 loyaltyServiceArtifact.addAssociation("UsedBy", genericArtifact);
