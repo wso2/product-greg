@@ -1,21 +1,23 @@
 
 {{#each notifications.list}}
 
-<div class="wr-notification-desc new" id="notification{{this.id}}">
-    <div class="wr-notification-operation">{{this.presentationSubject}}
-        {{#if clickResource}}
-            <a href="/publisher/assets/{{this.type}}/details/{{this.uuid}}">{{t "Click Here"}}</a> to Visit
-        {{/if}}
-    </div>
-    <div class="wr-notification-time"><i class="fw fw-clock"></i> {{this.time}}</div>
-    <a href="javascript:void(0)" class="wr-operation-icon" id="notificationlink101" onclick="GregSubscriptionAPI.removeNotification({{this.id}}, $(this))">
-        <span class="fw-stack fw-lg">
-            <i class="fw fw-ring fw-stack-2x"></i>
-            <i class="fw fw-delete fw-stack-1x"></i>
-        </span>
-    </a>
-</div>
-<hr />
+    <div class="wr-notification-desc new" id="notification{{this.id}}">
+        <div class="wr-notification-operation">
+            {{#if clickResource}}
+                <a href="/publisher/assets/{{this.type}}/details/{{this.uuid}}"
+                   class="wr-operation-link">{{this.presentationSubject}}</a>
+            {{/if}}
+        </div>
+        <a href="javascript:void(0)" class="wr-operation-icon" id="notificationlink101"
+           onclick="GregSubscriptionAPI.removeNotification({{this.id}}, $(this))">
+            <span class="fw-stack fw-lg">
+                <i class="fw fw-ring fw-stack-2x"></i>
+                <i class="fw fw-cancel fw-stack-1x"></i>
+            </span>
+        </a>
 
+        <div class="wr-notification-time"><i class="fw fw-clock"> {{this.time}}</i></div>
+    </div>
+    <hr/>
 {{/each}}
 
