@@ -163,7 +163,7 @@ public class GovernanceRestApiEndpointTestCase extends GregESTestBaseTest {
                           "Wrong status code ,Expected 201 Created ,Received " + response.getStatusCode());
         String locationHeader = response.getHeaders().get("Location").get(0);
         endpointId2 = locationHeader.substring(locationHeader.lastIndexOf("/") + 1);
-        Thread.sleep(1000);//for asset indexing
+        Thread.sleep(3000);//for asset indexing
         ClientResponse listOfEndpoints = genericRestClient.geneticRestRequestGet(governanceRestApiUrlForEndpoints,
                                                                                  queryParamMap, headerMap, null);
         JSONObject jsonObject = new JSONObject(listOfEndpoints.getEntity(String.class));
