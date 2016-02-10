@@ -126,6 +126,12 @@ public class CategorizeArtifacts {
                                 addAnonymousViewToAssets(resourceServiceClient, artifact);
                             }
                             i++;
+                        } else {
+                            String category = "Sales";
+                            artifact.setAttribute("overview_category", category);
+                            artifactManager1.updateGenericArtifact(artifact);
+                            String path = artifact.getPath();
+                            gov.applyTag(path, "BuyMore");
                         }
                     }
                 }

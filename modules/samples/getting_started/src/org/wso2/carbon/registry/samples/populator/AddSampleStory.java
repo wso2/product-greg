@@ -124,12 +124,12 @@ public class AddSampleStory {
 
             Thread.sleep(5 * 1000);
 
-            String[][] developmentProperties = {{"version", "3.0.0"}};
+            //String[][] developmentProperties = {{"version", "3.0.0"}};
             String[][] testingProperties = {{"version", "2.0.0"}};
             String[][] productionProperties = {{"version", "1.0.0"}};
-            addSwagger("Adding a swagger 2.0 definition from file. ",
+            /*addSwagger("Adding a swagger 2.0 definition from file. ",
                     new DataHandler(new URL("file:" + fileSeperator + projectPath + File.separator +
-                            "resources" + File.separator + "calc-swagger-v3.json")), developmentProperties);
+                            "resources" + File.separator + "calc-swagger-v3.json")), developmentProperties);*/
             addSwagger("Adding a swagger 2.0 definition from file. ",
                     new DataHandler(new URL("file:" + fileSeperator + projectPath + File.separator +
                             "resources" + File.separator + "calc-swagger-v2.json")),testingProperties);
@@ -139,9 +139,9 @@ public class AddSampleStory {
             addSwagger("Adding a swagger 2.0 definition from file. ",
                     new DataHandler(new URL("file:" + fileSeperator + projectPath + File.separator +
                             "resources" + File.separator + "loyalty-swagger.json")), productionProperties);
-            addSwagger("Adding a swagger 2.0 definition from file. ", new DataHandler( new URL("file:" +
+            /*addSwagger("Adding a swagger 2.0 definition from file. ", new DataHandler( new URL("file:" +
                     fileSeperator + projectPath + File.separator + "resources" + File.separator
-                            + "loyalty-swagger-v2.json")), testingProperties);
+                            + "loyalty-swagger-v2.json")), testingProperties);*/
 
             //adding legacy service with a WSDL and attaching a policy to it
             addWsdl("Adding the WSDL file file. ", new DataHandler(new URL("file:" + fileSeperator + projectPath +
@@ -337,10 +337,11 @@ public class AddSampleStory {
         String publisherUserPassword = "";
         String demoUserRole = "";
 
-        userManager.addRole("dev", null, DEV_ROLE_PERMISSION);
+        //userManager.addRole("dev", null, DEV_ROLE_PERMISSION);
         userManager.addRole("devops", null, DEVOPS_ROLE_PERMISSION);
-        userManager.addRole("qamanager", null, QAMGR_ROLE_PERMISSION);
-        userManager.addRole("strategymanager", null, STRGMGR_ROLE_PERMISSION);
+        //userManager.addRole("qamanager", null, QAMGR_ROLE_PERMISSION);
+        //userManager.addRole("strategymanager", null, STRGMGR_ROLE_PERMISSION);
+        userManager.addRole("consumer", null, STRGMGR_ROLE_PERMISSION);
 
         while ((userNamePwd = bufferedReader.readLine()) != null) {
             if (userNamePwd != null && !userNamePwd.equals("")) {
