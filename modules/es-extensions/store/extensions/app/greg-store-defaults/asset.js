@@ -38,7 +38,9 @@ asset.renderer = function(ctx) {
             am = rxt.asset.createUserAssetManager(ctx.session, type);
         } else {
             var carbon = require('carbon');
-            var tenantId = carbon.server.superTenant.tenantId;
+            var tenantAPI = require('/modules/tenant-api.js').api;
+            var tenantDetails = tenantAPI.tenantContext(session);
+            var tenantId = tenantDetails.urlTenantId; //carbon.server.superTenant.tenantId;
             am = rxt.asset.createAnonAssetManager(ctx.session, type, tenantId);
         }
         return am;
