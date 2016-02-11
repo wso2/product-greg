@@ -409,11 +409,12 @@ public class MigrateFrom460To500 implements MigrationClient {
             sb.append(m.group(1));
         }
         String matchedString = sb.toString();
-        if(matchedString != null && !matchedString.isEmpty()){
+        if(matchedString != null && !matchedString.isEmpty() && matchedString.indexOf('>') > -1 && matchedString
+                .indexOf('>') < matchedString.indexOf('<')){
             return matchedString.substring(matchedString.indexOf('>') +1 ,matchedString.indexOf('<') );
         }
         else{
-            return matchedString;
+            return null;
         }
 
     }
