@@ -26,17 +26,17 @@
                         <data name="checkItems">
                             <item name="Code Completed" forEvent="">
                                 <permissions>
-                                    <permission roles="dev,admin"/>
+                                    <permission roles="devops,admin"/>
                                 </permissions>
                             </item>
                             <item name="WSDL, Schema Created" forEvent="">
                                 <permissions>
-                                    <permission roles="dev,admin"/>
+                                    <permission roles="devops,admin"/>
                                 </permissions>
                             </item>
                             <item name="QoS Created" forEvent="">
                                 <permissions>
-                                    <permission roles="dev,admin"/>
+                                    <permission roles="devops,admin"/>
                                 </permissions>
                             </item>
                         </data>
@@ -84,7 +84,7 @@
                             </js>
                         </data>
                         <data name="transitionPermission">
-                            <permission forEvent="Promote" roles="dev,admin">
+                            <permission forEvent="Promote" roles="devops,admin">
                             </permission>
                         </data>
                     </datamodel>

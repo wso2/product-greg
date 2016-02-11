@@ -61,15 +61,15 @@ public class AddSampleStory {
     private static ResourceServiceClient resourceServiceClient;
     private static LifeCycleManagementClient lifeCycleManagementClient;
     private static String governancePath = "/_system/governance";
-    private static final String[] DEV_ROLE_PERMISSION = {"/permission/admin/login",
-            "/permission/admin/enterprisestore",
-            "/permission/admin/manage"};
+    //private static final String[] DEV_ROLE_PERMISSION = {"/permission/admin/login",
+    //        "/permission/admin/enterprisestore",
+    //        "/permission/admin/manage"};
     private static final String[] DEVOPS_ROLE_PERMISSION = {"/permission/admin/login",
             "/permission/admin/enterprisestore",
             "/permission/admin/manage"};
-    private static final String[] QAMGR_ROLE_PERMISSION = {"/permission/admin/login",
-            "/permission/admin/enterprisestore",
-            "/permission/admin/manage"};
+    //private static final String[] QAMGR_ROLE_PERMISSION = {"/permission/admin/login",
+    //        "/permission/admin/enterprisestore",
+    //        "/permission/admin/manage"};
     private static final String[] STRGMGR_ROLE_PERMISSION = {"/permission/admin/login",
             "/permission/admin/enterprisestore",
             "/permission/admin/manage"};
