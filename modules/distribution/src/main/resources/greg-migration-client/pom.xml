@@ -173,7 +173,7 @@
         <javax.xml.namespace.version>0.0.0</javax.xml.namespace.version>
         <javax.servlet.version>2.4.0</javax.servlet.version>
         <javax.servlet.http.version>2.4.0</javax.servlet.http.version>
-        <org.wso2.carbon.governance.version>4.5.2-SNAPSHOT</org.wso2.carbon.governance.version>
+        <org.wso2.carbon.governance.version>4.5.2</org.wso2.carbon.governance.version>
     </properties>
 
 
