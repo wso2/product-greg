@@ -27,6 +27,7 @@
 asset.renderer = function(ctx) {
     var gregAPI = require('/modules/greg-publisher-api.js').gregAPI;
     var rxt = require('rxt');
+    var allowedPagesForSidebar = ['list', 'details', 'lifecycle', 'update', 'associations', 'copy', 'delete'];
     var assetManager = function(session, type) {
         var am = rxt.asset.createUserAssetManager(session, type);
         return am;
@@ -39,12 +40,12 @@ asset.renderer = function(ctx) {
     return {
         pageDecorators: {
             sidebarPopulator: function(page) {
-                if (page.meta.pageName === 'details') {
-                    page.isSidebarEnabled = true;
+                if(allowedPagesForSidebar.indexOf(page.meta.pageName)>-1){
                     page.isNotificationbarEnabled = true;
                 }
-                if (page.meta.pageName === 'list') {
-                    page.isNotificationbarEnabled = true;
+
+                if (page.meta.pageName === 'details') {
+                    page.isSidebarEnabled = true;
                 }
             },
             subscriptionPopulator: function(page) {
@@ -56,12 +57,12 @@ asset.renderer = function(ctx) {
                 }
             },
             notificationPopulator: function(page) {
-                if (page.meta.pageName === 'list' || page.meta.pageName === 'details') {
+                if (allowedPagesForSidebar.indexOf(page.meta.pageName)>-1) {
                     page.notificationsCount = gregAPI.notifications.count();
                 }
             },
             notificationListPopulator: function(page) {
-                if (page.meta.pageName === 'list' || page.meta.pageName === 'details') {
+                if (allowedPagesForSidebar.indexOf(page.meta.pageName)>-1) {
                     var am = assetManager(ctx.session,ctx.assetType);
                     page.notifications = gregAPI.notifications.list(am);
                 }

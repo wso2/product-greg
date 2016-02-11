@@ -193,10 +193,11 @@ asset.renderer = function(ctx){
                     }
                     var config = require('/config/store.js').config();
                     var pluralType = 'policys';
+                    var domain = require('carbon').server.tenantDomain({tenantId:ctx.tenantId});
                     page.downloadMetaData = {}; 
                     page.downloadMetaData.downloadFileType = page.rxt.singularLabel;
                     page.downloadMetaData.enabled = isDownloadable;
-                    page.downloadMetaData.url = config.server.https+'/governance/'+pluralType+'/'+page.assets.id+'/content?tenantId='+ctx.tenantId;
+                    page.downloadMetaData.url = config.server.https+'/governance/'+pluralType+'/'+page.assets.id+'/content?tenant='+domain;
                 }
             }
         }

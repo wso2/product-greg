@@ -25,6 +25,7 @@ import org.wso2.carbon.greg.migration.client.MigrationClient;
 import org.wso2.carbon.greg.migration.util.Constants;
 import org.wso2.carbon.registry.core.service.RegistryService;
 import org.wso2.carbon.registry.core.service.TenantRegistryLoader;
+import org.wso2.carbon.registry.extensions.services.RXTStoragePathService;
 import org.wso2.carbon.user.api.UserStoreException;
 import org.wso2.carbon.user.core.service.RealmService;
 
@@ -45,6 +46,9 @@ import java.util.Map;
  * policy="dynamic" bind="setRegistryService" unbind="unsetRegistryService"
  * @scr.reference name="tenant.registryloader" interface="org.wso2.carbon.registry.core.service.TenantRegistryLoader" cardinality="1..1"
  * policy="dynamic" bind="setTenantRegistryLoader" unbind="unsetTenantRegistryLoader"
+ * @scr.reference name="registry.rxt.component"
+ * interface="org.wso2.carbon.registry.extensions.services.RXTStoragePathService" cardinality="1..1"
+ * policy="dynamic" bind="setRXTStoragePathService" unbind="unsetRXTStoragePathService"
  */
 
 @SuppressWarnings("unused")
@@ -90,11 +94,13 @@ public class GRegMigrationServiceComponent {
                         log.info("Migrating WSO2 Governance Registry 4.6.0 resources to WSO2 Governance Registry 5.0.0");
                         migrationClient.registryResourceMigration();
                         migrationClient.fileSystemMigration();
+                        migrationClient.endpointMigration();
                     } else {
-                        //Only performs registry migration
+                        //Only performs registry migration which also includes endpoint migration as well.
                         if (isRegistryMigrationNeeded) {
                             log.info("Migrating WSO2 Governance Registry 4.6.0 registry resources to WSO2 Governance Registry 5.0.0");
                             migrationClient.registryResourceMigration();
+                            migrationClient.endpointMigration();
                         }
                         //Only performs file system migration
                         if (isFileSystemMigrationNeeded) {
@@ -192,5 +198,29 @@ public class GRegMigrationServiceComponent {
     protected void unsetTenantRegistryLoader(TenantRegistryLoader tenantRegLoader) {
         log.debug("Unset Tenant Registry Loader");
         ServiceHolder.setTenantRegLoader(null);
+    }
+
+    /**
+     * Method to set RXT storage service.
+     *
+     * @param rxtStoragePathService service to get RXT storage path data.
+     */
+    protected void setRXTStoragePathService(RXTStoragePathService rxtStoragePathService) {
+        if (log.isDebugEnabled()) {
+            log.debug("Setting RegistryService for WSO2 Governance Registry migration");
+        }
+        ServiceHolder.setRXTStoragePathService(rxtStoragePathService);
+    }
+
+    /**
+     * Method to unset RXT storage service.
+     *
+     * @param rxtStoragePathService service to get RXT storage path data.
+     */
+    protected void unsetRXTStoragePathService(RXTStoragePathService rxtStoragePathService) {
+        if (log.isDebugEnabled()) {
+            log.debug("Unset Registry service");
+        }
+        ServiceHolder.setRXTStoragePathService(null);
     }
 }

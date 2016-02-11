@@ -156,6 +156,7 @@ asset.renderer = function(ctx){
                 if(page.meta.pageName === 'details'){
                     var config = require('/config/store.js').config();
                     var pluralType = 'wadls'; //Assume it is a WADl
+                    var domain = require('carbon').server.tenantDomain({tenantId:ctx.tenantId});
                     page.assets.downloadMetaData = {}; 
                     page.assets.downloadMetaData.enabled = false;
                     var downloadFile = page.assets.dependencies.filter(function(item){
@@ -166,7 +167,7 @@ asset.renderer = function(ctx){
                       page.assets.downloadMetaData.enabled = true;  
                       page.assets.downloadMetaData.downloadFileType = typeDetails.singularLabel.toUpperCase();
                       pluralType = typeDetails.pluralLabel.toLowerCase();
-                      page.assets.downloadMetaData.url = config.server.https+'/governance/'+pluralType+'/'+downloadFile.associationUUID+'/content?tenantId='+ctx.tenantId;          
+                      page.assets.downloadMetaData.url = config.server.https+'/governance/'+pluralType+'/'+downloadFile.associationUUID+'/content?tenant='+domain;          
                       if(downloadFile.associationType == 'swagger'){
                         page.assets.downloadMetaData.swaggerUrl = '/pages/swagger?path='+downloadFile.associationPath;
                       }
