@@ -24,12 +24,13 @@ param registry : user-registry instance create on the logged in user's session
 param resourcePath : Source path to start data structure
 param graph : is an json object having to attributes nodes and edges
  */
-function getNodesAndEdges(registry, userName, resourcePath, graph, depth){
+function getNodesAndEdges(registry, user, resourcePath, graph, depth){
+    var userName = user.username;
     var util = require('/extensions/app/greg_impact/modules/utility.js');
     var governanceUtils = Packages.org.wso2.carbon.governance.api.util.GovernanceUtils;
     var CommonUtil = Packages.org.wso2.carbon.governance.registry.extensions.utils.CommonUtil;
 
-    var govRegistry = governanceUtils.getGovernanceUserRegistry(registry.registry, userName);
+    var govRegistry = governanceUtils.getGovernanceUserRegistry(registry.registry, userName, user.tenantId);
 
     var artifactPath = resourcePath.replace("/_system/governance", "");
 
@@ -51,7 +52,7 @@ function getNodesAndEdges(registry, userName, resourcePath, graph, depth){
 
             var shortName = graphDataObject.shortName;
 
-            if (isActivatedAssetsType(shortName)) {
+            if (isActivatedAssetsType(shortName, user)) {
                 graphDataObject.isActivatedAssetsType = true;
             } else {
                 graphDataObject.isActivatedAssetsType = false;
@@ -74,7 +75,7 @@ function getNodesAndEdges(registry, userName, resourcePath, graph, depth){
                     if (associations[i].src == resourcePath) {
                         var resourceDest = associations[i].dest;
 
-                        if (getNodesAndEdges(registry, userName, resourceDest, graph, depth)) {
+                        if (getNodesAndEdges(registry, user, resourceDest, graph, depth)) {
 
                             var relation = createRelation(graphDataObject.id, graph.nodes[resourceDest].id, associations[i].type, graph.relationIndex);
 
@@ -228,10 +229,10 @@ function getMediaType(artifact) {
     return mediaType;
 }
 
-function isActivatedAssetsType(assetType) {
+function isActivatedAssetsType(assetType, user) {
     var app = require('rxt').app;
     var server = require('carbon').server;
-    var tenantId = server.superTenant.tenantId;
+    var tenantId = user.tenantId;
     var activatedAssets = app.getUIActivatedAssets(tenantId); //ctx.tenantConfigs.assets;
     if (!activatedAssets) {
         throw 'Unable to load all activated assets for current tenant: ' + tenantId + '.Make sure that the assets property is present in the tenant config';
