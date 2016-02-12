@@ -7,6 +7,7 @@ var gregAPI = {};
     var CommonUtil = Packages.org.wso2.carbon.governance.registry.extensions.utils.CommonUtil;
 
     var carbon = require('carbon');
+    var time = require('utils').time;
     var taskOperationService = carbon.server.osgiService('org.wso2.carbon.humantask.core.TaskOperationService');
     gregAPI.notifications = {};
     gregAPI.subscriptions = {};
@@ -237,7 +238,7 @@ var gregAPI = {};
                 workList.presentationName = String(row.getPresentationName());
                 workList.priority = String(row.getPriority());
                 workList.status = String(row.getStatus());
-                workList.time = String(row.getCreatedTime().getTime());
+                workList.time = time.formatTimeAsTimeSince(getDateTime(row.getCreatedTime()));
                 //workList.createdTime = String(row.getCreatedTime());
                 workList.user = String(taskOperationService.loadTask(row.getId()).getActualOwner().getTUser());
                 result.push(workList);
@@ -246,6 +247,18 @@ var gregAPI = {};
         results.list = result;
         return results;
     };
+
+    var getDateTime = function(date) {
+        var year = date.get(date.YEAR);
+        var month = date.get(date.MONTH);
+        var day = date.get(date.DAY_OF_MONTH);
+        var hours = date.get(date.HOUR_OF_DAY);
+        var minutes = date.get(date.MINUTE);
+        var seconds = date.get(date.SECOND);
+
+        return new Date(year,month,day,hours,minutes,seconds);
+    };
+
     var endsWith = function(suffix, val) {
         return val.indexOf(suffix, val.length - suffix.length) !== -1;
     };
@@ -259,4 +272,49 @@ var gregAPI = {};
     gregAPI.notes.replies = function(parentNoteId) {};
     gregAPI.userRegistry = function(session) {};
     gregAPI.assetManager = function(session, type) {};
+    var assetManager = function(session, type) {
+        var rxt = require('rxt');
+        var am = rxt.asset.createUserAssetManager(session, type);
+        return am;
+    };
+    /*Need assetManager for getAssetVersions*/
+    gregAPI.getAssetVersions = function (session, type, path, name) {
+        var versions = [];
+        var user = server.current(session);
+        if(!user){
+            return versions;
+        }
+        var am = assetManager(session, type);
+        var resource = am.registry.registry.get(path);
+        var params = path.split("/" + name);
+        var version_left_index = params[0];
+        var collection_path = version_left_index.substring(0, version_left_index.lastIndexOf("/"));
+        var base_version = version_left_index.substring(version_left_index.lastIndexOf("/") + 1, version_left_index.length);
+
+        var resource = am.registry.get(collection_path);
+        var children;
+        var collection;
+        if (resource.collection) {
+            collection = resource;
+        }
+
+        if (!resource.collection) {
+            throw 'Provided resource is not a collection';
+        }
+
+        children = am.registry.content(collection.path);
+
+        for (var i = 0; i < children.length; i++) {
+            var version = {};
+            version.version = children[i].substring(children[i].lastIndexOf("/") + 1, children[i].length());
+            if (base_version != version.version) {
+                version.path = collection_path + "/" + version.version + "/" + name;
+                if (am.registry.registry.resourceExists(version.path)) {
+                    versions.push(version);
+                }
+            }
+        }
+
+        return versions;
+    };
 }(gregAPI));

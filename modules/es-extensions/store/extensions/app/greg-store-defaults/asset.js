@@ -38,7 +38,9 @@ asset.renderer = function(ctx) {
             am = rxt.asset.createUserAssetManager(ctx.session, type);
         } else {
             var carbon = require('carbon');
-            var tenantId = carbon.server.superTenant.tenantId;
+            var tenantAPI = require('/modules/tenant-api.js').api;
+            var tenantDetails = tenantAPI.tenantContext(session);
+            var tenantId = tenantDetails.urlTenantId; //carbon.server.superTenant.tenantId;
             am = rxt.asset.createAnonAssetManager(ctx.session, type, tenantId);
         }
         return am;
@@ -90,11 +92,20 @@ asset.renderer = function(ctx) {
                     }
                     var config = require('/config/store.js').config();
                     var pluralType = page.rxt.pluralLabel.toLowerCase();
+                    var domain = require('carbon').server.tenantDomain({tenantId:ctx.tenantId});
                     page.downloadMetaData = {}; 
                     page.downloadMetaData.downloadFileType = page.rxt.singularLabel;
                     page.downloadMetaData.enabled = isDownloadable;
-                    page.downloadMetaData.url = config.server.https+'/governance/'+pluralType+'/'+page.assets.id+'/content?tenantId='+ctx.tenantId;
+                    page.downloadMetaData.url = config.server.https+'/governance/'+pluralType+'/'+page.assets.id+'/content?tenant='+domain;
                 }
+            },
+            versions: function (page) {
+                if (page.meta.pageName !== 'details') {
+                    return;
+                }
+
+                var type = page.assets.type;
+                page.assetVersions = gregAPI.getAssetVersions(ctx.session, ctx.assetType, page.assets.path, page.assets.name);
             }
         }
     }
