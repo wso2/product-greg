@@ -191,10 +191,11 @@ asset.renderer = function(ctx){
                 if(page.meta.pageName === 'details'){
                     var config = require('/config/store.js').config();
                     var pluralType = 'swaggers';
+                    var domain = require('carbon').server.tenantDomain({tenantId:ctx.tenantId});
                     page.assets.downloadMetaData = {}; 
                     page.assets.downloadMetaData.enabled = true;
                     page.assets.downloadMetaData.downloadFileType = 'Swagger';
-                    page.assets.downloadMetaData.url = config.server.https+'/governance/'+pluralType+'/'+page.assets.id+'/content?tenantId='+ctx.tenantId;
+                    page.assets.downloadMetaData.url = config.server.https+'/governance/'+pluralType+'/'+page.assets.id+'/content?tenant='+domain;
                     page.assets.downloadMetaData.swaggerUrl = '/pages/swagger?path='+page.assets.path;
                 }
             }

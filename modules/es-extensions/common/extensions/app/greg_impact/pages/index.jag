@@ -106,7 +106,7 @@ else {
                 graph.index = 0;
                 graph.relationIndex = 0;
 
-                dataPopulator.getNodesAndEdges(registry, user.username, inputParameters.path, graph, depth);
+                dataPopulator.getNodesAndEdges(registry, user, inputParameters.path, graph, depth);
                 //log.info(graph);
                 obj = graph;
             }
