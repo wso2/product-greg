@@ -27,7 +27,6 @@ $(function () {
         return (last_to - last_to % items_per_row) / items_per_row;
     };
     store.infiniteScroll.addItemsToPage = function (query) {
-        debugger;
         var screen_width = $(window).width();
         var screen_height = $(window).height();
 
@@ -141,7 +140,6 @@ $(function () {
             var keyPair = key.split(':');
             if (keyPair.length === 1) {
                 return '"name":"' + encodeURIComponent(keyPair[0]) + '"';
-                ;
             } else {
                 return '"' + keyPair[0] + '":"' + encodeURIComponent(keyPair[1]) + '"';
             }
