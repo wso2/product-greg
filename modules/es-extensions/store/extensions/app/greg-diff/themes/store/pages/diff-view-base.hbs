@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!-->
+<html class="no-js">
+<!--<![endif]-->
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>{{include title}} | WSO2 Enterprise Store back-office</title>
+
+    <link rel="icon" href="{{url "/themes/store/img/favicon.png"}}" type="image/x-icon" />
+
+    <!-- Bootstrap -->
+    <link href="{{url "/themes/store/css/bootstrap.min.css"}}" rel="stylesheet" media="screen">
+
+    <!-- fontawesome -->
+    <link rel="stylesheet" href="{{url "/themes/store/css/font-awesome.min.css"}}">
+
+    <!-- fontwso2 -->
+    <link rel="stylesheet" href="{{url "/extensions/app/greg-diff/themes/store/css/fontwso2.css"}}">
+    <link rel="stylesheet" href="{{url "/extensions/app/greg-diff/themes/store/css/fontwso2-extend.css"}}">
+
+    <!-- Token input -->
+    <link rel="stylesheet" href="{{url "/extensions/app/greg-diff/themes/store/js/token.input/css/token-input-facebook.css"}}">
+    <!-- Helper css injections -->
+
+    {{css}}
+
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+    <script src="{{url "/themes/store/js/html5shiv.min.js"}}"></script>
+    <script src="{{url "/themes/store/js/respond.min.js"}}"></script>
+    <![endif]-->
+
+</head>
+
+<body>
+
+{{include listassets}}
+
+<script src="{{url "/themes/store/js/jquery-1.11.1.min.js"}}"></script>
+<script src="{{url "/extensions/app/greg-diff/themes/store/js/libs/jquery.form.min.js"}}"></script>
+<script src="{{url "/themes/store/js/bootstrap.min.js"}}"></script>
+<script src="{{url "/themes/store/js/async.min.js"}}"></script>
+<script src="{{url "/extensions/app/greg-diff/themes/store/js/token.input/jquery.tokeninput.js"}}"></script>
+<script src="{{url "/themes/store/js/handlebars.js"}}"></script>
+<!-- Codemirror -->
+<script src="{{url "/extensions/app/greg-diff/themes/store/js/diff_match_patch.js"}}"></script>
+<!-- Helper files js injector -->
+{{js}}
+{{code}}
+
+<script src="{{url "/themes/store/js/caramel.handlebars.client.js"}}"></script>
+<script src="{{url "/themes/store/js/caramel-client.js"}}"></script>
+
+<script type="text/javascript">
+
+    $( document ).ready(function() {
+        $("[data-toggle=popover]").popover();
+
+        $(".ctrl-asset-type-switcher").popover({
+            html : true,
+            content: function() {
+                return $('#content-asset-types').html();
+            }
+        });
+
+        $('#nav').affix({
+            offset: {
+                top: $('header').height()
+            }
+        });
+    });
+
+</script>
+</body>
+</html>
+
