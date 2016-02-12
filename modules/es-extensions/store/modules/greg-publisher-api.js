@@ -279,6 +279,11 @@ var gregAPI = {};
     };
     /*Need assetManager for getAssetVersions*/
     gregAPI.getAssetVersions = function (session, type, path, name) {
+        var versions = [];
+        var user = server.current(session);
+        if(!user){
+            return versions;
+        }
         var am = assetManager(session, type);
         var resource = am.registry.registry.get(path);
         var params = path.split("/" + name);
@@ -299,7 +304,6 @@ var gregAPI = {};
 
         children = am.registry.content(collection.path);
 
-        var versions = [];
         for (var i = 0; i < children.length; i++) {
             var version = {};
             version.version = children[i].substring(children[i].lastIndexOf("/") + 1, children[i].length());
