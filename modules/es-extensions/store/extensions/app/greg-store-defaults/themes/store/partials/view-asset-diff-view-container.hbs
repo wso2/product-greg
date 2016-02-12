@@ -1,0 +1,32 @@
+{{#with assets}}
+    <!--Show only there are multiple versions-->
+    {{#if ../assetVersions}}
+        <div class="container pull-right">
+            <div class="col-sm-3 col-sm-offset-2 pull-right">
+                <form class="form-inline" action="#" method="get">
+                    <div class="input-group col-sm-8">
+                        <div class="input-group-btn select" id="select1">
+                            <button type="button" class="btn btn-default btn-lg" data-toggle="dropdown"
+                                    aria-expanded="false">
+                                <span class="selected">{{../../assetVersions.0.version}}</span> <span
+                                    class="caret"></span></button>
+                            <ul class="dropdown-menu option" role="menu">
+                                {{#each ../../assetVersions}}
+                                    <li><a style="color: inherit" class="btn hover" data-base_path="{{../../path}}"
+                                           id="{{this.path}}">{{this.version}}</a></li>
+
+                                {{/each}}
+                            </ul>
+                        </div><!-- /btn-group -->
+                        <a class="btn btn-default btn-lg pull-right" id="diff-view-button"
+                           href="{{url ""}}/pages/diff?type=wsdl&path={{../../assetVersions.0.path}},{{../path}}"
+                           target="_blank">{{t "Show Diff"}} <i class="fw fw-text fw-lg "></i></a>
+                        <!-- TODO: Better icon would be fw-compare -->
+                    </div>
+                </form>
+            </div>
+            <!--</div>-->
+    {{/if}}
+    </div>
+
+{{/with}}
