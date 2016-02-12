@@ -272,4 +272,49 @@ var gregAPI = {};
     gregAPI.notes.replies = function(parentNoteId) {};
     gregAPI.userRegistry = function(session) {};
     gregAPI.assetManager = function(session, type) {};
+    var assetManager = function(session, type) {
+        var rxt = require('rxt');
+        var am = rxt.asset.createUserAssetManager(session, type);
+        return am;
+    };
+    /*Need assetManager for getAssetVersions*/
+    gregAPI.getAssetVersions = function (session, type, path, name) {
+        var versions = [];
+        var user = server.current(session);
+        if(!user){
+            return versions;
+        }
+        var am = assetManager(session, type);
+        var resource = am.registry.registry.get(path);
+        var params = path.split("/" + name);
+        var version_left_index = params[0];
+        var collection_path = version_left_index.substring(0, version_left_index.lastIndexOf("/"));
+        var base_version = version_left_index.substring(version_left_index.lastIndexOf("/") + 1, version_left_index.length);
+
+        var resource = am.registry.get(collection_path);
+        var children;
+        var collection;
+        if (resource.collection) {
+            collection = resource;
+        }
+
+        if (!resource.collection) {
+            throw 'Provided resource is not a collection';
+        }
+
+        children = am.registry.content(collection.path);
+
+        for (var i = 0; i < children.length; i++) {
+            var version = {};
+            version.version = children[i].substring(children[i].lastIndexOf("/") + 1, children[i].length());
+            if (base_version != version.version) {
+                version.path = collection_path + "/" + version.version + "/" + name;
+                if (am.registry.registry.resourceExists(version.path)) {
+                    versions.push(version);
+                }
+            }
+        }
+
+        return versions;
+    };
 }(gregAPI));
