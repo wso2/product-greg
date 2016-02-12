@@ -38,6 +38,9 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 /*
 * This class is used to delete all the added sample data.
@@ -160,20 +163,30 @@ public class CleanUp {
 
             try {
                 System.out.println("Deleting sample users .........");
-                String [] users = {"bob", "mark", "john", "chris"};
+                BufferedReader bufferedReader = new BufferedReader(
+                        new FileReader(rootpath + "resources" + File.separator + "users_list.txt"));
+                String userNamePwd;
+                List userList = new ArrayList<String>();
+                List roleList = new ArrayList<String>();
+                while ((userNamePwd = bufferedReader.readLine()) != null) {
+                    if (userNamePwd != null && !userNamePwd.equals("")) {
+                        String[] credentials = userNamePwd.split(":");
+                        userList.add(credentials[0]);
+                        roleList.add(credentials[2]);
+                    }
+                }
+                String[] users = new String[userList.size()];
+                users = (String[])userList.toArray(users);
                 deleteUsers(users, configContext);
                 System.out.println("########## Successfully deleted sample users ###########\n\n");
-            } catch (Exception e){
-                System.out.println("######## Unable to delete sample users ########\n\n");
-            }
 
-            try {
                 System.out.println("Deleting sample roles .........");
-                String [] roles = {"dev", "devops", "qamanager", "strategymanager"};
+                String [] roles = new String[roleList.size()];
+                roles = (String[])roleList.toArray(roles);
                 deleteRoles(roles, configContext);
                 System.out.println("########## Successfully deleted sample roles ###########\n\n");
             } catch (Exception e){
-                System.out.println("######## Unable to delete sample roles ########\n\n");
+                System.out.println("######## Unable to delete sample users and roles ########\n\n");
             }
 
             try {

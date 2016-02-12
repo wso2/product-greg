@@ -17,6 +17,7 @@ package org.wso2.carbon.greg.migration.client.internal;
 
 import org.wso2.carbon.registry.core.service.RegistryService;
 import org.wso2.carbon.registry.core.service.TenantRegistryLoader;
+import org.wso2.carbon.registry.extensions.services.RXTStoragePathService;
 import org.wso2.carbon.user.core.service.RealmService;
 
 @SuppressWarnings("unused")
@@ -29,6 +30,9 @@ public class ServiceHolder {
 
     //Tenant registry loader which is used to load tenant registry
     private static TenantRegistryLoader tenantRegLoader;
+
+    // RXT storage path service used to get artifact storage paths.
+    private static RXTStoragePathService rxtStoragePathService;
 
     /**
      * Method to get RegistryService.
@@ -82,5 +86,23 @@ public class ServiceHolder {
      */
     public static void setTenantRegLoader(TenantRegistryLoader service) {
         tenantRegLoader = service;
+    }
+
+    /**
+     * This method used to set RXTStoragePathService
+     *
+     * @param rxtStoragePathService  RXTStoragePathService
+     */
+    public static void setRXTStoragePathService(RXTStoragePathService service) {
+        rxtStoragePathService = service;
+    }
+
+    /**
+     * This method used to get RXTStoragePathService
+     *
+     * @return rxtStoragePathService  used to get RXT storage path details.
+     */
+    public static RXTStoragePathService getRXTStoragePathService() {
+        return rxtStoragePathService;
     }
 }

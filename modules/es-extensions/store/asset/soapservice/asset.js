@@ -159,10 +159,13 @@ asset.renderer = function(ctx){
                 if(page.meta.pageName === 'details'){
                     var config = require('/config/store.js').config();
                     var pluralType = 'wsdls';
+                    var domain = require('carbon').server.tenantDomain({tenantId:ctx.tenantId});
                     page.assets.downloadMetaData = {}; 
-                    page.assets.downloadMetaData.enabled = true;
-                    page.assets.downloadMetaData.downloadFileType = 'WSDL';
-                    page.assets.downloadMetaData.url = config.server.https+'/governance/'+pluralType+'/'+page.assets.wsdl_uuid+'/content?tenantId='+ctx.tenantId;
+                    if(page.assets.wsdlContent){
+                        page.assets.downloadMetaData.enabled = true;
+                        page.assets.downloadMetaData.downloadFileType = 'WSDL';
+                        page.assets.downloadMetaData.url = config.server.https+'/governance/'+pluralType+'/'+page.assets.wsdl_uuid+'/content?tenant='+domain;
+                    }
                 }
             }
         }
