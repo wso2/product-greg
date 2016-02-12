@@ -51,7 +51,6 @@ public class GregWildCardSearch extends GregESTestBaseTest {
     private Map<String, String> queryParamMap;
     private Map<String, String> headerMap;
 
-
     private String publisherCookieHeader;
     private String storeCookieHeader;
 
@@ -70,9 +69,8 @@ public class GregWildCardSearch extends GregESTestBaseTest {
                 FrameworkPathUtil.getSystemResourceLocation() + "artifacts" + File.separator + "GREG" + File.separator;
         publisherUrl = publisherContext.getContextUrls().getSecureServiceUrl().replace("services", "publisher/apis");
         storeUrl = storeContext.getContextUrls().getSecureServiceUrl().replace("services", "store/apis");
-        resourceAdminServiceClient =
-                new ResourceAdminServiceClient(automationContext.getContextUrls().getBackEndUrl(),
-                        sessionCookie);
+        resourceAdminServiceClient = new ResourceAdminServiceClient(automationContext.getContextUrls().getBackEndUrl(),
+                sessionCookie);
 
     }
 
@@ -96,19 +94,15 @@ public class GregWildCardSearch extends GregESTestBaseTest {
     @Test(groups = {"wso2.greg", "wso2.greg.es"}, description = "Authenticate Publisher test")
     public void authenticatePublisher() throws JSONException, XPathExpressionException {
 
-        ClientResponse response =
-                genericRestClient.geneticRestRequestPost(publisherUrl + "/authenticate/",
-                        MediaType.APPLICATION_FORM_URLENCODED,
+        ClientResponse response = genericRestClient
+                .geneticRestRequestPost(publisherUrl + "/authenticate/", MediaType.APPLICATION_FORM_URLENCODED,
                         MediaType.APPLICATION_JSON,
                         "username=" + automationContext.getContextTenant().getContextUser().getUserName() +
-                                "&password=" + automationContext.getContextTenant().getContextUser().getPassword()
-                        , queryParamMap, headerMap, null
-                );
+                                "&password=" + automationContext.getContextTenant().getContextUser().getPassword(),
+                        queryParamMap, headerMap, null);
         JSONObject obj = new JSONObject(response.getEntity(String.class));
         assertTrue((response.getStatusCode() == Response.Status.OK.getStatusCode()),
-                "Wrong status code ,Expected 200 OK ,Received " +
-                        response.getStatusCode()
-        );
+                "Wrong status code ,Expected 200 OK ,Received " + response.getStatusCode());
         String jSessionId = obj.getJSONObject("data").getString("sessionId");
         publisherCookieHeader = "JSESSIONID=" + jSessionId;
         assertNotNull(jSessionId, "Invalid JSessionID received");
@@ -124,38 +118,33 @@ public class GregWildCardSearch extends GregESTestBaseTest {
         String swaggerResourceName = "swagger.gar";
         String wadlResourceName = "wadl.gar";
 
-        String schemaGarPath = FrameworkPathUtil.getSystemResourceLocation()
-                + "artifacts" + File.separator + "GREG" + File.separator
-                + "gar" + File.separator + schemasResourceName;
-        String swaggerGarPath = FrameworkPathUtil.getSystemResourceLocation()
-                + "artifacts" + File.separator + "GREG" + File.separator
-                + "gar" + File.separator + swaggerResourceName;
-        String wadlGarPath = FrameworkPathUtil.getSystemResourceLocation()
-                + "artifacts" + File.separator + "GREG" + File.separator
-                + "gar" + File.separator + wadlResourceName;
+        String schemaGarPath =
+                FrameworkPathUtil.getSystemResourceLocation() + "artifacts" + File.separator + "GREG" + File.separator
+                        + "gar" + File.separator + schemasResourceName;
+        String swaggerGarPath =
+                FrameworkPathUtil.getSystemResourceLocation() + "artifacts" + File.separator + "GREG" + File.separator
+                        + "gar" + File.separator + swaggerResourceName;
+        String wadlGarPath =
+                FrameworkPathUtil.getSystemResourceLocation() + "artifacts" + File.separator + "GREG" + File.separator
+                        + "gar" + File.separator + wadlResourceName;
 
-
-        resourceAdminServiceClient.addResource(schemaGarPath,
-                "application/vnd.wso2.governance-archive",
-                "adding schema gar file", new DataHandler(new URL("file:///"
-                        + schemaGarPath)));
+        resourceAdminServiceClient
+                .addResource(schemaGarPath, "application/vnd.wso2.governance-archive", "adding schema gar file",
+                        new DataHandler(new URL("file:///" + schemaGarPath)));
         Thread.sleep(7000);
-        resourceAdminServiceClient.addResource(schemaGarPath,
-                "application/vnd.wso2.governance-archive",
-                "adding swagger gar file", new DataHandler(new URL("file:///"
-                        + swaggerGarPath)));
+        resourceAdminServiceClient
+                .addResource(schemaGarPath, "application/vnd.wso2.governance-archive", "adding swagger gar file",
+                        new DataHandler(new URL("file:///" + swaggerGarPath)));
         Thread.sleep(7000);
-        resourceAdminServiceClient.addResource(schemaGarPath,
-                "application/vnd.wso2.governance-archive",
-                "adding wadl gar file", new DataHandler(new URL("file:///"
-                        + wadlGarPath)));
+        resourceAdminServiceClient
+                .addResource(schemaGarPath, "application/vnd.wso2.governance-archive", "adding wadl gar file",
+                        new DataHandler(new URL("file:///" + wadlGarPath)));
         Thread.sleep(7000);
     }
 
     @Test(groups = {"wso2.greg", "wso2.greg.es"}, description = "Search Added assets",
             dependsOnMethods = {"testAddGarsFromFileSystem"})
     public void searchAddedAssetInPublisher() throws JSONException, IOException, InterruptedException {
-
 
         queryParamMap.clear();
 
@@ -164,8 +153,9 @@ public class GregWildCardSearch extends GregESTestBaseTest {
 
         Thread.sleep(15000);
 
-        ClientResponse response = genericRestClient.geneticRestRequestGet
-                (publisherUrl.split("/apis")[0] + "/pages/search-results", queryParamMap, headerMap, publisherCookieHeader);
+        ClientResponse response = genericRestClient
+                .geneticRestRequestGet(publisherUrl.split("/apis")[0] + "/pages/search-results", queryParamMap,
+                        headerMap, publisherCookieHeader);
 
         assertTrue(response.getEntity(String.class).contains(wildcard),
                 "Response does not contain Rest service name " + wildcard);
@@ -174,37 +164,33 @@ public class GregWildCardSearch extends GregESTestBaseTest {
         int lastIndex = 0;
         int count = 0;
 
-        while(lastIndex != -1){
+        while (lastIndex != -1) {
 
-            lastIndex = str.indexOf(wildcard,lastIndex);
+            lastIndex = str.indexOf(wildcard, lastIndex);
 
-            if(lastIndex != -1){
-                count ++;
+            if (lastIndex != -1) {
+                count++;
                 lastIndex += wildcard.length();
             }
         }
 
         // If this test fails please increase the time(10000) first
-        assertEquals(count,14,"Page should be full of assets. ");
+        assertEquals(count, 14, "Page should be full of assets. ");
     }
 
     @Test(groups = {"wso2.greg", "wso2.greg.es"}, description = "Authenticate Store",
             dependsOnMethods = "searchAddedAssetInPublisher")
     public void authenticateStore() throws JSONException, XPathExpressionException {
 
-        ClientResponse response =
-                genericRestClient.geneticRestRequestPost(storeUrl + "/authenticate/",
-                        MediaType.APPLICATION_FORM_URLENCODED,
+        ClientResponse response = genericRestClient
+                .geneticRestRequestPost(storeUrl + "/authenticate/", MediaType.APPLICATION_FORM_URLENCODED,
                         MediaType.APPLICATION_JSON,
                         "username=" + automationContext.getContextTenant().getContextUser().getUserName() +
-                                "&password=" + automationContext.getContextTenant().getContextUser().getPassword()
-                        , queryParamMap, headerMap, null
-                );
+                                "&password=" + automationContext.getContextTenant().getContextUser().getPassword(),
+                        queryParamMap, headerMap, null);
         JSONObject obj = new JSONObject(response.getEntity(String.class));
         assertTrue((response.getStatusCode() == Response.Status.OK.getStatusCode()),
-                "Wrong status code ,Expected 200 OK ,Received " +
-                        response.getStatusCode()
-        );
+                "Wrong status code ,Expected 200 OK ,Received " + response.getStatusCode());
         String jSessionId = obj.getJSONObject("data").getString("sessionId");
         storeCookieHeader = "JSESSIONID=" + jSessionId;
         assertNotNull(jSessionId, "Invalid JSessionID received");
@@ -215,7 +201,7 @@ public class GregWildCardSearch extends GregESTestBaseTest {
             dependsOnMethods = {"authenticateStore"})
     public void searchByName() throws JSONException, IOException, InterruptedException {
 
-        String wildcardToBeFoundInHTML = ">"+wildcard;
+        String wildcardToBeFoundInHTML = ">" + wildcard;
         queryParamMap.clear();
 
         // https://localhost:9443/store/pages/top-assets?q=%22name%22:%22xwildx%22
@@ -223,8 +209,9 @@ public class GregWildCardSearch extends GregESTestBaseTest {
 
         Thread.sleep(25000);
 
-        ClientResponse response = genericRestClient.geneticRestRequestGet
-                (storeUrl.split("/apis")[0] + "/pages/top-assets", queryParamMap, headerMap, storeCookieHeader);
+        ClientResponse response = genericRestClient
+                .geneticRestRequestGet(storeUrl.split("/apis")[0] + "/pages/top-assets", queryParamMap, headerMap,
+                        storeCookieHeader);
 
         assertTrue((response.getStatusCode() == Response.Status.OK.getStatusCode()),
                 "Wrong status code ,Expected 200 OK ,But Received " + response.getStatusCode());
@@ -236,24 +223,23 @@ public class GregWildCardSearch extends GregESTestBaseTest {
         int lastIndex = 0;
         int count = 0;
 
-        while(lastIndex != -1){
+        while (lastIndex != -1) {
 
-            lastIndex = str.indexOf(wildcardToBeFoundInHTML,lastIndex);
+            lastIndex = str.indexOf(wildcardToBeFoundInHTML, lastIndex);
 
-            if(lastIndex != -1){
-                count ++;
+            if (lastIndex != -1) {
+                count++;
                 lastIndex += wildcardToBeFoundInHTML.length();
             }
         }
 
         // If this test fails please increase the time(20000) first
-        assertEquals(count,24,"There should be 7-XSDs, 7-WADLs, 7-Rest services and 3-Swaggers. ");
+        assertEquals(count, 24, "There should be 7-XSDs, 7-WADLs, 7-Rest services and 3-Swaggers. ");
     }
 
     @DataProvider
     private static TestUserMode[][] userModeProvider() {
-        return new TestUserMode[][]{
-                new TestUserMode[]{TestUserMode.SUPER_TENANT_ADMIN}
+        return new TestUserMode[][] { new TestUserMode[] { TestUserMode.SUPER_TENANT_ADMIN }
                 //                new TestUserMode[]{TestUserMode.TENANT_USER},
         };
     }
