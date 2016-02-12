@@ -98,6 +98,14 @@ asset.renderer = function(ctx) {
                     page.downloadMetaData.enabled = isDownloadable;
                     page.downloadMetaData.url = config.server.https+'/governance/'+pluralType+'/'+page.assets.id+'/content?tenant='+domain;
                 }
+            },
+            versions: function (page) {
+                if (page.meta.pageName !== 'details') {
+                    return;
+                }
+
+                var type = page.assets.type;
+                page.assetVersions = gregAPI.getAssetVersions(ctx.session, ctx.assetType, page.assets.path, page.assets.name);
             }
         }
     }
