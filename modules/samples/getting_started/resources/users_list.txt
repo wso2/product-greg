@@ -1,2 +1,2 @@
 mark:mark@bm:devops
-smith:smith@bm:consumer
+smith:smith@bm:consumer,dev
