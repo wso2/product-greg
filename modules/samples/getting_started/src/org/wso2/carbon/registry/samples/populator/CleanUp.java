@@ -172,7 +172,14 @@ public class CleanUp {
                     if (userNamePwd != null && !userNamePwd.equals("")) {
                         String[] credentials = userNamePwd.split(":");
                         userList.add(credentials[0]);
-                        roleList.add(credentials[2]);
+                        if (credentials[2].contains(",")) {
+                            String [] tempRoles = credentials[2].split(",");
+                            for (int i = 0; i < tempRoles.length; i++) {
+                                roleList.add(tempRoles[i]);
+                            }
+                        } else {
+                            roleList.add(credentials[2]);
+                        }
                     }
                 }
                 String[] users = new String[userList.size()];
