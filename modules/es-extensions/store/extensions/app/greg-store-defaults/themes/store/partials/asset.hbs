@@ -63,9 +63,7 @@
 
                         <div class="tab-pane" id="tab-reviews">
                              {{#if ../../features.social.enabled}}
-                                <iframe name="socialIfr" id="socialIfr"
-                                    src="{{../../../features.social.keys.socialAppUrl}}?target={{../../../rxt.shortName}}:{{../../id}}&user={{../../../cuser.username}}&urlDomain={{../../../features.social.keys.urlDomain}}"
-                                    width="100%" height="100%" style="height: 300px;" data-script="{{../../../features.social.keys.socialScriptSource}}" data-script-type="{{../../../features.social.keys.socialScriptType}}"></iframe>
+                                    <iframe src='{{url ""}}/pages/user-reviews?target={{../../type}}:{{../../id}}&url-domain={{../../../features.social.keys.urlDomain}}' data-script='{{url ""}}/extensions/app/social-reviews/export-js/social.js' data-script-type="text/javascript" width="100%" height="100%" style="min-height: 500px;"></iframe>
                              {{/if}}
                             {{#if ../../inDashboard}}
                                  <div id="comment-content" class="content"></div>
