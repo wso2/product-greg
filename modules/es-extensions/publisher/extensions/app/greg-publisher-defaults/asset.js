@@ -106,6 +106,11 @@ asset.renderer = function(ctx) {
 
                 var type = page.assets.type;
                 page.assetVersions = gregAPI.getAssetVersions(ctx.session, ctx.assetType, page.assets.path, page.assets.name);
+                var single_version = false;
+                if(page.assetVersions.length === 1){
+                    single_version = true;
+                }
+                page.single_version = single_version;
             },
             decoratingAssetListing: function(page) {
                 // Following is to remove the statistics button in the list page
