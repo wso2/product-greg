@@ -1,4 +1,5 @@
-$("#diff-view-version li").on('click',function(event){
+$("#diff-view-version li").on('mouseover',function(event){
+
     var id = $(this).parents('.select').attr('id');
     var version = $(this).children().text();
     var path = $(this).children().attr("id");
@@ -7,9 +8,8 @@ $("#diff-view-version li").on('click',function(event){
     selected_option.text(version);
     selected_option.attr('data-selected_base_path',path);
 
-    var diff_view_url = "/publisher/pages/diff?type=wsdl&path=" + path + ',' +  base_path;
+    var diff_view_url = "/store/pages/diff?type=wsdl&path=" + path + ',' +  base_path;
     $("#diff-view-button").attr("href", diff_view_url);
-
 });
 
 $('select.select2').select2({
