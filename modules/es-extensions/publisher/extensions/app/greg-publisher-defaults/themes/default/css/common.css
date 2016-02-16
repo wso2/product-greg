@@ -165,12 +165,22 @@ a.cu-btn-inner.inverse, .btn-primary, .btn-default {
     border: none;
 }
 
-/*!* TODO: Add an exception to buttons inside button group since when this applied can't distinguish two close buttons *!*/
+/* Add an exception to buttons inside button group since when this applied can't distinguish two close buttons TODO: Need to refactor with STORE-1190 fix */
 .top-common-btn-grp{
     color: #333 !important;
     background-color: #fff !important;
     border: 1px solid transparent !important;
     border-color: #ccc !important;
+}
+
+/* This style revert the override style in bootstrap dropdown menu in custom-theme.css TODO: Need to refactor with STORE-1190 fix */
+.top-common-dropdown-menu {
+    background: #fff !important;
+    top: 100%;
+    margin: 2px 0 0;
+    background-clip: padding-box;
+    border: 1px solid rgba(0, 0, 0, .15);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, .175);
 }
 
 a.cu-btn-inner.inverse:hover, .btn-primary:hover, .btn-default:hover {
