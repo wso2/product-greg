@@ -17,6 +17,8 @@
 */
 package org.wso2.carbon.registry.es.store.search;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.apache.wink.client.ClientResponse;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -46,6 +48,8 @@ import static org.testng.Assert.assertTrue;
 
 @SetEnvironment(executionEnvironments = {ExecutionEnvironment.ALL})
 public class GregRestResourceStoreSearchTestCase extends GregESTestBaseTest {
+
+    protected Log log = LogFactory.getLog(GregRestResourceStoreSearchTestCase.class);
 
     private TestUserMode userMode;
     private String publisherUrl;
@@ -190,6 +194,8 @@ public class GregRestResourceStoreSearchTestCase extends GregESTestBaseTest {
 
         ClientResponse response = genericRestClient.geneticRestRequestGet
                 (storeUrl.split("/apis")[0] + "/assets/restservice/list", queryParamMap, headerMap, storeCookieHeader);
+
+        log.info("Store search result : "+ response.getEntity(String.class));
 
         assertTrue(response.getEntity(String.class).contains(restServiceName),
                 "Response does not contain Rest service name " + restServiceName);
