@@ -165,8 +165,21 @@ a.cu-btn-inner.inverse, .btn-primary, .btn-default {
     border: none;
 }
 
+/*!* TODO: Add an exception to buttons inside button group since when this applied can't distinguish two close buttons *!*/
+.top-common-btn-grp{
+    color: #333 !important;
+    background-color: #fff !important;
+    border: 1px solid transparent !important;
+    border-color: #ccc !important;
+}
+
 a.cu-btn-inner.inverse:hover, .btn-primary:hover, .btn-default:hover {
     background: #4D5461  !important;
+}
+
+.top-common-btn-grp:hover {
+    background: #DEE1E6 !important;
+    background-color: rgb(222, 225, 230) !important;
 }
 
 .navbar-collapse {
