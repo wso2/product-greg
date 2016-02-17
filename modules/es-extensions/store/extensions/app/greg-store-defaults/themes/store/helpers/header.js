@@ -19,7 +19,7 @@
 
 var resources = function(){
     return {
-        css:['common.css','sidepanel.css', 'left-navigation.css', 'font-wso2.css'],
-        js:['sidepanel.js','greg-subscriptions-api.js']
+        css:['common.css','sidepanel.css', 'left-navigation.css', 'font-wso2.css', 'bootstrap-dialog.min.css'],
+        js:['sidepanel.js','greg-subscriptions-api.js','bootstrap-dialog.min.js']
     }
 };

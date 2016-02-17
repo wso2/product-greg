@@ -2,7 +2,7 @@
     width: 400px;
     position: absolute;
     right: -400px;
-    z-index: 10000;
+    z-index: 1000;
     transition: right 0.4s ease 0s;
     overflow-y: auto;
     overflow-x: hidden;
@@ -71,10 +71,10 @@
 .wr-notification-desc .wr-operation-icon {
     position:absolute;
     color: #fff;
-    top: 5%;
+    top: 70%;
     right: 0%;
     display: none;
-    font-size: 8px;
+    font-size: 10px;
 }
 
 .wr-notification-desc .wr-operation-icon .fw-ring {
@@ -87,6 +87,20 @@
 
 .wr-notification-desc .wr-operation-link {
     color: #FFF;
+    font-size: 16px;
+}
+
+.wr-notification-desc .wr-notification-clear {
+    position: absolute;
+    width: 20%;
+    top: 10%;
+    right: 0%;
+}
+
+.wr-notification-clear .wr-clear-link {
+    color: #FFF;
+    top: 5%;
+    right: 0%;
     font-size: 16px;
 }
 

@@ -1,4 +1,14 @@
-
+<div id="clearalldiv">
+    <div class="wr-notification-desc">
+        <div class="wr-notification-clear">
+            <a href="javascript:void(0)" id="clearalllink" class="wr-clear-link "
+               onclick="GregSubscriptionAPI.clearAllNotifications()">
+                {{t "Clear all"}}
+            </a>
+        </div>
+    </div>
+    <hr/>
+</div>
 {{#each notifications.list}}
 
     <div class="wr-notification-desc new" id="notification{{this.id}}">
@@ -12,7 +22,7 @@
            onclick="GregSubscriptionAPI.removeNotification({{this.id}}, $(this))">
             <span class="fw-stack fw-lg">
                 <i class="fw fw-ring fw-stack-2x"></i>
-                <i class="fw fw-cancel fw-stack-1x"></i>
+                <i class="fw fw-delete fw-stack-1x"></i>
             </span>
         </a>
 
