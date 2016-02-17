@@ -13,9 +13,17 @@
 * limitations under the License.
 -->
 
-<span class="asset-show-dependency">
-        <a class="btn btn-default btn-lg pull-right"
-           href='{{url ""}}/pages/impact?path={{encodeURIComponent assets.path}}' target="_blank">
-            Show Dependency
-        </a>
-</span>
+<div class="container pull-right">
+    <div class="col-sm-10 pull-right">
+        <form class="form-inline" action="#" method="get">
+            <div class="input-group col-sm-8 pull-right ">
+                {{#if assetVersions}}
+                    {{> view-asset-diff-view-container ..}}
+                {{/if}}
+
+                {{> view-asset-top-show-dependency-button }}
+
+            </div>
+        </form>
+    </div>
+</div>

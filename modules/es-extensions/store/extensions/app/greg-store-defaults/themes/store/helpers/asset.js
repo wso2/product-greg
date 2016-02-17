@@ -46,5 +46,6 @@ var resources = function(page, meta) {
     o.js.push('sidepanel.js');
     o.js.push('greg-page-api.js');
     o.js.push('copy-to-clipboard.js');
+    o.js.push('diff-view.js');
     return o;
 };
