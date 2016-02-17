@@ -26,7 +26,7 @@ $(function(){
 	  	$('#copy-button').removeClass('btn-default');
 	  	$('#copy-button').addClass('btn-warning');
 	  	setTimeout(function(){
-	  		$('#copy-button').html('<i class="fw fw-copy"></i> Copy to clipboard');
+	  		$('#copy-button').html('<i class="fw fw-copy"></i> Copy URL');
 	  		$('#copy-button').removeClass('btn-warning');
 	  		$('#copy-button').addClass('btn-default');
 	  	},2000);
