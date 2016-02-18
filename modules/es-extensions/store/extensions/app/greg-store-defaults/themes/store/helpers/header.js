@@ -17,9 +17,9 @@
  *
  */
 
-var resources = function(){
+var resources = function () {
     return {
-        css:['common.css','sidepanel.css', 'left-navigation.css', 'font-wso2.css'],
-        js:['sidepanel.js','greg-subscriptions-api.js']
+        css: ['common.css', 'sidepanel.css', 'left-navigation.css', 'font-wso2.css', 'typeahead.css'],
+        js: ['sidepanel.js', 'greg-subscriptions-api.js', 'typeahead.bundle.min.js', 'typeahead.js']
     }
 };
