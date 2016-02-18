@@ -121,7 +121,9 @@ $(function() {
                         success: function (data) {
                             if (data.error == null) {
                                 dialogItself.close();
-                                location.reload(true);
+                                $('#notificationCount').html(0);
+                                $("#clearalldiv").hide();
+                                $(".wr-notification-desc").hide();
                             }
                         },
                         error: function () {
