@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<application xmlns="http://wadl.dev.java.net/2009/02" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+   <resources base="http://localhost/cxf/">
+      <resource path="/customerservice/">
+         <resource path="addorder/{id}/{name}/{quantity}/{price}">
+            <param name="id" style="template" type="xs:string" />
+            <param name="name" style="template" type="xs:string" />
+            <param name="quantity" style="template" type="xs:string" />
+            <param name="price" style="template" type="xs:double" />
+            <method name="POST">
+               <request />
+               <response>
+                  <representation mediaType="text/plain">
+                     <param name="result" style="plain" type="xs:string" />
+                  </representation>
+               </response>
+            </method>
+         </resource>
+         <resource path="deleteorder/{id}/">
+            <param name="id" style="template" type="xs:string" />
+            <method name="DELETE">
+               <request />
+               <response>
+                  <representation mediaType="application/octet-stream">
+                     <param name="result" style="plain" type="xs:string" />
+                  </representation>
+               </response>
+            </method>
+         </resource>
+         <resource path="getorder/{id}">
+            <param name="id" style="template" type="xs:string" />
+            <method name="GET">
+               <request />
+               <response>
+                  <representation mediaType="text/plain">
+                     <param name="result" style="plain" type="xs:string" />
+                  </representation>
+               </response>
+            </method>
+         </resource>
+         <resource path="updateorder/{id}/{name}/{quantity}/{price}">
+            <param name="id" style="template" type="xs:string" />
+            <param name="name" style="template" type="xs:string" />
+            <param name="quantity" style="template" type="xs:string" />
+            <param name="price" style="template" type="xs:double" />
+            <method name="PUT">
+               <request />
+               <response>
+                  <representation mediaType="text/plain">
+                     <param name="result" style="plain" type="xs:string" />
+                  </representation>
+               </response>
+            </method>
+         </resource>
+      </resource>
+   </resources>
+</application>
