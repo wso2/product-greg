@@ -147,7 +147,7 @@ public class CustomRXTAssociationTestCase extends GregESTestBaseTest {
         Thread.sleep(3000);
 
         ClientResponse associationList = genericRestClient.geneticRestRequestGet(publisherUrl +
-                "/association/restservice/dependancies/" + assetId, queryParamMap, headerMap, cookieHeader);
+                "/association/restservice/depends/" + assetId, queryParamMap, headerMap, cookieHeader);
 
 
         JsonArray jsonObject = new JsonParser().parse(associationList.getEntity(String.class)).

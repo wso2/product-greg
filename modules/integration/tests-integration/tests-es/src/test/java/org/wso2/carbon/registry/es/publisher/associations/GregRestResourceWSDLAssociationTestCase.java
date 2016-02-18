@@ -117,7 +117,7 @@ public class GregRestResourceWSDLAssociationTestCase extends GregESTestBaseTest 
     @Test(groups = {"wso2.greg", "wso2.greg.es"}, description = "check the wsdl upload created associations")
     public void serviceAssociationExists() throws JSONException, IOException, ParseException, InterruptedException {
         ClientResponse associationList = genericRestClient.geneticRestRequestGet(publisherUrl +
-                "/association/restservice/dependancies/" + assetId, queryParamMap, headerMap, cookieHeaderPublisher);
+                "/association/restservice/depends/" + assetId, queryParamMap, headerMap, cookieHeaderPublisher);
         JsonArray jsonObject = new JsonParser().parse(associationList.getEntity(String.class)).
                 getAsJsonObject().get("results").getAsJsonArray();
         assertTrue(jsonObject.toString().contains("uuid"));
