@@ -1,0 +1,86 @@
+<wsp:Policy wsu:Id="SgnOnlyAnonymous"
+		xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd"
+		xmlns:wsp="http://schemas.xmlsoap.org/ws/2004/09/policy"
+		xmlns:wsa="http://schemas.xmlsoap.org/ws/2004/08/addressing"
+		xmlns:sp="http://schemas.xmlsoap.org/ws/2005/07/securitypolicy">
+	<wsp:ExactlyOne>
+		<wsp:All>
+			<sp:SymmetricBinding>
+				<wsp:Policy>
+					<sp:ProtectionToken>
+						<wsp:Policy>
+							<sp:X509Token sp:IncludeToken="http://schemas.xmlsoap.org/ws/2005/07/securitypolicy/IncludeToken/Never">
+								<wsp:Policy>
+									<sp:RequireThumbprintReference/>
+									<sp:WssX509V3Token10/>
+								</wsp:Policy>
+							</sp:X509Token>
+						</wsp:Policy>
+					</sp:ProtectionToken>
+					<sp:AlgorithmSuite>
+						<wsp:Policy>
+							<sp:Basic128/>
+						</wsp:Policy>
+					</sp:AlgorithmSuite>
+					<sp:Layout>
+						<wsp:Policy>
+							<sp:Lax/>
+						</wsp:Policy>
+					</sp:Layout>
+					<sp:IncludeTimestamp/>
+					<sp:OnlySignEntireHeadersAndBody/>
+				</wsp:Policy>
+			</sp:SymmetricBinding>
+			<sp:SupportingTokens xmlns:sp="http://schemas.xmlsoap.org/ws/2005/07/securitypolicy">
+					<wsp:Policy>
+						<sp:IssuedToken sp:IncludeToken="http://schemas.xmlsoap.org/ws/2005/07/securitypolicy/IncludeToken/AlwaysToRecipient">
+							<Issuer xmlns="http://schemas.xmlsoap.org/ws/2005/07/securitypolicy">
+								<Address xmlns="http://www.w3.org/2005/08/addressing">http://localhost:8080/axis2/services/STS</Address>
+							</Issuer>
+							<sp:RequestSecurityTokenTemplate>
+								<t:TokenType xmlns:t="http://schemas.xmlsoap.org/ws/2005/02/trust">http://docs.oasis-open.org/wss/oasis-wss-saml-token-profile-1.1#SAMLV1.1</t:TokenType>
+								<t:KeyType xmlns:t="http://schemas.xmlsoap.org/ws/2005/02/trust">http://schemas.xmlsoap.org/ws/2005/02/trust/SymmetricKey</t:KeyType>
+								<t:KeySize xmlns:t="http://schemas.xmlsoap.org/ws/2005/02/trust">256</t:KeySize>
+							</sp:RequestSecurityTokenTemplate>
+							<wsp:Policy>
+								<sp:RequireInternalReference/>
+							</wsp:Policy>
+						</sp:IssuedToken>
+					</wsp:Policy>
+		     </sp:SupportingTokens>
+			<sp:SignedParts>
+				<sp:Header Name="To" Namespace="http://www.w3.org/2005/08/addressing"/>
+				<sp:Body/>
+			</sp:SignedParts>
+			<sp:Wss11>
+				<wsp:Policy>
+					<sp:MustSupportRefKeyIdentifier/>
+					<sp:MustSupportRefIssuerSerial/>
+					<sp:MustSupportRefThumbprint/>
+					<sp:MustSupportRefEncryptedKey/>
+				<sp:RequireSignatureConfirmation/>
+				</wsp:Policy>
+			</sp:Wss11>
+			<sp:Trust10>
+				<wsp:Policy>
+					<sp:MustSupportIssuedTokens/>
+					<sp:RequireClientEntropy/>
+					<sp:RequireServerEntropy/>
+				</wsp:Policy>
+			</sp:Trust10>
+			<ramp:RampartConfig xmlns:ramp="http://ws.apache.org/rampart/policy"> 
+				<ramp:user>client</ramp:user>
+				<ramp:encryptionUser>service</ramp:encryptionUser>
+				<ramp:passwordCallbackClass>org.apache.rampart.samples.policy.sample05.PWCBHandler</ramp:passwordCallbackClass>
+				
+				<ramp:signatureCrypto>
+					<ramp:crypto provider="org.apache.ws.security.components.crypto.Merlin">
+						<ramp:property name="org.apache.ws.security.crypto.merlin.keystore.type">JKS</ramp:property>
+						<ramp:property name="org.apache.ws.security.crypto.merlin.file">client.jks</ramp:property>
+						<ramp:property name="org.apache.ws.security.crypto.merlin.keystore.password">apache</ramp:property>
+					</ramp:crypto>
+				</ramp:signatureCrypto>
+			</ramp:RampartConfig>
+		</wsp:All>
+	</wsp:ExactlyOne>
+</wsp:Policy>
