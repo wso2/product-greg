@@ -348,7 +348,15 @@ var gregAPI = {};
         var sourcePath = srcam.get(sourceUUID).path;
         var destam = assetManager(session, destType);
         var destPath = destam.get(destUUID).path;
+        var reverseAssociationType = CommonUtil.getReverseAssociationType(sourceType, associationType);
+        if (!reverseAssociationType){
+            reverseAssociationType = CommonUtil.getReverseAssociationType("default", associationType);
+        }
+        var destPath = destam.get(destUUID).path;
         srcam.registry.registry.addAssociation(sourcePath,destPath,associationType);
+        if(reverseAssociationType) {
+            srcam.registry.registry.addAssociation(destPath, sourcePath, reverseAssociationType);
+        }
     }
 
     gregAPI.associations.list = function(session, type, path) {
@@ -444,6 +452,24 @@ var gregAPI = {};
         var destam = assetManager(session, destType);
         var destPath = destam.get(destUUID).path;
         srcam.registry.registry.removeAssociation(sourcePath,destPath,associationType);
+        var reverseAssociationType = CommonUtil.getReverseAssociationType(sourceType, associationType);
+        if (!reverseAssociationType){
+            reverseAssociationType = CommonUtil.getReverseAssociationType("default", associationType);
+        }
+        if (!reverseAssociationType){
+            reverseAssociationType = CommonUtil.getAssociationTypeForRemoveOperation(destType, associationType);
+        }
+        if (!reverseAssociationType){
+            reverseAssociationType = CommonUtil.getAssociationTypeForRemoveOperation("default", associationType);
+        }
+        var results = srcam.registry.associations(destPath);
+        if (reverseAssociationType) {
+            for (var i = 0; i < results.length; i++) {
+                if (results[i].dest == sourcePath && results[i].type == reverseAssociationType) {
+                    srcam.registry.registry.removeAssociation(destPath, sourcePath, reverseAssociationType);
+                }
+            }
+        }
     }
 
 
