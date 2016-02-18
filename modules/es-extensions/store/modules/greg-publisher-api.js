@@ -227,7 +227,7 @@ var gregAPI = {};
                         workList.overviewName = subPaths[subPaths.length - 1];
                     } else {
                         var govAttifact = Packages.org.wso2.carbon.governance.api.util.GovernanceUtils.retrieveGovernanceArtifactByPath(am.registry.registry, pathValue);
-                        workList.overviewName = String(govAttifact.getAttribute('overview_name'));
+                        workList.overviewName = String(govAttifact.getQName().getLocalPart());
                     }
 
                     workList.presentationSubject = workList.presentationSubject.replace("resource at path", workList.overviewName);
