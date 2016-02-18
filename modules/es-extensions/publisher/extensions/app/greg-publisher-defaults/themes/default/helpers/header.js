@@ -19,7 +19,7 @@
 
 var resources = function(){
     return {
-        css:['select2.min.css','common.css','sidepanel.css'],
-        js:['select2.full.min.js','sidepanel.js','greg-subscriptions-api.js']
+        css:['select2.min.css','common.css','sidepanel.css', 'bootstrap-dialog.min.css'],
+        js:['select2.full.min.js','sidepanel.js','greg-subscriptions-api.js','bootstrap-dialog.min.js']
     }
 };
