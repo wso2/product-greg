@@ -27,7 +27,7 @@
 asset.renderer = function(ctx) {
     var gregAPI = require('/modules/greg-publisher-api.js').gregAPI;
     var rxt = require('rxt');
-    var allowedPagesForSidebar = ['list', 'details', 'lifecycle', 'update', 'associations', 'copy', 'delete'];
+    var allowedPagesForSidebar = ['list', 'details', 'lifecycle', 'update', 'associations', 'copy', 'delete', 'create'];
     var assetManager = function(session, type) {
         var am = rxt.asset.createUserAssetManager(session, type);
         return am;
