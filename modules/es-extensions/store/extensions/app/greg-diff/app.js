@@ -24,13 +24,13 @@ app.server = function(ctx){
                     title:'Diff',
                     url:'diff',
                     path:'diff-view.jag',
-                    secured:true
+                    secured:false
                 },
                 {
                     title:'Code',
                     url:'select',
                     path:'diff-select.jag',
-                    secured:true
+                    secured:false
                 }
             ]
         }

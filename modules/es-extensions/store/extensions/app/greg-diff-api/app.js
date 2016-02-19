@@ -23,7 +23,7 @@ app.server = function(ctx){
                 {
                     url:'governance-artifacts',
                     path:'governance-artifacts.jag',
-                    secured:true
+                    secured:false
                 }
             ]
         }
