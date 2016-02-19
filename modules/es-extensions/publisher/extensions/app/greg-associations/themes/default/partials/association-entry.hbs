@@ -6,8 +6,9 @@
             <i class="fw fw-{{iconClass}}"></i>
         </div>
         <div class="wr-asset-details" data-uuid="{{uuid}}">
-            <div class="resource-name">{{text}}</div>
-
+            <div class="resource-name">{{text}}
+                <span class="association-type">{{associationType}}</span>
+            </div>
             {{#each uniqueAttributesValues}}
             <div class="resource-unique">{{this}}</div>               
             {{/each}}
