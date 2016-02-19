@@ -10,8 +10,12 @@
                 <div class="ast-content">
                     <div class="ast-title padding">
                         <a class="ast-name truncate" href="{{tenantedUrl "/assets"}}/{{../type}}/details/{{../id}}" title="{{../name}}">{{../name}}</a>
-                        <span class="ast-auth" title="{{overview_provider}}">{{overview_provider}}</span>
-                        <span class="ast-ver">{{t "V"}}{{overview_version}}</span>
+                        {{#if overview_provider}}
+                            <span class="ast-auth" title="{{overview_provider}}">{{overview_provider}}</span>
+                        {{/if}}
+                        {{#if overview_version}}
+                            <span class="ast-ver">{{t "V"}}{{overview_version}}</span>
+                        {{/if}}
                     </div>
                     <div class="pull-left asset-rating-container">
                         <span class="asset-rating">
