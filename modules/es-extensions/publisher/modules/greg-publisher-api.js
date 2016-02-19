@@ -5,9 +5,12 @@ var gregAPI = {};
     var SubscriptionPopulator = Packages.org.wso2.carbon.registry.info.services.utils.SubscriptionBeanPopulator;
     var GovernanceUtils = Packages.org.wso2.carbon.governance.api.util.GovernanceUtils;
     var CommonUtil = Packages.org.wso2.carbon.governance.registry.extensions.utils.CommonUtil;
+    var TSimpleQueryInput = org.wso2.carbon.humantask.client.api.types.TSimpleQueryInput;
 
     var carbon = require('carbon');
     var time = require('utils').time;
+    var constants = require('rxt').constants;
+    var responseProcessor = require('utils').response;
     var taskOperationService = carbon.server.osgiService('org.wso2.carbon.humantask.core.TaskOperationService');
     gregAPI.notifications = {};
     gregAPI.subscriptions = {};
@@ -243,7 +246,7 @@ var gregAPI = {};
                         workList.overviewName = subPaths[subPaths.length - 1];
                     } else {
                         var govAttifact = Packages.org.wso2.carbon.governance.api.util.GovernanceUtils.retrieveGovernanceArtifactByPath(am.registry.registry, pathValue);
-                        workList.overviewName = String(govAttifact.getAttribute('overview_name'));
+                        workList.overviewName = String(govAttifact.getQName().getLocalPart());
                     }
 
                     workList.presentationSubject = workList.presentationSubject.replace("resource at path", workList.overviewName);
@@ -265,6 +268,35 @@ var gregAPI = {};
         }
         results.list = result;
         return results;
+    };
+
+    gregAPI.notifications.clear = function(res) {
+        var queryInput = new TSimpleQueryInput();
+        var message;
+        queryInput.setPageNumber(0);
+        queryInput.setSimpleQueryCategory(
+            org.wso2.carbon.humantask.client.api.types.TSimpleQueryCategory.ASSIGNED_TO_ME);
+        var resultSet = taskOperationService.simpleQuery(queryInput);
+        var rows = resultSet.getRow();
+        if (rows) {
+            for (var i = 0; i < rows.length; i++) {
+                var row =  rows[i];
+                var id = String(row.getId());
+                var idObj = new org.apache.axis2.databinding.types.URI(id);
+                try{
+                    taskOperationService.start(idObj);
+                    taskOperationService.complete(idObj, "<WorkResponse>true</WorkResponse>");
+                } catch (e){
+                    log.warn(e);
+                    return responseProcessor.buildErrorResponseDefault(e.code, 'error on clearing notifications', res,
+                        'Failed to clear all notifications ', e.message, []);
+                }
+            }
+        }
+        message = {
+            'status': 'success'
+        };
+        return responseProcessor.buildSuccessResponseDefault(constants.STATUS_CODES.OK, res, message);
     };
 
     var getDateTime = function(date) {

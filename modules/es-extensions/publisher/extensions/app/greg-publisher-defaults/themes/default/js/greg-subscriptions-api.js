@@ -160,8 +160,12 @@ $(function() {
             contentType: 'application/json',
             success: function(data) {
                 if (data.error == null) {
+                    var updatedNotiCount = notiCount - 1;
                     element.parent().remove();
-                    $('#notificationCount').html((notiCount - 1));
+                    $('#notificationCount').html(updatedNotiCount);
+                    if(updatedNotiCount == 0){
+                        $("#clearalldiv").hide();
+                    }
                 }
             },
             error: function() {
@@ -179,6 +183,53 @@ $(function() {
             }
         })
     };
+
+    var clearAllNotifications = function() {
+        var urlSub = caramel.context + '/apis/notification/';
+        BootstrapDialog.show({
+            type: BootstrapDialog.TYPE_WARNING,
+            title: 'Warning!',
+            message: '<div><i class="fa fa-check"></i> Are you sure you want to clear all notifications?</div>',
+            buttons: [{
+                label: 'Yes',
+                action: function (dialogItself) {
+                    $.ajax({
+                        url: urlSub,
+                        type: 'DELETE',
+                        contentType: 'application/json',
+                        success: function (data) {
+                            if (data.error == null) {
+                                dialogItself.close();
+                                $('#notificationCount').html(0);
+                                $("#clearalldiv").hide();
+                                $(".wr-notification-desc").hide();
+                            }
+                        },
+                        error: function () {
+                            BootstrapDialog.show({
+                                type: BootstrapDialog.TYPE_DANGER,
+                                title: 'Error!',
+                                message: '<div><i class="fa fa-warning"></i> Error while clearing notifications</div>',
+                                buttons: [{
+                                    label: 'Close',
+                                    action: function (dialogItself) {
+                                        dialogItself.close();
+                                    }
+                                }]
+                            });
+                        }
+                    });
+                }
+            },
+                {
+                    label: 'No',
+                    action: function (dialogItself) {
+                        dialogItself.close();
+                    }
+                }]
+        });
+    };
+
     var containers = ['resourceUpdated', 'lifeCycleStateChanged', 'checkListItemChecked', 'checkListItemUnchecked'];
     var methods = ['Work', 'Email'];
     var map = function(container, method) {
@@ -214,4 +265,5 @@ $(function() {
         }
     }
     GregSubscriptionAPI.removeNotification = removeNotification;
+    GregSubscriptionAPI.clearAllNotifications = clearAllNotifications;
 });

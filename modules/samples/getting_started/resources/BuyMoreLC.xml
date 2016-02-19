@@ -95,17 +95,17 @@
                         <data name="checkItems">
                             <item name="Effective Inspection Completed" forEvent="">
                                 <permissions>
-                                    <permission roles="qamanager,admin"/>
+                                    <permission roles="devops,admin"/>
                                 </permissions>
                             </item>
                             <item name="Test Cases Passed" forEvent="">
                                 <permissions>
-                                    <permission roles="qamanager,admin"/>
+                                    <permission roles="devops,admin"/>
                                 </permissions>
                             </item>
                             <item name="Smoke Test Passed" forEvent="">
                                 <permissions>
-                                    <permission roles="qamanager,admin"/>
+                                    <permission roles="devops,admin"/>
                                 </permissions>
                             </item>
                         </data>
