@@ -1,8 +1,8 @@
 {{#each assets}}
         {{#attributes}}
-        <div class="ctrl-wr-asset ">
+        <div class="ctrl-wr-asset">
             <div class="itm-ast">
-                <a class="ast-img " href="{{tenantedUrl "/assets"}}/{{../type}}/details/{{../id}}" title="{{overview_name}}">
+                <a class="ast-img" id="{{this.overview_name}}" href="{{tenantedUrl "/assets"}}/{{../type}}/details/{{../id}}" title="{{overview_name}}">
                                                          {{> assets-thumbnail ..}}
                 </a>
                 {{#if ../../showType}}<div class="ast-type-display">{{../../type}}</div>{{/if}}
