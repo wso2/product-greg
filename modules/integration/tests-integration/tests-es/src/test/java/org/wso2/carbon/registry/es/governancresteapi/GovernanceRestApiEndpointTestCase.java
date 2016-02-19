@@ -213,7 +213,7 @@ public class GovernanceRestApiEndpointTestCase extends GregESTestBaseTest {
 
         Map<String, String> headerMap = new HashMap<>();
         ClientResponse associationList = genericRestClient.geneticRestRequestGet(publisherUrl +
-                                                                                 "/association/restservice/dependencies/"
+                                                                                 "/association/restservice/depends/"
                                                                                  + assetIdOfRestService, queryParamMap,
                                                                                  headerMap, cookieHeader);
         JsonArray jsonObject = new JsonParser().parse(associationList.getEntity(String.class)).
@@ -247,7 +247,7 @@ public class GovernanceRestApiEndpointTestCase extends GregESTestBaseTest {
         Thread.sleep(1000);
         Map<String, String> headerMap = new HashMap<>();
         ClientResponse associationList = genericRestClient.geneticRestRequestGet(publisherUrl +
-                                                                                 "/association/restservice/dependencies/"
+                                                                                 "/association/restservice/depends/"
                                                                                  + assetIdOfRestService, queryParamMap,
                                                                                  headerMap, cookieHeader);
         JsonArray jsonObject = new JsonParser().parse(associationList.getEntity(String.class)).

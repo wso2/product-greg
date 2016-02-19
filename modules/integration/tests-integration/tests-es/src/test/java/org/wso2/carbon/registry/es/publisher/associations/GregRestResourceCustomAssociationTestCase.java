@@ -193,7 +193,7 @@ public class GregRestResourceCustomAssociationTestCase extends GregESTestBaseTes
         Thread.sleep(3000);
 
         ClientResponse associationList = genericRestClient.geneticRestRequestGet(publisherUrl +
-                "/association/restservice/dependancies/" + spaceAssetId, queryParamMap, headerMap, cookieHeader);
+                "/association/restservice/depends/" + spaceAssetId, queryParamMap, headerMap, cookieHeader);
 
 
         JsonArray jsonObject = new JsonParser().parse(associationList.getEntity(String.class)).
