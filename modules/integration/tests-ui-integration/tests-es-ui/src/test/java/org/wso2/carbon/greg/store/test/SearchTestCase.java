@@ -46,7 +46,7 @@ public class SearchTestCase extends GREGIntegrationUIBaseTest {
         super.init();
         driver = BrowserManager.getWebDriver();
         driver.manage().timeouts().implicitlyWait(35, TimeUnit.SECONDS);
-        baseUrl = getStoreBaseURL();
+        baseUrl = getStoreBaseUrl();
         uiElementMapper = UIElementMapper.getInstance();
         driver.get(baseUrl);
         storeHomePage = new StoreHomePage(driver);

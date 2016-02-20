@@ -35,6 +35,10 @@ public class GREGIntegrationUIBaseTest extends GREGIntegrationBaseTest{
     protected String getStoreUrl() throws XPathExpressionException{
         return automationContext.getContextUrls().getSecureServiceUrl().replace("services", "store/apis");
     }
+
+    protected String getStoreBaseUrl() throws XPathExpressionException{
+        return automationContext.getContextUrls().getSecureServiceUrl().replace("services", "store");
+    }
 }
 
 

@@ -42,7 +42,7 @@ public class StoreHomePageTestCase extends GREGIntegrationUIBaseTest {
     public void setUp() throws Exception {
         super.init();
         driver = BrowserManager.getWebDriver();
-        baseUrl = getStoreBaseURL();
+        baseUrl = getStoreBaseUrl();
         driver.get(baseUrl);
         storeHomePage = new StoreHomePage(driver);
         storeHomePage.populateStore();

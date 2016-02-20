@@ -42,7 +42,7 @@ public class AssetsListingTestCase extends GREGIntegrationUIBaseTest {
         super.init();
         driver = BrowserManager.getWebDriver();
         driver.manage().timeouts().implicitlyWait(35, TimeUnit.SECONDS);
-        baseUrl = getStoreBaseURL();
+        baseUrl = getStoreBaseUrl();
         driver.get(baseUrl);
         storeHomePage = new StoreHomePage(driver);
         storeHomePage.populateStore();
