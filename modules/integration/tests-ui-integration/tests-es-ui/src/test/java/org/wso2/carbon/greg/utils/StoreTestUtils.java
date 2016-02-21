@@ -69,11 +69,10 @@ public class StoreTestUtils {
                     }
                     reader.close();
                 } catch (IOException e) {
-                        throw new StoreTestException("Could not print the output for ant script", e);
+                    throw new StoreTestException("Could not print the output for ant script", e);
                 }
             }
         }
         return builder.toString();
     }
-
 }

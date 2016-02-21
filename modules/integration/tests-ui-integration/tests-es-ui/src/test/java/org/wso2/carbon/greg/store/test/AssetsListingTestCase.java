@@ -21,12 +21,14 @@ import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 import org.wso2.carbon.automation.extensions.selenium.BrowserManager;
-import org.wso2.carbon.greg.store.*;
+import org.wso2.carbon.greg.store.AssetOverviewPage;
+import org.wso2.carbon.greg.store.StoreAssetListPage;
+import org.wso2.carbon.greg.store.StoreHomePage;
+import org.wso2.carbon.greg.store.StoreLoginPage;
 import org.wso2.carbon.greg.store.exceptions.StoreTestException;
 import org.wso2.greg.integration.common.utils.GREGIntegrationUIBaseTest;
 
 import javax.xml.xpath.XPathExpressionException;
-
 import java.util.concurrent.TimeUnit;
 
 import static org.testng.Assert.assertTrue;
@@ -41,7 +43,7 @@ public class AssetsListingTestCase extends GREGIntegrationUIBaseTest {
     public void setUp() throws Exception {
         super.init();
         driver = BrowserManager.getWebDriver();
-        driver.manage().timeouts().implicitlyWait(35, TimeUnit.SECONDS);
+        driver.manage().timeouts().implicitlyWait(90, TimeUnit.SECONDS);
         baseUrl = getStoreBaseUrl();
         driver.get(baseUrl);
         storeHomePage = new StoreHomePage(driver);
@@ -73,27 +75,21 @@ public class AssetsListingTestCase extends GREGIntegrationUIBaseTest {
      * @param aType Asset type needs to be tested.
      */
     private void doVerifyAssetByName(String aType) {
-        AssetListPage assetListPage = storeHomePage.clickOnSeeMore(aType);
+        StoreAssetListPage assetListPage = storeHomePage.clickOnSeeMore(aType);
 
-        if(aType.equals("policy")){
+        if (aType.equals("policy")) {
             assertTrue(assetListPage.verifyPolicyAssetListPageSubtitle(), "Listing page subtitle is not Policies");
-        }
-        else if(aType.equals("restservice")) {
+        } else if (aType.equals("restservice")) {
             assertTrue(assetListPage.verifyRESTAssetListPageSubtitle(), "Listing page subtitle is not REST Services");
-        }
-        else if(aType.equals("schema")) {
+        } else if (aType.equals("schema")) {
             assertTrue(assetListPage.verifySchemaAssetListPageSubtitle(), "Listing page subtitle is not Schemas");
-        }
-        else if(aType.equals("soapservice")) {
+        } else if (aType.equals("soapservice")) {
             assertTrue(assetListPage.verifySOAPAssetListPageSubtitle(), "Listing page subtitle is not SOAP Services");
-        }
-        else if(aType.equals("swagger")) {
+        } else if (aType.equals("swagger")) {
             assertTrue(assetListPage.verifySwaggerAssetListPageSubtitle(), "Listing page subtitle is not Swaggers");
-        }
-        else if(aType.equals("wadl")) {
+        } else if (aType.equals("wadl")) {
             assertTrue(assetListPage.verifyWADLAssetListPageSubtitle(), "Listing page subtitle is not WADLs");
-        }
-        else if(aType.equals("wsdl")) {
+        } else if (aType.equals("wsdl")) {
             assertTrue(assetListPage.verifyWSDLAssetListPageSubtitle(), "WSDLs");
         }
 
@@ -104,7 +100,7 @@ public class AssetsListingTestCase extends GREGIntegrationUIBaseTest {
         assertTrue(assetOverviewPage.verifyReviewButton());
 
         driver.get(baseUrl);
-        log.info("Asset listing test successful for "+aType);
+        log.info("Asset listing test successful for " + aType);
     }
 
     @AfterClass(alwaysRun = true, description = "Quiting the test and removing assets from the store.")
@@ -112,5 +108,4 @@ public class AssetsListingTestCase extends GREGIntegrationUIBaseTest {
         storeHomePage.unpopulateStore();
         driver.quit();
     }
-
 }

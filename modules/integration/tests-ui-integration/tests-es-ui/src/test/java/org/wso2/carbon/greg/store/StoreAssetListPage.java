@@ -24,14 +24,14 @@ import org.wso2.greg.integration.common.ui.page.util.UIElementMapper;
  * UI object model class for asset listing page of the store for a given asset type.
  * This can be used to perform operations on asset listing page.
  */
-public class AssetListPage {
+public class StoreAssetListPage {
 
     private WebDriver driver;
     private UIElementMapper uiElementMapper;
     private String assetType;
     private String pageSubtitle;
 
-    public AssetListPage(WebDriver driver, String assetType) {
+    public StoreAssetListPage(WebDriver driver, String assetType) {
         this.driver = driver;
         this.assetType = assetType;
         this.uiElementMapper = UIElementMapper.getInstance();

@@ -27,7 +27,6 @@ import org.wso2.carbon.greg.store.exceptions.StoreTestException;
 import org.wso2.greg.integration.common.utils.GREGIntegrationUIBaseTest;
 
 import javax.xml.xpath.XPathExpressionException;
-
 import java.util.concurrent.TimeUnit;
 
 import static org.testng.Assert.assertTrue;
@@ -46,7 +45,7 @@ public class StoreHomePageTestCase extends GREGIntegrationUIBaseTest {
         driver.get(baseUrl);
         storeHomePage = new StoreHomePage(driver);
         storeHomePage.populateStore();
-        driver.manage().timeouts().implicitlyWait(35, TimeUnit.SECONDS);
+        driver.manage().timeouts().implicitlyWait(90, TimeUnit.SECONDS);
     }
 
     @Test(description = "This tests the anonymous view of Store home page. Assets other than schemas and policies should be visible here")

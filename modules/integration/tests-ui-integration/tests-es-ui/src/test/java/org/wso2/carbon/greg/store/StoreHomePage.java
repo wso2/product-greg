@@ -27,9 +27,6 @@ import org.wso2.greg.integration.common.ui.page.util.UIElementMapper;
 
 import java.io.File;
 
-import static org.testng.Assert.assertTrue;
-import static org.testng.Assert.fail;
-
 /**
  * UI page object class of store home page. This can be used to perform actions on the home page.
  */
@@ -44,6 +41,7 @@ public class StoreHomePage {
 
     /**
      * Constructor for store home page. This asserts if the driver is on the store home page before returns.
+     *
      * @param driver WebDriver to perform actions on the page
      * @throws StoreTestException throws if the driver is not on the home page at the construction.
      */
@@ -78,8 +76,7 @@ public class StoreHomePage {
         try {
             StoreTestUtils.runAnt(gettingStartedPath, "run");
         } catch (StoreTestException e) {
-            log.info("Ant script could not be executed.", e);
-            fail(); //throw runtime exception like illegal state
+            throw new IllegalStateException("Ant script could not be executed", e);
         }
     }
 
@@ -90,8 +87,7 @@ public class StoreHomePage {
         try {
             StoreTestUtils.runAnt(gettingStartedPath, "remove");
         } catch (StoreTestException e) {
-            log.info("Ant script could not be executed.", e);
-            fail();
+            throw new IllegalStateException("Ant script could not be executed", e);
         }
     }
 
@@ -114,10 +110,9 @@ public class StoreHomePage {
      * @param aType Asset type that needs to be expanded.
      * @return AssetList page object belong to the particular asset type.
      */
-    public AssetListPage clickOnSeeMore(String aType) {
+    public StoreAssetListPage clickOnSeeMore(String aType) {
         String seeMoreXpath = uiElementMapper.getElement("store.homepage.listing." + aType + ".xpath");
         driver.findElement(By.xpath(seeMoreXpath)).click();
-        return new AssetListPage(driver, aType);
+        return new StoreAssetListPage(driver, aType);
     }
-
-}//rename to registry asset listing page
+}

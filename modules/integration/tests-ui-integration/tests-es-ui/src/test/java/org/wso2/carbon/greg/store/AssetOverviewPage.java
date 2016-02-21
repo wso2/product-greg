@@ -63,8 +63,7 @@ public class AssetOverviewPage {
      * @return True, if the user reviews tab exists.
      */
     public boolean verifyReviewButton() {
-        return driver.findElements(By.linkText(uiElementMapper.getElement("store.overview.userreview.a.id")))
-                .size() > 0;
+        return driver.findElements(By.linkText(uiElementMapper.getElement("store.overview.userreview.a.id"))).size()
+                > 0;
     }
-
 }

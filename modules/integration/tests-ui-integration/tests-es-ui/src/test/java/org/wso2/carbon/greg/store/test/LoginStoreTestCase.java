@@ -45,7 +45,7 @@ public class LoginStoreTestCase extends GREGIntegrationUIBaseTest {
     public void setUp() throws Exception {
         super.init();
         driver = BrowserManager.getWebDriver();
-        driver.manage().timeouts().implicitlyWait(35, TimeUnit.SECONDS);
+        driver.manage().timeouts().implicitlyWait(90, TimeUnit.SECONDS);
         baseUrl = getStoreBaseUrl();
         uiElementMapper = UIElementMapper.getInstance();
     }
@@ -57,23 +57,19 @@ public class LoginStoreTestCase extends GREGIntegrationUIBaseTest {
         StoreLoginPage storeLoginPage = storeHomePage.moveToLoginPage();
         storeLoginPage.Login(automationContext.getContextTenant().getContextUser().getUserName(),
                 automationContext.getContextTenant().getContextUser().getPassword());
-
-        //assert signed in
         WebElement signedInUser = driver
                 .findElement(By.id(uiElementMapper.getElement("store.homepage.loggedinuser.id")));
-        assertEquals(signedInUser.getText().trim(), automationContext.getContextTenant().getContextUser().getUserName(),
-                "Signed is user is different from context username");
+        assertEquals("Signed is user is different from context username", signedInUser.getText().trim(),
+                automationContext.getContextTenant().getContextUser().getUserName());
         log.info("Successfully logged in");
     }
 
     @Test(description = "This tests the logout functionality of Store home page", dependsOnMethods = "testLoginStore")
     public void testLogoutStore() throws XPathExpressionException {
         storeHomePage.logOut();
-
-        //assert logout
         WebElement signInButton = driver
                 .findElement(By.id(uiElementMapper.getElement("store.homepage.loginbutton.id")));
-        assertEquals(signInButton.getText(), "Sign in", "Not properly signed out from the store");
+        assertEquals("Not properly signed out from the store", signInButton.getText(), "Sign in");
         log.info("Successfully logged out");
     }
 
