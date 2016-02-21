@@ -35,8 +35,8 @@ public class SearchResultsPage {
      * Constructor for search results page. This performs search of any given query on store and constructs
      * the results page. This verifies if the driver is in results page before returns.
      *
-     * @param driver WebDriver object to perform operations.
-     * @param query The search query.
+     * @param driver   WebDriver object to perform operations.
+     * @param query    The search query.
      * @param hitEnter True, if the search needs to be done by hitting the enter button on search field.
      */
     public SearchResultsPage(WebDriver driver, String query, boolean hitEnter) {
@@ -47,7 +47,8 @@ public class SearchResultsPage {
         this.driver.findElement(By.id(uiElementMapper.getElement("store.searchbar.id"))).click();
         this.driver.findElement(By.id(uiElementMapper.getElement("store.searchbar.id"))).clear();
         if (hitEnter) {
-            this.driver.findElement(By.id(uiElementMapper.getElement("store.searchbar.id"))).sendKeys(query, Keys.ENTER);
+            this.driver.findElement(By.id(uiElementMapper.getElement("store.searchbar.id")))
+                    .sendKeys(query, Keys.ENTER);
         } else {
             this.driver.findElement(By.id(uiElementMapper.getElement("store.searchbar.id"))).sendKeys(query);
             this.driver.findElement(By.id(uiElementMapper.getElement("store.searchbtn.id"))).click();
