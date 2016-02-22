@@ -18,10 +18,12 @@ package org.wso2.carbon.greg.migration.client.internal;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.apache.poi.hssf.record.BookBoolRecord;
 import org.osgi.service.component.ComponentContext;
 import org.wso2.carbon.greg.migration.GRegMigrationException;
 import org.wso2.carbon.greg.migration.client.MigrateFrom460To500;
 import org.wso2.carbon.greg.migration.client.MigrationClient;
+import org.wso2.carbon.greg.migration.client.ProviderMigrationClient;
 import org.wso2.carbon.greg.migration.util.Constants;
 import org.wso2.carbon.registry.core.service.RegistryService;
 import org.wso2.carbon.registry.core.service.TenantRegistryLoader;
@@ -65,12 +67,13 @@ public class GRegMigrationServiceComponent {
         String migrateVersion = null;
         boolean isRegistryMigrationNeeded = false;
         boolean isFileSystemMigrationNeeded = false;
+        boolean isProviderMigrationNeeded = false;
 
         Map<String, String> argsMap = new HashMap<String, String>();
         argsMap.put("migrateVersion", System.getProperty("migrate"));
         argsMap.put("isRegMigrationNeeded", System.getProperty("migrateReg"));
         argsMap.put("isFileSysMigrationNeeded", System.getProperty("migrateFS"));
-
+        argsMap.put("isProviderMigrationNeeded", System.getProperty("migrateProvider"));
 
         if (!argsMap.isEmpty()) {
             migrateVersion = argsMap.get("migrateVersion");
@@ -79,6 +82,9 @@ public class GRegMigrationServiceComponent {
             }
             if (argsMap.get("isFileSysMigrationNeeded") != null) {
                 isFileSystemMigrationNeeded = Boolean.parseBoolean(argsMap.get("isFileSysMigrationNeeded"));
+            }
+            if (argsMap.get("isProviderMigrationNeeded") != null) {
+                isProviderMigrationNeeded = Boolean.parseBoolean(argsMap.get("isProviderMigrationNeeded"));
             }
         }
 
@@ -111,6 +117,9 @@ public class GRegMigrationServiceComponent {
                     if (log.isDebugEnabled()) {
                         log.debug("WSO2 Governance Registry 4.6.0 to 5.0.0 migration successfully completed");
                     }
+                } else if (Constants.VERSION_520.equalsIgnoreCase(migrateVersion) && isProviderMigrationNeeded){
+                    ProviderMigrationClient providerMigrationClient = new ProviderMigrationClient();
+                    providerMigrationClient.providerMigration();
                 } else {
                     log.error("The given migrate version " + migrateVersion + " is not supported. Please check the version and try again.");
                 }
