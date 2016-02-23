@@ -74,7 +74,7 @@ public class StoreHomePage {
      */
     public void populateStore() {
         try {
-            StoreTestUtils.runAnt(gettingStartedPath, "run");
+            StoreTestUtils.runAnt(gettingStartedPath, "run -Dport=10343");
         } catch (StoreTestException e) {
             throw new IllegalStateException("Ant script could not be executed", e);
         }
@@ -85,7 +85,7 @@ public class StoreHomePage {
      */
     public void unpopulateStore() {
         try {
-            StoreTestUtils.runAnt(gettingStartedPath, "remove");
+            StoreTestUtils.runAnt(gettingStartedPath, "remove -Dport=10343");
         } catch (StoreTestException e) {
             throw new IllegalStateException("Ant script could not be executed", e);
         }
