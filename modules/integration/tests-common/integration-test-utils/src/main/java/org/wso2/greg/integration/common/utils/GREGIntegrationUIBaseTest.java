@@ -16,13 +16,29 @@
 
 package org.wso2.greg.integration.common.utils;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
 import org.wso2.carbon.automation.engine.configurations.UrlGenerationUtil;
+import org.openqa.selenium.*;
+import org.wso2.greg.integration.common.clients.ResourceAdminServiceClient;
+
+import java.io.File;
+import java.net.URL;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.NoSuchElementException;
+import javax.activation.DataHandler;
 import javax.xml.xpath.XPathExpressionException;
 
 /**
  * Base class of all integration tests
  */
 public class GREGIntegrationUIBaseTest extends GREGIntegrationBaseTest{
+    public static final Log log = LogFactory.getLog(GREGIntegrationUIBaseTest.class);
+    public static final int WAIT_SECONDS = 2;
+    public static final int LOGIN_WAIT_SECONDS = 60;
 
     protected String getLoginURL() throws XPathExpressionException {
         return UrlGenerationUtil.getLoginURL(automationContext.getInstance());
@@ -34,6 +50,52 @@ public class GREGIntegrationUIBaseTest extends GREGIntegrationBaseTest{
 
     protected String getStoreUrl() throws XPathExpressionException{
         return automationContext.getContextUrls().getSecureServiceUrl().replace("services", "store/apis");
+    }
+
+    protected String getPublisherBaseURL() throws XPathExpressionException {
+        return automationContext.getContextUrls().getSecureServiceUrl().replace("services", "publisher");
+    }
+
+    /**
+     * Can be used to add new rxt configuration
+     *
+     * @param fileName         name of the new rxt file
+     * @param resourceFileName saving name for the rxt file
+     * @return true on successful addition of rxt
+     * @throws Exception
+     */
+    public boolean addNewRxtConfiguration(String fileName, String resourceFileName) throws Exception {
+
+        ResourceAdminServiceClient resourceAdminServiceClient = new ResourceAdminServiceClient(backendURL,
+                getSessionCookie());
+
+        String filePath = getTestArtifactLocation() + "artifacts" + File.separator +
+                "GREG" + File.separator + "rxt" + File.separator + fileName;
+        DataHandler dh = new DataHandler(new URL("file:///" + filePath));
+        return resourceAdminServiceClient.addResource(
+                "/_system/governance/repository/components/org.wso2.carbon.governance/types/" + resourceFileName,
+                "application/vnd.wso2.registry-ext-type+xml", "desc", dh);
+    }
+
+    /**
+     * This will return a unique String based on current time
+     * 02/19/2016 10:45:55pm as 02192016104555
+     * @return String unique name with current date and time
+     */
+
+    protected String getUniqueName() {
+        Date date = new Date();
+        SimpleDateFormat dateFormat = new SimpleDateFormat("MM:dd:yyyy:h:mm:ss:SSSS");
+        String formattedDate = dateFormat.format(date);
+        return formattedDate.replace(":","");
+    }
+
+    /**
+     * This method will check given element is present in the document
+     * @return boolean
+     */
+    protected static boolean isElementPresent (WebDriver driver, By by) {
+        return (driver.findElements(by).size() > 0);
     }
 
     protected String getStoreBaseUrl() throws XPathExpressionException{
