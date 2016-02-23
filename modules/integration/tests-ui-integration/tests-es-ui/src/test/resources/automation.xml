@@ -130,19 +130,13 @@
                     </user>
                 </admin>
                 <users>
-                    <user key="devops">
+                    <user key="user1">
                         <userName>testuser11</userName>
                         <password>testuser11</password>
-                        <roles>
-                            <role>devops</role>
-                        </roles>
                     </user>
-                    <user key="consumer">
+                    <user key="user2">
                         <userName>testuser21</userName>
                         <password>testuser21</password>
-                        <roles>
-                            <role>consumer</role>
-                        </roles>
                     </user>
                 </users>
             </tenant>
@@ -167,24 +161,6 @@
                 </users>
             </tenant>
         </tenants>
-
-        <roles>
-            <role name="devops" key="devops">
-                <permissions>
-                    <permission>/permission/admin/login</permission>
-                    <permission>/permission/admin/enterprisestore</permission>
-                    <permission>/permission/admin/manage</permission>
-                </permissions>
-            </role>
-
-            <role name="consumer" key="consumer">
-                <permissions>
-                    <permission>/permission/admin/login</permission>
-                    <permission>/permission/admin/enterprisestore</permission>
-                    <permission>/permission/admin/manage</permission>
-                </permissions>
-            </role>
-        </roles>
     </userManagement>
     <!--
    This section will initiate the initial deployment of the platform required by
@@ -218,7 +194,7 @@
             <extentionClasses>
                 <class>
                     <name>org.wso2.carbon.automation.extensions.servers.carbonserver.CarbonServerExtension</name>
-                    <parameter name="-DportOffset" value="900"/>
+                    <parameter name="-DportOffset" value="900" />
                     <!--<parameter name="cmdArg" value="debug 5005" />-->
                 </class>
                 <class>
