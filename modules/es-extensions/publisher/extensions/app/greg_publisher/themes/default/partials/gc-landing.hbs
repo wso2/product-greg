@@ -11,7 +11,7 @@
         <a href="javascript:void(0)" id="searchButton" class="form-control-feedback search" title="{{t "Search"}}">
             <i class="fw fw-search" aria-hidden="true"></i>
         </a>
-        <a href="/publisher/pages/advanced-search" class="form-control-feedback advance" title="{{t "Advance Search"}}">
+        <a href="/publisher/pages/advanced-search" class="form-control-feedback advance" id="advance-search" title="{{t "Advance Search"}}">
             <i class="fw fw-settings" aria-hidden="true"></i>
             <span>{{t "Advanced Search"}}</span>
         </a>
@@ -49,14 +49,14 @@
 
                 <div class="action-group">
                                 <span class="actions">
-                                    <a href="/publisher/assets/soapservice/list" class="btn btn-default secondary">
+                                    <a id="soap-services-btn" href="/publisher/assets/soapservice/list" class="btn btn-default secondary">
                                         <span class="icon fw-stack">
                                             <i class="fw fw-view fw-stack-1x"></i>
                                             <i class="fw fw-ring fw-stack-2x"></i>
                                         </span>
                                         Browse
                                     </a>
-                                    <a href="javascript:void(0)" class="btn btn-default primary"
+                                    <a id="soap-services-btn-add" href="javascript:void(0)" class="btn btn-default primary"
                                        data-click-event="next">
                                         <span class="icon fw-stack">
                                             <i class="fw fw-add fw-stack-1x"></i>
@@ -95,7 +95,7 @@
                                             <i class="fw fw-ring fw-stack-2x"></i>
                                         </span>
                                     </a>
-                                    <a href="javascript:void(0)" class="btn btn-default primary"
+                                    <a id="soap-services-btn-continue" href="javascript:void(0)" class="btn btn-default primary"
                                        data-click-event="continue" data-url="soap-add-radio-group">
                                         Continue
                                     </a>
@@ -129,14 +129,14 @@
                 <div class="action-group">
 
                                 <span class="actions">
-                                    <a href="/publisher/assets/restservice/list" class="btn btn-default secondary">
+                                    <a  id="rest-services-btn" href="/publisher/assets/restservice/list" class="btn btn-default secondary">
                                         <span class="icon fw-stack">
                                             <i class="fw fw-view fw-stack-1x"></i>
                                             <i class="fw fw-ring fw-stack-2x"></i>
                                         </span>
                                         Browse
                                     </a>
-                                    <a href="javascript:void(0)" class="btn btn-default primary"
+                                    <a  id="rest-services-btn-add" href="javascript:void(0)" class="btn btn-default primary"
                                        data-click-event="next">
                                         <span class="icon fw-stack">
                                             <i class="fw fw-add fw-stack-1x"></i>
@@ -182,7 +182,7 @@
                                             <i class="fw fw-ring fw-stack-2x"></i>
                                         </span>
                                     </a>
-                                    <a href="javascript:void(0)" class="btn btn-default primary"
+                                    <a id="rest-services-btn-continue" href="javascript:void(0)" class="btn btn-default primary"
                                        data-click-event="continue" data-url="rest-add-radio-group">
                                         {{t "Continue"}}
                                     </a>
@@ -228,7 +228,7 @@
                                         </span>
                                        {{t "Browse"}}
                                     </a>
-                                    <a href="{{url ""}}/assets/{{type}}/create" class="btn btn-default primary">
+                                    <a id="{{details.pluralLabel}}-add" href="{{url ""}}/assets/{{type}}/create" class="btn btn-default primary">
                                         <span class="icon fw-stack">
                                             <i class="fw fw-add fw-stack-1x"></i>
                                             <i class="fw fw-ring fw-stack-2x"></i>

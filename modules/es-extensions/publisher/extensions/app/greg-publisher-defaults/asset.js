@@ -79,6 +79,7 @@ asset.renderer = function(ctx) {
                 if(allowedPages.indexOf(page.meta.pageName)>-1){
                     log.debug('adding link');
                     entry = {};
+                    entry.id = 'Associations';
                     entry.name = 'Associations';
                     entry.iconClass = 'btn-lifecycle';
                     entry.url = this.buildAppPageUrl('associations') + '/' + page.assets.type + '/' + page.assets.id
