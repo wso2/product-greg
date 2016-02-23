@@ -1,6 +1,6 @@
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
 
-<suite name="GREGESUITestSuite" parallel="false">
+<suite name="GREGESUITestSuite" parallel="false" >
     <listeners>
         <listener class-name="org.wso2.carbon.automation.engine.testlisteners.TestManagerListener"/>
         <listener class-name="org.wso2.carbon.automation.engine.testlisteners.TestReportListener"/>
@@ -15,10 +15,21 @@
         </packages>
     </test>-->
 
-    <test name="Greg-ES-UI-Test" preserve-order="true" verbose="2">
+    <test name="Greg-ES-UI-Test" preserve-order="true" verbose="2" >
         <classes>
-            <class name="org.wso2.carbon.greg.server.mgt.RegistryConfiguratorTestCase"/>
-            <class name="org.wso2.carbon.greg.ui.test.lifecycle.LifeCycleSmokeUITestCase"/>
+            <!--<class name="org.wso2.carbon.greg.publisher.crudui.CustomRXTCRUDTestCase"/>-->
+            <!--<class name="org.wso2.carbon.greg.publisher.crudui.RestServiceCRUDUITestCase"/>-->
+            <!--<class name="org.wso2.carbon.greg.publisher.crudui.SoapServiceCRUDUITestCase"/>-->
+            <!--<class name="org.wso2.carbon.greg.publisher.crudui.WsdlCRUDUrlUITestCase"/>-->
+            <!--<class name="org.wso2.carbon.greg.publisher.crudui.WadlCRUDUITestCase"/>-->
+            <!--<class name="org.wso2.carbon.greg.publisher.crudui.SchemaCRUDUITestCase"/>-->
+            <!--<class name="org.wso2.carbon.greg.publisher.crudui.SwaggerCRUDUITestCase"/>-->
+            <!--<class name="org.wso2.carbon.greg.publisher.crudui.PolicyCRUDUITestCase"/>-->
+            <!--<class name="org.wso2.carbon.greg.publisher.lifecycles.CustomLifecycleUITestCase"/>-->
+            <!--<class name="org.wso2.carbon.greg.publisher.searchui.SoapServiceSearchTestCase"/>-->
+            <!--<class name="org.wso2.carbon.greg.publisher.searchui.CrossAssetSearchTestCase"/>-->
+            <class name="org.wso2.carbon.greg.publisher.AssociationsTestCase"/>
+            <!--<class name="org.wso2.carbon.greg.publisher.VersionTestCase"/>-->
         </classes>
     </test>
 
