@@ -9,16 +9,21 @@
         <listener class-name="org.wso2.carbon.automation.engine.testlisteners.TestTransformerListener"/>
     </listeners>
 
-   <!-- <test name="Greg-server-mgt-Test" preserve-order="true" verbose="2">
-        <packages>
-            <package name="org.wso2.carbon.greg.server.mgt"/>
-        </packages>
-    </test>-->
+
+    <!-- <test name="Greg-server-mgt-Test" preserve-order="true" verbose="2">
+         <packages>
+             <package name="org.wso2.carbon.greg.server.mgt"/>
+         </packages>
+     </test>-->
 
     <test name="Greg-ES-UI-Test" preserve-order="true" verbose="2">
         <classes>
             <class name="org.wso2.carbon.greg.server.mgt.RegistryConfiguratorTestCase"/>
             <class name="org.wso2.carbon.greg.ui.test.lifecycle.LifeCycleSmokeUITestCase"/>
+            <class name="org.wso2.carbon.greg.store.test.SearchTestCase"/>
+            <class name="org.wso2.carbon.greg.store.test.LoginStoreTestCase"/>
+            <class name="org.wso2.carbon.greg.store.test.StoreHomePageTestCase"/>
+            <class name="org.wso2.carbon.greg.store.test.AssetsListingTestCase"/>
         </classes>
     </test>
 
