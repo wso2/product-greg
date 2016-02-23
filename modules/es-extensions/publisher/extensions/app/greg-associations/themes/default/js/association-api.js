@@ -108,41 +108,58 @@ $(function() {
 	};
 
     var invokeRemoveAssociationAPI = function (data) {
-        $.ajax({
-            url: removeAssociationURL(),
-            data: JSON.stringify(data),
-            type: 'DELETE',
-            contentType: 'application/json',
-            success: function () {
-                BootstrapDialog.show({
-                    type: BootstrapDialog.TYPE_SUCCESS,
-                    title: 'Success!',
-                    message: '<div><i class="fa fa-check"></i> Association removed successfully</div>',
-                    buttons: [{
-                        label: 'OK',
-                        action: function (dialogItself) {
-                            dialogItself.close();
-                            location.reload(true);
-                        }
-                    }]
+        BootstrapDialog.show({
+            type: BootstrapDialog.TYPE_WARNING,
+            title: 'Warning!',
+            message: '<div><i class="fa fa-check"></i> Are you sure you want to delete the association?</div>',
+            buttons: [{
+                label: 'Yes',
+                action: function (dialogItself) {
+                    dialogItself.close();
+                    $.ajax({
+                        url: removeAssociationURL(),
+                        data: JSON.stringify(data),
+                        type: 'DELETE',
+                        contentType: 'application/json',
+                        success: function () {
+                            BootstrapDialog.show({
+                                type: BootstrapDialog.TYPE_SUCCESS,
+                                title: 'Success!',
+                                message: '<div><i class="fa fa-check"></i> Association removed successfully</div>',
+                                buttons: [{
+                                    label: 'OK',
+                                    action: function (dialogItself) {
+                                        dialogItself.close();
+                                        location.reload(true);
+                                    }
+                                }]
 
-                });
+                            });
+                        },
+                        error: function () {
+                            BootstrapDialog.show({
+                                type: BootstrapDialog.TYPE_DANGER,
+                                title: 'Error!',
+                                message: '<div><i class="fa fa-warning"></i> Error occurred while removing association</div>',
+                                buttons: [{
+                                    label: 'Close',
+                                    action: function (dialogItself) {
+                                        dialogItself.close();
+                                    }
+
+                                }]
+
+                            });
+                        }
+                    });
+                }
             },
-            error: function () {
-                BootstrapDialog.show({
-                    type: BootstrapDialog.TYPE_DANGER,
-                    title: 'Error!',
-                    message: '<div><i class="fa fa-warning"></i> Error occurred while removing association</div>',
-                    buttons: [{
-                        label: 'Close',
-                        action: function (dialogItself) {
-                            dialogItself.close();
-                        }
-
-                    }]
-
-                });
-            }
+                {
+                    label: 'No',
+                    action: function (dialogItself) {
+                        dialogItself.close();
+                    }
+                }]
         });
     };
 
