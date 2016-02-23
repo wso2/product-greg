@@ -58,7 +58,7 @@ public class CustomRXTCRUDTestCase extends GREGIntegrationUIBaseTest {
         super.init();
         driver = new ESWebDriver(BrowserManager.getWebDriver());
         driver.manage().timeouts().implicitlyWait(LOGIN_WAIT_SECONDS, TimeUnit.SECONDS);
-        driver.get(getPublisherURL());
+        driver.get(getPublisherBaseURL());
         PublisherLoginPage publisherLoginPage = new PublisherLoginPage(driver);
         this.uiElementMapper = UIElementMapper.getInstance();
         asset = new PublisherUtil(driver);
@@ -76,7 +76,7 @@ public class CustomRXTCRUDTestCase extends GREGIntegrationUIBaseTest {
 
         publisherLoginPage.loginAs(automationContext.getContextTenant().getContextUser().getUserName(),
                 automationContext.getContextTenant().getContextUser().getPassword());
-        driver.get(getPublisherURL());
+        driver.get(getPublisherBaseURL());
     }
 
     @Test(groups = "wso2.greg", description = "Create a custom RXT instance and validate its availability")

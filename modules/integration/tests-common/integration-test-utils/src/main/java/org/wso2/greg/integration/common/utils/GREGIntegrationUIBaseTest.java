@@ -52,7 +52,7 @@ public class GREGIntegrationUIBaseTest extends GREGIntegrationBaseTest{
         return automationContext.getContextUrls().getSecureServiceUrl().replace("services", "store/apis");
     }
 
-    protected String getPublisherURL() throws XPathExpressionException {
+    protected String getPublisherBaseURL() throws XPathExpressionException {
         return automationContext.getContextUrls().getSecureServiceUrl().replace("services", "publisher");
     }
 
@@ -96,6 +96,10 @@ public class GREGIntegrationUIBaseTest extends GREGIntegrationBaseTest{
      */
     protected static boolean isElementPresent (WebDriver driver, By by) {
         return (driver.findElements(by).size() > 0);
+    }
+
+    protected String getStoreBaseUrl() throws XPathExpressionException{
+        return automationContext.getContextUrls().getSecureServiceUrl().replace("services", "store");
     }
 }
 

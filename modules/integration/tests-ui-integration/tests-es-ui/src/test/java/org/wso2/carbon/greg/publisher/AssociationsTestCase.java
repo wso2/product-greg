@@ -50,7 +50,7 @@ public class AssociationsTestCase extends GREGIntegrationUIBaseTest {
         super.init();
         driver = new ESWebDriver(BrowserManager.getWebDriver());
         driver.manage().timeouts().implicitlyWait(LOGIN_WAIT_SECONDS, TimeUnit.SECONDS);
-        driver.get(getPublisherURL());
+        driver.get(getPublisherBaseURL());
         PublisherLoginPage publisherLoginPage = new PublisherLoginPage(driver);
         this.uiElementMapper = UIElementMapper.getInstance();
         // performing login to publisher

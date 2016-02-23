@@ -63,7 +63,7 @@ public class CustomLifecycleUITestCase extends GREGIntegrationUIBaseTest {
         super.init();
         driver = new ESWebDriver(BrowserManager.getWebDriver());
         driver.manage().timeouts().implicitlyWait(LOGIN_WAIT_SECONDS, TimeUnit.SECONDS);
-        driver.get(getPublisherURL());
+        driver.get(getPublisherBaseURL());
         PublisherLoginPage publisherLoginPage = new PublisherLoginPage(driver);
         this.uiElementMapper = UIElementMapper.getInstance();
 
@@ -149,7 +149,7 @@ public class CustomLifecycleUITestCase extends GREGIntegrationUIBaseTest {
             dependsOnMethods = "testCommentAndDemote")
     public void testLogAsUserWithPermission() throws IOException, XPathExpressionException {
         driver.manage().timeouts().implicitlyWait(LOGIN_WAIT_SECONDS, TimeUnit.SECONDS);
-        driver.get(getPublisherURL());
+        driver.get(getPublisherBaseURL());
         PublisherLoginPage publisherLoginPage = new PublisherLoginPage(driver);
         publisherLoginPage.loginAs(USER_NAME, PASSWORD);
         driver.findElement(By.id(uiElementMapper.getElement("publisher.ninedot"))).click();

@@ -175,7 +175,7 @@ public class GregWildCardSearch extends GregESTestBaseTest {
         }
 
         // If this test fails please increase the time(10000) first
-        assertEquals(count, 14, "Page should be full of assets. ");
+        assertEquals(count, 26, "Page should be full of assets. ");
     }
 
     @Test(groups = {"wso2.greg", "wso2.greg.es"}, description = "Authenticate Store",

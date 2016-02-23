@@ -58,7 +58,7 @@ public class CrossAssetSearchTestCase extends GREGIntegrationUIBaseTest {
         super.init();
         driver = new ESWebDriver(BrowserManager.getWebDriver());
         driver.manage().timeouts().implicitlyWait(LOGIN_WAIT_SECONDS, TimeUnit.SECONDS);
-        driver.get(getPublisherURL());
+        driver.get(getPublisherBaseURL());
         PublisherLoginPage publisherLoginPage = new PublisherLoginPage(driver);
         this.uiElementMapper = UIElementMapper.getInstance();
 
@@ -136,7 +136,7 @@ public class CrossAssetSearchTestCase extends GREGIntegrationUIBaseTest {
     @Test(groups = "wso2.greg", description = "Do landing page advanced search for a policy by name and version",
             dependsOnMethods = "testClickAndValidatePolicySearch")
     public void testAdvancedSearch() throws MalformedURLException, XPathExpressionException {
-        driver.get(getPublisherURL());
+        driver.get(getPublisherBaseURL());
         PublisherUtil util = new PublisherUtil(driver);
         util.advancedSearch(tempName2, SERVICE_VERSION2, "", "");
         assertTrue(isElementPresent(driver, By.id(tempName2 + POLICY_NAME)),
