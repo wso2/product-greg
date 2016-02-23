@@ -17,19 +17,19 @@
 
     <test name="Greg-ES-UI-Test" preserve-order="true" verbose="2" >
         <classes>
-            <!--<class name="org.wso2.carbon.greg.publisher.crudui.CustomRXTCRUDTestCase"/>-->
-            <!--<class name="org.wso2.carbon.greg.publisher.crudui.RestServiceCRUDUITestCase"/>-->
-            <!--<class name="org.wso2.carbon.greg.publisher.crudui.SoapServiceCRUDUITestCase"/>-->
-            <!--<class name="org.wso2.carbon.greg.publisher.crudui.WsdlCRUDUrlUITestCase"/>-->
-            <!--<class name="org.wso2.carbon.greg.publisher.crudui.WadlCRUDUITestCase"/>-->
-            <!--<class name="org.wso2.carbon.greg.publisher.crudui.SchemaCRUDUITestCase"/>-->
-            <!--<class name="org.wso2.carbon.greg.publisher.crudui.SwaggerCRUDUITestCase"/>-->
-            <!--<class name="org.wso2.carbon.greg.publisher.crudui.PolicyCRUDUITestCase"/>-->
-            <!--<class name="org.wso2.carbon.greg.publisher.lifecycles.CustomLifecycleUITestCase"/>-->
-            <!--<class name="org.wso2.carbon.greg.publisher.searchui.SoapServiceSearchTestCase"/>-->
-            <!--<class name="org.wso2.carbon.greg.publisher.searchui.CrossAssetSearchTestCase"/>-->
+            <class name="org.wso2.carbon.greg.publisher.crudui.CustomRXTCRUDTestCase"/>
+            <class name="org.wso2.carbon.greg.publisher.crudui.RestServiceCRUDUITestCase"/>
+            <class name="org.wso2.carbon.greg.publisher.crudui.SoapServiceCRUDUITestCase"/>
+            <class name="org.wso2.carbon.greg.publisher.crudui.WsdlCRUDUrlUITestCase"/>
+            <class name="org.wso2.carbon.greg.publisher.crudui.WadlCRUDUITestCase"/>
+            <class name="org.wso2.carbon.greg.publisher.crudui.SchemaCRUDUITestCase"/>
+            <class name="org.wso2.carbon.greg.publisher.crudui.SwaggerCRUDUITestCase"/>
+            <class name="org.wso2.carbon.greg.publisher.crudui.PolicyCRUDUITestCase"/>
+            <class name="org.wso2.carbon.greg.publisher.lifecycles.CustomLifecycleUITestCase"/>
+            <class name="org.wso2.carbon.greg.publisher.searchui.SoapServiceSearchTestCase"/>
+            <class name="org.wso2.carbon.greg.publisher.searchui.CrossAssetSearchTestCase"/>
             <class name="org.wso2.carbon.greg.publisher.AssociationsTestCase"/>
-            <!--<class name="org.wso2.carbon.greg.publisher.VersionTestCase"/>-->
+            <class name="org.wso2.carbon.greg.publisher.VersionTestCase"/>
         </classes>
     </test>
 
