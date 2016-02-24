@@ -58,10 +58,6 @@ public class CustomRXTCRUDTestCase extends GREGIntegrationUIBaseTest {
         super.init();
         driver = new ESWebDriver(BrowserManager.getWebDriver());
         driver.manage().timeouts().implicitlyWait(LOGIN_WAIT_SECONDS, TimeUnit.SECONDS);
-        driver.get(getPublisherBaseUrl());
-        PublisherLoginPage publisherLoginPage = new PublisherLoginPage(driver);
-        this.uiElementMapper = UIElementMapper.getInstance();
-        asset = new PublisherUtil(driver);
         try {
             addNewRxtConfiguration(RXT_NAME, RXT_NAME);
             LifeCycleManagementClient lifeCycleAdminServiceClient = new LifeCycleManagementClient(backendURL,
@@ -73,10 +69,12 @@ public class CustomRXTCRUDTestCase extends GREGIntegrationUIBaseTest {
         } catch (AxisFault e) {
             log.error("Error while adding new configurations", e);
         }
-
+        driver.get(getPublisherBaseUrl());
+        PublisherLoginPage publisherLoginPage = new PublisherLoginPage(driver);
+        this.uiElementMapper = UIElementMapper.getInstance();
+        asset = new PublisherUtil(driver);
         publisherLoginPage.loginAs(automationContext.getContextTenant().getContextUser().getUserName(),
                 automationContext.getContextTenant().getContextUser().getPassword());
-        driver.get(getPublisherBaseUrl());
     }
 
     @Test(groups = "wso2.greg", description = "Create a custom RXT instance and validate its availability")

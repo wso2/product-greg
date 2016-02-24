@@ -62,10 +62,6 @@ public class CustomLifecycleUITestCase extends GREGIntegrationUIBaseTest {
         super.init();
         driver = new ESWebDriver(BrowserManager.getWebDriver());
         driver.manage().timeouts().implicitlyWait(LOGIN_WAIT_SECONDS, TimeUnit.SECONDS);
-        driver.get(getPublisherBaseUrl());
-        PublisherLoginPage publisherLoginPage = new PublisherLoginPage(driver);
-        this.uiElementMapper = UIElementMapper.getInstance();
-
         try {
             addNewRxtConfiguration(RXT_NAME, RXT_NAME);
             lifeCycleAdminServiceClient = new LifeCycleManagementClient(backendURL, sessionCookie);
@@ -76,6 +72,9 @@ public class CustomLifecycleUITestCase extends GREGIntegrationUIBaseTest {
         } catch (AxisFault e) {
             log.error("Error while adding new configurations", e);
         }
+        driver.get(getPublisherBaseUrl());
+        PublisherLoginPage publisherLoginPage = new PublisherLoginPage(driver);
+        this.uiElementMapper = UIElementMapper.getInstance();
         publisherLoginPage.loginAs(automationContext.getContextTenant().getContextUser().getUserName(),
                 automationContext.getContextTenant().getContextUser().getPassword());
     }
