@@ -115,4 +115,15 @@ public class StoreHomePage {
         driver.findElement(By.xpath(seeMoreXpath)).click();
         return new StoreAssetListPage(driver, aType);
     }
+
+    /**
+     * Performs clicking on a navBarbutton
+     *
+     * @param aType Asset type to be clicked on
+     */
+    public void clickOnNavButton(String aType) {
+        String navMenuId = uiElementMapper.getElement("store.navmenu." + aType + ".id");
+        driver.findElement(By.id(navMenuId)).click();
+    }
+
 }

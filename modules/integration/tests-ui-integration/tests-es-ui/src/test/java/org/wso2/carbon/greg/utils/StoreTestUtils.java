@@ -36,6 +36,7 @@ public class StoreTestUtils {
         Runtime runTime = Runtime.getRuntime();
         String osName = "";
         try {
+            log.info("Executing ant script for getting started samples");
             osName = System.getProperty("os.name");
             Process process;
             if (osName.startsWith("Windows")) {
@@ -48,6 +49,7 @@ public class StoreTestUtils {
         } catch (IOException e) {
             throw new StoreTestException("Could not execute the ant script", e);
         }
+        log.info("Finished executing ant script for getting started samples");
     }
 
     /**
@@ -73,6 +75,7 @@ public class StoreTestUtils {
                 }
             }
         }
+
         return builder.toString();
     }
 }
