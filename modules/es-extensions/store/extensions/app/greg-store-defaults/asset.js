@@ -114,4 +114,12 @@ asset.renderer = function(ctx) {
             }
         }
     }
-}
+};
+
+asset.configure = function() {
+    return {
+        meta: {
+            'isDiffViewShown': true
+        }
+    }
+};
