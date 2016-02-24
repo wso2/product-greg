@@ -16,6 +16,7 @@
  * specific language governing permissions and limitations
  * under the License.
  */
+require('/modules/store.js').exec(function (ctx) {
 
 var user = require('store').server.current(session);
 var log = new Log();
@@ -25,9 +26,12 @@ var log = new Log();
  * login jag in order to redirect to the correct place
  */
 if (!user) {
-    response.sendRedirect('./login?' + request.getQueryString());
+    var tenantApi = require('/modules/tenant-api.js').api;
+    var tenantResources = tenantApi.createTenantAwareAppResources(ctx.session);
+
+    user = tenantResources.appManager.ctx;
 }
-else {
+//else {
 %>
 
 <!DOCTYPE html>
@@ -89,7 +93,14 @@ else {
             <%
             var util = require('../modules/utility.js');
             var carbon = require('carbon');
-            var registry = new carbon.registry.Registry(user.um.server.url,user);
+            var registry ;
+
+            if (user.isAnonContext) {
+                registry = user.systemRegistry;
+            } 
+            else {
+                registry = new carbon.registry.Registry(user.um.server.url,user);
+            }
 
             var inputParameters = request.getAllParameters("UTF-8");
             var obj;
@@ -194,4 +205,6 @@ else {
 </body>
 </html>
 
-<% } %>
+<% //} 
+}, request, response, session); 
+%>

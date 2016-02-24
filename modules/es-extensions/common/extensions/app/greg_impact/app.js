@@ -24,7 +24,7 @@ app.server = function(ctx){
                     title:'Impact',
                     url:'impact',
                     path:'index.jag',
-                    secured:true
+                    secured:false
                 }
             ]
         }

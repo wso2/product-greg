@@ -176,7 +176,7 @@ function createNode(resourcePath, artifact, nodeID, governanceArtifactConfigurat
     //added in order to populate select2 drop down
     graphDataObject.text = graphDataObject.name;
 
-    graphDataObject.nodeType = (graph.index == 0) ? 'parent' : 'child';
+    graphDataObject.nodeType = (nodeID == 0) ? 'parent' : 'child';
     graphDataObject.mediaType = getMediaType(artifact);
     graphDataObject.path = resourcePath;
     graphDataObject.relations = [];
@@ -193,6 +193,7 @@ function getMediaType(artifact) {
         policy = Packages.org.wso2.carbon.governance.api.policies.dataobjects.PolicyImpl,
         endpoint = Packages.org.wso2.carbon.governance.api.endpoints.dataobjects.EndpointImpl
     GovernanceConstants = Packages.org.wso2.carbon.governance.api.util.GovernanceConstants;
+    var util = require('/extensions/app/greg_impact/modules/utility.js');
 
     var mediaType;
     if (util.isNotNullOrEmpty(artifact.mediaType)) {
