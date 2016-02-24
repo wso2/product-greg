@@ -366,12 +366,15 @@ asset.configure = function() {
             overview: {
                 fields: {
                     name: {
+                        readonly:true,
                         placeholder: "WeatherService"
                     },
                     namespace: {
+                        readonly:true,
                         placeholder: "http://example.namespace.com"
                     },
                     version: {
+                        readonly:true,
                         placeholder: "1.0.0"
                     },
                     description: {
