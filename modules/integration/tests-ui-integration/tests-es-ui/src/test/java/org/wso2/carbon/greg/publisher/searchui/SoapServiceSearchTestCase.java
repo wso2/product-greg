@@ -22,8 +22,8 @@ import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 import org.wso2.carbon.automation.extensions.selenium.BrowserManager;
-import org.wso2.carbon.greg.publisher.PublisherHomePage;
-import org.wso2.carbon.greg.publisher.PublisherLoginPage;
+import org.wso2.carbon.greg.publisher.login.PublisherHomePage;
+import org.wso2.carbon.greg.publisher.login.PublisherLoginPage;
 import org.wso2.carbon.greg.publisher.utils.ESWebDriver;
 import org.wso2.carbon.greg.publisher.utils.PublisherUtil;
 import org.wso2.greg.integration.common.ui.page.util.UIElementMapper;
@@ -53,7 +53,7 @@ public class SoapServiceSearchTestCase extends GREGIntegrationUIBaseTest {
         super.init();
         driver = new ESWebDriver(BrowserManager.getWebDriver());
         driver.manage().timeouts().implicitlyWait(LOGIN_WAIT_SECONDS, TimeUnit.SECONDS);
-        driver.get(getPublisherURL());
+        driver.get(getPublisherBaseUrl());
         PublisherLoginPage publisherLoginPage = new PublisherLoginPage(driver);
         this.uiElementMapper = UIElementMapper.getInstance();
 
@@ -69,7 +69,6 @@ public class SoapServiceSearchTestCase extends GREGIntegrationUIBaseTest {
         asset.createGenericTypeAsset(uniqueName, "/" + uniqueName, "1.2.2", "TestDescription2" + uniqueName,
                 uiElementMapper.getElement("publisher.soapservices"));
         uniqueName = getUniqueName();
-        //TODO use file seperator
         asset.createGenericTypeAsset(uniqueName, "/" + uniqueName, "1.2.3", "TestDescription3" + uniqueName,
                 uiElementMapper.getElement("publisher.soapservices"));
         UUID = asset.getUUID();

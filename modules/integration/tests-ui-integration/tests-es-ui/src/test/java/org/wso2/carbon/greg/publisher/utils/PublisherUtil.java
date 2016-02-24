@@ -29,7 +29,7 @@ import static org.testng.Assert.assertTrue;
 
 public class PublisherUtil extends GREGIntegrationUIBaseTest {
     private static final Log log = LogFactory.getLog(PublisherUtil.class);
-    private static final int POOL_WAIT_SECONDS = 1;
+    private static final int POOL_WAIT_SECONDS = 2;
     private ESWebDriver driver;
     private String globalUUID;
     private UIElementMapper uiElementMapper;
@@ -71,6 +71,9 @@ public class PublisherUtil extends GREGIntegrationUIBaseTest {
 
     public void clickOnContentTypeAsset(String overviewName, String serviceType) {
         driver.findElementWD(By.linkText(serviceType)).click();
+        // wait until asset visible and do refresh in WAIT_SECONDS interval
+        driver.findElementPoll(By.id(overviewName), WAIT_SECONDS);
+        // if page has more asset to scroll , scroll into end of page until asset available
         driver.findElementByDynamicScroll(By.id(overviewName));
         assertTrue(isElementPresent(driver, By.id(overviewName)), overviewName +
                 " not available in listing page for test case. " + log.getClass().getName());
@@ -135,6 +138,9 @@ public class PublisherUtil extends GREGIntegrationUIBaseTest {
      */
     public void clickOnGenericTypeAsset(String serviceType, String id) {
         driver.findElementWD(By.linkText(serviceType)).click();
+        // wait until asset visible and do refresh in WAIT_SECONDS interval
+        driver.findElementPoll(By.id(id), WAIT_SECONDS);
+        // if page has more asset to scroll , scroll into end of page until asset available
         driver.findElementByDynamicScroll(By.id(id));
         assertTrue(isElementPresent(driver, By.id(id)), serviceType + " not available in listing page for test case " +
                 log.getClass().getName());
@@ -285,27 +291,29 @@ public class PublisherUtil extends GREGIntegrationUIBaseTest {
      */
     public void addAssociation(String uniqueName, String associationType) {
         driver.findElement(By.id(uiElementMapper.getElement("publisher.associations"))).click();
-        int currentCount = driver.findElements(By.className("wr-association-operations")).size();
+        int currentCount = driver
+                .findElements(By.className(uiElementMapper.getElement("publisher.associations.operations"))).size();
         driver.findElement(By.id(associationType)).click();
 
         driver.findElements(By.id("search-for-nothing-for-wait")).size();
-        String assetName = driver.findElement(By.className("select2-selection__rendered"))
-                .findElement(By.className("resource-name")).getText();
+        String assetName = driver.findElement(By.className(uiElementMapper.getElement("publisher.select2.render")))
+                .findElement(By.className(uiElementMapper.getElement("publisher.resource.name"))).getText();
 
         driver.findElement(By.id(uiElementMapper.getElement("publisher.associations.addAssociation"))).click();
         driver.findElement(By.id(uiElementMapper.getElement("publisher.associations"))).click();
 
-        String addedResName = driver.findElements(By.className("wr-asset-desc")).get(currentCount)
-                .findElement(By.className("resource-name")).getText();
-        String addedResType = driver.findElements(By.className("wr-asset-desc")).get(currentCount)
-                .findElement(By.className("association-type")).getText();
+        String addedResName = driver
+                .findElements(By.className(uiElementMapper.getElement("publisher.associations.desc"))).get(currentCount)
+                .findElement(By.className(uiElementMapper.getElement("publisher.resource.name"))).getText();
+        String addedResType = driver
+                .findElements(By.className(uiElementMapper.getElement("publisher.associations.desc"))).get(currentCount)
+                .findElement(By.className(uiElementMapper.getElement("publisher.association.type"))).getText();
 
-        assertTrue(driver.findElements(By.className("wr-association-operations")).size() > currentCount,
-                "association is not added for test case " + log.getClass().getName());
+        assertTrue(driver.findElements(By.className(uiElementMapper.getElement("publisher.associations.operations")))
+                .size() > currentCount, "association is not added for test case " + log.getClass().getName());
 
         assertTrue(addedResName.equals(assetName + " " + associationType),
-                "Asset : " + uniqueName + " association is not added for test case " +
-                        log.getClass().getName());
+                "Asset : " + uniqueName + " association is not added for test case " + log.getClass().getName());
 
         assertTrue(associationType.equals(addedResType),
                 "Association type : " + associationType + " association is not valid " + log.getClass().getName());
@@ -336,7 +344,7 @@ public class PublisherUtil extends GREGIntegrationUIBaseTest {
         String elementValue = driver.findElement(By.id(type))
                 .findElement(By.id(type + uiElementMapper.getElement("publisher.id.tail"))).getText();
         assertTrue(elementValue.equals(input), type + " is not matched to :" + input + " for test case " +
-                log.getClass().toString());
+                log.getClass().getName());
 
     }
 }

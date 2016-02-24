@@ -15,14 +15,12 @@
 */
 package org.wso2.carbon.greg.publisher.crudui;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 import org.wso2.carbon.automation.extensions.selenium.BrowserManager;
-import org.wso2.carbon.greg.publisher.PublisherHomePage;
-import org.wso2.carbon.greg.publisher.PublisherLoginPage;
+import org.wso2.carbon.greg.publisher.login.PublisherHomePage;
+import org.wso2.carbon.greg.publisher.login.PublisherLoginPage;
 import org.wso2.carbon.greg.publisher.utils.ESWebDriver;
 import org.wso2.carbon.greg.publisher.utils.PublisherUtil;
 import org.wso2.greg.integration.common.ui.page.util.UIElementMapper;
@@ -36,7 +34,6 @@ import javax.xml.xpath.XPathExpressionException;
  * This class have test methods for Create,Retrieve,Remove,Update Operations for Wsdl
  */
 public class WsdlCRUDUrlUITestCase extends GREGIntegrationUIBaseTest {
-    private static final Log log = LogFactory.getLog(WsdlCRUDUrlUITestCase.class);
     private static final String WSDL_NAME = "StockQuote.wsdl";
     private static final String WSDL_VERSION = "1.0.0";
     private ESWebDriver driver;
@@ -49,7 +46,7 @@ public class WsdlCRUDUrlUITestCase extends GREGIntegrationUIBaseTest {
         super.init();
         driver = new ESWebDriver(BrowserManager.getWebDriver());
         driver.manage().timeouts().implicitlyWait(LOGIN_WAIT_SECONDS, TimeUnit.SECONDS);
-        driver.get(getPublisherURL());
+        driver.get(getPublisherBaseUrl());
         PublisherLoginPage publisherLoginPage = new PublisherLoginPage(driver);
         this.uiElementMapper = UIElementMapper.getInstance();
         asset = new PublisherUtil(driver);
