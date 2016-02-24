@@ -68,10 +68,9 @@ public class ESWebDriver implements WebDriver {
 
     /**
      * find element in listing page. scroll down to bottom until element available
+     *
      * @param by selector
-     * @throws InterruptedException
      */
-    //TODO handle exception
     public void findElementByDynamicScroll(By by) {
         while (!isElementPresent(by) && isScrollable()) {
             scrollWebPage();
