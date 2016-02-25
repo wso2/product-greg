@@ -203,7 +203,8 @@ asset.configure = function() {
                 icon: 'fw fw-wadl',
                 iconColor: 'blue'
             },
-            downloadable:true
+            downloadable:true,
+            isDependencyShown: true
         }
     }
 };

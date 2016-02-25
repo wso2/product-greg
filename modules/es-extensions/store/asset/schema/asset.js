@@ -192,7 +192,8 @@ asset.configure = function() {
                 icon: 'fw fw-schema',
                 iconColor: 'red'
             },
-            downloadable:true
+            downloadable:true,
+            isDependencyShown: true
         }
     }
 };
