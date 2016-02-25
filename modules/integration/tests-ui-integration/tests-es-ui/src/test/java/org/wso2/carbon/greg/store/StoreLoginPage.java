@@ -44,10 +44,10 @@ public class StoreLoginPage {
      * @throws StoreTestException Throws if couldn't return to store home page.
      */
     public StoreHomePage Login(String username, String password) throws StoreTestException {
-        driver.findElement(By.id(uiElementMapper.getElement("publisher.login.username.id"))).clear();
-        driver.findElement(By.id(uiElementMapper.getElement("publisher.login.password.id"))).clear();
-        driver.findElement(By.id(uiElementMapper.getElement("publisher.login.username.id"))).sendKeys(username);
-        driver.findElement(By.id(uiElementMapper.getElement("publisher.login.password.id"))).sendKeys(password);
+        driver.findElement(By.id(uiElementMapper.getElement("store.login.username.id"))).clear();
+        driver.findElement(By.id(uiElementMapper.getElement("store.login.password.id"))).clear();
+        driver.findElement(By.id(uiElementMapper.getElement("store.login.username.id"))).sendKeys(username);
+        driver.findElement(By.id(uiElementMapper.getElement("store.login.password.id"))).sendKeys(password);
         driver.findElement(By.xpath(uiElementMapper.getElement("store.login.submit.xpath"))).click();
         return new StoreHomePage(driver);
     }
