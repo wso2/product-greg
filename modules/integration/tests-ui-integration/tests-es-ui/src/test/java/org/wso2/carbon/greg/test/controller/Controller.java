@@ -26,10 +26,10 @@ import java.util.ArrayList;
 import java.util.List;
 /***
  * This class will create dynamic testng.xml suites and submit for testing.
- * loop the given test classes
+ * Loop the given test suites
  * Original report will stored inside (tests-es-ui/target/test-output)
  * To enable this class add this class into testng.xml and remove other classes from testng.xml
- * put commandline arguments as ( -Diterations)
+ * put commandline arguments as ( -Diterations=10 ). 10 will be your iteration count
  */
 public class Controller extends GREGIntegrationUIBaseTest {
     @BeforeSuite(groups = "wso2.greg")
@@ -40,7 +40,16 @@ public class Controller extends GREGIntegrationUIBaseTest {
         List<XmlTest> testsList;
         List<XmlClass> testClasses;
         XmlSuite testSuite;
-        int testIterations = Integer.parseInt(System.getProperty("iterations"));
+        String regex = "[0-9]+";
+        int testIterations = 1;
+        // read the command line argument , if not provided use default as 1
+        String iterations = System.getProperty("iterations");
+        if (iterations != null) {
+            if (iterations.matches(regex)) {
+                testIterations = Integer.parseInt(iterations);
+            }
+        }
+
         for (int i = 1; i <= testIterations; i++) {
             //Create an instance of XML Suite and assign a name for it.
             testSuite = new XmlSuite();
@@ -79,7 +88,7 @@ public class Controller extends GREGIntegrationUIBaseTest {
         }
         //Set the list of Suites to the testNG object we created earlier.
         testNG.setXmlSuites(testSuites);
-        //invoke run() - this will run our test suite list.
+        //invoke run() - this will run our test suites list.
         testNG.run();
     }
 }
