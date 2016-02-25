@@ -26,8 +26,8 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 import org.wso2.carbon.automation.engine.frameworkutils.FrameworkPathUtil;
 import org.wso2.carbon.automation.extensions.selenium.BrowserManager;
-import org.wso2.carbon.greg.publisher.PublisherHomePage;
-import org.wso2.carbon.greg.publisher.PublisherLoginPage;
+import org.wso2.carbon.greg.publisher.login.PublisherHomePage;
+import org.wso2.carbon.greg.publisher.login.PublisherLoginPage;
 import org.wso2.carbon.greg.publisher.utils.ESWebDriver;
 import org.wso2.carbon.greg.publisher.utils.PublisherUtil;
 import org.wso2.greg.integration.common.clients.LifeCycleManagementClient;
@@ -54,7 +54,6 @@ public class CustomLifecycleUITestCase extends GREGIntegrationUIBaseTest {
     private static final String RXT_NAME = "applicationUI.rxt";
     LifeCycleManagementClient lifeCycleAdminServiceClient;
     private ESWebDriver driver;
-    private String UUID;
     private UIElementMapper uiElementMapper;
     private String uniqueName;
 
@@ -63,10 +62,6 @@ public class CustomLifecycleUITestCase extends GREGIntegrationUIBaseTest {
         super.init();
         driver = new ESWebDriver(BrowserManager.getWebDriver());
         driver.manage().timeouts().implicitlyWait(LOGIN_WAIT_SECONDS, TimeUnit.SECONDS);
-        driver.get(getPublisherURL());
-        PublisherLoginPage publisherLoginPage = new PublisherLoginPage(driver);
-        this.uiElementMapper = UIElementMapper.getInstance();
-
         try {
             addNewRxtConfiguration(RXT_NAME, RXT_NAME);
             lifeCycleAdminServiceClient = new LifeCycleManagementClient(backendURL, sessionCookie);
@@ -77,20 +72,12 @@ public class CustomLifecycleUITestCase extends GREGIntegrationUIBaseTest {
         } catch (AxisFault e) {
             log.error("Error while adding new configurations", e);
         }
+        driver.get(getPublisherBaseUrl());
+        PublisherLoginPage publisherLoginPage = new PublisherLoginPage(driver);
+        this.uiElementMapper = UIElementMapper.getInstance();
         publisherLoginPage.loginAs(automationContext.getContextTenant().getContextUser().getUserName(),
                 automationContext.getContextTenant().getContextUser().getPassword());
     }
-
-/*    @Test(groups = "wso2.greg", description = "Create custom RXT instance and validate its availability ")
-    public void testCreateRESTInstance() throws IOException, XPathExpressionException {
-        PublisherUtil asset = new PublisherUtil(driver);
-        String uniqueName = getUniqueName();
-        asset.createGenericTypeAsset(uniqueName, "/" + uniqueName, "1.0.0", "TestRest" + uniqueName,
-                uiElementMapper.getElement("publisher.restservices"));
-        UUID = asset.getUUID();
-        PublisherHomePage publisherHomePage = new PublisherHomePage(driver);
-        publisherHomePage.logOut();
-    }*/
 
     @Test(groups = "wso2.greg", description = "Create a custom RXT instance and validate its availability")
     public void testCreateRXTInstance() throws MalformedURLException, XPathExpressionException {
@@ -149,7 +136,7 @@ public class CustomLifecycleUITestCase extends GREGIntegrationUIBaseTest {
             dependsOnMethods = "testCommentAndDemote")
     public void testLogAsUserWithPermission() throws IOException, XPathExpressionException {
         driver.manage().timeouts().implicitlyWait(LOGIN_WAIT_SECONDS, TimeUnit.SECONDS);
-        driver.get(getPublisherURL());
+        driver.get(getPublisherBaseUrl());
         PublisherLoginPage publisherLoginPage = new PublisherLoginPage(driver);
         publisherLoginPage.loginAs(USER_NAME, PASSWORD);
         driver.findElement(By.id(uiElementMapper.getElement("publisher.ninedot"))).click();

@@ -72,7 +72,7 @@ public class AssociationsTestCase extends GREGIntegrationUIBaseTest {
         driver.findElement(By.linkText(uiElementMapper.getElement("publisher.defaults.view"))).click();
         Assert.assertTrue(isElementPresent(driver, By.id(uiElementMapper.getElement("publisher.defaults.collapse"))),
                 "Rest service : " + uniqueName + " Version" + SERVICE_VERSION + "is not Created for test case " + log
-                        .getClass().toString());
+                        .getClass().getName());
     }
 
     @Test(groups = "wso2.greg", description = "Click and validate the asset", dependsOnMethods = "testCreateVersion")

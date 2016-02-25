@@ -24,8 +24,8 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 import org.wso2.carbon.automation.engine.frameworkutils.FrameworkPathUtil;
 import org.wso2.carbon.automation.extensions.selenium.BrowserManager;
-import org.wso2.carbon.greg.publisher.PublisherHomePage;
-import org.wso2.carbon.greg.publisher.PublisherLoginPage;
+import org.wso2.carbon.greg.publisher.login.PublisherHomePage;
+import org.wso2.carbon.greg.publisher.login.PublisherLoginPage;
 import org.wso2.carbon.greg.publisher.utils.ESWebDriver;
 import org.wso2.carbon.greg.publisher.utils.PublisherUtil;
 import org.wso2.greg.integration.common.clients.LifeCycleManagementClient;
@@ -58,10 +58,6 @@ public class CustomRXTCRUDTestCase extends GREGIntegrationUIBaseTest {
         super.init();
         driver = new ESWebDriver(BrowserManager.getWebDriver());
         driver.manage().timeouts().implicitlyWait(LOGIN_WAIT_SECONDS, TimeUnit.SECONDS);
-        driver.get(getPublisherURL());
-        PublisherLoginPage publisherLoginPage = new PublisherLoginPage(driver);
-        this.uiElementMapper = UIElementMapper.getInstance();
-        asset = new PublisherUtil(driver);
         try {
             addNewRxtConfiguration(RXT_NAME, RXT_NAME);
             LifeCycleManagementClient lifeCycleAdminServiceClient = new LifeCycleManagementClient(backendURL,
@@ -73,10 +69,12 @@ public class CustomRXTCRUDTestCase extends GREGIntegrationUIBaseTest {
         } catch (AxisFault e) {
             log.error("Error while adding new configurations", e);
         }
-
+        driver.get(getPublisherBaseUrl());
+        PublisherLoginPage publisherLoginPage = new PublisherLoginPage(driver);
+        this.uiElementMapper = UIElementMapper.getInstance();
+        asset = new PublisherUtil(driver);
         publisherLoginPage.loginAs(automationContext.getContextTenant().getContextUser().getUserName(),
                 automationContext.getContextTenant().getContextUser().getPassword());
-        driver.get(getPublisherURL());
     }
 
     @Test(groups = "wso2.greg", description = "Create a custom RXT instance and validate its availability")
@@ -100,7 +98,8 @@ public class CustomRXTCRUDTestCase extends GREGIntegrationUIBaseTest {
         driver.findElement(By.id(uniqueName)).click();
     }
 
-    @Test(groups = "wso2.greg", description = "Click and validate the asset", dependsOnMethods = "testCreateRXTInstance")
+    @Test(groups = "wso2.greg", description = "Click and validate the asset",
+            dependsOnMethods = "testCreateRXTInstance")
     public void testClickAndValidate() {
         asset.clickOnGenericTypeAsset(uiElementMapper.getElement("publisher.ea.name"), uniqueName);
         asset.validateDetailsContentType(uniqueName, uiElementMapper.getElement("publisher.general.name"));
@@ -119,9 +118,8 @@ public class CustomRXTCRUDTestCase extends GREGIntegrationUIBaseTest {
                 "Custom RXT instance not Updated for test case " + log.getClass().getName());
         driver.findElement(By.linkText(uiElementMapper.getElement("publisher.ea.name"))).click();
         driver.findElementByDynamicScroll(By.id(uniqueName));
-        assertTrue(isElementPresent(driver, By.id(uniqueName)),
-                "Enterprise Applications : " + uniqueName + " not available in listing page for test case " +
-                        log.getClass().toString());
+        assertTrue(isElementPresent(driver, By.id(uniqueName)), "Enterprise Applications : " + uniqueName +
+                " not available in listing page for test case " + log.getClass().getName());
     }
 
     @Test(groups = "wso2.greg", description = "Delete custom RXT instance and validate it",
