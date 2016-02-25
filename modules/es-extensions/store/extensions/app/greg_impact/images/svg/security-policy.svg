@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!--
+ * Copyright (c) 2015, WSO2 Inc. (http://www.wso2.org) All Rights Reserved.
+ *
+ * WSO2 Inc. licenses this file to you under the Apache License,
+ * Version 2.0 (the "License"); you may not use this file except
+ * in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing,
+ * software distributed under the License is distributed on an
+ * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ * KIND, either express or implied. See the License for the
+ * specific language governing permissions and limitations
+ * under the License.
+-->
+
+<svg version="1.1" id="security-poolicy" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px"
+	 y="0px" viewBox="2.721 0 11.279 14" enable-background="new 2.721 0 11.279 14" xml:space="preserve">
+<path d="M4.982,10.421h0.354V9.696C5.24,9.601,5.118,9.532,4.982,9.504V10.421z M11.365,0.005h-0.454l-0.002-0.002v0.002H5.593
+	c-0.337,0-0.611,0.274-0.611,0.611V8.2c0.121,0.008,0.24,0.026,0.354,0.055v-7.64c0-0.141,0.115-0.256,0.256-0.256h5.316v2.022
+	c0,0.322,0.261,0.584,0.583,0.584h2.153v8.283c0,0.141-0.115,0.257-0.256,0.257H7.251v0.355h6.139c0.337,0,0.611-0.274,0.611-0.611
+	V2.532L11.365,0.005z M12.623,10.326H11.26V8.898h1.064l0.306-0.321h-1.676v2.07h1.975V9.321l-0.306,0.321V10.326z M11.596,9.328
+	l-0.216,0.227l0.519,0.545l1.299-1.362l-0.216-0.227l-1.083,1.135L11.596,9.328z M10.623,4.275H6.382v-0.53h4.241L10.623,4.275
+	L10.623,4.275z M9.033,5.335H6.382v-0.53h2.651C9.033,4.805,9.033,5.335,9.033,5.335z M10.623,6.926H6.382v-0.53h4.241L10.623,6.926
+	L10.623,6.926z M9.563,7.987H6.382v-0.53h3.181V7.987z M10.623,7.722c0,0.147-0.119,0.265-0.265,0.265
+	c-0.148,0-0.266-0.118-0.266-0.265c0-0.146,0.118-0.265,0.266-0.265C10.504,7.456,10.623,7.575,10.623,7.722z M6.659,10.713H6.551
+	V10.21c0-0.93-0.738-1.707-1.66-1.724c-0.025,0-0.076,0-0.101,0C3.867,8.503,3.129,9.28,3.129,10.21v0.503H3.021
+	c-0.166,0-0.301,0.171-0.301,0.382v2.522C2.721,13.828,2.856,14,3.021,14h3.637c0.165,0,0.3-0.172,0.3-0.383v-2.522
+	C6.959,10.883,6.824,10.713,6.659,10.713z M5.181,12.353v0.762c0,0.087-0.073,0.161-0.16,0.161H4.659
+	c-0.088,0-0.16-0.074-0.16-0.161v-0.762c-0.085-0.083-0.134-0.199-0.134-0.326c0-0.242,0.187-0.449,0.425-0.459
+	c0.025-0.001,0.076-0.001,0.101,0c0.237,0.01,0.425,0.217,0.425,0.459C5.315,12.154,5.265,12.27,5.181,12.353z M5.843,10.713H4.89
+	H4.789H3.837V10.21c0-0.554,0.45-1.012,1.003-1.012c0.553,0,1.003,0.458,1.003,1.012V10.713z"/>
+</svg>

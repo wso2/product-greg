@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!--
+ * Copyright (c) 2015, WSO2 Inc. (http://www.wso2.org) All Rights Reserved.
+ *
+ * WSO2 Inc. licenses this file to you under the Apache License,
+ * Version 2.0 (the "License"); you may not use this file except
+ * in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing,
+ * software distributed under the License is distributed on an
+ * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ * KIND, either express or implied. See the License for the
+ * specific language governing permissions and limitations
+ * under the License.
+-->
+
+<svg version="1.1" id="html" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+	 viewBox="3.355 0 10.645 14" enable-background="new 3.355 0 10.645 14" xml:space="preserve">
+<path d="M10.889,0.005h-0.535l-0.003-0.002v0.002H4.076c-0.398,0-0.721,0.323-0.721,0.721v12.55c0,0.398,0.323,0.721,0.721,0.721
+	h9.202c0.398,0,0.721-0.323,0.721-0.721V2.987L10.889,0.005z M13.278,13.579H4.076c-0.167,0-0.303-0.136-0.303-0.303V0.726
+	c0-0.167,0.136-0.303,0.303-0.303h6.275V2.81c0,0.38,0.309,0.689,0.689,0.689h2.542v9.777
+	C13.581,13.443,13.446,13.579,13.278,13.579z M4.425,7.071l2.956,1.365V7.785L5.144,6.812V6.8l2.237-0.977V5.171L4.425,6.543V7.071z
+	 M7.83,8.682h0.621l1.315-4.457h-0.62L7.83,8.682z M10.117,5.171v0.652L12.404,6.8v0.012L10.117,7.79v0.646l2.956-1.347V6.523
+	L10.117,5.171z M12.587,9.782h-7.82c-0.197,0-0.358,0.16-0.358,0.358v2.433c0,0.198,0.16,0.358,0.358,0.358h7.82
+	c0.198,0,0.358-0.16,0.358-0.358V10.14C12.945,9.943,12.785,9.782,12.587,9.782z M6.957,12.222H6.568v-0.719H5.926v0.719H5.538
+	v-1.723h0.389v0.665h0.642v-0.665h0.389V12.222z M8.491,10.825h-0.47v1.396H7.632v-1.396H7.166v-0.327h1.325
+	C8.491,10.498,8.491,10.825,8.491,10.825z M10.174,12.222l-0.028-0.66c-0.008-0.207-0.015-0.455-0.015-0.708h-0.005
+	c-0.056,0.22-0.128,0.465-0.194,0.668l-0.21,0.673H9.416l-0.184-0.665c-0.056-0.205-0.113-0.448-0.156-0.675H9.071
+	c-0.007,0.233-0.018,0.499-0.028,0.714L9.01,12.222H8.649l0.11-1.723h0.519l0.169,0.578c0.056,0.197,0.107,0.412,0.146,0.614h0.01
+	c0.046-0.2,0.105-0.424,0.164-0.619l0.182-0.573h0.512l0.092,1.723H10.174z M11.927,12.222h-1.074v-1.723h0.389v1.396h0.685V12.222z
+	"/>
+</svg>
