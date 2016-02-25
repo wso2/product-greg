@@ -114,7 +114,6 @@ asset.configure = function () {
                         placeholder: "WeatherService"
                     },
                     context: {
-                        readonly:true,
                         placeholder: "/test"
                     },
                     version: {
