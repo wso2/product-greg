@@ -106,6 +106,7 @@ public class GregRestResourcePublisherESTestCase extends GregESTestBaseTest {
         assetId = obj.get("id").toString();
         Assert.assertNotNull(assetId, "Empty asset resource id available" +
                                       response.getEntity(String.class));
+        waitForIndexing();
         Assert.assertTrue(
                 this.getAssetsById(genericRestClient, publisherUrl, assetId, cookieHeader, "restservice")
                         .getEntity(String.class).contains(assetId));
@@ -165,5 +166,13 @@ public class GregRestResourcePublisherESTestCase extends GregESTestBaseTest {
                 new TestUserMode[]{TestUserMode.SUPER_TENANT_ADMIN}
 //                new TestUserMode[]{TestUserMode.TENANT_USER},
         };
+    }
+
+    private void waitForIndexing(){
+        try {
+            Thread.sleep(4000);
+        } catch (InterruptedException e) {
+            //Ignore exception due to indexing wait
+        }
     }
 }
