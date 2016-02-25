@@ -47,7 +47,6 @@
             <field type="options">
                 <name label="Category">Category</name>
                 <values>
-                    <value>None</value>
                     <value>Engineering</value>
                     <value>Finance</value>
                     <value>HR</value>
