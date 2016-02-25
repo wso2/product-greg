@@ -195,7 +195,8 @@ asset.configure = function() {
                 icon: 'fw fw-wsdl',
                 iconColor: 'green'
             },
-            downloadable:true
+            downloadable:true,
+            isDependencyShown: true
         }
     }
 };

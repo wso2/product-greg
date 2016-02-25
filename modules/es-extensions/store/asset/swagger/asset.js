@@ -199,7 +199,8 @@ asset.configure = function() {
             ui: {
                 icon: 'fw fw-swagger',
                 iconColor: 'grey'
-            }
+            },
+            isDependencyShown: true
         }
     }
 };

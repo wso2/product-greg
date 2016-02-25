@@ -143,7 +143,8 @@ asset.configure = function () {
             ui: {
                 icon: 'fw fw-rest-service',
                 iconColor: 'purple'
-            }
+            },
+            isDependencyShown: true
         }
     }
 };
