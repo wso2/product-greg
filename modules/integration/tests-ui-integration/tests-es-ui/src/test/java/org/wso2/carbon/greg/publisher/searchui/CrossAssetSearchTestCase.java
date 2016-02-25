@@ -118,12 +118,12 @@ public class CrossAssetSearchTestCase extends GREGIntegrationUIBaseTest {
 
     @Test(groups = "wso2.greg", description = "search for a policy service in landing page",
             dependsOnMethods = "testClickAndValidateRestSearch")
-    public void testColicySearch() throws MalformedURLException, XPathExpressionException {
+    public void testPolicySearch() throws MalformedURLException, XPathExpressionException {
         PublisherUtil util = new PublisherUtil(driver);
         util.landingPageSearch(tempName2);
     }
 
-    @Test(groups = "wso2.greg", description = "Click and validate the asset", dependsOnMethods = "testColicySearch")
+    @Test(groups = "wso2.greg", description = "Click and validate the asset", dependsOnMethods = "testPolicySearch")
     public void testClickAndValidatePolicySearch() {
         driver.findElementByDynamicScroll(By.id(tempName2 + POLICY_NAME));
         assertTrue(isElementPresent(driver, By.id(tempName2 + POLICY_NAME)), "asset " + tempName2 + POLICY_NAME +
@@ -136,12 +136,11 @@ public class CrossAssetSearchTestCase extends GREGIntegrationUIBaseTest {
     @Test(groups = "wso2.greg", description = "Do landing page advanced search for a policy by name and version",
             dependsOnMethods = "testClickAndValidatePolicySearch")
     public void testAdvancedSearch() throws MalformedURLException, XPathExpressionException {
-        driver.get(getPublisherBaseUrl());
+        driver.findElement(By.cssSelector(uiElementMapper.getElement("publisher.app.title"))).click();
         PublisherUtil util = new PublisherUtil(driver);
         util.advancedSearch(tempName2, SERVICE_VERSION2, "", "");
-        assertTrue(isElementPresent(driver, By.id(tempName2 + POLICY_NAME)),
-                "Policy " + tempName2 + POLICY_NAME + " is not listed after search for test case" +
-                        log.getClass().getName());
+        assertTrue(isElementPresent(driver, By.id(tempName2 + POLICY_NAME)), "Policy " + tempName2 + POLICY_NAME +
+                " is not listed after search for test case" + log.getClass().getName());
     }
 
     @Test(groups = "wso2.greg", description = "Click and validate the asset", dependsOnMethods = "testAdvancedSearch")

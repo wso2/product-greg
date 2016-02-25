@@ -118,14 +118,6 @@ public class SearchTestCase extends GREGIntegrationUIBaseTest {
                 "Expected asset is not returned from the search query");
         assertTrue(searchResultspage.containsAsset(uiElementMapper.getElement("store.search.version1.asset2.id")),
                 "Expected asset is not returned from the search query");
-
-        SearchResultsPage searchResultspageVersion2 = new SearchResultsPage(driver, "version:2.0.0", false);
-        assertTrue(
-                searchResultspageVersion2.containsAsset(uiElementMapper.getElement("store.search.version2.asset1.id")),
-                "Expected asset is not returned from the search query");
-        assertTrue(
-                searchResultspageVersion2.containsAsset(uiElementMapper.getElement("store.search.version2.asset2.id")),
-                "Expected asset is not returned from the search query");
     }
 
     @Test(description = "Test the ability to search by content")
@@ -141,22 +133,25 @@ public class SearchTestCase extends GREGIntegrationUIBaseTest {
 
     @Test(description = "Test the ability to search by lifecycle name")
     public void testByLifecycleName() {
-        SearchResultsPage searchResultspage = new SearchResultsPage(driver, "lcName:BuyMoreLifeCycle", false);
-        assertTrue(searchResultspage.containsAsset(uiElementMapper.getElement("store.search.lc.buymore.asset1.id")),
+        storeHomePage.clickOnNavButton("restservice");
+        SearchResultsPage searchResultspage = new SearchResultsPage(driver, "lcName:ServiceLifeCycle", false);
+        assertTrue(searchResultspage
+                        .containsAsset(uiElementMapper.getElement("store.search.lc.ServiceLifeCycle.asset1.id")),
                 "Expected asset is not returned from the search query");
-        assertTrue(searchResultspage.containsAsset(uiElementMapper.getElement("store.search.lc.buymore.asset2.id")),
+        assertTrue(searchResultspage
+                        .containsAsset(uiElementMapper.getElement("store.search.lc.ServiceLifeCycle.asset2.id")),
                 "Expected asset is not returned from the search query");
-        assertTrue(searchResultspage.containsAsset(uiElementMapper.getElement("store.search.lc.buymore.asset3.id")),
+        assertTrue(searchResultspage
+                        .containsAsset(uiElementMapper.getElement("store.search.lc.ServiceLifeCycle.asset3.id")),
                 "Expected asset is not returned from the search query");
+        storeHomePage.clickOnNavButton("all");
     }
 
     @Test(description = "Test search by version and asset name")
     public void testSearchByNameAndVersion() {
-        SearchResultsPage searchResultspage = new SearchResultsPage(driver, "name:Buy version:1.0.0", false);
+        SearchResultsPage searchResultspage = new SearchResultsPage(driver, "name:uber version:1.0", false);
         log.info("searched by name and version");
-        assertTrue(searchResultspage.containsAsset(uiElementMapper.getElement("store.search.name.version.asset2.id")),
-                "Expected asset is not returned from the search query");
-        assertTrue(searchResultspage.containsAsset(uiElementMapper.getElement("store.search.name.version.asset2.id")),
+        assertTrue(searchResultspage.containsAsset(uiElementMapper.getElement("store.search.name.version.asset1.id")),
                 "Expected asset is not returned from the search query");
     }
 
