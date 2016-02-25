@@ -18,7 +18,11 @@ body {
 }
 
 .wr-auth a {
-    color: #fff;
+    color: #fff !important;
+    text-decoration: none;
+}
+.wr-auth a:hover,a:focus {
+    color: #fff !important;
     text-decoration: none;
 }
 
