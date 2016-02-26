@@ -88,7 +88,6 @@ public class SoapServiceCRUDUITestCase extends GREGIntegrationUIBaseTest {
     @Test(groups = "wso2.greg", description = "Click and validate the asset", dependsOnMethods = "updateAsset")
     public void clickAndValidateAfterUpdate() {
         asset.clickOnGenericTypeAsset(uiElementMapper.getElement("publisher.soapservices"), elementID);
-        asset.validateDetailsContentType("/" + uniqueName, uiElementMapper.getElement("publisher.general.namespace"));
         asset.validateDetailsContentType("desc" + uniqueName,
                 uiElementMapper.getElement("publisher.general.description"));
     }
