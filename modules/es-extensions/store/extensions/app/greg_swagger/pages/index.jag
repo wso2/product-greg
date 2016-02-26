@@ -19,15 +19,6 @@
 
 var user = require('store').server.current(session);
 var log = new Log();
-
-/*
- * query parameters of the original request should be passed to the
- * login jag in order to redirect to the correct place
- */
-if (!user) {
-    response.sendRedirect('./login?' + request.getQueryString());
-}
-else {
 %>
 
 <!DOCTYPE html>
@@ -199,5 +190,3 @@ else {
 <div id="swagger-ui-container" class="swagger-ui-wrap"></div>
 </body>
 </html>
-
-<% } %>
