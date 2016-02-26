@@ -192,7 +192,8 @@ asset.configure = function() {
                 icon: 'fw fw-policy',
                 iconColor: 'yellow'
             },
-            downloadable:true
+            downloadable:true,
+            isDependencyShown: true
         }
     }
 };

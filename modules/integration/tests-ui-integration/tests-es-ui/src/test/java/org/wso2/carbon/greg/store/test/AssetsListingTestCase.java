@@ -57,8 +57,8 @@ public class AssetsListingTestCase extends GREGIntegrationUIBaseTest {
         storeHomePage = storeLoginPage.Login(automationContext.getContextTenant().getContextUser().getUserName(),
                 automationContext.getContextTenant().getContextUser().getPassword());
 
-        this.doVerifyAssetByName("policy");
         this.doVerifyAssetByName("restservice");
+        this.doVerifyAssetByName("policy");
         this.doVerifyAssetByName("schema");
         this.doVerifyAssetByName("soapservice");
         this.doVerifyAssetByName("swagger");
@@ -75,7 +75,8 @@ public class AssetsListingTestCase extends GREGIntegrationUIBaseTest {
      * @param aType Asset type needs to be tested.
      */
     private void doVerifyAssetByName(String aType) {
-        StoreAssetListPage assetListPage = storeHomePage.clickOnSeeMore(aType);
+        log.info("Verifying "+aType);
+        StoreAssetListPage assetListPage = storeHomePage.clickOnNavButton(aType);
 
         if (aType.equals("policy")) {
             assertTrue(assetListPage.verifyPolicyAssetListPageSubtitle(), "Listing page subtitle is not Policies");
@@ -99,7 +100,6 @@ public class AssetsListingTestCase extends GREGIntegrationUIBaseTest {
         assertTrue(assetOverviewPage.verifyDownloadFileButton());
         assertTrue(assetOverviewPage.verifyReviewButton());
 
-        driver.get(baseUrl);
         log.info("Asset listing test successful for " + aType);
     }
 
