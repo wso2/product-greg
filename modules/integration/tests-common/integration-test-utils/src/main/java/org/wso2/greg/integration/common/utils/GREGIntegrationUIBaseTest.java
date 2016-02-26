@@ -37,7 +37,7 @@ import javax.xml.xpath.XPathExpressionException;
  */
 public class GREGIntegrationUIBaseTest extends GREGIntegrationBaseTest{
     public static final Log log = LogFactory.getLog(GREGIntegrationUIBaseTest.class);
-    public static final int WAIT_SECONDS = 2;
+    public static final int WAIT_SECONDS = 20;
     public static final int LOGIN_WAIT_SECONDS = 60;
 
     protected String getLoginURL() throws XPathExpressionException {

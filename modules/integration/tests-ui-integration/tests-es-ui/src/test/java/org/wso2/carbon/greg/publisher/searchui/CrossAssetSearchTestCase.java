@@ -106,7 +106,8 @@ public class CrossAssetSearchTestCase extends GREGIntegrationUIBaseTest {
         util.landingPageSearch(tempName);
     }
 
-    @Test(groups = "wso2.greg", description = "Click and validate the asset", dependsOnMethods = "testRestServiceSearch")
+    @Test(groups = "wso2.greg", description = "Click and validate the asset",
+            dependsOnMethods = "testRestServiceSearch")
     public void testClickAndValidateRestSearch() {
         driver.findElementByDynamicScroll(By.id(tempName));
         assertTrue(isElementPresent(driver, By.id(tempName)), "asset " + tempName +
