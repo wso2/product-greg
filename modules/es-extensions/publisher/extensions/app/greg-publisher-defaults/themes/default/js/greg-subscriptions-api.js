@@ -7,6 +7,7 @@ $(function() {
         var data = {};
         data.notificationType = option;
         data.notificationMethod = method;
+        $(element).unbind("change");
         $.ajax({
             url: urlSub,
             type: 'POST',
@@ -26,7 +27,6 @@ $(function() {
                                     addSubscription(element, id, type, method, option);
                                 });
                                 dialogItself.close();
-                                location.reload(true);
                             }
                         }]
                     });
@@ -41,10 +41,9 @@ $(function() {
                             action: function (dialogItself) {
                                 $(element).prop("checked", true);
                                 $(element).change(function() {
-                                    removeSubscription(element, id, subcriptionid, method, option);
+                                    removeSubscription(element, id, type, subcriptionid, method, option);
                                 });
                                 dialogItself.close();
-                                location.reload(true);
                             }
                         }]
 
@@ -62,6 +61,7 @@ $(function() {
     var removeSubscription = function(element, id, type, subcriptionid, method, option) {
         var urlSub = caramel.context + '/apis/subscriptions/' + type + '/' + id + '?subcriptionid=' + subcriptionid;
         //alert('removeSubscription');
+        $(element).unbind("change");
         $.ajax({
             url: urlSub,
             type: 'DELETE',
@@ -80,7 +80,6 @@ $(function() {
                                     removeSubscription(element, id, type, subcriptionid, method, option);
                                 });
                                 dialogItself.close();
-                                location.reload(true);
                             }
                         }]
                     });
@@ -97,7 +96,6 @@ $(function() {
                                     addSubscription(element, id, type, method, option);
                                 });
                                 dialogItself.close();
-                                location.reload(true);
                             }
                         }]
                     });
