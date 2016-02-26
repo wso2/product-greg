@@ -124,7 +124,7 @@ public class AddSampleStory {
             lifeCycleManagementClient.createLifecycle(readFile(projectPath + File.separator + "resources" +
                     File.separator + "BuyMoreLC.xml"));
 
-            Thread.sleep(5 * 1000);
+            Thread.sleep(3 * 1000);
 
             //String[][] developmentProperties = {{"version", "3.0.0"}};
             String[][] testingProperties = {{"version", "2.0.0"}};
@@ -152,7 +152,7 @@ public class AddSampleStory {
                     File.separator + "resources" + File.separator + "BuyMoreUTPolicy.xml")), null);
 
             System.out.println("Added Swagger files, WSDL and WS-Policy");
-            Thread.sleep(3 * 1000);
+            Thread.sleep(3 * 500);
 
             Registry gov = GovernanceUtils.getGovernanceUserRegistry(registry, "admin");
             // Should be load the governance artifact.

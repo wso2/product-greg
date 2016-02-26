@@ -119,7 +119,7 @@ public class Main {
 
                 }
                 System.out.println("######## Successfully uploaded sample wsdls ########\n\n");
-                Thread.sleep(6 * 1000);
+                Thread.sleep(1 * 1000);
 
             } catch (Exception e) {
                 System.out.println("######## Unable to upload sample wsdls ########\n\n");
