@@ -1,12 +1,13 @@
 var GregSubscriptionAPI = {};
 $(function() {
-    
+
     var addSubscription = function(element, id, type, method, option) {
         var urlSub = caramel.context + '/apis/subscription/' + type + '/' + id;
         //alert('addSubscription');
         var data = {};
         data.notificationType = option;
         data.notificationMethod = method;
+        $(element).unbind("change");
         $.ajax({
             url: urlSub,
             type: 'POST',
@@ -18,14 +19,12 @@ $(function() {
                     $(element).change(function() {
                         addSubscription(element, id, type, method, option);
                     });
-                    location.reload(true);
                 } else {
                     var subcriptionid = data[0].id;
                     $(element).prop("checked", true);
                     $(element).change(function() {
-                        removeSubscription(element, id, subcriptionid, method, option);
+                        removeSubscription(element, id, type, subcriptionid, method, option);
                     });
-                    location.reload(true);
                 }
             },
             error: function() {
@@ -39,6 +38,7 @@ $(function() {
     var removeSubscription = function(element, id, type, subcriptionid, method, option) {
         var urlSub = caramel.context + '/apis/subscription/' + type + '/' + id + '?subcriptionid=' + subcriptionid;
         //alert('removeSubscription');
+        $(element).unbind("change");
         $.ajax({
             url: urlSub,
             type: 'DELETE',
@@ -49,13 +49,11 @@ $(function() {
                     $(element).change(function() {
                         removeSubscription(element, id, type, subcriptionid, method, option);
                     });
-                    location.reload(true);
                 } else {
                     $(element).prop("checked", false);
                     $(element).change(function() {
                         addSubscription(element, id, type, method, option);
                     });
-                    location.reload(true);
                 }
             },
             error: function() {
