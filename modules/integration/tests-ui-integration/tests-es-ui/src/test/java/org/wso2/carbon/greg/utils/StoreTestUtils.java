@@ -50,6 +50,13 @@ public class StoreTestUtils {
             throw new StoreTestException("Could not execute the ant script", e);
         }
         log.info("Finished executing ant script for getting started samples");
+        log.info("Thread is sleeping for 10 seconds");
+        try {
+            Thread.sleep(1000*10);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        log.info("Thread is running");
     }
 
     /**
