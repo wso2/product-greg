@@ -56,19 +56,8 @@ span.twitter-typeahead {
 .twitter-typeahead .tt-suggestion {
   padding: 3px 20px;
   white-space: nowrap;
-/*  font-size: 18px;
-  line-height: 24px;*/
 }
 
-.twitter-typeahead .tt-suggestion.tt-cursor {
-  color: #fff;
-  background-color: #0097cf;
-
-}
-
-.twitter-typeahead .tt-suggestion p {
-  margin: 0;
-}
 /*Added to menu element when it contains no content*/
 .twitter-typeahead .tt-empty {
   background-color: white;
@@ -84,10 +73,17 @@ span.twitter-typeahead {
 .twitter-typeahead .tt-suggestion:focus,
 .twitter-typeahead .tt-cursor {
   cursor: hand !important;
-  background-color: #eee;
-  color: black;
+  background-color: #337ab7;
+  color: white;
 }
 
 /*span.twitter-typeahead {
     display: none;
 }*/
+
+/* Small Devices, Tablets */
+@media (max-width: 768px) {
+.tt-menu {
+  left:90px !important;
+}
+}

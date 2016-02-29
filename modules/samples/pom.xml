@@ -316,6 +316,21 @@
                 <artifactId>org.wso2.carbon.registry.samples.custom.topics.stub</artifactId>
                 <version>${carbon.registry.version}</version>
             </dependency>
+            <dependency>
+                <groupId>org.wso2.carbon.registry</groupId>
+                <artifactId>org.wso2.carbon.registry.reporting</artifactId>
+                <version>${carbon.registry.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.wso2.carbon.commons</groupId>
+                <artifactId>org.wso2.carbon.reporting.api</artifactId>
+                <version>${carbon.commons.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.wso2.carbon.commons</groupId>
+                <artifactId>org.wso2.carbon.reporting.util</artifactId>
+                <version>${carbon.commons.version}</version>
+            </dependency>
         </dependencies>
     </dependencyManagement>
 

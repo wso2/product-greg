@@ -733,6 +733,11 @@
                 <artifactId>resteasy-client</artifactId>
                 <version>${resteasy.version}</version>
             </dependency>
+            <dependency>
+                <groupId>org.wso2.carbon.registry</groupId>
+                <artifactId>org.wso2.carbon.registry.reporting</artifactId>
+                <version>${carbon.registry.version}</version>
+            </dependency>
         </dependencies>
     </dependencyManagement>
 
@@ -1024,7 +1029,6 @@
         
         <!-- Carbon Commons -->
         <carbon.commons.version>4.5.2</carbon.commons.version>
-        
         <!-- Carbon Identity -->
         <carbon.identity.version>5.0.8</carbon.identity.version>
 
