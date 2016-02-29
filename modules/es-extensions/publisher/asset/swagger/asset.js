@@ -258,8 +258,29 @@ asset.manager = function(ctx) {
             
         },
         getVersion: function(asset) {
+            if (!asset.attributes["version"]) {
+                var subPaths = asset.path.split('/');
+                asset.version = subPaths[subPaths.length - 2];
+                asset.attributes["version"] = asset.version;
+            }
             asset.attributes["overview_version"] = asset.attributes["version"];
             return asset.attributes["version"];
+        },
+        getAssetGroup:function(asset){
+            var results = this._super.getAssetGroup.call(this,asset);
+            for (var index = 0; index < results.length; index++) {
+                var result = results[index];
+                var path = result.path;
+                var subPaths = path.split('/');
+                var name = subPaths[subPaths.length - 1];
+                result.name = name;
+                result.version = subPaths[subPaths.length - 2];
+                result.attributes.overview_name = name;
+                result.overview_version = result.version;
+                result.attributes.overview_version = result.version;
+                result.attributes.version = result.version;
+            }
+            return results;
         }
     };
 };

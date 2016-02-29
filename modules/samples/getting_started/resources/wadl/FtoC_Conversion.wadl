@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<application xmlns="http://wadl.dev.java.net/2009/02" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+   <resources base="http://localhost/cxf/">
+      <resource path="/ftocservice">
+         <method name="GET">
+            <response>
+               <representation mediaType="application/json" />
+            </response>
+         </method>
+         <resource path="/{f}/{s}">
+            <param name="f" style="template" type="xs:float" />
+            <param name="s" style="template" type="xs:int" />
+            <method name="GET">
+               <request />
+               <response>
+                  <representation mediaType="application/json" />
+               </response>
+            </method>
+         </resource>
+      </resource>
+   </resources>
+</application>

@@ -5,8 +5,12 @@ var gregAPI = {};
     var SubscriptionPopulator = Packages.org.wso2.carbon.registry.info.services.utils.SubscriptionBeanPopulator;
     var GovernanceUtils = Packages.org.wso2.carbon.governance.api.util.GovernanceUtils;
     var CommonUtil = Packages.org.wso2.carbon.governance.registry.extensions.utils.CommonUtil;
+    var TSimpleQueryInput = org.wso2.carbon.humantask.client.api.types.TSimpleQueryInput;
 
     var carbon = require('carbon');
+    var time = require('utils').time;
+    var constants = require('rxt').constants;
+    var responseProcessor = require('utils').response;
     var taskOperationService = carbon.server.osgiService('org.wso2.carbon.humantask.core.TaskOperationService');
     gregAPI.notifications = {};
     gregAPI.subscriptions = {};
@@ -242,7 +246,7 @@ var gregAPI = {};
                         workList.overviewName = subPaths[subPaths.length - 1];
                     } else {
                         var govAttifact = Packages.org.wso2.carbon.governance.api.util.GovernanceUtils.retrieveGovernanceArtifactByPath(am.registry.registry, pathValue);
-                        workList.overviewName = String(govAttifact.getAttribute('overview_name'));
+                        workList.overviewName = String(govAttifact.getQName().getLocalPart());
                     }
 
                     workList.presentationSubject = workList.presentationSubject.replace("resource at path", workList.overviewName);
@@ -256,7 +260,7 @@ var gregAPI = {};
                 workList.presentationName = String(row.getPresentationName());
                 workList.priority = String(row.getPriority());
                 workList.status = String(row.getStatus());
-                workList.time = String(row.getCreatedTime().getTime());
+                workList.time = time.formatTimeAsTimeSince(getDateTime(row.getCreatedTime()));
                 //workList.createdTime = String(row.getCreatedTime());
                 workList.user = String(taskOperationService.loadTask(row.getId()).getActualOwner().getTUser());
                 result.push(workList);
@@ -265,6 +269,47 @@ var gregAPI = {};
         results.list = result;
         return results;
     };
+
+    gregAPI.notifications.clear = function(res) {
+        var queryInput = new TSimpleQueryInput();
+        var message;
+        queryInput.setPageNumber(0);
+        queryInput.setSimpleQueryCategory(
+            org.wso2.carbon.humantask.client.api.types.TSimpleQueryCategory.ASSIGNED_TO_ME);
+        var resultSet = taskOperationService.simpleQuery(queryInput);
+        var rows = resultSet.getRow();
+        if (rows) {
+            for (var i = 0; i < rows.length; i++) {
+                var row =  rows[i];
+                var id = String(row.getId());
+                var idObj = new org.apache.axis2.databinding.types.URI(id);
+                try{
+                    taskOperationService.start(idObj);
+                    taskOperationService.complete(idObj, "<WorkResponse>true</WorkResponse>");
+                } catch (e){
+                    log.warn(e);
+                    return responseProcessor.buildErrorResponseDefault(e.code, 'error on clearing notifications', res,
+                        'Failed to clear all notifications ', e.message, []);
+                }
+            }
+        }
+        message = {
+            'status': 'success'
+        };
+        return responseProcessor.buildSuccessResponseDefault(constants.STATUS_CODES.OK, res, message);
+    };
+
+    var getDateTime = function(date) {
+        var year = date.get(date.YEAR);
+        var month = date.get(date.MONTH);
+        var day = date.get(date.DAY_OF_MONTH);
+        var hours = date.get(date.HOUR_OF_DAY);
+        var minutes = date.get(date.MINUTE);
+        var seconds = date.get(date.SECOND);
+
+        return new Date(year,month,day,hours,minutes,seconds);
+    };
+
     var endsWith = function(suffix, val) {
         return val.indexOf(suffix, val.length - suffix.length) !== -1;
     };
@@ -307,6 +352,15 @@ var gregAPI = {};
                         var subPaths =  artifacts[j].path.split('/');
                         assetJson.text = subPaths[subPaths.length - 1]
                     }
+
+                    var version = artifacts[j].attributes.overview_version;
+                    if(version == null) {
+                        version = artifacts[j].attributes.version;
+                    }
+                    if(version != null) {
+                        assetJson.version = version;
+                    }
+
                     assetJson.type = artifacts[j].mediaType;
                     assetJson.shortName = artifacts[j].type;
                     resultList.results.push(assetJson);
@@ -326,30 +380,72 @@ var gregAPI = {};
         var sourcePath = srcam.get(sourceUUID).path;
         var destam = assetManager(session, destType);
         var destPath = destam.get(destUUID).path;
+        var reverseAssociationType = CommonUtil.getReverseAssociationType(sourceType, associationType);
+        if (!reverseAssociationType){
+            reverseAssociationType = CommonUtil.getReverseAssociationType("default", associationType);
+        }
+        var destPath = destam.get(destUUID).path;
         srcam.registry.registry.addAssociation(sourcePath,destPath,associationType);
+        if(reverseAssociationType) {
+            srcam.registry.registry.addAssociation(destPath, sourcePath, reverseAssociationType);
+        }
     }
 
     gregAPI.associations.list = function(session, type, path) {
+        var username = require('store').server.current(session).username;
         var am = assetManager(session, type);
         var resultList = new Object();
         resultList.results = [];
         var results = am.registry.associations(path);
-        var artifact;
+        var artifact,artifactConfig;
         for(var i=0; i < results.length; i++){
             if (results[i].src == path){
                 var destPath = results[i].dest
                 try {
+                    var artifactPath = destPath.replace("/_system/governance", "");
+                    var govRegistry = Packages.org.wso2.carbon.governance.api.util.GovernanceUtils.
+                        getGovernanceUserRegistry(am.registry.registry, username);
                     artifact = Packages.org.wso2.carbon.governance.api.util.GovernanceUtils.
-                        findGovernanceArtifactConfigurationByMediaType(am.registry.registry.get(destPath).
-                            getMediaType(), am.registry.registry);
+                        retrieveGovernanceArtifactByPath(govRegistry, artifactPath);
                 } catch (e) {
                     log.warn("Association can not be retrieved. Resource does not exist at path " + destPath);
                     continue;
                 }
 
+
+                if (artifact == null) { //if associated artifact is not a resource we are not displaying it in publisher
+                    log.info("resource at path /_system/governance " + destPath + " is not a governance artifact!");
+                    continue;
+                }
+                    artifactConfig = Packages.org.wso2.carbon.governance.api.util.GovernanceUtils.
+                        findGovernanceArtifactConfigurationByMediaType(am.registry.registry.get(destPath).
+                            getMediaType(), am.registry.registry);
+
                 var assetJson = new Object();
                 var uuid = am.registry.registry.get(destPath).getUUID();
-                var key = String(artifact.getKey());
+                var key = String(artifactConfig.getKey());
+
+                var uniqueAttributesNames = artifactConfig.getUniqueAttributes();
+                var artifactNameAttribute = artifactConfig.getArtifactNameAttribute();
+
+                assetJson.uniqueAttributesValues = [];
+                assetJson.uniqueAttributesNames = [];
+
+                for (var j = 0; j < uniqueAttributesNames.size(); j++) {
+                    if (artifactNameAttribute == uniqueAttributesNames.get(j)) {
+                        continue;
+                    }
+                    var attributeName = uniqueAttributesNames.get(j);
+                    if (key === 'wsdl' || key === 'wadl' || key === 'policy' || 
+                        key === 'schema' || key === 'endpoint' || key === 'swagger'){
+                        attributeName = attributeName.replace("overview_", "");
+                    }
+                    if (artifact.getAttributes(attributeName) != null) {
+                        assetJson.uniqueAttributesNames[j] = attributeName;
+                        assetJson.uniqueAttributesValues[j] = artifact.getAttributes(attributeName)[0];
+                    }
+                };
+
                 if (key === 'wsdl' || key === 'wadl' || key === 'policy' || key === 'schema' || key === 'endpoint' || key === 'swagger'){
                     var subPaths = destPath.split('/');
                     assetJson.text = subPaths[subPaths.length - 1];
@@ -369,9 +465,9 @@ var gregAPI = {};
                 resultList.results.push(assetJson);
             }
         }
-        return resultList
-
+        return resultList;
     }
+
     gregAPI.associations.listTypes = function(type) {
         var map = CommonUtil.getAssociationConfig(type);
         if(!map){
@@ -388,6 +484,24 @@ var gregAPI = {};
         var destam = assetManager(session, destType);
         var destPath = destam.get(destUUID).path;
         srcam.registry.registry.removeAssociation(sourcePath,destPath,associationType);
+        var reverseAssociationType = CommonUtil.getReverseAssociationType(sourceType, associationType);
+        if (!reverseAssociationType){
+            reverseAssociationType = CommonUtil.getReverseAssociationType("default", associationType);
+        }
+        if (!reverseAssociationType){
+            reverseAssociationType = CommonUtil.getAssociationTypeForRemoveOperation(destType, associationType);
+        }
+        if (!reverseAssociationType){
+            reverseAssociationType = CommonUtil.getAssociationTypeForRemoveOperation("default", associationType);
+        }
+        var results = srcam.registry.associations(destPath);
+        if (reverseAssociationType) {
+            for (var i = 0; i < results.length; i++) {
+                if (results[i].dest == sourcePath && results[i].type == reverseAssociationType) {
+                    srcam.registry.registry.removeAssociation(destPath, sourcePath, reverseAssociationType);
+                }
+            }
+        }
     }
 
 

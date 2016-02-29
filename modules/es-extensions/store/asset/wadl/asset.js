@@ -74,6 +74,14 @@ asset.manager = function(ctx) {
             asset.attributes.overview_version = version;
             asset.overview_version = version;
             asset.authorUserName = authorUserName;
+            var ComparatorUtils = Packages.org.wso2.carbon.governance.comparator.utils.ComparatorUtils;
+            var comparatorUtils = new ComparatorUtils();
+            var mediaType = "application/wadl+xml";
+            try {
+                value = comparatorUtils.prettyFormatText(value,mediaType);
+            } catch (ex){
+
+            }
             asset.wadlContent = value;
         }
     };
@@ -161,8 +169,29 @@ asset.manager = function(ctx) {
             return asset.name;
         },
         getVersion: function(asset) {
+            if (!asset.attributes["version"]) {
+                var subPaths = asset.path.split('/');
+                asset.version = subPaths[subPaths.length - 2];
+                asset.attributes["version"] = asset.version;
+            }
             asset.attributes["overview_version"] = asset.attributes["version"];
             return asset.attributes["version"];
+        },
+        getAssetGroup:function(asset){
+            var results = this._super.getAssetGroup.call(this,asset);
+            for (var index = 0; index < results.length; index++) {
+                var result = results[index];
+                var path = result.path;
+                var subPaths = path.split('/');
+                var name = subPaths[subPaths.length - 1];
+                result.name = name;
+                result.version = subPaths[subPaths.length - 2];
+                result.attributes.overview_name = name;
+                result.overview_version = result.version;
+                result.attributes.overview_version = result.version;
+                result.attributes.version = result.version;
+            }
+            return results;
         }
     };
 };
@@ -173,7 +202,9 @@ asset.configure = function() {
             ui: {
                 icon: 'fw fw-wadl',
                 iconColor: 'blue'
-            }
+            },
+            downloadable:true,
+            isDependencyShown: true
         }
     }
 };

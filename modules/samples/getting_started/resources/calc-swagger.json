@@ -1,0 +1,59 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "version": "1.0",
+        "title": "BuyMore Bill Calculate REST API"
+    },
+    "host": "localhost:8080",
+    "basePath": "/services/bill_calculator",
+    "schemes": [
+        "http"
+    ],
+    "produces": [
+        "*/*"
+    ],
+    "paths": {
+        "/bill/calculate": {
+            "post": {
+                "description": "Returns calculated item bill after VAT tax",
+                "parameters": [
+                    {
+                        "name": "total",
+                        "in": "body",
+                        "description": "item total",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/total"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "calculated total",
+                        "schema": {
+                            "$ref": "#/definitions/total"
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "definitions": {
+        "total": {
+            "type": "object",
+            "properties": {
+                "total": {
+                    "$ref": "#/definitions/billTotal"
+                }
+            }
+        },
+        "billTotal": {
+            "type": "object",
+            "properties": {
+                "billTotal": {
+                    "type": "integer"
+                }
+            }
+        }
+    }
+}

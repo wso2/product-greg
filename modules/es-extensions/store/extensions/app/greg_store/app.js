@@ -22,7 +22,7 @@ app.server = function(ctx) {
     return {
     	endpoints:{
 	    	pages:[{
-		    		title:'GREG landing page',
+		    	title:'Landing page',
 	    		url:'gc-landing',
 	    		path:'greg-landing.jag',
 	    		secured:false
@@ -31,7 +31,8 @@ app.server = function(ctx) {
         configs: {
         	landingPage: '/pages/top-assets',
             disabledAssets: ['note', 'ebook','proxy','sequence','service','servicex','uri',
-                             'site','provider','gadget','document','endpoint','topic','reply', 'server']
+                             'site','provider','gadget','document','endpoint','topic','reply', 'server'],
+            title : "WSO2 Governance Center - Store"
         }
     }
 };

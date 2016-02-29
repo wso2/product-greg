@@ -5,7 +5,7 @@
             <div class="widget wlightblue">
                 <div class="widget-head">
                     <div class="pull-left">
-                        Edit Asset - {{{snoop "fields(name=overview_name).value" this.data}}}
+                        {{t "Edit Asset"}} - {{{snoop "fields(name=overview_name).value" this.data}}}
                     </div>
                     <div class="clearfix"></div>
                 </div>
@@ -115,7 +115,7 @@
                         {{/each}}
 
                         <div class="control-group">
-                            <b><label class="control-label">Tags: </label></b>
+                            <b><label class="control-label">{{t "Tags"}}: </label></b>
 
                             <div class="controls">
                                 <input type='text' id='tag-test' name='tags'>

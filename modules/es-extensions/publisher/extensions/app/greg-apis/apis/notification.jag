@@ -2,11 +2,13 @@
 require('/modules/publisher.js').exec(function(ctx) {
   var matcher = new URIMatcher(request.getRequestURI());
   var options;
+  var res = ctx.response;
   var SUB_LIST = '/{context}/apis/notification';
   var SUB_ITEM = '/{context}/apis/notification/{id}';
   //var SUB_ITEM = '/{context}/apis/notification/{type}/{id}';
   var httpMethod = request.getMethod();
   var subscriptionAPI = require('/extensions/app/greg-apis/modules/subscription-api.js').api;
+  var gregAPI = require('/modules/greg-publisher-api.js').gregAPI;
   var events;
 
   var responseProcessor = require('utils').response;
@@ -61,17 +63,22 @@ require('/modules/publisher.js').exec(function(ctx) {
           print(message);
           break;
       case 'DELETE':
-          try{
-              taskOperationService.start(new org.apache.axis2.databinding.types.URI(options.id));
-              taskOperationService.complete(new org.apache.axis2.databinding.types.URI(options.id), "<WorkResponse>true</WorkResponse>");
-            } catch (e){
-              var message= {'error':'Not supported'};
-              print(message);
+          if (matcher.match(SUB_ITEM)) {
+              var idObj = new org.apache.axis2.databinding.types.URI(options.id);
+              try{
+                  taskOperationService.start(idObj);
+                  taskOperationService.complete(idObj, "<WorkResponse>true</WorkResponse>");
+              } catch (e){
+                  message= {'error':'Not supported'};
+                  print(message);
+                  return;
+              }
+              print(options.id);
+              break;
+          } else {
+              response = gregAPI.notifications.clear(res);
               return;
-            }
-          //log.info(options.id)
-          print(options.id);
-          break;
+          }
       default:
           print('This is a default');
           break;

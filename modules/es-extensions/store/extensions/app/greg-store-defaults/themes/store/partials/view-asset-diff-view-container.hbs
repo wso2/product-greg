@@ -1,0 +1,26 @@
+{{#with assets}}
+    <!--Show only there are multiple versions-->
+    {{#if ../assetVersions}}
+        <div class="btn-group pull-right select" id="diff-view-version">
+            <a class="btn btn-default btn-lg" id="diff-view-button"
+               href="{{url ""}}/pages/diff?type=wsdl&path={{../../assetVersions.0.path}},{{../path}}"
+               target="_blank">{{t "Compare with "}}
+                <span data-selected_base_path="{{../../assetVersions.0.path}}"
+                      class="text-info selected"> {{../../assetVersions.0.version}} </span>
+            </a>
+            {{#unless ../../single_version }}
+                <button type="button" class="btn btn-default btn-lg" data-toggle="dropdown" aria-haspopup="true"
+                        aria-expanded="false"><span class="caret"></span>
+                    <span class="sr-only">Toggle Dropdown</span>
+                </button>
+                <ul class="dropdown-menu">
+                    {{#each ../../../assetVersions}}
+                        <li><a target="_blank" href="{{url ""}}/pages/diff?type=wsdl&path={{this.path}},{{../path}}"
+                               style="color: inherit" class="btn hover" data-base_path="{{../../path}}"
+                               id="{{this.path}}">{{this.version}}</a></li>
+                    {{/each}}
+                </ul>
+            {{/unless}}
+        </div>
+    {{/if}}
+{{/with}}

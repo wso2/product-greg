@@ -19,7 +19,7 @@
     <parent>
         <groupId>org.wso2.greg</groupId>
         <artifactId>governance-parent</artifactId>
-        <version>5.1.1-SNAPSHOT</version>
+        <version>5.2.0-SNAPSHOT</version>
         <relativePath>../../pom.xml</relativePath>
     </parent>
 
@@ -508,6 +508,10 @@
                                 <replace file="../../modules/p2-profile-gen/target/wso2carbon-core-${carbon.kernel.version}/repository/deployment/server/jaggeryapps/es-publisher/config/publisher-tenant.json" token="&quot;enabled&quot;: false" value="&quot;enabled&quot;: true" />
 
                                 <replace file="../../modules/p2-profile-gen/target/wso2carbon-core-${carbon.kernel.version}/repository/deployment/server/jaggeryapps/es-store/config/store-tenant.json" token="&quot;enabled&quot;: false" value="&quot;enabled&quot;: true" />
+
+                                <replace file="../../modules/p2-profile-gen/target/wso2carbon-core-${carbon.kernel.version}/repository/deployment/server/jaggeryapps/es-publisher/config/publisher.json" token="&quot;activeMethod&quot;: &quot;sso&quot;" value="&quot;activeMethod&quot;: &quot;basic&quot;" />
+
+                                <replace file="../../modules/p2-profile-gen/target/wso2carbon-core-${carbon.kernel.version}/repository/deployment/server/jaggeryapps/es-store/config/store.json" token="&quot;activeMethod&quot;: &quot;sso&quot;" value="&quot;activeMethod&quot;: &quot;basic&quot;" />
 
                                 <echo message="########### Create HT H2 Database ##############" />
                                 <sql driver="org.h2.Driver" url="jdbc:h2:${basedir}/target/database/jpadb;create=true" userid="wso2carbon" password="wso2carbon" autocommit="true" onerror="continue">

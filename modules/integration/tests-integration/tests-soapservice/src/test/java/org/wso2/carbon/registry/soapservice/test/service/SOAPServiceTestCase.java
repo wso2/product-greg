@@ -15,52 +15,28 @@
  */
 package org.wso2.carbon.registry.soapservice.test.service;
 
-import org.apache.axis2.AxisFault;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 import org.wso2.carbon.automation.engine.context.TestUserMode;
-import org.wso2.carbon.governance.api.endpoints.dataobjects.Endpoint;
 import org.wso2.carbon.governance.api.exception.GovernanceException;
 import org.wso2.carbon.governance.api.generic.GenericArtifactManager;
 import org.wso2.carbon.governance.api.generic.dataobjects.GenericArtifact;
 import org.wso2.carbon.governance.api.util.GovernanceUtils;
-import org.wso2.carbon.governance.api.wsdls.WsdlManager;
-import org.wso2.carbon.governance.api.wsdls.dataobjects.Wsdl;
-import org.wso2.carbon.governance.custom.lifecycles.checklist.stub.beans.xsd.LifecycleBean;
-import org.wso2.carbon.governance.custom.lifecycles.checklist.stub.util.xsd.Property;
-import org.wso2.carbon.integration.common.utils.LoginLogoutClient;
 import org.wso2.carbon.registry.core.Registry;
 import org.wso2.carbon.registry.core.Resource;
 import org.wso2.carbon.registry.core.exceptions.RegistryException;
 import org.wso2.carbon.registry.core.session.UserRegistry;
-import org.wso2.carbon.registry.info.stub.RegistryExceptionException;
-import org.wso2.carbon.registry.info.stub.beans.utils.xsd.Comment;
-import org.wso2.carbon.registry.info.stub.beans.utils.xsd.Tag;
-import org.wso2.carbon.registry.info.stub.beans.xsd.CommentBean;
-import org.wso2.carbon.registry.info.stub.beans.xsd.RatingBean;
-import org.wso2.carbon.registry.info.stub.beans.xsd.TagBean;
-import org.wso2.carbon.registry.metadata.test.util.RegistryConstants;
-import org.wso2.carbon.registry.relations.stub.AddAssociationRegistryExceptionException;
-import org.wso2.carbon.registry.relations.stub.beans.xsd.AssociationTreeBean;
 import org.wso2.carbon.registry.resource.stub.ResourceAdminServiceExceptionException;
-import org.wso2.carbon.registry.resource.stub.beans.xsd.ResourceTreeEntryBean;
 import org.wso2.carbon.registry.ws.client.registry.WSRegistryServiceClient;
-import org.wso2.greg.integration.common.clients.InfoServiceAdminClient;
-import org.wso2.greg.integration.common.clients.LifeCycleAdminServiceClient;
-import org.wso2.greg.integration.common.clients.RelationAdminServiceClient;
-import org.wso2.greg.integration.common.clients.ResourceAdminServiceClient;
 import org.wso2.greg.integration.common.utils.GREGIntegrationBaseTest;
 import org.wso2.greg.integration.common.utils.RegistryProviderUtil;
 
-import javax.activation.DataHandler;
 import javax.xml.namespace.QName;
-import java.io.File;
-import java.net.MalformedURLException;
-import java.net.URL;
 import java.rmi.RemoteException;
 
-import static org.testng.Assert.*;
+import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertNotNull;
 
 /**
  * This class used to add WSDL files in to the governance registry using resource-admin command in the purpose for
@@ -90,7 +66,7 @@ public class SOAPServiceTestCase extends GREGIntegrationBaseTest {
 
     @Test(groups = { "wso2.greg" }, description = "create SOAP Service using GenericArtifact")
     public void createSOAPService() throws GovernanceException {
-        GenericArtifact artifact = artifactManager.newGovernanceArtifact(new QName("SOAPService1"));
+        GenericArtifact artifact = artifactManager.newGovernanceArtifact(new QName("org.wso2.test", "SOAPService1"));
 
         artifact.setAttribute("overview_name", "SOAPService1");
         artifact.setAttribute("overview_version", "4.5.0");
@@ -145,7 +121,7 @@ public class SOAPServiceTestCase extends GREGIntegrationBaseTest {
     @Test(groups = { "wso2.greg" }, description = "create SOAP Service using GenericArtifact",
           dependsOnMethods = "createSOAPServiceWithWSDL")
     public void validateProperty() throws RegistryException {
-        GenericArtifact artifact = artifactManager.newGovernanceArtifact(new QName("SOAPService1"));
+        GenericArtifact artifact = artifactManager.newGovernanceArtifact(new QName("org.wso2.test", "SOAPService1"));
 
         artifact.setAttribute("overview_name", "SOAPService1");
         artifact.setAttribute("overview_version", "4.5.0");

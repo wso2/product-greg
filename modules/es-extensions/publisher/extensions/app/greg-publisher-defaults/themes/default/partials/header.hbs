@@ -8,7 +8,7 @@
         <div class="col-xs-4 col-sm-6 col-lg-4 wr-auth-container">
             <div class="wr-auth pull-right">
                 <a href="#" data-toggle="dropdown">
-                    <div class="auth-img">
+                    <div id="auth-btn" class="auth-img">
                         {{cuser.username}}
                         <span class="fw-stack-md fw-lg">
                             <i class="fw fw-user fw-stack-1-5x"></i>
@@ -23,7 +23,7 @@
                 </div>
             </div>
             <div class="wr-auth pull-right">
-                <a class="auth-img" href="{{storeUrl}}" target="_blank">Go to Store</a>
+                <a class="auth-img" href="{{storeUrl}}" target="_blank">{{t "Go to Store"}}</a>
             </div>
         </div>
     </div>

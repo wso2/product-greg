@@ -146,7 +146,29 @@ asset.configure = function() {
             ui: {
                 icon: 'fw fw-soap',
                 iconColor: 'orange'
-            }
+            },
+            isDependencyShown: true
         }
     }
+};
+
+asset.renderer = function(ctx){
+    return {
+        pageDecorators:{
+            downloadPopulator:function(page){
+                //Populate the links for downloading content RXTs
+                if(page.meta.pageName === 'details'){
+                    var config = require('/config/store.js').config();
+                    var pluralType = 'wsdls';
+                    var domain = require('carbon').server.tenantDomain({tenantId:ctx.tenantId});
+                    page.assets.downloadMetaData = {}; 
+                    if(page.assets.wsdlContent){
+                        page.assets.downloadMetaData.enabled = true;
+                        page.assets.downloadMetaData.downloadFileType = 'WSDL';
+                        page.assets.downloadMetaData.url = config.server.https+'/governance/'+pluralType+'/'+page.assets.wsdl_uuid+'/content?tenant='+domain;
+                    }
+                }
+            }
+        }
+    };
 };

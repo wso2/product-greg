@@ -165,6 +165,22 @@ asset.manager = function(ctx) {
             }
             asset.attributes["overview_version"] = asset.attributes["version"];
             return asset.attributes["version"];
+        },
+        getAssetGroup:function(asset){
+            var results = this._super.getAssetGroup.call(this,asset);
+            for (var index = 0; index < results.length; index++) {
+                var result = results[index];
+                var path = result.path;
+                var subPaths = path.split('/');
+                var name = subPaths[subPaths.length - 1];
+                result.name = name;
+                result.version = subPaths[subPaths.length - 2];
+                result.attributes.overview_name = name;
+                result.overview_version = result.version;
+                result.attributes.overview_version = result.version;
+                result.attributes.version = result.version;
+            }
+            return results;
         }
     };
 };
@@ -175,7 +191,32 @@ asset.configure = function() {
             ui: {
                 icon: 'fw fw-policy',
                 iconColor: 'yellow'
-            }
+            },
+            downloadable:true,
+            isDependencyShown: true
         }
     }
+};
+
+asset.renderer = function(ctx){
+    return {
+        pageDecorators:{
+            downloadPopulator:function(page){
+                //Populate the links for downloading content RXTs
+                if(page.meta.pageName === 'details'){
+                    var isDownloadable = ctx.rxtManager.isDownloadable(page.assets.type);
+                    if(!isDownloadable){
+                        return;
+                    }
+                    var config = require('/config/store.js').config();
+                    var pluralType = 'policys';
+                    var domain = require('carbon').server.tenantDomain({tenantId:ctx.tenantId});
+                    page.downloadMetaData = {}; 
+                    page.downloadMetaData.downloadFileType = page.rxt.singularLabel;
+                    page.downloadMetaData.enabled = isDownloadable;
+                    page.downloadMetaData.url = config.server.https+'/governance/'+pluralType+'/'+page.assets.id+'/content?tenant='+domain;
+                }
+            }
+        }
+    };
 };

@@ -110,12 +110,14 @@ asset.configure = function () {
             overview: {
                 fields: {
                     name: {
+                        readonly:true,
                         placeholder: "WeatherService"
                     },
                     context: {
                         placeholder: "/test"
                     },
                     version: {
+                        readonly:true,
                         placeholder: "1.0.0"
                     },
                     description: {

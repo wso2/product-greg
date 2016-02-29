@@ -515,13 +515,15 @@
             <outputDirectory>${pom.artifactId}-${pom.version}/repository/deployment/server/jaggeryapps/store/extensions/app/greg-store-defaults</outputDirectory>
         </fileSet>
 
-        <!-- ES Extensions for G-Reg impact analysis UI-->
+        <!-- ES Extensions for G-Reg publisher impact analysis UI-->
         <fileSet>
-            <directory>../p2-profile-gen/target/wso2carbon-core-${carbon.kernel.version}/repository/resources/common/extensions/app/greg_impact</directory>
+            <directory>../p2-profile-gen/target/wso2carbon-core-${carbon.kernel.version}/repository/resources/publisher/extensions/app/greg_impact</directory>
             <outputDirectory>${pom.artifactId}-${pom.version}/repository/deployment/server/jaggeryapps/publisher/extensions/app/greg_impact</outputDirectory>
         </fileSet>
+
+        <!-- ES Extensions for G-Reg store impact analysis UI-->
         <fileSet>
-            <directory>../p2-profile-gen/target/wso2carbon-core-${carbon.kernel.version}/repository/resources/common/extensions/app/greg_impact</directory>
+            <directory>../p2-profile-gen/target/wso2carbon-core-${carbon.kernel.version}/repository/resources/store/extensions/app/greg_impact</directory>
             <outputDirectory>${pom.artifactId}-${pom.version}/repository/deployment/server/jaggeryapps/store/extensions/app/greg_impact</outputDirectory>
         </fileSet>
 
@@ -554,6 +556,18 @@
         <fileSet>
             <directory>../p2-profile-gen/target/wso2carbon-core-${carbon.kernel.version}/repository/resources/publisher/extensions/app/greg-diff</directory>
             <outputDirectory>${pom.artifactId}-${pom.version}/repository/deployment/server/jaggeryapps/publisher/extensions/app/greg-diff</outputDirectory>
+        </fileSet>
+	<fileSet>
+            <directory>../p2-profile-gen/target/wso2carbon-core-${carbon.kernel.version}/repository/resources/publisher/extensions/app/greg-diff-api</directory>
+            <outputDirectory>${pom.artifactId}-${pom.version}/repository/deployment/server/jaggeryapps/publisher/extensions/app/greg-diff-api</outputDirectory>
+        </fileSet>
+	<fileSet>
+            <directory>../p2-profile-gen/target/wso2carbon-core-${carbon.kernel.version}/repository/resources/store/extensions/app/greg-diff</directory>
+            <outputDirectory>${pom.artifactId}-${pom.version}/repository/deployment/server/jaggeryapps/store/extensions/app/greg-diff</outputDirectory>
+        </fileSet>
+	<fileSet>
+            <directory>../p2-profile-gen/target/wso2carbon-core-${carbon.kernel.version}/repository/resources/store/extensions/app/greg-diff-api</directory>
+            <outputDirectory>${pom.artifactId}-${pom.version}/repository/deployment/server/jaggeryapps/store/extensions/app/greg-diff-api</outputDirectory>
         </fileSet>
         <fileSet>
             <directory>../p2-profile-gen/target/wso2carbon-core-${carbon.kernel.version}/repository/resources/publisher/modules</directory>
@@ -838,20 +852,8 @@
             <fileMode>644</fileMode>
         </file>
         <file>
-            <source>../samples/data-populator/README.md</source>
-            <outputDirectory>${pom.artifactId}-${build.version}/samples/data-populator/</outputDirectory>
-            <filtered>true</filtered>
-            <fileMode>644</fileMode>
-        </file>
-        <file>
-            <source>../samples/data-populator/Populator/populator.sh</source>
-            <outputDirectory>${pom.artifactId}-${build.version}/samples/data-populator/Populator</outputDirectory>
-            <filtered>true</filtered>
-            <fileMode>644</fileMode>
-        </file>
-        <file>
-            <source>../samples/data-populator/Populator/cleanup.sh</source>
-            <outputDirectory>${pom.artifactId}-${build.version}/samples/data-populator/Populator</outputDirectory>
+            <source>../samples/getting_started/README.md</source>
+            <outputDirectory>${pom.artifactId}-${build.version}/samples/getting_started</outputDirectory>
             <filtered>true</filtered>
             <fileMode>644</fileMode>
         </file>

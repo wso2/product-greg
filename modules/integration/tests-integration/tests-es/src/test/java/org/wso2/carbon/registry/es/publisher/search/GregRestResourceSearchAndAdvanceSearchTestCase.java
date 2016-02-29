@@ -177,10 +177,14 @@ public class GregRestResourceSearchAndAdvanceSearchTestCase extends GregESTestBa
         queryParamMap.clear();
 
         queryParamMap.put("q", "\"name" + "\":" + "\"" + restServiceName + "\"" + "," +
-                "\"provider" + "\":" + "\"" + automationContext.getContextTenant().getContextUser().getUserName()
-                + "\"" + "," +
                 "\"version" + "\":" + "\"" + version + "\"" + "," +
                 "\"lcState" + "\":" + "\"" + lcState + "\"");
+        try {
+            Thread.sleep(5000);
+            //Wait till indexing completed
+        } catch (InterruptedException e) {
+
+        }
 
         ClientResponse response = genericRestClient.geneticRestRequestGet
                 (publisherUrl + "/assets", queryParamMap, headerMap, cookieHeader);
@@ -201,8 +205,6 @@ public class GregRestResourceSearchAndAdvanceSearchTestCase extends GregESTestBa
         queryParamMap.clear();
 
         queryParamMap.put("q", "\"name" + "\":" + "\"" + restServiceName + "\"" + "," +
-                "\"provider" + "\":" + "\"" + automationContext.getContextTenant().getContextUser().getUserName()
-                + "\"" + "," +
                 "\"version" + "\":" + "\"" + "1.5.0" + "\"" + "," +
                 "\"lcState" + "\":" + "\"" + lcState + "\"");
 

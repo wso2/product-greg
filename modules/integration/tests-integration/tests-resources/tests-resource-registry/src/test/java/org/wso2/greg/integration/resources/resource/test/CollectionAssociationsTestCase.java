@@ -21,7 +21,6 @@ package org.wso2.greg.integration.resources.resource.test;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
-import org.wso2.carbon.authenticator.stub.LoginAuthenticationExceptionException;
 import org.wso2.carbon.automation.engine.context.TestUserMode;
 import org.wso2.carbon.automation.engine.frameworkutils.FrameworkPathUtil;
 import org.wso2.carbon.governance.api.generic.GenericArtifactManager;
@@ -42,16 +41,12 @@ import org.wso2.greg.integration.common.clients.RelationAdminServiceClient;
 import org.wso2.greg.integration.common.clients.ResourceAdminServiceClient;
 import org.wso2.greg.integration.common.utils.GREGIntegrationBaseTest;
 import org.wso2.greg.integration.common.utils.RegistryProviderUtil;
-import org.xml.sax.SAXException;
 
 import javax.activation.DataHandler;
 import javax.xml.namespace.QName;
-import javax.xml.stream.XMLStreamException;
 import javax.xml.xpath.XPathExpressionException;
 import java.io.File;
-import java.io.IOException;
 import java.net.MalformedURLException;
-import java.net.URISyntaxException;
 import java.net.URL;
 import java.rmi.RemoteException;
 
@@ -296,8 +291,7 @@ public class CollectionAssociationsTestCase extends GREGIntegrationBaseTest {
         GovernanceUtils.loadGovernanceArtifacts((UserRegistry) governance);
         GenericArtifactManager artifactManager = new GenericArtifactManager(governance, "person");
         GenericArtifact artifact = artifactManager.newGovernanceArtifact(new QName("testPerson"));
-        artifact.setAttribute("ID", "Person_id");
-        artifact.setAttribute("Name", "Person_Name");
+        artifact.setAttribute("overview_name", "Person_Name");
         artifactManager.addGenericArtifact(artifact);
         assertTrue(artifact.getQName().toString().contains("testPerson"), "artifact name not found");
     }

@@ -166,8 +166,29 @@ asset.manager = function(ctx) {
             return asset.name;
         },
         getVersion: function(asset) {
+            if (!asset.attributes["version"]) {
+                var subPaths = asset.path.split('/');
+                asset.version = subPaths[subPaths.length - 2];
+                asset.attributes["version"] = asset.version;
+            }
             asset.attributes["overview_version"] = asset.attributes["version"];
             return asset.attributes["version"];
+        },
+        getAssetGroup:function(asset){
+            var results = this._super.getAssetGroup.call(this,asset);
+            for (var index = 0; index < results.length; index++) {
+                var result = results[index];
+                var path = result.path;
+                var subPaths = path.split('/');
+                var name = subPaths[subPaths.length - 1];
+                result.name = name;
+                result.version = subPaths[subPaths.length - 2];
+                result.attributes.overview_name = name;
+                result.overview_version = result.version;
+                result.attributes.overview_version = result.version;
+                result.attributes.version = result.version;
+            }
+            return results;
         }
     };
 };
@@ -178,7 +199,28 @@ asset.configure = function() {
             ui: {
                 icon: 'fw fw-swagger',
                 iconColor: 'grey'
-            }
+            },
+            isDependencyShown: true
         }
     }
+};
+
+asset.renderer = function(ctx){
+    return {
+        pageDecorators:{
+            downloadPopulator:function(page){
+                //Populate the links for downloading content RXTs
+                if(page.meta.pageName === 'details'){
+                    var config = require('/config/store.js').config();
+                    var pluralType = 'swaggers';
+                    var domain = require('carbon').server.tenantDomain({tenantId:ctx.tenantId});
+                    page.assets.downloadMetaData = {}; 
+                    page.assets.downloadMetaData.enabled = true;
+                    page.assets.downloadMetaData.downloadFileType = 'Swagger';
+                    page.assets.downloadMetaData.url = config.server.https+'/governance/'+pluralType+'/'+page.assets.id+'/content?tenant='+domain;
+                    page.assets.downloadMetaData.swaggerUrl = '/pages/swagger?path='+page.assets.path;
+                }
+            }
+        }
+    };
 };

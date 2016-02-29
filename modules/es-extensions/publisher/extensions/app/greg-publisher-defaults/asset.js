@@ -27,6 +27,7 @@
 asset.renderer = function(ctx) {
     var gregAPI = require('/modules/greg-publisher-api.js').gregAPI;
     var rxt = require('rxt');
+    var allowedPagesForSidebar = ['list', 'details', 'lifecycle', 'update', 'associations', 'copy', 'delete', 'create'];
     var assetManager = function(session, type) {
         var am = rxt.asset.createUserAssetManager(session, type);
         return am;
@@ -39,12 +40,12 @@ asset.renderer = function(ctx) {
     return {
         pageDecorators: {
             sidebarPopulator: function(page) {
-                if (page.meta.pageName === 'details') {
-                    page.isSidebarEnabled = true;
+                if(allowedPagesForSidebar.indexOf(page.meta.pageName)>-1){
                     page.isNotificationbarEnabled = true;
                 }
-                if (page.meta.pageName === 'list') {
-                    page.isNotificationbarEnabled = true;
+
+                if (page.meta.pageName === 'details') {
+                    page.isSidebarEnabled = true;
                 }
             },
             subscriptionPopulator: function(page) {
@@ -56,12 +57,12 @@ asset.renderer = function(ctx) {
                 }
             },
             notificationPopulator: function(page) {
-                if (page.meta.pageName === 'list' || page.meta.pageName === 'details') {
+                if (allowedPagesForSidebar.indexOf(page.meta.pageName)>-1) {
                     page.notificationsCount = gregAPI.notifications.count();
                 }
             },
             notificationListPopulator: function(page) {
-                if (page.meta.pageName === 'list' || page.meta.pageName === 'details') {
+                if (allowedPagesForSidebar.indexOf(page.meta.pageName)>-1) {
                     var am = assetManager(ctx.session,ctx.assetType);
                     page.notifications = gregAPI.notifications.list(am);
                 }
@@ -72,16 +73,22 @@ asset.renderer = function(ctx) {
             associationMetaDataPopulator: function(page, util) {
                 var ptr = page.leftNav || [];
                 var entry;
-                var allowedPages = ['details','lifecycle','update','associations','copy'];
+                var allowedPages = ['details', 'lifecycle', 'update', 'associations', 'copy', 'delete'];
                 log.debug('Association populator ' + page.meta.pageName);
                 //if (((page.meta.pageName !== 'associations') && (page.meta.pageName !== 'list')) &&(page.meta.pageName !== 'create')) {
                 if(allowedPages.indexOf(page.meta.pageName)>-1){
                     log.debug('adding link');
                     entry = {};
+                    entry.id = 'Associations';
                     entry.name = 'Associations';
                     entry.iconClass = 'btn-lifecycle';
                     entry.url = this.buildAppPageUrl('associations') + '/' + page.assets.type + '/' + page.assets.id
                     ptr.push(entry);
+                    if (ptr[5] != null && ptr[4] != null) {
+                        var temp = ptr[5];
+                        ptr[5] = ptr[4];
+                        ptr[4] = temp;
+                    }
                 }
             },
             notes: function (page) {
@@ -100,6 +107,11 @@ asset.renderer = function(ctx) {
 
                 var type = page.assets.type;
                 page.assetVersions = gregAPI.getAssetVersions(ctx.session, ctx.assetType, page.assets.path, page.assets.name);
+                var single_version = false;
+                if(page.assetVersions.length === 1){
+                    single_version = true;
+                }
+                page.single_version = single_version;
             },
             decoratingAssetListing: function(page) {
                 // Following is to remove the statistics button in the list page
@@ -131,12 +143,16 @@ asset.configure = function() {
                 defaultLifecycleEnabled: false,
                 publishedStates: ['Published']
             },
+            providerAttribute:'',
             ui:{
                 icon:'fw fw-resource'
             },
             grouping: {
                 groupingEnabled: false,
                 groupingAttributes: ['overview_name']
+            },
+            notifications:{
+                enabled:false
             }
         }
     };
