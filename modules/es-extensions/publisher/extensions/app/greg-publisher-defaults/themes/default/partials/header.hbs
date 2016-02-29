@@ -23,7 +23,11 @@
                 </div>
             </div>
             <div class="wr-auth pull-right">
+            {{#if cuser.isSuperTenant}}
                 <a class="auth-img" href="{{storeUrl}}" target="_blank">{{t "Go to Store"}}</a>
+            {{else}}
+                <a class="auth-img" href="{{storeUrl}}/t/{{cuser.tenantDomain}}" target="_blank">{{t "Go to Store"}}</a>
+            {{/if}}
             </div>
         </div>
     </div>
