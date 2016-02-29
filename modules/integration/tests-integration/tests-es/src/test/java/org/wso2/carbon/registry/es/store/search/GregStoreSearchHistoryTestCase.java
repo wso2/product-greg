@@ -103,12 +103,13 @@ public class GregStoreSearchHistoryTestCase extends GregESTestBaseTest {
         String serviceName = "ubers";
         String type = "restservice";
         queryParamMap.clear();
-        queryParamMap.put("q", "\"name" + "\":" + "\"" + serviceName + "\"");
-        queryParamMap.put("type", type);
+        JSONObject dataObject = new JSONObject();
+        dataObject.put("type", type);
+        dataObject.put("query", "\"name\":\"" + serviceName + "\"");
         ClientResponse response = genericRestClient.geneticRestRequestPost
                 (storeUrl + "/search-history",
                         MediaType.APPLICATION_JSON,
-                        MediaType.APPLICATION_JSON, null, queryParamMap, headerMap, cookieHeader);
+                        MediaType.APPLICATION_JSON, dataObject.toString(), queryParamMap, headerMap, cookieHeader);
         assertTrue((response.getStatusCode() == Response.Status.OK.getStatusCode()),
                 "Wrong status code ,Expected 200 OK ,But Received " + response.getStatusCode());
         assertTrue(getSearchHistory(type).contains(serviceName),
@@ -120,11 +121,12 @@ public class GregStoreSearchHistoryTestCase extends GregESTestBaseTest {
         String serviceName = "weather";
         String serviceVersion = "1.0.0";
         queryParamMap.clear();
-        queryParamMap.put("q", "\"name" + "\":" + "\"" + serviceName + "\"," + "\"version" + "\":" + "\"" + serviceVersion + "\"");
+        JSONObject dataObject = new JSONObject();
+        dataObject.put("query", "\"name" + "\":" + "\"" + serviceName + "\"," + "\"version" + "\":" + "\"" + serviceVersion + "\"");
         ClientResponse response = genericRestClient.geneticRestRequestPost
                 (storeUrl + "/search-history",
                         MediaType.APPLICATION_JSON,
-                        MediaType.APPLICATION_JSON, null, queryParamMap, headerMap, cookieHeader);
+                        MediaType.APPLICATION_JSON, dataObject.toString(), queryParamMap, headerMap, cookieHeader);
         assertTrue((response.getStatusCode() == Response.Status.OK.getStatusCode()),
                 "Wrong status code ,Expected 200 OK ,But Received " + response.getStatusCode());
         assertTrue(getSearchHistory(null).contains(serviceName),
@@ -136,11 +138,12 @@ public class GregStoreSearchHistoryTestCase extends GregESTestBaseTest {
     public void testSearchHistoryResultsCount() throws JSONException, IOException {
         queryParamMap.clear();
         for (int i = 0; i < 10; i++) {
-            queryParamMap.put("q", "\"version" + "\":" + "\"info" + i + "\"");
+            JSONObject dataObject = new JSONObject();
+            dataObject.put("query", "\"version" + "\":" + "\"info" + i + "\"");
             ClientResponse response = genericRestClient.geneticRestRequestPost
                     (storeUrl + "/search-history",
                             MediaType.APPLICATION_JSON,
-                            MediaType.APPLICATION_JSON, null, queryParamMap, headerMap, cookieHeader);
+                            MediaType.APPLICATION_JSON, dataObject.toString(), queryParamMap, headerMap, cookieHeader);
             assertTrue((response.getStatusCode() == Response.Status.OK.getStatusCode()),
                     "Wrong status code ,Expected 200 OK ,But Received " + response.getStatusCode());
         }
