@@ -160,7 +160,8 @@ asset.renderer = function(ctx){
                     var domain = require('carbon').server.tenantDomain({tenantId:ctx.tenantId});
                     page.assets.downloadMetaData = {}; 
                     page.assets.downloadMetaData.enabled = false;
-                    var downloadFile = page.assets.dependencies.filter(function(item){
+                    var dependencies = page.assets.dependencies || [];
+                    var downloadFile = dependencies.filter(function(item){
                         return ((item.associationType == 'wadl')||(item.associationType == 'swagger'));
                     })[0];
                     if(downloadFile){
