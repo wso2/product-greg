@@ -62,7 +62,7 @@ require('/modules/publisher.js').exec(function (ctx) {
                     if (!Array.isArray(api.operations)) {
                         var childResourcePath = childAPIs.baseCollection + api.path;
 
-                        var childResource = registry.registry.get(childResourcePath);
+                        var childResource = registry.get(childResourcePath);
                         var childResourceContent = childResource.getContent();
                         var childResourceContentvalue = '' + new Stream(new ByteArrayInputStream(childResourceContent));
 
