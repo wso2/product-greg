@@ -26,19 +26,19 @@
         <div class="form-group">
             <label class="custom-form-label col-lg-2 col-md-2 col-sm-12 col-xs-12" for="overview_url">{{t "Policy Url"}}<sup class="text-danger"> *</sup></label>
             <div class="custom-form-right col-lg-5 col-md-8 col-sm-8 col-xs-12">
-                <input type='text' name='overview_url' id='overview_url' class="form-control validate-required" placeholder="https://example.com/abc/somepolicy.xml"/>
+                <input type='text' name='overview_url' id='overview_url' class="form-control validate-required" placeholder="Policy Url"/>
             </div>
         </div>
         <div class="form-group">
             <label class="custom-form-label col-lg-2 col-md-2 col-sm-12 col-xs-12" for="overview_name">{{t "Name"}}<sup class="text-danger"> *</sup></label>
             <div class="custom-form-right col-lg-5 col-md-8 col-sm-8 col-xs-12">
-                <input type='text' name='overview_name' id='overview_name' class="form-control validate-required" placeholder="ExamplePolicy"/>
+                <input type='text' name='overview_name' id='overview_name' class="form-control validate-required" placeholder="Name"/>
             </div>
         </div>
         <div class="form-group">
             <label class="custom-form-label col-lg-2 col-md-2 col-sm-12 col-xs-12" for="overview_version">{{t "Version"}}<sup class="text-danger"> *</sup></label>
             <div class="custom-form-right col-lg-5 col-md-8 col-sm-8 col-xs-12">
-                <input type='text' name='overview_version' id='overview_version' class="form-control validate-required" placeholder="1.0.0"/>
+                <input type='text' name='overview_version' id='overview_version' class="form-control validate-required" placeholder="Version"/>
             </div>
         </div>
         <div id="saveButtonsURL" class="form-group" >
@@ -54,7 +54,7 @@
             <label class="custom-form-label col-lg-2 col-md-2 col-sm-12 col-xs-12" for="schema_zip">{{t "Policy/Zip file"}}<sup class="text-danger"> *</sup></label>
             <div class="custom-form-right col-lg-5 col-md-8 col-sm-8 col-xs-12">
                 <input type='file' name='policy_file' id='policy_file' class="validate-required" />
-                <!--Use a hidden field to save the zip name and pass it to request, as 'file' 
+                <!--Use a hidden field to save the zip name and pass it to request, as 'file'
                     attribute is not passed to the request unless it is defined in the rxt.-->
                 <input type='hidden' name='policy_file_name' id='policy_file_name' />
             </div>
@@ -62,7 +62,7 @@
         <div class="form-group">
             <label class="custom-form-label col-lg-2 col-md-2 col-sm-12 col-xs-12" for="file_version">{{t "Version"}}<sup class="text-danger"> *</sup></label>
             <div class="custom-form-right col-lg-5 col-md-8 col-sm-8 col-xs-12">
-                <input type='text' name='file_version' id='file_version' class="form-control validate-required" placeholder="1.0.0"/>
+                <input type='text' name='file_version' id='file_version' class="form-control validate-required" placeholder="Version"/>
             </div>
         </div>
         <div id="saveButtonsFile" class="form-group">

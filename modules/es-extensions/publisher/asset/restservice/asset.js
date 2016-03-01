@@ -111,33 +111,33 @@ asset.configure = function () {
                 fields: {
                     name: {
                         readonly:true,
-                        placeholder: "WeatherService"
+                        placeholder: "Name"
                     },
                     context: {
-                        placeholder: "/test"
+                        placeholder: "Context"
                     },
                     version: {
                         readonly:true,
-                        placeholder: "1.0.0"
+                        placeholder: "Version"
                     },
                     description: {
-                        placeholder: "This is a sample service"
+                        placeholder: "Description"
                     }
                 }
             },
             interface: {
                 fields: {
                     transports: {
-                        placeholder: "https,http"
+                        placeholder: "Transports"
                     },
                     wsdl: {
-                    	placeholder: "htts://example.com/sample.wsdl"
+                    	placeholder: "WSDL"
                     },
                     wadl: {
-                    	placeholder: "https://example.com/sample.wadl"
+                    	placeholder: "WADL"
                     },
                     swagger: {
-                    	placeholder: "https://example.com/sample-doc"
+                    	placeholder: "Swagger"
                     }
                 }
             }
