@@ -1,19 +1,25 @@
-<div class="container-fluid">
+<div class="wrapper">
+    <div class="container-fluid">
 
-    <div class="diff-view">
-        <div class="row no-gutter app-bar">
-            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 file-name">
-                <!--<h1><i class="icon fw fw-wsdl"></i></h1>-->
+            <header>
+                <div class="row wr-global-header">
+                    <div class="col-xs-8 col-sm-6 col-lg-8 app-logo">
+                        <a href='{{url ""}}{{meta.landingPage}}'>
+                            <img src="{{url "/themes/default/img/logo.png"}}" />
+                            <h2 class="app-title">Governance Center - Publisher</h2>
+                        </a>
+                    </div>
+                </div>
+            </header>
+
+        <div class="diff-view">
+            <div class="row no-gutter">
+                <!--code view div should come here-->
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 view-panel">
+                    <div id="diffView" class="code-container"></div>
+                </div>
             </div>
         </div>
-        <div class="row no-gutter">
-            <!--code view div should come here-->
-            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 view-panel">
-                <div id="diffView" class="code-container"></div>
-            </div>
-        </div>
+{{>footer}}
     </div>
-
 </div>
-
-

@@ -51,12 +51,12 @@ $('.container-fluid').resize(function(){
  */
 function setViewPanelsHeight(){
     if($(window).width() > 768){
-        $(viewPanel).css('height', ($('body').height() - appBarHeight));
+        $(viewPanel).css('height', ($('body').height() - ($(window).height()*.1)));
     }
     else{
-        $(viewPanel).css('height', 'auto');
+        $(viewPanel).css('height', ($('body').height() - ($(window).height()*.1)));
     }
-    $('.CodeMirror, .CodeMirror-merge').height(($(viewPanel).height()-80));
+    $('.CodeMirror, .CodeMirror-merge').height(($(viewPanel).height()-($(window).height()*.1)));
 
     /* Fix for code mirror diff view panels width unbalance issue */
     var CodeMirrorSizerMinWidth = '500px';
@@ -86,7 +86,7 @@ function addTitle() {
                 title = 'Base';
                 break;
             case 1:
-                title = 'Other';
+                title = 'Revision';
                 break;
         }
 
