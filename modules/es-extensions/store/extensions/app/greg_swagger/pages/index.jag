@@ -28,11 +28,13 @@ require('/modules/store.js').exec(function (ctx) {
     var server = require('store').server;
     var carbon = require('carbon');
     var config = require('/config/store.js').config();
+    var permissionAPI = require('rxt').permissions;
 
     var ByteArrayInputStream = Packages.java.io.ByteArrayInputStream,
             commonConstants = Packages.org.wso2.carbon.registry.extensions.utils.CommonConstants;
     var jsonValue;
     var path = ctx.params.path;
+    var tenantId = ctx.tenant.tenantId;
 
     if (Boolean(path)) {
         var am = assetManager(session, type);
@@ -65,13 +67,14 @@ require('/modules/store.js').exec(function (ctx) {
                     // see if this is a single-file swagger definition
                     if (!Array.isArray(api.operations)) {
                         var childResourcePath = childAPIs.baseCollection + api.path;
-
-                        var childResource = registry.get(childResourcePath);
-                        var childResourceContent = childResource.getContent();
-                        var childResourceContentvalue = '' + new Stream(new ByteArrayInputStream(childResourceContent));
-
-                        childAPIs[api.path] = parse(childResourceContentvalue);
-
+                        var authStatus = permissionAPI.checkActionPermissionforPath(childResourcePath,'read', tenantId,user);
+                        var childResource,childResourceContent,childResourceContentvalue;
+                        if (authStatus) {
+                            childResource = registry.get(childResourcePath);
+                            childResourceContent = childResource.getContent();
+                            childResourceContentvalue = '' + new Stream(new ByteArrayInputStream(childResourceContent));
+                            childAPIs[api.path] = parse(childResourceContentvalue);
+                        }
                     }
                 }
             }
