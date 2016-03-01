@@ -35,14 +35,6 @@ require('/modules/store.js').exec(function (ctx) {
     var path = ctx.params.path;
 
     if (Boolean(path)) {
-        var user = server.current(ctx.session);
-
-        if (!user) {
-            user = {};
-            user.tenantId = carbon.server.superTenant.tenantId;
-            /* TODO: tmkasun not the current tenant randomly pick supper tenant ??? */
-        }
-
         var am = assetManager(session, type);
         var registry = am.registry.registry;
 
@@ -74,7 +66,7 @@ require('/modules/store.js').exec(function (ctx) {
                     if (!Array.isArray(api.operations)) {
                         var childResourcePath = childAPIs.baseCollection + api.path;
 
-                        var childResource = registry.registry.get(childResourcePath);
+                        var childResource = registry.get(childResourcePath);
                         var childResourceContent = childResource.getContent();
                         var childResourceContentvalue = '' + new Stream(new ByteArrayInputStream(childResourceContent));
 
