@@ -76,11 +76,11 @@ function initUI() {
         origLeft: panes == 3 ? orig1 : null,
         orig: orig2,
         lineNumbers: true,
-        mode: "text/html",
+        mode: "text/xml",
         highlightDifferences: highlight,
         connect: connect,
         collapseIdentical: collapse,
-        theme: "ambiance"
+        theme: "base16-light"
     });
 }
 
