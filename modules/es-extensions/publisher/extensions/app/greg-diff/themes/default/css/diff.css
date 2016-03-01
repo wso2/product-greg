@@ -148,6 +148,7 @@ body {
 
 .diff-view [class*='col-']:first-child {
     position: relative;
+    background-color:rgb(206, 206, 206);
 }
 
 .view-panel {
@@ -276,17 +277,17 @@ body {
 
 .CodeMirror-merge-r-chunk-end, .CodeMirror-merge-r-chunk-start, .CodeMirror-merge-r-chunk {
     /*border-top-color: #161616;*/
-    border-top-color: #9C2C36;
+    border-top-color: #cf96b0;
 }
 
 .CodeMirror-merge-r-chunk-end, .CodeMirror-merge-r-chunk-start, .CodeMirror-merge-r-chunk {
     /*border-bottom-color: #161616;*/
-    border-bottom-color: #9C2C36;
+    border-bottom-color: #cf96b0;
 }
 
 .CodeMirror-merge-r-chunk {
     /*background-color: #161616;*/
-    background-color: #9C2C36;
+    background-color: #cf96b0;
 }
 
 .cm-s-ambiance .cm-comment {
@@ -295,7 +296,7 @@ body {
 
 .CodeMirror-merge-r-connect {
     /*fill: #161616;*/
-    fill: #9C2C36;
+    fill: #cf96b0;
     stroke: transparent;
 }
 
@@ -328,22 +329,4 @@ body {
     height: 30px;
     position: absolute;
     margin-top: -30px;
-}
-
-.CodeMirror-merge .title:before {
-    position:absolute; 
-    right:-1px; 
-    top:-1px; 
-    content:'';
-    border-top: 80px solid #2c313b;
-    border-left: 30px solid transparent;
-}
-
-.CodeMirror-merge .title:after {
-    position:absolute; 
-    right:-2px; 
-    top:-2px; 
-    content:'';
-    border-top: 30px solid #2c313b;
-    border-left: 30px solid transparent;
 }

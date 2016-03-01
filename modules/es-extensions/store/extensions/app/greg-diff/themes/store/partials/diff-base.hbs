@@ -1,19 +1,24 @@
-<div class="container-fluid">
-
-    <div class="diff-view">
-        <div class="row no-gutter app-bar">
-            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 file-name">
-                <!--<h1><i class="icon fw fw-wsdl"></i></h1>-->
+<div class="wrapper">
+    <div class="container-fluid">
+        <header>
+            <div class="es-row row wr-global-header">
+                <div class="col-xs-8 col-sm-8 app-logo">
+                    <a href="{{tenantedUrl ""}}{{meta.landingPage}}">
+                        <img src="{{url "/themes/store/img/logo.png"}}" />
+                        <h2 class="app-title hidden-xs-320">Governance Center - Store</h2>
+                    </a>
+                </div>
             </div>
-        </div>
-        <div class="row no-gutter">
-            <!--code view div should come here-->
-            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 view-panel">
-                <div id="diffView" class="code-container"></div>
+        </header>
+
+        <div class="diff-view" style="background-color:rgb(206, 206, 206);">
+            <div class="row no-gutter">
+                <!--code view div should come here-->
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 view-panel">
+                    <div id="diffView" class="code-container"></div>
+                </div>
             </div>
         </div>
     </div>
-
-</div>
-
-
+    {{>footer}}
+</div> 
