@@ -186,8 +186,27 @@ public class GregRestResourceSearchAndAdvanceSearchTestCase extends GregESTestBa
 
         }
 
-        ClientResponse response = genericRestClient.geneticRestRequestGet
-                (publisherUrl + "/assets", queryParamMap, headerMap, cookieHeader);
+        ClientResponse response = null;
+        boolean nameAssert = false;
+        int count = 0;
+        while (count < 5) {
+            try {
+                Thread.sleep(5000);
+                //Wait till indexing completed
+            } catch (InterruptedException e) {
+
+            }
+
+            response = genericRestClient.geneticRestRequestGet
+                    (publisherUrl + "/assets", queryParamMap, headerMap, cookieHeader);
+            nameAssert = response.getEntity(String.class).contains(restServiceName);
+            ++count;
+
+            if (nameAssert) {
+                break;
+            }
+        }
+
 
         assertTrue(response.getEntity(String.class).contains(restServiceName),
                 "Response does not contain Rest service name " + restServiceName);
