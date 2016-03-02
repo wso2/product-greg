@@ -157,5 +157,28 @@ public class ServiceReportGenerator extends AbstractReportGenerator {
             }
         }
     }
+
+    public static class ReportBean {
+        private String overview_name;
+        private String overview_version;
+        private String overview_description;
+
+        public ReportBean(String overview_name, String overview_version,
+                          String overview_description) {
+            this.overview_name = overview_name;
+            this.overview_version = overview_version;
+            this.overview_description = overview_description;
+        }
+
+        public String getOverview_name() {
+            return overview_name;
+        }
+
+        public String getOverview_version() { return overview_version; }
+
+        public String getOverview_description() {
+            return overview_description;
+        }
+    }
 }
 
