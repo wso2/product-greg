@@ -13,7 +13,7 @@
     <packaging>pom</packaging>
 
     <modules>
-        <module>tests-ui</module>
+        <module>tests-es-ui</module>
         <!--<module>reports</module>-->
     </modules>
 
