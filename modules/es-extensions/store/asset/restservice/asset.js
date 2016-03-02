@@ -17,6 +17,7 @@
  *
  */
 asset.manager = function(ctx) {
+    var tenantAPI = require('/modules/tenant-api.js').api;
     var setCustomAssetAttributes = function (asset, userRegistry) {
         var wadlUrl = asset.attributes.interface_wadl;
         if (wadlUrl != null) {
@@ -60,7 +61,7 @@ asset.manager = function(ctx) {
 
     var getRegistry = function(cSession) {
         var tenantDetails = tenantAPI.createTenantAwareAssetResources(cSession,{type:ctx.assetType});
-        if((!tenantDetails)||(tenantDetails.am)) {
+        if((!tenantDetails)&&(!tenantDetails.am)) {
             log.error('The tenant-api was unable to create a registry instance by resolving tenant details');
             throw 'The tenant-api  was unable to create a registry instance by resolving tenant details';
         }

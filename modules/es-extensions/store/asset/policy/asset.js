@@ -18,6 +18,7 @@
  */
 asset.manager = function(ctx) {
     var configs = require("/extensions/assets/policy/config/properties.json");
+    var tenantAPI = require('/modules/tenant-api.js').api;
     /**
      * The function augments the provided query to include published state information
      * @param  {[type]} query [description]
@@ -40,7 +41,7 @@ asset.manager = function(ctx) {
     };
     var getRegistry = function(cSession) {
         var tenantDetails = tenantAPI.createTenantAwareAssetResources(cSession,{type:ctx.assetType});
-        if((!tenantDetails)||(tenantDetails.am)) {
+        if((!tenantDetails)&&(!tenantDetails.am)) {
             log.error('The tenant-api was unable to create a registry instance by resolving tenant details');
             throw 'The tenant-api  was unable to create a registry instance by resolving tenant details';
         }
