@@ -300,9 +300,9 @@ public class UserManagementClient {
         userAdminStub.updateRoleName(roleName, newRoleName);
     }
 
-    public void changePasswordByUser(String oldPassword, String newPassword) throws RemoteException, UserAdminUserAdminException {
+    /*public void changePasswordByUser(String oldPassword, String newPassword) throws RemoteException, UserAdminUserAdminException {
         userAdminStub.changePasswordByUser(oldPassword, newPassword);
-    }
+    }*/
 
     public FlaggedName[] getAllSharedRoleNames(String filter, int limit) throws RemoteException, UserAdminUserAdminException {
         return userAdminStub.getAllSharedRoleNames(filter, limit);
@@ -336,7 +336,7 @@ public class UserManagementClient {
         return userAdminStub.isSharedRolesEnabled();
     }
 
-    public void bulkImportUsers(String filename, DataHandler handler, String defaultPassword) throws RemoteException, UserAdminUserAdminException {
+    /*public void bulkImportUsers(String filename, DataHandler handler, String defaultPassword) throws RemoteException, UserAdminUserAdminException {
         userAdminStub.bulkImportUsers(filename, handler, defaultPassword);
-    }
+    }*/
 }
