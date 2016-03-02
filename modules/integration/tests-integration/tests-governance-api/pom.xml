@@ -66,7 +66,6 @@
                         <filters.file>${basedir}/src/test/resources/filters.txt</filters.file>
                     </systemProperties>
                     <workingDirectory>${basedir}/target</workingDirectory>
-                    <testFailureIgnore>false</testFailureIgnore>
                 </configuration>
             </plugin>
             <plugin>
