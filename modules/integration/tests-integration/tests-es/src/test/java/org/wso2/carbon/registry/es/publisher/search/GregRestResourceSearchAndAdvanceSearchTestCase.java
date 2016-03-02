@@ -186,16 +186,10 @@ public class GregRestResourceSearchAndAdvanceSearchTestCase extends GregESTestBa
 
         }
 
-        ClientResponse response;
+        ClientResponse response = null;
         boolean nameAssert = false;
         int count = 0;
-        do {
-
-            response = genericRestClient.geneticRestRequestGet
-                    (publisherUrl + "/assets", queryParamMap, headerMap, cookieHeader);
-            nameAssert = response.getEntity(String.class).contains(restServiceName);
-            ++count;
-
+        while (count < 5) {
             try {
                 Thread.sleep(5000);
                 //Wait till indexing completed
@@ -203,7 +197,15 @@ public class GregRestResourceSearchAndAdvanceSearchTestCase extends GregESTestBa
 
             }
 
-        } while (!nameAssert || (count < 5));
+            response = genericRestClient.geneticRestRequestGet
+                    (publisherUrl + "/assets", queryParamMap, headerMap, cookieHeader);
+            nameAssert = response.getEntity(String.class).contains(restServiceName);
+            ++count;
+
+            if (nameAssert) {
+                break;
+            }
+        }
 
 
         assertTrue(response.getEntity(String.class).contains(restServiceName),

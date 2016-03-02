@@ -192,16 +192,11 @@ public class GregRestResourceStoreSearchTestCase extends GregESTestBaseTest {
 
         queryParamMap.put("q", "\"version" + "\":" + "\"" + version + "\"");
 
-        ClientResponse response;
+        ClientResponse response = null;
         boolean nameAssert = false;
         int count = 0;
-        do {
 
-            response = genericRestClient.geneticRestRequestGet
-                    (storeUrl.split("/apis")[0] + "/assets/restservice/list", queryParamMap, headerMap, storeCookieHeader);
-            nameAssert = response.getEntity(String.class).contains(restServiceName);
-            ++count;
-
+        while (count < 5) {
             try {
                 Thread.sleep(5000);
                 //Wait till indexing completed
@@ -209,7 +204,15 @@ public class GregRestResourceStoreSearchTestCase extends GregESTestBaseTest {
 
             }
 
-        } while (!nameAssert || (count < 5));
+            response = genericRestClient.geneticRestRequestGet
+                    (storeUrl.split("/apis")[0] + "/assets/restservice/list", queryParamMap, headerMap, storeCookieHeader);
+            nameAssert = response.getEntity(String.class).contains(restServiceName);
+            ++count;
+
+            if (nameAssert) {
+                break;
+            }
+        }
 
         log.info("Store search result : "+ response.getEntity(String.class));
 
