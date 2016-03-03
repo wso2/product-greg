@@ -32,7 +32,7 @@ $(window).load(function(){
     setSidePanelHeight();
     $(sidePanel).css('top', offset);
     sidePanelPositionFix();
-    
+
     if($(toggleButton + ' .wr-notification-bubble').html() == 0){
         $(toggleButton + ' .wr-notification-bubble').closest(toggleButton).hide();
     }
@@ -87,19 +87,23 @@ function sidePanelPositionFix(){
  * @param button: selected button
  */
 function toggleSidePanel(view,button){
-    
+
     var viewElement = (sidePanel + ' #' + view);
-    
+
     $(viewElement).siblings().hide();
     $(viewElement).show();
-    
+
     $(button).siblings().removeClass('selected');
     $(button).toggleClass('selected');
-    
+
     if($(button).hasClass('selected')){
+        $('.navbar  .fw-stack-md  .fw-stack-1-5x').removeClass('fw-left-arrow');
+        $('.navbar  .fw-stack-md  .fw-stack-1-5x').addClass('fw-right-arrow');
         $(sidePanel).addClass('toggled');
     }
     else {
+        $('.navbar  .fw-stack-md  .fw-stack-1-5x').removeClass('fw-right-arrow');
+        $('.navbar  .fw-stack-md  .fw-stack-1-5x').addClass('fw-left-arrow');
         $(sidePanel).removeClass('toggled');
     }
 
