@@ -420,9 +420,9 @@ select.select2 {
 .select2-container--default .select2-selection--multiple .select2-selection__choice {
     margin-bottom: 0;
     margin-top: 0;
-    color: #ffffff;
+    color: #515151;
     background: #526A84;
-    font-size: 11px;
+    font-size: 12px;
     display: inline-block;
     cursor: pointer;
     padding: 3px 6px;
