@@ -127,16 +127,18 @@ public class Registry916TestCase extends GREGIntegrationBaseTest {
     public void htmlReportTest()
             throws Exception, MalformedURLException, ResourceAdminServiceExceptionException,
                    RemoteException {
-        assertNotNull(getReportOutputStream("html"));
-        String htmlReport = new String(getReportOutputStream("html").toByteArray());
-        if (htmlReport.split("User Name").length > 2) {
-            Assert.assertTrue(false);
-        }
-        if (htmlReport.split("Resource Path").length > 2) {
-            Assert.assertTrue(false);
-        }
-        if (htmlReport.split("Accsessed Time").length > 2) {
-            Assert.assertTrue(false);
+        if (checkCompatibility() != 8) {
+            assertNotNull(getReportOutputStream("html"));
+            String htmlReport = new String(getReportOutputStream("html").toByteArray());
+            if (htmlReport.split("User Name").length > 2) {
+                Assert.assertTrue(false);
+            }
+            if (htmlReport.split("Resource Path").length > 2) {
+                Assert.assertTrue(false);
+            }
+            if (htmlReport.split("Accsessed Time").length > 2) {
+                Assert.assertTrue(false);
+            }
         }
 
     }
@@ -145,18 +147,24 @@ public class Registry916TestCase extends GREGIntegrationBaseTest {
     public void excelReportTest()
             throws Exception, MalformedURLException, ResourceAdminServiceExceptionException,
                    RemoteException {
-        assertNotNull(getReportOutputStream("excel"));
-        String excelReport = new String(getReportOutputStream("excel").toByteArray());
-        if (excelReport.split("User Name").length > 2) {
-            Assert.assertTrue(false);
-        }
-        if (excelReport.split("Resource Path").length > 2) {
-            Assert.assertTrue(false);
-        }
-        if (excelReport.split("Accsessed Time").length > 2) {
-            Assert.assertTrue(false);
+        if (checkCompatibility() != 8){
+            assertNotNull(getReportOutputStream("excel"));
+            String excelReport = new String(getReportOutputStream("excel").toByteArray());
+            if (excelReport.split("User Name").length > 2) {
+                Assert.assertTrue(false);
+            }
+            if (excelReport.split("Resource Path").length > 2) {
+                Assert.assertTrue(false);
+            }
+            if (excelReport.split("Accsessed Time").length > 2) {
+                Assert.assertTrue(false);
+            }
         }
 
+    }
+
+    private int checkCompatibility(){
+        return Integer.parseInt(System.getProperty("java.version").split("\\.")[1]);
     }
 
 

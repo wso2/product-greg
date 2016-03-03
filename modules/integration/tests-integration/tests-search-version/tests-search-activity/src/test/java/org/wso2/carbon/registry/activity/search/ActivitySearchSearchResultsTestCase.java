@@ -166,21 +166,27 @@ public class ActivitySearchSearchResultsTestCase extends GREGIntegrationBaseTest
     @Test(groups = {"wso2.greg"}, dependsOnMethods = "verifySearchResultsPagination", description = "checking pdf Report Generation")
     public void pdfReportTest()
             throws Exception{
-        assertNotNull(getReportOutputStream("pdf"));
+        if (checkCompatibility() != 8) {
+            assertNotNull(getReportOutputStream("pdf"));
+        }
     }
 
     @Test(groups = {"wso2.greg"}, dependsOnMethods = "pdfReportTest", description = "checking html Report Generation")
     public void htmlReportTest()
             throws Exception, MalformedURLException, ResourceAdminServiceExceptionException,
                    RemoteException {
-        assertNotNull(getReportOutputStream("html"));
+        if (checkCompatibility() != 8) {
+            assertNotNull(getReportOutputStream("html"));
+        }
     }
 
     @Test(groups = {"wso2.greg"}, dependsOnMethods = "htmlReportTest", description = "checking excel Report Generation")
     public void excelReportTest()
             throws Exception, MalformedURLException, ResourceAdminServiceExceptionException,
                    RemoteException {
-        assertNotNull(getReportOutputStream("excel"));
+        if (checkCompatibility() != 8) {
+            assertNotNull(getReportOutputStream("excel"));
+        }
     }
 
     @Test(groups = {"wso2.greg"}, dependsOnMethods = "excelReportTest", description = "consecutive searching")
@@ -222,6 +228,10 @@ public class ActivitySearchSearchResultsTestCase extends GREGIntegrationBaseTest
         JasperPrint jasperPrint = jasperPrintProvider.createJasperPrint(jrDataSource, reportResource, new ReportParamMap[0]);
         ReportStream reportStream = new ReportStream();
         return reportStream.getReportStream(jasperPrint, type);
+    }
+
+    private int checkCompatibility(){
+        return Integer.parseInt(System.getProperty("java.version").split("\\.")[1]);
     }
 
     @AfterClass(groups = {"wso2.greg"})
