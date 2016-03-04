@@ -66,7 +66,7 @@ var parseUsedDefinedQuery = function(input) {
     var previous;
     //Use case #1 : The user has only entered a name
     if((!isTokenizedTerm(input)) &&(!isEmpty(input))){
-        q.name = encodeURIComponent(input);
+        q.name = JSON.stringify(JSON.parse(input));
         return q;
     }
     //Remove trailing whitespaces if any
