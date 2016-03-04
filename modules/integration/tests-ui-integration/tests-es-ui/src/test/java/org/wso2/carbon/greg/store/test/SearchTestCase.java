@@ -16,6 +16,7 @@
 
 package org.wso2.carbon.greg.store.test;
 
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
@@ -144,7 +145,7 @@ public class SearchTestCase extends GREGIntegrationUIBaseTest {
         assertTrue(searchResultspage
                         .containsAsset(uiElementMapper.getElement("store.search.lc.ServiceLifeCycle.asset3.id")),
                 "Expected asset is not returned from the search query");
-        storeHomePage.clickOnNavButton("all");
+        driver.findElement(By.id(uiElementMapper.getElement("store.navmenu.all"))).click();
     }
 
     @Test(description = "Test search by version and asset name")
