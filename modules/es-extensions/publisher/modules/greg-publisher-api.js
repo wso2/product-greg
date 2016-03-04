@@ -149,7 +149,7 @@ var gregAPI = {};
         }
         var result = [];
         var SubscriptionPopulator = Packages.org.wso2.carbon.registry.info.services.utils.SubscriptionBeanPopulator;
-        
+
         try {
             var subcriptions = SubscriptionPopulator.subscribeAndPopulate(userRegistry.registry, registryPath, notiMethod, notiType).getSubscriptionInstances();
             var length = subcriptions.length;
@@ -197,6 +197,16 @@ var gregAPI = {};
         queryInput.setSimpleQueryCategory(org.wso2.carbon.humantask.client.api.types.TSimpleQueryCategory.ASSIGNED_TO_ME);
         var resultSet = taskOperationService.simpleQuery(queryInput);
         var rows = resultSet.getRow();
+
+        var queryInputClaim = new org.wso2.carbon.humantask.client.api.types.TSimpleQueryInput();
+        queryInputClaim.setPageNumber(0);
+        queryInputClaim.setSimpleQueryCategory(org.wso2.carbon.humantask.client.api.types.TSimpleQueryCategory.CLAIMABLE);
+        var resultSetClaim = taskOperationService.simpleQuery(queryInputClaim);
+        if (rows != null && resultSetClaim.getRow() != null){
+            rows = org.apache.commons.lang.ArrayUtils.addAll(rows, resultSetClaim.getRow());
+        } else if (rows == null && resultSetClaim.getRow() != null){
+            rows = resultSetClaim.getRow();
+        }
         if (rows != null){
             count = rows.length;
         }
@@ -213,13 +223,24 @@ var gregAPI = {};
         queryInput.setSimpleQueryCategory(org.wso2.carbon.humantask.client.api.types.TSimpleQueryCategory.ASSIGNED_TO_ME);
         var resultSet = taskOperationService.simpleQuery(queryInput);
         var rows = resultSet.getRow();
+
+        var queryInputClaim = new org.wso2.carbon.humantask.client.api.types.TSimpleQueryInput();
+        queryInputClaim.setPageNumber(0);
+        queryInputClaim.setSimpleQueryCategory(org.wso2.carbon.humantask.client.api.types.TSimpleQueryCategory.CLAIMABLE);
+        var resultSetClaim = taskOperationService.simpleQuery(queryInputClaim);
+        if (rows && resultSetClaim.getRow()){
+            rows = org.apache.commons.lang.ArrayUtils.addAll(rows, resultSetClaim.getRow());
+        } else if (!rows && resultSetClaim.getRow()){
+            rows = resultSetClaim.getRow();
+        }
+
         if (rows != null) {
             for (var i = 0; i < rows.length; i++) {
                 var workList = {};
                 var row =  rows[i];
                 workList.id = String(row.getId());
                 workList.presentationSubject = String(row.getPresentationSubject());
-                
+
                 //Get Assrt information
                 var arr = workList.presentationSubject.split(" ");
                 var pathValue;
@@ -262,7 +283,12 @@ var gregAPI = {};
                 workList.status = String(row.getStatus());
                 workList.time = time.formatTimeAsTimeSince(getDateTime(row.getCreatedTime()));
                 //workList.createdTime = String(row.getCreatedTime());
-                workList.user = String(taskOperationService.loadTask(row.getId()).getActualOwner().getTUser());
+                var owner = taskOperationService.loadTask(row.getId()).getActualOwner();
+                if (owner != null) {
+                    workList.user = String(owner.getTUser());
+                } else {
+                    workList.user = "";
+                }
                 result.push(workList);
             }
         }
@@ -436,7 +462,7 @@ var gregAPI = {};
                         continue;
                     }
                     var attributeName = uniqueAttributesNames.get(j);
-                    if (key === 'wsdl' || key === 'wadl' || key === 'policy' || 
+                    if (key === 'wsdl' || key === 'wadl' || key === 'policy' ||
                         key === 'schema' || key === 'endpoint' || key === 'swagger'){
                         attributeName = attributeName.replace("overview_", "");
                     }
