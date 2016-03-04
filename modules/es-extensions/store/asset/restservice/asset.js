@@ -17,6 +17,7 @@
  *
  */
 asset.manager = function(ctx) {
+    var tenantAPI = require('/modules/tenant-api.js').api;
     var setCustomAssetAttributes = function (asset, userRegistry) {
         var wadlUrl = asset.attributes.interface_wadl;
         if (wadlUrl != null) {
@@ -59,16 +60,12 @@ asset.manager = function(ctx) {
     };
 
     var getRegistry = function(cSession) {
-        var userMod = require('store').user;
-        var server = require('store').server;
-        var user = server.current(cSession);
-        var userRegistry;
-        if (user) {
-            userRegistry = userMod.userRegistry(cSession);
-        } else {
-            userRegistry = server.anonRegistry(tenantId);
+        var tenantDetails = tenantAPI.createTenantAwareAssetResources(cSession,{type:ctx.assetType});
+        if((!tenantDetails)&&(!tenantDetails.am)) {
+            log.error('The tenant-api was unable to create a registry instance by resolving tenant details');
+            throw 'The tenant-api  was unable to create a registry instance by resolving tenant details';
         }
-        return userRegistry;
+        return tenantDetails.am.registry;
     };
 
     var getInterfaceTypeContent = function (resource) {

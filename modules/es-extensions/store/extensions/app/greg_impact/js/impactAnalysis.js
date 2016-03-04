@@ -19,8 +19,7 @@
 /*
  * @set  default global variables
  */
-var svgIconsFolder = "../extensions/app/greg_impact/images/svg/",
-    footerHeight = 50,
+var footerHeight = 50,
     isSame = null,
     delay = 300,
     clicks = 0,
