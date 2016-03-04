@@ -20,6 +20,11 @@ require('/modules/store.js').exec(function (ctx) {
 
 var user = require('store').server.current(session);
 var log = new Log();
+var appAPI = require('rxt').app;
+var APP_CONTEXT = appAPI.getContext();
+var printAppContext = function(){
+    print(APP_CONTEXT);
+};
 
 /*
  * query parameters of the original request should be passed to the
@@ -131,25 +136,29 @@ if (!user) {
    	</div>
    	<!-- /#wrapper -->
 
-    <link href="../extensions/app/greg_impact/public/css/jquery-ui.css" rel="stylesheet" />
-    <link href="../extensions/app/greg_impact/public/css/select2.css" rel="stylesheet" />
-    <link href="../extensions/app/greg_impact/css/style.css" rel="stylesheet" />
-
-    <script src="../extensions/app/greg_impact/public/js/d3.v3.js"></script>
-    <script src="../extensions/app/greg_impact/public/js/jquery-1.11.1.js"></script>
-    <script src="../extensions/app/greg_impact/public/js/jquery-ui.js"></script>
-    <script src="../extensions/app/greg_impact/public/js/select2.js"></script>
+    <link href="<%printAppContext();%>/extensions/app/greg_impact/public/css/jquery-ui.css" rel="stylesheet" />
+    <link href="<%printAppContext();%>/extensions/app/greg_impact/public/css/select2.css" rel="stylesheet" />
+    <link href="<%printAppContext();%>/extensions/app/greg_impact/css/style.css" rel="stylesheet" />
+    <script>
+        var gc = {};
+        gc.context = '<%printAppContext();%>';
+        var svgIconsFolder = "<%printAppContext();%>/extensions/app/greg_impact/images/svg/";
+    </script>
+    <script src="<%printAppContext();%>/extensions/app/greg_impact/public/js/d3.v3.js"></script>
+    <script src="<%printAppContext();%>/extensions/app/greg_impact/public/js/jquery-1.11.1.js"></script>
+    <script src="<%printAppContext();%>/extensions/app/greg_impact/public/js/jquery-ui.js"></script>
+    <script src="<%printAppContext();%>/extensions/app/greg_impact/public/js/select2.js"></script>
     <!--[if lt IE 9]>
     <script src="../extensions/app/greg_impact/public/js/flashcanvas.js"></script>
     <![endif]-->
-	<script src="../extensions/app/greg_impact/public/js/rgbcolor.js"></script>
-    <script src="../extensions/app/greg_impact/public/js/StackBlur.js"></script>
-	<script src="../extensions/app/greg_impact/public/js/canvg.js"></script>
-	<script src="../extensions/app/greg_impact/public/js/svgenie.js"></script>
-	<script src="../extensions/app/greg_impact/public/js/jquery.inlineStyler.min.js"></script>
-    <script src="/publisher/themes/default/js/notify.min.js"></script>
-    <script src="/publisher/themes/default/js/messages.js"></script>
-    <script src="../extensions/app/greg_impact/js/impactAnalysis.js"></script>
+	<script src="<%printAppContext();%>/extensions/app/greg_impact/public/js/rgbcolor.js"></script>
+    <script src="<%printAppContext();%>/extensions/app/greg_impact/public/js/StackBlur.js"></script>
+	<script src="<%printAppContext();%>/extensions/app/greg_impact/public/js/canvg.js"></script>
+	<script src="<%printAppContext();%>/extensions/app/greg_impact/public/js/svgenie.js"></script>
+	<script src="<%printAppContext();%>/extensions/app/greg_impact/public/js/jquery.inlineStyler.min.js"></script>
+    <script src="<%printAppContext();%>/themes/store/js/notify.min.js"></script>
+    <script src="<%printAppContext();%>/themes/store/js/messages.js"></script>
+    <script src="<%printAppContext();%>/extensions/app/greg_impact/js/impactAnalysis.js"></script>
     <script>
 
         var imageScale = 0.9,

@@ -7,7 +7,7 @@
 	<div class='col-md-6'>
 		<div class="btn-group" role="group" aria-label="...">
 		  {{#if downloadMetaData.swaggerUrl}}
-		  <a class='btn btn-default' target='_blank' href='{{url ""}}{{downloadMetaData.swaggerUrl}}'><i class="fw fw-swagger"></i> {{t "Swagger UI"}}</a>
+		  <a class='btn btn-default' target='_blank' href='{{tenantedUrl ""}}{{downloadMetaData.swaggerUrl}}'><i class="fw fw-swagger"></i> {{t "Swagger UI"}}</a>
 		  {{/if}}
 		  <a style="display:none" id='download-link'>{{downloadMetaData.url}}</a>
 		  <a class='btn btn-default' target='_blank' href="{{downloadMetaData.url}}"><i class="fw fw-download"></i> {{t "Download"}}</a>
