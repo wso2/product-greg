@@ -64,14 +64,20 @@ var parseUsedDefinedQuery = function(input) {
     var term;
     var arr =[];
     var previous;
-    //Use case #1 : The user has only entered a name
-    if((!isTokenizedTerm(input)) &&(!isEmpty(input))){
-        q.name = encodeURIComponent(input);
-        return q;
-    }
     //Remove trailing whitespaces if any
     input = input.trim();
     input = replaceAll(input,"(\\s)*:(\\s)*", ":");
+
+    //Use case #1 : The user has only entered a name
+    if((!isTokenizedTerm(input)) &&(!isEmpty(input))){
+        if(input.indexOf('"') > -1){
+            q.name = JSON.stringify(JSON.parse(input));
+        } else {
+            q.name = encodeURIComponent(input);
+        }
+
+        return q;
+    }
     //Use case #2: The user has entered a complex query
     //and one or more properties in the query could values
     //with spaces
