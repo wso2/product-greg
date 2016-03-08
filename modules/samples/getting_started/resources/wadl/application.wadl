@@ -1,0 +1,420 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wadl:application xmlns:wadl="http://wadl.dev.java.net/2009/02" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <wadl:doc xmlns:enunciate="http://enunciate.codehaus.org/" enunciate:generatedBy="Enunciate-1.29"/>
+  <wadl:resources base="http://localhost:8080/atlas-webapp">
+    <wadl:resource path="/api/atlas/entities">
+      <wadl:method name="POST">
+        <wadl:doc>
+          <![CDATA[Submits the entity definitions (instances).
+The body contains the JSONArray of entity json. The service takes care of de-duping the entities based on any
+unique attribute for the give type.]]>
+        </wadl:doc>
+        <wadl:response>
+          <wadl:representation mediaType="application/json"/>
+        </wadl:response>
+      </wadl:method>
+      <wadl:method name="GET">
+        <wadl:doc>
+          <![CDATA[Gets the list of entities for a given entity type.]]>
+        </wadl:doc>
+        <wadl:request>
+          <wadl:param name="type" style="query">
+            <wadl:doc>
+              <![CDATA[name of a type which is unique]]>
+            </wadl:doc>
+          </wadl:param>
+        </wadl:request>
+        <wadl:response>
+          <wadl:representation mediaType="application/json"/>
+        </wadl:response>
+      </wadl:method>
+    </wadl:resource>
+    <wadl:resource path="/api/atlas/entity">
+      <wadl:method name="GET">
+        <wadl:doc>
+          <![CDATA[Fetch the complete definition of an entity given its qualified name.]]>
+        </wadl:doc>
+        <wadl:request>
+          <wadl:param name="type" style="query"/>
+          <wadl:param name="property" style="query"/>
+          <wadl:param name="value" style="query"/>
+        </wadl:request>
+        <wadl:response>
+          <wadl:representation mediaType="application/json"/>
+        </wadl:response>
+      </wadl:method>
+    </wadl:resource>
+    <wadl:resource path="/api/atlas/types">
+      <wadl:method name="POST">
+        <wadl:doc>
+          <![CDATA[Submits a type definition corresponding to a given type representing a meta model of a
+domain. Could represent things like Hive Database, Hive Table, etc.]]>
+        </wadl:doc>
+        <wadl:response>
+          <wadl:representation mediaType="application/json"/>
+        </wadl:response>
+      </wadl:method>
+      <wadl:method name="GET">
+        <wadl:doc>
+          <![CDATA[Gets the list of trait type names registered in the type system.]]>
+        </wadl:doc>
+        <wadl:request>
+          <wadl:param name="type" style="query">
+            <wadl:doc>
+              <![CDATA[type should be the name of enum
+org.apache.atlas.typesystem.types.DataTypes.TypeCategory
+Typically, would be one of all, TRAIT, CLASS, ENUM, STRUCT]]>
+            </wadl:doc>
+          </wadl:param>
+        </wadl:request>
+        <wadl:response>
+          <wadl:doc>
+            <![CDATA[entity names response payload as json]]>
+          </wadl:doc>
+          <wadl:representation mediaType="application/json"/>
+        </wadl:response>
+      </wadl:method>
+    </wadl:resource>
+    <wadl:resource path="/api/atlas/admin/stack">
+      <wadl:method name="GET">
+        <wadl:doc>
+          <![CDATA[Fetches the thread stack dump for this application.]]>
+        </wadl:doc>
+        <wadl:response>
+          <wadl:doc>
+            <![CDATA[json representing the thread stack dump.]]>
+          </wadl:doc>
+          <wadl:representation mediaType="text/plain"/>
+        </wadl:response>
+      </wadl:method>
+    </wadl:resource>
+    <wadl:resource path="/api/atlas/admin/version">
+      <wadl:method name="GET">
+        <wadl:doc>
+          <![CDATA[Fetches the version for this application.]]>
+        </wadl:doc>
+        <wadl:response>
+          <wadl:doc>
+            <![CDATA[json representing the version.]]>
+          </wadl:doc>
+          <wadl:representation mediaType="application/json"/>
+        </wadl:response>
+      </wadl:method>
+    </wadl:resource>
+    <wadl:resource path="/api/atlas/discovery/search">
+      <wadl:method name="GET">
+        <wadl:doc>
+          <![CDATA[Search using a given query.]]>
+        </wadl:doc>
+        <wadl:request>
+          <wadl:param name="query" style="query">
+            <wadl:doc>
+              <![CDATA[search query in raw gremlin or DSL format falling back to full text.]]>
+            </wadl:doc>
+          </wadl:param>
+        </wadl:request>
+        <wadl:response>
+          <wadl:doc>
+            <![CDATA[JSON representing the type and results.]]>
+          </wadl:doc>
+          <wadl:representation mediaType="application/json"/>
+        </wadl:response>
+      </wadl:method>
+    </wadl:resource>
+    <wadl:resource path="/api/atlas/entity/{guid}">
+      <wadl:param name="guid" style="template">
+        <wadl:doc>
+          <![CDATA[GUID for the entity]]>
+        </wadl:doc>
+      </wadl:param>
+      <wadl:method name="GET">
+        <wadl:doc>
+          <![CDATA[Fetch the complete definition of an entity given its GUID.]]>
+        </wadl:doc>
+        <wadl:request/>
+        <wadl:response>
+          <wadl:representation mediaType="application/json"/>
+        </wadl:response>
+      </wadl:method>
+      <wadl:method name="PUT">
+        <wadl:doc>
+          <![CDATA[Adds property to the given entity id]]>
+        </wadl:doc>
+        <wadl:request>
+          <wadl:param name="property" style="query">
+            <wadl:doc>
+              <![CDATA[property to add]]>
+            </wadl:doc>
+          </wadl:param>
+          <wadl:param name="value" style="query">
+            <wadl:doc>
+              <![CDATA[property's value]]>
+            </wadl:doc>
+          </wadl:param>
+        </wadl:request>
+        <wadl:response>
+          <wadl:doc>
+            <![CDATA[response payload as json]]>
+          </wadl:doc>
+          <wadl:representation mediaType="application/json"/>
+        </wadl:response>
+      </wadl:method>
+    </wadl:resource>
+    <wadl:resource path="/api/atlas/graph/vertices">
+      <wadl:method name="GET">
+        <wadl:doc>
+          <![CDATA[Get a list of vertices matching a property key and a value.
+<p/>
+GET http://host/metadata/lineage/vertices?key=<key>&value=<value>
+graph.getVertices(key, value);]]>
+        </wadl:doc>
+        <wadl:request>
+          <wadl:param name="key" style="query"/>
+          <wadl:param name="value" style="query"/>
+        </wadl:request>
+        <wadl:response>
+          <wadl:representation mediaType="application/json"/>
+        </wadl:response>
+      </wadl:method>
+    </wadl:resource>
+    <wadl:resource path="/api/atlas/types/{typeName}">
+      <wadl:param name="typeName" style="template">
+        <wadl:doc>
+          <![CDATA[name of a type which is unique.]]>
+        </wadl:doc>
+      </wadl:param>
+      <wadl:method name="GET">
+        <wadl:doc>
+          <![CDATA[Fetch the complete definition of a given type name which is unique.]]>
+        </wadl:doc>
+        <wadl:request/>
+        <wadl:response>
+          <wadl:representation mediaType="application/json"/>
+        </wadl:response>
+      </wadl:method>
+    </wadl:resource>
+    <wadl:resource path="/api/atlas/discovery/search/dsl">
+      <wadl:method name="GET">
+        <wadl:doc>
+          <![CDATA[Search using query DSL format.]]>
+        </wadl:doc>
+        <wadl:request>
+          <wadl:param name="query" style="query">
+            <wadl:doc>
+              <![CDATA[search query in DSL format.]]>
+            </wadl:doc>
+          </wadl:param>
+        </wadl:request>
+        <wadl:response>
+          <wadl:doc>
+            <![CDATA[JSON representing the type and results.]]>
+          </wadl:doc>
+          <wadl:representation mediaType="application/json"/>
+        </wadl:response>
+      </wadl:method>
+    </wadl:resource>
+    <wadl:resource path="/api/atlas/discovery/search/fulltext">
+      <wadl:method name="GET">
+        <wadl:doc>
+          <![CDATA[Search using full text search.]]>
+        </wadl:doc>
+        <wadl:request>
+          <wadl:param name="query" style="query">
+            <wadl:doc>
+              <![CDATA[search query.]]>
+            </wadl:doc>
+          </wadl:param>
+        </wadl:request>
+        <wadl:response>
+          <wadl:doc>
+            <![CDATA[JSON representing the type and results.]]>
+          </wadl:doc>
+          <wadl:representation mediaType="application/json"/>
+        </wadl:response>
+      </wadl:method>
+    </wadl:resource>
+    <wadl:resource path="/api/atlas/discovery/search/gremlin">
+      <wadl:method name="GET">
+        <wadl:doc>
+          <![CDATA[Search using raw gremlin query format.]]>
+        </wadl:doc>
+        <wadl:request>
+          <wadl:param name="query" style="query">
+            <wadl:doc>
+              <![CDATA[search query in raw gremlin format.]]>
+            </wadl:doc>
+          </wadl:param>
+        </wadl:request>
+        <wadl:response>
+          <wadl:doc>
+            <![CDATA[JSON representing the type and results.]]>
+          </wadl:doc>
+          <wadl:representation mediaType="application/json"/>
+        </wadl:response>
+      </wadl:method>
+    </wadl:resource>
+    <wadl:resource path="/api/atlas/entity/{guid}/traits">
+      <wadl:param name="guid" style="template">
+        <wadl:doc>
+          <![CDATA[globally unique identifier for the entity]]>
+        </wadl:doc>
+      </wadl:param>
+      <wadl:method name="GET">
+        <wadl:doc>
+          <![CDATA[Gets the list of trait names for a given entity represented by a guid.]]>
+        </wadl:doc>
+        <wadl:request/>
+        <wadl:response>
+          <wadl:doc>
+            <![CDATA[a list of trait names for the given entity guid]]>
+          </wadl:doc>
+          <wadl:representation mediaType="application/json"/>
+        </wadl:response>
+      </wadl:method>
+      <wadl:method name="POST">
+        <wadl:doc>
+          <![CDATA[Adds a new trait to an existing entity represented by a guid.]]>
+        </wadl:doc>
+        <wadl:request/>
+        <wadl:response>
+          <wadl:representation mediaType="application/json"/>
+        </wadl:response>
+      </wadl:method>
+    </wadl:resource>
+    <wadl:resource path="/api/atlas/graph/edges/{id}">
+      <wadl:param name="id" style="template"/>
+      <wadl:method name="GET">
+        <wadl:doc>
+          <![CDATA[Get a single edge with a unique id.
+
+GET http://host/metadata/lineage/edges/id
+graph.getEdge(id);]]>
+        </wadl:doc>
+        <wadl:request/>
+        <wadl:response>
+          <wadl:representation mediaType="application/json"/>
+        </wadl:response>
+      </wadl:method>
+    </wadl:resource>
+    <wadl:resource path="/api/atlas/graph/vertices/{id}">
+      <wadl:param name="id" style="template"/>
+      <wadl:method name="GET">
+        <wadl:doc>
+          <![CDATA[Get a single vertex with a unique id.
+
+GET http://host/metadata/lineage/vertices/id
+graph.getVertex(id);]]>
+        </wadl:doc>
+        <wadl:request/>
+        <wadl:response>
+          <wadl:representation mediaType="application/json"/>
+        </wadl:response>
+      </wadl:method>
+    </wadl:resource>
+    <wadl:resource path="/api/atlas/entity/{guid}/traits/{traitName}">
+      <wadl:param name="guid" style="template">
+        <wadl:doc>
+          <![CDATA[globally unique identifier for the entity]]>
+        </wadl:doc>
+      </wadl:param>
+      <wadl:param name="traitName" style="template">
+        <wadl:doc>
+          <![CDATA[name of the trait]]>
+        </wadl:doc>
+      </wadl:param>
+      <wadl:method name="DELETE">
+        <wadl:doc>
+          <![CDATA[Deletes a given trait from an existing entity represented by a guid.]]>
+        </wadl:doc>
+        <wadl:request/>
+        <wadl:response>
+          <wadl:representation mediaType="application/json"/>
+        </wadl:response>
+      </wadl:method>
+    </wadl:resource>
+    <wadl:resource path="/api/atlas/graph/vertices/properties/{id}">
+      <wadl:param name="id" style="template"/>
+      <wadl:method name="GET">
+        <wadl:doc>
+          <![CDATA[Get properties for a single vertex with a unique id.
+This is NOT a rexster API.
+<p/>
+GET http://host/metadata/lineage/vertices/properties/id]]>
+        </wadl:doc>
+        <wadl:request>
+          <wadl:param name="relationships" style="query"/>
+        </wadl:request>
+        <wadl:response>
+          <wadl:representation mediaType="application/json"/>
+        </wadl:response>
+      </wadl:method>
+    </wadl:resource>
+    <wadl:resource path="/api/atlas/graph/vertices/{id}/{direction}">
+      <wadl:param name="id" style="template"/>
+      <wadl:param name="direction" style="template"/>
+      <wadl:method name="GET">
+        <wadl:doc>
+          <![CDATA[Get a list of adjacent edges with a direction.
+
+GET http://host/metadata/lineage/vertices/id/direction
+graph.getVertex(id).get{Direction}Edges();
+direction: {(?!outE)(?!bothE)(?!inE)(?!out)(?!both)(?!in)(?!query).+}]]>
+        </wadl:doc>
+        <wadl:request/>
+        <wadl:response>
+          <wadl:representation mediaType="application/json"/>
+        </wadl:response>
+      </wadl:method>
+    </wadl:resource>
+    <wadl:resource path="/api/atlas/lineage/hive/table/{tableName}/schema">
+      <wadl:param name="tableName" style="template">
+        <wadl:doc>
+          <![CDATA[table name]]>
+        </wadl:doc>
+      </wadl:param>
+      <wadl:method name="GET">
+        <wadl:doc>
+          <![CDATA[Return the schema for the given tableName.]]>
+        </wadl:doc>
+        <wadl:request/>
+        <wadl:response>
+          <wadl:representation mediaType="application/json"/>
+        </wadl:response>
+      </wadl:method>
+    </wadl:resource>
+    <wadl:resource path="/api/atlas/lineage/hive/table/{tableName}/inputs/graph">
+      <wadl:param name="tableName" style="template">
+        <wadl:doc>
+          <![CDATA[table name]]>
+        </wadl:doc>
+      </wadl:param>
+      <wadl:method name="GET">
+        <wadl:doc>
+          <![CDATA[Returns the inputs graph for a given entity.]]>
+        </wadl:doc>
+        <wadl:request/>
+        <wadl:response>
+          <wadl:representation mediaType="application/json"/>
+        </wadl:response>
+      </wadl:method>
+    </wadl:resource>
+    <wadl:resource path="/api/atlas/lineage/hive/table/{tableName}/outputs/graph">
+      <wadl:param name="tableName" style="template">
+        <wadl:doc>
+          <![CDATA[table name]]>
+        </wadl:doc>
+      </wadl:param>
+      <wadl:method name="GET">
+        <wadl:doc>
+          <![CDATA[Returns the outputs graph for a given entity.]]>
+        </wadl:doc>
+        <wadl:request/>
+        <wadl:response>
+          <wadl:representation mediaType="application/json"/>
+        </wadl:response>
+      </wadl:method>
+    </wadl:resource>
+  </wadl:resources>
+</wadl:application>
+
+<!-- source : "http://atlas.incubator.apache.org/api/application.wadl" -->

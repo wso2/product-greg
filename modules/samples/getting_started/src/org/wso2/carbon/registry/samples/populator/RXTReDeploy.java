@@ -75,7 +75,7 @@ public class RXTReDeploy {
             DataHandler dh1 = new DataHandler(new URL("file:" + fileSeparator + projectPath + File.separator +
                     "resources" + File.separator + "restserviceExisting.rxt"));
             resourceServiceClient.addResource(restServiceRxtPath, RXT_MEDIA_TYPE, null, dh1, null, null);
-            Thread.sleep(5 * 1000);
+            //Thread.sleep(5 * 1000);
             System.out.println("Successfully re deployed Rest Service RXT");
 
             String soapServiceRxtPath = serviceRxtPath + "soapservice.rxt";
@@ -83,7 +83,7 @@ public class RXTReDeploy {
             DataHandler dh2 = new DataHandler(new URL("file:" +fileSeparator + projectPath + File.separator +
                     "resources" + File.separator + "soapserviceExisting.rxt"));
             resourceServiceClient.addResource(soapServiceRxtPath, RXT_MEDIA_TYPE, null, dh2, null, null);
-            Thread.sleep(5 * 1000);
+            //Thread.sleep(5 * 1000);
             System.out.println("Successfully re deployed Soap Service RXT");
 
 

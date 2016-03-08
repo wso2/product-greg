@@ -20,13 +20,13 @@
             <div class="ctrl-asset-type-switcher">
                 <div class="left-menu">
                     <nav class="navigation">
-                        <a href='{{tenantedUrl ""}}/pages/top-assets' class="{{#if navigationBar.landingPage}} active home top-item {{else}} home all-item  {{/if}}">
+                        <a href='{{tenantedUrl ""}}/pages/top-assets' id="all-assets" class="{{#if navigationBar.landingPage}} active home top-item {{else}} home all-item  {{/if}}">
                             <span class="icon"><i class="fw fw-store"></i></span> <span class="left-menu-item">{{t "ALL"}}</span>
                         </a>
                         {{#with navigationBar}}
                             {{#each types}}
-                                <a href='{{tenantedUrl ""}}{{this.listingUrl}}' class="{{ui.iconColor}} {{this.style}}">
-                                    <span class="icon"><i class="{{ui.icon}}"></i></span> <span class="left-menu-item">{{singularLabel}}</span>
+                                <a href='{{tenantedUrl ""}}{{this.listingUrl}}' id="{{this.shortName}}" class="{{ui.iconColor}} {{this.style}}">
+                                    <span class="icon"><i class="{{ui.icon}}"></i></span> <span class="left-menu-item">{{pluralLabel}}</span>
                                 </a>
                             {{/each}}
                         {{/with}}
@@ -57,18 +57,20 @@
                 </div>
             </div>
         </div>
-        <div class="es-input-group input-group input-wrap">
-            {{#if rxt.pluralLabel}}
-                <input  id="search"  type="text" class="es-form-control form-control" placeholder="Search in {{rxt.pluralLabel}}" value="{{searchQuery}}">
-            {{else}}
-                <input  id="search"  type="text" class="es-form-control form-control" placeholder="Search in all asset types" value="{{searchQuery}}">
-
-            {{/if}}
-            <div class="es-input-group-btn input-group-btn">
-                <button class="btn btn-default wrap-input-right" type="button" title="{{t "Search"}}" id="search-button" >
-                    <i class="fw fw-search" aria-hidden="true"></i>
-                </button>
+        <div id="the-basics" class="es-input-group input-group input-wrap">
+            <div class="search-wrapper" style="float:left;width:80%;position:relative;left:0px;margin-left:-10px;">
+                {{#if rxt.pluralLabel}}
+                    <input  id="search"  type="text" class="typeahead es-form-control form-control" placeholder="Search in {{rxt.pluralLabel}}" value="{{searchQuery}}">
+                {{else}}
+                    <input  id="search"  type="text" class="typeahead es-form-control form-control" placeholder="Search in all asset types" value="{{searchQuery}}">
+                {{/if}}
+                <div class="es-input-group-btn input-group-btn">
+                    <button class="btn btn-default wrap-input-right" type="button" title="{{t "Search"}}" id="search-button" >
+                        <i class="fw fw-search" aria-hidden="true"></i>
+                    </button>
             </div>
+        </div>
+            
         </div>
         <div class="col-sm-3 col-md-5 col-lg-3 top-menu-right-custom right">
             <div>

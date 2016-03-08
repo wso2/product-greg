@@ -120,7 +120,7 @@
                 <version>2.18.1</version>
                 <configuration>
                     <trimStackTrace>false</trimStackTrace>
-                    <parallel>classes</parallel>
+                    <parallel>false</parallel>
                     <threadCount>1</threadCount>
                     <argLine>-Xmx1024m -XX:PermSize=256m -XX:MaxPermSize=512m</argLine>
                     <!--<argLine>-Xmx1024m -XX:PermSize=256m -XX:MaxPermSize=512m -Xdebug -Xnoagent -Djava.compiler=NONE -Xrunjdwp:transport=dt_socket,server=y,suspend=y,address=5005</argLine>-->
@@ -155,7 +155,6 @@
                         <filters.file>${basedir}/src/test/resources/filters.txt</filters.file>
                     </systemProperties>
                     <workingDirectory>${basedir}/target</workingDirectory>
-                    <testFailureIgnore>true</testFailureIgnore>
                 </configuration>
             </plugin>
             <plugin>

@@ -49,6 +49,7 @@
                             org.wso2.carbon.registry.core.*,
                             !javax.xml.namespace,
                             javax.xml.namespace; version=0.0.0,
+                            javax.xml.parsers; version=0.0.0,
                             javax.servlet; version=2.4.0,
                             javax.servlet.http; version=2.4.0,
                             org.apache.lucene.*,

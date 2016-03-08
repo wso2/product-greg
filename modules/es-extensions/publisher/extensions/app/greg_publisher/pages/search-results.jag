@@ -76,6 +76,13 @@ require('/modules/publisher.js').exec(function(ctx) {
 
     page.ribbon = {};
     page.ribbon.breadcrumb = assetTypes;
+    var qString = (ctx.request.getParameter('q')||'');
+    var jsonQuery = parse('{'+qString+'}');
+    var modifiedQuery =  Object.keys(jsonQuery);
+    var formattedQuery = modifiedQuery.map(function(key){
+        return key+':'+jsonQuery[key];
+    }).join(',');
+    page.searchQuery = formattedQuery;
     // var output = am.render(assets, page)._custom();
     var output = appManager.render(assets, page);
     // var output = appManager.render([], page);

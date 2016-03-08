@@ -139,7 +139,7 @@ public class CategorizeArtifacts {
                 System.out.println("Could not read restservice list");
             }
 
-            Thread.sleep(5 * 1000);
+            //Thread.sleep(3 * 1000);
 
             GenericArtifactManager artifactManager2 = new GenericArtifactManager(gov, "soapservice");
 

@@ -85,7 +85,8 @@ public class ESTestCommonUtils {
     }
 
     public ClientResponse getAssociationsById(String id, Map<String, String> queryParamMap) {
-        return genericRestClient.geneticRestRequestGet(publisherUrl + "/association/" + queryParamMap.get("type") + "/dependancies/" + id,
+        return genericRestClient.geneticRestRequestGet(publisherUrl + "/association/" + queryParamMap.get("type") +
+                        "/depends/" + id,
                 queryParamMap, headerMap, cookieHeader);
     }
 
@@ -93,7 +94,9 @@ public class ESTestCommonUtils {
         boolean result = false;
         if (id != null) {
             ClientResponse clientResponse = this.getAssociationsById(id, queryParamMap);
-            JSONObject jsonObject = new JSONObject(clientResponse.getEntity(String.class));
+            String payload = clientResponse.getEntity(String.class);
+            payload = payload.substring(payload.indexOf('{'));
+            JSONObject jsonObject = new JSONObject(payload);
             JSONArray assocArray = jsonObject.getJSONArray("results");
             for (int i = 0; i < assocArray.length(); i++) {
                 String assocId = (String) assocArray.getJSONObject(i).get("uuid");

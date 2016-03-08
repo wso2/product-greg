@@ -5,9 +5,12 @@ var gregAPI = {};
     var SubscriptionPopulator = Packages.org.wso2.carbon.registry.info.services.utils.SubscriptionBeanPopulator;
     var GovernanceUtils = Packages.org.wso2.carbon.governance.api.util.GovernanceUtils;
     var CommonUtil = Packages.org.wso2.carbon.governance.registry.extensions.utils.CommonUtil;
+    var TSimpleQueryInput = org.wso2.carbon.humantask.client.api.types.TSimpleQueryInput;
 
     var carbon = require('carbon');
     var time = require('utils').time;
+    var constants = require('rxt').constants;
+    var responseProcessor = require('utils').response;
     var taskOperationService = carbon.server.osgiService('org.wso2.carbon.humantask.core.TaskOperationService');
     gregAPI.notifications = {};
     gregAPI.subscriptions = {};
@@ -146,7 +149,7 @@ var gregAPI = {};
         }
         var result = [];
         var SubscriptionPopulator = Packages.org.wso2.carbon.registry.info.services.utils.SubscriptionBeanPopulator;
-        
+
         try {
             var subcriptions = SubscriptionPopulator.subscribeAndPopulate(userRegistry.registry, registryPath, notiMethod, notiType).getSubscriptionInstances();
             var length = subcriptions.length;
@@ -194,6 +197,16 @@ var gregAPI = {};
         queryInput.setSimpleQueryCategory(org.wso2.carbon.humantask.client.api.types.TSimpleQueryCategory.ASSIGNED_TO_ME);
         var resultSet = taskOperationService.simpleQuery(queryInput);
         var rows = resultSet.getRow();
+
+        var queryInputClaim = new org.wso2.carbon.humantask.client.api.types.TSimpleQueryInput();
+        queryInputClaim.setPageNumber(0);
+        queryInputClaim.setSimpleQueryCategory(org.wso2.carbon.humantask.client.api.types.TSimpleQueryCategory.CLAIMABLE);
+        var resultSetClaim = taskOperationService.simpleQuery(queryInputClaim);
+        if (rows != null && resultSetClaim.getRow() != null){
+            rows = org.apache.commons.lang.ArrayUtils.addAll(rows, resultSetClaim.getRow());
+        } else if (rows == null && resultSetClaim.getRow() != null){
+            rows = resultSetClaim.getRow();
+        }
         if (rows != null){
             count = rows.length;
         }
@@ -210,13 +223,24 @@ var gregAPI = {};
         queryInput.setSimpleQueryCategory(org.wso2.carbon.humantask.client.api.types.TSimpleQueryCategory.ASSIGNED_TO_ME);
         var resultSet = taskOperationService.simpleQuery(queryInput);
         var rows = resultSet.getRow();
+
+        var queryInputClaim = new org.wso2.carbon.humantask.client.api.types.TSimpleQueryInput();
+        queryInputClaim.setPageNumber(0);
+        queryInputClaim.setSimpleQueryCategory(org.wso2.carbon.humantask.client.api.types.TSimpleQueryCategory.CLAIMABLE);
+        var resultSetClaim = taskOperationService.simpleQuery(queryInputClaim);
+        if (rows && resultSetClaim.getRow()){
+            rows = org.apache.commons.lang.ArrayUtils.addAll(rows, resultSetClaim.getRow());
+        } else if (!rows && resultSetClaim.getRow()){
+            rows = resultSetClaim.getRow();
+        }
+
         if (rows != null) {
             for (var i = 0; i < rows.length; i++) {
                 var workList = {};
                 var row =  rows[i];
                 workList.id = String(row.getId());
                 workList.presentationSubject = String(row.getPresentationSubject());
-                
+
                 //Get Assrt information
                 var arr = workList.presentationSubject.split(" ");
                 var pathValue;
@@ -243,7 +267,7 @@ var gregAPI = {};
                         workList.overviewName = subPaths[subPaths.length - 1];
                     } else {
                         var govAttifact = Packages.org.wso2.carbon.governance.api.util.GovernanceUtils.retrieveGovernanceArtifactByPath(am.registry.registry, pathValue);
-                        workList.overviewName = String(govAttifact.getAttribute('overview_name'));
+                        workList.overviewName = String(govAttifact.getQName().getLocalPart());
                     }
 
                     workList.presentationSubject = workList.presentationSubject.replace("resource at path", workList.overviewName);
@@ -259,12 +283,46 @@ var gregAPI = {};
                 workList.status = String(row.getStatus());
                 workList.time = time.formatTimeAsTimeSince(getDateTime(row.getCreatedTime()));
                 //workList.createdTime = String(row.getCreatedTime());
-                workList.user = String(taskOperationService.loadTask(row.getId()).getActualOwner().getTUser());
+                var owner = taskOperationService.loadTask(row.getId()).getActualOwner();
+                if (owner != null) {
+                    workList.user = String(owner.getTUser());
+                } else {
+                    workList.user = "";
+                }
                 result.push(workList);
             }
         }
         results.list = result;
         return results;
+    };
+
+    gregAPI.notifications.clear = function(res) {
+        var queryInput = new TSimpleQueryInput();
+        var message;
+        queryInput.setPageNumber(0);
+        queryInput.setSimpleQueryCategory(
+            org.wso2.carbon.humantask.client.api.types.TSimpleQueryCategory.ASSIGNED_TO_ME);
+        var resultSet = taskOperationService.simpleQuery(queryInput);
+        var rows = resultSet.getRow();
+        if (rows) {
+            for (var i = 0; i < rows.length; i++) {
+                var row =  rows[i];
+                var id = String(row.getId());
+                var idObj = new org.apache.axis2.databinding.types.URI(id);
+                try{
+                    taskOperationService.start(idObj);
+                    taskOperationService.complete(idObj, "<WorkResponse>true</WorkResponse>");
+                } catch (e){
+                    log.warn(e);
+                    return responseProcessor.buildErrorResponseDefault(e.code, 'error on clearing notifications', res,
+                        'Failed to clear all notifications ', e.message, []);
+                }
+            }
+        }
+        message = {
+            'status': 'success'
+        };
+        return responseProcessor.buildSuccessResponseDefault(constants.STATUS_CODES.OK, res, message);
     };
 
     var getDateTime = function(date) {
@@ -348,7 +406,15 @@ var gregAPI = {};
         var sourcePath = srcam.get(sourceUUID).path;
         var destam = assetManager(session, destType);
         var destPath = destam.get(destUUID).path;
+        var reverseAssociationType = CommonUtil.getReverseAssociationType(sourceType, associationType);
+        if (!reverseAssociationType){
+            reverseAssociationType = CommonUtil.getReverseAssociationType("default", associationType);
+        }
+        var destPath = destam.get(destUUID).path;
         srcam.registry.registry.addAssociation(sourcePath,destPath,associationType);
+        if(reverseAssociationType) {
+            srcam.registry.registry.addAssociation(destPath, sourcePath, reverseAssociationType);
+        }
     }
 
     gregAPI.associations.list = function(session, type, path) {
@@ -396,7 +462,7 @@ var gregAPI = {};
                         continue;
                     }
                     var attributeName = uniqueAttributesNames.get(j);
-                    if (key === 'wsdl' || key === 'wadl' || key === 'policy' || 
+                    if (key === 'wsdl' || key === 'wadl' || key === 'policy' ||
                         key === 'schema' || key === 'endpoint' || key === 'swagger'){
                         attributeName = attributeName.replace("overview_", "");
                     }
@@ -444,6 +510,24 @@ var gregAPI = {};
         var destam = assetManager(session, destType);
         var destPath = destam.get(destUUID).path;
         srcam.registry.registry.removeAssociation(sourcePath,destPath,associationType);
+        var reverseAssociationType = CommonUtil.getReverseAssociationType(sourceType, associationType);
+        if (!reverseAssociationType){
+            reverseAssociationType = CommonUtil.getReverseAssociationType("default", associationType);
+        }
+        if (!reverseAssociationType){
+            reverseAssociationType = CommonUtil.getAssociationTypeForRemoveOperation(destType, associationType);
+        }
+        if (!reverseAssociationType){
+            reverseAssociationType = CommonUtil.getAssociationTypeForRemoveOperation("default", associationType);
+        }
+        var results = srcam.registry.associations(destPath);
+        if (reverseAssociationType) {
+            for (var i = 0; i < results.length; i++) {
+                if (results[i].dest == sourcePath && results[i].type == reverseAssociationType) {
+                    srcam.registry.registry.removeAssociation(destPath, sourcePath, reverseAssociationType);
+                }
+            }
+        }
     }
 
 

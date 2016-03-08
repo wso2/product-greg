@@ -18,6 +18,7 @@
  */
 asset.manager = function(ctx) {
     var configs = require("/extensions/assets/schema/config/properties.json");
+    var tenantAPI = require('/modules/tenant-api.js').api;
     /**
      * The function augments the provided query to include published state information
      * @param  {[type]} query [description]
@@ -39,16 +40,12 @@ asset.manager = function(ctx) {
         return query;
     };
     var getRegistry = function(cSession) {
-        var userMod = require('store').user;
-        var server = require('store').server;
-        var user = server.current(cSession);
-        var userRegistry;
-        if (user) {
-            userRegistry = userMod.userRegistry(cSession);
-        } else {
-            userRegistry = server.anonRegistry(tenantId);
+        var tenantDetails = tenantAPI.createTenantAwareAssetResources(cSession,{type:ctx.assetType});
+        if((!tenantDetails)&&(!tenantDetails.am)) {
+            log.error('The tenant-api was unable to create a registry instance by resolving tenant details');
+            throw 'The tenant-api  was unable to create a registry instance by resolving tenant details';
         }
-        return userRegistry;
+        return tenantDetails.am.registry;
     };
     var setCustomAssetAttributes = function (asset, userRegistry){
         var ByteArrayInputStream = Packages.java.io.ByteArrayInputStream;
@@ -158,8 +155,29 @@ asset.manager = function(ctx) {
             return asset.name;
         },
         getVersion: function(asset) {
+            if (!asset.attributes["version"]) {
+                var subPaths = asset.path.split('/');
+                asset.version = subPaths[subPaths.length - 2];
+                asset.attributes["version"] = asset.version;
+            }
             asset.attributes["overview_version"] = asset.attributes["version"];
             return asset.attributes["version"];
+        },
+        getAssetGroup:function(asset){
+            var results = this._super.getAssetGroup.call(this,asset);
+            for (var index = 0; index < results.length; index++) {
+                var result = results[index];
+                var path = result.path;
+                var subPaths = path.split('/');
+                var name = subPaths[subPaths.length - 1];
+                result.name = name;
+                result.version = subPaths[subPaths.length - 2];
+                result.attributes.overview_name = name;
+                result.overview_version = result.version;
+                result.attributes.overview_version = result.version;
+                result.attributes.version = result.version;
+            }
+            return results;
         }
     };
 };
@@ -171,7 +189,8 @@ asset.configure = function() {
                 icon: 'fw fw-schema',
                 iconColor: 'red'
             },
-            downloadable:true
+            downloadable:true,
+            isDependencyShown: true
         }
     }
 };

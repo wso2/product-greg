@@ -366,23 +366,26 @@ asset.configure = function() {
             overview: {
                 fields: {
                     name: {
-                        placeholder: "WeatherService"
+                        readonly:true,
+                        placeholder: "Name"
                     },
                     namespace: {
-                        placeholder: "http://example.namespace.com"
+                        readonly:true,
+                        placeholder: "Namespace"
                     },
                     version: {
-                        placeholder: "1.0.0"
+                        readonly:true,
+                        placeholder: "Version"
                     },
                     description: {
-                        placeholder: "This is a sample service"
+                        placeholder: "Description"
                     }
                 }
             },
             interface: {
                 fields: {
                     wsdlUrl: {
-                        placeholder: "https://www.example.com/sample.wsdl"
+                        placeholder: "Wsdl Url"
                     }
                 }
             }

@@ -98,7 +98,28 @@ asset.renderer = function(ctx) {
                     page.downloadMetaData.enabled = isDownloadable;
                     page.downloadMetaData.url = config.server.https+'/governance/'+pluralType+'/'+page.assets.id+'/content?tenant='+domain;
                 }
+            },
+            versions: function (page) {
+                if (page.meta.pageName !== 'details') {
+                    return;
+                }
+
+                var type = page.assets.type;
+                page.assetVersions = gregAPI.getAssetVersions(ctx.session, ctx.assetType, page.assets.path, page.assets.name);
+                var single_version = false;
+                if(page.assetVersions.length === 1){
+                    single_version = true;
+                }
+                page.single_version = single_version;
             }
         }
     }
-}
+};
+
+asset.configure = function() {
+    return {
+        meta: {
+            'isDiffViewShown': true
+        }
+    }
+};

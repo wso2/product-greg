@@ -172,16 +172,27 @@ Project Resources
      User List       : user@wso2.org 
      Subscribe       : http://wso2.org/mail#registry
 
+Documentation and Quick Start Guide
+========================
+
+1. On-line product documentation is available at:
+     https://docs.wso2.com/display/Governance520/WSO2+Governance+Registry+Documentation
+2. Quick introductory guide on WSO2 Governance Registry is available at:
+     https://docs.wso2.com/display/Governance520/Quick+Start+Guide
     
 Installation and Running
 ========================
 
 1. Extract the downloaded zip file
 2. Run the wso2server.sh or wso2server.bat file in the /bin directory
-3. Once the server starts, point your Web browser to https://localhost:9443/carbon/
-4. For more information, see the Installation Guide:
+3. For more information, see the Installation Guide:
      Locally    : INSTALL.txt
-     On the web : http://docs.wso2.org/wiki/display/Governance510/Getting+Started
+     On the web : http://docs.wso2.org/wiki/display/Governance520/Getting+Started
+4. Once the server starts, point your Web browser to https://localhost:9443/carbon/
+5. Governance Center Publisher web application is running at https://localhost:9443/publisher. You may login
+   to the Publisher using the default administrator credentials (user: admin, pass: admin).
+6. Governance Center Store web application is running at https://localhost:9443/store. You may login
+   to the Store using the default administrator credentials (user: admin, pass: admin).
 
 
 Known issues of @product.name@ @product.version@

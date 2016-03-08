@@ -61,9 +61,9 @@ public class AddSampleStory {
     private static ResourceServiceClient resourceServiceClient;
     private static LifeCycleManagementClient lifeCycleManagementClient;
     private static String governancePath = "/_system/governance";
-    //private static final String[] DEV_ROLE_PERMISSION = {"/permission/admin/login",
-    //        "/permission/admin/enterprisestore",
-    //        "/permission/admin/manage"};
+    private static final String[] DEV_ROLE_PERMISSION = {"/permission/admin/login",
+            "/permission/admin/enterprisestore",
+            "/permission/admin/manage"};
     private static final String[] DEVOPS_ROLE_PERMISSION = {"/permission/admin/login",
             "/permission/admin/enterprisestore",
             "/permission/admin/manage"};
@@ -116,13 +116,15 @@ public class AddSampleStory {
             resourceServiceClient = new ResourceServiceClient(cookie, serverURL, configContext);
             lifeCycleManagementClient = new LifeCycleManagementClient(cookie, serverURL, configContext);
 
+            addUsers(configContext);
+
             String projectPath = System.getProperty("user.dir");
             startUpMessage();
-            addUsers(configContext);
+
             lifeCycleManagementClient.createLifecycle(readFile(projectPath + File.separator + "resources" +
                     File.separator + "BuyMoreLC.xml"));
 
-            Thread.sleep(5 * 1000);
+            Thread.sleep(3 * 1000);
 
             //String[][] developmentProperties = {{"version", "3.0.0"}};
             String[][] testingProperties = {{"version", "2.0.0"}};
@@ -150,7 +152,7 @@ public class AddSampleStory {
                     File.separator + "resources" + File.separator + "BuyMoreUTPolicy.xml")), null);
 
             System.out.println("Added Swagger files, WSDL and WS-Policy");
-            Thread.sleep(3 * 1000);
+            Thread.sleep(3 * 500);
 
             Registry gov = GovernanceUtils.getGovernanceUserRegistry(registry, "admin");
             // Should be load the governance artifact.
@@ -203,7 +205,6 @@ public class AddSampleStory {
                 } else if (genericArtifact.getAttribute("overview_version").equals("1.0.0")) {
                     changeLcState("Promote", genericArtifact.getPath());
                     changeLcState("Promote", genericArtifact.getPath());
-                    changeLcState("Promote", genericArtifact.getPath());
                 } else if (genericArtifact.getAttribute("overview_version").equals("3.0.0")) {
                     if (loyaltyServices != null && loyaltyService.length() > 0) {
                         for (GenericArtifact loyaltyServiceArtifact : loyaltyServices) {
@@ -228,8 +229,6 @@ public class AddSampleStory {
 
             if (soapService != null && soapService.length > 0) {
                 soapService[0].attachLifecycle("BuyMoreLifeCycle");
-                changeLcState("Promote", soapService[0].getPath());
-                Thread.sleep(1 * 500);
                 changeLcState("Promote", soapService[0].getPath());
                 Thread.sleep(1 * 500);
                 changeLcState("Promote", soapService[0].getPath());
@@ -337,7 +336,7 @@ public class AddSampleStory {
         String publisherUserPassword = "";
         String demoUserRole = "";
 
-        //userManager.addRole("dev", null, DEV_ROLE_PERMISSION);
+        userManager.addRole("dev", null, DEV_ROLE_PERMISSION);
         userManager.addRole("devops", null, DEVOPS_ROLE_PERMISSION);
         //userManager.addRole("qamanager", null, QAMGR_ROLE_PERMISSION);
         //userManager.addRole("strategymanager", null, STRGMGR_ROLE_PERMISSION);
@@ -353,8 +352,15 @@ public class AddSampleStory {
                 System.out.println("Username : "+publisherUser+"\n");
                 System.out.println("Password : "+publisherUserPassword+"\n");
                 System.out.println("Role : "+demoUserRole+"\n");
-                String[] role = {demoUserRole};
-                userManager.addUser(publisherUser, publisherUserPassword, role, new ClaimValue[0], null);
+                if (demoUserRole.contains(",")) {
+                    System.out.println("Multiple roles ");
+                    String [] role = demoUserRole.split(",");
+                    System.out.println("Number of roles " + role.length);
+                    userManager.addUser(publisherUser, publisherUserPassword, role, new ClaimValue[0], null);
+                } else {
+                    String [] role = {demoUserRole};
+                    userManager.addUser(publisherUser, publisherUserPassword, role, new ClaimValue[0], null);
+                }
             }
         }
 

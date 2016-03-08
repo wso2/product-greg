@@ -1,0 +1,19 @@
+<%
+var caramel;
+require('/modules/store.js').exec(function (ctx) {
+    var ref = require('utils').request;
+    caramel = require('caramel');
+    var ui = require('rxt').ui;
+    var tenantApi = require('/modules/tenant-api.js').api;
+
+    var options = ref.getQueryOptions(ctx.request.getQueryString());
+    if (!options.type) {
+        ctx.response.sendError(404, 'Unable to locate the asset without a valid Type');
+        return;
+    }
+    var tenantResources = tenantApi.createTenantAwareAppResources(ctx.session);
+    var appManager = tenantResources.appManager;
+    var page = ui.buildPage(ctx.session,ctx.request);
+    var output = appManager.render([],page);
+    caramel.render(output);
+}, request, response, session); %>

@@ -64,13 +64,20 @@ var parseUsedDefinedQuery = function(input) {
     var term;
     var arr =[];
     var previous;
-    //Use case #1 : The user has only entered a name
-    if((!isTokenizedTerm(input)) &&(!isEmpty(input))){
-        q.name = encodeURIComponent(input);
-        return q;
-    }
     //Remove trailing whitespaces if any
     input = input.trim();
+    input = replaceAll(input,"(\\s)*:(\\s)*", ":");
+
+    //Use case #1 : The user has only entered a name
+    if((!isTokenizedTerm(input)) &&(!isEmpty(input))){
+        if(input.indexOf('"') > -1){
+            q.name = JSON.stringify(JSON.parse(input));
+        } else {
+            q.name = encodeURIComponent(input);
+        }
+
+        return q;
+    }
     //Use case #2: The user has entered a complex query
     //and one or more properties in the query could values
     //with spaces
@@ -92,6 +99,16 @@ var parseUsedDefinedQuery = function(input) {
         }
     }
     return parseArrToJSON(arr);
+};
+/**
+ * Replace all the occurrences of $find by $regex in $originalString
+ * @param  {originalString} input - Raw string.
+ * @param  {regex} input - Target key word or regex that need to be replaced.
+ * @param  {replace} input - Replacement key word
+ * @return {String}       Output string
+ */
+var replaceAll = function(originalString, regex, replace) {
+    return originalString.replace(new RegExp(regex, 'g'), replace);
 };
 var createQuery = function(options) {
     options = options || {};

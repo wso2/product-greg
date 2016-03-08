@@ -38,7 +38,9 @@ public class Main {
 
     public static final String GOVERNANCE_ARCHIVE_MEDIA_TYPE = "application/vnd.wso2.governance-archive";
     private static final String MEDIA_TYPE_WSDL = "application/wsdl+xml";
+    private static final String MEDIA_TYPE_WADL = "application/wadl+xml";
     private static final String MEDIA_TYPE_SWAGGER = "application/swagger+json";
+    private static final String MEDIA_TYPE_POLICY = "application/policy+xml";
     private static String cookie;
     private static final String username = "admin";
     private static final String password = "admin";
@@ -117,7 +119,7 @@ public class Main {
 
                 }
                 System.out.println("######## Successfully uploaded sample wsdls ########\n\n");
-                Thread.sleep(6 * 1000);
+                Thread.sleep(1 * 1000);
 
             } catch (Exception e) {
                 System.out.println("######## Unable to upload sample wsdls ########\n\n");
@@ -125,8 +127,24 @@ public class Main {
 
             try {
                 System.out.println("Uploading sample wadls .........");
-                addWadlGar(resourceServiceClient, projectPath);
+                final File wadlFolder = new File(projectPath + File.separator +
+                        "resources" + File.separator + "wadl");
+                String fileName = null;
+                for (final File fileEntry : wadlFolder.listFiles()) {
+                    try {
+                        fileName = fileEntry.getName();
+
+                        addWadl(resourceServiceClient, "Adding the WADL file  " + fileName,
+                                new DataHandler(new URL("file:" + fileSeparator + projectPath +
+                                        File.separator + "resources" + File.separator + "wadl" + File.separator
+                                        + fileName)), null);
+                    } catch (Exception e) {
+                        continue;
+                    }
+
+                }
                 System.out.println("######## Successfully uploaded sample wadls ########\n\n");
+
             } catch (Exception e) {
                 System.out.println("######## Unable to upload sample wadls ########\n\n");
             }
@@ -163,8 +181,22 @@ public class Main {
             }
 
             try {
-                System.out.println("Uploading sample policies .........");
-                addPolicyGar(resourceServiceClient, projectPath);
+                System.out.println("Uploading sample policiies .........");
+                final File policyFolder = new File(projectPath + File.separator +
+                        "resources" + File.separator + "policies");
+                String policyName = null;
+                for (final File fileEntry : policyFolder.listFiles()) {
+                    try {
+                        policyName = fileEntry.getName();
+                        addPolicy(resourceServiceClient, "Adding the policy " + policyName,
+                                new DataHandler(new URL("file:" + fileSeparator + projectPath +
+                                        File.separator + "resources" + File.separator + "policies" + File.separator
+                                        + policyName)));
+                    } catch (Exception e) {
+                        continue;
+                    }
+                }
+
                 System.out.println("######## Successfully uploaded sample policies ########\n\n");
             } catch (Exception e) {
                 System.out.println("######## Unable to upload sample policies ########\n\n");
@@ -280,6 +312,22 @@ public class Main {
         String resourceName = "api-docs.json";
         swaggerImportClient.addSwagger(resourceName, "adding From URL", resourceUrl);
 
+    }
+
+    private static void addWadl(ResourceServiceClient resourceServiceClient, String description, DataHandler dh,
+            String[][] props) throws Exception {
+        String fileName;
+        fileName = dh.getName().substring(dh.getName().lastIndexOf(File.separator) + 1);
+        resourceServiceClient.addResource(File.separator + fileName, MEDIA_TYPE_WADL, description, dh, null, props);
+    }
+
+    private static void addPolicy(ResourceServiceClient resourceServiceClient, String description, DataHandler dh)
+            throws Exception {
+        String[][] properties = { { "registry.mediaType", "application/policy+xml" }, { "version", "1.0.0" } };
+        String fileName;
+        fileName = dh.getName().substring(dh.getName().lastIndexOf(File.separator) + 1);
+        resourceServiceClient
+                .addResource(File.separator + fileName, MEDIA_TYPE_POLICY, description, dh, null, properties);
     }
 
     /**

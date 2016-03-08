@@ -111,6 +111,7 @@
                             org.wso2.carbon.registry.core.*,
                             !javax.xml.namespace,
                             javax.xml.namespace; version=0.0.0,
+                            javax.xml.parsers; version=0.0.0,
                             javax.servlet; version=2.4.0,
                             javax.servlet.http; version=2.4.0,
                             org.apache.axiom.*; version="${axiom.osgi.version.range}",
@@ -161,6 +162,22 @@
     </repositories>
     
     <dependencies>
+        <dependency>
+            <groupId>org.wso2.carbon.registry</groupId>
+            <artifactId>org.wso2.carbon.registry.reporting</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.wso2.carbon.commons</groupId>
+            <artifactId>org.wso2.carbon.reporting.api</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.wso2.carbon.commons</groupId>
+            <artifactId>org.wso2.carbon.reporting.util</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.wso2.carbon.governance</groupId>
+            <artifactId>org.wso2.carbon.governance.api</artifactId>
+        </dependency>
         <dependency>
             <groupId>org.apache.ws.commons.axiom.wso2</groupId>
             <artifactId>axiom</artifactId>

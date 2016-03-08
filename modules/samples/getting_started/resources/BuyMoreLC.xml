@@ -26,17 +26,17 @@
                         <data name="checkItems">
                             <item name="Code Completed" forEvent="">
                                 <permissions>
-                                    <permission roles="devops,admin"/>
+                                    <permission roles="dev,admin"/>
                                 </permissions>
                             </item>
                             <item name="WSDL, Schema Created" forEvent="">
                                 <permissions>
-                                    <permission roles="devops,admin"/>
+                                    <permission roles="dev,admin"/>
                                 </permissions>
                             </item>
                             <item name="QoS Created" forEvent="">
                                 <permissions>
-                                    <permission roles="devops,admin"/>
+                                    <permission roles="dev,admin"/>
                                 </permissions>
                             </item>
                         </data>
@@ -84,7 +84,7 @@
                             </js>
                         </data>
                         <data name="transitionPermission">
-                            <permission forEvent="Promote" roles="devops,admin">
+                            <permission forEvent="Promote" roles="dev,admin">
                             </permission>
                         </data>
                     </datamodel>
@@ -95,17 +95,17 @@
                         <data name="checkItems">
                             <item name="Effective Inspection Completed" forEvent="">
                                 <permissions>
-                                    <permission roles="qamanager,admin"/>
+                                    <permission roles="devops,admin"/>
                                 </permissions>
                             </item>
                             <item name="Test Cases Passed" forEvent="">
                                 <permissions>
-                                    <permission roles="qamanager,admin"/>
+                                    <permission roles="devops,admin"/>
                                 </permissions>
                             </item>
                             <item name="Smoke Test Passed" forEvent="">
                                 <permissions>
-                                    <permission roles="qamanager,admin"/>
+                                    <permission roles="devops,admin"/>
                                 </permissions>
                             </item>
                         </data>
@@ -133,22 +133,6 @@
                             </js>
                         </data>
                         <data name="transitionPermission">
-                            <permission forEvent="Promote" roles="qamanager,admin">
-                            </permission>
-                            <permission forEvent="Demote" roles="qamanager,admin">
-                            </permission>
-                        </data>
-                    </datamodel>
-                    <transition event="Promote" target="PreProd"/>
-                    <transition event="Demote" target="Development"/>
-                </state>
-                <state id="PreProd">
-                    <datamodel>
-                        <data name="transitionExecution">
-                            <execution forEvent="Demote" class="org.wso2.carbon.governance.registry.extensions.executors.DemoteActionExecutor">
-                            </execution>
-                        </data>
-                        <data name="transitionPermission">
                             <permission forEvent="Promote" roles="devops,admin">
                             </permission>
                             <permission forEvent="Demote" roles="devops,admin">
@@ -156,7 +140,7 @@
                         </data>
                     </datamodel>
                     <transition event="Promote" target="Production"/>
-                    <transition event="Demote" target="Testing"/>
+                    <transition event="Demote" target="Development"/>
                 </state>
                 <state id="Production">
                     <datamodel>

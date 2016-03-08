@@ -501,13 +501,17 @@
                                 https://wso2.org/jira/browse/IDENTITY-3489 -->
                                 <replace file="target/wso2carbon-core-${carbon.kernel.version}/repository/conf/user-mgt.xml" token="&lt;Property name=&quot;GetAllRolesOfUserEnabled&quot;&gt;true&lt;/Property&gt;" value="&lt;!--Property name=&quot;GetAllRolesOfUserEnabled&quot;&gt;true&lt;/Property--&gt;" />
 
-                                <replace file="../../modules/p2-profile-gen/target/wso2carbon-core-${carbon.kernel.version}/repository/conf/identity.xml" token="&lt;SessionIdleTimeout&gt;15&lt;/SessionIdleTimeout&gt;&lt;!-- Minutes --&gt;" value="&lt;SessionIdleTimeout&gt;120&lt;/SessionIdleTimeout&gt;&lt;!-- Minutes --&gt;" />
+                                <replace file="../../modules/p2-profile-gen/target/wso2carbon-core-${carbon.kernel.version}/repository/conf/identity/identity.xml" token="&lt;SessionIdleTimeout&gt;15&lt;/SessionIdleTimeout&gt;&lt;!-- Minutes --&gt;" value="&lt;SessionIdleTimeout&gt;120&lt;/SessionIdleTimeout&gt;&lt;!-- Minutes --&gt;" />
 
                                 <replace file="../../modules/p2-profile-gen/target/wso2carbon-core-${carbon.kernel.version}/repository/deployment/server/jaggeryapps/es-sso/jaggery.conf" token="&quot;logLevel&quot;: &quot;info&quot;" value="&quot;logLevel&quot;: &quot;info&quot;,${line.separator} &quot;theme&quot;: &quot;theme-greg&quot;" />
 
                                 <replace file="../../modules/p2-profile-gen/target/wso2carbon-core-${carbon.kernel.version}/repository/deployment/server/jaggeryapps/es-publisher/config/publisher-tenant.json" token="&quot;enabled&quot;: false" value="&quot;enabled&quot;: true" />
 
                                 <replace file="../../modules/p2-profile-gen/target/wso2carbon-core-${carbon.kernel.version}/repository/deployment/server/jaggeryapps/es-store/config/store-tenant.json" token="&quot;enabled&quot;: false" value="&quot;enabled&quot;: true" />
+
+                                <replace file="../../modules/p2-profile-gen/target/wso2carbon-core-${carbon.kernel.version}/repository/deployment/server/jaggeryapps/es-publisher/config/publisher.json" token="&quot;activeMethod&quot;: &quot;sso&quot;" value="&quot;activeMethod&quot;: &quot;basic&quot;" />
+
+                                <replace file="../../modules/p2-profile-gen/target/wso2carbon-core-${carbon.kernel.version}/repository/deployment/server/jaggeryapps/es-store/config/store.json" token="&quot;activeMethod&quot;: &quot;sso&quot;" value="&quot;activeMethod&quot;: &quot;basic&quot;" />
 
                                 <echo message="########### Create HT H2 Database ##############" />
                                 <sql driver="org.h2.Driver" url="jdbc:h2:${basedir}/target/database/jpadb;create=true" userid="wso2carbon" password="wso2carbon" autocommit="true" onerror="continue">

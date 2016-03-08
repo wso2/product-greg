@@ -1,0 +1,35 @@
+<% require('/modules/store.js').exec(function (ctx) {
+    var ref = require('utils').request;
+    var diffAPI = require('/extensions/app/greg-diff-api/modules/governance-diff-api.js').api;
+    var pattern = '/{context}/apis/governance-artifacts/{action}';
+    var DIFF_DETAIL = 'diff-detail';
+    var DIFF_TEXT = 'diff-text';
+    var req = ctx.request;
+    var uriMatcher = new URIMatcher(req.getRequestURI());
+    var options = uriMatcher.match(pattern) || {};
+    if (!options.action) {
+        response.sendError(404);
+        return;
+    }
+
+    var qParams = ref.getQueryOptions(req.getQueryString());
+
+    var resourcePaths = qParams.targets.split(',');
+    var base_path = resourcePaths[0];
+    var new_path = resourcePaths[1];
+    var media_type = qParams.type;
+
+    //Resolve the method to use
+    switch (options.action) {
+        case DIFF_DETAIL:
+            diffAPI.getDetailsDiff(base_path, new_path, media_type);
+            break;
+        case DIFF_TEXT:
+            diffAPI.getTextDiff(base_path, new_path);
+            break;
+        default:
+            log.error('Action: ' + options.action + ' not supported');
+            response.sendError(404);
+            break;
+    }
+}, request, response, session); %>
