@@ -52,7 +52,7 @@ public class StoreTestUtils {
         log.info("Finished executing ant script for getting started samples");
         log.info("Thread is sleeping for 10 seconds");
         try {
-            Thread.sleep(1000*10);
+            Thread.sleep(1000*40);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
