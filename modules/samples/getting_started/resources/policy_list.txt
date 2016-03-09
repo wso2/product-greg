@@ -1,6 +1,6 @@
 UTOverTransport
-SigOnly
-SecConvPolicy2
+Sig Only
+Sec Conv Policy2
 SgnOnlyAnonymous
-SigEncrWithMultipleKeys
+Sig Encr With Multiple Keys
 BuyMoreUTPolicy
