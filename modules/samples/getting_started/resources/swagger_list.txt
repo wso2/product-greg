@@ -1,8 +1,8 @@
 api-docs
-basicAuth
+basic Auth
 echo
 instagram
-petstore-expanded
+petstore expanded
 twitter
 uber
 calc-swagger
