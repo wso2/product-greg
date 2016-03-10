@@ -81,6 +81,25 @@ asset.manager = function(ctx) {
 
             return item;
         },
+        create: function(options) {
+            var name = options.attributes.overview_name;
+            var version = options.attributes.overview_version;
+            var rxt = require('rxt');
+            var am = rxt.asset.createUserAssetManager(ctx.session, this.type);
+            var query = {};
+            query.overview_name = name;
+            var assets = am.search(query);
+            for (var i = 0; i < assets.length; i++) {
+                if (assets[i].version == version) {
+                    var msg = "Resource already exist with same Name \"" + name + "\" and version \"" + version + "\"";
+                    var exceptionUtils = require('utils');
+                    var exceptionModule = exceptionUtils.exception;
+                    var constants = rxt.constants;
+                    throw exceptionModule.buildExceptionObject(msg, constants.STATUS_CODES.BAD_REQUEST);
+                }
+            }
+            return this._super.create.call(this, options);
+        },
         combineWithRxt: function(asset) {
             var modAsset = this._super.combineWithRxt.call(this, asset);
             if (asset.dependencies) {
