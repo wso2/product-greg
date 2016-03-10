@@ -10,7 +10,7 @@ Sample Assets Populator
 Command to add sample assets and add categories to Governance Models
 ---------------------------------------------------------------------
 First start the server.
-Then enter following command inside $GREG_HOME/samples/data-populator/Populator directory.
+Then enter following command inside $GREG_HOME/samples/getting_started directory.
 ant run (This command will add sample categories and tags to added rest and soap services. )
 (If server is running on a different port(for ex: 9445) then enter the following command.
 ant run -Dport=9445
@@ -22,7 +22,7 @@ Go to "Governance Center - Store" (https://localhost:9443/) to view the added as
 
 Command to remove all added sample assets and categories.
 ---------------------------------------------------------
-Enter following command inside $GREG_HOME/samples/data-populator/Populator directory.
+Enter following command inside $GREG_HOME/samples/getting_started directory.
 ant remove (make sure the server is running)
 (This will re deploy the original rest and soap service RXTs.)
 (If server is running on a different port(for ex: 9445) then enter the following command.
@@ -39,13 +39,13 @@ Note -:
        Add sample assets
        ------------------
        First start the server.
-       Then enter following command inside $GREG_HOME/samples/data-populator/Populator directory.
+       Then enter following command inside $GREG_HOME/samples/getting_started directory.
        sh populator.sh
 
        Remove sample assets
        ---------------------
        First start the server.
-       Then enter following command inside $GREG_HOME/samples/data-populator/Populator directory.
+       Then enter following command inside $GREG_HOME/samples/getting_started directory.
        sh cleanup.sh
 
 
