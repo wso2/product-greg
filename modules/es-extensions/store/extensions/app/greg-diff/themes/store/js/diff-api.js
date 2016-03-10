@@ -39,7 +39,7 @@ $.ajax({
         diffData = JSON.parse(response);
     },
     error: function () {
-        console.log("Error getting content.");
+        //console.log("Error getting content.");
     }
 });
 

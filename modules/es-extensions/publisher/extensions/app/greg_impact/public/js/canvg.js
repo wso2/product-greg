@@ -73,7 +73,9 @@
 
         svg.log = function(msg) {};
         if (svg.opts['log'] == true && typeof(console) != 'undefined') {
-            svg.log = function(msg) { console.log(msg); };
+            svg.log = function(msg) {
+                //console.log(msg);
+            };
         };
 
         // globals

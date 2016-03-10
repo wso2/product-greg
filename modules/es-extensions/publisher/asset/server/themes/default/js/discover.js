@@ -147,7 +147,7 @@ $(function () {
                 $('#parent-container').append(html3);
             },
             error: function () {
-                console.log("Error loading services.");
+                //console.log("Error loading services.");
             }
         });
     });
