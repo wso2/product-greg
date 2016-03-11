@@ -691,7 +691,7 @@ a.cu-btn:hover, .wr-asset-type-switcher a.switcher-link:hover {
 }
 
 .form-search input.form-control {
-    background: #bbb;
+    background: #444;
     height: 40px;    
     border: none;
     color: #fff;
@@ -745,7 +745,7 @@ a.cu-btn:hover, .wr-asset-type-switcher a.switcher-link:hover {
 .form-search input.form-control:-ms-input-placeholder { color: #e4e4e4; }
 
 @media (min-width: 992px){
-    .form-search { max-width: 500px; }
+    .form-search { max-width: 42em; }
     .form-search a.search { right: 0; }
     .form-search a.advance { width: 170px; right: -170px; }
     .form-search a.advance i { line-height: 35px; padding-bottom: 5px; }
@@ -953,7 +953,7 @@ h3.ast-name {
 a.ctrl-filter-category {
     background: #333;
     border: 1px solid #333;
-
+    height: 42px;
 }
 
 .wr-filter-category .dropdown-menu li a:hover {
