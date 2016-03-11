@@ -43,7 +43,6 @@ $(function () {
 
     $('#select-tags').select2({
         tags: true,
-        placeholder: 'NO TAGS FOUND',
         data: tags,
         multiple: true,
         cache: true
