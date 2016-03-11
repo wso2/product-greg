@@ -202,7 +202,7 @@ $(function () {
         var query = store.publisher.query;
         query = modifiedQuery(query);
         if (isEmptyQuery(query)) {
-            console.log('User has not entered anything');
+            //console.log('User has not entered anything');
             return;
         }
         store.infiniteScroll.showAll(query);
