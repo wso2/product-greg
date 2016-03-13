@@ -71,7 +71,7 @@ $(function() {
                 name = $('#swagger_file_name').val();
                 version = $('#file_version').val();
             } else {
-                name = $('input[name="overview_name"]').val();
+                name = encodeURIComponent($('input[name="overview_name"]').val());
                 version = $('input[name="overview_version"]').val();
             }
             var ajaxURL = caramel.context + '/apis/assets?type=swagger&q="name":"' + name +
