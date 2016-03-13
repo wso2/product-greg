@@ -70,7 +70,7 @@ $(function() {
             var version;
             var name;
             if (selectedValue == "upload") {
-                name = $('#schema_file_name').val();
+                name = encodeURIComponent($('#schema_file_name').val());
                 version = $('#file_version').val();
             } else {
                 name = encodeURIComponent($('input[name="overview_name"]').val());

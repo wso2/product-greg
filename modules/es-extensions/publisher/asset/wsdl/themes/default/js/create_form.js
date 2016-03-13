@@ -68,7 +68,7 @@ $(function() {
             var version;
             var name;
             if (selectedValue == "upload") {
-                name = $('#wsdl_file_name').val();
+                name = encodeURIComponent($('#wsdl_file_name').val());
                 version = $('#file_version').val();
             } else {
                 name = encodeURIComponent($('input[name="overview_name"]').val());
