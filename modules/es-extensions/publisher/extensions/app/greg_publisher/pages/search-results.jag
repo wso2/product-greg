@@ -87,6 +87,6 @@ require('/modules/publisher.js').exec(function(ctx) {
     var output = appManager.render(assets, page);
     // var output = appManager.render([], page);
     var searchQuery = reqUtil.formatSearchQuery(qtemp);
-    output.searchQuery = searchQuery||'';
+    output.searchQuery = decodeURIComponent(searchQuery)||'';
     caramel.render(output);
 }, request, response, session); %>
