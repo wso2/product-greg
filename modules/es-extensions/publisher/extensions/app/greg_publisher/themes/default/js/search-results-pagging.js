@@ -150,7 +150,7 @@ $(function () {
     var modifiedQuery = function (q) {
         if (q.indexOf('"') > -1) {
             var comps;
-            var queryWithoutQuots = q + ' _wildcard:false';
+            var queryWithoutQuots = q;
             // Searching is only allowed with quots for tags and content.
             var queryWithQuots = q.match(/(tags|content|name):"(.*?)"/g);
 
@@ -166,9 +166,9 @@ $(function () {
                 queryNameWithQuots[i] = replaceAll(queryNameWithQuots[i], '"', '\\"');
             }
 
-            if(queryWithQuots!=null && queryNameWithQuots!=null){
+            if (queryWithQuots != null && queryNameWithQuots != null) {
                 queryWithQuots.concat(queryNameWithQuots);
-            } else if(queryNameWithQuots!=null){
+            } else if (queryNameWithQuots != null) {
                 queryWithQuots = queryNameWithQuots;
             }
 
@@ -181,7 +181,7 @@ $(function () {
             else {
                 var comps = queryWithQuots.concat(queryWithoutQuots);
             }
-        } else{
+        } else {
             comps = q.split(' ');
         }
 
