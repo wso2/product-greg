@@ -147,9 +147,14 @@ $(function () {
     };
 
 
-    var modifiedQuery = function (q) {
+    /**
+     * Split the query params by space and quotation mark
+     * @param  {q} input - search value input from user.
+     * @return {String[]}       Output string array
+     */
+    var splitQuery = function (q) {
+        var comps;
         if (q.indexOf('"') > -1) {
-            var comps;
             var queryWithoutQuots = q;
             // Searching is only allowed with quots for tags and content.
             var queryWithQuots = q.match(/(tags|content|name):"(.*?)"/g);
@@ -166,6 +171,7 @@ $(function () {
                 queryNameWithQuots[i] = replaceAll(queryNameWithQuots[i], '"', '\\"');
             }
 
+            // merging queryWithQuots and queryNameWithQuots for ease of use.
             if (queryWithQuots != null && queryNameWithQuots != null) {
                 queryWithQuots.concat(queryNameWithQuots);
             } else if (queryNameWithQuots != null) {
@@ -184,6 +190,13 @@ $(function () {
         } else {
             comps = q.split(' ');
         }
+
+        return comps;
+    };
+
+
+    var modifiedQuery = function (q) {
+        var comps = splitQuery(q);
 
         return comps.map(function (key) {
             var keyPair = key.split(':');
