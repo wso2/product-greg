@@ -185,7 +185,13 @@ $(function () {
             }
             // 2 or less pairs. Ex: (tags:"customer service" content:she)
             else {
-                var comps = queryWithQuots.concat(queryWithoutQuots);
+                // if there is no queryWithoutQuots
+                if (queryWithoutQuots == "") {
+                    comps = queryWithQuots;
+                } else {
+                    comps = queryWithQuots.concat(queryWithoutQuots);
+                }
+
             }
         } else {
             comps = q.split(' ');

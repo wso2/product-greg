@@ -129,8 +129,7 @@ var createQuery = function(options) {
     }
     if (propCount(q) >= 1) {
         searchQueryString += 'q=';
-        searchQueryString += JSON.stringify(q);
-        searchQueryString = searchQueryString.replace('{', '').replace('}', '');
+        searchQueryString += encodeURIComponent(JSON.stringify(q).replace('{', '').replace('}', ''));
     }
     return searchUrl + searchQueryString;
 };
