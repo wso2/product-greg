@@ -4,7 +4,7 @@
 
         <div class="btn-group pull-right select" id="diff-view-version">
             <a class="top-common-btn-grp btn btn-default btn-lg" id="diff-view-button"
-               href="{{url ""}}/pages/diff?type=wsdl&path={{../../assetVersions.0.path}},{{../path}}"
+               href="{{url ""}}/pages/diff?mediaType={{this.mediaType}}&type=wsdl&path={{../../assetVersions.0.path}},{{../path}}"
                target="_blank">{{t "Compare with "}}
                 <span data-selected_base_path="{{../../assetVersions.0.path}}"
                       class="text-info selected"> {{../../assetVersions.0.version}} </span>

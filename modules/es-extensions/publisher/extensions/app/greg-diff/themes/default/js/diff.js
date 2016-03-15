@@ -78,15 +78,15 @@ function setViewPanelsHeight(){
 /*
  * Adding code mirror pane title
  */
-function addTitle() {
+function addTitle(sectionChange) {
     $('.CodeMirror-merge-pane').each(function (i) {
         var title;
         switch (i) {
             case 0:
-                title = 'Base';
+                title = 'Base (' + sectionChange + ')';
                 break;
             case 1:
-                title = 'Revision';
+                title = 'Revision (' + sectionChange + ')';
                 break;
         }
 

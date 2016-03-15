@@ -17,7 +17,7 @@
     var resourcePaths = qParams.targets.split(',');
     var base_path = resourcePaths[0];
     var new_path = resourcePaths[1];
-    var media_type = qParams.type;
+    var media_type = qParams.mediaType;
 
     //Resolve the method to use
     switch (options.action) {
