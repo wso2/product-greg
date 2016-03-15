@@ -16,6 +16,8 @@
 
 package org.wso2.carbon.greg.migration.util;
 
+import java.io.File;
+
 public class Constants {
 
     public static final String VERSION_500 = "5.0.0";
@@ -51,6 +53,16 @@ public class Constants {
     public static final String ARTIFACT_TYPE = "artifactType";
     public static final String TYPE = "type";
     public static final String FILE_EXTENSION = "fileExtension";
+
+    //Constants for email username migration client
+    public static final String METADATA_NAMESPACE = "http://www.wso2.org/governance/metadata";
+    public static final String OLD_EMAIL_AT_SIGN = ":";
+    public static final String NEW_EMAIL_AT_SIGN = "-at-";
+    public static final String CARBON_HOME = System.getProperty("carbon.home");
+    public static final String REGISTRY_MIGRATION_SCRIPT = "migration-scripts" + File.separator + "reg_migration.sql";
+    public static final String UM_MIGRATION_SCRIPT = "migration-scripts" + File.separator + "um_migration.sql";
+    public static final String REGISTRY_XML_PATH = Constants.CARBON_HOME + File.separator + "repository" + File.separator
+                                                   + "conf" + File.separator + "registry.xml";
 
 
 }
