@@ -134,8 +134,57 @@ $(function () {
             }
         });
     };
+
+    /**
+     * Replace all the occurrences of $regex by $replace in $originalString
+     * @param  {originalString} input - Raw string.
+     * @param  {regex} input - Target key word or regex that need to be replaced.
+     * @param  {replace} input - Replacement key word
+     * @return {String}       Output string
+     */
+    var replaceAll = function(originalString, regex, replace) {
+        return originalString.replace(new RegExp(regex, 'g'), replace);
+    };
+
+
     var modifiedQuery = function (q) {
-        var comps = q.split(' ');
+        if(q.indexOf('&quot;') > -1){
+            var comps;
+            var queryWithoutQuots = q+' _wildcard:false';
+            // Searching is only allowed with quots for tags and content.
+            var queryWithQuots = q.match(/(tags|content|name):&quot;(.*?)&quot;/g);
+
+            for (var i = 0;queryWithQuots!=null && i < queryWithQuots.length; i++) {
+                queryWithoutQuots = queryWithoutQuots.replace(queryWithQuots[i],'').trim();
+                queryWithQuots[i] = replaceAll(queryWithQuots[i],'&quot;','\\"');
+            }
+
+            var queryNameWithQuots = queryWithoutQuots.match(/&quot;(.*?)&quot;/g);
+
+            for (var i = 0;queryNameWithQuots!=null && i < queryNameWithQuots.length; i++) {
+                queryWithoutQuots = queryWithoutQuots.replace(queryNameWithQuots[i],'').trim();
+                queryNameWithQuots[i] = replaceAll(queryNameWithQuots[i],'&quot;','\\"');
+            }
+
+            if(queryWithQuots!=null && queryNameWithQuots!=null){
+                queryWithQuots.concat(queryNameWithQuots);
+            } else if(queryNameWithQuots!=null){
+                queryWithQuots = queryNameWithQuots;
+            }
+
+            // 3 or more pairs. Ex: (tags:"customer service" name:buy content:she)
+            if (queryWithoutQuots.indexOf(' ') > -1) {
+                var queryWithoutQuotsArr = queryWithoutQuots.split(' ');
+                var comps = queryWithQuots.concat(queryWithoutQuotsArr);
+            }
+            // 2 or less pairs. Ex: (tags:"customer service" content:she)
+            else {
+                var comps = queryWithQuots.concat(queryWithoutQuots);
+            }
+        } else{
+            comps = q.split(' ');
+        }
+
         return comps.map(function (key) {
             var keyPair = key.split(':');
             if (keyPair.length === 1) {
@@ -145,6 +194,7 @@ $(function () {
             }
         }).join(',');
     };
+
     $(document).ready(function (e) {
         doPagination = true;
         rows_added = 0;
@@ -152,7 +202,7 @@ $(function () {
         var query = store.publisher.query;
         query = modifiedQuery(query);
         if (isEmptyQuery(query)) {
-            console.log('User has not entered anything');
+            //console.log('User has not entered anything');
             return;
         }
         store.infiniteScroll.showAll(query);

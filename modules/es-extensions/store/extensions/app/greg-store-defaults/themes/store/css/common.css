@@ -457,6 +457,14 @@ span.left-menu-item, span.left-menu-item.hover, a.all-item a.top-item a.all-item
 #ul-sort-assets li.sort-popular{
     display: none;
 }
+.asset-rating-container {
+    padding-bottom: 11px;
+}
+
+.divrow >.col-lg-10 > a:focus, a:hover {
+    color: #23527c !important;
+    text-decoration: underline !important;
+}
 /*span.left-menu-item {
     font-weight:300;
     font-size:20px;
