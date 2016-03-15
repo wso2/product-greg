@@ -8,7 +8,8 @@ $("#diff-view-version li").on('mouseover',function(event){
     selected_option.text(version);
     selected_option.attr('data-selected_base_path',path);
 
-    var diff_view_url = "/publisher/pages/diff?type=wsdl&path=" + path + ',' +  base_path;
+    var assetType = $("#diff-view-button").data().assetType;
+    var diff_view_url = "/publisher/pages/diff?type="+assetType+"&path=" + path + ',' +  base_path;
     $("#diff-view-button").attr("href", diff_view_url);
 });
 
