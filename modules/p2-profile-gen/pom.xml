@@ -77,6 +77,9 @@
                             <publishArtifactRepository>true</publishArtifactRepository>
                             <featureArtifacts>
 
+                                <featureArtifactDef>
+                                    org.wso2.carbon.metrics:org.wso2.carbon.metrics.feature:${carbon.metrics.version}
+                                </featureArtifactDef>
 
                                 <!--carbon core features -->
                                 <featureArtifactDef>
@@ -526,6 +529,10 @@
                             <deleteOldProfileFiles>true</deleteOldProfileFiles>
                             <features>
 
+                                <feature>
+                                    <id>org.wso2.carbon.metrics.feature.group</id>
+                                    <version>${carbon.metrics.version}</version>
+                                </feature>
 
                                 <!--Application Management Features-->
 
@@ -1016,6 +1023,10 @@
                             <deleteOldProfileFiles>true</deleteOldProfileFiles>
                             <features>
 
+                                <feature>
+                                    <id>org.wso2.carbon.metrics.feature.group</id>
+                                    <version>${carbon.metrics.version}</version>
+                                </feature>
 
                                 <!--Application Management Features-->
 
@@ -1350,6 +1361,10 @@
                             <deleteOldProfileFiles>true</deleteOldProfileFiles>
                             <features>
 
+                                <feature>
+                                    <id>org.wso2.carbon.metrics.feature.group</id>
+                                    <version>${carbon.metrics.version}</version>
+                                </feature>
                                 <!--Application Management Features-->
 
                                 <feature>
