@@ -460,6 +460,10 @@ span.left-menu-item, span.left-menu-item.hover, a.all-item a.top-item a.all-item
 .asset-rating-container {
     padding-bottom: 11px;
 }
+.col-lg-10 > a:focus, a:hover {
+    color: #23527c !important;
+    text-decoration: underline !important;
+}
 /*span.left-menu-item {
     font-weight:300;
     font-size:20px;
