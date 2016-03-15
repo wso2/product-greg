@@ -18,6 +18,7 @@
  */
 
 require('/modules/store.js').exec(function (ctx) {
+    response.characterEncoding = 'UTF-8';//fix for character encoding
     var assetManager = function (session, type) {
         var options = {'type': type};
         var tenantResources = tenantApi.createTenantAwareAssetResources(session, options);

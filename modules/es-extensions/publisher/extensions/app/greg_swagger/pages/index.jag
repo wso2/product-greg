@@ -18,6 +18,7 @@
  */
 
 require('/modules/publisher.js').exec(function (ctx) {
+    response.characterEncoding = 'UTF-8';//fix for character encoding
     var rxt = require('rxt');
     var config = require('/config/publisher.js').config();
     var assetManager = function(session, type) {
