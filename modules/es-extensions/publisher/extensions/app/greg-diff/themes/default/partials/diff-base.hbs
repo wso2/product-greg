@@ -1,25 +1,26 @@
 <div class="wrapper">
     <div class="container-fluid">
 
-            <header>
-                <div class="row wr-global-header">
-                    <div class="col-xs-8 col-sm-6 col-lg-8 app-logo">
-                        <a href='{{url ""}}{{meta.landingPage}}'>
-                            <img src="{{url "/themes/default/img/logo.png"}}" />
-                            <h2 class="app-title">Governance Center - Publisher</h2>
-                        </a>
-                    </div>
+        <header>
+            <div class="row wr-global-header">
+                <div class="col-xs-8 col-sm-6 col-lg-8 app-logo">
+                    <a href='{{url ""}}{{meta.landingPage}}'>
+                        <img src="{{url "/themes/default/img/logo.png"}}"/>
+                        <h2 class="app-title">Governance Center - Publisher</h2>
+                    </a>
                 </div>
-            </header>
+            </div>
+        </header>
 
         <div class="diff-view">
             <div class="row no-gutter">
                 <!--code view div should come here-->
                 <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12 view-panel list">
-                    <div class="panel-group" id="sectionList" role="tablist" aria-multiselectable="true" style="color: black">
-                        <h4 class="panel-title">
-                            <a href="#" class="list-group-item active">Sections in WSDL</a>
-                        </h4>
+                    <ul>
+                        <!--<li class="code"><a href="#"><i class="icon fw fw-xml"></i>{{t "CODE"}}</a></li>-->
+                    </ul>
+                    <div class="panel-group" id="sectionList" role="tablist" aria-multiselectable="true"
+                         style="color: black">
                     </div>
                 </div>
                 <div class="col-lg-9 col-md-9 col-sm-9 col-xs-12 view-panel">
@@ -27,6 +28,6 @@
                 </div>
             </div>
         </div>
-{{>footer}}
+        {{>footer}}
     </div>
 </div>

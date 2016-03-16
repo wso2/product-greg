@@ -30,6 +30,7 @@ function getUrlParameter(sParam) {
 
 var paths = getUrlParameter('path').split(',');
 var mediaType = getUrlParameter('mediaType');
+var type = getUrlParameter('type');
 
 $.ajax({
     url: caramel.context + '/apis/governance-artifacts/diff-detail?targets=' + paths[1] + ',' + paths[0] + '&mediaType='
@@ -50,25 +51,32 @@ window.onload = function () {
 };
 
 var sections = diffData.sections;
-var sectionMap = {"wsdl_declaration":"WSDL Declaration",
-    "wsdl_imports":"WSDL Imports",
-    "wsdl_bindings":"WSDL Bindings",
-    "wsdl_messages":"WSDL Messages",
-    "wsdl_porttype":"WSDL PortTypes",
-    "wsdl_operations":"WSDL Operations",
-    "wsdl_service":"WSDL Service",
-    "wsdl_ports":"WSDL Ports"};
-var changeMap = {"CONTENT_ADDITION":"Content Additions",
-    "CONTENT_REMOVAL":"Content Removals",
-    "CONTENT_CHANGE":"Content Changes",
-    "CONTENT_TEXT":"Content Text"};
+var sectionMap = {
+    "wsdl_declaration": "WSDL Declaration",
+    "wsdl_imports": "WSDL Imports",
+    "wsdl_bindings": "WSDL Bindings",
+    "wsdl_messages": "WSDL Messages",
+    "wsdl_porttype": "WSDL PortTypes",
+    "wsdl_operations": "WSDL Operations",
+    "wsdl_service": "WSDL Service",
+    "wsdl_ports": "WSDL Ports",
+    "default":"Complete Text Diff"
+};
+var changeMap = {
+    "CONTENT_ADDITION": "Content Additions",
+    "CONTENT_REMOVAL": "Content Removals",
+    "CONTENT_CHANGE": "Content Changes",
+    "CONTENT_TEXT": "Content Text"
+};
 var loadContent;
 var value, target, orig1, orig2, dv, panes = 2, highlight = true, connect = null, collapse = false;
 
 function loadSectionList() {
     if (!jQuery.isEmptyObject(sections)) {
+        $('#sectionList').append('<h4 class="panel-title">' +
+            '<a href="#" class="list-group-item active">Sections in ' + type + '</a>' +
+            '</h4>');
         for (var sectionName in sections) {
-
             //var anchor_object = $('a');
             //anchor_object.addClass("list-group-item");
             //anchor_object.attr('id', sectionName);
@@ -77,7 +85,6 @@ function loadSectionList() {
             //    loadSectionChangesDiff(this.id);
             //});
             //anchor_object.html(sectionName);
-
             $('#sectionList').append('<div class="panel panel-default">' +
                 '<div class="panel-heading" role="tab" id="heading' + sectionName + '">' +
                 '<h4 class="panel-title">' +
