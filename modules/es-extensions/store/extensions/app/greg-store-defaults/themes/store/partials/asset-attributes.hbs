@@ -36,14 +36,14 @@
             <div class="es-col-lg-12 col-lg-12 table table-striped table-hover divrow">
                 {{#each dependencies}}
                     <div class="col-lg-2 ">{{t "Dependencies"}} :</div>
-                    <div class="col-lg-10"><a href="../../../assets/{{this.associationType}}/details/{{this.associationUUID}}">{{this.associationName}}</a></div>
+                    <div class="col-lg-10"><a class="dependencies-link" href="../../../assets/{{this.associationType}}/details/{{this.associationUUID}}">{{this.associationName}}</a></div>
                 {{/each}}
             </div>
 
             <div class="es-col-lg-12 col-lg-12 divrow">
                 {{#each dependents}}
                     <div class="col-lg-2">{{t "Dependents"}} :</div>
-                    <div class="col-lg-10"><a href="../../../assets/{{this.associationType}}/details/{{this.associationUUID}}">{{this.associationName}}</a></div>
+                    <div class="col-lg-10"><a class="dependencies-link" href="../../../assets/{{this.associationType}}/details/{{this.associationUUID}}">{{this.associationName}}</a></div>
                 {{/each}}
             </div>
         </div>
