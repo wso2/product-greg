@@ -738,6 +738,11 @@
                 <artifactId>org.wso2.carbon.registry.reporting</artifactId>
                 <version>${carbon.registry.version}</version>
             </dependency>
+            <dependency>
+                <groupId>wsdl4j.wso2</groupId>
+                <artifactId>wsdl4j</artifactId>
+                <version>${orbit.version.wsdl4j}</version>
+            </dependency>
         </dependencies>
     </dependencyManagement>
 
