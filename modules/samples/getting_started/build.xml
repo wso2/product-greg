@@ -3,7 +3,7 @@
     <property name="class.dir" value="target/classes"/>
     <property name="host" value="localhost"/>
     <property name="port" value="9443"/>
-    <property name="version" value="5.1.0"/>
+    <property name="version" value="5.2.0"/>
 
     <target name="run">
         <antcall target="populate"/>
