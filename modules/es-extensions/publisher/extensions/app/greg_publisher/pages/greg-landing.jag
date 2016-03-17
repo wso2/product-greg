@@ -11,13 +11,13 @@ require('/modules/publisher.js').exec(function(ctx) {
  //    var tenantResources = tenantApi.createTenantAwareAppResources(ctx.session);
  //    appManager = tenantResources.appManager;
  //    tenantResources.rxtManager;
-
-	var page = rxtAPI.ui.buildPage(ctx.session,ctx.request);
-	var output;
+	
 	var server = require('store').server;
 	var user = server.current(ctx.session);
 	var tenantId = user.tenantId;
 	var log = new Log();
+	var page = rxtAPI.ui.buildPage(ctx.session,ctx.request, tenantId);
+	var output;
 	var activatedAssets = rxtAPI.app.getUIActivatedAssets(tenantId);
 	var assets = [];
 	var entry;

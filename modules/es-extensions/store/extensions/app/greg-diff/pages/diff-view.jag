@@ -5,6 +5,9 @@ require('/modules/store.js').exec(function (ctx) {
     caramel = require('caramel');
     var ui = require('rxt').ui;
     var tenantApi = require('/modules/tenant-api.js').api;
+    var tenantDetails = tenantApi.createTenantDetails(request, session);
+    var tenantId = tenantDetails.tenantId;
+    var tenantApi = require('/modules/tenant-api.js').api;
 
     var options = ref.getQueryOptions(ctx.request.getQueryString());
     if (!options.type) {
@@ -13,7 +16,7 @@ require('/modules/store.js').exec(function (ctx) {
     }
     var tenantResources = tenantApi.createTenantAwareAppResources(ctx.session);
     var appManager = tenantResources.appManager;
-    var page = ui.buildPage(ctx.session,ctx.request);
+    var page = ui.buildPage(ctx.session,ctx.request, tenantId);
     var output = appManager.render([],page);
     caramel.render(output);
 }, request, response, session); %>
