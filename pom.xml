@@ -1086,5 +1086,6 @@
         <org.json.wso2.version>2.0.0.wso2v1</org.json.wso2.version>
         <resteasy.version>3.0.2.Final</resteasy.version>
         <javax.ws.rs.version>2.0.1</javax.ws.rs.version>
+        <carbon.metrics.version>1.2.1</carbon.metrics.version>
     </properties>
 </project>
