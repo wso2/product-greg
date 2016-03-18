@@ -141,7 +141,8 @@ asset.configure = function () {
                 icon: 'fw fw-rest-service',
                 iconColor: 'purple'
             },
-            isDependencyShown: true
+            isDependencyShown: true,
+            isDiffViewShown:false
         }
     }
 };
