@@ -221,15 +221,9 @@ var gregAPI = {};
                 var row =  rows[i];
                 workList.id = String(row.getId());
                 workList.presentationSubject = String(row.getPresentationSubject());
-                
-                //Get Assrt information
-                var arr = workList.presentationSubject.split(" ");
-                var pathValue;
-                for (var a = 0; a < arr.length; a++) {
-                    if(10 < arr[a].length){
-                        pathValue = arr[a];
-                    }
-                }
+
+                var pathValue = workList.presentationSubject.substring(workList.presentationSubject.indexOf("/"));
+
                 if (endsWith('.',pathValue)){
                     pathValue = pathValue.substr(0,pathValue.length-1);
                 }
