@@ -47,6 +47,15 @@ asset.renderer = function(ctx) {
     };
 	return {
         pageDecorators: {
+            recentAssets: function (page) {
+                return;
+            },
+            myAssets: function (page) {
+                return;
+            },
+            embedLinks: function (page, meta) {
+                return;
+            },
             sidebarPopulator: function(page) {
                 if (page.meta.pageName === 'details') {
                     page.isSidebarEnabled = true;
