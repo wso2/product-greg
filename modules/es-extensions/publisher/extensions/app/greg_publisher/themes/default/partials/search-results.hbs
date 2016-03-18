@@ -16,19 +16,41 @@
 <div class="row">
     <div class="col-lg-10 col-md-10 col-sm-10 col-xs-10 wr-filters">
 
-	      <div class="wr-search">
-		        <div>
-		        <form class="form-group" id="assetSearchForm" action='{{url "/assets/"}}{{rxt.shortName}}/list' style="margin-left:-4px">
-		          <input type="text" name="query" class="" placeholder="{{t "Search.."}}" id="inp_searchAsset" value="{{searchQuery}}" /><a type="button" href="#" class="btn-search" id="searchButton"><span class="fa fa-search"></span></a>
-		          <input type="hidden" name="sortby" value="{{paging.sortBy}}"/>
-		          <input type="hidden" name="sort" value="{{paging.sortOrder}}"/>
-		        </form>
-		        </div>
-	      </div>
-	    <a id="advance-search" href="{{url ""}}/pages/advanced-search" class="btn btn-default pull-left advance-search-btn" title="Advanced Search">
-	        <span class="advanced-search-text">{{t "Advanced Search"}}</span>
-	        <span class="fa fa-cog fa-2x advanced-search-icons"></span>
-	    </a>
+        <div class="wr-search">
+            <div>
+                <form class="form-group" id="assetSearchForm" action='{{url "/assets/"}}{{rxt.shortName}}/list'>
+                    <label class="search-label">{{t "Search for Assets"}}</label>
+
+                    <div class="form-group has-feedback form-search">
+                        <input type="text" name="query" id="inp_searchAsset" class="form-control"
+                               placeholder="Search..." value="{{searchQuery}}">
+                        <a href="javascript:void(0)" id="searchButton" class="form-control-feedback search"
+                           title="{{t "Search"}}">
+                            <i class="fw fw-search" aria-hidden="true"></i>
+                        </a>
+                        <a href="/publisher/pages/advanced-search" class="form-control-feedback advance"
+                           id="advance-search" title="{{t "Advance Search"}}">
+                            <i class="fw fw-settings" aria-hidden="true"></i>
+                            <span>{{t "Advanced Search"}}</span>
+                        </a>
+                        <a href="#" class="form-control-feedback advance" data-toggle="popover" data-placement="bottom"
+                           data-content="
+                    <h3>Search Options</h3>
+                     <ul>
+                     <li>By Asset Name [Default] or [ <b>name:</b>&amp;lt;your-value&amp;gt; ]</li>
+                     <li>By Asset Content [ <b>content:</b>&amp;lt;your-value&amp;gt; ]</li>
+                     <li>By Asset Tag [ <b>tags:</b>&amp;lt;your-value&amp;gt; ]</li>
+                     <li>By Asset Version [ <b>version:</b>&amp;lt;your-value&amp;gt; ]</li>
+                     <li>By Media Type [ <b>mediaType:</b>&amp;lt;your-value&amp;gt; ]</li>
+                     <li>By Lifecycle Name [ <b>lcName:</b>&amp;lt;your-value&amp;gt; ]</li>
+                     <li>By Lifecycle State [ <b>lcState:</b>&amp;lt;your-value&amp;gt; ]</li>
+                     </ul>" data-html="true" id="search-info"><i class="fw fw-info"></i></a>
+                        <input type="hidden" name="sortby" value="{{paging.sortBy}}"/>
+                        <input type="hidden" name="sort" value="{{paging.sortOrder}}"/>
+                    </div>
+                </form>
+            </div>
+        </div>
     </div>
 
     <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 ">
