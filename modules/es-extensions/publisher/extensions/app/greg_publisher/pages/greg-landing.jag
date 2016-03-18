@@ -5,13 +5,6 @@ require('/modules/publisher.js').exec(function(ctx) {
 	var rxtAPI = require('rxt');
 	var appManager = rxtAPI.app.createUserAppManager(ctx.session);
 	var permissionAPI = rxtAPI.permissions;
-	// var appManager = 
-
-	// var tenantApi = require('/modules/tenant-api.js').api;
- //    var tenantResources = tenantApi.createTenantAwareAppResources(ctx.session);
- //    appManager = tenantResources.appManager;
- //    tenantResources.rxtManager;
-	
 	var server = require('store').server;
 	var user = server.current(ctx.session);
 	var tenantId = user.tenantId;

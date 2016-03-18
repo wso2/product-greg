@@ -7,8 +7,6 @@ require('/modules/store.js').exec(function (ctx) {
     var tenantApi = require('/modules/tenant-api.js').api;
     var tenantDetails = tenantApi.createTenantDetails(request, session);
     var tenantId = tenantDetails.tenantId;
-    var tenantApi = require('/modules/tenant-api.js').api;
-
     var options = ref.getQueryOptions(ctx.request.getQueryString());
     if (!options.type) {
         ctx.response.sendError(404, 'Unable to locate the asset without a valid Type');
