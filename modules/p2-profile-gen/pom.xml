@@ -303,6 +303,8 @@
                                 </featureArtifactDef>
 				                <featureArtifactDef>org.wso2.carbon.store:rxt.feature:${es.feature.version}
                                 </featureArtifactDef>
+                                <featureArtifactDef>org.wso2.carbon.store:carbon-metrics.feature:${es.feature.version}
+                                </featureArtifactDef>
                                 <featureArtifactDef>
                                     org.wso2.carbon.store:lifecycle.feature:${es.feature.version}
                                 </featureArtifactDef>
@@ -954,6 +956,10 @@
                                 </feature>
                                 <feature>
                                     <id>org.wso2.store.modules.rxt.feature.group</id>
+                                    <version>${es.feature.version}</version>
+                                </feature>
+                                <feature>
+                                    <id>org.wso2.store.modules.carbon-metrics.feature.group</id>
                                     <version>${es.feature.version}</version>
                                 </feature>
                                 <feature>
