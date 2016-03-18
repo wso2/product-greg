@@ -54,7 +54,8 @@ function setViewPanelsHeight(){
         $(viewPanel).css('height', ($('body').height() - ($(window).height()*.1)));
     }
     else{
-        $(viewPanel).css('height', ($('body').height() - ($(window).height()*.1)));
+        $(viewPanel).css('height', 'auto');
+        //$(viewPanel).css('height', ($('body').height() - ($(window).height()*.1)));
     }
     $('.CodeMirror, .CodeMirror-merge').height(($(viewPanel).height()-($(window).height()*.1)));
 
@@ -63,9 +64,9 @@ function setViewPanelsHeight(){
     $('.CodeMirror-sizer').each(function(){
         if($(this).css('min-width') < CodeMirrorSizerMinWidth){
             CodeMirrorSizerMinWidth = $(this).css('min-width');
+            $('.CodeMirror-sizer').css('min-width', CodeMirrorSizerMinWidth);
         }
     });
-    $('.CodeMirror-sizer').css('min-width', CodeMirrorSizerMinWidth);
     $('.CodeMirror-vscrollbar').scrollTop(2);
 
     /* Fix for code mirror scrollbar not shows on window load */

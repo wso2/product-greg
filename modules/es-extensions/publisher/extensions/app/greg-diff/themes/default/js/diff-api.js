@@ -73,10 +73,22 @@ var value, target, orig1, orig2, dv, panes = 2, highlight = true, connect = null
 
 function loadSectionList() {
     if (!jQuery.isEmptyObject(sections)) {
-        $('#sectionList').append('<h4 class="panel-title">' +
-            '<a href="#" class="list-group-item active">Sections in ' + type + '</a>' +
-            '</h4>');
+
+        var htmlH4 = document.createElement("h4");
+        htmlH4.setAttribute("class", "panel-title");
+        var htmlAnchor = document.createElement("a");
+        htmlAnchor.setAttribute("href", "#");
+        htmlAnchor.setAttribute("class", "list-group-item active");
+        htmlAnchor.appendChild(document.createTextNode("Sections in " + type));
+        htmlH4.appendChild(htmlAnchor);
+        $('#sectionList').append(htmlH4);
+
+        //$('#sectionList').append('<h4 class="panel-title">' +
+        //    '<a href="#" class="list-group-item active">Sections in ' + type + '</a>' +
+        //    '</h4>');
+
         for (var sectionName in sections) {
+
             //var anchor_object = $('a');
             //anchor_object.addClass("list-group-item");
             //anchor_object.attr('id', sectionName);
@@ -85,6 +97,39 @@ function loadSectionList() {
             //    loadSectionChangesDiff(this.id);
             //});
             //anchor_object.html(sectionName);
+
+            var htmlDiv1Section = document.createElement("div");
+            htmlDiv1Section.setAttribute("class", "panel panel-default");
+            var htmlDiv2Section = document.createElement("div");
+            htmlDiv2Section.setAttribute("class", "panel-heading");
+            htmlDiv2Section.setAttribute("role", "tab");
+            htmlDiv2Section.setAttribute("id", "heading" + sectionName);
+            var htmlH4Section = document.createElement("h4");
+            htmlH4Section.setAttribute("class", "panel-title");
+            var htmlAnchorSection = document.createElement("a");
+            htmlAnchorSection.setAttribute("class", "collapsed");
+            htmlAnchorSection.setAttribute("role", "button");
+            htmlAnchorSection.setAttribute("data-toggle", "collapse");
+            htmlAnchorSection.setAttribute("data-parent", "#sectionList");
+            htmlAnchorSection.setAttribute("href", "#collapse" + sectionName);
+            htmlAnchorSection.setAttribute("aria-expanded", "false");
+            htmlAnchorSection.setAttribute("aria-controls", "collapse" + sectionName);
+            htmlAnchorSection.appendChild(document.createTextNode(sectionMap[sectionName]));
+            htmlH4Section.appendChild(htmlAnchorSection);
+            htmlDiv2Section.appendChild(htmlH4Section);
+            var htmlDiv3Section = document.createElement("div");
+            htmlDiv3Section.setAttribute("class", "panel-collapse collapse");
+            htmlDiv3Section.setAttribute("role", "tabpanel");
+            htmlDiv3Section.setAttribute("id", "collapse" + sectionName);
+            htmlDiv3Section.setAttribute("aria-labelledby", "heading" + sectionName);
+            var htmlDiv4Section = document.createElement("div");
+            htmlDiv4Section.setAttribute("class", "list-group");
+            htmlDiv4Section.setAttribute("id", "sectionChanges" + sectionName);
+            htmlDiv3Section.appendChild(htmlDiv4Section);
+            htmlDiv2Section.appendChild(htmlDiv3Section);
+            htmlDiv1Section.appendChild(htmlDiv2Section);
+            //$('#sectionList').append(htmlDiv1Section);
+
             $('#sectionList').append('<div class="panel panel-default">' +
                 '<div class="panel-heading" role="tab" id="heading' + sectionName + '">' +
                 '<h4 class="panel-title">' +
@@ -107,9 +152,18 @@ function loadSectionList() {
 function loadSectionChangesList(sectionName) {
     if (!jQuery.isEmptyObject(sections[sectionName].content)) {
         for (var changeName in sections[sectionName].content) {
-            $('#sectionChanges' + sectionName).append('<a href="#" class="list-group-item" ' +
-                'onclick="loadSectionChangesDiff(\'' + sectionName + '\', \'' + changeName + '\')">' +
-                changeMap[changeName] + '</a>');
+
+            var htmlAnchorChanges = document.createElement("a");
+            htmlAnchorChanges.setAttribute("href", "#");
+            htmlAnchorChanges.setAttribute("class", "list-group-item");
+            htmlAnchorChanges.setAttribute("onclick", "loadSectionChangesDiff('" + sectionName + "', '" +
+                changeName + "')");
+            htmlAnchorChanges.appendChild(document.createTextNode(changeMap[changeName]));
+            $('#sectionChanges' + sectionName).append(htmlAnchorChanges);
+
+            //$('#sectionChanges' + sectionName).append('<a href="#" class="list-group-item" ' +
+            //    'onclick="loadSectionChangesDiff(\'' + sectionName + '\', \'' + changeName + '\')">' +
+            //    changeMap[changeName] + '</a>');
         }
     }
 }
@@ -120,8 +174,6 @@ function loadSectionChangesDiff(sectionName, changeName) {
     target = document.getElementById("diffView");
     target.innerHTML = "";
     if (!jQuery.isEmptyObject(diffData.sections[sectionName].content[changeName])) {
-        //console.log(diffData.sections[sectionName].sectionSummary[changeName][0]);
-        console.log(changeName);
         var sectionChange = diffData.sections[sectionName].sectionSummary[changeName][0];
         loadContent = diffData.sections[sectionName].content[changeName][0];
         if ("CONTENT_ADDITION" == changeName) {
