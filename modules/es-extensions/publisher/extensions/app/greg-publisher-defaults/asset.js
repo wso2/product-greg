@@ -129,6 +129,12 @@ asset.renderer = function(ctx) {
                     var isDependentsPresent =  ( dependencies.length > 0 );
                     page.assets.isDependentsPresent = isDependentsPresent;
                 }
+            },
+            sorting: function (page) {
+                require('/modules/page-decorators.js').pageDecorators.sorting(ctx, page, [
+                    {field: "overview_name", label: "Name"},
+                    {field: "overview_version", label: "Version"},
+                    {field: "createdDate", label: "Date/Time"}]);
             }
         }
     };

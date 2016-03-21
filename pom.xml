@@ -738,6 +738,11 @@
                 <artifactId>org.wso2.carbon.registry.reporting</artifactId>
                 <version>${carbon.registry.version}</version>
             </dependency>
+            <dependency>
+                <groupId>wsdl4j.wso2</groupId>
+                <artifactId>wsdl4j</artifactId>
+                <version>${orbit.version.wsdl4j}</version>
+            </dependency>
         </dependencies>
     </dependencyManagement>
 
@@ -946,8 +951,8 @@
         <carbon.feature.version>1.4.5-alpha</carbon.feature.version>
         <uuid.feature.version>1.4.5-alpha</uuid.feature.version>
         <sso.feature.version>1.4.5-alpha</sso.feature.version>
-        <es.feature.version>2.3.10-alpha</es.feature.version>
-        <carbon.social.version>2.3.10-alpha</carbon.social.version>
+        <es.feature.version>2.3.10-SNAPSHOT</es.feature.version>
+        <carbon.social.version>2.3.10-SNAPSHOT</carbon.social.version>
         <i18n.feature.version>1.4.5-alpha</i18n.feature.version>
         <!--<event.feature.version>1.0.0</event.feature.version>-->
         <!--<login.feature.version>1.0.0</login.feature.version>-->
@@ -1016,14 +1021,14 @@
         <carbon.kernel.registry.imp.pkg.version>[1.0.1, 2.0.0)</carbon.kernel.registry.imp.pkg.version>
         
         <!-- Carbon Registry -->
-        <carbon.registry.version>4.5.3-alpha</carbon.registry.version>
+        <carbon.registry.version>4.5.3-SNAPSHOT</carbon.registry.version>
         <carbon.registry.package.import.version.range>[4.5.0, 5.0.0)
         </carbon.registry.package.import.version.range>
-        
-        <!-- Carbon Governance -->
-        <carbon.governance.version>4.6.2-alpha</carbon.governance.version>
 
-        <carbon.governance.ext.version>4.4.11-alpha</carbon.governance.ext.version>
+        <!-- Carbon Governance -->
+        <carbon.governance.version>4.6.2-SNAPSHOT</carbon.governance.version>
+
+        <carbon.governance.ext.version>4.4.11-SNAPSHOT</carbon.governance.ext.version>
 
         <carbon.business.process.version>4.4.7</carbon.business.process.version>
         
@@ -1081,5 +1086,6 @@
         <org.json.wso2.version>2.0.0.wso2v1</org.json.wso2.version>
         <resteasy.version>3.0.2.Final</resteasy.version>
         <javax.ws.rs.version>2.0.1</javax.ws.rs.version>
+        <carbon.metrics.version>1.2.1</carbon.metrics.version>
     </properties>
 </project>
