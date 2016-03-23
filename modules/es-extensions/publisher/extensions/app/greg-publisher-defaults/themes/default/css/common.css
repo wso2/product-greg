@@ -1013,3 +1013,8 @@ a#search-info {
 }
 
 /* </Search Option Popover> */
+
+/* Show Dependencies button */
+.input-group.col-sm-8.pull-right {
+    margin-bottom: 5px;
+}
