@@ -28,8 +28,11 @@
                 </div>
                 <div class="col-lg-10 padding-left-double">
                     <h1>{{name}}</h1>
+                    {{#if version}}
+                        <h5>{{version}}</h5>
+                    {{/if}}
                     {{#if lifecycleState}}
-                    <i class="fa fa-circle"></i> {{lifecycleState}}
+                        <h5>{{lifecycle}} : {{lifecycleState}}</h5>
                     {{/if}}
                     <div class="well-description">{{tables.0.fields.createdtime.value}}</div>
                 </div>
