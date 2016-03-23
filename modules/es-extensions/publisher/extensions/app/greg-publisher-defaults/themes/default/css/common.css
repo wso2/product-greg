@@ -928,11 +928,10 @@ a.cu-btn:hover, .wr-asset-type-switcher a.switcher-link:hover {
 }
 
 h3.ast-name {
-        font-weight:300;
-        font-size:18px;
-        color:#555;
-        margin-top:12px;
-        margin-bottom:12px;
+    font-weight:300;
+    font-size:18px;
+    color:#555;
+    margin-top:12px;
     display: block;
     overflow: hidden;
     white-space: nowrap;
