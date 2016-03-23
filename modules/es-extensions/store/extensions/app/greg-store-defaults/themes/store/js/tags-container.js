@@ -30,7 +30,7 @@ $(function () {
             tags = response.data;
         },
         error: function () {
-            console.log("Error getting tags.");
+            //console.log("Error getting tags.");
         }
     });
 
@@ -57,7 +57,7 @@ $(function () {
             data: JSON.stringify(data),
             contentType: 'application/json',
             error: function () {
-                console.log("Error adding tags.");
+                //console.log("Error adding tags.");
             }
         });
     }).on("select2:unselect", function (e) {
@@ -69,7 +69,7 @@ $(function () {
             contentType: 'application/json',
             data: JSON.stringify(data),
             error: function () {
-                console.log("Error removing tags.");
+                //console.log("Error removing tags.");
             }
         });
     }).select2("val", tags);

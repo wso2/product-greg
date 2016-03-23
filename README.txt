@@ -155,7 +155,7 @@ System Requirements
    have Maven 3.0.5 or later.
 
 For more details see
-   http://docs.wso2.org/display/Governance510/Installation+Prerequisites
+   http://docs.wso2.org/display/Governance520/Installation+Prerequisites
 
 
 Project Resources

@@ -24,10 +24,10 @@ $("#discoverServices").on('click', function () {
         contentType: "application/json",
         dataType: "json",
         success: function (response) {
-            console.log(response);
+            //console.log(response);
         },
         error: function () {
-            console.log("Error loading services.");
+            //console.log("Error loading services.");
         }
     });
 });

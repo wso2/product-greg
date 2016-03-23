@@ -19,9 +19,8 @@
 var resources = function () {
     return {
         css: ['ambiance.css', 'codemirror.css', 'merge.css', 'diff.css'],
-        //code:['greg-association-meta.hbs'],
+        code: ['greg-diff-meta.hbs'],
         js: ['codemirror.js', 'css.js', 'diff_match_patch.js', 'htmlmixed.js', 'javascript.js', 'jquery-ui.js',
-            'diff.js', 'merge.js', 'xml.js', 'diff-api.js'],
-        code: ['greg-diff-meta.hbs']
+            'diff.js', 'merge.js', 'xml.js', 'diff-api.js']
     }
 };

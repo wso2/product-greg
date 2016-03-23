@@ -30,7 +30,7 @@ $(function () {
             tags = response.data;
         },
         error: function () {
-            console.log("Error getting tags.");
+            //console.log("Error getting tags.");
         }
     });
 
@@ -43,10 +43,18 @@ $(function () {
 
     $('#select-tags').select2({
         tags: true,
-        placeholder: 'NO TAGS FOUND',
         data: tags,
         multiple: true,
-        cache: true
+        cache: true,
+        createTag:function(term){
+            //Prevent tags with spaces by replacing it with a dash (-)
+            var modifiedTerm = term.term.trim();
+            var formatted = modifiedTerm.split(' ').join('-');
+            return {
+                id:formatted,
+                text:formatted
+            };
+        }
     }).on("select2:select", function (e) {
         var data = {};
         data.tags = e.params.data.text;
@@ -57,7 +65,7 @@ $(function () {
             data: JSON.stringify(data),
             contentType: 'application/json',
             error: function () {
-                console.log("Error adding tags.");
+                //console.log("Error adding tags.");
             }
         });
     }).on("select2:unselect", function (e) {
@@ -69,7 +77,7 @@ $(function () {
             contentType: 'application/json',
             data: JSON.stringify(data),
             error: function () {
-                console.log("Error removing tags.");
+                //console.log("Error removing tags.");
             }
         });
     }).select2("val", tags);

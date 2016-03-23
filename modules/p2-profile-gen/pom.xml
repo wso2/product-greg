@@ -77,6 +77,9 @@
                             <publishArtifactRepository>true</publishArtifactRepository>
                             <featureArtifacts>
 
+                                <featureArtifactDef>
+                                    org.wso2.carbon.metrics:org.wso2.carbon.metrics.feature:${carbon.metrics.version}
+                                </featureArtifactDef>
 
                                 <!--carbon core features -->
                                 <featureArtifactDef>
@@ -299,6 +302,8 @@
                                 <featureArtifactDef>org.wso2.carbon.store:account-management.feature:${es.feature.version}
                                 </featureArtifactDef>
 				                <featureArtifactDef>org.wso2.carbon.store:rxt.feature:${es.feature.version}
+                                </featureArtifactDef>
+                                <featureArtifactDef>org.wso2.carbon.store:carbon-metrics.feature:${es.feature.version}
                                 </featureArtifactDef>
                                 <featureArtifactDef>
                                     org.wso2.carbon.store:lifecycle.feature:${es.feature.version}
@@ -526,6 +531,10 @@
                             <deleteOldProfileFiles>true</deleteOldProfileFiles>
                             <features>
 
+                                <feature>
+                                    <id>org.wso2.carbon.metrics.feature.group</id>
+                                    <version>${carbon.metrics.version}</version>
+                                </feature>
 
                                 <!--Application Management Features-->
 
@@ -950,6 +959,10 @@
                                     <version>${es.feature.version}</version>
                                 </feature>
                                 <feature>
+                                    <id>org.wso2.store.modules.carbon-metrics.feature.group</id>
+                                    <version>${es.feature.version}</version>
+                                </feature>
+                                <feature>
                                     <id>org.wso2.store.modules.utils.feature.group</id>
                                     <version>${es.feature.version}</version>
                                 </feature>
@@ -1016,6 +1029,10 @@
                             <deleteOldProfileFiles>true</deleteOldProfileFiles>
                             <features>
 
+                                <feature>
+                                    <id>org.wso2.carbon.metrics.feature.group</id>
+                                    <version>${carbon.metrics.version}</version>
+                                </feature>
 
                                 <!--Application Management Features-->
 
@@ -1350,6 +1367,10 @@
                             <deleteOldProfileFiles>true</deleteOldProfileFiles>
                             <features>
 
+                                <feature>
+                                    <id>org.wso2.carbon.metrics.feature.group</id>
+                                    <version>${carbon.metrics.version}</version>
+                                </feature>
                                 <!--Application Management Features-->
 
                                 <feature>

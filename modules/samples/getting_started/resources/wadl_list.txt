@@ -1,8 +1,8 @@
 cxf
 tavserv
 application
-OrderingService
+Ordering Service
 Employee
-CtoFConversion
-FtoC_Conversion
+CtoF Conversion
+FtoC Conversion
 CD_store
