@@ -242,10 +242,12 @@ var gregAPI = {};
                 workList.presentationSubject = String(row.getPresentationSubject());
 
                 var pathValue = workList.presentationSubject.substring(workList.presentationSubject.indexOf("/"));
-
+                //This code is done since there are different messages are received for lifecycle and information update notification
+                pathValue = pathValue.replace("was updated", "");
                 if (endsWith('.',pathValue)){
                     pathValue = pathValue.substr(0,pathValue.length-1);
                 }
+                pathValue = pathValue.trim();
                 if (am.registry.registry.resourceExists(pathValue) && am.registry.registry.get(pathValue).getMediaType() != null) {
                     var uuid = am.registry.registry.get(pathValue).getUUID();
                     workList.presentationSubject = workList.presentationSubject.replace(pathValue, "");
