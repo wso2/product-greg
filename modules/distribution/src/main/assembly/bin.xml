@@ -667,6 +667,7 @@
        		<exclude>**/sso-idp-config.xml</exclude>
             </excludes>
         </fileSet>
+
 	<fileSet>
             <directory>src/main/resources/carbon-home/conf</directory>
             <outputDirectory>${project.artifactId}-${product.greg.version}/repository/conf/identity/</outputDirectory>
@@ -708,6 +709,16 @@
             <outputDirectory>${project.artifactId}-${product.greg.version}/lib/</outputDirectory>
             <includes>
                 <include>**/org.wso2.ciphertool-1.0.0-wso2v3.jar</include>
+            </includes>
+        </fileSet>
+
+        <fileSet>
+            <directory>
+                ../p2-profile-gen/target/wso2carbon-core-${carbon.kernel.version}/dbscripts/metrics/
+            </directory>
+            <outputDirectory>${project.artifactId}-${product.greg.version}/dbscripts/metrics</outputDirectory>
+            <includes>
+                <include>**/*.sql</include>
             </includes>
         </fileSet>
     </fileSets>
@@ -1189,5 +1200,26 @@
             <filtered>true</filtered>
             <fileMode>644</fileMode>
         </file>
-      </files>
+        <file>
+            <source>../p2-profile-gen/target/wso2carbon-core-${carbon.kernel.version}/repository/conf/metrics.xml</source>
+            <outputDirectory>${pom.artifactId}-${build.version}/repository/conf/</outputDirectory>
+            <filtered>false</filtered>
+        </file>
+        <file>
+            <source>../p2-profile-gen/target/wso2carbon-core-${carbon.kernel.version}/repository/conf/metrics.properties</source>
+            <outputDirectory>${pom.artifactId}-${build.version}/repository/conf/</outputDirectory>
+            <filtered>false</filtered>
+        </file>
+        <file>
+            <source>../p2-profile-gen/target/wso2carbon-core-${carbon.kernel.version}/repository/conf/datasources/metrics-datasources.xml</source>
+            <outputDirectory>${pom.artifactId}-${build.version}/repository/conf/datasources/</outputDirectory>
+            <fileMode>644</fileMode>
+        </file>
+        <file>
+            <source>../p2-profile-gen/target/wso2carbon-core-${carbon.kernel.version}/repository/database/WSO2METRICS_DB.h2.db</source>
+            <outputDirectory>${pom.artifactId}-${build.version}/repository/database/</outputDirectory>
+            <fileMode>644</fileMode>
+        </file>
+
+    </files>
 </assembly>

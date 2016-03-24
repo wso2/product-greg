@@ -928,11 +928,10 @@ a.cu-btn:hover, .wr-asset-type-switcher a.switcher-link:hover {
 }
 
 h3.ast-name {
-        font-weight:300;
-        font-size:18px;
-        color:#555;
-        margin-top:12px;
-        margin-bottom:12px;
+    font-weight:300;
+    font-size:18px;
+    color:#555;
+    margin-top:12px;
     display: block;
     overflow: hidden;
     white-space: nowrap;
@@ -968,3 +967,48 @@ a.ctrl-filter-category {
 #ul-sort-assets li.Version{
     display: none;
 }
+
+/* Search Option Popover */
+a#search-info {
+    width: 50px;
+    height: auto;
+    right: -221px;
+    background-color: #fff;
+    color: #B3B3B3;
+    font-size: 20px;
+    margin-top: 2px;
+}
+
+.form-group > .popover {
+    background-color: #F7F7F7;
+    border: 0px;
+}
+
+.form-group > .popover > .popover-content {
+    background-color: #ECECEC;
+    border: 0px;
+    width: 320px;
+    color: #444;
+    font-size: 12px;
+    padding: 15px;
+    line-height: 20px;
+    margin-top: 0;
+}
+
+.form-group > .popover > .popover-content > ul {
+    list-style-type: none;
+    padding-left: 20px;
+}
+
+.form-group > .popover > .popover-content > h3 {
+    padding-left: 20px;
+    margin-top: 0;
+    padding-left: 0;
+    font-size: 18px;
+}
+
+.form-group > .popover.bottom > .arrow:after {
+    border-bottom-color: #ECECEC;
+}
+
+/* </Search Option Popover> */

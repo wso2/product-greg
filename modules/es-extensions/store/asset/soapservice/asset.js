@@ -144,7 +144,8 @@ asset.configure = function() {
                 icon: 'fw fw-soap',
                 iconColor: 'orange'
             },
-            isDependencyShown: true
+            isDependencyShown: true,
+            isDiffViewShown:false
         }
     }
 };

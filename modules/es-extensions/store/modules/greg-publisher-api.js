@@ -221,18 +221,14 @@ var gregAPI = {};
                 var row =  rows[i];
                 workList.id = String(row.getId());
                 workList.presentationSubject = String(row.getPresentationSubject());
-                
-                //Get Assrt information
-                var arr = workList.presentationSubject.split(" ");
-                var pathValue;
-                for (var a = 0; a < arr.length; a++) {
-                    if(10 < arr[a].length){
-                        pathValue = arr[a];
-                    }
-                }
+
+                var pathValue = workList.presentationSubject.substring(workList.presentationSubject.indexOf("/"));
+                //This code is done since there are different messages are received for lifecycle and information update notification
+                pathValue = pathValue.replace("was updated", "");
                 if (endsWith('.',pathValue)){
                     pathValue = pathValue.substr(0,pathValue.length-1);
                 }
+                pathValue = pathValue.trim();
                 if (am.registry.registry.resourceExists(pathValue) && am.registry.registry.get(pathValue).getMediaType() != null) {
                     var uuid = am.registry.registry.get(pathValue).getUUID();
                     workList.presentationSubject = workList.presentationSubject.replace(pathValue, "");
