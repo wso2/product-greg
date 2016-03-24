@@ -606,7 +606,7 @@ function doubleclick(d) {
         // https://wso2.org/jira/browse/REGISTRY-2978
         // linkString = '../../carbon/resources/resource.jsp?region=region3&item=resource_browser_menu&path=' +
         //     encodeURIComponent(d.path);
-        messages.alertInfo("Asset type \"" + d.shortName + "\" is not activated for publisher view!");
+        messages.alertInfo("Asset type \"" + d.shortName + "\" is not activated for store view!");
         return;
     }
 
