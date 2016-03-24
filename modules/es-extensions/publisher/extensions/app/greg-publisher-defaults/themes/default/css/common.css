@@ -1018,3 +1018,8 @@ a#search-info {
 .input-group.col-sm-8.pull-right {
     margin-bottom: 5px;
 }
+
+/* message for no table data div */
+div#no-table-data {
+    margin-left: 60px;
+}
