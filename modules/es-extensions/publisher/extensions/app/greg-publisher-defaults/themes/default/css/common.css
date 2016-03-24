@@ -1023,3 +1023,17 @@ a#search-info {
 div#no-table-data {
     margin-left: 60px;
 }
+
+/* Association page asset drop down */
+span.select2-selection.select2-selection--single.select-resource {
+    height: 85px !important;
+}
+
+.select2-results .item, .select2-selection .item {
+    padding: 4px;
+}
+
+/* Association page association icons */
+i.fw.association-icon {
+    margin-top: 15px;
+}

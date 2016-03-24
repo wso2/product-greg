@@ -488,15 +488,25 @@ var gregAPI = {};
         return resultList;
     }
 
-    gregAPI.associations.listTypes = function(type) {
-        var map = CommonUtil.getAssociationConfig(type);
-        if(!map){
-            map = CommonUtil.getAssociationConfig("default");
+    gregAPI.associations.listTypes = function (type) {
+        var map = CommonUtil.getAssociationWithIcons(type);
+        if (!map) {
+            map = CommonUtil.getAssociationWithIcons("default");
         }
-        var results = map.keySet().toArray();
-        return results;
 
+        var keySet = map.keySet().toArray();
+        var results = [], item;
+
+        for (var i = 0; i < keySet.length; i++) {
+            item = {};
+            item.key = keySet[i];
+            item.value = String(map.get(keySet[i]));
+            results.push(item);
+        }
+
+        return results;
     }
+
     gregAPI.associations.remove = function(session, sourceType, sourceUUID, destType, destUUID, associationType) {
 
         var srcam = assetManager(session, sourceType);
