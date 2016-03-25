@@ -29,12 +29,11 @@ function getUrlParameter(sParam) {
 }
 
 var paths = getUrlParameter('path').split(',');
-var mediaType = getUrlParameter('mediaType');
 var type = getUrlParameter('type');
 
 $.ajax({
-    url: caramel.context + '/apis/governance-artifacts/diff-detail?targets=' + paths[1] + ',' + paths[0] + '&mediaType='
-    + mediaType,
+    url: caramel.context + '/apis/governance-artifacts/diff-detail?targets=' + paths[1] + ',' + paths[0] + '&type='
+    + type,
     type: 'GET',
     async: false,
     success: function (response) {
@@ -100,21 +99,17 @@ function loadSectionList() {
             //    '</div>' +
             //    '</div>');
 
-            loadSectionChangesList(sectionName);
-        }
-    }
-}
+            if (!jQuery.isEmptyObject(sections[sectionName].content)) {
+                for (var changeName in sections[sectionName].content) {
 
-function loadSectionChangesList(sectionName) {
-    if (!jQuery.isEmptyObject(sections[sectionName].content)) {
-        for (var changeName in sections[sectionName].content) {
+                    renderPartial("dynamic-section-changes-list", "sectionChanges" + sectionName, {sectionName : sectionName,
+                        changeName : changeName, changeNameText : changeMap[changeName]});
 
-            renderPartial("dynamic-section-changes-list", "sectionChanges" + sectionName, {sectionName : sectionName,
-                changeName : changeName, changeNameText : changeMap[changeName]});
-
-            //$('#sectionChanges' + sectionName).append('<a href="#" class="list-group-item" ' +
-            //    'onclick="loadSectionChangesDiff(\'' + sectionName + '\', \'' + changeName + '\')">' +
-            //    changeMap[changeName] + '</a>');
+                    //$('#sectionChanges' + sectionName).append('<a href="#" class="list-group-item" ' +
+                    //    'onclick="loadSectionChangesDiff(\'' + sectionName + '\', \'' + changeName + '\')">' +
+                    //    changeMap[changeName] + '</a>');
+                }
+            }
         }
     }
 }

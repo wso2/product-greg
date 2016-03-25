@@ -1,12 +1,13 @@
 <div class="panel panel-default">
     <div class="panel-heading" role="tab" id="heading{{sectionName}}">
-        <h4 class="panel-title" id="sectionsH4">
-            <a class="collapsed" role="button" data-toggle="collapse" data-parent="#sectionList"
-               href="#collapse{{sectionName}}" aria-expanded="false" aria-controls="collapse{{sectionName}}">
+        <h4 class="panel-title">
+            <a role="button" data-toggle="collapse" data-parent="#sectionList"
+               href="#collapse{{sectionName}}" aria-expanded="true" aria-controls="collapse{{sectionName}}">
                 {{sectionNameText}} </a>
         </h4>
     </div>
-    <div class="panel-collapse collapse" role="tabpanel" id="collapse{{sectionName}}" aria-labelledby="heading{{sectionName}}">
+    <div class="panel-collapse collapse in" role="tabpanel" id="collapse{{sectionName}}"
+         aria-labelledby="heading{{sectionName}}">
         <div class="list-group" id="sectionChanges{{sectionName}}">
         </div>
     </div>
