@@ -68,8 +68,7 @@ $(function () {
                     });
                     $('#add-note-content').val('');
                 messages.alertSuccess("Note added successfully");
-                setTimeout(function(){location.reload(true);},2000);
-                location.reload(true);
+                setTimeout(function(){location.reload(true);},3000);
             },
             error: function () {
                 //console.log("Error adding a note.");
