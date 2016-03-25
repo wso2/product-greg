@@ -14,7 +14,8 @@
                 <div class="wr-input-control">
                     <ul class="tile-buttons" id='association-type-container'>
                         {{#each associationsTypes}}
-                        <li data-association-type='{{this}}'><a id="{{this}}" href="#"><i class="fw"></i>{{this}}</a></li>
+                            <li data-association-type='{{key}}'><a id="{{key}}" href="#"><i
+                                    class="fw {{value}} association-icon"></i>{{key}}</a></li>
                         {{/each}}
                     </ul>
                 </div>
