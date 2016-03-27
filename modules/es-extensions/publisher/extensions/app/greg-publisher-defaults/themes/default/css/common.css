@@ -1036,3 +1036,9 @@ span.select2-selection.select2-selection--single.select-resource {
 i.fw.association-icon {
     margin-top: 15px;
 }
+
+/* Asset listing mini thumbnail */
+.ast-img .ast-type-icon i {
+    font-size: 2.2em;
+    padding: 8px 4px;
+}
