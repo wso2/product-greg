@@ -242,10 +242,12 @@ var gregAPI = {};
                 workList.presentationSubject = String(row.getPresentationSubject());
 
                 var pathValue = workList.presentationSubject.substring(workList.presentationSubject.indexOf("/"));
-
+                //This code is done since there are different messages are received for lifecycle and information update notification
+                pathValue = pathValue.replace("was updated", "");
                 if (endsWith('.',pathValue)){
                     pathValue = pathValue.substr(0,pathValue.length-1);
                 }
+                pathValue = pathValue.trim();
                 if (am.registry.registry.resourceExists(pathValue) && am.registry.registry.get(pathValue).getMediaType() != null) {
                     var uuid = am.registry.registry.get(pathValue).getUUID();
                     workList.presentationSubject = workList.presentationSubject.replace(pathValue, "");
@@ -488,15 +490,25 @@ var gregAPI = {};
         return resultList;
     }
 
-    gregAPI.associations.listTypes = function(type) {
-        var map = CommonUtil.getAssociationConfig(type);
-        if(!map){
-            map = CommonUtil.getAssociationConfig("default");
+    gregAPI.associations.listTypes = function (type) {
+        var map = CommonUtil.getAssociationWithIcons(type);
+        if (!map) {
+            map = CommonUtil.getAssociationWithIcons("default");
         }
-        var results = map.keySet().toArray();
-        return results;
 
+        var keySet = map.keySet().toArray();
+        var results = [], item;
+
+        for (var i = 0; i < keySet.length; i++) {
+            item = {};
+            item.key = keySet[i];
+            item.value = String(map.get(keySet[i]));
+            results.push(item);
+        }
+
+        return results;
     }
+
     gregAPI.associations.remove = function(session, sourceType, sourceUUID, destType, destUUID, associationType) {
 
         var srcam = assetManager(session, sourceType);

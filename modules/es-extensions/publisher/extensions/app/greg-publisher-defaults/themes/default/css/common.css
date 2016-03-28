@@ -1012,3 +1012,33 @@ a#search-info {
 }
 
 /* </Search Option Popover> */
+
+/* Show Dependencies button */
+.input-group.col-sm-8.pull-right {
+    margin-bottom: 5px;
+}
+
+/* message for no table data div */
+div#no-table-data {
+    margin-left: 60px;
+}
+
+/* Association page asset drop down */
+span.select2-selection.select2-selection--single.select-resource {
+    height: 85px !important;
+}
+
+.select2-results .item, .select2-selection .item {
+    padding: 4px;
+}
+
+/* Association page association icons */
+i.fw.association-icon {
+    margin-top: 15px;
+}
+
+/* Asset listing mini thumbnail */
+.ast-img .ast-type-icon i {
+    font-size: 2.2em;
+    padding: 8px 4px;
+}
