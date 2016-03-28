@@ -128,6 +128,7 @@ asset.renderer = function(ctx) {
 asset.configure = function() {
     return {
         meta: {
+            'isDependencyShown': true,
             'isDiffViewShown': true
         }
     }
