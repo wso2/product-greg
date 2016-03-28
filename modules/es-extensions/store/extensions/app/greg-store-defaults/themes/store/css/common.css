@@ -495,6 +495,7 @@ a#search-info {
     background-color: #333;
     border: 0px;
     margin-top: 16px;
+    opacity: 0.8;
 }
 
 .es-input-group-btn > .popover > .popover-content {
