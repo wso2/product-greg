@@ -55,8 +55,16 @@
                     </div>
                     <div class="media-body">
                         <h2>
-                            {{t "You can add a SOAP service manually or automatically by importing a "}}<br/><a
-                                href="/publisher/assets/wsdl/create">WSDL</a> file.
+                            {{t "You can browse SOAP services "}}
+                            {{#hasAssetPermission . key="ASSET_CREATE" type="soapservice" username=cuser.username tenantId=cuser.tenantId}}
+                                {{t "and add them manually "}}
+                            {{/hasAssetPermission}}
+                            {{#hasAssetPermission . key="ASSET_CREATE" type="wsdl" username=cuser.username tenantId=cuser.tenantId}}
+                                {{t "or"}}
+                                <br/>
+                                {{t "automatically by importing a "}}<a
+                                    href="/publisher/assets/wsdl/create">WSDL</a> file.
+                            {{/hasAssetPermission}}
                         </h2>
                     </div>
                 </div>
@@ -70,14 +78,17 @@
                                         </span>
                                         Browse
                                     </a>
-                                    <a id="soap-services-btn-add" href="javascript:void(0)" class="btn btn-default primary"
-                                       data-click-event="next">
+                                    {{#hasAssetPermission . key="ASSET_CREATE" type="soapservice" username=cuser.username tenantId=cuser.tenantId}}
+                                        <a id="soap-services-btn-add" href="javascript:void(0)"
+                                           class="btn btn-default primary"
+                                           data-click-event="next">
                                         <span class="icon fw-stack">
                                             <i class="fw fw-add fw-stack-1x"></i>
                                             <i class="fw fw-ring fw-stack-2x"></i>
                                         </span>
-                                        Add
-                                    </a>
+                                            Add
+                                        </a>
+                                    {{/hasAssetPermission}}
                                 </span>
                 </div>
             </div>
@@ -87,16 +98,18 @@
                 <div class="action-group">
                     <div class="action-options" data-radio-group="soap-add-radio-group">
                         <div>
-                            <label class="radio">
-                                <input id="soap-wsdl-radio" type="radio" name="soap-add"
-                                       value="/publisher/assets/wsdl/create" checked>
-                                <span class="helper">{{t "Add a SOAP Service using a "}}<b>"{{t "WSDL"}}"</b></span>
-                            </label>
+                            {{#hasAssetPermission . key="ASSET_CREATE" type="wsdl" username=cuser.username tenantId=cuser.tenantId}}
+                                <label class="radio">
+                                    <input id="soap-wsdl-radio" type="radio" name="soap-add"
+                                           value="/publisher/assets/wsdl/create">
+                                    <span class="helper">{{t "Add a SOAP Service using a "}}<b>"{{t "WSDL"}}"</b></span>
+                                </label>
+                            {{/hasAssetPermission}}
                         </div>
                         <div>
                             <label class="radio">
                                 <input id="soap-manual-radio" type="radio" name="soap-add"
-                                       value="/publisher/assets/soapservice/create">
+                                       value="/publisher/assets/soapservice/create" checked>
                                 <span class="helper">{{t "Add a SOAP Service manually"}}</span>
                             </label>
                         </div>
@@ -133,9 +146,24 @@
                     </div>
                     <div class="media-body">
                         <h2>
-                           {{t "You can add a REST service manually or automatically by importing a"}} <br/><a
-                                href="/publisher/assets/wadl/create">WADL</a> or <a href="/publisher/assets/swagger/create">{{t "Swagger"}}</a>
-                            file.
+                            {{t "You can browse REST services "}}
+                            {{#hasAssetPermission . key="ASSET_CREATE" type="restservice" username=cuser.username tenantId=cuser.tenantId}}
+                                {{t "and add them manually "}}
+                            {{/hasAssetPermission}}
+                            {{#hasAssetPermission . key="ASSET_CREATE" type="wadl" username=cuser.username tenantId=cuser.tenantId}}
+                                {{t "or"}}
+                                <br/>
+                                {{t "automatically by importing a "}} <a
+                                    href="/publisher/assets/wadl/create">{{t "WADL"}}</a>
+                                {{t "file "}}
+                            {{/hasAssetPermission}}
+                            {{#hasAssetPermission . key="ASSET_CREATE" type="swagger" username=cuser.username tenantId=cuser.tenantId}}
+                                {{t "or"}}
+                                <br/>
+                                {{t "automatically by importing a "}} <a
+                                    href="/publisher/assets/swagger/create">{{t "Swagger"}}</a>
+                                {{t "file."}}
+                            {{/hasAssetPermission}}
                         </h2>
                     </div>
                 </div>
@@ -150,14 +178,17 @@
                                         </span>
                                         Browse
                                     </a>
-                                    <a  id="rest-services-btn-add" href="javascript:void(0)" class="btn btn-default primary"
-                                       data-click-event="next">
+                                    {{#hasAssetPermission . key="ASSET_CREATE" type="restservice" username=cuser.username tenantId=cuser.tenantId}}
+                                        <a id="rest-services-btn-add" href="javascript:void(0)"
+                                           class="btn btn-default primary"
+                                           data-click-event="next">
                                         <span class="icon fw-stack">
                                             <i class="fw fw-add fw-stack-1x"></i>
                                             <i class="fw fw-ring fw-stack-2x"></i>
                                         </span>
-                                        Add
-                                    </a>
+                                            Add
+                                        </a>
+                                    {{/hasAssetPermission}}
                                 </span>
                 </div>
             </div>
@@ -167,23 +198,28 @@
                 <div class="action-group">
                     <div class="action-options" data-radio-group="rest-add-radio-group">
                         <div>
-                            <label class="radio">
-                                <input id="rest-wadl-radio" type="radio" name="rest-add"
-                                       value="/publisher/assets/wadl/create" checked>
-                                <span class="helper">{{t "Add a REST Service using a"}} <b>"{{t "WADL"}}"</b></span>
-                            </label>
+                            {{#hasAssetPermission . key="ASSET_CREATE" type="wadl" username=cuser.username tenantId=cuser.tenantId}}
+                                <label class="radio">
+                                    <input id="rest-wadl-radio" type="radio" name="rest-add"
+                                           value="/publisher/assets/wadl/create">
+                                    <span class="helper">{{t "Add a REST Service using a"}} <b>"{{t "WADL"}}"</b></span>
+                                </label>
+                            {{/hasAssetPermission}}
                         </div>
                         <div>
-                            <label class="radio">
-                                <input id="rest-swagger-radio" type="radio" name="rest-add"
-                                       value="/publisher/assets/swagger/create">
-                                <span class="helper">{{t "Add a REST Service using a"}} <b>"{{t "Swagger"}}"</b></span>
-                            </label>
+                            {{#hasAssetPermission . key="ASSET_CREATE" type="swagger" username=cuser.username tenantId=cuser.tenantId}}
+                                <label class="radio">
+                                    <input id="rest-swagger-radio" type="radio" name="rest-add"
+                                           value="/publisher/assets/swagger/create">
+                                    <span class="helper">{{t "Add a REST Service using a"}} <b>"{{t "Swagger"}}
+                                        "</b></span>
+                                </label>
+                            {{/hasAssetPermission}}
                         </div>
                         <div>
                             <label class="radio">
                                 <input id="rest-manual-radio" type="radio" name="rest-add"
-                                       value="/publisher/assets/restservice/create">
+                                       value="/publisher/assets/restservice/create" checked>
                                 <span class="helper">{{t "Add a REST Service manually"}}</span>
                             </label>
                         </div>
@@ -242,13 +278,16 @@
                                         </span>
                                        {{t "Browse"}}
                                     </a>
-                                    <a id="{{details.pluralLabel}}-add" href="{{url ""}}/assets/{{type}}/create" class="btn btn-default primary">
+                                {{#hasAssetPermission . key="ASSET_CREATE" type=type username=../cuser.username tenantId=../cuser.tenantId}}
+                                    <a id="{{details.pluralLabel}}-add" href="{{url ""}}/assets/{{type}}/create"
+                                       class="btn btn-default primary">
                                         <span class="icon fw-stack">
                                             <i class="fw fw-add fw-stack-1x"></i>
                                             <i class="fw fw-ring fw-stack-2x"></i>
                                         </span>
                                         {{t "Add"}}
                                     </a>
+                                {{/hasAssetPermission}}
                             </span>
                         </div>
 
