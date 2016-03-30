@@ -27,12 +27,12 @@
                     </div>
                 </div>
                 <div class="col-lg-10 padding-left-double">
-                    <h1>{{name}}</h1>
+                    <h4>{{name}}</h4>
                     {{#if version}}
-                        <h5>{{version}}</h5>
+                        <p>Version {{version}}</p>
                     {{/if}}
                     {{#if lifecycleState}}
-                        <h5>{{lifecycle}} : {{lifecycleState}}</h5>
+                        <p>{{lifecycle}} : {{lifecycleState}}</p>
                     {{/if}}
                     <div class="well-description">{{tables.0.fields.createdtime.value}}</div>
                 </div>

@@ -3,7 +3,7 @@
     {{#if ../assetVersions}}
         <div class="btn-group pull-right select" id="diff-view-version">
             <a class="btn btn-default btn-lg" id="diff-view-button"
-               href="{{tenantedUrl ""}}/pages/diff?type=wsdl&path={{../../assetVersions.0.path}},{{../path}}"
+               href="{{tenantedUrl ""}}/pages/diff?type={{type}}&path={{../../assetVersions.0.path}},{{../path}}"
                target="_blank">{{t "Compare with "}}
                 <span data-selected_base_path="{{../../assetVersions.0.path}}"
                       class="text-info selected"> {{../../assetVersions.0.version}} </span>
@@ -15,7 +15,7 @@
                 </button>
                 <ul class="dropdown-menu">
                     {{#each ../../../assetVersions}}
-                        <li><a target="_blank" href="{{tenantedUrl ""}}/pages/diff?type=wsdl&path={{this.path}},{{../path}}"
+                        <li><a target="_blank" href="{{tenantedUrl ""}}/pages/diff?type={{../../type}}&path={{this.path}},{{../path}}"
                                style="color: inherit" class="btn hover" data-base_path="{{../../path}}"
                                id="{{this.path}}">{{this.version}}</a></li>
                     {{/each}}

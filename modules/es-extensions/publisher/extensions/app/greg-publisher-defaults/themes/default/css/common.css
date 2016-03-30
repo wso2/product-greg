@@ -982,6 +982,7 @@ a#search-info {
 .form-group > .popover {
     background-color: #F7F7F7;
     border: 0px;
+    opacity: 0.85;
 }
 
 .form-group > .popover > .popover-content {
@@ -1035,4 +1036,10 @@ span.select2-selection.select2-selection--single.select-resource {
 /* Association page association icons */
 i.fw.association-icon {
     margin-top: 15px;
+}
+
+/* Asset listing mini thumbnail */
+.ast-img .ast-type-icon i {
+    font-size: 2.2em;
+    padding: 8px 4px;
 }
