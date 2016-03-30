@@ -1,3 +1,33 @@
+/**
+Copyright (C) 2012 by Marijn Haverbeke <marijnh@gmail.com>
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in
+all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+THE SOFTWARE.
+
+Please note that some subdirectories of the CodeMirror distribution
+include their own LICENSE files, and are released under different
+licences.
+ */
+
+/**
+ * This addon can be found at https://github.com/codemirror/CodeMirror/blob/v2/lib/util/formatting.js
+ * This addon was removed from the latest version of CodeMirror
+ */
 (function() {
 
   CodeMirror.extendMode("css", {
@@ -102,7 +132,7 @@
       cm.replaceRange(out, from, to);
       for (var cur = from.line + 1, end = from.line + lines; cur <= end; ++cur)
         cm.indentLine(cur, "smart");
-      cm.setSelection(from, cm.getCursor(false));
+      //cm.setSelection(from, cm.getCursor(false));
     });
   });
 })();
