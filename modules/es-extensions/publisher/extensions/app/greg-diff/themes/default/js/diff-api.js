@@ -49,7 +49,6 @@ window.onload = function () {
     loadSectionList();
 };
 
-var sections = diffData.sections;
 var sectionMap = {
     "wsdl_declaration": "WSDL Declaration",
     "wsdl_imports": "WSDL Imports",
@@ -61,29 +60,38 @@ var sectionMap = {
     "wsdl_ports": "WSDL Ports",
     "default":"Complete Text Diff"
 };
-var changeMap = {
-    "CONTENT_ADDITION": "Content Additions",
-    "CONTENT_REMOVAL": "Content Removals",
-    "CONTENT_CHANGE": "Content Changes",
-    "CONTENT_TEXT": "Content Text"
-};
+//var changeMap = {
+//    "CONTENT_ADDITION": "Content Additions",
+//    "CONTENT_REMOVAL": "Content Removals",
+//    "CONTENT_CHANGE": "Content Changes",
+//    "CONTENT_TEXT": "Content Text"
+//};
+var keys = Object.keys(diffData.sections);
+var sections = [];
+var entry;
+keys.forEach(function(key){
+    entry = {};
+    entry.name = key;
+    entry.title = sectionMap[key];
+    entry.data = diffData.sections[key];
+    entry.changes = Object.keys(diffData.sections[key].content);
+    sections.push(entry);
+});
 var loadContent;
 var value, target, orig1, orig2, dv, panes = 2, highlight = true, connect = null, collapse = false;
 
 function loadSectionList() {
     if (!jQuery.isEmptyObject(sections)) {
 
-        renderPartial("dynamic-section-list-heading", "sectionList", {type : type});
+        renderPartial("list-section-changes", {type : type, sections : sections}, function(template){
+            $('#sectionList').append(template);
+        });
 
         //$('#sectionList').append('<h4 class="panel-title">' +
         //    '<a href="#" class="list-group-item active">Sections in ' + type + '</a>' +
         //    '</h4>');
 
-        for (var sectionName in sections) {
-
-            renderPartial("dynamic-section-list", "sectionList", {sectionName : sectionName,
-                sectionNameText : sectionMap[sectionName]});
-
+        //for (var sectionName in sections) {
             //$('#sectionList').append('<div class="panel panel-default">' +
             //    '<div class="panel-heading" role="tab" id="heading' + sectionName + '">' +
             //    '<h4 class="panel-title">' +
@@ -98,19 +106,14 @@ function loadSectionList() {
             //    '</div>' +
             //    '</div>' +
             //    '</div>');
-
-            if (!jQuery.isEmptyObject(sections[sectionName].content)) {
-                for (var changeName in sections[sectionName].content) {
-
-                    renderPartial("dynamic-section-changes-list", "sectionChanges" + sectionName, {sectionName : sectionName,
-                        changeName : changeName, changeNameText : changeMap[changeName]});
-
+            //if (!jQuery.isEmptyObject(sections[sectionName].content)) {
+            //    for (var changeName in sections[sectionName].content) {
                     //$('#sectionChanges' + sectionName).append('<a href="#" class="list-group-item" ' +
                     //    'onclick="loadSectionChangesDiff(\'' + sectionName + '\', \'' + changeName + '\')">' +
                     //    changeMap[changeName] + '</a>');
-                }
-            }
-        }
+                //}
+            //}
+        //}
     }
 }
 
@@ -141,23 +144,17 @@ var partial = function(name) {
     return '/extensions/app/greg-diff/themes/' + caramel.themer + '/partials/' + name + '.hbs';
 };
 
-var renderPartial = function(partialKey, containerKey, data, fn) {
+var renderPartial = function(partialKey,data, fn) {
     fn = fn || function() {};
     var partialName = partialKey;
-    var containerName = containerKey;
     if (!partialName) {
         throw 'A template name has not been specified for template key ' + partialKey;
-    }
-    if (!containerName) {
-        throw 'A container name has not been specified for container key ' + containerKey;
     }
     var obj = {};
     obj[partialName] = partial(partialName);
     caramel.partials(obj, function() {
         var template = Handlebars.partials[partialName](data);
-        //$(id(containerName)).html(template);
-        $('#' + containerName).append(template);
-        fn(containerName);
+        fn(template);
     });
 };
 
