@@ -56,7 +56,7 @@
         var destType = params.destType;
         var associationType = params.associationType;
         var restuls = gregAPI.associations.add(ctx.session, sourceType, sourceUUID, destType, destUUID, associationType);
-        print({});
+        print(restuls);
       }
       break;
     case 'DELETE':
@@ -69,7 +69,7 @@
         var destType = params.destType;
         var associationType = params.associationType;
         var restuls = gregAPI.associations.remove(ctx.session, sourceType, sourceUUID, destType, destUUID, associationType);
-        print({});
+        print(restuls);
       }
       break;
     default:

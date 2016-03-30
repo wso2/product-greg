@@ -389,7 +389,7 @@ var gregAPI = {};
                 }
             } catch (e) {
                 log.warn('Artifact type ' + assetsTypes[i]
-                + ' defined in the association-config.xml is not in registry or unable to find relevant configuration.' + e);
+                + ' defined in the governance.xml is not in registry or unable to find relevant configuration.' + e);
             }
 
         }
