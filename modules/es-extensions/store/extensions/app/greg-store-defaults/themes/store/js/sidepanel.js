@@ -97,14 +97,14 @@ function toggleSidePanel(view,button){
     $(button).toggleClass('selected');
 
     if($(button).hasClass('selected')){
-        $('.top-menu-right-custom  .fw-stack-md  .fw-stack-1-5x').removeClass('fw-left-arrow');
-        $('.top-menu-right-custom  .fw-stack-md  .fw-stack-1-5x').addClass('fw-right-arrow');
+        $('.top-menu-right-custom  .fw-stack-md  .fw-stack-1-5x').removeClass('fw-left');
+        $('.top-menu-right-custom  .fw-stack-md  .fw-stack-1-5x').addClass('fw-right');
         $(sidePanel).show();
         $(sidePanel).addClass('toggled');
     }
     else {
-        $('.top-menu-right-custom  .fw-stack-md  .fw-stack-1-5x').removeClass('fw-right-arrow');
-        $('.top-menu-right-custom  .fw-stack-md  .fw-stack-1-5x').addClass('fw-left-arrow');
+        $('.top-menu-right-custom  .fw-stack-md  .fw-stack-1-5x').removeClass('fw-right');
+        $('.top-menu-right-custom  .fw-stack-md  .fw-stack-1-5x').addClass('fw-left');
         $(sidePanel).hide();
         $(sidePanel).removeClass('toggled');
     }
