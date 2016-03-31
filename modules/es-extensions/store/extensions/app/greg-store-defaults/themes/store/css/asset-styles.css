@@ -9,3 +9,18 @@
     background:#e2e2e2;
     padding-right:0px;
 }
+.details-container{
+     margin-top: 12px;
+ }
+.tab-pane{
+    margin-top: 10px;
+}
+.overview-content{
+    margin-left: 0px;
+    padding-left: 0px;
+}
+
+.tab-pane .overview{
+    padding: 20px;
+    width: auto;
+}
