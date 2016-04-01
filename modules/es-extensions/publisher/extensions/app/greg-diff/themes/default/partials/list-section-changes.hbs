@@ -1,5 +1,19 @@
 <h4 class="panel-title">
-    <a href="#" class="list-group-item active">{{type}} Diff View</a>
+    <a class="list-group-item active">Diff View</a>
+</h4>
+
+<div class="panel panel-info">
+    <div class="panel-heading" role="tab">
+        <h4 class="panel-title">
+            <a role="button" onclick="loadInitialTextDiff()" href="#">
+                Default Complete Text Diff
+            </a>
+        </h4>
+    </div>
+</div>
+
+<h4 class="panel-title">
+    <a class="list-group-item disabled">Semantic Diff shown below</a>
 </h4>
 
 {{#each sections}}
@@ -12,7 +26,7 @@
                 </a>
             </h4>
         </div>
-        <div class="panel-collapse collapse in" role="tabpanel" id="collapse{{this.name}}"
+        <div class="panel-collapse collapse" role="tabpanel" id="collapse{{this.name}}"
              aria-labelledby="heading{{this.name}}">
             <div class="list-group" id="sectionChanges{{this.name}}">
                 {{#if this.data.content.CONTENT_ADDITION}}

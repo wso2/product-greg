@@ -15,7 +15,8 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-var diffData = {};
+var detailDiffData = {};
+var textDiffData = {};
 // Get full diff with two resources
 function getUrlParameter(sParam) {
     var sPageURL = window.location.search.substring(1);
@@ -37,7 +38,20 @@ $.ajax({
     type: 'GET',
     async: false,
     success: function (response) {
-        diffData = JSON.parse(response);
+        detailDiffData = JSON.parse(response);
+    },
+    error: function () {
+        //console.log("Error getting content.");
+    }
+});
+
+$.ajax({
+    url: caramel.context + '/apis/governance-artifacts/diff-text?targets=' + paths[1] + ',' + paths[0] + '&type='
+    + type,
+    type: 'GET',
+    async: false,
+    success: function (response) {
+        textDiffData = JSON.parse(response);
     },
     error: function () {
         //console.log("Error getting content.");
@@ -46,43 +60,82 @@ $.ajax({
 
 // Getting initial load data
 window.onload = function () {
-    loadSectionList();
+    loadInitialTextDiff();
+    if (type == "wsdl") {
+        loadSectionList();
+    }
+    else {
+        renderPartial("list-default", {}, function(template){
+            $('#sectionList').append(template);
+        });
+    }
 };
 
-var sectionMap = {
-    "wsdl_declaration": "WSDL Declaration Diff",
-    "wsdl_imports": "WSDL Imports Diff",
-    "wsdl_bindings": "WSDL Bindings Diff",
-    "wsdl_messages": "WSDL Messages Diff",
-    "wsdl_porttype": "WSDL PortTypes Diff",
-    "wsdl_operations": "WSDL Operations Diff",
-    "wsdl_service": "WSDL Service Diff",
-    "wsdl_ports": "WSDL Ports Diff",
-    "default":"Complete Text Diff"
-};
 //var changeMap = {
 //    "CONTENT_ADDITION": "Content Additions",
 //    "CONTENT_REMOVAL": "Content Removals",
 //    "CONTENT_CHANGE": "Content Changes",
 //    "CONTENT_TEXT": "Content Text"
 //};
-var keys = Object.keys(diffData.sections);
-var sections = [];
-var entry;
-keys.forEach(function(key){
-    entry = {};
-    entry.name = key;
-    entry.title = sectionMap[key];
-    entry.data = diffData.sections[key];
-    sections.push(entry);
-});
+
 var loadContent;
 var value, target, orig1, orig2, dv, panes = 2, highlight = true, connect = null, collapse = false;
 
+function loadInitialTextDiff() {
+    var textDiffSections = textDiffData.sections;
+    var sectionName, changeName;
+    if (!jQuery.isEmptyObject(textDiffSections)) {
+        for (var key in textDiffSections) {
+            sectionName = key;
+            break;
+        }
+        if (!jQuery.isEmptyObject(textDiffSections[sectionName].content)) {
+            for (var key2 in textDiffSections[sectionName].content) {
+                changeName = key2;
+                break;
+            }
+            if (!jQuery.isEmptyObject(textDiffData.sections[sectionName].content[changeName])) {
+                loadContent = textDiffData.sections[sectionName].content[changeName][0];
+                var sectionChange = textDiffData.sections[sectionName].sectionSummary[changeName][0];
+            }
+        }
+    }
+    value = document.documentElement.innerHTML;
+    if (value == null) return;
+    target = document.getElementById("diffView");
+    target.innerHTML = "";
+    orig2 = loadContent.content.changed;
+    initUI();
+    setViewPanelsHeight();
+    addTitle(sectionChange);
+}
+
 function loadSectionList() {
+    var sectionMap = {
+        "wsdl_declaration": "WSDL Declaration Diff",
+        "wsdl_imports": "WSDL Imports Diff",
+        "wsdl_bindings": "WSDL Bindings Diff",
+        "wsdl_messages": "WSDL Messages Diff",
+        "wsdl_porttype": "WSDL PortTypes Diff",
+        "wsdl_operations": "WSDL Operations Diff",
+        "wsdl_service": "WSDL Service Diff",
+        "wsdl_ports": "WSDL Ports Diff",
+        "default":"Default Complete Text Diff"
+    };
+    var keys = Object.keys(detailDiffData.sections);
+    var sections = [];
+    var entry;
+    keys.forEach(function(key){
+        entry = {};
+        entry.name = key;
+        entry.title = sectionMap[key];
+        entry.data = detailDiffData.sections[key];
+        sections.push(entry);
+    });
+
     if (!jQuery.isEmptyObject(sections)) {
 
-        renderPartial("list-section-changes", {type : type, sections : sections}, function(template){
+        renderPartial("list-section-changes", {sections : sections}, function(template){
             $('#sectionList').append(template);
         });
 
@@ -121,9 +174,9 @@ function loadSectionChangesDiff(sectionName, changeName) {
     if (value == null) return;
     target = document.getElementById("diffView");
     target.innerHTML = "";
-    if (!jQuery.isEmptyObject(diffData.sections[sectionName].content[changeName])) {
-        var sectionChange = diffData.sections[sectionName].sectionSummary[changeName][0];
-        loadContent = diffData.sections[sectionName].content[changeName][0];
+    if (!jQuery.isEmptyObject(detailDiffData.sections[sectionName].content[changeName])) {
+        var sectionChange = detailDiffData.sections[sectionName].sectionSummary[changeName][0];
+        loadContent = detailDiffData.sections[sectionName].content[changeName][0];
         if ("CONTENT_ADDITION" == changeName) {
             orig2 = loadContent.content;
             initUIAddition();
