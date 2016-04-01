@@ -3,6 +3,7 @@
 <div class="row">
     <div class="col-lg-8 col-centered">
 
+        {{#hasAssetPermission . key="ASSET_CREATE" type=assets.type username=cuser.username tenantId=cuser.tenantId}}
         <div class="row wr-tile-buttons-list">
             <div class="col-lg-7">
                 <h4>
@@ -42,6 +43,7 @@
                 </div>
             </div>
         </div>
+    {{/hasAssetPermission}}
 
         <div class="row wr-associations-list">
 
