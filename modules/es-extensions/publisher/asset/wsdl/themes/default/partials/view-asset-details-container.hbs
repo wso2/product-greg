@@ -49,16 +49,19 @@
                             </h2>
 
                             <div class="row padding-bottom-lg" id="Name">
-                                <div class="col-sm-2 text-right"><b>{{t "Associated REST services"}} :</b></div>
-                                {{#each dependencies}}
-                                    <div class="col-sm-10">
-                                        <ul class="list-unstyled">
-                                            <li>
-                                                <a href="../../../assets/{{this.associationType}}/details/{{this.associationUUID}}">{{this.associationName}}</a>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                {{/each}}
+                                <div class="col-sm-2 text-right"><b>{{t "Associated SOAP services"}} :</b></div>
+                                <table>
+                                    {{#each dependencies}}
+                                        <tr>
+                                            <td>
+                                                <div class="col-sm-20">
+                                                    <a href="../../../assets/{{this.associationType}}/details/{{this.associationUUID}}">{{this.associationName}}</a>
+                                                </div>
+                                                <br>
+                                            </td>
+                                        </tr>
+                                    {{/each}}
+                                </table>
                             </div>
                            
                             <div id='wsdl-viewer'>

@@ -163,6 +163,7 @@ $(function() {
                     $('#notificationCount').html(updatedNotiCount);
                     if(updatedNotiCount == 0){
                         $("#clearalldiv").hide();
+                        toggleSidePanel('notifications',$('.wr-notification-toggle-btn'));
                     }
                 }
             },
@@ -201,6 +202,7 @@ $(function() {
                                 $('#notificationCount').html(0);
                                 $("#clearalldiv").hide();
                                 $(".wr-notification-desc").hide();
+                                toggleSidePanel('notifications',$('.wr-notification-toggle-btn'));
                             }
                         },
                         error: function () {

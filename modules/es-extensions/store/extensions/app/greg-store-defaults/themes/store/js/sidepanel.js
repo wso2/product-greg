@@ -74,10 +74,12 @@ function sidePanelPositionFix(){
     var windowTop = $(window).scrollTop(); // returns number
     if (headerHeight < windowTop){
         $(sidePanel).css({ position: 'fixed', top: '0px' });
+        $(sidePanel).css('opacity','0.92');
     }
     else {
         $(sidePanel).css('position','absolute');
         $(sidePanel).css('top', offset);
+        $(sidePanel).css('opacity','0.92');
     }
 }
 
