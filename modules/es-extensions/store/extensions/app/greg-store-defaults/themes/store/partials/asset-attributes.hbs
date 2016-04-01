@@ -34,17 +34,33 @@
         <div class="es-col-lg-12 col-lg-12">
             <h4>Associations</h4><hr>
             <div class="es-col-lg-12 col-lg-12 table table-striped table-hover divrow">
-                {{#each dependencies}}
-                    <div class="col-lg-2 "><b>{{t "Dependencies"}} :</b></div>
-                    <div class="col-lg-10"><a class="dependencies-link" href="../../../assets/{{this.associationType}}/details/{{this.associationUUID}}">{{this.associationName}}</a></div>
-                {{/each}}
+                <div class="col-lg-2 "><b>{{t "Dependencies"}} :</b></div>
+                <table>
+                    {{#each dependencies}}
+                        <tr>
+                            <td>
+                                <div class="col-lg-20"><a class="dependencies-link"
+                                                          href="../../../assets/{{this.associationType}}/details/{{this.associationUUID}}">{{this.associationName}}</a>
+                                </div>
+                            </td>
+                        </tr>
+                    {{/each}}
+                </table>
             </div>
 
             <div class="es-col-lg-12 col-lg-12 divrow">
-                {{#each dependents}}
-                    <div class="col-lg-2"><b>{{t "Dependents"}} :</b></div>
-                    <div class="col-lg-10"><a class="dependencies-link" href="../../../assets/{{this.associationType}}/details/{{this.associationUUID}}">{{this.associationName}}</a></div>
-                {{/each}}
+                <div class="col-lg-2"><b>{{t "Dependents"}} :</b></div>
+                <table>
+                    {{#each dependents}}
+                        <tr>
+                            <td>
+                                <div class="col-lg-20"><a class="dependencies-link"
+                                                          href="../../../assets/{{this.associationType}}/details/{{this.associationUUID}}">{{this.associationName}}</a>
+                                </div>
+                            </td>
+                        </tr>
+                    {{/each}}
+                </table>
             </div>
         </div>
     {{/if}}
