@@ -12,10 +12,6 @@
     </div>
 </div>
 
-<h4 class="panel-title">
-    <a class="list-group-item disabled">Semantic Diff shown below</a>
-</h4>
-
 {{#each sections}}
     <div class="panel panel-default">
         <div class="panel-heading" role="tab" id="heading{{this.name}}">
@@ -23,6 +19,9 @@
                 <a role="button" data-toggle="collapse" data-parent="#sectionList" href="#collapse{{this.name}}"
                    aria-expanded="false" aria-controls="collapse{{this.name}}">
                     {{this.title}}
+                    <span class="pull-right">
+                        <span class="glyphicon glyphicon-chevron-down" aria-hidden="true"></span>
+                    </span>
                 </a>
             </h4>
         </div>
