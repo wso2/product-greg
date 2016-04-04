@@ -43,7 +43,7 @@
 <div class="row">
 
 {{#hasAssetPermission . key="ASSET_LIST" type="soapservice" username=cuser.username tenantId=cuser.tenantId}}
-    <div class="col-md-6 col-lg-4">
+    <div class="col-md-6 col-lg-5">
         <div class="tile color1" data-click-event="steps">
             <div data-step="1">
                 <h1>SOAP Services</h1>
@@ -134,7 +134,7 @@
 {{/hasAssetPermission}}
 
 {{#hasAssetPermission . key="ASSET_LIST" type="restservice" username=cuser.username tenantId=cuser.tenantId}}
-    <div class="col-md-6 col-lg-4">
+    <div class="col-md-6 col-lg-5">
         <div class="tile color2" data-click-event="steps">
             <div data-step="1">
                 <h1>{{t "REST Services"}}</h1>
@@ -249,7 +249,7 @@
 <div class="page-header no-border">
     <h1>{{t "Other Assets"}}</h1>
 
-    <p class="lead">{{t "Browse available assets or Add new assets of below types"}}</p>
+    <p class="lead">{{t "Browse available assets of below types"}}</p>
 </div>
 
 <!-- content -->
