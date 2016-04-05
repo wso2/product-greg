@@ -1,0 +1,58 @@
+<h4 class="panel-title">
+    <a class="list-group-item active">Diff View</a>
+</h4>
+
+<div class="panel panel-info">
+    <div class="panel-heading" role="tab">
+        <h4 class="panel-title">
+            <a role="button" onclick="loadInitialTextDiff()" href="#">
+                Default Complete Text Diff
+            </a>
+        </h4>
+    </div>
+</div>
+
+{{#each sections}}
+    <div class="panel panel-default">
+        <div class="panel-heading" role="tab" id="heading{{this.name}}">
+            <h4 class="panel-title">
+                <a role="button" data-toggle="collapse" data-parent="#sectionList" href="#collapse{{this.name}}"
+                   aria-expanded="false" aria-controls="collapse{{this.name}}">
+                    {{this.title}}
+                    <span class="pull-right">
+                        <span class="glyphicon glyphicon-chevron-down" aria-hidden="true"></span>
+                    </span>
+                </a>
+            </h4>
+        </div>
+        <div class="panel-collapse collapse" role="tabpanel" id="collapse{{this.name}}"
+             aria-labelledby="heading{{this.name}}">
+            <div class="list-group" id="sectionChanges{{this.name}}">
+                {{#if this.data.content.CONTENT_ADDITION}}
+                    <a href="#" class="list-group-item"
+                       onclick="loadSectionChangesDiff('{{this.name}}', 'CONTENT_ADDITION')">
+                        Content Additions
+                    </a>
+                {{/if}}
+                {{#if this.data.content.CONTENT_REMOVAL}}
+                    <a href="#" class="list-group-item"
+                       onclick="loadSectionChangesDiff('{{this.name}}', 'CONTENT_REMOVAL')">
+                        Content Removals
+                    </a>
+                {{/if}}
+                {{#if this.data.content.CONTENT_CHANGE}}
+                    <a href="#" class="list-group-item"
+                       onclick="loadSectionChangesDiff('{{this.name}}', 'CONTENT_CHANGE')">
+                        Content Changes
+                    </a>
+                {{/if}}
+                {{#if this.data.content.CONTENT_TEXT}}
+                    <a href="#" class="list-group-item"
+                       onclick="loadSectionChangesDiff('{{this.name}}', 'CONTENT_TEXT')">
+                        Content Text
+                    </a>
+                {{/if}}
+            </div>
+        </div>
+    </div>
+{{/each}}
