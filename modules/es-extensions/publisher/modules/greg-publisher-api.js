@@ -11,6 +11,7 @@ var gregAPI = {};
     var time = require('utils').time;
     var constants = require('rxt').constants;
     var responseProcessor = require('utils').response;
+    var rxtModule = require('rxt');
     var taskOperationService = carbon.server.osgiService('org.wso2.carbon.humantask.core.TaskOperationService');
     gregAPI.notifications = {};
     gregAPI.subscriptions = {};
@@ -273,13 +274,17 @@ var gregAPI = {};
                     if (key === 'wsdl' || key === 'wadl' || key === 'policy' || key === 'schema' || key === 'endpoint' || key === 'swagger') {
                         var subPaths = pathValue.split('/');
                         workList.overviewName = subPaths[subPaths.length - 1];
+                        workList.overviewVersion = subPaths[subPaths.length - 2];
                     } else {
                         var govAttifact = Packages.org.wso2.carbon.governance.api.util.GovernanceUtils.retrieveGovernanceArtifactByPath(am.registry.registry, pathValue);
                         workList.overviewName = String(govAttifact.getQName().getLocalPart());
+                        var rxtManager = rxtModule.core.rxtManager(server.current(session).tenantId);
+                        var versionAttribute = rxtManager.getVersionAttribute(key);
+                        workList.overviewVersion = String(govAttifact.getAttribute(versionAttribute));
                     }
 
-                    workList.presentationSubject = workList.presentationSubject.replace("resource at path", workList.overviewName);
-                    workList.presentationSubject = workList.presentationSubject.replace("resource at", workList.overviewName);
+                    workList.presentationSubject = workList.presentationSubject.replace("resource at path", workList.overviewName + " " + workList.overviewVersion);
+                    workList.presentationSubject = workList.presentationSubject.replace("resource at", workList.overviewName + " " + workList.overviewVersion);
                     //workList.message = workList.overviewName +
                     workList.clickResource = true; //This will be checked in order to show or not 'Click here' link in the notification.
                     workList.presentationName = String(row.getPresentationName());
