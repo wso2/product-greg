@@ -87,7 +87,7 @@ $(function () {
                 }
                 if (results.length == 0) {
                     if (from == 0) {
-                        $('#search-results').html('We are sorry but we could not find any matching assets');
+                        $('#search-results').html('<div class="emptyAssets-MsgDiv"><p class="emptyAssets">We are sorry! we couldn\'t find anything for you ...</p></div>');
                     }
                     $('.loading-animation-big').remove();
                     doPagination = false;
