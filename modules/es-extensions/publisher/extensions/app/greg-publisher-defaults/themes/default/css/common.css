@@ -1043,3 +1043,8 @@ i.fw.association-icon {
     font-size: 2.2em;
     padding: 8px 4px;
 }
+
+/* Top ribbon user name */
+span.fw-stack-md.fw-lg {
+    right: 5px;
+}
