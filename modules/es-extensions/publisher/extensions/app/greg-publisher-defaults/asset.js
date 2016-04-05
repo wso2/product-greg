@@ -58,7 +58,8 @@ asset.renderer = function(ctx) {
             },
             notificationPopulator: function(page) {
                 if (allowedPagesForSidebar.indexOf(page.meta.pageName)>-1) {
-                    page.notificationsCount = gregAPI.notifications.count();
+                    var am = assetManager(ctx.session,ctx.assetType);
+                    page.notificationsCount = gregAPI.notifications.count(am);
                 }
             },
             notificationListPopulator: function(page) {
