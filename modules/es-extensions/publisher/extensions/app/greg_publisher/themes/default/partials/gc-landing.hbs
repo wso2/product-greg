@@ -61,7 +61,6 @@
                             {{/hasAssetPermission}}
                             {{#hasAssetPermission . key="ASSET_CREATE" type="wsdl" username=cuser.username tenantId=cuser.tenantId}}
                                 {{t "or"}}
-                                <br/>
                                 {{t "automatically by importing a "}}<a
                                     href="/publisher/assets/wsdl/create">WSDL</a> file.
                             {{/hasAssetPermission}}
@@ -152,14 +151,12 @@
                             {{/hasAssetPermission}}
                             {{#hasAssetPermission . key="ASSET_CREATE" type="wadl" username=cuser.username tenantId=cuser.tenantId}}
                                 {{t "or"}}
-                                <br/>
                                 {{t "automatically by importing a "}} <a
                                     href="/publisher/assets/wadl/create">{{t "WADL"}}</a>
                                 {{t "file "}}
                             {{/hasAssetPermission}}
                             {{#hasAssetPermission . key="ASSET_CREATE" type="swagger" username=cuser.username tenantId=cuser.tenantId}}
                                 {{t "or"}}
-                                <br/>
                                 {{t "automatically by importing a "}} <a
                                     href="/publisher/assets/swagger/create">{{t "Swagger"}}</a>
                                 {{t "file."}}
