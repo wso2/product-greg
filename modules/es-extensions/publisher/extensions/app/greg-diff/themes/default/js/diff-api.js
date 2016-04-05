@@ -32,40 +32,14 @@ function getUrlParameter(sParam) {
 var paths = getUrlParameter('path').split(',');
 var type = getUrlParameter('type');
 
-$.ajax({
-    url: caramel.context + '/apis/governance-artifacts/diff-detail?targets=' + paths[1] + ',' + paths[0] + '&type='
-    + type,
-    type: 'GET',
-    async: false,
-    success: function (response) {
-        detailDiffData = JSON.parse(response);
-    },
-    error: function () {
-        //console.log("Error getting content.");
-    }
-});
-
-$.ajax({
-    url: caramel.context + '/apis/governance-artifacts/diff-text?targets=' + paths[1] + ',' + paths[0] + '&type='
-    + type,
-    type: 'GET',
-    async: false,
-    success: function (response) {
-        textDiffData = JSON.parse(response);
-    },
-    error: function () {
-        //console.log("Error getting content.");
-    }
-});
-
 // Getting initial load data
 window.onload = function () {
     loadInitialTextDiff();
-    if (type == "wsdl") {
+    if ("wsdl" == type) {
         loadSectionList();
     }
     else {
-        renderPartial("list-default", {}, function(template){
+        renderPartial("list-default", {}, function (template) {
             $('#sectionList').append(template);
         });
     }
@@ -75,6 +49,19 @@ var loadContent;
 var value, target, orig1, orig2, dv, panes = 2, highlight = true, connect = null, collapse = false;
 
 function loadInitialTextDiff() {
+    $.ajax({
+        url: caramel.context + '/apis/governance-artifacts/diff-text?targets=' + paths[1] + ',' + paths[0] + '&type='
+        + type,
+        type: 'GET',
+        async: false,
+        success: function (response) {
+            textDiffData = JSON.parse(response);
+        },
+        error: function () {
+            //console.log("Error getting content.");
+        }
+    });
+
     var textDiffSections = textDiffData.sections;
     var sectionName, changeName;
     if (!jQuery.isEmptyObject(textDiffSections)) {
@@ -104,6 +91,19 @@ function loadInitialTextDiff() {
 }
 
 function loadSectionList() {
+    $.ajax({
+        url: caramel.context + '/apis/governance-artifacts/diff-detail?targets=' + paths[1] + ',' + paths[0] + '&type='
+        + type,
+        type: 'GET',
+        async: false,
+        success: function (response) {
+            detailDiffData = JSON.parse(response);
+        },
+        error: function () {
+            //console.log("Error getting content.");
+        }
+    });
+
     var sectionMap = {
         "wsdl_declaration": "WSDL Declaration Diff",
         "wsdl_imports": "WSDL Imports Diff",
@@ -113,12 +113,12 @@ function loadSectionList() {
         "wsdl_operations": "WSDL Operations Diff",
         "wsdl_service": "WSDL Service Diff",
         "wsdl_ports": "WSDL Ports Diff",
-        "default":"Default Complete Text Diff"
+        "default": "Default Complete Text Diff"
     };
     var keys = Object.keys(detailDiffData.sections);
     var sections = [];
     var entry;
-    keys.forEach(function(key){
+    keys.forEach(function (key) {
         entry = {};
         entry.name = key;
         entry.title = sectionMap[key];
@@ -128,7 +128,7 @@ function loadSectionList() {
 
     if (!jQuery.isEmptyObject(sections)) {
 
-        renderPartial("list-section-changes", {sections : sections}, function(template){
+        renderPartial("list-section-changes", {sections: sections}, function (template) {
             $('#sectionList').append(template);
         });
     }
@@ -157,19 +157,20 @@ function loadSectionChangesDiff(sectionName, changeName) {
     }
 }
 
-var partial = function(name) {
+var partial = function (name) {
     return '/extensions/app/greg-diff/themes/' + caramel.themer + '/partials/' + name + '.hbs';
 };
 
-var renderPartial = function(partialKey,data, fn) {
-    fn = fn || function() {};
+var renderPartial = function (partialKey, data, fn) {
+    fn = fn || function () {
+        };
     var partialName = partialKey;
     if (!partialName) {
         throw 'A template name has not been specified for template key ' + partialKey;
     }
     var obj = {};
     obj[partialName] = partial(partialName);
-    caramel.partials(obj, function() {
+    caramel.partials(obj, function () {
         var template = Handlebars.partials[partialName](data);
         fn(template);
     });

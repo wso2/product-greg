@@ -20,8 +20,8 @@
     var new_path = resourcePaths[1];
     var type = qParams.type;
     var MultitenantConstants = Packages.org.wso2.carbon.base.MultitenantConstants;
-    var tenantDomain = qParams.tenant ?  qParams.tenant : MultitenantConstants.SUPER_TENANT_DOMAIN_NAME;
-    var tenantId = carbon.server.tenantId({domain:tenantDomain});
+    var tenantDomain = qParams.tenant ? qParams.tenant : MultitenantConstants.SUPER_TENANT_DOMAIN_NAME;
+    var tenantId = carbon.server.tenantId({domain: tenantDomain});
     var media_type = core.rxtManager(tenantId).getMediaType(type);
 
     //Resolve the method to use
