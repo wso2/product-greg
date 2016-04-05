@@ -75,7 +75,8 @@ asset.renderer = function(ctx) {
             },
             notificationPopulator: function(page) {
                 if (page.meta.pageName === 'list' || page.meta.pageName === 'details') {
-                    page.notificationsCount = gregAPI.notifications.count();
+                    var am = assetManager(ctx.session,ctx.assetType);
+                    page.notificationsCount = gregAPI.notifications.count(am);
                 }
             },
             notificationListPopulator: function(page) {

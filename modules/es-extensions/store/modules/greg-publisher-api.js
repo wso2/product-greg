@@ -170,9 +170,8 @@ var gregAPI = {};
         };
         //log.info(message);
     };
-    gregAPI.notifications.count = function() {
-        var results = {};
-        var count = 0;
+
+    var getNotificationRows = function() {
         var queryInput = new org.wso2.carbon.humantask.client.api.types.TSimpleQueryInput();
         queryInput.setPageNumber(0);
         queryInput.setSimpleQueryCategory(org.wso2.carbon.humantask.client.api.types.TSimpleQueryCategory.ASSIGNED_TO_ME);
@@ -187,49 +186,61 @@ var gregAPI = {};
         } else if (!rows && resultSetClaim.getRow()){
             rows = resultSetClaim.getRow();
         }
-        if (rows != null){
-            count = rows.length;
-        }
 
-        //log.info(parseInt(count));
-        results.count = count;
-        return results;
+        return rows;
     };
-    gregAPI.notifications.list = function(am) {
-        var results = {};
-        var result = [];
-        var count = 0;
-        var queryInput = new org.wso2.carbon.humantask.client.api.types.TSimpleQueryInput();
-        queryInput.setPageNumber(0);
-        queryInput.setSimpleQueryCategory(org.wso2.carbon.humantask.client.api.types.TSimpleQueryCategory.ASSIGNED_TO_ME);
-        var resultSet = taskOperationService.simpleQuery(queryInput);
-        var rows = resultSet.getRow();
 
-        var queryInputClaim = new org.wso2.carbon.humantask.client.api.types.TSimpleQueryInput();
-        queryInputClaim.setPageNumber(0);
-        queryInputClaim.setSimpleQueryCategory(org.wso2.carbon.humantask.client.api.types.TSimpleQueryCategory.CLAIMABLE);
-        var resultSetClaim = taskOperationService.simpleQuery(queryInputClaim);
-        if (rows && resultSetClaim.getRow()){
-            rows = org.apache.commons.lang.ArrayUtils.addAll(rows, resultSetClaim.getRow());
-        } else if (!rows && resultSetClaim.getRow()){
-            rows = resultSetClaim.getRow();
-        }
+    gregAPI.notifications.count = function(am) {
+        var results = {};
+        var count = 0;
+        var rows = getNotificationRows();
 
         if (rows != null) {
             for (var i = 0; i < rows.length; i++) {
                 var workList = {};
                 var row =  rows[i];
-                workList.id = String(row.getId());
-                workList.presentationSubject = String(row.getPresentationSubject());
-
-                var pathValue = workList.presentationSubject.substring(workList.presentationSubject.indexOf("/"));
+                var presentSub = String(row.getPresentationSubject());
+                var pathValue = presentSub.substring(presentSub.indexOf("/"));
                 //This code is done since there are different messages are received for lifecycle and information update notification
                 pathValue = pathValue.replace("was updated", "");
                 if (endsWith('.',pathValue)){
                     pathValue = pathValue.substr(0,pathValue.length-1);
                 }
                 pathValue = pathValue.trim();
-                if (am.registry.registry.resourceExists(pathValue) && am.registry.registry.get(pathValue).getMediaType() != null) {
+                if (am.registry.registry.resourceExists(pathValue) &&
+                    am.registry.registry.get(pathValue).getMediaType() != null &&
+                    getTimeFromRow(row.getCreatedTime()) > getTimeFromDate(am.registry.registry.get(pathValue).getCreatedTime())) {
+                    count ++;
+                }
+            }
+        }
+
+        results.count = count;
+        return results;
+    };
+    gregAPI.notifications.list = function(am) {
+        var results = {};
+        var result = [];
+        var rows = getNotificationRows();
+
+        if (rows != null) {
+            for (var i = 0; i < rows.length; i++) {
+                var workList = {};
+                var row =  rows[i];
+                var presentSub = String(row.getPresentationSubject());
+                var pathValue = presentSub.substring(presentSub.indexOf("/"));
+
+                //This code is done since there are different messages are received for lifecycle and information update notification
+                pathValue = pathValue.replace("was updated", "");
+                if (endsWith('.',pathValue)){
+                    pathValue = pathValue.substr(0,pathValue.length-1);
+                }
+                pathValue = pathValue.trim();
+                if (am.registry.registry.resourceExists(pathValue) &&
+                    am.registry.registry.get(pathValue).getMediaType() != null &&
+                    getTimeFromRow(row.getCreatedTime()) > getTimeFromDate(am.registry.registry.get(pathValue).getCreatedTime())) {
+                    workList.id = String(row.getId());
+                    workList.presentationSubject = String(row.getPresentationSubject());
                     var uuid = am.registry.registry.get(pathValue).getUUID();
                     workList.presentationSubject = workList.presentationSubject.replace(pathValue, "");
 
@@ -251,22 +262,18 @@ var gregAPI = {};
                     workList.presentationSubject = workList.presentationSubject.replace("resource at", workList.overviewName);
                     //workList.message = workList.overviewName +
                     workList.clickResource = true; //This will be checked in order to show or not 'Click here' link in the notification.
+                    workList.presentationName = String(row.getPresentationName());
+                    workList.priority = String(row.getPriority());
+                    workList.status = String(row.getStatus());
+                    workList.time = time.formatTimeAsTimeSince(getDateTime(row.getCreatedTime()));
+                    var owner = taskOperationService.loadTask(row.getId()).getActualOwner();
+                    if (owner != null) {
+                        workList.user = String(owner.getTUser());
+                    } else {
+                        workList.user = "";
+                    }
+                    result.push(workList);
                 }
-                else {
-                    workList.clickResource = false;//If this is false 'Click here' link will not be shown as there is no such resource.
-                }
-                workList.presentationName = String(row.getPresentationName());
-                workList.priority = String(row.getPriority());
-                workList.status = String(row.getStatus());
-                workList.time = time.formatTimeAsTimeSince(getDateTime(row.getCreatedTime()));
-                //workList.createdTime = String(row.getCreatedTime());
-                var owner = taskOperationService.loadTask(row.getId()).getActualOwner();
-                if (owner != null) {
-                    workList.user = String(owner.getTUser());
-                } else {
-                    workList.user = "";
-                }
-                result.push(workList);
             }
         }
         results.list = result;
@@ -311,6 +318,28 @@ var gregAPI = {};
         var seconds = date.get(date.SECOND);
 
         return new Date(year,month,day,hours,minutes,seconds);
+    };
+
+    var getTimeFromRow = function(date) {
+        var year = date.get(date.YEAR);
+        var month = date.get(date.MONTH);
+        var day = date.get(date.DAY_OF_MONTH);
+        var hours = date.get(date.HOUR_OF_DAY);
+        var minutes = date.get(date.MINUTE);
+        var seconds = date.get(date.SECOND);
+
+        return new Date(year,month,day,hours,minutes,seconds).getTime();
+    };
+
+    var getTimeFromDate = function(date) {
+        var year = 1900+date.getYear();
+        var month = date.getMonth();
+        var day = date.getDate();
+        var hours = date.getHours();
+        var minutes = date.getMinutes();
+        var seconds = date.getSeconds();
+
+        return new Date(year,month,day,hours,minutes,seconds).getTime();
     };
 
     var endsWith = function(suffix, val) {
