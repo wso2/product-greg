@@ -127,8 +127,12 @@ function loadSectionList() {
     });
 
     if (!jQuery.isEmptyObject(sections)) {
-
         renderPartial("list-section-changes", {sections: sections}, function (template) {
+            $('#sectionList').append(template);
+        });
+    }
+    else {
+        renderPartial("list-default", {}, function (template) {
             $('#sectionList').append(template);
         });
     }
