@@ -1012,6 +1012,10 @@ a#search-info {
     border-bottom-color: #ECECEC;
 }
 
+.form-group > .popover.bottom > .arrow {
+    top: -10px;
+    border-bottom-color: transparent;
+}
 /* </Search Option Popover> */
 
 /* Show Dependencies button */
