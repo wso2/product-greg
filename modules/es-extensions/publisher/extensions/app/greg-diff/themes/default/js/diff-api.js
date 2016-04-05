@@ -71,13 +71,6 @@ window.onload = function () {
     }
 };
 
-//var changeMap = {
-//    "CONTENT_ADDITION": "Content Additions",
-//    "CONTENT_REMOVAL": "Content Removals",
-//    "CONTENT_CHANGE": "Content Changes",
-//    "CONTENT_TEXT": "Content Text"
-//};
-
 var loadContent;
 var value, target, orig1, orig2, dv, panes = 2, highlight = true, connect = null, collapse = false;
 
@@ -138,34 +131,6 @@ function loadSectionList() {
         renderPartial("list-section-changes", {sections : sections}, function(template){
             $('#sectionList').append(template);
         });
-
-        //$('#sectionList').append('<h4 class="panel-title">' +
-        //    '<a href="#" class="list-group-item active">Sections in ' + type + '</a>' +
-        //    '</h4>');
-
-        //for (var sectionName in sections) {
-            //$('#sectionList').append('<div class="panel panel-default">' +
-            //    '<div class="panel-heading" role="tab" id="heading' + sectionName + '">' +
-            //    '<h4 class="panel-title">' +
-            //    '<a class="collapsed" role="button" data-toggle="collapse" data-parent="#sectionList" href="#collapse' +
-            //    sectionName + '" aria-expanded="false" aria-controls="collapse' + sectionName + '">' +
-            //    sectionMap[sectionName] + '</a>' +
-            //    '</h4>' +
-            //    '</div>' +
-            //    '<div class="panel-collapse collapse" role="tabpanel" id="collapse' +
-            //    sectionName + '" aria-labelledby="heading' + sectionName + '">' +
-            //    '<div class="list-group" id="sectionChanges' + sectionName + '">' +
-            //    '</div>' +
-            //    '</div>' +
-            //    '</div>');
-            //if (!jQuery.isEmptyObject(sections[sectionName].content)) {
-            //    for (var changeName in sections[sectionName].content) {
-                    //$('#sectionChanges' + sectionName).append('<a href="#" class="list-group-item" ' +
-                    //    'onclick="loadSectionChangesDiff(\'' + sectionName + '\', \'' + changeName + '\')">' +
-                    //    changeMap[changeName] + '</a>');
-                //}
-            //}
-        //}
     }
 }
 
@@ -251,54 +216,3 @@ function initUIRemoval() {
         theme: "base16-light"
     });
 }
-
-//// Getting initial load data
-//var sections = diffData.sections;
-//var init_section_name, init_change_name, initialLoadContent;
-//
-//if (!jQuery.isEmptyObject(sections)) {
-//
-//    for (var key in sections) {
-//        init_section_name = key;
-//        break;
-//    }
-//
-//    if (!jQuery.isEmptyObject(sections[init_section_name].content)) {
-//        for (var key2 in sections[init_section_name].content) {
-//            init_change_name = key2;
-//            break;
-//        }
-//        if (!jQuery.isEmptyObject(diffData.sections[init_section_name].content[init_change_name])) {
-//            initialLoadContent = diffData.sections[init_section_name].content[init_change_name][0];
-//        }
-//    }
-//}
-//
-//var value, orig1, orig2, dv, panes = 2, highlight = true, connect = null, collapse = false;
-//
-//function initUI() {
-//    if (value == null) return;
-//    var target = document.getElementById("diffView");
-//    target.innerHTML = "";
-//    dv = CodeMirror.MergeView(target, {
-//        value: initialLoadContent.content.original,
-//        origLeft: panes == 3 ? orig1 : null,
-//        orig: orig2,
-//        lineNumbers: true,
-//        mode: "text/xml",
-//        highlightDifferences: highlight,
-//        connect: connect,
-//        collapseIdentical: collapse,
-//        theme: "base16-light"
-//    });
-//}
-//
-//// Setting initial load data.
-//window.onload = function () {
-//    value = document.documentElement.innerHTML;
-//    orig2 = initialLoadContent.content.changed;
-//    initUI();
-//    setViewPanelsHeight();
-//    addTitle();
-//};
-//
