@@ -46,11 +46,7 @@
     {{/hasAssetPermission}}
 
         <div class="row wr-associations-list">
-            <h4>
-                    <span class="fw-stack fw-lg">
-                        <i class="fw fw-circle fw-stack-2x"></i>
-                    </span> {{t "List of available associations for "}}{{assets.name}}
-            </h4>
+            <h4>{{t "Available associations for "}}{{assets.name}}</h4>
             <div class="col-lg-12">
                 {{#if associations.results}}
                     {{#each associations.results}}
