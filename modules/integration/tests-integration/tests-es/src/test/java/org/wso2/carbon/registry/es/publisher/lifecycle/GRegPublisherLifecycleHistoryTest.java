@@ -155,7 +155,7 @@ public class GRegPublisherLifecycleHistoryTest extends GregESTestBaseTest {
 
         //add a new rest service with same resource path
         response = createAsset(resourcePath + "json" + File.separator +
-                               "publisherPublishRestResource.json", publisherUrl,
+                               "RESTserviceforcheckingLChistory.json", publisherUrl,
                                cookieHeader, "restservice", genericRestClient);
 
         obj = new JSONObject(response.getEntity(String.class));
