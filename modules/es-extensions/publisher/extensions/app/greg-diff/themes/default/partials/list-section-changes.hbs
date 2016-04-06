@@ -6,7 +6,7 @@
     <div class="panel-heading" role="tab">
         <h4 class="panel-title">
             <a role="button" onclick="loadInitialTextDiff()" href="#">
-                Default Complete Text Diff
+                Complete Text Diff
             </a>
         </h4>
     </div>
@@ -31,19 +31,19 @@
                 {{#if this.data.content.CONTENT_ADDITION}}
                     <a href="#" class="list-group-item"
                        onclick="loadSectionChangesDiff('{{this.name}}', 'CONTENT_ADDITION')">
-                        Content Additions
+                        Additions
                     </a>
                 {{/if}}
                 {{#if this.data.content.CONTENT_REMOVAL}}
                     <a href="#" class="list-group-item"
                        onclick="loadSectionChangesDiff('{{this.name}}', 'CONTENT_REMOVAL')">
-                        Content Removals
+                        Removals
                     </a>
                 {{/if}}
                 {{#if this.data.content.CONTENT_CHANGE}}
                     <a href="#" class="list-group-item"
                        onclick="loadSectionChangesDiff('{{this.name}}', 'CONTENT_CHANGE')">
-                        Content Changes
+                        Changes
                     </a>
                 {{/if}}
                 {{#if this.data.content.CONTENT_TEXT}}

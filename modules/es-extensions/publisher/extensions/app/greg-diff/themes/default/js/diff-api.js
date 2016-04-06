@@ -105,15 +105,15 @@ function loadSectionList() {
     });
 
     var sectionMap = {
-        "wsdl_declaration": "WSDL Declaration Diff",
-        "wsdl_imports": "WSDL Imports Diff",
-        "wsdl_bindings": "WSDL Bindings Diff",
-        "wsdl_messages": "WSDL Messages Diff",
-        "wsdl_porttype": "WSDL PortTypes Diff",
-        "wsdl_operations": "WSDL Operations Diff",
-        "wsdl_service": "WSDL Service Diff",
-        "wsdl_ports": "WSDL Ports Diff",
-        "default": "Default Complete Text Diff"
+        "wsdl_declaration": "WSDL Declaration",
+        "wsdl_imports": "WSDL Imports",
+        "wsdl_bindings": "WSDL Bindings",
+        "wsdl_messages": "WSDL Messages",
+        "wsdl_porttype": "WSDL PortTypes",
+        "wsdl_operations": "WSDL Operations",
+        "wsdl_service": "WSDL Service",
+        "wsdl_ports": "WSDL Ports",
+        "default": "Complete Text Diff"
     };
     var keys = Object.keys(detailDiffData.sections);
     var sections = [];
