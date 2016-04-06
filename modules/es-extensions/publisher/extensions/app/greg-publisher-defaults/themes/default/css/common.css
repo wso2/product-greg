@@ -946,7 +946,7 @@ h3.ast-name {
 .wr-filter-category .dropdown-menu {
     border: 0px solid #333;
     background: #333;
-
+    top:53px;
 }
 
 a.ctrl-filter-category {
@@ -1012,6 +1012,10 @@ a#search-info {
     border-bottom-color: #ECECEC;
 }
 
+.form-group > .popover.bottom > .arrow {
+    top: -10px;
+    border-bottom-color: transparent;
+}
 /* </Search Option Popover> */
 
 /* Show Dependencies button */
