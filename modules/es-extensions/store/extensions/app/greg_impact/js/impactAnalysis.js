@@ -829,7 +829,7 @@ function svgDownload(){
         }
     };
     $(graphCaptureSVG + " g").inlineStyler(cssRules);
-    svgenie.save(document.getElementById("cloned"), { name:"graph.png" });
+    svgenie.save(document.getElementById("cloned"), { name:DOWNLOAD_FILENAME+'.png' });
     $(graphCaptureSVG).remove();
 }
 
