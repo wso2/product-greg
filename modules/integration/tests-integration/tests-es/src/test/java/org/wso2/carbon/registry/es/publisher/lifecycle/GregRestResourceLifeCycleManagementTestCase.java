@@ -40,6 +40,7 @@ import org.wso2.carbon.integration.common.utils.mgt.ServerConfigurationManager;
 import org.wso2.carbon.registry.core.exceptions.RegistryException;
 import org.wso2.carbon.registry.es.utils.GregESTestBaseTest;
 import org.wso2.carbon.registry.resource.stub.ResourceAdminServiceExceptionException;
+import org.wso2.carbon.registry.resource.stub.ResourceAdminServiceResourceServiceExceptionException;
 import org.wso2.greg.integration.common.clients.LifeCycleManagementClient;
 import org.wso2.greg.integration.common.clients.ManageGenericArtifactAdminServiceClient;
 import org.wso2.greg.integration.common.clients.ResourceAdminServiceClient;
@@ -72,6 +73,7 @@ public class GregRestResourceLifeCycleManagementTestCase extends GregESTestBaseT
     private ServerConfigurationManager serverConfigurationManager;
     String resourcePath;
     String lifeCycleName;
+    String restServiceResourcePath;
 
     @Factory(dataProvider = "userModeProvider")
     public GregRestResourceLifeCycleManagementTestCase(TestUserMode userMode) {
@@ -94,12 +96,30 @@ public class GregRestResourceLifeCycleManagementTestCase extends GregESTestBaseT
         resourceRegistryPath = "/_system/governance/repository/components" +
                                "/org.wso2.carbon.governance/types/updated-serviceLC.rxt";
         lifeCycleName = "ServiceLifeCycleLC2";
+        restServiceResourcePath = "/_system/governance/trunk/restservices/1.0.0/testservice1234";
     }
 
     @BeforeMethod
     public void resetParameters() {
         queryParamMap = new HashMap<String, String>();
         headerMap = new HashMap<String, String>();
+    }
+
+    @Test(groups = {"wso2.greg", "wso2.greg.es"}, description = "Authenticate Publisher test")
+    public void authenticatePublisher() throws JSONException {
+        ClientResponse response =
+                genericRestClient.geneticRestRequestPost(publisherUrl + "/authenticate/",
+                                                         MediaType.APPLICATION_FORM_URLENCODED,
+                                                         MediaType.APPLICATION_JSON,
+                                                         "username=admin&password=admin"
+                        , queryParamMap, headerMap, null);
+        JSONObject obj = new JSONObject(response.getEntity(String.class));
+        Assert.assertTrue((response.getStatusCode() == 200),
+                          "Wrong status code ,Expected 200 OK ,Received " +
+                          response.getStatusCode());
+        jSessionId = obj.getJSONObject("data").getString("sessionId");
+        cookieHeader = "JSESSIONID=" + jSessionId;
+        Assert.assertNotNull(jSessionId, "Invalid JSessionID received");
     }
 
     @Test(groups = {"wso2.greg", "wso2.greg.es"}, description = "Add lifecycle for rest resources",
@@ -124,7 +144,8 @@ public class GregRestResourceLifeCycleManagementTestCase extends GregESTestBaseT
     @Test(groups = {"wso2.greg", "wso2.greg.es"}, description = "Authenticate Publisher test",
             dependsOnMethods = {"addLifecycleForRestServiceResources", "authenticatePublisher"})
     public void createRestServiceAssetWithLC()
-            throws JSONException, InterruptedException, IOException {
+            throws JSONException, InterruptedException,
+                   IOException, ResourceAdminServiceResourceServiceExceptionException {
         queryParamMap.put("type", "restservice");
         String dataBody = readFile(resourcePath + "json" + File.separator
                                    + "publisherPublishRestResource.json");
@@ -142,6 +163,8 @@ public class GregRestResourceLifeCycleManagementTestCase extends GregESTestBaseT
                                       response.getEntity(String.class));
         Assert.assertTrue(this.getAsset(assetId, "restservice").get("lifecycle")
                                   .equals(lifeCycleName), "LifeCycle not assigned to given assert");
+
+        resourceAdminServiceClient.addResourcePermission(restServiceResourcePath, "manager", "3", "1");
     }
 
     @Test(groups = {"wso2.greg", "wso2.greg.es"}, description = "PromoteLifeCycle with fault user",
@@ -165,11 +188,9 @@ public class GregRestResourceLifeCycleManagementTestCase extends GregESTestBaseT
         JSONObject approvedActionsObj = dataObj.getJSONObject("approvedActions");
         Assert.assertEquals(approvedActionsObj.length(), 0);
         
-        ClientResponse responseCheck1;
-
-                Assert.assertTrue(checkLifeCycleCheckItem(cookieHeader, 0).getStatusCode()==200);
-                checkLifeCycleCheckItem(cookieHeader,1);
-                checkLifeCycleCheckItem(cookieHeader,2);
+        Assert.assertTrue(checkLifeCycleCheckItem(cookieHeader, 0).getStatusCode()==200);
+        checkLifeCycleCheckItem(cookieHeader, 1);
+        ClientResponse responseCheck1 = checkLifeCycleCheckItem(cookieHeader,2);
 
         ClientResponse response =
                 genericRestClient.geneticRestRequestPost(publisherUrl + "/assets/" + assetId + "/state",
@@ -290,29 +311,14 @@ public class GregRestResourceLifeCycleManagementTestCase extends GregESTestBaseT
         Assert.assertEquals(((JSONObject) checkItems.get(2)).getString("isVisible"), "null");
     }
 
-
-    @Test(groups = {"wso2.greg", "wso2.greg.es"}, description = "Authenticate Publisher test")
-    public void authenticatePublisher() throws JSONException {
-        ClientResponse response =
-                genericRestClient.geneticRestRequestPost(publisherUrl + "/authenticate/",
-                                                         MediaType.APPLICATION_FORM_URLENCODED,
-                                                         MediaType.APPLICATION_JSON,
-                                                         "username=admin&password=admin"
-                        , queryParamMap, headerMap, null);
-        JSONObject obj = new JSONObject(response.getEntity(String.class));
-        Assert.assertTrue((response.getStatusCode() == 200),
-                          "Wrong status code ,Expected 200 OK ,Received " +
-                          response.getStatusCode());
-        jSessionId = obj.getJSONObject("data").getString("sessionId");
-        cookieHeader = "JSESSIONID=" + jSessionId;
-        Assert.assertNotNull(jSessionId, "Invalid JSessionID received");
-    }
-
-
     @AfterClass(alwaysRun = true)
     public void cleanUp()
             throws RegistryException, LifeCycleManagementServiceExceptionException,
                    RemoteException, ResourceAdminServiceExceptionException, JSONException, AutomationUtilException {
+        genericRestClient.geneticRestRequestPost(publisherUrl + "/authenticate/",
+                                                 MediaType.APPLICATION_FORM_URLENCODED,
+                                                 MediaType.APPLICATION_JSON,
+                                                 "username=admin&password=admin", queryParamMap, headerMap, null);
         queryParamMap.put("type", "restservice");
         genericRestClient.geneticRestRequestDelete(publisherUrl + "/assets/" + assetId,
                                                    MediaType.APPLICATION_JSON,
