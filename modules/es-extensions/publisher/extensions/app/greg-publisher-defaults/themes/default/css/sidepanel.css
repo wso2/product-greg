@@ -22,6 +22,8 @@
 
 .wr-side-options, .wr-side-notifiactions {
     display: none;
+    overflow-y: auto;
+    height: 100%;
 }
 
 .wr-side-panel::-webkit-scrollbar {

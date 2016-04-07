@@ -22,6 +22,7 @@ import org.osgi.service.component.ComponentContext;
 import org.wso2.carbon.greg.migration.GRegMigrationException;
 import org.wso2.carbon.greg.migration.client.EmailUserNameMigrationClient;
 import org.wso2.carbon.greg.migration.client.MigrateFrom460To500;
+import org.wso2.carbon.greg.migration.client.MigrateFrom510To520;
 import org.wso2.carbon.greg.migration.client.MigrationClient;
 import org.wso2.carbon.greg.migration.client.ProviderMigrationClient;
 import org.wso2.carbon.greg.migration.util.Constants;
@@ -69,6 +70,7 @@ public class GRegMigrationServiceComponent {
         boolean isFileSystemMigrationNeeded = false;
         boolean isProviderMigrationNeeded = false;
         boolean isEmailUsernameMigrationNeeded = false;
+        boolean isStoreConfigMigrationNeeded = false;
 
         Map<String, String> argsMap = new HashMap<String, String>();
         argsMap.put("migrateVersion", System.getProperty("migrate"));
@@ -76,6 +78,7 @@ public class GRegMigrationServiceComponent {
         argsMap.put("isFileSysMigrationNeeded", System.getProperty("migrateFS"));
         argsMap.put("isProviderMigrationNeeded", System.getProperty("migrateProvider"));
         argsMap.put("isEmailUsernameMigrationNeeded", System.getProperty("migrateEmailUsername"));
+        argsMap.put("isStoreConfigMigrationNeeded", System.getProperty("migrateStoreConfig"));
 
         if (!argsMap.isEmpty()) {
             migrateVersion = argsMap.get("migrateVersion");
@@ -90,6 +93,9 @@ public class GRegMigrationServiceComponent {
             }
             if (argsMap.get("isEmailUsernameMigrationNeeded") != null) {
                 isEmailUsernameMigrationNeeded = Boolean.parseBoolean(argsMap.get("isEmailUsernameMigrationNeeded"));
+            }
+            if (argsMap.get("isStoreConfigMigrationNeeded") != null) {
+                isStoreConfigMigrationNeeded = Boolean.parseBoolean(argsMap.get("isStoreConfigMigrationNeeded"));
             }
         }
 
@@ -122,14 +128,19 @@ public class GRegMigrationServiceComponent {
                     if (log.isDebugEnabled()) {
                         log.debug("WSO2 Governance Registry 4.6.0 to 5.0.0 migration successfully completed");
                     }
-                } else if (Constants.VERSION_520.equalsIgnoreCase(migrateVersion) && isProviderMigrationNeeded){
-                    ProviderMigrationClient providerMigrationClient = new ProviderMigrationClient();
-                    providerMigrationClient.providerMigration();
-                }else if (Constants.VERSION_520.equalsIgnoreCase(migrateVersion) && isEmailUsernameMigrationNeeded){
-                    EmailUserNameMigrationClient emailUserNameMigrationClient = new EmailUserNameMigrationClient();
-                    emailUserNameMigrationClient.migrateResourcesWithEmailUserName();
-                }
-                else {
+                } else if (Constants.VERSION_520.equalsIgnoreCase(migrateVersion)) {
+                    if (!isEmailUsernameMigrationNeeded && !isProviderMigrationNeeded) {
+                        MigrateFrom510To520 migrateFrom510To520 = new MigrateFrom510To520();
+                        migrateFrom510To520.cleanOldResources();
+                    } else if (isEmailUsernameMigrationNeeded) {
+                        EmailUserNameMigrationClient emailUserNameMigrationClient = new EmailUserNameMigrationClient();
+                        emailUserNameMigrationClient.migrateResourcesWithEmailUserName();
+                    } else if (isProviderMigrationNeeded) {
+                        ProviderMigrationClient providerMigrationClient = new ProviderMigrationClient();
+                        providerMigrationClient.providerMigration();
+                    }
+
+                } else {
                     log.error("The given migrate version " + migrateVersion + " is not supported. Please check the version and try again.");
                 }
             }
