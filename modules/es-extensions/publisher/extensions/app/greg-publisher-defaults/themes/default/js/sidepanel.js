@@ -99,13 +99,13 @@ function toggleSidePanel(view,button){
     $(button).toggleClass('selected');
 
     if($(button).hasClass('selected')){
-        $('.navbar  .fw-stack-md  .fw-stack-1-5x').removeClass('fw-left-arrow');
-        $('.navbar  .fw-stack-md  .fw-stack-1-5x').addClass('fw-right-arrow');
+        $('.navbar  .'+view+'  .fw-stack-1-5x').removeClass('fw-left-arrow');
+        $('.navbar  .'+view+'  .fw-stack-1-5x').addClass('fw-right-arrow');
         $(sidePanel).addClass('toggled');
     }
     else {
-        $('.navbar  .fw-stack-md  .fw-stack-1-5x').removeClass('fw-right-arrow');
-        $('.navbar  .fw-stack-md  .fw-stack-1-5x').addClass('fw-left-arrow');
+        $('.navbar  .'+view+'  .fw-stack-1-5x').removeClass('fw-right-arrow');
+        $('.navbar  .'+view+'  .fw-stack-1-5x').addClass('fw-left-arrow');
         $(sidePanel).removeClass('toggled');
     }
 
