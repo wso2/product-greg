@@ -64,5 +64,8 @@ public class Constants {
     public static final String REGISTRY_XML_PATH = Constants.CARBON_HOME + File.separator + "repository" + File.separator
                                                    + "conf" + File.separator + "registry.xml";
 
+    //registry path for store.json file at config registry
+    public static final String STORE_CONFIG_PATH = "/store/configs/store.json";
+
 
 }
