@@ -159,7 +159,7 @@ $(function() {
             success: function(data) {
                 if (data.error == null) {
                     var updatedNotiCount = notiCount - 1;
-                    element.parent().remove();
+                    element.parent().parent().remove();
                     $('#notificationCount').html(updatedNotiCount);
                     if(updatedNotiCount == 0){
                         $("#clearalldiv").hide();
