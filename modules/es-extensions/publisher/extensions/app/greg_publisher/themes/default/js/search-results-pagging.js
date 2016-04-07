@@ -218,7 +218,9 @@ $(function () {
         doPagination = true;
         rows_added = 0;
         $('#search-results').html('');
-        var query = store.publisher.query;
+        // Note: fix for page scrolling issue.
+        // var query = store.publisher.query;
+        var query = $('#inp_searchAsset').val();
         query = modifiedQuery(query);
         if (isEmptyQuery(query)) {
             //console.log('User has not entered anything');
