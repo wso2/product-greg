@@ -147,10 +147,12 @@ function loadSectionChangesDiff(sectionName, changeName) {
         var sectionChange = detailDiffData.sections[sectionName].sectionSummary[changeName][0];
         loadContent = detailDiffData.sections[sectionName].content[changeName][0];
         if ("CONTENT_ADDITION" == changeName) {
-            orig2 = loadContent.content;
+            //orig2 = loadContent.content;
+            orig2 = null;
             initUIAddition();
         } else if ("CONTENT_REMOVAL" == changeName) {
-            orig2 = "";
+            //orig2 = "";
+            orig2 = null;
             initUIRemoval();
         } else {
             orig2 = loadContent.content.changed;
@@ -196,7 +198,8 @@ function initUI() {
 
 function initUIAddition() {
     dv = CodeMirror.MergeView(target, {
-        value: "",
+        //value: "",
+        value: loadContent.content,
         origLeft: panes == 3 ? orig1 : null,
         orig: orig2,
         lineNumbers: true,
