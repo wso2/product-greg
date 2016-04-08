@@ -53,7 +53,7 @@
         <div class="form-group">
             <label class="custom-form-label col-lg-2 col-md-2 col-sm-12 col-xs-12" for="wsdl_zip">{{t "WSDL/Zip file"}}<sup class="text-danger"> *</sup></label>
             <div class="custom-form-right col-lg-5 col-md-8 col-sm-8 col-xs-12">
-                <input type='file' name='wsdl_file' id='wsdl_file' class="validate-required"/>
+                <input type='file' name='wsdl_file' id='wsdl_file' class="validate-required" accept=".zip,.wsdl,.gar"/>
                 <!--Use a hidden field to save the zip name and pass it to request, as 'file' 
                     attribute is not passed to the request unless it is defined in the rxt.-->
                 <input type='hidden' name='wsdl_file_name' id='wsdl_file_name' />
