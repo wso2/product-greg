@@ -15,212 +15,271 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-var detailDiffData = {};
-var textDiffData = {};
-// Get full diff with two resources
-function getUrlParameter(sParam) {
-    var sPageURL = window.location.search.substring(1);
-    var sURLVariables = sPageURL.split('&');
-    for (var i = 0; i < sURLVariables.length; i++) {
-        var sParameterName = sURLVariables[i].split('=');
-        if (sParameterName[0] == sParam) {
-            return sParameterName[1];
-        }
-    }
-}
+$(document).ready(function() {
+    var paths = getUrlParameter('path').split(',');
+    var type = getUrlParameter('type');
+    var domain = resolveDomain();
+    var detailDiffData = {};
+    var opts = {};
+    opts.loadContent = null;
+    opts.orig1 = null;
+    opts.orig2 = null;
+    opts.dv = null;
+    opts.panes = 2;
+    opts.highlight = true;
+    opts.connect = null;
+    opts.collapse = false;
+    opts.target = null;
 
-var paths = getUrlParameter('path').split(',');
-var type = getUrlParameter('type');
-
-// Getting initial load data
-window.onload = function () {
-    loadInitialTextDiff();
+    var textDiffURL = resolveTextDiffURL(paths, domain, type);
+    initTextDiff(textDiffURL);
     if ("wsdl" == type) {
-        loadSectionList();
+        var detailDiffURL = resolveDetailDiffURL(paths, domain, type);
+        initDetailDiff(detailDiffURL);
     }
     else {
-        renderPartial("list-default", {}, function (template) {
+        renderPartial("list-default", {}, function(template){
             $('#sectionList').append(template);
         });
     }
-};
 
-var loadContent;
-var value, target, orig1, orig2, dv, panes = 2, highlight = true, connect = null, collapse = false;
+    /**
+     * Load the diff view data asynchoronously and render the UI
+     */
+    function initTextDiff(url) {
+        $.ajax({
+            url: url,
+            type: 'GET',
+            async: false,
+            success: function(response) {
+                var textDiffData = JSON.parse(response);
+                //Note: We do not need to call the render method here (since this is async), however in the future
+                //if we need to load the diff view asynchronously the async property can be set to TRUE.
+                renderTextDiff(textDiffData);
+            },
+            error: function() {
+                alert('Failed to load comparison text data');
+            }
+        });
+    }
 
-function loadInitialTextDiff() {
-    $.ajax({
-        url: caramel.context + '/apis/governance-artifacts/diff-text?targets=' + paths[1] + ',' + paths[0] + '&type='
-        + type,
-        type: 'GET',
-        async: false,
-        success: function (response) {
-            textDiffData = JSON.parse(response);
-        },
-        error: function () {
-            //console.log("Error getting content.");
+    function initDetailDiff(url) {
+        $.ajax({
+            url: url,
+            type: 'GET',
+            async: false,
+            success: function(response) {
+                detailDiffData = JSON.parse(response);
+                //Note: We do not need to call the render method here (since this is async), however in the future
+                //if we need to load the diff view asynchronously the async property can be set to TRUE.
+                renderDetailDiff(detailDiffData);
+            },
+            error: function() {
+                alert('Failed to load comparison detail data');
+            }
+        });
+    }
+
+    /**
+     * Resolves the tenant domain against which the API call must be made
+     */
+    function resolveDomain() {
+        var tenantDomain;
+        var domain = '';
+        if ((store) && (store.publisher)) {
+            tenantDomain = store.publisher.tenantDomain;
         }
-    });
-
-    var textDiffSections = textDiffData.sections;
-    var sectionName, changeName;
-    if (!jQuery.isEmptyObject(textDiffSections)) {
-        for (var key in textDiffSections) {
-            sectionName = key;
-            break;
+        //Construct the tenant query parameter if a tenant domain was resolved
+        if (tenantDomain) {
+            domain = '&tenant=' + tenantDomain;
         }
-        if (!jQuery.isEmptyObject(textDiffSections[sectionName].content)) {
-            for (var key2 in textDiffSections[sectionName].content) {
-                changeName = key2;
+        return domain;
+    }
+
+    function resolveTextDiffURL(paths, domain, type) {
+        return caramel.context + '/apis/governance-artifacts/diff-text?targets=' + paths[1] + ',' + paths[0] + domain + '&type=' + type;
+    }
+
+    function resolveDetailDiffURL(paths, domain, type) {
+        return caramel.context + '/apis/governance-artifacts/diff-detail?targets=' + paths[1] + ',' + paths[0] + domain + '&type=' + type;
+    }
+
+    function getUrlParameter(sParam) {
+        var sPageURL = window.location.search.substring(1);
+        var sURLVariables = sPageURL.split('&');
+        for (var i = 0; i < sURLVariables.length; i++) {
+            var sParameterName = sURLVariables[i].split('=');
+            if (sParameterName[0] == sParam) {
+                return sParameterName[1];
+            }
+        }
+    }
+
+    /**
+     * Renders the diff view by processing the response provided by the API
+     * and then initializing the CodeMirror UI
+     */
+    function renderTextDiff(textDiffData) {
+        var textDiffSections = textDiffData.sections;
+        var sectionName, changeName;
+        if (!jQuery.isEmptyObject(textDiffSections)) {
+            for (var key in textDiffSections) {
+                sectionName = key;
                 break;
             }
-            if (!jQuery.isEmptyObject(textDiffData.sections[sectionName].content[changeName])) {
-                loadContent = textDiffData.sections[sectionName].content[changeName][0];
-                var sectionChange = textDiffData.sections[sectionName].sectionSummary[changeName][0];
+            if (!jQuery.isEmptyObject(textDiffSections[sectionName].content)) {
+                for (var key2 in textDiffSections[sectionName].content) {
+                    changeName = key2;
+                    break;
+                }
+                if (!jQuery.isEmptyObject(textDiffData.sections[sectionName].content[changeName])) {
+                    var sectionChange = textDiffData.sections[sectionName].sectionSummary[changeName][0];
+                    var loadContent = textDiffData.sections[sectionName].content[changeName][0];
+                }
             }
         }
-    }
-    value = document.documentElement.innerHTML;
-    if (value == null) return;
-    target = document.getElementById("diffView");
-    target.innerHTML = "";
-    orig2 = loadContent.content.changed;
-    initUI();
-    setViewPanelsHeight();
-    addTitle(sectionChange);
-}
-
-function loadSectionList() {
-    $.ajax({
-        url: caramel.context + '/apis/governance-artifacts/diff-detail?targets=' + paths[1] + ',' + paths[0] + '&type='
-        + type,
-        type: 'GET',
-        async: false,
-        success: function (response) {
-            detailDiffData = JSON.parse(response);
-        },
-        error: function () {
-            //console.log("Error getting content.");
-        }
-    });
-
-    var sectionMap = {
-        "wsdl_declaration": "WSDL Declaration",
-        "wsdl_imports": "WSDL Imports",
-        "wsdl_bindings": "WSDL Bindings",
-        "wsdl_messages": "WSDL Messages",
-        "wsdl_porttype": "WSDL PortTypes",
-        "wsdl_operations": "WSDL Operations",
-        "wsdl_service": "WSDL Service",
-        "wsdl_ports": "WSDL Ports",
-        "default": "Complete Text Diff"
-    };
-    var keys = Object.keys(detailDiffData.sections);
-    var sections = [];
-    var entry;
-    keys.forEach(function (key) {
-        entry = {};
-        entry.name = key;
-        entry.title = sectionMap[key];
-        entry.data = detailDiffData.sections[key];
-        sections.push(entry);
-    });
-
-    if (!jQuery.isEmptyObject(sections)) {
-        renderPartial("list-section-changes", {sections: sections}, function (template) {
-            $('#sectionList').append(template);
-        });
-    }
-    else {
-        renderPartial("list-default", {}, function (template) {
-            $('#sectionList').append(template);
-        });
-    }
-}
-
-function loadSectionChangesDiff(sectionName, changeName) {
-    value = document.documentElement.innerHTML;
-    if (value == null) return;
-    target = document.getElementById("diffView");
-    target.innerHTML = "";
-    if (!jQuery.isEmptyObject(detailDiffData.sections[sectionName].content[changeName])) {
-        var sectionChange = detailDiffData.sections[sectionName].sectionSummary[changeName][0];
-        loadContent = detailDiffData.sections[sectionName].content[changeName][0];
-        if ("CONTENT_ADDITION" == changeName) {
-            //orig2 = loadContent.content;
-            orig2 = null;
-            initUIAddition();
-        } else if ("CONTENT_REMOVAL" == changeName) {
-            //orig2 = "";
-            orig2 = null;
-            initUIRemoval();
-        } else {
-            orig2 = loadContent.content.changed;
-            initUI();
-        }
+        opts.loadContent = loadContent;
+        opts.orig2 = loadContent.content.changed;
+        var value = document.documentElement.innerHTML;
+        if (value == null) return;
+        var target = document.getElementById("diffView");
+        target.innerHTML = "";
+        opts.target = target;
+        initUI(opts);
         setViewPanelsHeight();
         addTitle(sectionChange);
     }
-}
 
-var partial = function (name) {
-    return '/extensions/app/greg-diff/themes/' + caramel.themer + '/partials/' + name + '.hbs';
-};
-
-var renderPartial = function (partialKey, data, fn) {
-    fn = fn || function () {
+    function renderDetailDiff(detailDiffData) {
+        var sectionMap = {
+            "wsdl_declaration": "WSDL Declaration",
+            "wsdl_imports": "WSDL Imports",
+            "wsdl_bindings": "WSDL Bindings",
+            "wsdl_messages": "WSDL Messages",
+            "wsdl_porttype": "WSDL PortTypes",
+            "wsdl_operations": "WSDL Operations",
+            "wsdl_service": "WSDL Service",
+            "wsdl_ports": "WSDL Ports",
+            "default":"Complete Text Diff"
         };
-    var partialName = partialKey;
-    if (!partialName) {
-        throw 'A template name has not been specified for template key ' + partialKey;
+        var keys = Object.keys(detailDiffData.sections);
+        var sections = [];
+        var entry;
+        keys.forEach(function(key){
+            entry = {};
+            entry.name = key;
+            entry.title = sectionMap[key];
+            entry.data = detailDiffData.sections[key];
+            sections.push(entry);
+        });
+
+        if (!jQuery.isEmptyObject(sections)) {
+            renderPartial("list-section-changes", {sections : sections}, function(template){
+                $('#sectionList').append(template);
+            });
+        }
+        else {
+            renderPartial("list-default", {}, function(template){
+                $('#sectionList').append(template);
+            });
+        }
     }
-    var obj = {};
-    obj[partialName] = partial(partialName);
-    caramel.partials(obj, function () {
-        var template = Handlebars.partials[partialName](data);
-        fn(template);
-    });
-};
 
-function initUI() {
-    dv = CodeMirror.MergeView(target, {
-        value: loadContent.content.original,
-        origLeft: panes == 3 ? orig1 : null,
-        orig: orig2,
-        lineNumbers: true,
-        mode: "text/xml",
-        highlightDifferences: highlight,
-        connect: connect,
-        collapseIdentical: collapse,
-        theme: "base16-light"
+    $(document).on("click", ".list-group-item", function(){
+        var section = $(this).data('section');
+        var change = $(this).data('change');
+        var value = document.documentElement.innerHTML;
+        if (value == null) return;
+        var target = document.getElementById("diffView");
+        target.innerHTML = "";
+        opts.target = target;
+        if (!jQuery.isEmptyObject(detailDiffData.sections[section].content[change])) {
+            var sectionChange = detailDiffData.sections[section].sectionSummary[change][0];
+            var loadContent = detailDiffData.sections[section].content[change][0];
+            opts.loadContent = loadContent;
+            if ("CONTENT_ADDITION" == change) {
+                //opts.orig2 = loadContent.content;
+                opts.orig2 = null;
+                initUIAddition(opts);
+            } else if ("CONTENT_REMOVAL" == change) {
+                //opts.orig2 = "";
+                opts.orig2 = null;
+                initUIRemoval(opts);
+            } else {
+                opts.orig2 = loadContent.content.changed;
+                initUI(opts);
+            }
+            setViewPanelsHeight();
+            addTitle(sectionChange);
+        }
     });
-}
 
-function initUIAddition() {
-    dv = CodeMirror.MergeView(target, {
-        //value: "",
-        value: loadContent.content,
-        origLeft: panes == 3 ? orig1 : null,
-        orig: orig2,
-        lineNumbers: true,
-        mode: "text/xml",
-        highlightDifferences: highlight,
-        connect: connect,
-        collapseIdentical: collapse,
-        theme: "base16-light"
+    $(document).on("click", ".text-diff", function(){
+        var textDiffURL = resolveTextDiffURL(paths, domain, type);
+        initTextDiff(textDiffURL);
     });
-}
 
-function initUIRemoval() {
-    dv = CodeMirror.MergeView(target, {
-        value: loadContent.content,
-        origLeft: panes == 3 ? orig1 : null,
-        orig: orig2,
-        lineNumbers: true,
-        mode: "text/xml",
-        highlightDifferences: highlight,
-        connect: connect,
-        collapseIdentical: collapse,
-        theme: "base16-light"
-    });
-}
+    function partial(name) {
+        return '/extensions/app/greg-diff/themes/' + caramel.themer + '/partials/' + name + '.hbs';
+    }
+
+    function renderPartial(partialKey,data, fn) {
+        fn = fn || function() {};
+        var partialName = partialKey;
+        if (!partialName) {
+            throw 'A template name has not been specified for template key ' + partialKey;
+        }
+        var obj = {};
+        obj[partialName] = partial(partialName);
+        caramel.partials(obj, function() {
+            var template = Handlebars.partials[partialName](data);
+            fn(template);
+        });
+    }
+
+    /**
+     * Initializing logic for the CodeMirror librray
+     */
+    function initUI(options) {
+        options.dv = CodeMirror.MergeView(options.target, {
+            value: options.loadContent.content.original,
+            origLeft: options.panes == 3 ? options.orig1 : null,
+            orig: options.orig2,
+            lineNumbers: true,
+            mode: "text/xml",
+            highlightDifferences: options.highlight,
+            connect: options.connect,
+            collapseIdentical: options.collapse,
+            theme: "base16-light"
+        });
+    }
+
+    function initUIAddition(options) {
+        options.dv = CodeMirror.MergeView(options.target, {
+            //value: "",
+            value: options.loadContent.content,
+            origLeft: options.panes == 3 ? options.orig1 : null,
+            orig: options.orig2,
+            lineNumbers: true,
+            mode: "text/xml",
+            highlightDifferences: options.highlight,
+            connect: options.connect,
+            collapseIdentical: options.collapse,
+            theme: "base16-light"
+        });
+    }
+
+    function initUIRemoval(options) {
+        options.dv = CodeMirror.MergeView(options.target, {
+            value: options.loadContent.content,
+            origLeft: options.panes == 3 ? options.orig1 : null,
+            orig: options.orig2,
+            lineNumbers: true,
+            mode: "text/xml",
+            highlightDifferences: options.highlight,
+            connect: options.connect,
+            collapseIdentical: options.collapse,
+            theme: "base16-light"
+        });
+    }
+});
