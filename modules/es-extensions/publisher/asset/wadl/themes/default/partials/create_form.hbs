@@ -53,7 +53,7 @@
         <div class="form-group">
             <label class="custom-form-label col-lg-2 col-md-2 col-sm-12 col-xs-12" for="wadl_zip">{{t "WADL/Zip file"}}<sup class="text-danger"> *</sup></label>
             <div class="custom-form-right col-lg-5 col-md-8 col-sm-8 col-xs-12">
-                <input type='file' name='wadl_file' id='wadl_file' class="validate-required"/>
+                <input type='file' name='wadl_file' id='wadl_file' class="validate-required" accept=".zip,.wadl,.gar"/>
                 <!--Use a hidden field to save the zip name and pass it to request, as 'file' 
                     attribute is not passed to the request unless it is defined in the rxt.-->
                 <input type='hidden' name='wadl_file_name' id='wadl_file_name' />
