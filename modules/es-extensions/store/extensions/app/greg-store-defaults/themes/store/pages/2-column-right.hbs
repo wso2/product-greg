@@ -73,9 +73,9 @@
         if ($(document).height() - $(window).height() > affixOffset) {
             $(document).scroll(function () {
                 if ($(document).scrollTop() >= ( affixOffset + 20)) {
-                    $('#nav').addClass("affix");
+                    $('#navigation-container').addClass("affix");
                 } else {
-                    $('#nav').removeClass("affix");
+                    $('#navigation-container').removeClass("affix");
                 }
             });
         }
