@@ -165,13 +165,13 @@
                 <exclude>**/.svn</exclude>
             </excludes>
         </fileSet>
-        <fileSet>
+        <!--fileSet>
             <directory>../p2-profile-gen/target/wso2carbon-core-${carbon.kernel.version}/dbscripts/storage</directory>
             <outputDirectory>${pom.artifactId}-${build.version}/dbscripts/storage</outputDirectory>
             <includes>
                 <include>**/*</include>
             </includes>
-        </fileSet>
+        </fileSet-->
         <fileSet>
             <directory>src/main/resources/carbon-home/conf/node</directory>
             <outputDirectory>${pom.artifactId}-${build.version}/repository/conf</outputDirectory>

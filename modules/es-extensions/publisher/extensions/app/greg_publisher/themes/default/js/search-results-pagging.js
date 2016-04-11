@@ -87,7 +87,7 @@ $(function () {
                 }
                 if (results.length == 0) {
                     if (from == 0) {
-                        $('#search-results').html('We are sorry but we could not find any matching assets');
+                        $('#search-results').html('<div class="emptyAssets-MsgDiv"><p class="emptyAssets">We are sorry! we couldn\'t find anything for you ...</p></div>');
                     }
                     $('.loading-animation-big').remove();
                     doPagination = false;
@@ -218,7 +218,9 @@ $(function () {
         doPagination = true;
         rows_added = 0;
         $('#search-results').html('');
-        var query = store.publisher.query;
+        // Note: fix for page scrolling issue.
+        // var query = store.publisher.query;
+        var query = $('#inp_searchAsset').val();
         query = modifiedQuery(query);
         if (isEmptyQuery(query)) {
             //console.log('User has not entered anything');

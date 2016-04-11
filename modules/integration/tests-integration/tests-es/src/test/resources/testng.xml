@@ -7,6 +7,7 @@
             <package name="org.wso2.carbon.registry.es.publisher.generic"/>
             <package name="org.wso2.carbon.registry.es.publisher.crud"/>
             <package name="org.wso2.carbon.registry.es.publisher.search"/>
+            <package name="org.wso2.carbon.registry.es.publisher.lifecycle"/>
             <package name="org.wso2.carbon.registry.es.notes"/>
             <package name="org.wso2.carbon.registry.es.tags"/>
             <package name="org.wso2.carbon.registry.es.store.search"/>

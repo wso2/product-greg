@@ -15,20 +15,7 @@
                title="{{t "Advance Search"}}">
                 <span>{{t "Advanced Search"}}</span>
             </a>
-            <a href="#" class="form-control-feedback advance" data-toggle="popover" data-placement="bottom"
-               data-content="
-                    <h3>Search Options</h3>
-                     <ul>
-                     <li>By Asset Name [Default] or [ <b>name:</b>&amp;lt;your-value&amp;gt; ]</li>
-                     <li>By Asset Content [ <b>content:</b>&amp;lt;your-value&amp;gt; ]</li>
-                     <li>By Asset Tag [ <b>tags:</b>&amp;lt;your-value&amp;gt; ]</li>
-                     <li>By Asset Version [ <b>version:</b>&amp;lt;your-value&amp;gt; ]</li>
-                     <li>By Media Type [ <b>mediaType:</b>&amp;lt;your-value&amp;gt; ]</li>
-                     <li>By Lifecycle Name [ <b>lcName:</b>&amp;lt;your-value&amp;gt; ]</li>
-                     <li>By Lifecycle State [ <b>lcState:</b>&amp;lt;your-value&amp;gt; ]</li>
-                     </ul>" data-html="true" id="search-info">
-                <i class="fw fw-info"></i>
-            </a>
+            {{>search-options-popover .}}
             <input type="hidden" name="sortby" value=""/>
             <input type="hidden" name="sort" value=""/>
         </div>
@@ -43,7 +30,7 @@
 <div class="row">
 
 {{#hasAssetPermission . key="ASSET_LIST" type="soapservice" username=cuser.username tenantId=cuser.tenantId}}
-    <div class="col-md-6 col-lg-4">
+    <div class="col-md-6 col-lg-5">
         <div class="tile color1" data-click-event="steps">
             <div data-step="1">
                 <h1>SOAP Services</h1>
@@ -61,7 +48,6 @@
                             {{/hasAssetPermission}}
                             {{#hasAssetPermission . key="ASSET_CREATE" type="wsdl" username=cuser.username tenantId=cuser.tenantId}}
                                 {{t "or"}}
-                                <br/>
                                 {{t "automatically by importing a "}}<a
                                     href="/publisher/assets/wsdl/create">WSDL</a> file.
                             {{/hasAssetPermission}}
@@ -134,7 +120,7 @@
 {{/hasAssetPermission}}
 
 {{#hasAssetPermission . key="ASSET_LIST" type="restservice" username=cuser.username tenantId=cuser.tenantId}}
-    <div class="col-md-6 col-lg-4">
+    <div class="col-md-6 col-lg-5">
         <div class="tile color2" data-click-event="steps">
             <div data-step="1">
                 <h1>{{t "REST Services"}}</h1>
@@ -152,14 +138,12 @@
                             {{/hasAssetPermission}}
                             {{#hasAssetPermission . key="ASSET_CREATE" type="wadl" username=cuser.username tenantId=cuser.tenantId}}
                                 {{t "or"}}
-                                <br/>
                                 {{t "automatically by importing a "}} <a
                                     href="/publisher/assets/wadl/create">{{t "WADL"}}</a>
                                 {{t "file "}}
                             {{/hasAssetPermission}}
                             {{#hasAssetPermission . key="ASSET_CREATE" type="swagger" username=cuser.username tenantId=cuser.tenantId}}
                                 {{t "or"}}
-                                <br/>
                                 {{t "automatically by importing a "}} <a
                                     href="/publisher/assets/swagger/create">{{t "Swagger"}}</a>
                                 {{t "file."}}
@@ -249,7 +233,7 @@
 <div class="page-header no-border">
     <h1>{{t "Other Assets"}}</h1>
 
-    <p class="lead">{{t "Browse available assets or Add new assets of below types"}}</p>
+    <p class="lead">{{t "Browse available assets of below types"}}</p>
 </div>
 
 <!-- content -->

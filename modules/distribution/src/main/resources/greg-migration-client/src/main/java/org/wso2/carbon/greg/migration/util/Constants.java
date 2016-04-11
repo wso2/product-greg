@@ -53,6 +53,10 @@ public class Constants {
     public static final String ARTIFACT_TYPE = "artifactType";
     public static final String TYPE = "type";
     public static final String FILE_EXTENSION = "fileExtension";
+    public static final String CONTENT = "content";
+    public static final String TABLE = "table";
+    public static final String NAME = "name";
+    public static final String FIELD = "field";
 
     //Constants for email username migration client
     public static final String METADATA_NAMESPACE = "http://www.wso2.org/governance/metadata";
@@ -64,5 +68,39 @@ public class Constants {
     public static final String REGISTRY_XML_PATH = Constants.CARBON_HOME + File.separator + "repository" + File.separator
                                                    + "conf" + File.separator + "registry.xml";
 
+    //registry path for store.json file at config registry
+    public static final String STORE_CONFIG_PATH = "/store/configs/store.json";
 
+    //Constants for 510 to 520 migration
+    public enum DatabaseTypes {
+        oracle, mssql, mysql, postgresql, h2, db2
+    }
+    //script files related to IDP_METADATA tables
+    public static final String IDP_MIGRATION_SCRIPT_DB2 = "migration-scripts" + File.separator + "identity"
+                                                          + File.separator + "idp" + File.separator + "idp_db2.sql";
+    public static final String IDP_MIGRATION_SCRIPT_H2 = "migration-scripts" + File.separator + "identity"
+                                                         + File.separator + "idp" + File.separator + "idp_h2.sql";
+    public static final String IDP_MIGRATION_SCRIPT_MSSQL = "migration-scripts" + File.separator + "identity"
+                                                            + File.separator + "idp" + File.separator + "idp_mssql.sql";
+    public static final String IDP_MIGRATION_SCRIPT_MYSQL = "migration-scripts" + File.separator + "identity"
+                                                            + File.separator + "idp" + File.separator + "idp_mysql.sql";
+    public static final String IDP_MIGRATION_SCRIPT_ORACLE = "migration-scripts" + File.separator + "identity"
+                                                             + File.separator + "idp" + File.separator + "idp_oracle.sql";
+    public static final String IDP_MIGRATION_SCRIPT_POSTGRESQL = "migration-scripts" + File.separator + "identity"
+                                                                 + File.separator + "idp" + File.separator
+                                                                 + "idp_postgresql.sql";
+    //script files related to SP_METADATA tables.
+    public static final String SP_MIGRATION_SCRIPT_DB2 = "migration-scripts" + File.separator + "identity"
+                                                         + File.separator + "sp" + File.separator + "sp_db2.sql";
+    public static final String SP_MIGRATION_SCRIPT_H2 = "migration-scripts" + File.separator + "identity"
+                                                        + File.separator + "sp" + File.separator + "sp_h2.sql";
+    public static final String SP_MIGRATION_SCRIPT_MSSQL = "migration-scripts" + File.separator + "identity"
+                                                           + File.separator + "sp" + File.separator + "sp_mssql.sql";
+    public static final String SP_MIGRATION_SCRIPT_MYSQL = "migration-scripts" + File.separator + "identity"
+                                                           + File.separator + "sp" + File.separator + "sp_mysql.sql";
+    public static final String SP_MIGRATION_SCRIPT_ORACLE = "migration-scripts" + File.separator + "identity"
+                                                            + File.separator + "sp" + File.separator + "sp_oracle.sql";
+    public static final String SP_MIGRATION_SCRIPT_POSTGRESQL = "migration-scripts" + File.separator + "identity"
+                                                                + File.separator + "sp" + File.separator
+                                                                + "sp_postgresql.sql";
 }

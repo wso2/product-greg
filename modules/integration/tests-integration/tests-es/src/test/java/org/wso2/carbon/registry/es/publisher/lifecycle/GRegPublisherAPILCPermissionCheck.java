@@ -151,6 +151,7 @@ public class GRegPublisherAPILCPermissionCheck extends GregESTestBaseTest {
 
     @AfterClass(alwaysRun = true)
     public void cleanUp() throws Exception {
+        authenticatePublisher("admin", "admin");
         deleteAsset(assetId, publisherUrl, cookieHeader, "restservice", genericRestClient);
     }
 }

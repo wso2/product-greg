@@ -22,6 +22,7 @@ import org.osgi.service.component.ComponentContext;
 import org.wso2.carbon.greg.migration.GRegMigrationException;
 import org.wso2.carbon.greg.migration.client.EmailUserNameMigrationClient;
 import org.wso2.carbon.greg.migration.client.MigrateFrom460To500;
+import org.wso2.carbon.greg.migration.client.MigrateFrom510To520;
 import org.wso2.carbon.greg.migration.client.MigrationClient;
 import org.wso2.carbon.greg.migration.client.ProviderMigrationClient;
 import org.wso2.carbon.greg.migration.util.Constants;
@@ -76,6 +77,7 @@ public class GRegMigrationServiceComponent {
         argsMap.put("isFileSysMigrationNeeded", System.getProperty("migrateFS"));
         argsMap.put("isProviderMigrationNeeded", System.getProperty("migrateProvider"));
         argsMap.put("isEmailUsernameMigrationNeeded", System.getProperty("migrateEmailUsername"));
+        argsMap.put("isStoreConfigMigrationNeeded", System.getProperty("migrateStoreConfig"));
 
         if (!argsMap.isEmpty()) {
             migrateVersion = argsMap.get("migrateVersion");
@@ -109,28 +111,37 @@ public class GRegMigrationServiceComponent {
                     } else {
                         //Only performs registry migration which also includes endpoint migration as well.
                         if (isRegistryMigrationNeeded) {
-                            log.info("Migrating WSO2 Governance Registry 4.6.0 registry resources to WSO2 Governance Registry 5.0.0");
+                            log.info("Migrating WSO2 Governance Registry 4.6.0 registry resources to WSO2 Governance " +
+                                     "Registry 5.0.0");
                             migrationClient.registryResourceMigration();
                             migrationClient.endpointMigration();
                         }
                         //Only performs file system migration
                         if (isFileSystemMigrationNeeded) {
-                            log.info("Migrating WSO2 Governance Registry 4.6.0 file system resources to WSO2 Governance Registry 5.0.0");
+                            log.info("Migrating WSO2 Governance Registry 4.6.0 file system resources to WSO2 Governance " +
+                                     "Registry 5.0.0");
                             migrationClient.fileSystemMigration();
                         }
                     }
                     if (log.isDebugEnabled()) {
                         log.debug("WSO2 Governance Registry 4.6.0 to 5.0.0 migration successfully completed");
                     }
-                } else if (Constants.VERSION_520.equalsIgnoreCase(migrateVersion) && isProviderMigrationNeeded){
-                    ProviderMigrationClient providerMigrationClient = new ProviderMigrationClient();
-                    providerMigrationClient.providerMigration();
-                }else if (Constants.VERSION_520.equalsIgnoreCase(migrateVersion) && isEmailUsernameMigrationNeeded){
-                    EmailUserNameMigrationClient emailUserNameMigrationClient = new EmailUserNameMigrationClient();
-                    emailUserNameMigrationClient.migrateResourcesWithEmailUserName();
-                }
-                else {
-                    log.error("The given migrate version " + migrateVersion + " is not supported. Please check the version and try again.");
+                } else if (Constants.VERSION_520.equalsIgnoreCase(migrateVersion)) {
+                    if (!isEmailUsernameMigrationNeeded && !isProviderMigrationNeeded) {
+                        MigrateFrom510To520 migrateFrom510To520 = new MigrateFrom510To520();
+                        migrateFrom510To520.databaseMigration(migrateVersion);
+                        migrateFrom510To520.cleanOldResources();
+                    } else if (isEmailUsernameMigrationNeeded) {
+                        EmailUserNameMigrationClient emailUserNameMigrationClient = new EmailUserNameMigrationClient();
+                        emailUserNameMigrationClient.migrateResourcesWithEmailUserName();
+                    } else if (isProviderMigrationNeeded) {
+                        ProviderMigrationClient providerMigrationClient = new ProviderMigrationClient();
+                        providerMigrationClient.providerMigration();
+                    }
+
+                } else {
+                    log.error("The given migrate version " + migrateVersion + " is not supported. Please check the " +
+                              "version and try again.");
                 }
             }
         } catch (GRegMigrationException e) {
