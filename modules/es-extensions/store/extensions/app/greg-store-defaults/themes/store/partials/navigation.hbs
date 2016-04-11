@@ -59,7 +59,7 @@
             </div>
         </div>
         <div id="the-basics" class="es-input-group input-group input-wrap">
-            <div class="search-wrapper" style="float:left;width:80%;position:relative;left:0px;margin-left:-10px;">
+            <div class="search-wrapper" style="float:left;width:80%;position:relative;left:0px;margin-left:-45px;">
                 {{#if rxt.pluralLabel}}
                     <input  id="search"  type="text" class="typeahead es-form-control form-control" placeholder="Search in {{rxt.pluralLabel}}" value="{{searchQuery}}">
                 {{else}}
@@ -72,7 +72,12 @@
                     {{>search-options-popover .}}
             </div>
         </div>
-            
+            <nav-es style="float:left;width:100%;position:relative;">
+                <ul class="cf" id="dropdown-taxonomy" >
+
+
+                </ul>
+            </nav-es>
         </div>
         <div class="col-sm-3 col-md-5 col-lg-3 top-menu-right-custom right">
             <div>
@@ -146,3 +151,4 @@
         {{/if}}
     </div>
 {{/if}}
+<br>  <br> <br>
