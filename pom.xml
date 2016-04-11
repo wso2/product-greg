@@ -25,7 +25,7 @@
     <groupId>org.wso2.greg</groupId>
     <artifactId>governance-parent</artifactId>
     <packaging>pom</packaging>
-    <version>5.2.0</version>
+    <version>5.3.0-SNAPSHOT</version>
     <name>WSO2 Governance Registry</name>
     <url>http://wso2.com/products/governance-registry</url>
     <description>WSO2 Governance Registry</description>
@@ -40,7 +40,7 @@
         <url>https://github.com/wso2/product-greg.git</url>
         <developerConnection>scm:git:https://github.com/wso2/product-greg.git</developerConnection>
         <connection>scm:git:https://github.com/wso2/product-greg.git</connection>
-        <tag>v5.2.0-rc1</tag>
+        <tag>HEAD</tag>
     </scm>
 
     <modules>
@@ -1074,7 +1074,7 @@
         <javax.activation.version>1.1.1</javax.activation.version>
 
         <!-- Product G-Reg -->
-        <product.greg.version>5.2.0</product.greg.version>
+        <product.greg.version>5.3.0-SNAPSHOT</product.greg.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 
