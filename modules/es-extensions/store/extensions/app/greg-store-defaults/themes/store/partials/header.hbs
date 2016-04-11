@@ -30,7 +30,9 @@
             {{#if cuser.username}}
                 <a href="#" data-toggle="dropdown" class="">
                     <div class="auth-img">
-                        <span id="logedInUser" class="hidden-xs-320">{{cuser.username}}&nbsp;&nbsp;</span><i class="fw fw-user"></i>
+                        <i class="fw fw-user"></i>
+                        <span id="logedInUser" class="hidden-xs-320">{{cuser.username}}</span>
+                        <span class="caret"></span>
                     </div>
                 </a>
                 <div class="es-dropdown-menu es-logout-menu dropdown-menu">
