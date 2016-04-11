@@ -74,14 +74,10 @@ public class ProviderMigrationClient {
         try {
             List<Tenant> tenantsArray = getTenantsArray();
             for (Tenant tenant : tenantsArray) {
-                try {
-                    migrate(tenant);
-                } catch (XMLStreamException e) {
-                    e.printStackTrace();
-                }
+                migrate(tenant);
             }
             log.info("Migration Completed Successfully in " + (System.currentTimeMillis() - startTimeMillis)
-                    + "ms");
+                     + "ms");
         } catch (IOException e) {
             String msg = "Error occurred while performing operations on input source. ";
             log.error(msg, e);
@@ -104,6 +100,10 @@ public class ProviderMigrationClient {
             throw new GRegMigrationException(msg, e);
         } catch (ParserConfigurationException e) {
             String msg = "Error occurred while defining document builder. ";
+            log.error(msg, e);
+            throw new GRegMigrationException(msg, e);
+        } catch (XMLStreamException e) {
+            String msg = "Error while processing string to xml";
             log.error(msg, e);
             throw new GRegMigrationException(msg, e);
         }
