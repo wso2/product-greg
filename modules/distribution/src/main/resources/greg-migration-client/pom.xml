@@ -168,12 +168,12 @@
         <org.apache.ws.commons.axiom.version>1.2.14</org.apache.ws.commons.axiom.version>
         <org.apache.ws.commons.axiom.wso2.version>1.2.11.wso2v5</org.apache.ws.commons.axiom.wso2.version>
         <org.bouncycastle.wso2.version>1.49.0.wso2v2</org.bouncycastle.wso2.version>
-        <org.wso2.carbon.core.services.version>4.4.0</org.wso2.carbon.core.services.version>
+        <org.wso2.carbon.core.services.version>4.4.5</org.wso2.carbon.core.services.version>
         <org.wso2.carbon.logging.version>4.4.0</org.wso2.carbon.logging.version>
         <org.wso2.carbon.logging.import.version>1.0.4</org.wso2.carbon.logging.import.version>
         <org.wso2.carbon.utils.version>4.4.0</org.wso2.carbon.utils.version>
         <org.wso2.carbon.registry.api.version>4.4.1</org.wso2.carbon.registry.api.version>
-        <org.wso2.carbon.registry.core.version>4.4.1</org.wso2.carbon.registry.core.version>
+        <org.wso2.carbon.registry.core.version>4.4.5</org.wso2.carbon.registry.core.version>
         <org.wso2.carbon.registry.core.import.version>1.0.1</org.wso2.carbon.registry.core.import.version>
         <commons-digester.version>1.8</commons-digester.version>
         <commons-codec.version>1.10</commons-codec.version>
