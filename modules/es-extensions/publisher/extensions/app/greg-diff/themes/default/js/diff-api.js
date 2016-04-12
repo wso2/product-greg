@@ -30,7 +30,6 @@ $(document).ready(function () {
     CODEMIRROR_OPTIONS.connect = null;
     CODEMIRROR_OPTIONS.collapse = false;
     CODEMIRROR_OPTIONS.target = null;
-
     var textDiffURL = resolveTextDiffURL(paths, domain, type);
     initTextDiff(textDiffURL);
     if ("wsdl" == type) {
@@ -118,22 +117,15 @@ $(document).ready(function () {
     }
 
     /**
-     * Renders the diff view by processing the response provided by the API
+     * Renders the diff view by processing the response object provided by the API
      * and then initializing the CodeMirror UI
      */
     function renderTextDiff(textDiffData) {
         var textDiffSections = textDiffData.sections;
-        var sectionName, changeName;
         if (!jQuery.isEmptyObject(textDiffSections)) {
-            for (var key in textDiffSections) {
-                sectionName = key;
-                break;
-            }
+            var sectionName = Object.keys(textDiffSections)[0];
             if (!jQuery.isEmptyObject(textDiffSections[sectionName].content)) {
-                for (var key2 in textDiffSections[sectionName].content) {
-                    changeName = key2;
-                    break;
-                }
+                var changeName = Object.keys(textDiffSections[sectionName].content)[0];
                 if (!jQuery.isEmptyObject(textDiffData.sections[sectionName].content[changeName])) {
                     var sectionChange = textDiffData.sections[sectionName].sectionSummary[changeName][0];
                     var loadContent = textDiffData.sections[sectionName].content[changeName][0];
@@ -163,7 +155,6 @@ $(document).ready(function () {
             entry.data = detailDiffData.sections[key];
             sections.push(entry);
         });
-
         if (!jQuery.isEmptyObject(sections)) {
             renderPartial("list-section-changes", {sections: sections}, function (template) {
                 $('#sectionList').append(template);
