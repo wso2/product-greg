@@ -15,21 +15,21 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-$(document).ready(function() {
+$(document).ready(function () {
     var paths = getUrlParameter('path').split(',');
     var type = getUrlParameter('type');
     var domain = resolveDomain();
     var detailDiffData = {};
-    var opts = {};
-    opts.loadContent = null;
-    opts.orig1 = null;
-    opts.orig2 = null;
-    opts.dv = null;
-    opts.panes = 2;
-    opts.highlight = true;
-    opts.connect = null;
-    opts.collapse = false;
-    opts.target = null;
+    var CODEMIRROR_OPTIONS = {};
+    CODEMIRROR_OPTIONS.loadContent = null;
+    CODEMIRROR_OPTIONS.orig1 = null;
+    CODEMIRROR_OPTIONS.orig2 = null;
+    CODEMIRROR_OPTIONS.dv = null;
+    CODEMIRROR_OPTIONS.panes = 2;
+    CODEMIRROR_OPTIONS.highlight = true;
+    CODEMIRROR_OPTIONS.connect = null;
+    CODEMIRROR_OPTIONS.collapse = false;
+    CODEMIRROR_OPTIONS.target = null;
 
     var textDiffURL = resolveTextDiffURL(paths, domain, type);
     initTextDiff(textDiffURL);
@@ -38,26 +38,26 @@ $(document).ready(function() {
         initDetailDiff(detailDiffURL);
     }
     else {
-        renderPartial("list-default", {}, function(template){
+        renderPartial("list-default", {}, function (template) {
             $('#sectionList').append(template);
         });
     }
 
     /**
-     * Load the diff view data asynchoronously and render the UI
+     * Load the diff view data asynchronously and render the UI
      */
     function initTextDiff(url) {
         $.ajax({
             url: url,
             type: 'GET',
             async: false,
-            success: function(response) {
+            success: function (response) {
                 var textDiffData = JSON.parse(response);
                 //Note: We do not need to call the render method here (since this is async), however in the future
                 //if we need to load the diff view asynchronously the async property can be set to TRUE.
                 renderTextDiff(textDiffData);
             },
-            error: function() {
+            error: function () {
                 alert('Failed to load comparison text data');
             }
         });
@@ -68,13 +68,13 @@ $(document).ready(function() {
             url: url,
             type: 'GET',
             async: false,
-            success: function(response) {
+            success: function (response) {
                 detailDiffData = JSON.parse(response);
                 //Note: We do not need to call the render method here (since this is async), however in the future
                 //if we need to load the diff view asynchronously the async property can be set to TRUE.
                 renderDetailDiff(detailDiffData);
             },
-            error: function() {
+            error: function () {
                 alert('Failed to load comparison detail data');
             }
         });
@@ -97,11 +97,13 @@ $(document).ready(function() {
     }
 
     function resolveTextDiffURL(paths, domain, type) {
-        return caramel.context + '/apis/governance-artifacts/diff-text?targets=' + paths[1] + ',' + paths[0] + domain + '&type=' + type;
+        return caramel.context + '/apis/governance-artifacts/diff-text?targets=' + paths[1] + ',' + paths[0] + domain
+            + '&type=' + type;
     }
 
     function resolveDetailDiffURL(paths, domain, type) {
-        return caramel.context + '/apis/governance-artifacts/diff-detail?targets=' + paths[1] + ',' + paths[0] + domain + '&type=' + type;
+        return caramel.context + '/apis/governance-artifacts/diff-detail?targets=' + paths[1] + ',' + paths[0] + domain
+            + '&type=' + type;
     }
 
     function getUrlParameter(sParam) {
@@ -138,20 +140,109 @@ $(document).ready(function() {
                 }
             }
         }
-        opts.loadContent = loadContent;
-        opts.orig2 = loadContent.content.changed;
+        CODEMIRROR_OPTIONS.loadContent = loadContent;
+        CODEMIRROR_OPTIONS.orig2 = loadContent.content.changed;
         var value = document.documentElement.innerHTML;
         if (value == null) return;
         var target = document.getElementById("diffView");
         target.innerHTML = "";
-        opts.target = target;
-        initUI(opts);
+        CODEMIRROR_OPTIONS.target = target;
+        initUI(CODEMIRROR_OPTIONS);
         setViewPanelsHeight();
         addTitle(sectionChange);
     }
 
     function renderDetailDiff(detailDiffData) {
-        var sectionMap = {
+        var keys = Object.keys(detailDiffData.sections);
+        var sections = [];
+        var entry;
+        keys.forEach(function (key) {
+            entry = {};
+            entry.name = key;
+            entry.title = getDiffLabel(key);
+            entry.data = detailDiffData.sections[key];
+            sections.push(entry);
+        });
+
+        if (!jQuery.isEmptyObject(sections)) {
+            renderPartial("list-section-changes", {sections: sections}, function (template) {
+                $('#sectionList').append(template);
+            });
+        }
+        else {
+            renderPartial("list-default", {}, function (template) {
+                $('#sectionList').append(template);
+            });
+        }
+    }
+
+    /**
+     * Adding onclick event listeners to dynamically added elements
+     */
+    $(document).on("click", ".list-group-item", function () {
+        var section = $(this).data('section');
+        var change = $(this).data('change');
+        var value = document.documentElement.innerHTML;
+        if (value == null) return;
+        var target = document.getElementById("diffView");
+        target.innerHTML = "";
+        CODEMIRROR_OPTIONS.target = target;
+        if (!jQuery.isEmptyObject(detailDiffData.sections[section].content[change])) {
+            var sectionChange = detailDiffData.sections[section].sectionSummary[change][0];
+            var loadContent = detailDiffData.sections[section].content[change][0];
+            CODEMIRROR_OPTIONS.loadContent = loadContent;
+            if ("CONTENT_ADDITION" == change) {
+                //CODEMIRROR_OPTIONS.orig2 = loadContent.content;
+                CODEMIRROR_OPTIONS.orig2 = null;
+                initUIAddition(CODEMIRROR_OPTIONS);
+            } else if ("CONTENT_REMOVAL" == change) {
+                //CODEMIRROR_OPTIONS.orig2 = "";
+                CODEMIRROR_OPTIONS.orig2 = null;
+                initUIRemoval(CODEMIRROR_OPTIONS);
+            } else {
+                CODEMIRROR_OPTIONS.orig2 = loadContent.content.changed;
+                initUI(CODEMIRROR_OPTIONS);
+            }
+            setViewPanelsHeight();
+            addTitle(sectionChange);
+        }
+    });
+
+    $(document).on("click", ".text-diff", function () {
+        var textDiffURL = resolveTextDiffURL(paths, domain, type);
+        initTextDiff(textDiffURL);
+    });
+
+    /**
+     * Resolving the specific partial file from the name
+     */
+    function partial(name) {
+        return '/extensions/app/greg-diff/themes/' + caramel.themer + '/partials/' + name + '.hbs';
+    }
+
+    /**
+     * Rendering templates into the page
+     */
+    function renderPartial(partialKey, data, fn) {
+        fn = fn || function () {
+            };
+        var partialName = partialKey;
+        if (!partialName) {
+            throw 'A template name has not been specified for template key ' + partialKey;
+        }
+        var obj = {};
+        obj[partialName] = partial(partialName);
+        caramel.partials(obj, function () {
+            var template = Handlebars.partials[partialName](data);
+            fn(template);
+        });
+    }
+
+    /**
+     * Mapping back end variables into proper labels
+     */
+    function getDiffLabel(key) {
+        var SECTION_LABELS_MAP = {
             "wsdl_declaration": "WSDL Declaration",
             "wsdl_imports": "WSDL Imports",
             "wsdl_bindings": "WSDL Bindings",
@@ -160,85 +251,13 @@ $(document).ready(function() {
             "wsdl_operations": "WSDL Operations",
             "wsdl_service": "WSDL Service",
             "wsdl_ports": "WSDL Ports",
-            "default":"Complete Text Diff"
+            "default": "Complete Text Diff"
         };
-        var keys = Object.keys(detailDiffData.sections);
-        var sections = [];
-        var entry;
-        keys.forEach(function(key){
-            entry = {};
-            entry.name = key;
-            entry.title = sectionMap[key];
-            entry.data = detailDiffData.sections[key];
-            sections.push(entry);
-        });
-
-        if (!jQuery.isEmptyObject(sections)) {
-            renderPartial("list-section-changes", {sections : sections}, function(template){
-                $('#sectionList').append(template);
-            });
-        }
-        else {
-            renderPartial("list-default", {}, function(template){
-                $('#sectionList').append(template);
-            });
-        }
-    }
-
-    $(document).on("click", ".list-group-item", function(){
-        var section = $(this).data('section');
-        var change = $(this).data('change');
-        var value = document.documentElement.innerHTML;
-        if (value == null) return;
-        var target = document.getElementById("diffView");
-        target.innerHTML = "";
-        opts.target = target;
-        if (!jQuery.isEmptyObject(detailDiffData.sections[section].content[change])) {
-            var sectionChange = detailDiffData.sections[section].sectionSummary[change][0];
-            var loadContent = detailDiffData.sections[section].content[change][0];
-            opts.loadContent = loadContent;
-            if ("CONTENT_ADDITION" == change) {
-                //opts.orig2 = loadContent.content;
-                opts.orig2 = null;
-                initUIAddition(opts);
-            } else if ("CONTENT_REMOVAL" == change) {
-                //opts.orig2 = "";
-                opts.orig2 = null;
-                initUIRemoval(opts);
-            } else {
-                opts.orig2 = loadContent.content.changed;
-                initUI(opts);
-            }
-            setViewPanelsHeight();
-            addTitle(sectionChange);
-        }
-    });
-
-    $(document).on("click", ".text-diff", function(){
-        var textDiffURL = resolveTextDiffURL(paths, domain, type);
-        initTextDiff(textDiffURL);
-    });
-
-    function partial(name) {
-        return '/extensions/app/greg-diff/themes/' + caramel.themer + '/partials/' + name + '.hbs';
-    }
-
-    function renderPartial(partialKey,data, fn) {
-        fn = fn || function() {};
-        var partialName = partialKey;
-        if (!partialName) {
-            throw 'A template name has not been specified for template key ' + partialKey;
-        }
-        var obj = {};
-        obj[partialName] = partial(partialName);
-        caramel.partials(obj, function() {
-            var template = Handlebars.partials[partialName](data);
-            fn(template);
-        });
+        return SECTION_LABELS_MAP[key];
     }
 
     /**
-     * Initializing logic for the CodeMirror librray
+     * Initializing logic for the CodeMirror library
      */
     function initUI(options) {
         options.dv = CodeMirror.MergeView(options.target, {
