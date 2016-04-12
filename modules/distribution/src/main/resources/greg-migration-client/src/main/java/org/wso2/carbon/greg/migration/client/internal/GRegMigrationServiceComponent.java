@@ -70,7 +70,6 @@ public class GRegMigrationServiceComponent {
         boolean isFileSystemMigrationNeeded = false;
         boolean isProviderMigrationNeeded = false;
         boolean isEmailUsernameMigrationNeeded = false;
-        boolean isStoreConfigMigrationNeeded = false;
 
         Map<String, String> argsMap = new HashMap<String, String>();
         argsMap.put("migrateVersion", System.getProperty("migrate"));
@@ -94,9 +93,6 @@ public class GRegMigrationServiceComponent {
             if (argsMap.get("isEmailUsernameMigrationNeeded") != null) {
                 isEmailUsernameMigrationNeeded = Boolean.parseBoolean(argsMap.get("isEmailUsernameMigrationNeeded"));
             }
-            if (argsMap.get("isStoreConfigMigrationNeeded") != null) {
-                isStoreConfigMigrationNeeded = Boolean.parseBoolean(argsMap.get("isStoreConfigMigrationNeeded"));
-            }
         }
 
         try {
@@ -115,13 +111,15 @@ public class GRegMigrationServiceComponent {
                     } else {
                         //Only performs registry migration which also includes endpoint migration as well.
                         if (isRegistryMigrationNeeded) {
-                            log.info("Migrating WSO2 Governance Registry 4.6.0 registry resources to WSO2 Governance Registry 5.0.0");
+                            log.info("Migrating WSO2 Governance Registry 4.6.0 registry resources to WSO2 Governance " +
+                                     "Registry 5.0.0");
                             migrationClient.registryResourceMigration();
                             migrationClient.endpointMigration();
                         }
                         //Only performs file system migration
                         if (isFileSystemMigrationNeeded) {
-                            log.info("Migrating WSO2 Governance Registry 4.6.0 file system resources to WSO2 Governance Registry 5.0.0");
+                            log.info("Migrating WSO2 Governance Registry 4.6.0 file system resources to WSO2 Governance " +
+                                     "Registry 5.0.0");
                             migrationClient.fileSystemMigration();
                         }
                     }
@@ -131,6 +129,7 @@ public class GRegMigrationServiceComponent {
                 } else if (Constants.VERSION_520.equalsIgnoreCase(migrateVersion)) {
                     if (!isEmailUsernameMigrationNeeded && !isProviderMigrationNeeded) {
                         MigrateFrom510To520 migrateFrom510To520 = new MigrateFrom510To520();
+                        migrateFrom510To520.databaseMigration(migrateVersion);
                         migrateFrom510To520.cleanOldResources();
                     } else if (isEmailUsernameMigrationNeeded) {
                         EmailUserNameMigrationClient emailUserNameMigrationClient = new EmailUserNameMigrationClient();
@@ -141,7 +140,8 @@ public class GRegMigrationServiceComponent {
                     }
 
                 } else {
-                    log.error("The given migrate version " + migrateVersion + " is not supported. Please check the version and try again.");
+                    log.error("The given migrate version " + migrateVersion + " is not supported. Please check the " +
+                              "version and try again.");
                 }
             }
         } catch (GRegMigrationException e) {

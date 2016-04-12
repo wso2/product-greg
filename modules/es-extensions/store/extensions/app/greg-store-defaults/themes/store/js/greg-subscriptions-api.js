@@ -23,7 +23,7 @@ $(function() {
                         addSubscription(element, id, type, method, option);
                     });
                 } else {
-                	messages.alertSuccess('You will now recieve notifications for <strong>'+resolveSubscriptionLabel(element) + '</strong> events.');
+                	messages.alertSuccess('You will now receive notifications for <strong>'+resolveSubscriptionLabel(element) + '</strong> events.');
                     var subcriptionid = data[0].id;
                     $(element).prop("checked", true);
                     $(element).change(function() {
@@ -55,7 +55,7 @@ $(function() {
                         removeSubscription(element, id, type, subcriptionid, method, option);
                     });
                 } else {
-                	messages.alertSuccess('You will no longer get notifications for <strong>'+resolveSubscriptionLabel(element) + '</strong> events.');
+                	messages.alertSuccess('You will no longer receive notifications for <strong>'+resolveSubscriptionLabel(element) + '</strong> events.');
                     $(element).prop("checked", false);
                     $(element).change(function() {
                         addSubscription(element, id, type, method, option);

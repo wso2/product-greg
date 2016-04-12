@@ -161,6 +161,10 @@ public class EmailUserNameMigrationClient {
             String msg = "Error when looking up the Data Source.";
             log.error(msg, e);
             throw new GRegMigrationException(msg, e);
+        } catch (Exception e) {
+            String msg = "Error while migrating.";
+            log.error(msg, e);
+            throw new GRegMigrationException(msg, e);
         }
     }
 
@@ -222,7 +226,7 @@ public class EmailUserNameMigrationClient {
      * @throws Exception
      */
     public void databaseMigration()
-            throws CarbonException, SQLException, XMLStreamException, NamingException, IOException {
+            throws Exception {
         initDataSource();
         initUMDataSource();
     }
@@ -259,7 +263,7 @@ public class EmailUserNameMigrationClient {
      *
      * @throws Exception
      */
-    private void initUMDataSource() throws IOException, SQLException {
+    private void initUMDataSource() throws Exception {
         umDataSource = DatabaseUtil.getRealmDataSource(ServiceHolder.getRealmService().getBootstrapRealmConfiguration());
         MigrationDatabaseCreator migrationDatabaseCreator = new MigrationDatabaseCreator(dataSource, umDataSource);
         migrationDatabaseCreator.executeUmMigrationScript();

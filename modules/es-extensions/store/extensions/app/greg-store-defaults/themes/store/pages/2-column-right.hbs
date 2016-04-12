@@ -66,15 +66,19 @@
 <script src="{{url "/themes/store/js/caramel-client.js"}}"></script>
 
 <script type="text/javascript">
-
+    var affixOffset = 50;
     $( document ).ready(function() {
         $("[data-toggle=popover]").popover();
 
-        $('#nav').affix({
-            offset: {
-                top: $('header').height()
-            }
-        });
+        if ($(document).height() - $(window).height() > affixOffset) {
+            $(document).scroll(function () {
+                if ($(document).scrollTop() >= ( affixOffset + 20)) {
+                    $('#navigation-container').addClass("affix");
+                } else {
+                    $('#navigation-container').removeClass("affix");
+                }
+            });
+        }
     });
 
 </script>
