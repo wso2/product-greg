@@ -19,11 +19,10 @@
         <div class="wr-search">
             <div>
                 <form class="form-group" id="assetSearchForm" action='{{url "/assets/"}}{{rxt.shortName}}/list'>
-                    <label class="search-label">{{t "Search for Assets"}}</label>
 
                     <div class="form-group has-feedback form-search">
                         <input type="text" name="query" id="inp_searchAsset" class="form-control"
-                               placeholder="Search..." value="{{searchQuery}}">
+                               placeholder="Search asset by name..." value="{{searchQuery}}">
                         <a href="javascript:void(0)" id="searchButton" class="form-control-feedback search"
                            title="{{t "Search"}}">
                             <i class="fw fw-search" aria-hidden="true"></i>
