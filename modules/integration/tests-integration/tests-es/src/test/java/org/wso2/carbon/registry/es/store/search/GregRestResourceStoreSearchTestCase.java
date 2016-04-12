@@ -171,7 +171,7 @@ public class GregRestResourceStoreSearchTestCase extends GregESTestBaseTest {
         // https://localhost:9443/store/assets/restservice/list?q=%22version%22:%221.2.2%22
         queryParamMap.put("q", "\"name" + "\":" + "\"" + restServiceName + "\"");
 
-        Thread.sleep(10000);
+        Thread.sleep(15000);
 
         ClientResponse response = genericRestClient.geneticRestRequestGet
                 (storeUrl.split("/apis")[0] + "/assets/restservice/list", queryParamMap, headerMap, storeCookieHeader);

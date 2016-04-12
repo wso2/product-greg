@@ -131,15 +131,15 @@ public class GregWildCardSearch extends GregESTestBaseTest {
         resourceAdminServiceClient
                 .addResource(schemaGarPath, "application/vnd.wso2.governance-archive", "adding schema gar file",
                         new DataHandler(new URL("file:///" + schemaGarPath)));
-        Thread.sleep(7000);
+        Thread.sleep(10000);
         resourceAdminServiceClient
                 .addResource(schemaGarPath, "application/vnd.wso2.governance-archive", "adding swagger gar file",
                         new DataHandler(new URL("file:///" + swaggerGarPath)));
-        Thread.sleep(7000);
+        Thread.sleep(10000);
         resourceAdminServiceClient
                 .addResource(schemaGarPath, "application/vnd.wso2.governance-archive", "adding wadl gar file",
                         new DataHandler(new URL("file:///" + wadlGarPath)));
-        Thread.sleep(7000);
+        Thread.sleep(10000);
     }
 
     @Test(groups = {"wso2.greg", "wso2.greg.es"}, description = "Search Added assets",
@@ -151,7 +151,7 @@ public class GregWildCardSearch extends GregESTestBaseTest {
         // https://localhost:9443/publisher/pages/search-results?q=%22name%22:%22xwildx%22
         queryParamMap.put("q", "\"name" + "\":" + "\"" + wildcard + "\"");
 
-        Thread.sleep(15000);
+        Thread.sleep(17000);
 
         ClientResponse response = genericRestClient
                 .geneticRestRequestGet(publisherUrl.split("/apis")[0] + "/pages/search-results", queryParamMap,
