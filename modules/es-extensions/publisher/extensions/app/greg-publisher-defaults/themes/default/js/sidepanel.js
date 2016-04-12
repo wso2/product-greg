@@ -73,7 +73,7 @@ $(function(){ // document ready
 function sidePanelPositionFix(){
     var windowTop = $(window).scrollTop(); // returns number
     if (headerHeight < windowTop){
-        $(sidePanel).css({ position: 'fixed', top: navHeight });
+        $(sidePanel).css({ position: 'fixed', top: '0' });
         $(sidePanel).css('opacity','0.95');
     }
     else {
@@ -115,5 +115,5 @@ function toggleSidePanel(view,button){
  * Set notification bar height to fill window height
  */
 function setSidePanelHeight(){
-    $(sidePanel).height($('html').height() - offset);
+    $(sidePanel).height('100%');
 }
