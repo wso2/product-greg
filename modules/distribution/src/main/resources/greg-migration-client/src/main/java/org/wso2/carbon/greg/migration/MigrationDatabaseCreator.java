@@ -202,10 +202,8 @@ public class MigrationDatabaseCreator {
         }
         StringBuffer sql = new StringBuffer();
         BufferedReader reader = null;
-
         try {
-            ClassLoader loader = Thread.currentThread().getContextClassLoader();
-            InputStream is = loader.getResourceAsStream(dbscriptName);
+            InputStream is = getClass().getResourceAsStream(dbscriptName);
             reader = new BufferedReader(new InputStreamReader(is));
             String line;
             while ((line = reader.readLine()) != null) {
@@ -256,8 +254,7 @@ public class MigrationDatabaseCreator {
         BufferedReader reader = null;
 
         try {
-            ClassLoader loader = Thread.currentThread().getContextClassLoader();
-            InputStream is = loader.getResourceAsStream(dbscriptName);
+            InputStream is = getClass().getResourceAsStream(dbscriptName);
             reader = new BufferedReader(new InputStreamReader(is));
             String line;
             while ((line = reader.readLine()) != null) {
