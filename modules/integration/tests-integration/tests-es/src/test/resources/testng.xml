@@ -10,8 +10,12 @@
             <package name="org.wso2.carbon.registry.es.publisher.lifecycle"/>
             <package name="org.wso2.carbon.registry.es.notes"/>
             <package name="org.wso2.carbon.registry.es.tags"/>
-            <package name="org.wso2.carbon.registry.es.store.search"/>
             <package name="org.wso2.carbon.registry.jira"/>
+        </packages>
+    </test>
+    <test name="search" preserve-order="true" parallel="false">
+        <packages>
+            <package name="org.wso2.carbon.registry.es.store.search"/>
         </packages>
     </test>
 </suite>
