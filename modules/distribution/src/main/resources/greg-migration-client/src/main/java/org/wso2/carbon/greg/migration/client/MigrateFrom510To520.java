@@ -18,11 +18,15 @@
  */
 package org.wso2.carbon.greg.migration.client;
 
+import org.apache.axiom.om.OMElement;
+import org.apache.axiom.om.impl.builder.StAXOMBuilder;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.wso2.carbon.CarbonException;
 import org.wso2.carbon.base.MultitenantConstants;
 import org.wso2.carbon.context.PrivilegedCarbonContext;
 import org.wso2.carbon.greg.migration.GRegMigrationException;
+import org.wso2.carbon.greg.migration.MigrationDatabaseCreator;
 import org.wso2.carbon.greg.migration.client.internal.ServiceHolder;
 import org.wso2.carbon.greg.migration.util.Constants;
 import org.wso2.carbon.registry.core.Registry;
@@ -30,23 +34,67 @@ import org.wso2.carbon.registry.core.exceptions.RegistryException;
 import org.wso2.carbon.user.api.Tenant;
 import org.wso2.carbon.user.api.UserStoreException;
 import org.wso2.carbon.user.core.tenant.TenantManager;
+import org.wso2.carbon.utils.CarbonUtils;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Iterator;
 import java.util.List;
+import javax.naming.Context;
+import javax.naming.InitialContext;
+import javax.naming.NamingException;
+import javax.sql.DataSource;
+import javax.xml.namespace.QName;
 import javax.xml.stream.XMLStreamException;
 
 /**
- * This class remove the old store tenant configuration (store.json) coming from G-Reg 5.1.0.
+ * This class remove the old store tenant configuration (store.json) coming from G-Reg 5.1.0 and do a database migration
+ * for latest identity tables.
  */
 public class MigrateFrom510To520 implements MigrationClient{
 
     private static final Log log = LogFactory.getLog(MigrateFrom510To520.class);
+    private DataSource dataSource;
 
     @Override
-    public void databaseMigration(String migrateVersion) throws GRegMigrationException, SQLException {
-        log.info("Not implemented in 5.1.0 to 5.2.0 migration");
+    public void databaseMigration(String migrateVersion) throws GRegMigrationException{
+        try {
+            long startTimeMillis = System.currentTimeMillis();
+            log.info("Identity databases migration started.");
+            initDataSource();
+            log.info("Migration for identity databases Completed Successfully in " +
+                     (System.currentTimeMillis() - startTimeMillis)
+                     + "ms");
+        } catch (IOException e) {
+            String msg = "Error while processing registry.xml fle";
+            log.error(msg, e);
+            throw new GRegMigrationException(msg, e);
+        } catch (CarbonException e) {
+            String msg = "Error while processing inputstream of registry.xml";
+            log.error(msg,e);
+            throw new GRegMigrationException(msg, e);
+        } catch (XMLStreamException e) {
+            String msg = "Error while processing string to xml";
+            log.error(msg, e);
+            throw new GRegMigrationException(msg, e);
+        } catch (NamingException e) {
+            String msg = "Error when looking up the Data Source.";
+            log.error(msg, e);
+            throw new GRegMigrationException(msg, e);
+        } catch (SQLException e) {
+            String msg = "Failed to execute the migration script. " + e.getMessage();
+            log.error(msg, e);
+            throw new GRegMigrationException(msg, e);
+        } catch (Exception e) {
+            String msg = "Error while migrating the idp and sp identity databases.";
+            log.error(msg, e);
+            throw new GRegMigrationException(msg, e);
+        }
     }
 
     @Override
@@ -135,5 +183,31 @@ public class MigrateFrom510To520 implements MigrationClient{
             PrivilegedCarbonContext.endTenantFlow();
         }
 
+    }
+    /**
+     * This method extracts the datsources configured in registry.xml and iterate over them and execute sql scripts on
+     * each datasource.
+     */
+    private void initDataSource() throws Exception {
+        InputStream xmlInputStream = null;
+        String regConfigPath = Constants.REGISTRY_XML_PATH;
+        File file = new File(regConfigPath);
+        xmlInputStream = new FileInputStream(file);
+        StAXOMBuilder builder = new StAXOMBuilder(
+                CarbonUtils.replaceSystemVariablesInXml(xmlInputStream));
+        OMElement configElement = builder.getDocumentElement();
+        Iterator dbConfigs = configElement.getChildrenWithName(new QName("dbConfig"));
+        while (dbConfigs.hasNext()) {
+            OMElement dbConfig = (OMElement) dbConfigs.next();
+            OMElement dataSourceNameElem = dbConfig.getFirstChildWithName(new QName("dataSource"));
+
+            if (dataSourceNameElem != null) {
+                String dataSourceName = dataSourceNameElem.getText();
+                Context ctx = new InitialContext();
+                dataSource = (DataSource) ctx.lookup(dataSourceName);
+                MigrationDatabaseCreator migrationDatabaseCreator = new MigrationDatabaseCreator(dataSource);
+                migrationDatabaseCreator.addNewIdentityTables();
+            }
+        }
     }
 }
