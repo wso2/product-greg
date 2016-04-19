@@ -21,28 +21,32 @@
                     <div class="widget wlightblue">
                         <div class="widget-content">
                             <h2 class="field-title">
-                                <a class="collapsing-h2" data-toggle="collapse" area-expanded="true">
-                                    Overview
+                                <a class="collapsing-h2 collapsed" data-toggle="collapse" area-expanded="true" href="#collapseoverview">
+                                    <i class="cu-btn-exp-col btn-collapsed">
+                                        Overview
+                                    </i>
                                 </a>
                             </h2>
-                            <div id="Overview" class="collapse in" area-expanded="true" style="">
-                            <div class="row padding-bottom-lg" id="Name">
-                                    <div class="col-sm-2 custom-form-label text-right">{{t "Name"}} :</div>
-                                    <div id="nameValue" class="col-sm-10">{{name}}</div>
-                                </div>
-                                <div class="row padding-bottom-lg" id="Version">
-                                    <div class="col-sm-2 custom-form-label text-right">{{t "Version"}} :</div>
-                                    <div id="nameValue" class="col-sm-10">{{version}}</div>
-                                </div>
-                                <div class="row padding-bottom-lg" id="mediaType">
-                                    <div class="col-sm-2 custom-form-label text-right">{{t "Media Type"}} :</div>
-                                    <div id="nameValue" class="col-sm-10">{{mediaType}}</div>
+                            <div id="collapseoverview" class="collapse">
+                                <div id="Overview" class="collapse in" area-expanded="true" style="">
+                                    <div class="row padding-bottom-lg" id="Name">
+                                        <div class="col-sm-2 custom-form-label text-right">{{t "Name"}} :</div>
+                                        <div id="nameValue" class="col-sm-10">{{name}}</div>
+                                    </div>
+                                    <div class="row padding-bottom-lg" id="Version">
+                                        <div class="col-sm-2 custom-form-label text-right">{{t "Version"}} :</div>
+                                        <div id="nameValue" class="col-sm-10">{{version}}</div>
+                                    </div>
+                                    <div class="row padding-bottom-lg" id="mediaType">
+                                        <div class="col-sm-2 custom-form-label text-right">{{t "Media Type"}} :</div>
+                                        <div id="nameValue" class="col-sm-10">{{mediaType}}</div>
+                                    </div>
                                 </div>
                             </div>
 
                             <div id='policy-viewer'>
                                 <h2 class="field-title">
-                                    <a class="collapsing-h2" data-toggle="collapse" area-expanded="true">
+                                    <a class="collapsing-h2" data-toggle="collapse" area-expanded="true" collapseoverview="">
                                         Content
                                     </a>
                                 </h2>
