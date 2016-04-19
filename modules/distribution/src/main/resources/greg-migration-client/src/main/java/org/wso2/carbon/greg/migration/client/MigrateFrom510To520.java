@@ -29,12 +29,15 @@ import org.wso2.carbon.greg.migration.GRegMigrationException;
 import org.wso2.carbon.greg.migration.MigrationDatabaseCreator;
 import org.wso2.carbon.greg.migration.client.internal.ServiceHolder;
 import org.wso2.carbon.greg.migration.util.Constants;
+import org.wso2.carbon.identity.core.util.IdentityConfigParser;
+import org.wso2.carbon.identity.core.util.IdentityCoreConstants;
 import org.wso2.carbon.registry.core.Registry;
 import org.wso2.carbon.registry.core.exceptions.RegistryException;
 import org.wso2.carbon.user.api.Tenant;
 import org.wso2.carbon.user.api.UserStoreException;
 import org.wso2.carbon.user.core.tenant.TenantManager;
 import org.wso2.carbon.utils.CarbonUtils;
+import org.wso2.carbon.identity.core.util.IdentityUtil;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -66,7 +69,7 @@ public class MigrateFrom510To520 implements MigrationClient{
         try {
             long startTimeMillis = System.currentTimeMillis();
             log.info("Identity databases migration started.");
-            initDataSource();
+            initIdentityDataSource();
             log.info("Migration for identity databases Completed Successfully in " +
                      (System.currentTimeMillis() - startTimeMillis)
                      + "ms");
@@ -184,30 +187,39 @@ public class MigrateFrom510To520 implements MigrationClient{
         }
 
     }
-    /**
-     * This method extracts the datsources configured in registry.xml and iterate over them and execute sql scripts on
-     * each datasource.
-     */
-    private void initDataSource() throws Exception {
-        InputStream xmlInputStream = null;
-        String regConfigPath = Constants.REGISTRY_XML_PATH;
-        File file = new File(regConfigPath);
-        xmlInputStream = new FileInputStream(file);
-        StAXOMBuilder builder = new StAXOMBuilder(
-                CarbonUtils.replaceSystemVariablesInXml(xmlInputStream));
-        OMElement configElement = builder.getDocumentElement();
-        Iterator dbConfigs = configElement.getChildrenWithName(new QName("dbConfig"));
-        while (dbConfigs.hasNext()) {
-            OMElement dbConfig = (OMElement) dbConfigs.next();
-            OMElement dataSourceNameElem = dbConfig.getFirstChildWithName(new QName("dataSource"));
 
-            if (dataSourceNameElem != null) {
-                String dataSourceName = dataSourceNameElem.getText();
-                Context ctx = new InitialContext();
-                dataSource = (DataSource) ctx.lookup(dataSourceName);
-                MigrationDatabaseCreator migrationDatabaseCreator = new MigrationDatabaseCreator(dataSource);
-                migrationDatabaseCreator.addNewIdentityTables();
-            }
+    /**
+     * This method reads the identity.xml and initialize the identity datasource.
+     *
+     * @throws Exception
+     */
+    public void initIdentityDataSource() throws Exception {
+        OMElement persistenceManagerConfigElem = IdentityConfigParser.getInstance()
+                .getConfigElement("JDBCPersistenceManager");
+        if (persistenceManagerConfigElem == null) {
+            String errorMsg = "Identity Persistence Manager configuration is not available in " +
+                              "identity.xml file. Terminating the JDBC Persistence Manager " +
+                              "initialization. This may affect certain functionality.";
+            log.error(errorMsg);
+            throw new GRegMigrationException(errorMsg);
+        }
+        OMElement dataSourceElem = persistenceManagerConfigElem.getFirstChildWithName(
+                new QName(IdentityCoreConstants.IDENTITY_DEFAULT_NAMESPACE, "DataSource"));
+        if (dataSourceElem == null) {
+            String errorMsg = "DataSource Element is not available for JDBC Persistence " +
+                              "Manager in identity.xml file. Terminating the JDBC Persistence Manager " +
+                              "initialization. This might affect certain features.";
+            log.error(errorMsg);
+            throw new GRegMigrationException(errorMsg);
+        }
+        OMElement dataSourceNameElem = dataSourceElem.getFirstChildWithName(
+                new QName(IdentityCoreConstants.IDENTITY_DEFAULT_NAMESPACE, "Name"));
+        if (dataSourceNameElem != null) {
+            String dataSourceName = dataSourceNameElem.getText();
+            Context ctx = new InitialContext();
+            dataSource = (DataSource) ctx.lookup(dataSourceName);
+            MigrationDatabaseCreator migrationDatabaseCreator = new MigrationDatabaseCreator(dataSource);
+            migrationDatabaseCreator.addNewIdentityTables();
         }
     }
 }
