@@ -83,6 +83,7 @@
                         <Import-Package>
                             org.apache.commons.logging.*; version=${org.wso2.carbon.logging.import.version},
                             org.wso2.carbon.registry.core.* version=${org.wso2.carbon.registry.core.import.version},
+                            org.wso2.carbon.identity.core.*; version=${carbon.identity.version},
                             *;resolution:=optional
                         </Import-Package>
                         <DynamicImport-Package>*</DynamicImport-Package>
@@ -159,9 +160,15 @@
             <artifactId>org.wso2.carbon.governance.api</artifactId>
             <version>${org.wso2.carbon.governance.version}</version>
         </dependency>
+        <dependency>
+            <groupId>org.wso2.carbon.identity</groupId>
+            <artifactId>org.wso2.carbon.identity.core</artifactId>
+            <version>${carbon.identity.version}</version>
+        </dependency>
     </dependencies>
 
     <properties>
+        <carbon.identity.version>5.0.8</carbon.identity.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <org.apache.felix.src.plugin.version>1.7.2</org.apache.felix.src.plugin.version>
         <org.apache.felix.budnle.plugin.version>2.5.3</org.apache.felix.budnle.plugin.version>
