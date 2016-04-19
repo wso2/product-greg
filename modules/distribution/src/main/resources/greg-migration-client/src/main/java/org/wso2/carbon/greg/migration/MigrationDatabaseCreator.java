@@ -131,10 +131,7 @@ public class MigrationDatabaseCreator {
             String dbscriptNameForSp;
             switch (dataBaseType) {
                 case "h2":
-                    dbscriptNameForIdp = Constants.IDP_MIGRATION_SCRIPT_H2;
-                    dbscriptNameForSp = Constants.SP_MIGRATION_SCRIPT_H2;
-                    executeIdentitySQLScript(dbscriptNameForIdp);
-                    executeIdentitySQLScript(dbscriptNameForSp);
+                    log.info("No changes to migrate (identity tables) when using H2 database");
                     break;
                 case "mysql":
                     dbscriptNameForIdp = Constants.IDP_MIGRATION_SCRIPT_MYSQL;
