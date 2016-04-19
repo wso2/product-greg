@@ -22,7 +22,7 @@
 			mode -->
 		<multiTenantMode>false</multiTenantMode>
 		<!-- Change this to true if you want to generate coverage statistics -->
-		<coverage>false</coverage>
+		<coverage>true</coverage>
 		<!-- Change this to true if you want to enable framework dashboard -->
 		<frameworkDashboard>false</frameworkDashboard>
 		<!-- Browser type with used by framework to execute UI test, supported 
