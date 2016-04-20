@@ -29,6 +29,8 @@ import org.wso2.carbon.automation.engine.context.TestUserMode;
 import org.wso2.carbon.automation.engine.frameworkutils.FrameworkPathUtil;
 import org.wso2.carbon.registry.core.exceptions.RegistryException;
 import org.wso2.carbon.registry.es.utils.GregESTestBaseTest;
+import org.wso2.carbon.registry.resource.stub.ResourceAdminServiceExceptionException;
+import org.wso2.greg.integration.common.clients.ResourceAdminServiceClient;
 import org.wso2.greg.integration.common.utils.GenericRestClient;
 
 import javax.ws.rs.core.MediaType;
@@ -36,6 +38,7 @@ import javax.ws.rs.core.Response;
 import javax.xml.xpath.XPathExpressionException;
 import java.io.File;
 import java.io.IOException;
+import java.rmi.RemoteException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -68,6 +71,8 @@ public class GregRestResourceStoreSearchTestCase extends GregESTestBaseTest {
     private String publisherCookieHeader;
     private String storeCookieHeader;
 
+    private ResourceAdminServiceClient resourceAdminServiceClient;
+
     @Factory(dataProvider = "userModeProvider")
     public GregRestResourceStoreSearchTestCase(TestUserMode userMode) {
         this.userMode = userMode;
@@ -83,12 +88,26 @@ public class GregRestResourceStoreSearchTestCase extends GregESTestBaseTest {
                 FrameworkPathUtil.getSystemResourceLocation() + "artifacts" + File.separator + "GREG" + File.separator;
         publisherUrl = publisherContext.getContextUrls().getSecureServiceUrl().replace("services", "publisher/apis");
         storeUrl = storeContext.getContextUrls().getSecureServiceUrl().replace("services", "store/apis");
+        resourceAdminServiceClient = new ResourceAdminServiceClient(automationContext.getContextUrls().getBackEndUrl(),
+                sessionCookie);
 
+        deleteResource("/_system/governance/trunk/restservices");
+    }
+
+    private void deleteResource(String path){
+        try {
+            resourceAdminServiceClient.deleteResource(path);
+        }catch (RemoteException e) {
+            log.error("Failed to Remove Resource :" + e);
+        } catch (ResourceAdminServiceExceptionException e) {
+            log.error("Failed to Remove Resource :" + e);
+        }
     }
 
     @AfterClass(alwaysRun = true)
     public void cleanUp() throws RegistryException {
         deleteAsset(assetId, publisherUrl, publisherCookieHeader, type, genericRestClient);
+        resourceAdminServiceClient = null;
     }
 
     @Test(groups = {"wso2.greg", "wso2.greg.es"}, description = "Authenticate Publisher test")
@@ -192,8 +211,12 @@ public class GregRestResourceStoreSearchTestCase extends GregESTestBaseTest {
 
         queryParamMap.put("q", "\"version" + "\":" + "\"" + version + "\"");
 
-        ClientResponse response = genericRestClient.geneticRestRequestGet
-                (storeUrl.split("/apis")[0] + "/assets/restservice/list", queryParamMap, headerMap, storeCookieHeader);
+        ClientResponse response;
+        int x = 0;
+        do{
+            response = genericRestClient.geneticRestRequestGet(storeUrl.split("/apis")[0] + "/assets/restservice/list", queryParamMap, headerMap, storeCookieHeader);
+            x++;
+        }while(x < 10);
 
         log.info("Store search result : "+ response.getEntity(String.class));
 
