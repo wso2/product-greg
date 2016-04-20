@@ -192,8 +192,13 @@ public class GregRestResourceStoreSearchTestCase extends GregESTestBaseTest {
 
         Thread.sleep(15000);
 
-        ClientResponse response = genericRestClient.geneticRestRequestGet
-                (storeUrl.split("/apis")[0] + "/assets/restservice/list", queryParamMap, headerMap, storeCookieHeader);
+        ClientResponse response;
+        int x = 0;
+        do{
+            response = genericRestClient.geneticRestRequestGet
+                    (storeUrl.split("/apis")[0] + "/assets/restservice/list", queryParamMap, headerMap, storeCookieHeader);
+            x++;
+        }while(x < 10);
 
         assertTrue((response.getStatusCode() == Response.Status.OK.getStatusCode()),
                 "Wrong status code ,Expected 200 OK ,But Received " + response.getStatusCode());
