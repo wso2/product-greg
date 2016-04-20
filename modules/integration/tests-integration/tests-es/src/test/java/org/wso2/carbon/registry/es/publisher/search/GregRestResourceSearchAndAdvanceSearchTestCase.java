@@ -30,6 +30,8 @@ import org.wso2.carbon.automation.engine.frameworkutils.FrameworkPathUtil;
 import org.wso2.carbon.registry.core.exceptions.RegistryException;
 import org.wso2.carbon.registry.es.utils.ESTestCommonUtils;
 import org.wso2.carbon.registry.es.utils.GregESTestBaseTest;
+import org.wso2.carbon.registry.resource.stub.ResourceAdminServiceExceptionException;
+import org.wso2.greg.integration.common.clients.ResourceAdminServiceClient;
 import org.wso2.greg.integration.common.utils.GenericRestClient;
 
 import javax.ws.rs.core.MediaType;
@@ -37,6 +39,7 @@ import javax.ws.rs.core.Response;
 import javax.xml.xpath.XPathExpressionException;
 import java.io.File;
 import java.io.IOException;
+import java.rmi.RemoteException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -65,6 +68,7 @@ public class GregRestResourceSearchAndAdvanceSearchTestCase extends GregESTestBa
 
     ESTestCommonUtils crudTestCommonUtils;
     String cookieHeader;
+    private ResourceAdminServiceClient resourceAdminServiceClient;
 
     @Factory(dataProvider = "userModeProvider")
     public GregRestResourceSearchAndAdvanceSearchTestCase(TestUserMode userMode) {
@@ -81,11 +85,35 @@ public class GregRestResourceSearchAndAdvanceSearchTestCase extends GregESTestBa
                 FrameworkPathUtil.getSystemResourceLocation() + "artifacts" + File.separator + "GREG" + File.separator;
         publisherUrl = publisherContext.getContextUrls().getSecureServiceUrl().replace("services", "publisher/apis");
         crudTestCommonUtils = new ESTestCommonUtils(genericRestClient, publisherUrl, headerMap);
+        resourceAdminServiceClient = new ResourceAdminServiceClient(automationContext.getContextUrls().getBackEndUrl(),
+                sessionCookie);
+
+        deteleExistingData();
     }
 
     @AfterClass(alwaysRun = true)
     public void cleanUp() throws RegistryException {
         deleteAsset(assetId, publisherUrl, cookieHeader, type, genericRestClient);
+        resourceAdminServiceClient = null;
+
+    }
+
+    private void deteleExistingData() {
+        deteleExistingResource("/_system/governance/trunk/restservices");
+        deteleExistingResource("/_system/governance/apimgt/applicationdata/api-docs");
+        deteleExistingResource("/_system/governance/trunk/schemas");
+        deteleExistingResource("/_system/governance/trunk/wadls");
+        deteleExistingResource("/_system/governance/trunk/endpoints");
+    }
+
+    private void deteleExistingResource(String path){
+        try {
+            resourceAdminServiceClient.deleteResource(path);
+        }catch (RemoteException e) {
+            log.error("Failed to Remove Resource :" + e);
+        } catch (ResourceAdminServiceExceptionException e) {
+            log.error("Failed to Remove Resource :" + e);
+        }
     }
 
     @Test(groups = {"wso2.greg", "wso2.greg.es"}, description = "Authenticate Publisher test")
@@ -146,8 +174,13 @@ public class GregRestResourceSearchAndAdvanceSearchTestCase extends GregESTestBa
 
         Thread.sleep(2000);
 
-        ClientResponse response = genericRestClient.geneticRestRequestGet
-                (publisherUrl.split("/apis")[0] + "/pages/search-results", queryParamMap, headerMap, cookieHeader);
+        ClientResponse response;
+        int x = 0;
+        do{
+            response = genericRestClient.geneticRestRequestGet
+                    (publisherUrl.split("/apis")[0] + "/pages/search-results", queryParamMap, headerMap, cookieHeader);
+            x++;
+        }while(x < 10);
 
         assertTrue(response.getEntity(String.class).contains(restServiceName),
                 "Response does not contain Rest service name " + restServiceName);
@@ -162,8 +195,13 @@ public class GregRestResourceSearchAndAdvanceSearchTestCase extends GregESTestBa
 
         queryParamMap.put("q", "\"name" + "\":" + "\"" + "dummy" + "\"");
 
-        ClientResponse response = genericRestClient.geneticRestRequestGet
-                (publisherUrl.split("/apis")[0] + "/pages/search-results", queryParamMap, headerMap, cookieHeader);
+        ClientResponse response;
+        int x = 0;
+        do{
+            response = genericRestClient.geneticRestRequestGet
+                    (publisherUrl.split("/apis")[0] + "/pages/search-results", queryParamMap, headerMap, cookieHeader);
+            x++;
+        }while(x < 10);
 
         assertFalse(response.getEntity(String.class).contains(restServiceName),
                 "Response does not contain Rest service name " + restServiceName);
@@ -186,8 +224,13 @@ public class GregRestResourceSearchAndAdvanceSearchTestCase extends GregESTestBa
 
         }
 
-        ClientResponse response = genericRestClient.geneticRestRequestGet
-                (publisherUrl + "/assets", queryParamMap, headerMap, cookieHeader);
+        int x = 0;
+        ClientResponse response;
+        do{
+            response = genericRestClient.geneticRestRequestGet
+                    (publisherUrl + "/assets", queryParamMap, headerMap, cookieHeader);
+            x++;
+        }while(x < 10);
 
         assertTrue(response.getEntity(String.class).contains(restServiceName),
                 "Response does not contain Rest service name " + restServiceName);
