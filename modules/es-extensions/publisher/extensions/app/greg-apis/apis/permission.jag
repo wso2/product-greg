@@ -1,0 +1,148 @@
+<%
+/*
+ *  Copyright (c) 2015, WSO2 Inc. (http://www.wso2.org) All Rights Reserved.
+ *
+ *  WSO2 Inc. licenses this file to you under the Apache License,
+ *  Version 2.0 (the "License"); you may not use this file except
+ *  in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *  http://www.apache.org/licenses/LICENSE-2.0
+ *
+ *  Unless required by applicable law or agreed to in writing,
+ *  software distributed under the License is distributed on an
+ *  "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ *  KIND, either express or implied.  See the License for the
+ *  specific language governing permissions and limitations
+ *  under the License.
+ *
+ */
+require('/modules/publisher.js').exec(function (ctx) {
+    var gregAPI = require('/modules/greg-publisher-api.js').gregAPI;
+    var gregPermissionUtil = require('/modules/greg-permission-util.js').gregPermissionUtil;
+    var session = ctx.session;
+    var httpMethod = ctx.request.getMethod();
+    var params = ctx.request.getContent();
+    var options = request.getAllParameters();
+    var results;
+    var assetType;
+    var assetId;
+    var am;
+    var message;
+
+    response.contentType = 'application/json';
+    var carbon = require('carbon');
+
+    var assetManager = function (session, type) {
+        var rxt = require('rxt');
+        return rxt.asset.createUserAssetManager(session, type);
+    };
+
+    var checkPermission = function (assetType, assetId) {
+        var am = assetManager(session, assetType);
+        var rolePermission = gregAPI.permissions.list(am, assetId);
+
+        if (rolePermission) {
+            return (rolePermission.isAuthorizeAllowed && !rolePermission.isVersionView);
+        } else {
+            return false;
+        }
+    };
+
+    switch (httpMethod) {
+        case 'POST':
+            assetType = params.assetType;
+            assetId = params.assetId;
+            am = assetManager(session, assetType);
+
+            if (checkPermission(assetType, assetId)) {
+                try {
+                    results = gregPermissionUtil.permissions.add(am, params);
+                    message = {'status': results};
+                    print(message);
+                } catch (e) {
+                    log.error(e);
+                    message = {'error': e};
+                    print(message);
+                }
+
+            } else {
+                message = {'status': false};
+                response.status = 401;
+                print(message);
+            }
+            break;
+        case 'GET':
+            assetType = options.assetType;
+            assetId = options.id;
+
+            if (assetId) {
+                am = assetManager(session, assetType);
+                if (checkPermission(assetType, assetId)) {
+                    try {
+                        results = gregPermissionUtil.permissions.list(am, assetId);
+                        if (results != null) {
+                            message = {'data': results};
+                        } else {
+                            message = {'data': {}};
+                            response.status = 401;
+                        }
+                        print(message);
+                    } catch (e) {
+                        log.error(e);
+                        message = {'error': e};
+                        print(message);
+                    }
+                } else {
+                    message = {'data': {'status': false}};
+                    response.status = 401;
+                    print(message);
+                }
+            }
+            break;
+        case 'DELETE':
+            assetType = options.assetType;
+            assetId = options.assetId;
+            am = assetManager(session, assetType);
+
+            if (checkPermission(assetType, assetId)) {
+                try {
+                    results = gregPermissionUtil.permissions.remove(am, options);
+                    message = {'status': results};
+                    print(message);
+                } catch (e) {
+                    log.error(e);
+                    message = {'error': e};
+                    print(message);
+                }
+            } else {
+                message = {'status': false};
+                response.status = 401;
+                print(message);
+            }
+            break;
+        case 'PUT':
+            assetType = params.assetType;
+            assetId = params.assetId;
+            am = assetManager(session, assetType);
+
+            if (checkPermission(assetType, assetId)) {
+                try {
+                    results = gregPermissionUtil.permissions.modify(am, params);
+                    message = {'status': results};
+                    print(message);
+                } catch (e) {
+                    log.error(e);
+                    message = {'error': e};
+                    print(message);
+                }
+            } else {
+                message = {'status': false};
+                response.status = 401;
+                print(message);
+            }
+            break;
+        default:
+            break;
+    }
+}, request, response, session); %>

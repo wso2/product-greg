@@ -1,0 +1,130 @@
+/* inner page title buttons */
+.tile-buttons-list h4 {
+    font-weight: 400;
+}
+
+.tile-buttons {
+    list-style: none;
+    margin: 0;
+    padding-left: 0;
+}
+
+.tile-buttons li {
+    list-style: none;
+    display: inline-block;
+    text-align: center;
+    margin: 0 6px 9px 0;
+    line-height: 17px;
+}
+
+.tile-buttons li a {
+    color: #fff;
+    text-decoration: none;
+    width: 120px;
+    height: 120px;
+    /*padding: 20px;*/
+    background: #2c313b;
+    display: block;
+    overflow: hidden;
+    text-align: center;
+    text-transform: capitalize;
+}
+
+.tile-buttons li a.selected,.tile-buttons li a.selected:hover {
+    background: #2c313b;
+}
+
+.tile-buttons li a.disabled {
+    opacity: 0.6;
+    background: #2c313b;
+}
+
+.tile-buttons li a:hover {
+    background: #4D5461;
+}
+
+.tile-buttons li a i {
+    font-size: 50px;
+    display: block;
+    margin-bottom: 10px;
+}
+
+.wr-permissions-list {
+    margin-top: 10px;
+}
+
+.wr-permissions-list .wr-permission-icon,
+.wr-permissions-list .wr-security-status,
+.wr-permissions-list .wr-asset-desc,
+.wr-permissions-list .wr-resource-icon,
+.wr-permissions-list .wr-asset-details {
+    float: left;
+}
+
+.wr-permissions-list .wr-permission-operations{
+    float: right;
+    margin-right: 10px;
+    padding-top: 8px;
+}
+
+.wr-permissions-list .wr-permission-actions{
+    float: right;
+    margin-right: 50px;
+    padding-top: 8px;
+}
+
+.wr-permissions-list .wr-permission {
+    background: #f1f1f1;
+    /*padding: 10px;*/
+    margin-bottom: 4px;
+}
+
+.wr-permissions-list .wr-asset-details {
+    padding: 5px 10px;
+}
+
+.wr-permissions-list .wr-resource-icon {
+    font-size: 37px;
+    height: 50px;
+    line-height: 40px;
+}
+
+.wr-permissions-list .wr-asset-desc .resource-name {
+    font-weight: 700;
+}
+
+.wr-permissions-list .wr-security-status {
+    background: #989898;
+    color: #fff;
+    height: 50px;
+    line-height: 50px;
+    padding: 0 10px;
+    margin-right: 10px;
+}
+
+.wr-permissions-list .wr-permission-icon {
+    width: 50px;
+    height: 50px;
+    vertical-align: text-top;
+    line-height: 40px;
+    text-align: center;
+    font-size: 25px;
+    background-color: #444;
+    color: #fff;
+}
+
+.wr-permissions-list .select-actions {
+    width: 90px;
+}
+
+.wr-permissions-font {
+    font-size: large;
+}
+
+#addPermission {
+    display: none;
+}
+
+.block {
+    display: block;
+}
