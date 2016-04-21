@@ -66,7 +66,7 @@ $(function () {
                 authorizedRoles = data.data.authorizedRoles;
                 for (var i in roleNames) {
                     if(roleNames.hasOwnProperty(i)){
-                        var role = roleNames[i].toLowerCase();
+                        var role = capitalizeRole(roleNames[i].toLowerCase());
                         addOptionsToSelect2(role);
                     }
                 }
@@ -204,6 +204,10 @@ $(function () {
 
     var capitalize = function(role) {
         return role.substr(0, 1).toUpperCase() + role.substr(1);
+    };
+
+    var capitalizeRole = function(role) {
+        return role.substr(0, role.indexOf("/")).toUpperCase() + role.substr(role.indexOf("/"));
     };
 
     var addOptionsToSelect2 = function (role) {

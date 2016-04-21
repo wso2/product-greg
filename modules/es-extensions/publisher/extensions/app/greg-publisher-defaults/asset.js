@@ -96,7 +96,7 @@ asset.renderer = function(ctx) {
                 var ptr = page.leftNav || [];
                 var am = assetManager(ctx.session,ctx.assetType);
                 var entry;
-                var allowedPages = ['details','lifecycle','update','associations','permissions'];
+                var allowedPages = ['details','lifecycle','update','associations','permissions', 'copy', 'delete'];
                 log.debug('Permission populator ' + page.meta.pageName);
                 if(allowedPages.indexOf(page.meta.pageName)>-1){
                     var permissionList = gregAPI.permissions.list(am, page.assets.id);

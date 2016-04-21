@@ -749,7 +749,7 @@ var gregAPI = {};
                         permissionOptions.writeDeny = permission.isWriteDeny();
                         permissionOptions.deleteAllow = permission.isDeleteAllow();
                         permissionOptions.deleteDeny = permission.isDeleteDeny();
-                        permissionOptions.notReadOnly = !(permission.getUserName() == "system/wso2.anonymous.role");
+                        permissionOptions.notReadOnly = !(permission.getUserName() == "SYSTEM/wso2.anonymous.role");
 
                         result.push(permissionOptions);
                     } else {
