@@ -260,13 +260,13 @@ $(function () {
             data.actionToAuthorize = "2";
             data.permissionType = "1";
             if ($(internalId).prop("checked")) {
-                data.roleToAuthorize = "internal/everyone";
-                data.roleToDeny = "system/wso2.anonymous.role";
+                data.roleToAuthorize = "INTERNAL/everyone";
+                data.roleToDeny = "SYSTEM/wso2.anonymous.role";
                 data.permissionTypeDeny = "2";
                 data.permissionCheck = "internal";
                 roleName = "All tenant users";
             } else {
-                data.roleToAuthorize = "system/wso2.anonymous.role";
+                data.roleToAuthorize = "SYSTEM/wso2.anonymous.role";
                 data.roleToDeny = "";
                 data.permissionCheck = "public";
                 roleName = "Public";
