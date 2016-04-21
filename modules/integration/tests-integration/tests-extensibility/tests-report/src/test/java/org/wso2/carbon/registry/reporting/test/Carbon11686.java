@@ -202,61 +202,63 @@ public class Carbon11686 extends ReportingTestCaseSuper {
                                                ReportingResourcesSupplierReportingExceptionException,
                                                ReportingException, JRException,
                                                RegistryExceptionException {
-        ByteArrayOutputStream report = getReportOutputStream("pdf");
+        if (checkCompatibility() != 8) {
+            ByteArrayOutputStream report = getReportOutputStream("pdf");
 
-        assertNotNull(report);
+            assertNotNull(report);
 
-        saveByteArrayOutputStreamtoFile(report);
-        File file = new File(Dest_file);
-        PDFParser parser = null;
-        if (!file.isFile()) {
-            String msg = "File " + Dest_file + " does not exist.";
-            throw new Exception(msg);
-        }
-
-        FileInputStream pdfInputStream = null;
-
-        try {
-            pdfInputStream = new FileInputStream(file);
-            parser = new PDFParser(pdfInputStream);
-        } catch (Exception e) {
-            String msg = "Unable to open PDF Parser.";
-            throw new Exception(msg, e);
-        }
-
-        COSDocument cosDoc = null;
-        PDFTextStripper pdfStripper;
-        PDDocument pdDoc = null;
-        String parsedText = null;
-        try {
-            parser.parse();
-            cosDoc = parser.getDocument();
-            pdfStripper = new PDFTextStripper();
-            pdDoc = new PDDocument(cosDoc);
-            parsedText = pdfStripper.getText(pdDoc);
-        } catch (Exception e) {
-            String msg = "An exception occured in parsing the PDF Document.";
-            e.printStackTrace();
-            throw new Exception(msg, e);
-        } finally {
-            if (cosDoc != null) {
-                cosDoc.close();
+            saveByteArrayOutputStreamtoFile(report);
+            File file = new File(Dest_file);
+            PDFParser parser = null;
+            if (!file.isFile()) {
+                String msg = "File " + Dest_file + " does not exist.";
+                throw new Exception(msg);
             }
-            if (pdDoc != null) {
-                pdDoc.close();
+
+            FileInputStream pdfInputStream = null;
+
+            try {
+                pdfInputStream = new FileInputStream(file);
+                parser = new PDFParser(pdfInputStream);
+            } catch (Exception e) {
+                String msg = "Unable to open PDF Parser.";
+                throw new Exception(msg, e);
             }
-            if (pdfInputStream != null) {
-                pdfInputStream.close();
+
+            COSDocument cosDoc = null;
+            PDFTextStripper pdfStripper;
+            PDDocument pdDoc = null;
+            String parsedText = null;
+            try {
+                parser.parse();
+                cosDoc = parser.getDocument();
+                pdfStripper = new PDFTextStripper();
+                pdDoc = new PDDocument(cosDoc);
+                parsedText = pdfStripper.getText(pdDoc);
+            } catch (Exception e) {
+                String msg = "An exception occured in parsing the PDF Document.";
+                e.printStackTrace();
+                throw new Exception(msg, e);
+            } finally {
+                if (cosDoc != null) {
+                    cosDoc.close();
+                }
+                if (pdDoc != null) {
+                    pdDoc.close();
+                }
+                if (pdfInputStream != null) {
+                    pdfInputStream.close();
+                }
             }
+
+            parsedText = parsedText.replace("\n", "");
+            log.info("testActivityReportPDF result : " + parsedText);
+
+            assertTrue(parsedText.contains(userNameRandom));
+            assertTrue(parsedText.contains("hasadded the resource"));
+            assertTrue(parsedText.contains(testGovernanceLCtemplate));
+            assertTrue(parsedText.contains(testGovernanceLCRXT));
         }
-
-        parsedText = parsedText.replace("\n", "");
-        log.info("testActivityReportPDF result : " + parsedText);
-
-        assertTrue(parsedText.contains(userNameRandom));
-        assertTrue(parsedText.contains("hasadded the resource"));
-        assertTrue(parsedText.contains(testGovernanceLCtemplate));
-        assertTrue(parsedText.contains(testGovernanceLCRXT));
     }
 
     /**
@@ -273,18 +275,21 @@ public class Carbon11686 extends ReportingTestCaseSuper {
     public void testActivityReportHTML() throws Exception, MalformedURLException,
                                                 ResourceAdminServiceExceptionException,
                                                 RemoteException {
-        ByteArrayOutputStream report = getReportOutputStream("HTML");
+        if (checkCompatibility() != 8) {
+            ByteArrayOutputStream report = getReportOutputStream("HTML");
 
-        assertNotNull(report);
+            assertNotNull(report);
 
-        String reportString = report.toString();
+            String reportString = report.toString();
 
-        log.info("testActivityReportHTML result : " + reportString);
+            log.info("testActivityReportHTML result : " + reportString);
 
-        assertTrue(reportString.contains(userNameRandom));
-        assertTrue(reportString.contains("has added the resource"));
-        assertTrue(reportString.contains(testGovernanceLCtemplate));
-        assertTrue(reportString.contains(testGovernanceLCRXT));
+            assertTrue(reportString.contains(userNameRandom));
+            assertTrue(reportString.contains("has added the resource"));
+            assertTrue(reportString.contains(testGovernanceLCtemplate));
+            assertTrue(reportString.contains(testGovernanceLCRXT));
+        }
+
     }
 
     /**
@@ -296,43 +301,45 @@ public class Carbon11686 extends ReportingTestCaseSuper {
     @Test(groups = "wso2.greg", description = "verifies report generation with type set to Excel",
           dependsOnMethods = "testActivityReportHTML")
     public void testActivityReportExcelType() throws AxisFault, Exception {
-        ByteArrayOutputStream report = getReportOutputStream("Excel");
+        if (checkCompatibility() != 8) {
+            ByteArrayOutputStream report = getReportOutputStream("Excel");
 
-        assertNotNull(report);
+            assertNotNull(report);
 
-        saveByteArrayOutputStreamtoFile(report);
+            saveByteArrayOutputStreamtoFile(report);
 
-        try {
-            FileInputStream myInput = new FileInputStream(Dest_file);
+            try {
+                FileInputStream myInput = new FileInputStream(Dest_file);
 
-            POIFSFileSystem myFileSystem = new POIFSFileSystem(myInput);
+                POIFSFileSystem myFileSystem = new POIFSFileSystem(myInput);
 
-            HSSFWorkbook myWorkBook = new HSSFWorkbook(myFileSystem);
+                HSSFWorkbook myWorkBook = new HSSFWorkbook(myFileSystem);
 
-            HSSFSheet mySheet = myWorkBook.getSheetAt(0);
+                HSSFSheet mySheet = myWorkBook.getSheetAt(0);
 
-            HSSFRow customRow = mySheet.getRow(4);
-            HSSFCell customCell = customRow.getCell(2);
-            assertTrue(customCell.getStringCellValue().contains(userNameRandom));
+                HSSFRow customRow = mySheet.getRow(4);
+                HSSFCell customCell = customRow.getCell(2);
+                assertTrue(customCell.getStringCellValue().contains(userNameRandom));
 
-            customCell = customRow.getCell(2);
-            assertTrue(customCell.getStringCellValue().contains("has added the resource"));
+                customCell = customRow.getCell(2);
+                assertTrue(customCell.getStringCellValue().contains("has added the resource"));
 
-            customCell = customRow.getCell(2);
-            assertTrue(customCell.getStringCellValue().contains(testGovernanceLCRXT));
+                customCell = customRow.getCell(2);
+                assertTrue(customCell.getStringCellValue().contains(testGovernanceLCRXT));
 
-            customRow = mySheet.getRow(6);
-            customCell = customRow.getCell(2);
-            assertTrue(customCell.getStringCellValue().contains(userNameRandom));
+                customRow = mySheet.getRow(6);
+                customCell = customRow.getCell(2);
+                assertTrue(customCell.getStringCellValue().contains(userNameRandom));
 
-            customCell = customRow.getCell(2);
-            assertTrue(customCell.getStringCellValue().contains("has added the resource"));
-            //This is only valid for the fresh instance (with fresh database)
+                customCell = customRow.getCell(2);
+                assertTrue(customCell.getStringCellValue().contains("has added the resource"));
+                //This is only valid for the fresh instance (with fresh database)
 //            customCell = customRow.getCell(2);
 //            System.out.println("String cell value #####################################" + customCell.getStringCellValue());
 //            assertTrue(customCell.getStringCellValue().contains(testGovernanceLCtemplate));
-        } catch (Exception e) {
-            throw e;
+            } catch (Exception e) {
+                throw e;
+            }
         }
     }
 
@@ -386,6 +393,10 @@ public class Carbon11686 extends ReportingTestCaseSuper {
         FileOutputStream out = new FileOutputStream(Dest_file);
         report.writeTo(out);
         out.close();
+    }
+
+    private int checkCompatibility(){
+        return Integer.parseInt(System.getProperty("java.version").split("\\.")[1]);
     }
 
     @AfterClass(alwaysRun = true)

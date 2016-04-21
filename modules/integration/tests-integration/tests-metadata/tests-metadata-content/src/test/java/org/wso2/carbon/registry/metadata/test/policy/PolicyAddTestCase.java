@@ -43,7 +43,7 @@ import java.rmi.RemoteException;
  * Add Policy from File System and URL Functionality Tests
  */
 
-public class PolicyAddTestCase extends GREGIntegrationBaseTest{
+public class PolicyAddTestCase extends GREGIntegrationBaseTest {
 
     private static final Log log = LogFactory.getLog(PolicyAddTestCase.class);
     private String policyPath = "/_system/governance/trunk/policies/";
@@ -56,7 +56,7 @@ public class PolicyAddTestCase extends GREGIntegrationBaseTest{
         String session = new LoginLogoutClient(automationContext).login();
         resourceAdminServiceClient =
                 new ResourceAdminServiceClient(automationContext.getContextUrls().getBackEndUrl()
-                        ,session);
+                        , session);
     }
 
 
@@ -79,7 +79,8 @@ public class PolicyAddTestCase extends GREGIntegrationBaseTest{
      */
     @Test(groups = "wso2.greg", dependsOnMethods = "addPolicyFromFile")
     public void addPolicyFromURL() throws ResourceAdminServiceExceptionException, RemoteException {
-        String resourceUrl = "https://svn.wso2.org/repos/wso2/trunk/commons/qa/qa-artifacts/greg/policies/policy.xml";
+        String resourceUrl = "https://raw.githubusercontent.com/wso2/wso2-qa-artifacts/master/automation-artifacts/" +
+                "greg/policy/policy1.xml";
         String resourceName = "RMpolicy3.xml";
         resourceAdminServiceClient.addPolicy(resourceName, "adding From URL", resourceUrl);
         Assert.assertNotNull(resourceAdminServiceClient.getResourceContent(policyPath + "1.0.0/" + resourceName));

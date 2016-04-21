@@ -327,6 +327,7 @@ public class AddRxtTest extends GREGIntegrationBaseTest {
         GovernanceUtils.loadGovernanceArtifacts((UserRegistry) governance, artifactConfiguration);
 
         artifact.setAttribute("overview_name", "def");
+        artifact.setAttribute("overview_age", "21");
         artifactManager.addGenericArtifact(artifact);
         assertTrue(artifact.getAttribute("overview_id").equals("newPerson4"), "artifact Id not found");
         assertTrue(artifact.getAttribute("overview_name").equals("def"), "artifact Name not found");
@@ -361,10 +362,11 @@ public class AddRxtTest extends GREGIntegrationBaseTest {
         removeGenericArtifactByQName(artifactManager, "projectGroupName");
         GenericArtifact artifact = artifactManager.newGovernanceArtifact(new QName("projectGroupName"));
 
-        artifact.setAttribute("overview_group Owner", "groupOwner");
+        artifact.setAttribute("overview_groupOwner", "groupOwner");
         artifact.setAttributes("groupMembers_member", new String[]{"Junior:path1", "Senior:path2"});
+
         artifactManager.addGenericArtifact(artifact);
-        assertTrue(artifact.getAttribute("overview_group Owner").equals("groupOwner"), "artifact Group Owner not found");
+        assertTrue(artifact.getAttribute("overview_groupOwner").equals("groupOwner"), "artifact Group Owner not found");
         assertTrue(artifact.getAttributes("groupMembers_member")[0].equals("Junior:path1"), "artifact Group Member1 not found");
         assertTrue(artifact.getAttributes("groupMembers_member")[1].equals("Senior:path2"), "artifact Group Member2 not found");
         //removing the generic artifact created above

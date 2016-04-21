@@ -14,7 +14,8 @@ $(function() {
 		"<div class='item' data-uuid='{{uuid}}' data-type='{{shortName}}'>" +
 		"<div class='text'>" +
 		"   <div class='resource-name' data-resource-name='{{text}}'>{{text}}</div>" +
-		"   <div class='resource-type' data-resource-type='{{type}}'>{{type}}</div>" +
+		"   <div class='resource-version' data-resource-version='{{version}}'>{{version}}</div>" +
+		"   <div class='resource-type' data-resource-type='{{type}}'>{{shortName}}</div>" +
 		"</div>" +
 		" <div class='icon'>" +
 		"     <i class='fw fw-{{iconClass}}'></i>" +
@@ -73,75 +74,50 @@ $(function() {
             type: 'POST',
             contentType: 'application/json',
             success: function () {
-                BootstrapDialog.show({
-                    type: BootstrapDialog.TYPE_SUCCESS,
-                    title: 'Success!',
-                    message: '<div><i class="fa fa-check"></i> Association added successfully</div>',
-                    buttons: [{
-                        label: 'OK',
-                        action: function (dialogItself) {
-                            dialogItself.close();
-                            location.reload(true);
-                        }
-                    }]
-
-                });
+                messages.alertSuccess('Association added successfully');
+                setTimeout(function () {
+                    location.reload(true);
+                }, 2000);
             },
             error: function () {
-                BootstrapDialog.show({
-                    type: BootstrapDialog.TYPE_DANGER,
-                    title: 'Error!',
-                    message: '<div><i class="fa fa-warning"></i> Error occurred while adding association</div>',
-                    buttons: [{
-                        label: 'Close',
-                        action: function (dialogItself) {
-                            dialogItself.close();
-                        }
-
-                    }]
-
-                });
+                messages.alertError('Error occurred while adding association');
             }
         });
 
 	};
 
     var invokeRemoveAssociationAPI = function (data) {
-        $.ajax({
-            url: removeAssociationURL(),
-            data: JSON.stringify(data),
-            type: 'DELETE',
-            contentType: 'application/json',
-            success: function () {
-                BootstrapDialog.show({
-                    type: BootstrapDialog.TYPE_SUCCESS,
-                    title: 'Success!',
-                    message: '<div><i class="fa fa-check"></i> Association removed successfully</div>',
-                    buttons: [{
-                        label: 'OK',
-                        action: function (dialogItself) {
-                            dialogItself.close();
-                            location.reload(true);
+        BootstrapDialog.show({
+            type: BootstrapDialog.TYPE_WARNING,
+            title: 'Warning!',
+            message: '<div><i class="fa fa-check"></i> Are you sure you want to delete the association?</div>',
+            buttons: [{
+                label: 'Yes',
+                action: function (dialogItself) {
+                    dialogItself.close();
+                    $.ajax({
+                        url: removeAssociationURL(),
+                        data: JSON.stringify(data),
+                        type: 'DELETE',
+                        contentType: 'application/json',
+                        success: function () {
+                            messages.alertSuccess('Association removed successfully');
+                            setTimeout(function () {
+                                location.reload(true);
+                            }, 2000);
+                        },
+                        error: function () {
+                            messages.alertError('Error occurred while removing association');
                         }
-                    }]
-
-                });
+                    });
+                }
             },
-            error: function () {
-                BootstrapDialog.show({
-                    type: BootstrapDialog.TYPE_DANGER,
-                    title: 'Error!',
-                    message: '<div><i class="fa fa-warning"></i> Error occurred while removing association</div>',
-                    buttons: [{
-                        label: 'Close',
-                        action: function (dialogItself) {
-                            dialogItself.close();
-                        }
-
-                    }]
-
-                });
-            }
+                {
+                    label: 'No',
+                    action: function (dialogItself) {
+                        dialogItself.close();
+                    }
+                }]
         });
     };
 

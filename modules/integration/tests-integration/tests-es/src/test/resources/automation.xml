@@ -1,4 +1,3 @@
-<?xml version="1.0" encoding="UTF-8"?>
 <!--
 
   ~  Copyright (c) 2005-2010, WSO2 Inc. (http://wso2.com) All Rights Reserved.
@@ -17,8 +16,7 @@
   ~  specific language governing permissions and limitations
   ~  under the License.
 
--->
-<automation xmlns="automationSchema.xsd">
+--><automation xmlns="automationSchema.xsd">
     <!--  =================================================  -->
     <!--                   Parameters                        -->
     <!--  =================================================  -->
@@ -130,13 +128,34 @@
                     </user>
                 </admin>
                 <users>
-                    <user key="user1">
+                    <user key="manager">
                         <userName>testuser11</userName>
                         <password>testuser11</password>
+                    </user>
+                    <user key="user1">
+                        <userName>manager</userName>
+                        <password>manager</password>
+                        <roles>
+                            <role>manager</role>
+                        </roles>
                     </user>
                     <user key="user2">
                         <userName>testuser21</userName>
                         <password>testuser21</password>
+                    </user>
+                    <user key="user3">
+                        <userName>withoutLCAccessuser</userName>
+                        <password>withoutLCAccessuser</password>
+                        <roles>
+                            <role>withoutLCAccessrole</role>
+                        </roles>
+                    </user>
+                    <user key="subscribeUser">
+                        <userName>subscribe_user</userName>
+                        <password>subscribe123</password>
+                        <roles>
+                            <role>subscriber</role>
+                        </roles>
                     </user>
                 </users>
             </tenant>
@@ -158,10 +177,62 @@
                         <userName>testuser21</userName>
                         <password>testuser21</password>
                     </user>
+                    <user key="manager">
+                        <userName>manager</userName>
+                        <password>manager</password>
+                        <roles>
+                            <role>manager</role>
+                        </roles>
+                    </user>
                 </users>
             </tenant>
         </tenants>
+        <roles>
+            <role name="manager" key="manager">
+                <permissions>
+                    <permission>/permission/</permission>
+                </permissions>
+            </role>
+            <role name="testrole" key="testrole">
+                <permissions>
+                    <permission>/permission/admin/login</permission>
+                </permissions>
+            </role>
+            <role name="withoutLCAccessrole" key="withoutLCAccessrole">
+                <permissions>
+                    <permission>/permission/admin/configure/governance/generic</permission>
+                    <permission>/permission/admin/configure/governance/restservice-ui</permission>
+                    <permission>/permission/admin/enterprisestore/apps/publisher/features/app/login</permission>
+                    <permission>/permission/admin/enterprisestore/apps/publisher/features/assets/restservice</permission>
+                    <permission>/permission/admin/enterprisestore/apps/publisher/features/assets/restservice/update</permission>
+                    <permission>/permission/admin/enterprisestore/apps/store/features/app/login</permission>
+                    <permission>/permission/admin/enterprisestore/apps/store/features/assets/restservice</permission>
+                    <permission>/permission/admin/enterprisestore/apps/store/features/assets/restservice/bookmark</permission>
+                    <permission>/permission/admin/enterprisestore/apps/store/features/assets/restservice/list</permission>
+                    <permission>/permission/admin/enterprisestore/apps/store/features/assets/restservice/reviews</permission>
+                    <permission>/permission/admin/login</permission>
+                    <permission>/permission/admin/manage/resources/browse</permission>
+                    <permission>/permission/admin/manage/resources/govern/generic</permission>
+                    <permission>/permission/admin/manage/resources/govern/generic/add</permission>
+                    <permission>/permission/admin/manage/resources/govern/generic/list</permission>
+                    <permission>/permission/admin/manage/resources/govern/metadata</permission>
+                    <permission>/permission/admin/manage/resources/govern/restservice</permission>
+                    <permission>/permission/admin/manage/resources/govern/restservice/add</permission>
+                    <permission>/permission/admin/manage/resources/govern/restservice/list</permission>
+                    <permission>/permission/admin/manage/resources/ws-api</permission>
+                </permissions>
+            </role>
+            <role name="subscriber" key="subscriber">
+                <permissions>
+                    <permission>/permission/admin/login</permission>
+                    <permission>/permission/admin/configure/governance</permission>
+                    <permission>/permission/admin/enterprisestore</permission>
+                    <permission>/permission/admin/manage/resources/govern</permission>
+                </permissions>
+            </role>
+        </roles>
     </userManagement>
+
     <!--
    This section will initiate the initial deployment of the platform required by
    the test suites.
@@ -172,7 +243,8 @@
         -->
         <productGroup name="GREG" clusteringEnabled="false" default="true">
 
-            <instance name="greg001" type="standalone" nonBlockingTransportEnabled="false">
+            <instance name="store" type="standalone" nonBlockingTransportEnabled="false">
+
                 <hosts>
                     <host type="default">localhost</host>
                 </hosts>
@@ -181,9 +253,41 @@
                     <port type="https">10343</port>
                 </ports>
                 <properties>
-
                 </properties>
             </instance>
+            <instance name="publisher" type="standalone" nonBlockingTransportEnabled="false">
+                <hosts>
+                    <host type="default">localhost</host>
+                </hosts>
+                <ports>
+                    <port type="http">10663</port>
+                    <port type="https">10343</port>
+                </ports>
+                <properties>
+                </properties>
+                <!--   <hosts>
+                       <host type="default">localhost</host>
+                   </hosts>
+                   <ports>
+                       <port type="http">10663</port>
+                       <port type="https">10343</port>
+                   </ports>
+                   <properties>
+
+                   </properties>-->
+            </instance>
+          <!--  <instance name="greg001" type="standalone" nonBlockingTransportEnabled="false">
+                <hosts>
+                    <host type="default">publisher.wso2.com</host>
+                </hosts>
+                <ports>
+                    <port type="http">80</port>
+                    <port type="https">443</port>
+                </ports>
+                <properties>
+
+                </properties>
+            </instance>-->
         </productGroup>
     </platform>
 
@@ -196,18 +300,18 @@
                 <className>org.wso2.carbon.integration.common.extensions.usermgt.UserPopulateExtension</className>
             </extentionClasses>
         </platformExecutionManager-->
-	<platformExecutionManager>
-           <extentionClasses>
-               <class>
-                   <name>org.wso2.carbon.automation.extensions.servers.carbonserver.CarbonServerExtension</name>
-                   <parameter name="-DportOffset" value="900" />
-                   <!--<parameter name="cmdArg" value="debug 5005" />-->
-               </class>
-               <class>
-                   <name>org.wso2.carbon.integration.common.extensions.usermgt.UserPopulateExtension</name>
-               </class>
-           </extentionClasses>
-       </platformExecutionManager>
+        <platformExecutionManager>
+            <extentionClasses>
+                  <class>
+                      <name>org.wso2.carbon.automation.extensions.servers.carbonserver.CarbonServerExtension</name>
+                      <parameter name="-DportOffset" value="900"/>
+                      <!--<parameter name="cmdArg" value="debug 5005" />-->
+                  </class>
+                   <class>
+                       <name>org.wso2.carbon.integration.common.extensions.usermgt.UserPopulateExtension</name>
+                   </class>
+            </extentionClasses>
+        </platformExecutionManager>
 
 
         <PlatformSuiteManager>

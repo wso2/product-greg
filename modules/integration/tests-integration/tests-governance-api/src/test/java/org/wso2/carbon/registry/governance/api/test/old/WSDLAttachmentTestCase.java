@@ -112,8 +112,7 @@ public class WSDLAttachmentTestCase {
     public void testAttachSchema() throws GovernanceException {
 
         schema = schemaManager
-                .newSchema("https://svn.wso2.org/repos/wso2/trunk/commons/qa/"
-                        + "qa-artifacts/greg/xsd/calculator.xsd");
+                .newSchema("https://raw.githubusercontent.com/wso2/wso2-qa-artifacts/master/automation-artifacts/greg/xsd/calculator.xsd");
         schemaManager.addSchema(schema);
 
         wsdlManager.getWsdl(wsdlObj.getId()).attachSchema(schema);

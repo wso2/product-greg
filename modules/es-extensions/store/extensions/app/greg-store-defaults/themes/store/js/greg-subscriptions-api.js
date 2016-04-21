@@ -1,12 +1,15 @@
 var GregSubscriptionAPI = {};
 $(function() {
-    
+    var resolveSubscriptionLabel = function(element){
+        return $($(element).parent().parent().siblings()[0]).html();
+    };
     var addSubscription = function(element, id, type, method, option) {
         var urlSub = caramel.context + '/apis/subscription/' + type + '/' + id;
         //alert('addSubscription');
         var data = {};
         data.notificationType = option;
         data.notificationMethod = method;
+        $(element).unbind("change");
         $.ajax({
             url: urlSub,
             type: 'POST',
@@ -14,18 +17,18 @@ $(function() {
             contentType: 'application/json',
             success: function(data) {
                 if (data.error != null) {
+                	messages.alertError(data.error);
                     $(element).prop("checked", false);
                     $(element).change(function() {
                         addSubscription(element, id, type, method, option);
                     });
-                    location.reload(true);
                 } else {
+                	messages.alertSuccess('You will now receive notifications for <strong>'+resolveSubscriptionLabel(element) + '</strong> events.');
                     var subcriptionid = data[0].id;
                     $(element).prop("checked", true);
                     $(element).change(function() {
-                        removeSubscription(element, id, subcriptionid, method, option);
+                        removeSubscription(element, id, type, subcriptionid, method, option);
                     });
-                    location.reload(true);
                 }
             },
             error: function() {
@@ -39,23 +42,24 @@ $(function() {
     var removeSubscription = function(element, id, type, subcriptionid, method, option) {
         var urlSub = caramel.context + '/apis/subscription/' + type + '/' + id + '?subcriptionid=' + subcriptionid;
         //alert('removeSubscription');
+        $(element).unbind("change");
         $.ajax({
             url: urlSub,
             type: 'DELETE',
             contentType: 'application/json',
             success: function(data) {
                 if (data.error != null) {
+                	messages.alertError(data.error);
                     $(element).prop("checked", true);
                     $(element).change(function() {
                         removeSubscription(element, id, type, subcriptionid, method, option);
                     });
-                    location.reload(true);
                 } else {
+                	messages.alertSuccess('You will no longer receive notifications for <strong>'+resolveSubscriptionLabel(element) + '</strong> events.');
                     $(element).prop("checked", false);
                     $(element).change(function() {
                         addSubscription(element, id, type, method, option);
                     });
-                    location.reload(true);
                 }
             },
             error: function() {
@@ -91,8 +95,13 @@ $(function() {
             contentType: 'application/json',
             success: function(data) {
                 if (data.error == null) {
+                    var updatedNotiCount = notiCount - 1;
                     element.parent().remove();
-                    $('#notificationCount').html((notiCount - 1));
+                    $('#notificationCount').html(updatedNotiCount);
+                    if(updatedNotiCount == 0){
+                        $("#clearalldiv").hide();
+                        toggleSidePanel('notifications',$('.wr-notification-toggle-btn'));
+                    }
                 }
             },
             error: function() {
@@ -100,6 +109,54 @@ $(function() {
             }
         })
     };
+
+    var clearAllNotifications = function() {
+        var urlSub = caramel.context + '/apis/notification/';
+        BootstrapDialog.show({
+            type: BootstrapDialog.TYPE_WARNING,
+            title: 'Warning!',
+            message: '<div><i class="fa fa-check"></i> Are you sure you want to clear all notifications?</div>',
+            buttons: [{
+                label: 'Yes',
+                action: function (dialogItself) {
+                    $.ajax({
+                        url: urlSub,
+                        type: 'DELETE',
+                        contentType: 'application/json',
+                        success: function (data) {
+                            if (data.error == null) {
+                                dialogItself.close();
+                                $('#notificationCount').html(0);
+                                $("#clearalldiv").hide();
+                                $(".wr-notification-desc").hide();
+                                toggleSidePanel('notifications',$('.wr-notification-toggle-btn'));
+                            }
+                        },
+                        error: function () {
+                            BootstrapDialog.show({
+                                type: BootstrapDialog.TYPE_DANGER,
+                                title: 'Error!',
+                                message: '<div><i class="fa fa-warning"></i> Error while clearing notifications</div>',
+                                buttons: [{
+                                    label: 'Close',
+                                    action: function (dialogItself) {
+                                        dialogItself.close();
+                                    }
+                                }]
+                            });
+                        }
+                    });
+                }
+            },
+                {
+                    label: 'No',
+                    action: function (dialogItself) {
+                        dialogItself.close();
+                    }
+                }]
+        });
+    };
+
     var containers = ['resourceUpdated', 'lifeCycleStateChanged', 'checkListItemChecked', 'checkListItemUnchecked'];
     var methods = ['Work', 'Email'];
     var map = function(container, method) {
@@ -135,4 +192,5 @@ $(function() {
         }
     }
     GregSubscriptionAPI.removeNotification = removeNotification;
+    GregSubscriptionAPI.clearAllNotifications = clearAllNotifications;
 });

@@ -1,11 +1,11 @@
 <table class="wr-configurations-table">
     <tr>
         <th></th>
-        <th>Email</th>
-        <th>Console</th>
+        <th>{{t "Email"}}</th>
+        <th>{{t "Store"}}</th>
     </tr>
     <tr>
-        <td>LifeCycle State Change</td>
+        <td>{{t "Lifecycle State Change"}}</td>
         <td>
             <label class="wr-input-control switch">
                 <input type="checkbox" id="lifeCycleStateChangedEmail" {{#if subscriptions.StoreLifeCycleStateChanged.email.checked}}checked{{/if}} data-id="{{subscriptions.StoreLifeCycleStateChanged.email.id}}"  data-method='StoreLifeCycleStateChanged' data-type="email" >
@@ -20,7 +20,7 @@
         </td>
     </tr>
     <tr>
-        <td>Information Update</td>
+        <td>{{t "Information Update"}}</td>
         <td>
             <label class="wr-input-control switch">
                 <input type="checkbox"  id="resourceUpdatedEmail" {{#if subscriptions.StoreResourceUpdated.email.checked}}checked{{/if}} data-id="{{subscriptions.StoreResourceUpdated.email.id}}" data-method='StoreResourceUpdated' data-type="email" >

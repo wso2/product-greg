@@ -4,9 +4,17 @@
     <parameter name="useDefaultListeners" value="false"/>
 
     <test name="permission-tests" preserve-order="true" parallel="false">
-        <packages>
-            <package name="org.wso2.carbon.registry.permission.test.*"/>
-        </packages>
+        <classes>
+            <class name="org.wso2.carbon.registry.permission.test.AnonymousAccessTestCase"/>
+            <class name="org.wso2.carbon.registry.permission.test.AtomFeedPermissionTestCase"/>
+            <class name="org.wso2.carbon.registry.permission.test.CustomPermissionTestCase"/>
+            <class name="org.wso2.carbon.registry.permission.test.PermissionInheritanceTestCase"/>
+            <class name="org.wso2.carbon.registry.permission.test.PermissionOnArtifactsTestCase"/>
+            <!--class name="org.wso2.carbon.registry.permission.test.RolePermissionAsAdminTestCase"/-->
+            <class name="org.wso2.carbon.registry.permission.test.RolePermissionAsNonAdminTestCase"/>
+            <class name="org.wso2.carbon.registry.permission.test.RolePermissionServiceTestCase"/>
+            <class name="org.wso2.carbon.registry.permission.test.SymbolicServiceTestCase"/>
+        </classes>
     </test>
     <test name="permission-tests2" preserve-order="true" parallel="false">
         <packages>

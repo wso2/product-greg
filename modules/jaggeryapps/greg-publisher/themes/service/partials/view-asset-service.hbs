@@ -17,7 +17,7 @@
 		                <div class="span12 asset-content-box">
 		                    <div class="widget wlightblue">
 		                        <div class="widget-head">
-                                    <div class="pull-left">Asset Overview</div>
+                                    <div class="pull-left">{{t "Asset Overview"}}</div>
                                     <!--<div class="widget-icons pull-right">
                                         <a class="wminimize" href="#"><i class="icon-chevron-up"></i></a>
 
@@ -28,7 +28,7 @@
                                     <div class="accordion-group">
                                         <div class="accordion-heading"  style="height:45px;background:#C0C0C0;" href="#collapseBasic">
                                             <div style="float:right;">
-                                                <a style="text-transform:capitalize;font-weight:bold;">Basic Information</a>
+                                                <a style="text-transform:capitalize;font-weight:bold;">{{ t "Basic Information"}}</a>
                                                 <a class="accordion-toggle" style="display: inline-block;" id="toggle-{{this.tableNameText}}" name="toggle-{{this.tableNameText}}" data-action="" data-toggle="collapse" href="#collapseBasic"><i class="icon icon-double-angle-down icon-2x"></i>
                                                 </a>
                                             </div>
@@ -37,7 +37,7 @@
                                             <div class="accordion-inner form-horizontal">
                                                 <div class="control-group">
                                                     <b>
-                                                        <label class="control-label">Name:</label>
+                                                        <label class="control-label">{{t "Name"}}:</label>
                                                     </b>
                                                     <div class="controls">
                                                         {{{snoop "fields(name=overview_name).value" this.data}}}
@@ -46,7 +46,7 @@
 
                                                 <div class="control-group">
                                                     <b>
-                                                        <label class="control-label">Description:</label>
+                                                        <label class="control-label">{{t "Description"}}:</label>
                                                     </b>
                                                     <div class="controls">
                                                         {{{snoop "fields(name=overview_description).value" this.data}}}
@@ -54,7 +54,7 @@
                                                 </div>
                                                 <div class="control-group">
                                                     <b>
-                                                        <label class="control-label">Namespace:</label>
+                                                        <label class="control-label">{{t "Namespace"}}:</label>
                                                     </b>
                                                     <div class="controls">
                                                         {{{snoop "fields(name=overview_namespace).value" this.data}}}
@@ -76,7 +76,7 @@
                                     <div class="accordion-group">
                                         <div class="accordion-heading"  style="height:45px;background:#C0C0C0;" href="#collapseContact1">
                                             <div style="float:right;">
-                                                <a style="text-transform:capitalize;font-weight:bold;">Contact Information</a>
+                                                <a style="text-transform:capitalize;font-weight:bold;">{{t "Contact Information"}}</a>
                                                 <a class="accordion-toggle" style="display: inline-block;" id="toggle-Contact" name="toggle-Contact" data-action="" data-toggle="collapse" href="#collapseContact1"><i class="icon icon-double-angle-down icon-2x"></i>
                                                 </a>
                                             </div>
@@ -86,7 +86,7 @@
                                                 <p>{{this.tableName}}</p>
                                                 <div class="control-group">
                                                     <b>
-                                                        <label class="control-label">Contact:</label>
+                                                        <label class="control-label">{{T "Contact"}}:</label>
                                                     </b>
                                                     <div class="controls">
                                                         {{{snoop "fields(name=contacts_contact).value" this.data}}}
@@ -100,7 +100,7 @@
                                     <div class="accordion-group">
                                         <div class="accordion-heading"  style="height:45px;background:#C0C0C0;" href="#collapseContact1">
                                             <div style="float:right;">
-                                                <a style="text-transform:capitalize;font-weight:bold;">Documentation</a>
+                                                <a style="text-transform:capitalize;font-weight:bold;">{{t "Documentation"}}</a>
                                                 <a class="accordion-toggle" style="display: inline-block;" id="toggle-Docs" name="toggle-Docs" data-action="" data-toggle="collapse" href="#collapseDocs"><i class="icon icon-double-angle-down icon-2x"></i>
                                                 </a>
                                             </div>
@@ -110,7 +110,7 @@
                                                 <p>{{this.tableName}}</p>
                                                 <div class="control-group">
                                                     <b>
-                                                        <label class="control-label">Docs:</label>
+                                                        <label class="control-label">{{T "Docs"}}:</label>
                                                     </b>
                                                     <div class="controls">
 							{{#each this.data.fields.[19].fields}}

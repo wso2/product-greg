@@ -68,9 +68,8 @@ public class EncodedUrlWsdlAdditionTestCase extends GREGIntegrationBaseTest {
             GovernanceException, MalformedURLException {
 
         wsdl = wsdlManager.newWsdl(
-                "http://svn.wso2.org/repos/wso2/carbon/platform/branches/turing/" +
-                        "products/greg/4.6.0/modules/integration/registry/tests-metadata/src/test/resources/" +
-                        "artifacts/GREG/wsdl/StockQuote.wsdl");
+                "https://raw.githubusercontent.com/wso2/wso2-qa-artifacts/master/automation-artifacts/greg" +
+                        "/wsdl/StockQuote.wsdl");
 
         wsdl.addAttribute("version", "1.0.0");
         wsdl.addAttribute("author", "Aparna");

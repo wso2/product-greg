@@ -19,6 +19,7 @@
 
 var resources = function(){
     return {
-        js:['home.js']
+        js:['home.js','search-results-pagging.js'],
+        code: ['search-results.hbs']
     }
 };

@@ -36,8 +36,7 @@ public class ConfigureServiceUITestCase extends GREGIntegrationBaseTest {
     private ServiceManager serviceManager;
     private GenericServiceClient governanceServiceClient;
     private final static String WSDL_URL =
-            "https://svn.wso2.org/repos/wso2/carbon/platform/trunk/products/greg/modules/integration/registry/tests-new" +
-                    "/src/test/resources/artifacts/GREG/wsdl/info.wsdl";
+            "https://raw.githubusercontent.com/wso2/wso2-qa-artifacts/master/automation-artifacts/greg/wsdl/info.wsdl";
     private Service serviceForUITesting1, serviceForUITesting2, serviceForUITesting3;
     private String sessionCooke;
 

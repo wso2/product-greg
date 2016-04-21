@@ -67,6 +67,19 @@ require('/modules/publisher.js').exec(function (ctx) {
         properties = Array.newInstance(java.lang.String, 1, 2);
         properties[0][0] = 'version';
         properties[0][1] = version;
+
+        var rxt = require('rxt');
+        var am = rxt.asset.createUserAssetManager(ctx.session, "wsdl");
+        var query = {};
+        query.overview_name = wsdlFileName;
+
+        var assets = am.search(query);
+        for (var i = 0; i < assets.length; i++) {
+            if (assets[i].version == version) {
+                var msg = "Resource already exist with name \"" + wsdlFileName + "\" and version \"" + version + "\"";
+                throw msg;
+            }
+        }
     }
     //close the file.
     file.close();

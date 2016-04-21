@@ -60,9 +60,7 @@ public class Carbon9160TestCase extends GREGIntegrationBaseTest {
         boolean errorMessageGiven = false;
         for(LogEvent logEvent : logEvents) {
             if(logEvent.getMessage().equals("Failed to add resource /SchemaImportInvalidSample.xsd. " +
-                    "Could not read the XML Schema Definition file. https://svn.wso2.org/repos/wso2/carbon/platform/trunk/" +
-                    "platform-integration/system-test-framework/core/org.wso2.automation.platform.core/src/main/resources/" +
-                    "artifacts/GREG/schema/abc.xsd")) {
+                    "Could not read the XML Schema Definition file. https://raw.githubusercontent.com/wso2/wso2-qa-artifacts/master/automation-artifacts/greg/schema/abc.xsd")) {
                 errorMessageGiven = true;
             }
 

@@ -155,6 +155,7 @@ public class GenericArtifactTestCase extends GREGIntegrationBaseTest {
         artifact2.setAttribute("details_date", "12/12/2012");
         artifact2.setAttribute("details_name", "code");
         artifact2.setAttribute("details_author", "testAuthor");
+        artifact2.setAttribute("rules_description", "description is mandatory");
         artifactManager.addGenericArtifact(artifact2);
 
         governance.addAssociation(artifact1.getPath(), artifact2.getPath(), "depends");

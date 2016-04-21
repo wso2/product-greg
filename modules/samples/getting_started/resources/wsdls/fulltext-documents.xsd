@@ -1,0 +1,919 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schema xmlns="http://www.w3.org/2001/XMLSchema" xmlns:ftxt="http://www.epo.org/fulltext" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xml="http://www.w3.org/XML/1998/namespace" targetNamespace="http://www.epo.org/fulltext" elementFormDefault="qualified" attributeFormDefault="unqualified" xml:lang="en" xsi:schemaLocation="http://www.w3.org/2001/XMLSchema http://www.w3.org/2001/XMLSchema.xsd">
+    <import namespace="http://www.w3.org/XML/1998/namespace" schemaLocation="xml.xsd">
+		<annotation>
+			<documentation>
+In favour of the deprecated http://www.w3.org/XML/1998/namespace.xsd schema.
+			</documentation>
+		</annotation>
+
+	</import>
+	<element name="fulltext-document">
+		<annotation>
+			<documentation>
+Schema release 1.0
+Description of contents
+Change History 
+Attributes used 
+			
+			</documentation>
+		</annotation>
+		<complexType>
+			<sequence>
+				<element name="bibliographic-data" type="ftxt:bibliographic-dataType"/>
+				<element name="description" type="ftxt:descriptionType" minOccurs="0" maxOccurs="unbounded"/>
+				<element name="claims" type="ftxt:claimsType" minOccurs="0" maxOccurs="unbounded"/>
+			</sequence>
+			<attribute name="system" type="string"/>
+			<attribute name="fulltext-format" type="string"/>
+		</complexType>
+	</element>
+	<complexType name="bibliographic-dataType">
+		<sequence>
+			<element name="publication-reference" type="ftxt:publication-referenceType" minOccurs="0" maxOccurs="unbounded"/>
+		</sequence>
+	</complexType>
+	<complexType name="descriptionType">
+		<sequence>
+			<choice maxOccurs="unbounded">
+				<element name="p" type="ftxt:pType" maxOccurs="unbounded"/>
+			</choice>
+		</sequence>
+		<attribute name="lang" type="language"/>
+	</complexType>
+	<element name="description" type="ftxt:descriptionType">
+		<annotation>
+			<documentation>
+
+*******************************************************************************
+DESCRIPTION (SUB-DOCUMENT)
+*******************************************************************************
+:
+The description must disclose the invention in a manner sufficiently clear and
+complete for it to be carried out by a person skilled in the art (PCT Rule 5).
+
+EPO
+See EPC Rule 27 - Content of the description
+
+EPO required usage:
+    - id="desc"
+    - lang
+    
+    - element doc-page removed - for PUBLICATION purposes it will not be used
+    - In very rare cases there may be multiple descriptions we will treat as one description
+    use heading tag where this occurs
+    - The headings within the description are PCT headings. These elements must NOT 
+      be used by contractors - use the element: &lt;heading> with the exception of older PatXML files 
+    - PatXML files: if &lt;invention-title> is present REMOVE IT for publication - 
+      the actual title is at tag &lt;B542>
+
+EPO Style: Depending on language code the heading will be, in bold, left justified, with breaks around:
+    en - Description
+    de - Beschreibung
+    fr - Description
+
+Example:
+&lt;description id="desc" lang="de">
+
+        
+			</documentation>
+		</annotation>
+	</element>
+	<complexType name="claimsType">
+		<sequence>
+			<element name="claim" type="ftxt:claimType" maxOccurs="unbounded"/>
+		</sequence>
+		<attribute name="lang" type="language"/>
+	</complexType>
+	<element name="claims" type="ftxt:claimsType">
+		<annotation>
+			<documentation>
+*******************************
+CLAIMS (SUB-DOCUMENT)
+*******************************
+Defines the matter for which protection is sought
+
+ST.36/ANNEX F compliance: 
+    - element doc-page removed - for PUBLICATION purposes it will not be used
+
+EPO
+    EPC Article 84
+    The claims
+    The claims shall define the matter for which protection
+    is sought. They shall be clear and concise and be
+    supported by the description.
+
+EPO required usage,
+
+    - Since there are multiple types of claims we will number them:
+    - id="claims01" - this is the default and the most common in A docs. 
+      For the translated versions in B docs "claims02" and "claims03"
+    - lang
+    - for claims for different contracting states also use claims01, claims02 etc.
+    - claim-type - this is used only for Claims for different contracting states, eg.
+      claim-type="Claim(s) for the following Contracting State(s): AT, BE" - this text used for the
+      heading. 
+      Patentanspr??gende Vertragsstaaten
+      Patentanspr??genden Vertragsstaat 
+      Revendications pour les Etats contractants suivants
+      Revendications pour l'Etat contractant suivant
+
+EPO Style: 
+    Depending on language code the heading will be, 
+    in bold, left justified, with breaks around:
+        en - Claims
+        de - Patentanspr?        fr - Revendications
+
+Examples :
+
+Claims in B docs:
+&lt;claims id="claims01" lang="en">
+&lt;claims id="claims02" lang="de">
+&lt;claims id="claims03" lang="fr">
+
+Claims for contracting states:
+&lt;claims id="claims01" lang="en" claim-type="Claim(s) for the following Contracting State(s): AT, BE">
+&lt;claims id="claims02" lang="en" claim-type="Claim(s) for the following Contracting State(s): GB">
+&lt;claims id="claims03" lang="de">
+
+&lt;claims id="claims05" lang="fr"> ?** add in language
+        
+			</documentation>
+		</annotation>
+	</element>
+	<complexType name="claimType">
+		<sequence>
+			<element name="claim-text" type="ftxt:claim-textType" maxOccurs="unbounded"/>
+		</sequence>
+		<attribute name="num" type="string"/>
+	</complexType>
+	<element name="claim" type="ftxt:claimType">
+		<annotation>
+			<documentation>
+*******************************
+THE ACTUAL CLAIMS
+*******************************
+
+EPO required usage (as specified in ST.36, para. ):
+    - If the parent element is claims and there is only ONE set of claims:
+    - id="c-fr-0001", c-fr-0002, etc.
+    - num = 0001, 0002, etc.
+
+EPO style:     - arabic numerals, bold, full stop; eg. 1.
+        - block indent all text
+
+Example:
+&lt;claims id="claims01" lang="en">
+    &lt;claim id="c-en-0001" num="0001">
+        &lt;claim-text>Here is the first claim ... &lt;/claim-text>
+    &lt;/claim>
+&lt;/claims>
+
+Notes:
+- If parent element is claims and there are MULTIPLE sets of claims (for EP-B docs) then:
+    - id="c-en-01-0001", c-en-01-0002, etc.
+    - num="0001", 0002, etc.
+    - id="c-de-01-0001", c-de-01-0002, etc.
+    - num"="0001", 0002, etc.
+    - id="c-fr-0001", c-fr-0002, etc.
+    - num="0001", 0002, etc.
+
+- If parent element is amended-claims and there is only ONE set then use "aclaims"; 
+  in the unlikely event of multiple amended claims use: "aclaims01" etc, 
+  the actual claims will be numbered (for single occurrence):
+    - id="ac-en-0001", ac-en-0002, etc.
+    - num="0001", 0002, etc.
+
+***    Note for data capture: if the claims are numbered incorrectly by the applicant:
+    THEIR NUMBERING MUST BE KEPT FOR A-DOCUMENTS and the num attribute will be:
+    num=""; the actual claim number must be placed within the &lt;claim-text>
+
+        
+			</documentation>
+		</annotation>
+	</element>
+	<complexType name="claim-textType">
+		<simpleContent>
+			<extension base="string"/>
+		</simpleContent>
+	</complexType>
+	<element name="claim-text" type="ftxt:claim-textType">
+		<annotation>
+			<documentation>
+
+*******************************
+THE TEXT WITHIN CLAIMS
+*******************************
+The text of the claim; also used for for sub-para indentation.
+This has the same model as &lt;p> but no lists; for lists use &lt;claim-text> and any
+amrk required for the list within the text.
+
+EPO style: indent any 2nd level &lt;claim-text>
+
+        
+			</documentation>
+		</annotation>
+	</element>
+	<complexType name="publication-referenceType">
+		<sequence>
+			<element name="document-id">
+				<annotation>
+					<documentation>Refers to patents  (and patent applications) only; see WIPO ST.14</documentation>
+				</annotation>
+				<complexType>
+					<sequence>
+						<element name="country" type="ftxt:countryType" minOccurs="0"/>
+						<element name="doc-number" type="ftxt:doc-numberType"/>
+						<element name="kind" type="ftxt:kindType" minOccurs="0"/>
+						<element name="date" type="ftxt:ICE-date-type" minOccurs="0"/>
+					</sequence>
+				</complexType>
+			</element>
+		</sequence>
+		<attribute name="data-format" type="string"/>
+	</complexType>
+	<element name="publication-reference" type="ftxt:publication-referenceType">
+		<annotation>
+			<documentation>
+definition as in DOCDB/XML to accommodate OPS/Publication Server
+			
+			</documentation>
+		</annotation>
+	</element>
+	<complexType name="pType">
+		<simpleContent>
+			<extension base="string">
+				<attribute name="num" type="string"/>
+			</extension>
+		</simpleContent>
+	</complexType>
+	<element name="date" type="ftxt:ICE-date-type">
+		<annotation>
+			<documentation>
+Date: components of a date. Format: YYYYMMDD
+        
+			</documentation>
+		</annotation>
+	</element>
+	<simpleType name="ICE-date-type">
+		<restriction base="nonNegativeInteger"/>
+	</simpleType>
+	<complexType name="kindType">
+		<simpleContent>
+			<extension base="string"/>
+		</simpleContent>
+	</complexType>
+	<element name="kind" type="ftxt:kindType">
+		<annotation>
+			<documentation>
+Document kind code; e.g., A1
+(INID 13, ST.32:B130)
+        
+			</documentation>
+		</annotation>
+	</element>
+	<complexType name="doc-numberType">
+		<simpleContent>
+			<extension base="string"/>
+		</simpleContent>
+	</complexType>
+	<element name="doc-number" type="ftxt:doc-numberType">
+		<annotation>
+			<documentation>
+The number of the referenced patent (or application) document
+        
+			</documentation>
+		</annotation>
+	</element>
+	<element name="country" type="ftxt:countryType">
+		<annotation>
+			<documentation>
+Country: use ST.3 country code; e.g. DE, FR, GB, NL, etc.
+Also includes EP, WO. Always in upper case. Also can use "stateless"
+        
+			</documentation>
+		</annotation>
+	</element>
+	<simpleType name="countryType">
+		<annotation>
+			<documentation>
+      
+   Country names and codes taken from WIPO ST.3 and ISO 3166.
+   From IETF RFC 1766:
+   "NOTE: The ISO 639/ISO 3166 convention is that language names are
+    written in lower case, while country codes are written in upper case."
+   		
+			</documentation>
+			<documentation>Andora</documentation>
+			<documentation>United Arab Emirates</documentation>
+			<documentation>Afghanistan</documentation>
+			<documentation>Antigua and Barbuda</documentation>
+			<documentation>Anguilla</documentation>
+			<documentation>Albania</documentation>
+			<documentation>Armenia</documentation>
+			<documentation>Netherlands Antilles</documentation>
+			<documentation>Angola</documentation>
+			<documentation>African Regional Industrial
+            Property Organization (ARIPO)
+			</documentation>
+			<documentation>Antarctica</documentation>
+			<documentation>Argentina</documentation>
+			<documentation>
+			</documentation>
+			<documentation>Austria</documentation>
+			<documentation>Australia</documentation>
+			<documentation>Aruba</documentation>
+			<documentation>Azerbaijan</documentation>
+			<documentation>Bosnia and Herzegovina</documentation>
+			<documentation>Barbados</documentation>
+			<documentation>Bangladesh</documentation>
+			<documentation>Belgium</documentation>
+			<documentation>Burkina Faso</documentation>
+			<documentation>Bulgaria</documentation>
+			<documentation>Bahrain</documentation>
+			<documentation>Burundi</documentation>
+			<documentation>Benin</documentation>
+			<documentation>Bermuda</documentation>
+			<documentation>Brunei Darussalam</documentation>
+			<documentation>Bolivia</documentation>
+			<documentation>Brazil</documentation>
+			<documentation>Bahamas</documentation>
+			<documentation>Bhutan</documentation>
+			<documentation>
+			</documentation>
+			<documentation>Bouvet Island</documentation>
+			<documentation>Botswana</documentation>
+			<documentation>Benelux Trademark Office (BBM) and
+            Benelux Designs Office (BBDM)
+			</documentation>
+			<documentation>Belarus</documentation>
+			<documentation>Belize</documentation>
+			<documentation>Canada</documentation>
+			<documentation>Cocos (Keeling)</documentation>
+			<documentation>Democratic Republic of the Congo</documentation>
+			<documentation>Central African Republic</documentation>
+			<documentation>Congo</documentation>
+			<documentation>Switzerland</documentation>
+			<documentation>Cote d'Ivoire</documentation>
+			<documentation>Cook Islands</documentation>
+			<documentation>Chile</documentation>
+			<documentation>Cameroon</documentation>
+			<documentation>China</documentation>
+			<documentation>Columbia</documentation>
+			<documentation>Costa Rica</documentation>
+			<documentation>
+			</documentation>
+			<documentation>
+			</documentation>
+			<documentation>Cuba</documentation>
+			<documentation>Cape Verde</documentation>
+			<documentation>Christmas Island</documentation>
+			<documentation>Cyprus</documentation>
+			<documentation>Czech Republic</documentation>
+			<documentation>
+			</documentation>
+			<documentation>Germany</documentation>
+			<documentation>Djibouti</documentation>
+			<documentation>Denmark</documentation>
+			<documentation>Dominica</documentation>
+			<documentation>Dominican Republic</documentation>
+			<documentation>
+			</documentation>
+			<documentation>Algeria</documentation>
+			<documentation>Eurasian Patent Organization (EAPO)</documentation>
+			<documentation>Ecuador</documentation>
+			<documentation>Estonia</documentation>
+			<documentation>Egypt</documentation>
+			<documentation>Western Sahara</documentation>
+			<documentation>Office for Harmonization in the
+            Internal Market (Tradmarks and Designs) (OHIM)
+			</documentation>
+			<documentation>European Patent Office (EPO)</documentation>
+			<documentation>Eritrea</documentation>
+			<documentation>Spain</documentation>
+			<documentation>Ethiopia</documentation>
+			<documentation>Finland</documentation>
+			<documentation>Fiji</documentation>
+			<documentation>Falkland Islands</documentation>
+			<documentation>Micronesia (Federated States of)</documentation>
+			<documentation>Faroe Islands</documentation>
+			<documentation>Frnace</documentation>
+			<documentation>
+			</documentation>
+			<documentation>Gabon</documentation>
+			<documentation>United Kingdom</documentation>
+			<documentation>Coop. Council for the Arab States of the Gulf</documentation>
+			<documentation>Grenada</documentation>
+			<documentation>Georgia</documentation>
+			<documentation>French Guiana</documentation>
+			<documentation>Ghana</documentation>
+			<documentation>Gibraltar</documentation>
+			<documentation>Greenland</documentation>
+			<documentation>Gambia</documentation>
+			<documentation>Guinea</documentation>
+			<documentation>Guadeloupe</documentation>
+			<documentation>Equatorial Guinea</documentation>
+			<documentation>Greece</documentation>
+			<documentation>South Georgia and the South
+            Sandwich Islands
+			</documentation>
+			<documentation>Guatemala</documentation>
+			<documentation>Guam</documentation>
+			<documentation>Guinea-Bissau</documentation>
+			<documentation>Guyana</documentation>
+			<documentation>The Hong Kong Special
+            Administrative Region of the People's Republic
+            of China
+			</documentation>
+			<documentation>Heard Island and McDonald Islands</documentation>
+			<documentation>Honduras</documentation>
+			<documentation>Croatia</documentation>
+			<documentation>Haiti</documentation>
+			<documentation>Hungary</documentation>
+			<documentation>
+			</documentation>
+			<documentation>International Bureau of the World
+            Intellectual Property Office (WIPO)
+			</documentation>
+			<documentation>Indonesia</documentation>
+			<documentation>Ireland</documentation>
+			<documentation>Israel</documentation>
+			<documentation>India</documentation>
+			<documentation>British Indian Ocean Territory</documentation>
+			<documentation>Iraq</documentation>
+			<documentation>Iran (Islamic Republic of)</documentation>
+			<documentation>Iceland</documentation>
+			<documentation>Italy</documentation>
+			<documentation>Jamaica</documentation>
+			<documentation>Jordan</documentation>
+			<documentation>Japan</documentation>
+			<documentation>
+			</documentation>
+			<documentation>Kenya</documentation>
+			<documentation>Kyrgyzstan</documentation>
+			<documentation>Cambodia</documentation>
+			<documentation>Kiribati</documentation>
+			<documentation>Comoros</documentation>
+			<documentation>Sait Kitts and Nevis</documentation>
+			<documentation>Democratic People's Republic
+            of Korea
+			</documentation>
+			<documentation>Republic of Korea</documentation>
+			<documentation>Kuwait</documentation>
+			<documentation>Cayman Islands</documentation>
+			<documentation>Kazakhstan</documentation>
+			<documentation>Lao People's Democratic
+            Republic
+			</documentation>
+			<documentation>Lebanon</documentation>
+			<documentation>Saint Lucia</documentation>
+			<documentation>Liechtenstein</documentation>
+			<documentation>Sri Lanka</documentation>
+			<documentation>Liberia</documentation>
+			<documentation>Lesotho</documentation>
+			<documentation>Lithuania</documentation>
+			<documentation>Luxembourg</documentation>
+			<documentation>Latvia</documentation>
+			<documentation>Libyan Arab Jamahiriya</documentation>
+			<documentation>Morocco</documentation>
+			<documentation>Monaco</documentation>
+			<documentation>Republic of Moldova</documentation>
+			<documentation>Montenegro</documentation>
+			<documentation>Madagascar</documentation>
+			<documentation>Marshall Islands</documentation>
+			<documentation>
+			</documentation>
+			<documentation>The former Yugoslav Republic of
+            Macedonia
+			</documentation>
+			<documentation>Mali</documentation>
+			<documentation>Myanmar</documentation>
+			<documentation>Mongolia</documentation>
+			<documentation>Macau</documentation>
+			<documentation>Northern Marina Islands</documentation>
+			<documentation>Martinique</documentation>
+			<documentation>Mauritania</documentation>
+			<documentation>Montserrat</documentation>
+			<documentation>Malta</documentation>
+			<documentation>Mauritius</documentation>
+			<documentation>Maldives</documentation>
+			<documentation>Malawi</documentation>
+			<documentation>Mexico</documentation>
+			<documentation>Malaysia</documentation>
+			<documentation>Mozambique</documentation>
+			<documentation>Namibia</documentation>
+			<documentation>New Caledonia</documentation>
+			<documentation>Niger</documentation>
+			<documentation>Norfolk Island</documentation>
+			<documentation>Nigeria</documentation>
+			<documentation>
+			</documentation>
+			<documentation>Nicaragua</documentation>
+			<documentation>Netherlands</documentation>
+			<documentation>Norway</documentation>
+			<documentation>Nepal</documentation>
+			<documentation>
+			</documentation>
+			<documentation>Nauru</documentation>
+			<documentation>
+			</documentation>
+			<documentation>Niue</documentation>
+			<documentation>New Zealand</documentation>
+			<documentation>African Intellectual Property
+            Organization (OAPI)
+			</documentation>
+			<documentation>Oman</documentation>
+			<documentation>Panama</documentation>
+			<documentation>
+			</documentation>
+			<documentation>Peru</documentation>
+			<documentation>French Polynesia</documentation>
+			<documentation>Papua New Guinea</documentation>
+			<documentation>Philippeans</documentation>
+			<documentation>Pakistan</documentation>
+			<documentation>Poland</documentation>
+			<documentation>Saint Pierre and Miquelon</documentation>
+			<documentation>Pitcairn</documentation>
+			<documentation>Puerto Rico</documentation>
+			<documentation>Portugal</documentation>
+			<documentation>
+			</documentation>
+			<documentation>Palau</documentation>
+			<documentation>Paraguay</documentation>
+			<documentation>
+			</documentation>
+			<documentation>Qatar</documentation>
+			<documentation>Reunion</documentation>
+			<documentation>
+			</documentation>
+			<documentation>Romania</documentation>
+			<documentation>Serbia</documentation>
+			<documentation>Russian Federation</documentation>
+			<documentation>Rwanda</documentation>
+			<documentation>Saudi Arabia</documentation>
+			<documentation>Soloman Islans</documentation>
+			<documentation>Seychelles</documentation>
+			<documentation>Sudan</documentation>
+			<documentation>Sweden</documentation>
+			<documentation>Signapore</documentation>
+			<documentation>Saint Helena</documentation>
+			<documentation>Slovenia</documentation>
+			<documentation>Svalbard and Jan Mayen</documentation>
+			<documentation>Slovakia</documentation>
+			<documentation>Sierra Leone</documentation>
+			<documentation>San Morino</documentation>
+			<documentation>Senegal</documentation>
+			<documentation>Somalia</documentation>
+			<documentation>Suriname</documentation>
+			<documentation>Sao Tome and Principe</documentation>
+			<documentation>
+			</documentation>
+			<documentation>El Salvador</documentation>
+			<documentation>Syrian Arab Republic</documentation>
+			<documentation>Swaziland</documentation>
+			<documentation>Turks and Caicos Islands</documentation>
+			<documentation>Chad</documentation>
+			<documentation>French Southern Territories</documentation>
+			<documentation>Togo</documentation>
+			<documentation>Thailand</documentation>
+			<documentation>Tajikistan</documentation>
+			<documentation>Tokelau</documentation>
+			<documentation>Turkmenistan</documentation>
+			<documentation>Tunisia</documentation>
+			<documentation>Tonga</documentation>
+			<documentation>East Timor</documentation>
+			<documentation>Turkey</documentation>
+			<documentation>Trinidad and Tobago</documentation>
+			<documentation>Tuvalu</documentation>
+			<documentation>Taiwan, Province of China</documentation>
+			<documentation>United Republic of Tanzania</documentation>
+			<documentation>Ukraine</documentation>
+			<documentation>Uganda</documentation>
+			<documentation>United States Minor Outlying
+            Islands
+			</documentation>
+			<documentation>United States of America</documentation>
+			<documentation>Uruguay</documentation>
+			<documentation>Uzbekistan</documentation>
+			<documentation>Holy See</documentation>
+			<documentation>Saint Vincent and the Grenadines</documentation>
+			<documentation>
+			</documentation>
+			<documentation>Venezuela</documentation>
+			<documentation>Virgin Islands (British)</documentation>
+			<documentation>Virgin Islands, U.S.</documentation>
+			<documentation>Viet Nam</documentation>
+			<documentation>Vanuatu</documentation>
+			<documentation>Wallis and Futuna Islands</documentation>
+			<documentation>World Intellectual Property
+            Organization (WIPO) (International Bureau of)
+			</documentation>
+			<documentation>Samoa</documentation>
+			<documentation>Hague Agreement [designs]</documentation>
+			<documentation>
+			</documentation>
+			<documentation>Yemen</documentation>
+			<documentation>Mayotte</documentation>
+			<documentation>Yugoslavia</documentation>
+			<documentation>South Africa</documentation>
+			<documentation>Zambia</documentation>
+			<documentation>
+			</documentation>
+			<documentation>Zimbabwe</documentation>
+		</annotation>
+		<restriction base="string">
+			<enumeration value="AD"/>
+			<enumeration value="AE"/>
+			<enumeration value="AF"/>
+			<enumeration value="AG"/>
+			<enumeration value="AI"/>
+			<enumeration value="AL"/>
+			<enumeration value="AM"/>
+			<enumeration value="AN"/>
+			<enumeration value="AO"/>
+			<enumeration value="AP"/>
+			<enumeration value="AQ"/>
+			<enumeration value="AR"/>
+			<enumeration value="AS"/>
+			<enumeration value="AT"/>
+			<enumeration value="AU"/>
+			<enumeration value="AW"/>
+			<enumeration value="AZ"/>
+			<enumeration value="BA"/>
+			<enumeration value="BB"/>
+			<enumeration value="BD"/>
+			<enumeration value="BE"/>
+			<enumeration value="BF"/>
+			<enumeration value="BG"/>
+			<enumeration value="BH"/>
+			<enumeration value="BI"/>
+			<enumeration value="BJ"/>
+			<enumeration value="BM"/>
+			<enumeration value="BN"/>
+			<enumeration value="BO"/>
+			<enumeration value="BR"/>
+			<enumeration value="BS"/>
+			<enumeration value="BT"/>
+			<enumeration value="BU"/>
+			<enumeration value="BV"/>
+			<enumeration value="BW"/>
+			<enumeration value="BX"/>
+			<enumeration value="BY"/>
+			<enumeration value="BZ"/>
+			<enumeration value="CA"/>
+			<enumeration value="CC"/>
+			<enumeration value="CD"/>
+			<enumeration value="CF"/>
+			<enumeration value="CG"/>
+			<enumeration value="CH"/>
+			<enumeration value="CI"/>
+			<enumeration value="CK"/>
+			<enumeration value="CL"/>
+			<enumeration value="CM"/>
+			<enumeration value="CN"/>
+			<enumeration value="CO"/>
+			<enumeration value="CR"/>
+			<enumeration value="CS"/>
+			<enumeration value="CT"/>
+			<enumeration value="CU"/>
+			<enumeration value="CV"/>
+			<enumeration value="CX"/>
+			<enumeration value="CY"/>
+			<enumeration value="CZ"/>
+			<enumeration value="DD"/>
+			<enumeration value="DE"/>
+			<enumeration value="DJ"/>
+			<enumeration value="DK"/>
+			<enumeration value="DM"/>
+			<enumeration value="DO"/>
+			<enumeration value="DY"/>
+			<enumeration value="DZ"/>
+			<enumeration value="EA"/>
+			<enumeration value="EC"/>
+			<enumeration value="EE"/>
+			<enumeration value="EG"/>
+			<enumeration value="EH"/>
+			<enumeration value="EM"/>
+			<enumeration value="EP"/>
+			<enumeration value="ER"/>
+			<enumeration value="ES"/>
+			<enumeration value="ET"/>
+			<enumeration value="FI"/>
+			<enumeration value="FJ"/>
+			<enumeration value="FK"/>
+			<enumeration value="FM"/>
+			<enumeration value="FO"/>
+			<enumeration value="FR"/>
+			<enumeration value="FX"/>
+			<enumeration value="GA"/>
+			<enumeration value="GB"/>
+			<enumeration value="GC"/>
+			<enumeration value="GD"/>
+			<enumeration value="GE"/>
+			<enumeration value="GF"/>
+			<enumeration value="GH"/>
+			<enumeration value="GI"/>
+			<enumeration value="GL"/>
+			<enumeration value="GM"/>
+			<enumeration value="GN"/>
+			<enumeration value="GP"/>
+			<enumeration value="GQ"/>
+			<enumeration value="GR"/>
+			<enumeration value="GS"/>
+			<enumeration value="GT"/>
+			<enumeration value="GU"/>
+			<enumeration value="GW"/>
+			<enumeration value="GY"/>
+			<enumeration value="HK"/>
+			<enumeration value="HM"/>
+			<enumeration value="HN"/>
+			<enumeration value="HR"/>
+			<enumeration value="HT"/>
+			<enumeration value="HU"/>
+			<enumeration value="HV"/>
+			<enumeration value="IB"/>
+			<enumeration value="ID"/>
+			<enumeration value="IE"/>
+			<enumeration value="IL"/>
+			<enumeration value="IN"/>
+			<enumeration value="IO"/>
+			<enumeration value="IQ"/>
+			<enumeration value="IR"/>
+			<enumeration value="IS"/>
+			<enumeration value="IT"/>
+			<enumeration value="JM"/>
+			<enumeration value="JO"/>
+			<enumeration value="JP"/>
+			<enumeration value="JT"/>
+			<enumeration value="KE"/>
+			<enumeration value="KG"/>
+			<enumeration value="KH"/>
+			<enumeration value="KI"/>
+			<enumeration value="KM"/>
+			<enumeration value="KN"/>
+			<enumeration value="KP"/>
+			<enumeration value="KR"/>
+			<enumeration value="KW"/>
+			<enumeration value="KY"/>
+			<enumeration value="KZ"/>
+			<enumeration value="LA"/>
+			<enumeration value="LB"/>
+			<enumeration value="LC"/>
+			<enumeration value="LI"/>
+			<enumeration value="LK"/>
+			<enumeration value="LR"/>
+			<enumeration value="LS"/>
+			<enumeration value="LT"/>
+			<enumeration value="LU"/>
+			<enumeration value="LV"/>
+			<enumeration value="LY"/>
+			<enumeration value="MA"/>
+			<enumeration value="MC"/>
+			<enumeration value="MD"/>
+			<enumeration value="ME"/>
+			<enumeration value="MG"/>
+			<enumeration value="MH"/>
+			<enumeration value="MI"/>
+			<enumeration value="MK"/>
+			<enumeration value="ML"/>
+			<enumeration value="MM"/>
+			<enumeration value="MN"/>
+			<enumeration value="MO"/>
+			<enumeration value="MP"/>
+			<enumeration value="MQ"/>
+			<enumeration value="MR"/>
+			<enumeration value="MS"/>
+			<enumeration value="MT"/>
+			<enumeration value="MU"/>
+			<enumeration value="MV"/>
+			<enumeration value="MW"/>
+			<enumeration value="MX"/>
+			<enumeration value="MY"/>
+			<enumeration value="MZ"/>
+			<enumeration value="NA"/>
+			<enumeration value="NC"/>
+			<enumeration value="NE"/>
+			<enumeration value="NF"/>
+			<enumeration value="NG"/>
+			<enumeration value="NH"/>
+			<enumeration value="NI"/>
+			<enumeration value="NL"/>
+			<enumeration value="NO"/>
+			<enumeration value="NP"/>
+			<enumeration value="NQ"/>
+			<enumeration value="NR"/>
+			<enumeration value="NT"/>
+			<enumeration value="NU"/>
+			<enumeration value="NZ"/>
+			<enumeration value="OA"/>
+			<enumeration value="OM"/>
+			<enumeration value="PA"/>
+			<enumeration value="PC"/>
+			<enumeration value="PE"/>
+			<enumeration value="PF"/>
+			<enumeration value="PG"/>
+			<enumeration value="PH"/>
+			<enumeration value="PK"/>
+			<enumeration value="PL"/>
+			<enumeration value="PM"/>
+			<enumeration value="PN"/>
+			<enumeration value="PR"/>
+			<enumeration value="PT"/>
+			<enumeration value="PU"/>
+			<enumeration value="PW"/>
+			<enumeration value="PY"/>
+			<enumeration value="PZ"/>
+			<enumeration value="QA"/>
+			<enumeration value="RE"/>
+			<enumeration value="RH"/>
+			<enumeration value="RO"/>
+			<enumeration value="RS"/>
+			<enumeration value="RU"/>
+			<enumeration value="RW"/>
+			<enumeration value="SA"/>
+			<enumeration value="SB"/>
+			<enumeration value="SC"/>
+			<enumeration value="SD"/>
+			<enumeration value="SE"/>
+			<enumeration value="SG"/>
+			<enumeration value="SH"/>
+			<enumeration value="SI"/>
+			<enumeration value="SJ"/>
+			<enumeration value="SK"/>
+			<enumeration value="SL"/>
+			<enumeration value="SM"/>
+			<enumeration value="SN"/>
+			<enumeration value="SO"/>
+			<enumeration value="SR"/>
+			<enumeration value="ST"/>
+			<enumeration value="SU"/>
+			<enumeration value="SV"/>
+			<enumeration value="SY"/>
+			<enumeration value="SZ"/>
+			<enumeration value="TC"/>
+			<enumeration value="TD"/>
+			<enumeration value="TF"/>
+			<enumeration value="TG"/>
+			<enumeration value="TH"/>
+			<enumeration value="TJ"/>
+			<enumeration value="TK"/>
+			<enumeration value="TM"/>
+			<enumeration value="TN"/>
+			<enumeration value="TO"/>
+			<enumeration value="TP"/>
+			<enumeration value="TR"/>
+			<enumeration value="TT"/>
+			<enumeration value="TV"/>
+			<enumeration value="TW"/>
+			<enumeration value="TZ"/>
+			<enumeration value="UA"/>
+			<enumeration value="UG"/>
+			<enumeration value="UM"/>
+			<enumeration value="US"/>
+			<enumeration value="UY"/>
+			<enumeration value="UZ"/>
+			<enumeration value="VA"/>
+			<enumeration value="VC"/>
+			<enumeration value="VD"/>
+			<enumeration value="VE"/>
+			<enumeration value="VG"/>
+			<enumeration value="VI"/>
+			<enumeration value="VN"/>
+			<enumeration value="VU"/>
+			<enumeration value="WF"/>
+			<enumeration value="WO"/>
+			<enumeration value="WS"/>
+			<enumeration value="XH"/>
+			<enumeration value="YD"/>
+			<enumeration value="YE"/>
+			<enumeration value="YT"/>
+			<enumeration value="YU"/>
+			<enumeration value="ZA"/>
+			<enumeration value="ZM"/>
+			<enumeration value="ZR"/>
+			<enumeration value="ZW"/>
+		</restriction>
+	</simpleType>
+	<element name="fulltext-documents">
+		<annotation>
+			<documentation>
+Schema release 1.0
+A collection of fulltext documents (instances of ftxt:fulltext-document.xsd)
+Identified by "file" = 
+Attributes used :
+	date-produced; 
+	date-of-exchange; 
+	dtd-version; 
+	file; 
+	no-of-documents; 
+	orginating-office  
+   		
+			</documentation>
+		</annotation>
+		<complexType>
+			<sequence>
+				<element ref="ftxt:fulltext-document" maxOccurs="unbounded"/>
+			</sequence>
+		</complexType>
+	</element>
+</schema>

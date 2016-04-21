@@ -53,7 +53,8 @@ public class RESTServiceCreationTestCase extends GREGIntegrationBaseTest{
 	 */
 	@Test(groups = { "wso2.greg" }, description = "Tests if the REST Service is created when imported a wadl using a URL.")
 	public void testRestServiceCreationFromWadlImport() throws ResourceAdminServiceExceptionException, RemoteException {
-		String resourceUrl = "https://svn.wso2.org/repos/wso2/trunk/commons/qa/qa-artifacts/greg/wadl/SearchSearvice.wadl";
+		String resourceUrl = "https://raw.githubusercontent.com/wso2/wso2-qa-artifacts/master/automation-artifacts/" +
+                "greg/wadl/SearchSearvice.wadl";
 		String resourceName = "SearchSearvice.wadl";
 		resourceAdminServiceClient.addWADL(resourceName, "adding From URL", resourceUrl);
 		Assert.assertNotNull(resourceAdminServiceClient.getResourceContent(

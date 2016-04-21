@@ -20,10 +20,17 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.wso2.carbon.automation.engine.context.AutomationContext;
 import org.wso2.carbon.automation.engine.context.TestUserMode;
+import org.wso2.carbon.automation.engine.context.beans.User;
 import org.wso2.carbon.automation.engine.frameworkutils.FrameworkPathUtil;
+import org.wso2.carbon.integration.common.admin.client.SecurityAdminServiceClient;
 import org.wso2.carbon.integration.common.utils.LoginLogoutClient;
 
 import javax.xml.xpath.XPathExpressionException;
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 
 /**
  * Base class of all integration tests
@@ -33,11 +40,34 @@ public class GREGIntegrationBaseTest {
     protected Log log = LogFactory.getLog(GREGIntegrationBaseTest.class);
     protected AutomationContext automationContext;
     protected String backendURL;
+    protected String sessionCookie;
 
-    protected void init(TestUserMode userMode) throws Exception {
-        automationContext = new AutomationContext("GREG", userMode);
-        backendURL = automationContext.getContextUrls().getBackEndUrl();
+    protected String webAppURL;
+    protected SecurityAdminServiceClient securityAdminServiceClient;
+    protected LoginLogoutClient loginLogoutClient;
+    protected User userInfo;
+
+    protected AutomationContext storeContext;
+    protected AutomationContext publisherContext;
+
+    protected String defaultHTTPPort = ":443";
+
+    protected void init() throws Exception {
+        init(TestUserMode.SUPER_TENANT_ADMIN);
     }
+
+    protected void init(TestUserMode testUserMode) throws Exception {
+
+        storeContext = new AutomationContext("GREG", "store", testUserMode);
+        publisherContext = new AutomationContext("GREG", "publisher", testUserMode);
+        automationContext = new AutomationContext("GREG",testUserMode);
+        loginLogoutClient = new LoginLogoutClient(automationContext);
+        sessionCookie = loginLogoutClient.login();
+        backendURL = automationContext.getContextUrls().getBackEndUrl();
+        webAppURL = automationContext.getContextUrls().getWebAppURL();
+        userInfo = automationContext.getContextTenant().getContextUser();
+    }
+
 
     protected void initPublisher(String productGroupName, String instanceName, TestUserMode userMode, String userKey)
             throws XPathExpressionException {
@@ -61,6 +91,18 @@ public class GREGIntegrationBaseTest {
     protected String getTestArtifactLocation() {
         return FrameworkPathUtil.getSystemResourceLocation();
     }
+
+    /**
+     * Return file content with a String
+     * @param filePath
+     * @return
+     * @throws IOException
+     */
+    protected String readFile( String filePath ) throws IOException {
+        String fileData=new String(Files.readAllBytes(Paths.get(filePath)));
+        return fileData;
+    }
+
 }
 
 

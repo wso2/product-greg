@@ -6,5 +6,6 @@
         <packages>
             <package name="org.wso2.carbon.registry.lifecycle.test.*"/>
         </packages>
+
     </test>
 </suite>

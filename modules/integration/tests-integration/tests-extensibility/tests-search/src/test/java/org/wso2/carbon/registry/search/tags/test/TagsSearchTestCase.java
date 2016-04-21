@@ -79,7 +79,7 @@ public class TagsSearchTestCase extends GREGIntegrationBaseTest {
      */
     @Test(groups = { "wso2.greg" }, description = "create SOAP Service using GenericArtifact")
     public void createSOAPServiceTest() throws GovernanceException, InterruptedException {
-        GenericArtifact artifact = artifactManager.newGovernanceArtifact(new QName("SOAPService1"));
+        GenericArtifact artifact = artifactManager.newGovernanceArtifact(new QName("org.wso2.test", "SOAPService1"));
 
         artifact.setAttribute("overview_name", "SOAPService1");
         artifact.setAttribute("overview_version", "4.5.0");
@@ -101,7 +101,7 @@ public class TagsSearchTestCase extends GREGIntegrationBaseTest {
      */
     @Test(groups = { "wso2.greg" }, dependsOnMethods = { "createSOAPServiceTest" })
     public void addTagsTest() throws RegistryException, AxisFault, RegistryExceptionException, InterruptedException {
-        String soapService = "/_system/governance/trunk/soapservices/4.5.0/SOAPService1";
+        String soapService = "/_system/governance/trunk/soapservices/test/wso2/org/4.5.0/SOAPService1";
         infoAdminServiceClient.addTag("SampleTag1", soapService, sessionCookie);
         infoAdminServiceClient.addTag("SampleTag2", soapService, sessionCookie);
 

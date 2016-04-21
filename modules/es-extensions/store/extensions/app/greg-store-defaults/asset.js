@@ -38,13 +38,24 @@ asset.renderer = function(ctx) {
             am = rxt.asset.createUserAssetManager(ctx.session, type);
         } else {
             var carbon = require('carbon');
-            var tenantId = carbon.server.superTenant.tenantId;
+            var tenantAPI = require('/modules/tenant-api.js').api;
+            var tenantDetails = tenantAPI.tenantContext(session);
+            var tenantId = tenantDetails.urlTenantId; //carbon.server.superTenant.tenantId;
             am = rxt.asset.createAnonAssetManager(ctx.session, type, tenantId);
         }
         return am;
     };
 	return {
         pageDecorators: {
+            recentAssets: function (page) {
+                return;
+            },
+            myAssets: function (page) {
+                return;
+            },
+            embedLinks: function (page, meta) {
+                return;
+            },
             sidebarPopulator: function(page) {
                 if (page.meta.pageName === 'details') {
                     page.isSidebarEnabled = true;
@@ -64,7 +75,8 @@ asset.renderer = function(ctx) {
             },
             notificationPopulator: function(page) {
                 if (page.meta.pageName === 'list' || page.meta.pageName === 'details') {
-                    page.notificationsCount = gregAPI.notifications.count();
+                    var am = assetManager(ctx.session,ctx.assetType);
+                    page.notificationsCount = gregAPI.notifications.count(am);
                 }
             },
             notificationListPopulator: function(page) {
@@ -80,7 +92,45 @@ asset.renderer = function(ctx) {
         			var isDependentsPresent =  ( dependencies.length > 0 ) || (dependents.length > 0 );
         			page.assets.isDependentsPresent = isDependentsPresent;
         		}
-        	}
+        	},
+            downloadPopulator:function(page){
+                //Populate the links for downloading content RXTs
+                if(page.meta.pageName === 'details'){
+                    var isDownloadable = ctx.rxtManager.isDownloadable(page.assets.type);
+                    if(!isDownloadable){
+                        return;
+                    }
+                    var config = require('/config/store.js').config();
+                    var pluralType = page.rxt.pluralLabel.toLowerCase();
+                    var domain = require('carbon').server.tenantDomain({tenantId:ctx.tenantId});
+                    page.downloadMetaData = {}; 
+                    page.downloadMetaData.downloadFileType = page.rxt.singularLabel;
+                    page.downloadMetaData.enabled = isDownloadable;
+                    page.downloadMetaData.url = config.server.https+'/governance/'+pluralType+'/'+page.assets.id+'/content?tenant='+domain;
+                }
+            },
+            versions: function (page) {
+                if (page.meta.pageName !== 'details') {
+                    return;
+                }
+
+                var type = page.assets.type;
+                page.assetVersions = gregAPI.getAssetVersions(ctx.session, ctx.assetType, page.assets.path, page.assets.name);
+                var single_version = false;
+                if(page.assetVersions.length === 1){
+                    single_version = true;
+                }
+                page.single_version = single_version;
+            }
         }
     }
-}
+};
+
+asset.configure = function() {
+    return {
+        meta: {
+            'isDependencyShown': true,
+            'isDiffViewShown': true
+        }
+    }
+};

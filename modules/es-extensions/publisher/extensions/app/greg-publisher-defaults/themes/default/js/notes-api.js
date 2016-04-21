@@ -68,11 +68,10 @@ $(function () {
                     });
                     $('#add-note-content').val('');
                 messages.alertSuccess("Note added successfully");
-                setTimeout(function(){location.reload(true);},2000);
-                location.reload(true);
+                setTimeout(function(){location.reload(true);},3000);
             },
             error: function () {
-                console.log("Error adding a note.");
+                //console.log("Error adding a note.");
             }
         });
     });
@@ -115,7 +114,7 @@ $(function () {
                 setTimeout(function(){location.reload(true);},2000);
             },
             error: function () {
-                console.log("Error while adding reply");
+                //console.log("Error while adding reply");
             }
         });
     });
@@ -140,7 +139,7 @@ $(function () {
                 });
             },
             error: function () {
-                console.log("Error loading note replies.");
+                //console.log("Error loading note replies.");
             }
         });
     });

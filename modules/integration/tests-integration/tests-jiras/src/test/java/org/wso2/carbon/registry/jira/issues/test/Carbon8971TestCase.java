@@ -53,14 +53,10 @@ public class Carbon8971TestCase extends GREGIntegrationBaseTest {
     private WSRegistryServiceClient wsRegistryServiceClient;
 
     private final static String WSDL_URL =
-            "https://svn.wso2.org/repos/wso2/carbon/platform/trunk/platform-integration/" +
-                    "platform-automated-test-suite/org.wso2.carbon.automation.test.repo/src/main/resources/" +
-                    "artifacts/GREG/wsdl/info.wsdl";
+            "https://raw.githubusercontent.com/wso2/wso2-qa-artifacts/master/automation-artifacts/greg/wsdl/info.wsdl";
 
     private final static String POLICY_URL =
-            "https://svn.wso2.org/repos/wso2/carbon/platform/trunk/platform-integration/" +
-                    "platform-automated-test-suite/org.wso2.carbon.automation.test.repo/src/main/resources/" +
-                    "artifacts/GREG/policy/UTPolicy.xml";
+            "https://raw.githubusercontent.com/wso2/wso2-qa-artifacts/master/automation-artifacts/greg/policy/UTPolicy.xml";
 
     private final static String WSDL_NAME = "info.wsdl";
     private final static String POLICY_NAME = "UTPolicy.xml";
