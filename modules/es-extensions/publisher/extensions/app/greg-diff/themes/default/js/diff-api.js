@@ -30,14 +30,17 @@ $(document).ready(function () {
     CODEMIRROR_OPTIONS.connect = null;
     CODEMIRROR_OPTIONS.collapse = false;
     CODEMIRROR_OPTIONS.target = null;
+    var assetName, baseVersion, revisionVersion;
+    resolveAssetName();
+    resolveVersion();
     var textDiffURL = resolveTextDiffURL(paths, domain, type);
     initTextDiff(textDiffURL);
-    if ("wsdl" == type) {
+    if ("wsdl" === type) {
         var detailDiffURL = resolveDetailDiffURL(paths, domain, type);
         initDetailDiff(detailDiffURL);
     }
     else {
-        renderPartial("list-default", {}, function (template) {
+        renderPartial("list-default", {assetName: assetName}, function (template) {
             $('#sectionList').append(template);
         });
     }
@@ -117,6 +120,24 @@ $(document).ready(function () {
     }
 
     /**
+     * Resolve the asset name that shown in the diff view
+     */
+    function resolveAssetName() {
+        var basePath = paths[1].split("/");
+        assetName = basePath[basePath.length-1];
+    }
+
+    /**
+     * Resolve the versions of files that shown in the diff view
+     */
+    function resolveVersion() {
+        var basePath = paths[1].split("/");
+        var revisionPath = paths[0].split("/");
+        baseVersion = basePath[basePath.length-2];
+        revisionVersion = revisionPath[revisionPath.length-2];
+    }
+
+    /**
      * Renders the diff view by processing the response object provided by the API
      * and then initializing the CodeMirror UI
      */
@@ -127,7 +148,6 @@ $(document).ready(function () {
             if (!jQuery.isEmptyObject(textDiffSections[sectionName].content)) {
                 var changeName = Object.keys(textDiffSections[sectionName].content)[0];
                 if (!jQuery.isEmptyObject(textDiffData.sections[sectionName].content[changeName])) {
-                    var sectionChange = textDiffData.sections[sectionName].sectionSummary[changeName][0];
                     var loadContent = textDiffData.sections[sectionName].content[changeName][0];
                 }
             }
@@ -141,7 +161,7 @@ $(document).ready(function () {
         CODEMIRROR_OPTIONS.target = target;
         initUI(CODEMIRROR_OPTIONS);
         setViewPanelsHeight();
-        addTitle(sectionChange);
+        addTitle(baseVersion, revisionVersion);
     }
 
     function renderDetailDiff(detailDiffData) {
@@ -156,12 +176,12 @@ $(document).ready(function () {
             sections.push(entry);
         });
         if (!jQuery.isEmptyObject(sections)) {
-            renderPartial("list-section-changes", {sections: sections}, function (template) {
+            renderPartial("list-section-changes", {assetName: assetName, sections: sections}, function (template) {
                 $('#sectionList').append(template);
             });
         }
         else {
-            renderPartial("list-default", {}, function (template) {
+            renderPartial("list-default", {assetName: assetName}, function (template) {
                 $('#sectionList').append(template);
             });
         }
@@ -179,14 +199,13 @@ $(document).ready(function () {
         target.innerHTML = "";
         CODEMIRROR_OPTIONS.target = target;
         if (!jQuery.isEmptyObject(detailDiffData.sections[section].content[change])) {
-            var sectionChange = detailDiffData.sections[section].sectionSummary[change][0];
             var loadContent = detailDiffData.sections[section].content[change][0];
             CODEMIRROR_OPTIONS.loadContent = loadContent;
-            if ("CONTENT_ADDITION" == change) {
+            if ("CONTENT_ADDITION" === change) {
                 //CODEMIRROR_OPTIONS.orig2 = loadContent.content;
                 CODEMIRROR_OPTIONS.orig2 = null;
                 initUIAddition(CODEMIRROR_OPTIONS);
-            } else if ("CONTENT_REMOVAL" == change) {
+            } else if ("CONTENT_REMOVAL" === change) {
                 //CODEMIRROR_OPTIONS.orig2 = "";
                 CODEMIRROR_OPTIONS.orig2 = null;
                 initUIRemoval(CODEMIRROR_OPTIONS);
@@ -195,7 +214,7 @@ $(document).ready(function () {
                 initUI(CODEMIRROR_OPTIONS);
             }
             setViewPanelsHeight();
-            addTitle(sectionChange);
+            addTitle(baseVersion, revisionVersion, change);
         }
     });
 

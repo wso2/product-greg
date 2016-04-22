@@ -80,18 +80,18 @@ function setViewPanelsHeight(){
 /*
  * Adding code mirror pane title
  */
-function addTitle(sectionChange) {
+function addTitle(baseVersion, revisionVersion, change) {
     $('.CodeMirror-merge-pane').each(function (i) {
-        if (sectionChange.indexOf("new") > -1) {
+        if ("CONTENT_ADDITION" === change) {
             i = 1;
         }
         var title;
         switch (i) {
             case 0:
-                title = 'Base (' + sectionChange + ')';
+                title = 'Base (version : ' + baseVersion + ')';
                 break;
             case 1:
-                title = 'Revision (' + sectionChange + ')';
+                title = 'Revision (version : ' + revisionVersion + ')';
                 break;
         }
 
