@@ -115,5 +115,9 @@ function toggleSidePanel(view,button){
  * Set notification bar height to fill window height
  */
 function setSidePanelHeight(){
+    var screenHeight = Math.max(document.documentElement.clientHeight, window.innerHeight || 0);
+    var minHeight = screenHeight - 144;
+    $('.wr-side-panel').css('min-height', minHeight+'px');
+    //document.getElementsByClassName("wr-side-panel").style.minHeight = minHeight+"px";
     $(sidePanel).height('100%');
 }

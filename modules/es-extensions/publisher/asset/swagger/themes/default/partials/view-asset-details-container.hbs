@@ -22,33 +22,37 @@
                         <div class="widget-content">
 
                             <h2 class="field-title">
-                                <a class="collapsing-h2" data-toggle="collapse" area-expanded="true">
-                                    {{t "Overview"}}
+                                <a class="collapsing-h2 collapsed" data-toggle="collapse" area-expanded="true" href="#collpaseoverview">
+                                    <i class="cu-btn-exp-col btn-collapsed">{{t "Overview"}}</i>
                                 </a>
                             </h2>
 
-                            <div id="Overview" class="collapse in" area-expanded="true" style="">
-                                <div class="row padding-bottom-lg" id="Name">
-                                    <div class="col-sm-2 custom-form-label text-right">{{t "Name"}} :</div>
-                                    <div id="nameValue" class="col-sm-10">{{name}}</div>
-                                </div>
-                                <div class="row padding-bottom-lg" id="Version">
-                                    <div class="col-sm-2 custom-form-label text-right">{{t "Version"}} :</div>
-                                    <div id="versionValue" class="col-sm-10">{{version}}</div>
-                                </div>
-                                <div class="row padding-bottom-lg" id="Type">
-                                    <div class="col-sm-2 custom-form-label text-right">{{t "Media Type"}} :</div>
-                                    <div id="mediaValue" class="col-sm-10">{{mediaType}}</div>
+                            <div id="collpaseoverview" class="collapse">
+                                <div id="Overview" class="collapse in" area-expanded="true" style="">
+                                    <div class="row padding-bottom-lg" id="Name">
+                                        <div class="col-sm-2 custom-form-label text-right">{{t "Name"}} :</div>
+                                        <div id="nameValue" class="col-sm-10">{{name}}</div>
+                                    </div>
+                                    <div class="row padding-bottom-lg" id="Version">
+                                        <div class="col-sm-2 custom-form-label text-right">{{t "Version"}} :</div>
+                                        <div id="versionValue" class="col-sm-10">{{version}}</div>
+                                    </div>
+                                    <div class="row padding-bottom-lg" id="Type">
+                                        <div class="col-sm-2 custom-form-label text-right">{{t "Media Type"}} :</div>
+                                        <div id="mediaValue" class="col-sm-10">{{mediaType}}</div>
+                                    </div>
                                 </div>
                             </div>
 
                             {{#if isDependentsPresent}}
                             <h2 class="field-title">
-                                <a class="collapsing-h2" data-toggle="collapse" area-expanded="true">
-                                    {{t "Associations"}}
+                                <a class="collapsing-h2 collapsed" data-toggle="collapse" area-expanded="true" href="#collapsedependencies">
+                                    <i class="cu-btn-exp-col btn-collapsed"> {{t "Associations"}} </i>
                                 </a>
                             </h2>
-                            <div id="dependenciesCollapse" class="collapse in" area-expanded="true" style="">
+
+                            <div id="collapsedependencies" class="collapse">
+                            <div class="collapse in" area-expanded="true" style="">
                                 <div class="row padding-bottom-lg">
                                     <div class="col-sm-2 custom-form-label text-right">{{t "Associated REST Services"}} :</div>
                                     <table>
@@ -64,6 +68,7 @@
                                         {{/each}}
                                     </table>
                                 </div>
+                            </div>
                             </div>
                             {{/if}}
 

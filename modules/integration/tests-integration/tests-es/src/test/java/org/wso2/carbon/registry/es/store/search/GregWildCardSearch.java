@@ -72,22 +72,30 @@ public class GregWildCardSearch extends GregESTestBaseTest {
         resourceAdminServiceClient = new ResourceAdminServiceClient(automationContext.getContextUrls().getBackEndUrl(),
                 sessionCookie);
 
+        deteleExistingData();
+
+    }
+
+    private void deteleExistingData() {
+        deleteResource("/_system/governance/trunk/restservices");
+        deleteResource("/_system/governance/apimgt/applicationdata/api-docs");
+        deleteResource("/_system/governance/trunk/schemas");
+        deleteResource("/_system/governance/trunk/wadls");
+        deleteResource("/_system/governance/trunk/endpoints");
     }
 
     @AfterClass(alwaysRun = true)
     private void cleanUp() throws RegistryException {
+        deteleExistingData();
+    }
+
+    private void deleteResource(String path){
         try {
-            resourceAdminServiceClient.deleteResource("/_system/governance/trunk/restservices");
-            resourceAdminServiceClient.deleteResource("/_system/governance/apimgt/applicationdata/api-docs");
-            resourceAdminServiceClient.deleteResource("/_system/governance/trunk/schemas");
-            resourceAdminServiceClient.deleteResource("/_system/governance/trunk/wadls");
-            resourceAdminServiceClient.deleteResource("/_system/governance/trunk/endpoints");
-        } catch (RemoteException e) {
+            resourceAdminServiceClient.deleteResource(path);
+        }catch (RemoteException e) {
             log.error("Failed to Remove Resource :" + e);
-            throw new RegistryException("Failed to Remove Resource :" + e);
         } catch (ResourceAdminServiceExceptionException e) {
             log.error("Failed to Remove Resource :" + e);
-            throw new RegistryException("Failed to Remove Resource :" + e);
         }
     }
 

@@ -240,11 +240,25 @@
                     <groupId>asm</groupId>
                     <artifactId>asm</artifactId>
                 </exclusion>
+                <exclusion>
+                    <groupId>org.wso2.orbit.wadl.core</groupId>
+                    <artifactId>wadl-core</artifactId>
+                </exclusion>
             </exclusions>
         </dependency>
         <dependency>
             <groupId>org.wso2.carbon.governance</groupId>
             <artifactId>org.wso2.carbon.governance.client</artifactId>
+            <exclusions>
+                <exclusion>
+                    <groupId>asm</groupId>
+                    <artifactId>asm</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>org.wso2.orbit.wadl.core</groupId>
+                    <artifactId>wadl-core</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
         <dependency>
             <groupId>org.wso2.carbon.automation</groupId>
