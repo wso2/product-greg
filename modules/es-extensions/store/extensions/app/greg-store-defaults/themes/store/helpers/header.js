@@ -20,7 +20,6 @@
 var resources = function () {
     return {
         css:['common.css','sidepanel.css', 'left-navigation.css', 'font-wso2.css', 'bootstrap-dialog.min.css', 'typeahead.css'],
-        js:['sidepanel.js','greg-subscriptions-api.js','bootstrap-dialog.min.js', 'typeahead.bundle.min.js', 'typeahead.js'],
-        code: ['taxonomy-tenant-meta.hbs']
+        js:['sidepanel.js','greg-subscriptions-api.js','bootstrap-dialog.min.js', 'typeahead.bundle.min.js', 'typeahead.js']
     }
 };
