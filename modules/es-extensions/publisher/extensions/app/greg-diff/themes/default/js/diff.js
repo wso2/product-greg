@@ -88,10 +88,10 @@ function addTitle(baseVersion, revisionVersion, change) {
         var title;
         switch (i) {
             case 0:
-                title = 'Base (version : ' + baseVersion + ')';
+                title = 'Base ( V' + baseVersion + ' )';
                 break;
             case 1:
-                title = 'Revision (version : ' + revisionVersion + ')';
+                title = 'Revision ( V' + revisionVersion + ' )';
                 break;
         }
 
