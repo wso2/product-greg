@@ -140,8 +140,9 @@ public class GregRestResourceCategorizationTestCase  extends GregESTestBaseTest 
                 "publisherPublishRestResourceWithCategorization.json");
 
         ClientResponse response =
-                genericRestClient.geneticRestRequestPost(publisherUrl + "/assets/" + restServiceOneAssetId, MediaType.APPLICATION_JSON,
-                        MediaType.APPLICATION_JSON, dataBody, queryParamMap, headerMap, cookieHeader);
+                genericRestClient.geneticRestRequestPost(publisherUrl + "/assets/" + restServiceOneAssetId,
+                        MediaType.APPLICATION_JSON, MediaType.APPLICATION_JSON, dataBody,
+                        queryParamMap, headerMap, cookieHeader);
 
         JSONObject obj = new JSONObject(response.getEntity(String.class));
 

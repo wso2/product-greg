@@ -27,7 +27,6 @@ import org.wso2.carbon.automation.engine.annotations.ExecutionEnvironment;
 import org.wso2.carbon.automation.engine.annotations.SetEnvironment;
 import org.wso2.carbon.automation.engine.context.TestUserMode;
 import org.wso2.carbon.automation.engine.frameworkutils.FrameworkPathUtil;
-import org.wso2.carbon.registry.core.exceptions.RegistryException;
 import org.wso2.carbon.registry.es.utils.GregESTestBaseTest;
 import org.wso2.greg.integration.common.utils.GenericRestClient;
 
@@ -198,8 +197,8 @@ public class GregRestResourceStoreCategorizationSearchTestCase  extends GregESTe
         queryParamMap.put("paginationLimit", "20");
         queryParamMap.put("start", "0");
         queryParamMap.put("count", "20");
-        // https://localhost:9443/store/assets/restservice/list?q=%22name%22:%22Tip%22
-        // https://localhost:9443/store/assets/restservice/list?q=%22version%22:%221.2.2%22
+        // https://localhost:9443/store/assets/restservice/list?
+        // q="categorization_product"%3A"(g-reg OR esb)"
         queryParamMap.put("q", "\"categorization_product" + "\":" + "\"(" + productOne + " OR "+productTwo+")\"");
 
         Thread.sleep(10000);
