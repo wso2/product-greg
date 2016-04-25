@@ -52,7 +52,8 @@ var resources = function(page, meta) {
     o.js.push('greg-subscriptions-api.js');
     o.js.push('bootstrap-dialog.min.js');
     o.js.push('typeahead.bundle.min.js');
-    o.js.push('typeahead.js');
+    // remove this line, because this file is loaded twice in store side. That occurs search-box css issue
+    //o.js.push('typeahead.js');
     o.code.push('taxonomy-meta-data.hbs');
     o.code.push('tenant-meta-data.hbs');
     return o;
