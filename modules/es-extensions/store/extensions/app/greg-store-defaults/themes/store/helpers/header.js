@@ -17,9 +17,42 @@
  *
  */
 
-var resources = function () {
-    return {
-        css:['common.css','sidepanel.css', 'left-navigation.css', 'font-wso2.css', 'bootstrap-dialog.min.css', 'typeahead.css'],
-        js:['sidepanel.js','greg-subscriptions-api.js','bootstrap-dialog.min.js', 'typeahead.bundle.min.js', 'typeahead.js']
+var name;
+var hps = require('/themes/store/helpers/header.js');
+var that = this;
+/*
+ In order to inherit all variables in the default helper
+ */
+for (name in hps) {
+    if (hps.hasOwnProperty(name)) {
+        that[name] = hps[name];
     }
+}
+var fn = that.resources||function() { return {} };
+var resources = function(page, meta) {
+    var o = fn(page, meta);
+    if (!o.css) {
+        o.css = [];
+    }
+    if(!o.js){
+        o.js = [];
+    }
+    if(!o.code){
+        o.code = [];
+    }
+    o.css.push('common.css');
+    o.css.push('sidepanel.css');
+    o.css.push('left-navigation.css');
+    o.css.push('font-wso2.css');
+    o.css.push('bootstrap-dialog.min.css');
+    o.css.push('typeahead.css');
+    o.js.push('sidepanel.js');
+    o.js.push('greg-subscriptions-api.js');
+    o.js.push('bootstrap-dialog.min.js');
+    o.js.push('typeahead.bundle.min.js');
+    // remove this line, because this file is loaded twice in store side. That occurs search-box css issue
+    //o.js.push('typeahead.js');
+    o.code.push('taxonomy-meta-data.hbs');
+    o.code.push('tenant-meta-data.hbs');
+    return o;
 };
