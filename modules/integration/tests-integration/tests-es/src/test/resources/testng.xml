@@ -13,5 +13,9 @@
             <package name="org.wso2.carbon.registry.es.store.search"/>
             <package name="org.wso2.carbon.registry.jira"/>
         </packages>
+        <classes>
+            <class name="org.wso2.carbon.registry.es.permission.SoapServicePermissionTestCase"/>
+            <class name="org.wso2.carbon.registry.es.permission.SoapServicePermissionCheckTestCase"/>
+        </classes>
     </test>
 </suite>

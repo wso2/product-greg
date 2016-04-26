@@ -1,0 +1,9 @@
+{
+  "assetId": "%s",
+  "assetType": "soapservice",
+  "actionToAuthorize": "2",
+  "roleToAuthorize": "system/wso2.anonymous.role",
+  "pathWithVersion":"%s",
+  "permissionType":"1",
+  "permissionCheck":"other"
+}

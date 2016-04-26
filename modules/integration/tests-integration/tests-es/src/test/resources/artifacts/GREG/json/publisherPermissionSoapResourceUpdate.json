@@ -1,0 +1,12 @@
+{
+  "assetId": "%s",
+  "assetType": "soapservice",
+  "pathWithVersion": "%s",
+  "permissionObject": {
+    "internal/publisher": "da",
+    "internal/everyone": "wa",
+    "internal/reviewer": "ra",
+    "system/wso2.anonymous.role": "ra"
+  },
+  "permissionCheck": "other"
+}
