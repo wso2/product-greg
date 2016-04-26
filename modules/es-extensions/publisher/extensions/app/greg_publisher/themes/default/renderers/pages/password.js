@@ -17,10 +17,18 @@
  *
  */
 var render = function (theme, data, meta, require) {
-    theme('add-list-password', {
-        title: 'Add Server Passwords',
-        listassets: [{
+    theme('single-col-fluid', {
+        title: 'Property Encryption',
+        applicationTitle: data.meta.applicationTitle,
+        header: [{
+            partial: 'header',
             context: data
-        }]
+        }],
+
+        listassets: [{
+            partial: 'add-list-password',
+            context: data
+        }
+        ]
     });
 };

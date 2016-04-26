@@ -51,6 +51,7 @@
 
 .wr-associations-list {
     margin-top: 10px;
+    margin-bottom: 15px;
 }
 
 .wr-associations-list .wr-association-icon,
@@ -85,6 +86,15 @@
 
 .wr-associations-list .wr-asset-desc .resource-name {
     font-weight: 500;
+}
+
+.wr-associations-list .wr-asset-desc .association-type {
+    font-weight: 400;
+    padding: 10px;
+}
+
+.wr-associations-list .wr-asset-desc .resource-unique {
+    font-weight: 200;
 }
 
 .wr-associations-list .wr-security-status {

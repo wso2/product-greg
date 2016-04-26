@@ -51,10 +51,49 @@ $(function() {
             schemaFileName = schemaFileName.replace(c, "_");
         }
         $('input[name="overview_name"]').val(schemaFileName);
+        var ajaxURL = caramel.context + '/apis/assets?type=schema&q="name":"' + schemaFileName + '"';
+        $.ajax({
+            url: ajaxURL,
+            type: 'GET',
+            success: function (data) {
+                if (data.count > 0) {
+                    messages.alertInfo("Schemas exist with the same name ");
+                }
+            }
+        });
     });
 
     $('#form-asset-create').ajaxForm({
         beforeSubmit:function(){
+            var addSelector = $('#addMethodSelector');
+            var selectedValue = addSelector.val();
+            var version;
+            var name;
+            if (selectedValue == "upload") {
+                name = encodeURIComponent($('#schema_file_name').val());
+                version = $('#file_version').val();
+            } else {
+                name = encodeURIComponent($('input[name="overview_name"]').val());
+                version = $('input[name="overview_version"]').val();
+            }
+            var ajaxURL = caramel.context + '/apis/assets?type=schema&q="name":"' + name +
+                '","version":"' + version + '"';
+            var resourceExist = false;
+            $.ajax({
+                async: false,
+                url: ajaxURL,
+                type: 'GET',
+                success: function (data) {
+                    if (data.count > 0) {
+                        messages.alertError("Schema exist with same name and version");
+                        resourceExist = true;
+                    }
+
+                }
+            });
+            if (resourceExist) {
+                return false;
+            }
             var action = "";
             if ($('#importUI').is(":visible")) {
                 action = "addNewAssetButton";

@@ -209,8 +209,73 @@ asset.manager = function(ctx) {
             }
             return modAsset;
         },
+        createVersion: function(options, newAsset) {
+            var rxtModule = require('rxt');
+            var existingAttributes = {};
+            var isLCEnabled = false;
+            var isDefaultLCEnabled = false;
+            if (!options.id || !newAsset) {
+                log.error('Unable to process create-version without having a proper ID or a new asset instance.');
+                return false;
+            }
+            var existingAsset = this.get(options.id);
+            var ctx = rxtModule.core.createUserAssetContext(session, options.type);
+            var context = rxtModule.core.createUserAssetContext(session, options.type);
+            var oldId = existingAsset.id;
+            delete existingAsset.id;
+            for (var key in newAsset) {
+                existingAsset.attributes[key] = newAsset[key];
+            }
+            existingAttributes.attributes = existingAsset.attributes;
+            existingAttributes.name = existingAsset.attributes['overview_name'];
+            var tags = this.registry.tags(existingAsset.path);
+            //remove wsdlurl and endpoint to make the soap service a shallow copy
+            delete existingAttributes.attributes.interface_wsdlURL;
+            delete existingAttributes.attributes.endpoints;
+            delete existingAttributes.attributes.endpoints_entry;
+            this.create(existingAttributes);
+            createdAsset = this.get(existingAttributes.id);
+            this.addTags(existingAttributes.id, tags);
+            isLCEnabled = context.rxtManager.isLifecycleEnabled(options.type);
+            isDefaultLCEnabled = context.rxtManager.isDefaultLifecycleEnabled(options.type);
+            this.postCreate(createdAsset, ctx);
+            this.update(existingAttributes);
+            //Continue attaching the lifecycle
+            if (isDefaultLCEnabled && isLCEnabled) {
+                var isLcAttached = this.attachLifecycle(existingAttributes);
+                //Check if the lifecycle was attached
+                if (isLcAttached) {
+                    var synched = this.synchAsset(existingAttributes);
+                    if (synched) {
+                        this.invokeDefaultLcAction(existingAttributes);
+                    } else {
+                        if (log.isDebugEnabled()) {
+                            log.debug('Failed to invoke default action as the asset could not be synched.')
+                        }
+                    }
+                }
+            }
+            return existingAttributes.id;
+        },
         create: function(options) {
             var log = new Log();
+            var name = encodeURIComponent(options.attributes.overview_name);
+            var version = options.attributes.overview_version;
+            var rxt = require('rxt');
+            var am = rxt.asset.createUserAssetManager(ctx.session, this.type);
+            var query = {};
+            query.overview_name = name;
+            var assets = am.search(query);
+            for (var i = 0; i < assets.length; i++) {
+                if (assets[i].version == version) {
+                    var msg = "Resource already exist with same Name \"" + decodeURIComponent(name) + "\" and version \"" + version + "\"";
+                    var exceptionUtils = require('utils');
+                    var exceptionModule = exceptionUtils.exception;
+                    var constants = rxt.constants;
+                    throw exceptionModule.buildExceptionObject(msg, constants.STATUS_CODES.BAD_REQUEST);
+                }
+            }
+
             var isDefault = false;
             var manager = this.am.manager;
             var artifact = createArtifact(manager, options);
@@ -318,23 +383,26 @@ asset.configure = function() {
             overview: {
                 fields: {
                     name: {
-                        placeholder: "WeatherService"
+                        readonly:true,
+                        placeholder: "Name"
                     },
                     namespace: {
-                        placeholder: "http://example.namespace.com"
+                        readonly:true,
+                        placeholder: "Namespace"
                     },
                     version: {
-                        placeholder: "1.0.0"
+                        readonly:true,
+                        placeholder: "Version"
                     },
                     description: {
-                        placeholder: "This is a sample service"
+                        placeholder: "Description"
                     }
                 }
             },
             interface: {
                 fields: {
                     wsdlUrl: {
-                        placeholder: "https://www.example.com/sample.wsdl"
+                        placeholder: "Wsdl Url"
                     }
                 }
             }

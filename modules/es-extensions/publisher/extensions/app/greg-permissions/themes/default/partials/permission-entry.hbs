@@ -1,0 +1,44 @@
+{{! Copyright (c) 2015, WSO2 Inc. (http://www.wso2.org) All Rights Reserved.
+
+    WSO2 Inc. licenses this file to you under the Apache License,
+    Version 2.0 (the "License"); you may not use this file except
+    in compliance with the License.
+    You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+    Unless required by applicable law or agreed to in writing,
+    software distributed under the License is distributed on an
+    "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+    KIND, either express or implied.  See the License for the
+    specific language governing permissions and limitations
+    under the License.
+}}
+<div class="clearfix wr-permission permission-{{this.userName}}">
+    <input type="hidden" id="roleName" value="{{this.userName}}">
+
+    <div class="wr-asset-desc">
+        <div class="wr-asset-details">
+            <div class="resource-name">{{this.formattedUserName}}</div>
+        </div>
+    </div>
+    <div class="wr-permission-operations">
+        <a data-operation="delete" class="cu-btn-inner"
+           data-role-name="{{this.userName}}" data-formatted-name="{{this.formattedUserName}}">
+            <span class="fw-stack">
+                <i class="fw fw-ring fw-stack-2x"></i>
+                <i class="fw fw-delete fw-stack-1x"></i>
+            </span> Remove
+        </a>
+    </div>
+    <div class="wr-permission-actions col-md-3" align="center">
+        <select name="roleActionToAuthorize" data-role-id="{{this.userName}}^action"
+                class="wr-asset-details select-actions" data-formatted-name="{{this.formattedUserName}}">
+            <option value="ra" {{#if this.readAllow}}selected{{/if}}>View</option>
+            {{#if this.notReadOnly}}
+                <option value="wa" {{#if this.writeAllow}}selected{{/if}}>Edit</option>
+                <option value="da" {{#if this.deleteAllow}}selected{{/if}}>Delete</option>
+            {{/if}}
+        </select>
+    </div>
+</div>

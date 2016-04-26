@@ -1,6 +1,7 @@
 var render = function(theme,data,meta,require) {
 	theme('single-col-fluid',{
-		title:'WSO2 Governance Center - Search Results',
+        title: data.meta.title,
+        applicationTitle: data.meta.applicationTitle,
 		header:[{
 			partial:'header',
 			context:data

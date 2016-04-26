@@ -18,6 +18,7 @@
  */
 asset.manager = function(ctx) {
     var configs = require("/extensions/assets/policy/config/properties.json");
+    var tenantAPI = require('/modules/tenant-api.js').api;
     /**
      * The function augments the provided query to include published state information
      * @param  {[type]} query [description]
@@ -39,16 +40,12 @@ asset.manager = function(ctx) {
         return query;
     };
     var getRegistry = function(cSession) {
-        var userMod = require('store').user;
-        var server = require('store').server;
-        var user = server.current(cSession);
-        var userRegistry;
-        if (user) {
-            userRegistry = userMod.userRegistry(cSession);
-        } else {
-            userRegistry = server.anonRegistry(tenantId);
+        var tenantDetails = tenantAPI.createTenantAwareAssetResources(cSession,{type:ctx.assetType});
+        if((!tenantDetails)&&(!tenantDetails.am)) {
+            log.error('The tenant-api was unable to create a registry instance by resolving tenant details');
+            throw 'The tenant-api  was unable to create a registry instance by resolving tenant details';
         }
-        return userRegistry;
+        return tenantDetails.am.registry;
     };
     var setCustomAssetAttributes = function(asset, userRegistry) {
         var ByteArrayInputStream = Packages.java.io.ByteArrayInputStream;
@@ -165,6 +162,22 @@ asset.manager = function(ctx) {
             }
             asset.attributes["overview_version"] = asset.attributes["version"];
             return asset.attributes["version"];
+        },
+        getAssetGroup:function(asset){
+            var results = this._super.getAssetGroup.call(this,asset);
+            for (var index = 0; index < results.length; index++) {
+                var result = results[index];
+                var path = result.path;
+                var subPaths = path.split('/');
+                var name = subPaths[subPaths.length - 1];
+                result.name = name;
+                result.version = subPaths[subPaths.length - 2];
+                result.attributes.overview_name = name;
+                result.overview_version = result.version;
+                result.attributes.overview_version = result.version;
+                result.attributes.version = result.version;
+            }
+            return results;
         }
     };
 };
@@ -175,7 +188,32 @@ asset.configure = function() {
             ui: {
                 icon: 'fw fw-policy',
                 iconColor: 'yellow'
-            }
+            },
+            downloadable:true,
+            isDependencyShown: true
         }
     }
+};
+
+asset.renderer = function(ctx){
+    return {
+        pageDecorators:{
+            downloadPopulator:function(page){
+                //Populate the links for downloading content RXTs
+                if(page.meta.pageName === 'details'){
+                    var isDownloadable = ctx.rxtManager.isDownloadable(page.assets.type);
+                    if(!isDownloadable){
+                        return;
+                    }
+                    var config = require('/config/store.js').config();
+                    var pluralType = 'policys';
+                    var domain = require('carbon').server.tenantDomain({tenantId:ctx.tenantId});
+                    page.downloadMetaData = {}; 
+                    page.downloadMetaData.downloadFileType = page.rxt.singularLabel;
+                    page.downloadMetaData.enabled = isDownloadable;
+                    page.downloadMetaData.url = config.server.https+'/governance/'+pluralType+'/'+page.assets.id+'/content?tenant='+domain;
+                }
+            }
+        }
+    };
 };

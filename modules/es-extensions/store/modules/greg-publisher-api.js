@@ -5,8 +5,13 @@ var gregAPI = {};
     var SubscriptionPopulator = Packages.org.wso2.carbon.registry.info.services.utils.SubscriptionBeanPopulator;
     var GovernanceUtils = Packages.org.wso2.carbon.governance.api.util.GovernanceUtils;
     var CommonUtil = Packages.org.wso2.carbon.governance.registry.extensions.utils.CommonUtil;
+    var TSimpleQueryInput = org.wso2.carbon.humantask.client.api.types.TSimpleQueryInput;
 
     var carbon = require('carbon');
+    var time = require('utils').time;
+    var constants = require('rxt').constants;
+    var responseProcessor = require('utils').response;
+    var rxtModule = require('rxt');
     var taskOperationService = carbon.server.osgiService('org.wso2.carbon.humantask.core.TaskOperationService');
     gregAPI.notifications = {};
     gregAPI.subscriptions = {};
@@ -166,49 +171,77 @@ var gregAPI = {};
         };
         //log.info(message);
     };
-    gregAPI.notifications.count = function() {
-        var results = {};
-        var count = 0;
+
+    var getNotificationRows = function() {
         var queryInput = new org.wso2.carbon.humantask.client.api.types.TSimpleQueryInput();
         queryInput.setPageNumber(0);
         queryInput.setSimpleQueryCategory(org.wso2.carbon.humantask.client.api.types.TSimpleQueryCategory.ASSIGNED_TO_ME);
         var resultSet = taskOperationService.simpleQuery(queryInput);
         var rows = resultSet.getRow();
-        if (rows != null){
-            count = rows.length;
+        var queryInputClaim = new org.wso2.carbon.humantask.client.api.types.TSimpleQueryInput();
+        queryInputClaim.setPageNumber(0);
+        queryInputClaim.setSimpleQueryCategory(org.wso2.carbon.humantask.client.api.types.TSimpleQueryCategory.CLAIMABLE);
+        var resultSetClaim = taskOperationService.simpleQuery(queryInputClaim);
+        if (rows && resultSetClaim.getRow()){
+            rows = org.apache.commons.lang.ArrayUtils.addAll(rows, resultSetClaim.getRow());
+        } else if (!rows && resultSetClaim.getRow()){
+            rows = resultSetClaim.getRow();
         }
-        //log.info(parseInt(count));
+
+        return rows;
+    };
+
+    gregAPI.notifications.count = function(am) {
+        var results = {};
+        var count = 0;
+        var rows = getNotificationRows();
+
+        if (rows != null) {
+            for (var i = 0; i < rows.length; i++) {
+                var workList = {};
+                var row =  rows[i];
+                var presentSub = String(row.getPresentationSubject());
+                var pathValue = presentSub.substring(presentSub.indexOf("/"));
+                //This code is done since there are different messages are received for lifecycle and information update notification
+                pathValue = pathValue.replace("was updated", "");
+                if (endsWith('.',pathValue)){
+                    pathValue = pathValue.substr(0,pathValue.length-1);
+                }
+                pathValue = pathValue.trim();
+                if (am.registry.registry.resourceExists(pathValue) &&
+                    am.registry.registry.get(pathValue).getMediaType() != null &&
+                    getTimeFromRow(row.getCreatedTime()) > getTimeFromDate(am.registry.registry.get(pathValue).getCreatedTime())) {
+                    count ++;
+                }
+            }
+        }
+
         results.count = count;
         return results;
     };
     gregAPI.notifications.list = function(am) {
         var results = {};
         var result = [];
-        var count = 0;
-        var queryInput = new org.wso2.carbon.humantask.client.api.types.TSimpleQueryInput();
-        queryInput.setPageNumber(0);
-        queryInput.setSimpleQueryCategory(org.wso2.carbon.humantask.client.api.types.TSimpleQueryCategory.ASSIGNED_TO_ME);
-        var resultSet = taskOperationService.simpleQuery(queryInput);
-        var rows = resultSet.getRow();
+        var rows = getNotificationRows();
+
         if (rows != null) {
             for (var i = 0; i < rows.length; i++) {
                 var workList = {};
                 var row =  rows[i];
-                workList.id = String(row.getId());
-                workList.presentationSubject = String(row.getPresentationSubject());
-                
-                //Get Assrt information
-                var arr = workList.presentationSubject.split(" ");
-                var pathValue;
-                for (var a = 0; a < arr.length; a++) {
-                    if(10 < arr[a].length){
-                        pathValue = arr[a];
-                    }
-                }
+                var presentSub = String(row.getPresentationSubject());
+                var pathValue = presentSub.substring(presentSub.indexOf("/"));
+
+                //This code is done since there are different messages are received for lifecycle and information update notification
+                pathValue = pathValue.replace("was updated", "");
                 if (endsWith('.',pathValue)){
                     pathValue = pathValue.substr(0,pathValue.length-1);
                 }
-                if (am.registry.registry.resourceExists(pathValue) && am.registry.registry.get(pathValue).getMediaType() != null) {
+                pathValue = pathValue.trim();
+                if (am.registry.registry.resourceExists(pathValue) &&
+                    am.registry.registry.get(pathValue).getMediaType() != null &&
+                    getTimeFromRow(row.getCreatedTime()) > getTimeFromDate(am.registry.registry.get(pathValue).getCreatedTime())) {
+                    workList.id = String(row.getId());
+                    workList.presentationSubject = String(row.getPresentationSubject());
                     var uuid = am.registry.registry.get(pathValue).getUUID();
                     workList.presentationSubject = workList.presentationSubject.replace(pathValue, "");
 
@@ -221,31 +254,99 @@ var gregAPI = {};
                     if (key === 'wsdl' || key === 'wadl' || key === 'policy' || key === 'schema' || key === 'endpoint' || key === 'swagger') {
                         var subPaths = pathValue.split('/');
                         workList.overviewName = subPaths[subPaths.length - 1];
+                        workList.overviewVersion = subPaths[subPaths.length - 2];
                     } else {
                         var govAttifact = Packages.org.wso2.carbon.governance.api.util.GovernanceUtils.retrieveGovernanceArtifactByPath(am.registry.registry, pathValue);
-                        workList.overviewName = String(govAttifact.getAttribute('overview_name'));
+                        workList.overviewName = String(govAttifact.getQName().getLocalPart());
+                        var rxtManager = rxtModule.core.rxtManager(server.current(session).tenantId);
+                        var versionAttribute = rxtManager.getVersionAttribute(key);
+                        workList.overviewVersion = String(govAttifact.getAttribute(versionAttribute));
                     }
 
-                    workList.presentationSubject = workList.presentationSubject.replace("resource at path", workList.overviewName);
-                    workList.presentationSubject = workList.presentationSubject.replace("resource at", workList.overviewName);
+                    workList.presentationSubject = workList.presentationSubject.replace("resource at path", workList.overviewName + " " + workList.overviewVersion);
+                    workList.presentationSubject = workList.presentationSubject.replace("resource at", workList.overviewName + " " + workList.overviewVersion);
                     //workList.message = workList.overviewName +
                     workList.clickResource = true; //This will be checked in order to show or not 'Click here' link in the notification.
+                    workList.presentationName = String(row.getPresentationName());
+                    workList.priority = String(row.getPriority());
+                    workList.status = String(row.getStatus());
+                    workList.time = time.formatTimeAsTimeSince(getDateTime(row.getCreatedTime()));
+                    var owner = taskOperationService.loadTask(row.getId()).getActualOwner();
+                    if (owner != null) {
+                        workList.user = String(owner.getTUser());
+                    } else {
+                        workList.user = "";
+                    }
+                    result.push(workList);
                 }
-                else {
-                    workList.clickResource = false;//If this is false 'Click here' link will not be shown as there is no such resource.
-                }
-                workList.presentationName = String(row.getPresentationName());
-                workList.priority = String(row.getPriority());
-                workList.status = String(row.getStatus());
-                workList.time = String(row.getCreatedTime().getTime());
-                //workList.createdTime = String(row.getCreatedTime());
-                workList.user = String(taskOperationService.loadTask(row.getId()).getActualOwner().getTUser());
-                result.push(workList);
             }
         }
         results.list = result;
         return results;
     };
+
+    gregAPI.notifications.clear = function(res) {
+        var queryInput = new TSimpleQueryInput();
+        var message;
+        queryInput.setPageNumber(0);
+        queryInput.setSimpleQueryCategory(
+            org.wso2.carbon.humantask.client.api.types.TSimpleQueryCategory.ASSIGNED_TO_ME);
+        var resultSet = taskOperationService.simpleQuery(queryInput);
+        var rows = resultSet.getRow();
+        if (rows) {
+            for (var i = 0; i < rows.length; i++) {
+                var row =  rows[i];
+                var id = String(row.getId());
+                var idObj = new org.apache.axis2.databinding.types.URI(id);
+                try{
+                    taskOperationService.start(idObj);
+                    taskOperationService.complete(idObj, "<WorkResponse>true</WorkResponse>");
+                } catch (e){
+                    log.warn(e);
+                    return responseProcessor.buildErrorResponseDefault(e.code, 'error on clearing notifications', res,
+                        'Failed to clear all notifications ', e.message, []);
+                }
+            }
+        }
+        message = {
+            'status': 'success'
+        };
+        return responseProcessor.buildSuccessResponseDefault(constants.STATUS_CODES.OK, res, message);
+    };
+
+    var getDateTime = function(date) {
+        var year = date.get(date.YEAR);
+        var month = date.get(date.MONTH);
+        var day = date.get(date.DAY_OF_MONTH);
+        var hours = date.get(date.HOUR_OF_DAY);
+        var minutes = date.get(date.MINUTE);
+        var seconds = date.get(date.SECOND);
+
+        return new Date(year,month,day,hours,minutes,seconds);
+    };
+
+    var getTimeFromRow = function(date) {
+        var year = date.get(date.YEAR);
+        var month = date.get(date.MONTH);
+        var day = date.get(date.DAY_OF_MONTH);
+        var hours = date.get(date.HOUR_OF_DAY);
+        var minutes = date.get(date.MINUTE);
+        var seconds = date.get(date.SECOND);
+
+        return new Date(year,month,day,hours,minutes,seconds).getTime();
+    };
+
+    var getTimeFromDate = function(date) {
+        var year = 1900+date.getYear();
+        var month = date.getMonth();
+        var day = date.getDate();
+        var hours = date.getHours();
+        var minutes = date.getMinutes();
+        var seconds = date.getSeconds();
+
+        return new Date(year,month,day,hours,minutes,seconds).getTime();
+    };
+
     var endsWith = function(suffix, val) {
         return val.indexOf(suffix, val.length - suffix.length) !== -1;
     };
@@ -259,4 +360,25 @@ var gregAPI = {};
     gregAPI.notes.replies = function(parentNoteId) {};
     gregAPI.userRegistry = function(session) {};
     gregAPI.assetManager = function(session, type) {};
+    var assetManager = function(session, type) {
+        var tenantAPI = require('/modules/tenant-api.js').api;
+        var options = {'type':type};
+        var tenantResources = tenantAPI.createTenantAwareAssetResources(session, options);
+        return tenantResources.am;
+    };
+    /*Need assetManager for getAssetVersions*/
+    gregAPI.getAssetVersions = function (session, type, path, name) { /* TODO: Instead of path accept asset itself*/
+        var am = assetManager(session,type);
+        var asset = {};
+        asset.attributes = {};
+        asset.attributes.overview_name =  name;
+
+        var resources = am.getAssetGroup(asset);
+        var filtered_resources = resources.filter(
+            function(version){
+                return version.path !== path;
+            }
+        );
+        return filtered_resources;
+    };
 }(gregAPI));

@@ -6,10 +6,10 @@
         <div class="row-fluid">
             <table class="table table-striped list-asset-table">
                 <thead>
-                <th colspan="2"><a href="?sortby=name&sort=asc">Name <i class="icon-caret-down"></i></a></th>
-                <th><a href="?sortby=version&sort=asc">Version <i class="icon-caret-down"></i></a></th>
-                <th><a href="?sortby=owner&sort=asc">Owner <i class="icon-caret-down"></i></a></th>
-                <th><a href="#">Status</i></a></th>
+                <th colspan="2"><a href="?sortby=name&sort=asc">{{t "Name"}} <i class="icon-caret-down"></i></a></th>
+                <th><a href="?sortby=version&sort=asc">{{t "Version"}} <i class="icon-caret-down"></i></a></th>
+                <th><a href="?sortby=owner&sort=asc">{{t "Owner"}} <i class="icon-caret-down"></i></a></th>
+                <th><a href="#">{{t "Status"}}</i></a></th>
                 <th><a href="?sortby=createdtime&sort=desc">Created <i class="icon-caret-down"></i></a></th>
                 <th></th>
                 </thead>
@@ -46,7 +46,7 @@
 			<div class="emptyAssets-MsgDiv">
 			    <i class="icon-frown largeMsgIcon"></i>
 			    
-			     <p class="emptyAssets">Sorry. I couldn't find anything for you</p>
+			     <p class="emptyAssets">{{t "Sorry. I couldn't find anything for you"}}</p>
 			    
 			</div>
 	{{/if}}

@@ -81,7 +81,7 @@ public class SubscriptionAndNotificationTestCase extends GREGIntegrationBaseTest
 
     @Test(groups = { "wso2.greg" }, description = "create SOAP Service using GenericArtifact")
     public void createSOAPService() throws GovernanceException {
-        GenericArtifact artifact = artifactManager.newGovernanceArtifact(new QName("SOAPService1"));
+        GenericArtifact artifact = artifactManager.newGovernanceArtifact(new QName("org.wso2.test", "SOAPService1"));
 
         artifact.setAttribute("overview_name", "SOAPServiceNotification");
         artifact.setAttribute("overview_version", "5.0.0");

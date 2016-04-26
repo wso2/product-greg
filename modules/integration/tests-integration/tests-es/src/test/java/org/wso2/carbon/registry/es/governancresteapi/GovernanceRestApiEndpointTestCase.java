@@ -1,5 +1,5 @@
 /*
- *  Copyright (c) 2015, WSO2 Inc. (http://www.wso2.org) All Rights Reserved.
+ *  Copyright (c) 2016, WSO2 Inc. (http://www.wso2.org) All Rights Reserved.
  *
  *  WSO2 Inc. licenses this file to you under the Apache License,
  *  Version 2.0 (the "License"); you may not use this file except
@@ -149,8 +149,9 @@ public class GovernanceRestApiEndpointTestCase extends GregESTestBaseTest {
 
     @Test(groups = {"wso2.greg", "wso2.greg.governance.rest.api"}, description = "Get all endpoints", dependsOnMethods =
             {"getAnIndividualAssetByUUID"})
-    public void getAllEndpoints() throws IOException, InterruptedException, JSONException {
+    public void getAllEndpoints() throws IOException, InterruptedException, JSONException, XPathExpressionException {
 
+        clearPreviousEndpoints();
         int numOfEndpoints = 2;
         //create another endpoint
         String endpoint2Name = "endpoint-2";
@@ -162,10 +163,9 @@ public class GovernanceRestApiEndpointTestCase extends GregESTestBaseTest {
                           "Wrong status code ,Expected 201 Created ,Received " + response.getStatusCode());
         String locationHeader = response.getHeaders().get("Location").get(0);
         endpointId2 = locationHeader.substring(locationHeader.lastIndexOf("/") + 1);
-        Thread.sleep(1000);//for asset indexing
+        Thread.sleep(3000);//for asset indexing
         ClientResponse listOfEndpoints = genericRestClient.geneticRestRequestGet(governanceRestApiUrlForEndpoints,
                                                                                  queryParamMap, headerMap, null);
-
         JSONObject jsonObject = new JSONObject(listOfEndpoints.getEntity(String.class));
         JSONArray jsonArray = jsonObject.getJSONArray("assets");
         Assert.assertEquals(jsonArray.length(), numOfEndpoints, "Wrong number of endpoints. Expected " + numOfEndpoints +
@@ -213,7 +213,7 @@ public class GovernanceRestApiEndpointTestCase extends GregESTestBaseTest {
 
         Map<String, String> headerMap = new HashMap<>();
         ClientResponse associationList = genericRestClient.geneticRestRequestGet(publisherUrl +
-                                                                                 "/association/restservice/dependancies/"
+                                                                                 "/association/restservice/depends/"
                                                                                  + assetIdOfRestService, queryParamMap,
                                                                                  headerMap, cookieHeader);
         JsonArray jsonObject = new JsonParser().parse(associationList.getEntity(String.class)).
@@ -247,7 +247,7 @@ public class GovernanceRestApiEndpointTestCase extends GregESTestBaseTest {
         Thread.sleep(1000);
         Map<String, String> headerMap = new HashMap<>();
         ClientResponse associationList = genericRestClient.geneticRestRequestGet(publisherUrl +
-                                                                                 "/association/restservice/dependancies/"
+                                                                                 "/association/restservice/depends/"
                                                                                  + assetIdOfRestService, queryParamMap,
                                                                                  headerMap, cookieHeader);
         JsonArray jsonObject = new JsonParser().parse(associationList.getEntity(String.class)).
@@ -342,7 +342,6 @@ public class GovernanceRestApiEndpointTestCase extends GregESTestBaseTest {
     }
 
 
-
     /**
      * This method creates a rest service.This is later used to associate an endpoint.
      *
@@ -389,6 +388,32 @@ public class GovernanceRestApiEndpointTestCase extends GregESTestBaseTest {
         jSessionId = obj.getJSONObject("data").getString("sessionId");
         cookieHeader = "JSESSIONID=" + jSessionId;
         assertNotNull(jSessionId, "Invalid JSessionID received");
+    }
+
+    /**
+     * Removes any endpoint coming from previous test cases, except the endpoint-1 created in this test class.
+     * @throws JSONException
+     * @throws XPathExpressionException
+     */
+    private void clearPreviousEndpoints() throws JSONException, XPathExpressionException, InterruptedException {
+
+        Thread.sleep(1000);
+        ClientResponse listOfEndpointsBefore = genericRestClient.geneticRestRequestGet(governanceRestApiUrlForEndpoints,
+                                                                                       queryParamMap, headerMap, null);
+        JSONObject jsonObject = new JSONObject(listOfEndpointsBefore.getEntity(String.class));
+        if (listOfEndpointsBefore != null) {
+            JSONArray jsonArray = jsonObject.getJSONArray("assets");
+            setTestEnvironment();
+            queryParamMap.put("type", "endpoint");
+            for (int i = 0; i < jsonArray.length(); i++) {
+                String id = (String) jsonArray.getJSONObject(i).get("id");
+                if (!endpointId1.equals(id)) {
+                    deleteAssetById(publisherUrl, genericRestClient, cookieHeader, id, queryParamMap);
+                }
+            }
+            queryParamMap.clear();
+        }
+
     }
 
     @AfterClass(alwaysRun = true)

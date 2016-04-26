@@ -150,6 +150,54 @@ public class SwaggerAdditionTestCase extends GREGIntegrationBaseTest {
 				swaggerCommonPath + "1.0.0/" + fileName));
 		Assert.assertTrue(deleteResource(swaggerCommonPath + "1.0.0/" + fileName));
 	}
+    
+    /**
+     * Add swagger 2.0 resource from upload file without host functionality.
+     *
+     * @throws RemoteException
+     * @throws ResourceAdminServiceExceptionException
+     */
+    @Test(groups = {
+            "wso2.greg" }, description = " Add swagger 2.0 resource from upload file without host functionality.")
+    public void testAddSwaggerWithoutHostFromFile()
+            throws RemoteException, ResourceAdminServiceExceptionException {
+        String fileName = "swagger2WithoutHost.json";
+        String swaggerPath =
+                FrameworkPathUtil.getSystemResourceLocation() + "artifacts" + File.separator + "GREG" + File.separator +
+                        "swagger" + File.separator + fileName;
+        String msg = "Unexpected error adding the resource.";
+        try {
+            resourceAdminServiceClient.addSwagger("Adding a swagger 2.0 definition from file without host. ",
+                    new DataHandler(new URL("file:///" + swaggerPath)));
+        } catch (ResourceAdminServiceExceptionException | RemoteException e) {
+            log.error(msg, e);
+            Assert.fail(msg);
+        } catch (MalformedURLException e) {
+            msg = "File url is malformed.";
+            log.error(msg, e);
+            Assert.fail(msg);
+        }
+        Assert.assertNotNull(resourceAdminServiceClient.getResourceContent(swaggerCommonPath + "1.0.0/" + fileName));
+        Assert.assertTrue(deleteResource(swaggerCommonPath + "1.0.0/" + fileName));
+    }
+
+    /**
+     * Add swagger 2.0 resource from import URL without host functionality.
+     *
+     * @throws ResourceAdminServiceExceptionException
+     * @throws RemoteException
+     */
+    @Test(groups = {
+            "wso2.greg" }, description = "Add swagger 2.0 resource from import URL without host functionality.")
+    public void testAddSwaggerWithoutHostFromURL()
+            throws ResourceAdminServiceExceptionException, RemoteException {
+        String resourceUrl = "http://svn.wso2.org/repos/wso2/trunk/commons/qa/qa-artifacts/greg/swagger/swagger2WithoutHost.json";
+        String resourceName = "swagger2WithoutHost.json";
+        resourceAdminServiceClient.addSwagger(resourceName, "adding From URL without host", resourceUrl);
+        Assert.assertNotNull(
+                resourceAdminServiceClient.getResourceContent(swaggerCommonPath + "1.0.0/" + resourceName));
+        Assert.assertTrue(deleteResource(swaggerCommonPath + "1.0.0/" + resourceName));
+    }
 
 	/**
 	 * Clean up method to remove created resources.

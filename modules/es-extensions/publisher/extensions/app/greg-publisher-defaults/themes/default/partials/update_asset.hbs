@@ -14,7 +14,6 @@
   ~ limitations under the License.
   -->
 {{#with assets}}
-
     <div class="well asset-well">
         <div class="container-fluid">
             <div class="row">
@@ -22,9 +21,12 @@
                   {{> default-thumbnail .}}
                 </div>
                 <div class="col-lg-10 padding-left-double">
-                    <h1>{{name}}</h1>
+                    <h4>{{name}}</h4>
+                    {{#if version}}
+                        <p>Version : {{version}}</p>
+                    {{/if}}
                     {{#if lifecycleState}}
-                    <i class="fa fa-circle"></i> {{lifecycleState}}
+                        <p>{{lifecycle}} : {{lifecycleState}}</p>
                     {{/if}}
                     <div class="well-description">{{tables.0.fields.createdtime.value}}</div>
                 </div>
@@ -33,6 +35,4 @@
 
     </div>
 {{/with}}
-
-
 {{> update_form .}}

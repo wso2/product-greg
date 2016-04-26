@@ -1,6 +1,6 @@
 var render = function(theme,data,meta,require) {
 	theme('single-col-fluid',{
-		title:'WSO2 Governance Center - Publisher',
+		title:data.meta.applicationTitle,
 		header:[{
 			partial:'header',
 			context:data

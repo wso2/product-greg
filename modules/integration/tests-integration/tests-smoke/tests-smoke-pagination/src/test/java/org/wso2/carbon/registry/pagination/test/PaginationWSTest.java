@@ -125,7 +125,7 @@ public class PaginationWSTest extends GREGIntegrationBaseTest {
     public void testSearchByName() throws RegistryException {
         try {
             PaginationContext.init(0, 5, "DES", "overview_name", 100);
-            List<GovernanceArtifact> searchResults = GovernanceUtils.findGovernanceArtifacts("GenericArtifactSearchService", governance, mediaType);
+            List<GovernanceArtifact> searchResults = GovernanceUtils.findGovernanceArtifacts("name=GenericArtifactSearchService", governance, mediaType);
             Assert.assertEquals(searchResults.size(), 2, "Wrong number of artifacts returned by search");
 
             for (GovernanceArtifact artifact : searchResults) {

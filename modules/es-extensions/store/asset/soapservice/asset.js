@@ -20,6 +20,7 @@ asset.manager = function(ctx) {
     //If extension is moved to another folder (tenant support), this path need to be changed
     //JIRA:https://wso2.org/jira/browse/STORE-613
     var configs = require("/extensions/assets/soapservice/config/properties.json");
+    var tenantAPI = require('/modules/tenant-api.js').api;
     /**
      * The function augments the provided query to include published state information
      * @param  {[type]} query [description]
@@ -41,16 +42,12 @@ asset.manager = function(ctx) {
         return query;
     };
     var getRegistry = function(cSession) {
-        var userMod = require('store').user;
-        var server = require('store').server;
-        var user = server.current(cSession);
-        var userRegistry;
-        if (user) {
-            userRegistry = userMod.userRegistry(cSession);
-        } else {
-            userRegistry = server.anonRegistry(tenantId);
+        var tenantDetails = tenantAPI.createTenantAwareAssetResources(cSession,{type:ctx.assetType});
+        if((!tenantDetails)&&(!tenantDetails.am)) {
+            log.error('The tenant-api was unable to create a registry instance by resolving tenant details');
+            throw 'The tenant-api  was unable to create a registry instance by resolving tenant details';
         }
-        return userRegistry;;
+        return tenantDetails.am.registry;
     };
     var setCustomAssetAttributes = function(asset, userRegistry) {
         var interfaceUrl=asset.attributes.interface_wsdlURL;
@@ -146,7 +143,30 @@ asset.configure = function() {
             ui: {
                 icon: 'fw fw-soap',
                 iconColor: 'orange'
-            }
+            },
+            isDependencyShown: true,
+            isDiffViewShown:false
         }
     }
+};
+
+asset.renderer = function(ctx){
+    return {
+        pageDecorators:{
+            downloadPopulator:function(page){
+                //Populate the links for downloading content RXTs
+                if(page.meta.pageName === 'details'){
+                    var config = require('/config/store.js').config();
+                    var pluralType = 'wsdls';
+                    var domain = require('carbon').server.tenantDomain({tenantId:ctx.tenantId});
+                    page.assets.downloadMetaData = {}; 
+                    if(page.assets.wsdlContent){
+                        page.assets.downloadMetaData.enabled = true;
+                        page.assets.downloadMetaData.downloadFileType = 'WSDL';
+                        page.assets.downloadMetaData.url = config.server.https+'/governance/'+pluralType+'/'+page.assets.wsdl_uuid+'/content?tenant='+domain;
+                    }
+                }
+            }
+        }
+    };
 };

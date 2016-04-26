@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!--
+ * Copyright (c) 2015, WSO2 Inc. (http://www.wso2.org) All Rights Reserved.
+ *
+ * WSO2 Inc. licenses this file to you under the Apache License,
+ * Version 2.0 (the "License"); you may not use this file except
+ * in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing,
+ * software distributed under the License is distributed on an
+ * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ * KIND, either express or implied. See the License for the
+ * specific language governing permissions and limitations
+ * under the License.
+-->
+
+<svg version="1.1" id="text" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+	 viewBox="24.427 17 10.649 14" enable-background="new 24.427 17 10.649 14" xml:space="preserve">
+<path d="M31.964,17.003h-0.536L31.426,17v0.002h-6.277c-0.398,0-0.722,0.324-0.722,0.722v12.555c0,0.398,0.324,0.722,0.722,0.722
+	h9.206c0.398,0,0.722-0.324,0.722-0.722V19.986L31.964,17.003z M34.355,30.582h-9.206c-0.167,0-0.303-0.136-0.303-0.303V17.724
+	c0-0.167,0.136-0.303,0.303-0.303h6.277v2.388c0,0.38,0.309,0.689,0.689,0.689h2.543v9.781
+	C34.658,30.446,34.522,30.582,34.355,30.582z M26.105,24.438h7.295v0.292h-7.295V24.438z M26.105,25.897h7.295v0.292h-7.295V25.897z
+	 M26.105,27.356h7.295v0.292h-7.295V27.356z M26.105,22.979h7.295v0.292h-7.295V22.979z"/>
+</svg>

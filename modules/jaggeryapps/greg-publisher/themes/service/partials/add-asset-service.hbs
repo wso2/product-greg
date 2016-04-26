@@ -36,7 +36,7 @@
         <div class="span12 asset-view-container">
             <div class="widget wlightblue">
                 <div class="widget-head">
-                    <div class="pull-left">Add {{data.meta.singularLabel}}</div>
+                    <div class="pull-left">{{t "Add"}} {{data.meta.singularLabel}}</div>
                     <div class="clearfix"></div>
                 </div>
                 <div class="widget-content">
@@ -45,7 +45,7 @@
                              <div class="accordion-group">
                                    <div class="accordion-heading"  style="height:45px;background:#C0C0C0;" href="#collapseBasic">
                                         <div style="float:right;">
-                                             <a style="text-transform:capitalize;font-weight:bold;">Basic Information</a>
+                                             <a style="text-transform:capitalize;font-weight:bold;">{{t "Basic Information"}}</a>
                                              <a class="accordion-toggle" style="display: inline-block;" id="toggle-{{this.tableNameText}}" name="toggle-{{this.tableNameText}}" data-action="" data-toggle="collapse" href="#collapseBasic"><i class="icon icon-double-angle-down icon-2x"></i>
                                              </a>
                                         </div>
@@ -55,7 +55,7 @@
                                            <p>{{this.tableName}}</p>
                                            <div class="control-group provider">
                                               <b>
-                                                 <label class="control-label">Provider:</label>
+                                                 <label class="control-label">{{t "Provider"}}:</label>
                                               </b>
                                               <div class="controls">
                                                  <input id="basic_provider" type="text" value="{{{snoop "fields(name=overview_provider).value" this.data}}}" class="fm-managed" data-use-plugins='TextFieldValueExtractor' />
@@ -63,7 +63,7 @@
                                            </div>
                                            <div class="control-group">
                                               <b>
-                                                 <label class="control-label">Name:</label>
+                                                 <label class="control-label">{{t "Name"}}:</label>
                                               </b>
                                               <div class="controls">
                                                  <input id="basic_name" name="basic_name" type="text" value="" class="fm-managed" data-use-plugins='TextFieldValueExtractor' />
@@ -71,7 +71,7 @@
                                            </div>
                                            <div class="control-group">
                                               <b>
-                                                 <label class="control-label">URL:</label>
+                                                 <label class="control-label">{{t "URL"}}:</label>
                                               </b>
                                               <div class="controls">
                                                  <input id="basic_url" name="basic_url" type="text" value="" class="fm-managed" data-use-plugins='TextFieldValueExtractor' />
@@ -79,7 +79,7 @@
                                            </div>
                                            <div class="control-group">
                                               <b>
-                                                 <label class="control-label">Archive Path:</label>
+                                                 <label class="control-label">{{t "Archive Path"}}:</label>
                                               </b>
                                               <div class="controls">
                                                  <div class="span8">
@@ -89,7 +89,7 @@
                                                                      <input type="text" class="txt-filepath" disabled="true"/>
                                                                 </div>
                                                                 <div class="tbl-upload-cell">
-                                                                     <button class="btn btn-upload">Browse</button>
+                                                                     <button class="btn btn-upload">{{t "Browse"}}</button>
                                                                      <input id='basic_filepath' type='file' name='basic_filepath'/>
                                                                 </div>
                                                            </div>
@@ -100,7 +100,7 @@
                                            </div>
                                            <div class="control-group">
                                               <b>
-                                                 <label class="control-label">Description:</label>
+                                                 <label class="control-label">{{t "Description"}} :</label>
                                               </b>
                                               <div class="controls">
                                                  <textarea id="basic_description" name="basic_description"  class="fm-managed" data-use-plugins='TextFieldValueExtractor' ></textarea>
@@ -117,7 +117,7 @@
                              <div class="accordion-group">
                                    <div class="accordion-heading"  style="height:45px;background:#C0C0C0;" href="#collapseAdvance">
                                         <div style="float:right;">
-                                             <a style="text-transform:capitalize;font-weight:bold;">Advanced Configuration</a>
+                                             <a style="text-transform:capitalize;font-weight:bold;">{{t "Advanced Configuration"}}</a>
                                              <a class="accordion-toggle" style="display: inline-block;" id="toggle-Advance" name="toggle-Advance" data-action="" data-toggle="collapse" href="#collapseAdvance"><i class="icon icon-double-angle-down icon-2x"></i>
                                              </a>
                                         </div>
@@ -127,7 +127,7 @@
                                            <p>{{this.tableName}}</p>
                                            <div class="control-group">
                                               <b>
-                                                 <label class="control-label">Namespace:</label>
+                                                 <label class="control-label">{{t "Namespace"}}:</label>
                                               </b>
                                               <div class="controls">
                                                  <input id='advance_namespace' name='advance_namespace' type='text' value=''  class="fm-managed" data-use-plugins='TextFieldValueExtractor'    required/>
@@ -135,7 +135,7 @@
                                            </div>
                                            <div class="control-group">
                                               <b>
-                                                 <label class="control-label">Version:</label>
+                                                 <label class="control-label">{{t "Version"}}:</label>
                                               </b>
                                               <div class="controls">
                                                  <input id='advance_version' name='advance_version' type='text' value=''    class="fm-managed" data-use-plugins='TextFieldValueExtractor'    required/>
@@ -149,7 +149,7 @@
                              <div class="accordion-group">
                                    <div class="accordion-heading"  style="height:45px;background:#C0C0C0;" href="#collapseContact1">
                                         <div style="float:right;">
-                                             <a style="text-transform:capitalize;font-weight:bold;">Contact Information</a>
+                                             <a style="text-transform:capitalize;font-weight:bold;">{{t "Contact Information"}}</a>
                                              <a class="accordion-toggle" style="display: inline-block;" id="toggle-Contact" name="toggle-Contact" data-action="" data-toggle="collapse" href="#collapseContact1"><i class="icon icon-double-angle-down icon-2x"></i>
                                              </a>
                                         </div>
@@ -159,7 +159,7 @@
                                                <p>{{this.tableName}}</p>
                                                <div class="control-group">
                                                     <b>
-                                                        <label class="control-label">Contact:</label>
+                                                        <label class="control-label">{{t "Contact"}}:</label>
                                                     </b>
                                                     <div class="controls">
                                                         <div id="contacts_contact" name='contacts_contact' class="options-text fm-managed" data-add-button="Add Contact" data-selected='' data-options='{{{snoop "fields(name=contacts_contact).valueList" this.data}}}' data-use-plugins="OptionsText" ></div>
@@ -173,7 +173,7 @@
                              <div class="accordion-group">
                                    <div class="accordion-heading"  style="height:45px;background:#C0C0C0;" href="#collapseContact1">
                                         <div style="float:right;">
-                                             <a style="text-transform:capitalize;font-weight:bold;">Documentation</a>
+                                             <a style="text-transform:capitalize;font-weight:bold;">{{t "Documentation"}}</a>
                                              <a class="accordion-toggle" style="display: inline-block;" id="toggle-Docs" name="toggle-Docs" data-action="" data-toggle="collapse" href="#collapseDocs"><i class="icon icon-double-angle-down icon-2x"></i>
                                              </a>
                                         </div>
@@ -183,7 +183,7 @@
                                                <p>{{this.tableName}}</p>
                                                <div class="control-group">
                                                     <b>
-                                                        <label class="control-label">Docs:</label>
+                                                        <label class="control-label">{{t "Docs"}}:</label>
                                                     </b>
 		         				
 

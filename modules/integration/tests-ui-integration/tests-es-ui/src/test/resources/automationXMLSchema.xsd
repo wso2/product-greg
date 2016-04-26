@@ -1,4 +1,4 @@
-<xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" targetNamespace="automation_mapping.xsd"
+<xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" targetNamespace="automationSchema.xsd"
            xmlns:xs="http://www.w3.org/2001/XMLSchema">
     <xs:element name="automation">
         <xs:complexType>
@@ -27,7 +27,13 @@
                                     </xs:documentation>
                                 </xs:annotation>
                             </xs:element>
-
+                            <xs:element type="xs:boolean" name="multiTenantMode">
+                                <xs:annotation>
+                                    <xs:documentation>Change this to user/tenant to execute test
+                                        with user mode or tenant mode
+                                    </xs:documentation>
+                                </xs:annotation>
+                            </xs:element>
                             <xs:element type="xs:string" name="coverage">
                                 <xs:annotation>
                                     <xs:documentation>Change this to true if you want to generate
@@ -160,6 +166,7 @@
                                                 </xs:documentation>
                                             </xs:annotation>
                                         </xs:element>
+
                                     </xs:sequence>
                                     <xs:attribute type="xs:string" name="name"/>
                                 </xs:complexType>
@@ -245,10 +252,8 @@
                                                                 <xs:element name="user">
                                                                     <xs:complexType>
                                                                         <xs:sequence>
-                                                                            <xs:element type="xs:string"
-                                                                                        name="userName"/>
-                                                                            <xs:element type="xs:string"
-                                                                                        name="password"/>
+                                                                            <xs:element type="xs:string" name="userName"/>
+                                                                            <xs:element type="xs:string" name="password"/>
                                                                         </xs:sequence>
                                                                         <xs:attribute type="xs:string" name="key"/>
                                                                     </xs:complexType>
@@ -259,25 +264,28 @@
                                                     <xs:element name="users">
                                                         <xs:complexType>
                                                             <xs:sequence>
-                                                                <xs:element name="user" maxOccurs="unbounded"
-                                                                            minOccurs="0">
+                                                                <xs:element name="user" maxOccurs="unbounded" minOccurs="0">
                                                                     <xs:complexType>
                                                                         <xs:sequence>
-                                                                            <xs:element type="xs:string"
-                                                                                        name="userName"/>
-                                                                            <xs:element type="xs:string"
-                                                                                        name="password"/>
+                                                                            <xs:element type="xs:string" name="userName"/>
+                                                                            <xs:element type="xs:string" name="password"/>
+                                                                            <xs:element name="roles" minOccurs="0">
+                                                                                <xs:complexType>
+                                                                                    <xs:sequence>
+                                                                                        <xs:element type="xs:string" name="role"/>
+                                                                                    </xs:sequence>
+                                                                                </xs:complexType>
+                                                                            </xs:element>
                                                                         </xs:sequence>
-                                                                        <xs:attribute type="xs:string" name="key"
-                                                                                      use="optional"/>
+                                                                        <xs:attribute type="xs:string" name="key" use="optional"/>
                                                                     </xs:complexType>
                                                                 </xs:element>
                                                             </xs:sequence>
                                                         </xs:complexType>
                                                     </xs:element>
                                                 </xs:sequence>
-                                                <xs:attribute type="xs:string" name="key" use="required"/>
-                                                <xs:attribute type="xs:string" name="domain" use="required"/>
+                                                <xs:attribute type="xs:string" name="domain"/>
+                                                <xs:attribute type="xs:string" name="key"/>
                                             </xs:complexType>
                                         </xs:element>
                                     </xs:sequence>
@@ -286,7 +294,7 @@
                             <xs:element name="tenants">
                                 <xs:complexType>
                                     <xs:sequence>
-                                        <xs:element name="tenant" maxOccurs="unbounded" minOccurs="0">
+                                        <xs:element name="tenant">
                                             <xs:complexType>
                                                 <xs:sequence>
                                                     <xs:element name="admin">
@@ -295,13 +303,10 @@
                                                                 <xs:element name="user">
                                                                     <xs:complexType>
                                                                         <xs:sequence>
-                                                                            <xs:element type="xs:string"
-                                                                                        name="userName"/>
-                                                                            <xs:element type="xs:string"
-                                                                                        name="password"/>
+                                                                            <xs:element type="xs:string" name="userName"/>
+                                                                            <xs:element type="xs:string" name="password"/>
                                                                         </xs:sequence>
-                                                                        <xs:attribute type="xs:string" name="key"
-                                                                                      use="optional"/>
+                                                                        <xs:attribute type="xs:string" name="key"/>
                                                                     </xs:complexType>
                                                                 </xs:element>
                                                             </xs:sequence>
@@ -310,25 +315,49 @@
                                                     <xs:element name="users">
                                                         <xs:complexType>
                                                             <xs:sequence>
-                                                                <xs:element name="user" maxOccurs="unbounded"
-                                                                            minOccurs="0">
+                                                                <xs:element name="user" maxOccurs="unbounded" minOccurs="0">
                                                                     <xs:complexType>
                                                                         <xs:sequence>
-                                                                            <xs:element type="xs:string"
-                                                                                        name="userName"/>
-                                                                            <xs:element type="xs:string"
-                                                                                        name="password"/>
+                                                                            <xs:element type="xs:string" name="userName"/>
+                                                                            <xs:element type="xs:string" name="password"/>
+                                                                            <xs:element name="roles" minOccurs="0">
+                                                                                <xs:complexType>
+                                                                                    <xs:sequence>
+                                                                                        <xs:element type="xs:string" name="role"/>
+                                                                                    </xs:sequence>
+                                                                                </xs:complexType>
+                                                                            </xs:element>
                                                                         </xs:sequence>
-                                                                        <xs:attribute type="xs:string" name="key"
-                                                                                      use="optional"/>
+                                                                        <xs:attribute type="xs:string" name="key" use="optional"/>
                                                                     </xs:complexType>
                                                                 </xs:element>
                                                             </xs:sequence>
                                                         </xs:complexType>
                                                     </xs:element>
                                                 </xs:sequence>
-                                                <xs:attribute type="xs:string" name="key" use="required"/>
-                                                <xs:attribute type="xs:string" name="domain" use="required"/>
+                                                <xs:attribute type="xs:string" name="domain"/>
+                                                <xs:attribute type="xs:string" name="key"/>
+                                            </xs:complexType>
+                                        </xs:element>
+                                    </xs:sequence>
+                                </xs:complexType>
+                            </xs:element>
+                            <xs:element name="roles">
+                                <xs:complexType>
+                                    <xs:sequence>
+                                        <xs:element name="role" maxOccurs="unbounded" minOccurs="0">
+                                            <xs:complexType>
+                                                <xs:sequence>
+                                                    <xs:element name="permissions">
+                                                        <xs:complexType>
+                                                            <xs:sequence>
+                                                                <xs:element type="xs:string" name="permission" maxOccurs="unbounded" minOccurs="0"/>
+                                                            </xs:sequence>
+                                                        </xs:complexType>
+                                                    </xs:element>
+                                                </xs:sequence>
+                                                <xs:attribute type="xs:string" name="name" use="optional"/>
+                                                <xs:attribute type="xs:string" name="key" use="optional"/>
                                             </xs:complexType>
                                         </xs:element>
                                     </xs:sequence>
@@ -433,8 +462,8 @@
                                                                     <xs:complexType>
                                                                         <xs:simpleContent>
                                                                             <xs:extension base="xs:string">
-                                                                                <xs:attribute type="xs:string" name="name" use="required"/>
-                                                                                <xs:attribute type="xs:string" name="value" use="required"/>
+                                                                                <xs:attribute type="xs:string" name="name" use="optional"/>
+                                                                                <xs:attribute type="xs:string" name="value" use="optional"/>
                                                                             </xs:extension>
                                                                         </xs:simpleContent>
                                                                     </xs:complexType>
@@ -462,8 +491,8 @@
                                                                     <xs:complexType>
                                                                         <xs:simpleContent>
                                                                             <xs:extension base="xs:string">
-                                                                                <xs:attribute type="xs:string" name="name" use="required"/>
-                                                                                <xs:attribute type="xs:string" name="value" use="required"/>
+                                                                                <xs:attribute type="xs:string" name="name" use="optional"/>
+                                                                                <xs:attribute type="xs:string" name="value" use="optional"/>
                                                                             </xs:extension>
                                                                         </xs:simpleContent>
                                                                     </xs:complexType>
@@ -491,8 +520,8 @@
                                                                     <xs:complexType>
                                                                         <xs:simpleContent>
                                                                             <xs:extension base="xs:string">
-                                                                                <xs:attribute type="xs:string" name="name" use="required"/>
-                                                                                <xs:attribute type="xs:string" name="value" use="required"/>
+                                                                                <xs:attribute type="xs:string" name="name" use="optional"/>
+                                                                                <xs:attribute type="xs:string" name="value" use="optional"/>
                                                                             </xs:extension>
                                                                         </xs:simpleContent>
                                                                     </xs:complexType>
@@ -520,8 +549,8 @@
                                                                     <xs:complexType>
                                                                         <xs:simpleContent>
                                                                             <xs:extension base="xs:string">
-                                                                                <xs:attribute type="xs:string" name="name" use="required"/>
-                                                                                <xs:attribute type="xs:string" name="value" use="required"/>
+                                                                                <xs:attribute type="xs:string" name="name" use="optional"/>
+                                                                                <xs:attribute type="xs:string" name="value" use="optional"/>
                                                                             </xs:extension>
                                                                         </xs:simpleContent>
                                                                     </xs:complexType>
@@ -549,8 +578,8 @@
                                                                     <xs:complexType>
                                                                         <xs:simpleContent>
                                                                             <xs:extension base="xs:string">
-                                                                                <xs:attribute type="xs:string" name="name" use="required"/>
-                                                                                <xs:attribute type="xs:string" name="value" use="required"/>
+                                                                                <xs:attribute type="xs:string" name="name" use="optional"/>
+                                                                                <xs:attribute type="xs:string" name="value" use="optional"/>
                                                                             </xs:extension>
                                                                         </xs:simpleContent>
                                                                     </xs:complexType>
