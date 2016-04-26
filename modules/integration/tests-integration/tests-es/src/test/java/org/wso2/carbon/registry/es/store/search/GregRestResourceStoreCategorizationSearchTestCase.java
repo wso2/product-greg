@@ -20,7 +20,6 @@ package org.wso2.carbon.registry.es.store.search;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.wink.client.ClientResponse;
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.testng.annotations.*;
