@@ -221,6 +221,8 @@ public class GregWildCardSearch extends GregESTestBaseTest {
                 .geneticRestRequestGet(storeUrl.split("/apis")[0] + "/pages/top-assets", queryParamMap, headerMap,
                         storeCookieHeader);
 
+        log.info("Store search result for search by name: "+ response.getEntity(String.class));
+
         assertTrue((response.getStatusCode() == Response.Status.OK.getStatusCode()),
                 "Wrong status code ,Expected 200 OK ,But Received " + response.getStatusCode());
 
