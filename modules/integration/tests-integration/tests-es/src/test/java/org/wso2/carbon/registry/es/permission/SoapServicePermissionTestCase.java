@@ -77,7 +77,7 @@ public class SoapServicePermissionTestCase extends GregESTestBaseTest {
             description = "Retrieving permissions for asset")
     public void getPermissionsListSoapResource()
             throws JSONException, IOException {
-        Assert.assertTrue(isPermissionsSoapResource("internal/everyone", "readAllow"),
+        Assert.assertTrue(isPermissionsSoapResource("INTERNAL/everyone", "readAllow"),
                 "Could not retrieve permission to resource");
     }
 
@@ -99,7 +99,7 @@ public class SoapServicePermissionTestCase extends GregESTestBaseTest {
                         (response.getStatusCode() == HttpStatus.CREATED.getCode())),
                 "Wrong status code ,Expected 200 OK or 201 OK ,Received " + response.getStatusCode());
         Assert.assertTrue(responseStatus.equals(STATUS_EXPECTED), "Could not add permission to resource");
-        Assert.assertTrue(isPermissionsSoapResource("system/wso2.anonymous.role", "readAllow"),
+        Assert.assertTrue(isPermissionsSoapResource("SYSTEM/wso2.anonymous.role", "readAllow"),
                 "Could not add read permission to system/wso2.anonymous.role role");
     }
 
@@ -121,7 +121,7 @@ public class SoapServicePermissionTestCase extends GregESTestBaseTest {
                         (response.getStatusCode() == HttpStatus.CREATED.getCode())),
                 "Wrong status code ,Expected 200 OK or 201 OK ,Received " + response.getStatusCode());
         Assert.assertTrue(responseStatus.equals(STATUS_EXPECTED), "Could not update permission to resource");
-        Assert.assertTrue(isPermissionsSoapResource("internal/everyone", "writeAllow"),
+        Assert.assertTrue(isPermissionsSoapResource("INTERNAL/everyone", "writeAllow"),
                 "Could not update permissions to role");
     }
 
@@ -144,7 +144,7 @@ public class SoapServicePermissionTestCase extends GregESTestBaseTest {
                         (response.getStatusCode() == HttpStatus.CREATED.getCode())),
                 "Wrong status code ,Expected 200 OK or 201 OK ,Received " + response.getStatusCode());
         Assert.assertTrue(resultName.equals(STATUS_EXPECTED), "Could not remove permission to resource");
-        Assert.assertTrue(isPermissionsSoapResource("system/wso2.anonymous.role", "readDeny"),
+        Assert.assertTrue(isPermissionsSoapResource("SYSTEM/wso2.anonymous.role", "readDeny"),
                 "Could not remove permission of resource");
     }
 
