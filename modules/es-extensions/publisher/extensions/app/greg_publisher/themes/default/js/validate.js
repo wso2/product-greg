@@ -17,21 +17,31 @@
  *
  */
 
-function validate() {
-
+var validate = function () {
     var password = $('#value').val();
     var passwordVerify = $('#valueVerify').val();
 
-    if(password != passwordVerify){
-        alert("Re-entered password does not match");
+    if (password != passwordVerify) {
+        messages.alertError("Re-entered password does not match");
         return false;
-    }
-    else {
+    } else {
+        var ajaxURL = caramel.context + '/pages/password?type=server';
+        $.ajax({
+            url: ajaxURL,
+            type: 'GET',
+            async: false,
+            success: function (data) {
+                messages.alertSuccess("Property Saved Successfully");
+            },
+            error: function (data) {
+                messages.alertSuccess("Property Could Not Be Saved Successfully");
+            }
+        });
         return true;
     }
 }
 
-function populate(serverName){
+var populate = function (serverName) {
     $('#key').val(serverName);
     $('#key').focus();
 }

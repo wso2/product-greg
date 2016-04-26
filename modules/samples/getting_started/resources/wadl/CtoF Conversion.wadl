@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<application xmlns="http://wadl.dev.java.net/2009/02" xmlns:xs="http://www.w3.org/2001/XMLSchema">  
+   <resources base="http://localhost/cxf/">
+      <resource path="/ctofservice">
+         <method name="GET">
+            <response>
+               <representation mediaType="application/xml">
+                  <param name="result" style="plain" type="xs:string" />
+               </representation>
+            </response>
+         </method>
+         <resource path="/test">
+            <method name="GET">
+               <response>
+                  <representation mediaType="text/plain">
+                     <param name="result" style="plain" type="xs:string" />
+                  </representation>
+               </response>
+            </method>
+         </resource>
+         <resource path="/{c}/{s}">
+            <param name="c" style="template" type="xs:double" />
+            <param name="s" style="template" type="xs:string" />
+            <method name="GET">
+               <request />
+               <response>
+                  <representation mediaType="application/xml">
+                     <param name="result" style="plain" type="xs:string" />
+                  </representation>
+               </response>
+            </method>
+         </resource>
+      </resource>
+   </resources>
+</application>

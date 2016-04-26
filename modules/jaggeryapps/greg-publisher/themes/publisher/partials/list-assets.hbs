@@ -1,6 +1,6 @@
 <div class="asset-thumb-container">
 	<div class="row-fluid grid-options">
-	    <span class="breadcrumb publisher-breadcrumb">Category > {{shortName}}</span>
+	    <span class="breadcrumb publisher-breadcrumb">{{t "Category"}} > {{shortName}}</span>
 	    <button class="btn btn-grid-option pull-right" type="button"><i class="icon-star"></i></button>
 	    <button class="btn btn-grid-option pull-right" type="button"><i class="icon-sort-by-alphabet"></i></button>
 	    <button class="btn btn-grid-option pull-right" type="button"><i class="icon-calendar"></i></button>
@@ -11,12 +11,12 @@
             <table class="table table-striped list-asset-table">
                 <thead>
                 <th></th>
-                <th>Name</th>
-                <th>Version</th>
-                <th>Owner</th>
-                <th>Status</th>
-                <th>Created</th>
-                <th>Modified</th>
+                <th>{{t "Name"}}</th>
+                <th>{{t "Version"}}</th>
+                <th>{{t "Owner"}}</th>
+                <th>{{t "Status"}}</th>
+                <th>{{t "Created"}}</th>
+                <th>{{t "Modified"}}</th>
                 <th></th>
                 </thead>
                 <tbody>
@@ -55,9 +55,9 @@
 			<div class="emptyAssets-MsgDiv">
 			    <i class="icon-inbox largeMsgIcon"></i>
 			    <br />
-			        Nothing added yet.
+			        {{t "Nothing added yet."}}
 			    <br />
-			    <a type="button" class="btn btn-addNewAssetLarge" href="/publisher/asset/{{shortName}}"><i class="icon-plus-sign-alt"></i>Add New Asset</a>
+			    <a type="button" class="btn btn-addNewAssetLarge" href="/publisher/asset/{{shortName}}"><i class="icon-plus-sign-alt"></i>{{t "Add New Asset"}}</a>
 			</div>
 	{{/if}}
 </div>

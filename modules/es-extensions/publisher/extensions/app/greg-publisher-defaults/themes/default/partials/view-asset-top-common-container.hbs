@@ -1,26 +1,26 @@
 {{#with assets}}
-<div class='content-div'>
-    <div class="tab-content asset-tab-content">
-        <div id="view" class="asset-view-container">
-            <div class="row-fluid asset-detail-top-row">
-                <div class="span2">
-                    <div class="thumbnail-div">
-                        {{> default-thumbnail ..}}
+    <div class="well asset-well">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-lg-1">
+                    <div class="ast-img setbgcolor" style="background: {{this.uniqueColor}}">
+                        <span class="ast-type-icon">
+                            <i class="{{icon}} fw-lg"></i>
+                        </span>
+                        <div class="ast-name-icon">{{this.nameToChar}}</div>
                     </div>
                 </div>
-                <div class="span10 asset-details-box">
+                <div class="col-lg-10 padding-left-double">
                     <h4>{{name}}</h4>
+                    {{#if version}}
+                        <p>Version : {{version}}</p>
+                    {{/if}}
+                    {{#if lifecycleState}}
+                    <p>{{lifecycle}} : {{lifecycleState}}</p>
+                    {{/if}}
+                    <div class="well-description">{{tables.0.fields.createdtime.value}}</div>
                 </div>
-                {{#if lifecycle}}
-                <div class="span10 asset-details-box">
-                    <h5>{{lifecycle}} : {{lifecycleState}}</h5>
-                </div>
-                {{/if}}
-            </div>
-            <div>
-                {{> asset-version-info ..}}
             </div>
         </div>
     </div>
-</div>
 {{/with}}

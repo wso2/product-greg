@@ -1,6 +1,0 @@
-basicAuth
-echo
-instagram
-petstore-expanded
-twitter
-uber

@@ -28,6 +28,8 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import org.json.simple.parser.ParseException;
 import org.testng.annotations.*;
+import org.wso2.carbon.automation.engine.annotations.ExecutionEnvironment;
+import org.wso2.carbon.automation.engine.annotations.SetEnvironment;
 import org.wso2.carbon.automation.engine.context.TestUserMode;
 import org.wso2.carbon.automation.engine.frameworkutils.FrameworkPathUtil;
 import org.wso2.carbon.integration.common.utils.mgt.ServerConfigurationManager;
@@ -46,7 +48,6 @@ import java.util.Map;
 
 import static org.testng.Assert.assertNotNull;
 import static org.testng.Assert.assertTrue;
-
 
 public class GregRestResourceCustomAssociationTestCase extends GregESTestBaseTest {
     private TestUserMode userMode;
@@ -192,7 +193,7 @@ public class GregRestResourceCustomAssociationTestCase extends GregESTestBaseTes
         Thread.sleep(3000);
 
         ClientResponse associationList = genericRestClient.geneticRestRequestGet(publisherUrl +
-                "/association/restservice/dependancies/" + spaceAssetId, queryParamMap, headerMap, cookieHeader);
+                "/association/restservice/depends/" + spaceAssetId, queryParamMap, headerMap, cookieHeader);
 
 
         JsonArray jsonObject = new JsonParser().parse(associationList.getEntity(String.class)).

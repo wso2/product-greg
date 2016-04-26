@@ -78,7 +78,7 @@
         {
             "name": "lifeCycle",
             "table": "*",
-            "label": "Life Cycle",
+            "label": "Lifecycle",
             "value": "SampleLifeCycle2"
 
         },

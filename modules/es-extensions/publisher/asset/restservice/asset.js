@@ -81,6 +81,25 @@ asset.manager = function(ctx) {
 
             return item;
         },
+        create: function(options) {
+            var name = encodeURIComponent(options.attributes.overview_name);
+            var version = options.attributes.overview_version;
+            var rxt = require('rxt');
+            var am = rxt.asset.createUserAssetManager(ctx.session, this.type);
+            var query = {};
+            query.overview_name = name;
+            var assets = am.search(query);
+            for (var i = 0; i < assets.length; i++) {
+                if (assets[i].version == version) {
+                    var msg = "Resource already exist with same Name \"" + decodeURIComponent(name) + "\" and version \"" + version + "\"";
+                    var exceptionUtils = require('utils');
+                    var exceptionModule = exceptionUtils.exception;
+                    var constants = rxt.constants;
+                    throw exceptionModule.buildExceptionObject(msg, constants.STATUS_CODES.BAD_REQUEST);
+                }
+            }
+            return this._super.create.call(this, options);
+        },
         combineWithRxt: function(asset) {
             var modAsset = this._super.combineWithRxt.call(this, asset);
             if (asset.dependencies) {
@@ -110,32 +129,34 @@ asset.configure = function () {
             overview: {
                 fields: {
                     name: {
-                        placeholder: "WeatherService"
+                        readonly:true,
+                        placeholder: "Name"
                     },
                     context: {
-                        placeholder: "/test"
+                        placeholder: "Context"
                     },
                     version: {
-                        placeholder: "1.0.0"
+                        readonly:true,
+                        placeholder: "Version"
                     },
                     description: {
-                        placeholder: "This is a sample service"
+                        placeholder: "Description"
                     }
                 }
             },
             interface: {
                 fields: {
                     transports: {
-                        placeholder: "https,http"
+                        placeholder: "Transports"
                     },
                     wsdl: {
-                    	placeholder: "htts://example.com/sample.wsdl"
+                    	placeholder: "WSDL"
                     },
                     wadl: {
-                    	placeholder: "https://example.com/sample.wadl"
+                    	placeholder: "WADL"
                     },
                     swagger: {
-                    	placeholder: "https://example.com/sample-doc"
+                    	placeholder: "Swagger"
                     }
                 }
             }

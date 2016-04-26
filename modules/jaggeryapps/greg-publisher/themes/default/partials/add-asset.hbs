@@ -3,7 +3,7 @@
         <div class="span12 asset-view-container">
             <div class="widget wlightblue">
                 <div class="widget-head">
-                    <div class="pull-left">Add {{data.meta.singularLabel}}</div>
+                    <div class="pull-left">{{t "Add"}} {{data.meta.singularLabel}}</div>
                     <div class="clearfix"></div>
                 </div>
                 <div class="widget-content">
@@ -53,7 +53,7 @@
                                 					 <input type="text" class="txt-filepath" disabled="true"/>
                                 				</div>
                                 				<div class="tbl-upload-cell">
-                                					<button class="btn btn-upload">Browse</button>
+                                                    <button class="btn btn-upload">{{t "Browse"}}</button>
                                    					<input class='fm-managed' id='{{this.name}}' type='file' name='{{this.name}}' data-use-plugins="DefaultFileUploadPlugin,RequiredField" data-required='{{this.isRequired}}'/>
                                 				</div>
                                 			</div>
@@ -73,7 +73,7 @@
                         {{/each}}
 
 						<div class="control-group">
-							<b><label class="control-label">Tags: </label></b>
+							<b><label class="control-label">{{t "Tags"}}: </label></b>
 							<div class="controls">
 								<input type='text' id='tag-container' class='fm-managed' name='tag-container' data-field-name='tags' data-use-plugins="TagPlugin" data-tag-api='/publisher/api/tag/'>
 							</div>

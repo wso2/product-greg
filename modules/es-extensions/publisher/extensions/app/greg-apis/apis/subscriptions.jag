@@ -29,9 +29,21 @@
         }
         return output;
     }
+    var hasPermission = function () {
+        var rxtAPI = require('rxt');
+        var userName = server.current(session).username;
+        var isAuthorized = rxtAPI.permissions.hasAppPermission("GREG_COMMUNITY_FEATURES", tenantId, userName);
+        return isAuthorized;
+    };
     switch (httpMethod) {
         case 'GET':
             options = matcher.match(SUB_LIST) || matcher.match(SUB_ITEM);
+            if (!hasPermission()) {
+                var message = {'error': 'Permission denied'};
+                response.status = 401;
+                print(message);
+                return;
+            }
             //print(options.id + "\n");
             if (options.id) {
                 var assert = assetManager(session, options.type);
@@ -72,6 +84,12 @@
             break;
         case 'POST':
             options = matcher.match(SUB_LIST) || matcher.match(SUB_ITEM);
+            if (!hasPermission()) {
+                var message = {'error': 'Permission denied'};
+                response.status = 401;
+                print(message);
+                return;
+            }
             var assert = assetManager(session, options.type);
             var registryPath = assert.get(options.id).path;
             var parms = getParameters(request);
@@ -83,20 +101,21 @@
             var allRoles = realm.getUserStoreManager().getRoleListOfUser(username);
             var emailAdd = realm.getUserStoreManager().getUserClaimValue(username, org.wso2.carbon.user.core.UserCoreConstants.ClaimTypeURIs.EMAIL_ADDRESS, org.wso2.carbon.user.core.UserCoreConstants.DEFAULT_PROFILE);
             var hasAdminRole;
+            var adminRoleName = String(realm.getUserStoreManager().getRealmConfiguration().getAdminRoleName());
             var userRole;
             for (var i = 0; i < allRoles.length; i++) {
                 //log.info(allRoles[i]);
-                if (String(allRoles[i]) === 'admin') {
+                if (String(allRoles[i]) === adminRoleName) {
                     log.debug('hasAdminRole');
                     hasAdminRole = true;
-                } else if (allRoles[i].startsWith('Internal') && !allRoles[i].endsWith('everyone')) {
+                } else if (allRoles[i].startsWith('Internal') && !allRoles[i].endsWith('everyone') && !allRoles[i].endsWith('publisher')) {
                     userRole = allRoles[i];
                 }
             };
             //log.info(hasAdminRole);
             if (notiMethod === "work") {
                 if (hasAdminRole) {
-                    notiMethod = notiMethod + "://admin";
+                    notiMethod = notiMethod + "://" + adminRoleName;
                 } else if (userRole != null) {
                     notiMethod = notiMethod + "://" + userRole;
                 } else {
@@ -151,6 +170,12 @@
             break;
         case 'DELETE':
             options = matcher.match(SUB_LIST) || matcher.match(SUB_ITEM);
+            if (!hasPermission()) {
+                var message = {'error': 'Permission denied'};
+                response.status = 401;
+                print(message);
+                return;
+            }
             var parms = getParameters(request);
             //log.info(parms.subcriptionid);
             try{

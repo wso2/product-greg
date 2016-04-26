@@ -36,6 +36,8 @@ var resources = function(page, meta) {
     //code-mirror third party library to support syntax highlighting & formatting for WSDL content.
     o.css.push('codemirror.css');
     o.js.push('codemirror.js');
+    o.js.push('javascript.js');
+    o.js.push('formatting.js');
     o.js.push('xml.js'); //codemirror file to provide 'xml' type formatting.
     o.js.push('asset-view.js');//renders the wsdl content with codemirror supported formatting.
     return o;

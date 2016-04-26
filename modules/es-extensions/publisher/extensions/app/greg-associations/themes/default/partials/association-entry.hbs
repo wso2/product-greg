@@ -6,8 +6,14 @@
             <i class="fw fw-{{iconClass}}"></i>
         </div>
         <div class="wr-asset-details" data-uuid="{{uuid}}">
-            <div class="resource-name">{{text}}</div>
-            <div class="resource-type">{{type}}</div>
+            <div class="resource-name">{{text}}
+                <span class="association-type">{{associationType}}</span>
+            </div>
+            {{#each uniqueAttributesValues}}
+            <div class="resource-unique">{{this}}</div>               
+            {{/each}}
+
+            <div class="resource-type">{{shortName}}</div>
         </div>
     </div>
      <div class="wr-association-operations">
@@ -22,7 +28,7 @@
         <span class="fw-stack">
         <i class="fw fw-ring fw-stack-2x"></i>
         <i class="fw fw-delete fw-stack-1x"></i>
-        </span> Delete
+        </span> {{t "Delete"}}
         </a>
     </div>
 </div>

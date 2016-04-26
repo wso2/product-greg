@@ -26,13 +26,12 @@ import org.wso2.carbon.governance.custom.lifecycles.checklist.stub.CustomLifecyc
 import org.wso2.carbon.governance.custom.lifecycles.checklist.stub.beans.xsd.LifecycleBean;
 import org.wso2.carbon.governance.custom.lifecycles.checklist.stub.util.xsd.Property;
 import org.wso2.carbon.integration.framework.LoginLogoutUtil;
-import org.wso2.carbon.integration.framework.utils.FrameworkSettings;
+import org.wso2.carbon.registry.TestConstants;
 import org.wso2.carbon.registry.core.utils.RegistryUtils;
 import org.wso2.carbon.registry.info.stub.InfoAdminServiceStub;
 import org.wso2.carbon.registry.info.stub.RegistryExceptionException;
 import org.wso2.carbon.registry.info.stub.beans.utils.xsd.Comment;
 import org.wso2.carbon.registry.info.stub.beans.utils.xsd.SubscriptionInstance;
-import org.wso2.carbon.registry.info.stub.beans.xsd.CommentBean;
 import org.wso2.carbon.registry.metadata.test.util.TestUtils;
 import org.wso2.carbon.registry.properties.stub.PropertiesAdminServiceRegistryExceptionException;
 import org.wso2.carbon.registry.properties.stub.PropertiesAdminServiceStub;
@@ -43,15 +42,20 @@ import org.wso2.carbon.registry.resource.stub.ResourceAdminServiceExceptionExcep
 import org.wso2.carbon.registry.resource.stub.ResourceAdminServiceStub;
 import org.wso2.carbon.registry.resource.stub.beans.xsd.CollectionContentBean;
 
-import javax.activation.DataHandler;
 import java.io.File;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.rmi.RemoteException;
+import javax.activation.DataHandler;
 
 public class GovernanceRegistrySmokeTestCase {
 
+    private static final String HELLO_SERVICE_URL = TestConstants.SERVICE_URL + "Hello";
+    private static final String REST_HELLO_SERVICE_URL = TestConstants.SERVICE_URL + "RESTHello"
     private String loggedInSessionCookie = "";
+    private static final String SUBSCRIPTION_FAILED = "subscription failed";
+    private static final String RESOURCE_UPDATED = "ResourceUpdated";
+    private static final String COLLECTION_UPDATED = "CollectionUpdated";
     private String frameworkPath = "";
     private LoginLogoutUtil util = new LoginLogoutUtil();
 
@@ -386,19 +390,17 @@ public class GovernanceRegistrySmokeTestCase {
             throws RemoteException, RegistryExceptionException {
         InfoAdminServiceStub infoAdminServiceStub =
                 TestUtils.getInfoAdminServiceStub(loggedInSessionCookie);
-        Assert.assertEquals(infoAdminServiceStub.subscribe(smokeTestCollection,
-                "https://localhost:10343/services/Hello", "CollectionUpdated",
-                loggedInSessionCookie).getSubscriptionInstances().length, 1,
-                "subscription failed");
+        Assert.assertEquals(infoAdminServiceStub
+                        .subscribe(smokeTestCollection, HELLO_SERVICE_URL, COLLECTION_UPDATED, loggedInSessionCookie)
+                        .getSubscriptionInstances().length, 1, SUBSCRIPTION_FAILED);
         SubscriptionInstance[] instances =
                 infoAdminServiceStub.subscribe(smokeTestCollection,
-                        "digest://h/mailto:dev@wso2.org", "CollectionUpdated",
+                        "digest://h/mailto:dev@wso2.org", COLLECTION_UPDATED,
                         loggedInSessionCookie).getSubscriptionInstances();
-        Assert.assertEquals(instances.length, 1, "subscription failed");
-        Assert.assertEquals(infoAdminServiceStub.subscribeREST(smokeTestCollection,
-                "https://localhost:10343/services/RESTHello", "CollectionUpdated",
-                loggedInSessionCookie).getSubscriptionInstances().length, 1,
-                "subscription failed");
+        Assert.assertEquals(instances.length, 1, SUBSCRIPTION_FAILED);
+        Assert.assertEquals(infoAdminServiceStub
+                        .subscribeREST(smokeTestCollection, REST_HELLO_SERVICE_URL, COLLECTION_UPDATED,
+                                loggedInSessionCookie).getSubscriptionInstances().length, 1, SUBSCRIPTION_FAILED);
         Assert.assertEquals(instances[0].getDigestType(), "h",
                 "invalid digest type");
         Assert.assertEquals(instances[0].getAddress(),
@@ -421,17 +423,16 @@ public class GovernanceRegistrySmokeTestCase {
                 "failed to unsubscribe");
 
         Assert.assertEquals(infoAdminServiceStub.subscribe(smokeTestResource,
-                "https://localhost:10343/services/Hello", "ResourceUpdated",
-                loggedInSessionCookie).getSubscriptionInstances().length, 1,
-                "subscription failed");
+                        HELLO_SERVICE_URL, RESOURCE_UPDATED,
+                loggedInSessionCookie).getSubscriptionInstances().length, 1, SUBSCRIPTION_FAILED);
         instances = infoAdminServiceStub.subscribe(smokeTestResource,
-                "digest://h/mailto:dev@wso2.org", "ResourceUpdated",
+                "digest://h/mailto:dev@wso2.org", RESOURCE_UPDATED,
                 loggedInSessionCookie).getSubscriptionInstances();
-        Assert.assertEquals(instances.length, 1, "subscription failed");
+        Assert.assertEquals(instances.length, 1, SUBSCRIPTION_FAILED);
         Assert.assertEquals(infoAdminServiceStub.subscribeREST(smokeTestResource,
-                "https://localhost:10343/services/RESTHello", "ResourceUpdated",
+                        REST_HELLO_SERVICE_URL, RESOURCE_UPDATED,
                 loggedInSessionCookie).getSubscriptionInstances().length, 1,
-                "subscription failed");
+                SUBSCRIPTION_FAILED);
         Assert.assertEquals(instances[0].getDigestType(), "h",
                 "invalid digest type");
         Assert.assertEquals(instances[0].getAddress(),

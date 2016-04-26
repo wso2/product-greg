@@ -2,7 +2,7 @@
     width: 400px;
     position: absolute;
     right: -400px;
-    z-index: 10000;
+    z-index: 1000;
     transition: right 0.4s ease 0s;
     overflow-y: auto;
     overflow-x: hidden;
@@ -23,6 +23,8 @@
 
 .wr-side-options, .wr-side-notifiactions {
     display: none;
+    overflow-y: auto;
+    height: 100%;
 }
 
 .wr-side-panel::-webkit-scrollbar {
@@ -69,20 +71,39 @@
 }
 
 .wr-notification-desc .wr-operation-icon {
-    position: absolute;
+    position:absolute;
     color: #fff;
-    top: 28%;
-    right: 15px;
+    top: 70%;
+    right: 0%;
     display: none;
-    font-size: 12px;
+    font-size: 10px;
 }
 
-.wr-notification-desc .wr-operation-icon:hover .fw-ring {
+.wr-notification-desc .wr-operation-icon .fw-ring {
     display: inline-block;
 }
 
 .wr-notification-desc:hover .wr-operation-icon {
     display: block;
+}
+
+.wr-notification-desc .wr-operation-link {
+    color: #FFF;
+    font-size: 16px;
+}
+
+.wr-notification-desc .wr-notification-clear {
+    position: absolute;
+    width: 20%;
+    top: 10%;
+    right: 0%;
+}
+
+.wr-notification-clear .wr-clear-link {
+    color: #FFF;
+    top: 5%;
+    right: 0%;
+    font-size: 16px;
 }
 
 .wr-notification-toggle-btn, .wr-side-panel-toggle-btn {

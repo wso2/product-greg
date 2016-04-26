@@ -16,16 +16,35 @@
  *  under the License.
  *
  */
-asset.manager = function(ctx) {   
-    var setCustomAssetAttributes = function(asset, userRegistry) {
-        var wadlUrl=asset.attributes.interface_wadl;
+asset.manager = function(ctx) {
+    var tenantAPI = require('/modules/tenant-api.js').api;
+    var setCustomAssetAttributes = function (asset, userRegistry) {
+        var wadlUrl = asset.attributes.interface_wadl;
         if (wadlUrl != null) {
             try {
                 var resource = userRegistry.registry.get(wadlUrl);
                 var wadlContent = getInterfaceTypeContent(resource);
+                var ComparatorUtils = Packages.org.wso2.carbon.governance.comparator.utils.ComparatorUtils;
+                var comparatorUtils = new ComparatorUtils();
+                var mediaType = "application/wadl+xml";
+                try {
+                    wadlContent = comparatorUtils.prettyFormatText(wadlContent, mediaType);
+                } catch (ex) {
+
+                }
                 asset.wadlContent = wadlContent;
-            } catch(e) {
+            } catch (e) {
                 asset.wadlContent = "";
+            }
+        }
+        var swaggerUrl = asset.attributes.interface_swagger;
+        if (swaggerUrl != null) {
+            try {
+                var resource = userRegistry.registry.get(swaggerUrl);
+                var swaggerContent = getInterfaceTypeContent(resource);
+                asset.swaggerContent = swaggerContent;
+            } catch (e) {
+                asset.swaggerContent = "";
             }
         }
     }; 
@@ -41,16 +60,12 @@ asset.manager = function(ctx) {
     };
 
     var getRegistry = function(cSession) {
-        var userMod = require('store').user;
-        var server = require('store').server;
-        var user = server.current(cSession);
-        var userRegistry;
-        if (user) {
-            userRegistry = userMod.userRegistry(cSession);
-        } else {
-            userRegistry = server.anonRegistry(tenantId);
+        var tenantDetails = tenantAPI.createTenantAwareAssetResources(cSession,{type:ctx.assetType});
+        if((!tenantDetails)&&(!tenantDetails.am)) {
+            log.error('The tenant-api was unable to create a registry instance by resolving tenant details');
+            throw 'The tenant-api  was unable to create a registry instance by resolving tenant details';
         }
-        return userRegistry;
+        return tenantDetails.am.registry;
     };
 
     var getInterfaceTypeContent = function (resource) {
@@ -67,7 +82,7 @@ asset.manager = function(ctx) {
             for (var index in genericArtifacts) {
                 var deps = {};
                 var path = genericArtifacts[index].getPath();
-                var resource = userRegistry.registry.get('/_system/governance/'+ path);
+                var resource = userRegistry.registry.get('/_system/governance' + path);
                 var mediaType = resource.getMediaType();
                 var name = genericArtifacts[index].getQName().getLocalPart();
                 var govUtils = Packages.org.wso2.carbon.governance.api.util.GovernanceUtils
@@ -78,6 +93,7 @@ asset.manager = function(ctx) {
                 deps.associationName = associationName;
                 deps.associationType = keyName;
                 deps.associationUUID = associationUUID;
+                deps.associationPath = resource.getPath();
 
                 if(deps.associationType == "wadl") {
                     associations.push(deps);
@@ -124,7 +140,40 @@ asset.configure = function () {
             ui: {
                 icon: 'fw fw-rest-service',
                 iconColor: 'purple'
-            }
+            },
+            isDependencyShown: true,
+            isDiffViewShown:false
         }
     }
+};
+
+asset.renderer = function(ctx){
+    return {
+        pageDecorators:{
+            downloadPopulator:function(page){
+                //Populate the links for downloading content RXTs
+                if(page.meta.pageName === 'details'){
+                    var config = require('/config/store.js').config();
+                    var pluralType = 'wadls'; //Assume it is a WADl
+                    var domain = require('carbon').server.tenantDomain({tenantId:ctx.tenantId});
+                    page.assets.downloadMetaData = {}; 
+                    page.assets.downloadMetaData.enabled = false;
+                    var dependencies = page.assets.dependencies || [];
+                    var downloadFile = dependencies.filter(function(item){
+                        return ((item.associationType == 'wadl')||(item.associationType == 'swagger'));
+                    })[0];
+                    if(downloadFile){
+                      var typeDetails = ctx.rxtManager.getRxtTypeDetails(downloadFile.associationType);
+                      page.assets.downloadMetaData.enabled = true;  
+                      page.assets.downloadMetaData.downloadFileType = typeDetails.singularLabel.toUpperCase();
+                      pluralType = typeDetails.pluralLabel.toLowerCase();
+                      page.assets.downloadMetaData.url = config.server.https+'/governance/'+pluralType+'/'+downloadFile.associationUUID+'/content?tenant='+domain;          
+                      if(downloadFile.associationType == 'swagger'){
+                        page.assets.downloadMetaData.swaggerUrl = '/pages/swagger?path='+downloadFile.associationPath;
+                      }
+                    }
+                }
+            }
+        }
+    };
 };

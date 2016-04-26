@@ -28,7 +28,7 @@ require('/modules/publisher.js').exec(function(ctx) {
     ctx.response.addHeader('Expires' ,'-1');
     // var options = uriMatcher.match('/{context}/assets/{type}/{pageName}');
     var options = {};
-    //var q = ctx.request.getParameter('query');
+    var qtemp = ctx.request.getParameter('q') || '';
     //var sortBy = ctx.request.getParameter('sortby');
     //var sort = ctx.request.getParameter('sort');
     var category = ctx.request.getParameter('category');
@@ -76,8 +76,17 @@ require('/modules/publisher.js').exec(function(ctx) {
 
     page.ribbon = {};
     page.ribbon.breadcrumb = assetTypes;
+    var qString = (ctx.request.getParameter('q')||'');
+    var jsonQuery = parse('{'+qString+'}');
+    var modifiedQuery =  Object.keys(jsonQuery);
+    var formattedQuery = modifiedQuery.map(function(key){
+        return key+':'+jsonQuery[key];
+    }).join(',');
+    page.searchQuery = formattedQuery;
     // var output = am.render(assets, page)._custom();
     var output = appManager.render(assets, page);
     // var output = appManager.render([], page);
+    var searchQuery = reqUtil.formatSearchQuery(qtemp);
+    output.searchQuery = decodeURIComponent(searchQuery)||'';
     caramel.render(output);
 }, request, response, session); %>

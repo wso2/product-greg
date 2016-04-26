@@ -147,6 +147,21 @@ asset.manager = function(ctx) {
             properties[0][0] = 'version';
             properties[0][1] = version;
 
+            var rxt = require('rxt');
+            var am = rxt.asset.createUserAssetManager(ctx.session, this.type);
+            var query = {};
+            query.overview_name = name;
+            var assets = am.search(query);
+            for (var i = 0; i < assets.length; i++) {
+                if (assets[i].version == version) {
+                    var msg = "resource already exist with Name \"" + name + "\" and version \"" + version + "\"";
+                    var exceptionUtils = require('utils');
+                    var exceptionModule = exceptionUtils.exception;
+                    var constants = rxt.constants;
+                    throw exceptionModule.buildExceptionObject(msg, constants.STATUS_CODES.BAD_REQUEST);
+                }
+            }
+
             utils.importResource(parentPath, name, mediaType, '', url, '', userRegistry.registry, properties);
 
             if(!this.rxtManager.isGroupingEnabled(this.type)){
@@ -175,6 +190,14 @@ asset.manager = function(ctx) {
                 item.authorUserName = resource.getAuthorUserName();
                 var content = resource.getContent();
                 var value = '' + new Stream(new ByteArrayInputStream(content));
+                var ComparatorUtils = Packages.org.wso2.carbon.governance.comparator.utils.ComparatorUtils;
+                var comparatorUtils = new ComparatorUtils();
+                var mediaType = "application/wadl+xml";
+                try {
+                    value = comparatorUtils.prettyFormatText(value, mediaType);
+                } catch (ex) {
+
+                }
                 item.content = value;
 
                 var userRegistry = getRegistry(ctx.session);
@@ -263,8 +286,29 @@ asset.manager = function(ctx) {
             
         },
         getVersion: function(asset) {
+            if (!asset.attributes["version"]) {
+                var subPaths = asset.path.split('/');
+                asset.version = subPaths[subPaths.length - 2];
+                asset.attributes["version"] = asset.version;
+            }
             asset.attributes["overview_version"] = asset.attributes["version"];
             return asset.attributes["version"];
+        },
+        getAssetGroup:function(asset){
+            var results = this._super.getAssetGroup.call(this,asset);
+            for (var index = 0; index < results.length; index++) {
+                var result = results[index];
+                var path = result.path;
+                var subPaths = path.split('/');
+                var name = subPaths[subPaths.length - 1];
+                result.name = name;
+                result.version = subPaths[subPaths.length - 2];
+                result.attributes.overview_name = name;
+                result.overview_version = result.version;
+                result.attributes.overview_version = result.version;
+                result.attributes.version = result.version;
+            }
+            return results;
         }
     };
 };

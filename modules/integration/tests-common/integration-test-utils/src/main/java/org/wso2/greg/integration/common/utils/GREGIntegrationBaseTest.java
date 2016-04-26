@@ -47,12 +47,20 @@ public class GREGIntegrationBaseTest {
     protected LoginLogoutClient loginLogoutClient;
     protected User userInfo;
 
+    protected AutomationContext storeContext;
+    protected AutomationContext publisherContext;
+
+    protected String defaultHTTPPort = ":443";
+
     protected void init() throws Exception {
         init(TestUserMode.SUPER_TENANT_ADMIN);
     }
 
     protected void init(TestUserMode testUserMode) throws Exception {
-        automationContext = new AutomationContext("GREG", testUserMode);
+
+        storeContext = new AutomationContext("GREG", "store", testUserMode);
+        publisherContext = new AutomationContext("GREG", "publisher", testUserMode);
+        automationContext = new AutomationContext("GREG",testUserMode);
         loginLogoutClient = new LoginLogoutClient(automationContext);
         sessionCookie = loginLogoutClient.login();
         backendURL = automationContext.getContextUrls().getBackEndUrl();

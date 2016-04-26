@@ -22,43 +22,38 @@ import org.apache.wink.client.ClientResponse;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.testng.annotations.*;
+import org.testng.annotations.AfterClass;
+import org.testng.annotations.BeforeClass;
+import org.testng.annotations.DataProvider;
+import org.testng.annotations.Factory;
+import org.testng.annotations.Test;
 import org.wso2.carbon.automation.engine.configurations.UrlGenerationUtil;
 import org.wso2.carbon.automation.engine.context.TestUserMode;
 import org.wso2.carbon.automation.engine.frameworkutils.FrameworkPathUtil;
-import org.wso2.carbon.automation.test.utils.common.TestConfigurationProvider;
-import org.wso2.carbon.identity.user.profile.stub.UserProfileMgtServiceUserProfileExceptionException;
-import org.wso2.carbon.identity.user.profile.stub.types.UserFieldDTO;
-import org.wso2.carbon.identity.user.profile.stub.types.UserProfileDTO;
-import org.wso2.carbon.integration.common.utils.exceptions.AutomationUtilException;
-import org.wso2.carbon.integration.common.utils.mgt.ServerConfigurationManager;
 import org.wso2.carbon.registry.core.exceptions.RegistryException;
 import org.wso2.carbon.registry.es.utils.EmailUtil;
 import org.wso2.carbon.registry.es.utils.GregESTestBaseTest;
-import org.wso2.greg.integration.common.clients.UserProfileMgtServiceClient;
 import org.wso2.greg.integration.common.utils.GenericRestClient;
 
-import javax.mail.MessagingException;
-import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.Response;
-import javax.xml.xpath.XPathExpressionException;
 import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
+import javax.mail.MessagingException;
+import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
+import javax.xml.xpath.XPathExpressionException;
 
 import static org.testng.Assert.assertNotNull;
 import static org.testng.Assert.assertTrue;
 
 /**
- * This test class can be used to check the email notification functionality
+ * This test class can be used to check the email notification functionality of rest services
+ * at the publisher.
  */
 public class RestServiceEmailNotificationTestCase extends GregESTestBaseTest {
 
     private TestUserMode userMode;
-    String jSessionId;
-    private UserProfileMgtServiceClient userProfileMgtClient;
-    private File axis2File;
     private String publisherUrl;
     private String resourcePath;
     private String assetId;
@@ -67,9 +62,7 @@ public class RestServiceEmailNotificationTestCase extends GregESTestBaseTest {
     private Map<String, String> queryParamMap;
     private Map<String, String> headerMap;
     private String loginURL;
-    private String emailAddress;
-    boolean isNotificationMailAvailable;
-
+    private boolean isNotificationMailAvailable;
 
     @Factory(dataProvider = "userModeProvider")
     public RestServiceEmailNotificationTestCase(TestUserMode userMode) {
@@ -78,64 +71,29 @@ public class RestServiceEmailNotificationTestCase extends GregESTestBaseTest {
 
     @BeforeClass(alwaysRun = true)
     public void init() throws Exception {
-
         super.init(userMode);
         loginURL = UrlGenerationUtil.getLoginURL(automationContext.getInstance());
-        emailAddress = "gregtestes@gmail.com";
         genericRestClient = new GenericRestClient();
         queryParamMap = new HashMap<>();
         headerMap = new HashMap<>();
-        resourcePath =
-                FrameworkPathUtil.getSystemResourceLocation() + "artifacts" + File.separator + "GREG" + File.separator;
+        StringBuilder builder = new StringBuilder();
+        builder.append(FrameworkPathUtil.getSystemResourceLocation()).append("artifacts").append(File.separator)
+                .append("GREG").append(File.separator);
+        resourcePath = builder.toString();
         publisherUrl = automationContext.getContextUrls().getSecureServiceUrl().replace("services", "publisher/apis");
-        userProfileMgtClient = new UserProfileMgtServiceClient(backendURL, sessionCookie);
-        axis2File = new File(
-                TestConfigurationProvider.getResourceLocation("GREG") + File.separator + "axis2" + File.separator
-                        + "axis2.xml");
 
-        updateProfileAndEnableEmailConfiguration();
+        EmailUtil.updateProfileAndEnableEmailConfiguration(automationContext, backendURL, sessionCookie);
         setTestEnvironment();
     }
 
-   private void updateProfileAndEnableEmailConfiguration()
-           throws UserProfileMgtServiceUserProfileExceptionException, IOException, XPathExpressionException,
-           AutomationUtilException {
-
-       UserProfileDTO profile = new UserProfileDTO();
-       profile.setProfileName("default");
-
-       UserFieldDTO lastName = new UserFieldDTO();
-       lastName.setClaimUri("http://wso2.org/claims/lastname");
-       lastName.setFieldValue("GregUserFirstName");
-
-       UserFieldDTO givenName = new UserFieldDTO();
-       givenName.setClaimUri("http://wso2.org/claims/givenname");
-       givenName.setFieldValue("GregUserLastName");
-
-       UserFieldDTO email = new UserFieldDTO();
-       email.setClaimUri("http://wso2.org/claims/emailaddress");
-       email.setFieldValue(emailAddress);
-
-       UserFieldDTO[] fields = new UserFieldDTO[3];
-       fields[0] = lastName;
-       fields[1] = givenName;
-       fields[2] = email;
-
-       profile.setFieldValues(fields);
-
-       userProfileMgtClient
-               .setUserProfile(automationContext.getContextTenant().getContextUser().getUserName(), profile);
-
-       // apply new axis2.xml configuration
-       ServerConfigurationManager serverConfigurationManager = new ServerConfigurationManager(automationContext);
-       serverConfigurationManager.applyConfiguration(axis2File);
-   }
-
+    /**
+     * This test case add subscription to lifecycle state change and verifies the reception of email notification
+     * by changing the life cycle state.
+     */
     @Test(groups = { "wso2.greg",
             "wso2.greg.es" }, description = "Adding subscription to rest service on LC state change",
             dependsOnMethods = { "addSubscriptionCheckListItem" ,"addSubscriptionUnCheckListItem" })
     public void addSubscriptionToLcStateChange() throws Exception {
-
         JSONObject dataObject = new JSONObject();
         dataObject.put("notificationType", "PublisherLifeCycleStateChanged");
         dataObject.put("notificationMethod", "email");
@@ -145,10 +103,10 @@ public class RestServiceEmailNotificationTestCase extends GregESTestBaseTest {
                         MediaType.APPLICATION_JSON, MediaType.APPLICATION_JSON, dataObject.toString(), queryParamMap,
                         headerMap, cookieHeader);
 
-        String payLoad = response.getEntity(String.class);
-        payLoad = payLoad.substring(payLoad.indexOf('{'));
-        JSONObject obj = new JSONObject(payLoad);
-        assertNotNull(obj.get("id").toString(),
+        String payload = response.getEntity(String.class);
+        payload = payload.substring(payload.indexOf('{'));
+        JSONObject payloadObject = new JSONObject(payload);
+        assertNotNull(payloadObject.get("id"),
                 "Response payload is not the in the correct format" + response.getEntity(String.class));
 
         // verify e-mail
@@ -163,17 +121,19 @@ public class RestServiceEmailNotificationTestCase extends GregESTestBaseTest {
         genericRestClient.geneticRestRequestPost(publisherUrl + "/assets/" + assetId + "/state",
                 MediaType.APPLICATION_FORM_URLENCODED, MediaType.APPLICATION_JSON,
                 "nextState=Testing&comment=Completed", queryParamMap, headerMap, cookieHeader);
-
         isNotificationMailAvailable = EmailUtil.readGmailInboxForNotification("PublisherLifeCycleStateChanged");
         assertTrue(isNotificationMailAvailable,
                 "Publisher lifecycle state changed notification mail has failed to reach Gmail inbox");
         isNotificationMailAvailable = false;
     }
 
+    /**
+     * This test case add subscription to resource update and verifies the reception of email notification
+     * by updating the resource.
+     */
     @Test(groups = { "wso2.greg",
             "wso2.greg.es" }, description = "Adding subscription to rest service on resource update")
     public void addSubscriptionOnResourceUpdate() throws Exception {
-
         JSONObject dataObject = new JSONObject();
         dataObject.put("notificationType", "PublisherResourceUpdated");
         dataObject.put("notificationMethod", "email");
@@ -183,10 +143,10 @@ public class RestServiceEmailNotificationTestCase extends GregESTestBaseTest {
                         MediaType.APPLICATION_JSON, MediaType.APPLICATION_JSON, dataObject.toString(), queryParamMap,
                         headerMap, cookieHeader);
 
-        String payLoad = response.getEntity(String.class);
-        payLoad = payLoad.substring(payLoad.indexOf('{'));
-        JSONObject obj = new JSONObject(payLoad);
-        assertNotNull(obj.get("id").toString(),
+        String payload = response.getEntity(String.class);
+        payload = payload.substring(payload.indexOf('{'));
+        JSONObject payloadObject = new JSONObject(payload);
+        assertNotNull(payloadObject.get("id"),
                 "Response payload is not the in the correct format" + response.getEntity(String.class));
 
         //verify e-mail
@@ -201,21 +161,22 @@ public class RestServiceEmailNotificationTestCase extends GregESTestBaseTest {
         response = genericRestClient
                 .geneticRestRequestPost(publisherUrl + "/assets/" + assetId, MediaType.APPLICATION_JSON,
                         MediaType.APPLICATION_JSON, dataBody, queryParamMap, headerMap, cookieHeader);
-        obj = new JSONObject(response.getEntity(String.class));
+        payloadObject = new JSONObject(response.getEntity(String.class));
         assertTrue((response.getStatusCode() == Response.Status.ACCEPTED.getStatusCode()),
                 "Wrong status code ,Expected 202 Created ,Received " + response.getStatusCode());
-        assertTrue(obj.getJSONObject("attributes").get("overview_context").equals("/changed/Context"));
-
+        assertTrue(payloadObject.getJSONObject("attributes").get("overview_context").equals("/changed/Context"));
         isNotificationMailAvailable = EmailUtil.readGmailInboxForNotification("PublisherResourceUpdated");
         assertTrue(isNotificationMailAvailable, "Publisher resource updated mail has failed to reach Gmail nbox");
         isNotificationMailAvailable = false;
-
     }
 
+    /**
+     * This test case add subscription to selecting check list item of life cycle and verifies
+     * the reception of email notification by selecting the check list item.
+     */
     @Test(groups = { "wso2.greg",
             "wso2.greg.es" }, description = "Adding subscription to rest service on check list item checked")
     public void addSubscriptionCheckListItem() throws Exception {
-
         JSONObject dataObject = new JSONObject();
         dataObject.put("notificationType", "PublisherCheckListItemChecked");
         dataObject.put("notificationMethod", "email");
@@ -225,10 +186,10 @@ public class RestServiceEmailNotificationTestCase extends GregESTestBaseTest {
                         MediaType.APPLICATION_JSON, MediaType.APPLICATION_JSON, dataObject.toString(), queryParamMap,
                         headerMap, cookieHeader);
 
-        String payLoad = response.getEntity(String.class);
-        payLoad = payLoad.substring(payLoad.indexOf('{'));
-        JSONObject obj = new JSONObject(payLoad);
-        assertNotNull(obj.get("id").toString(),
+        String payload = response.getEntity(String.class);
+        payload = payload.substring(payload.indexOf('{'));
+        JSONObject payloadObject = new JSONObject(payload);
+        assertNotNull(payloadObject.get("id"),
                 "Response payload is not the in the correct format" + response.getEntity(String.class));
 
         // verify e-mail
@@ -257,11 +218,14 @@ public class RestServiceEmailNotificationTestCase extends GregESTestBaseTest {
         isNotificationMailAvailable = false;
     }
 
+    /**
+     * This test case add subscription to un ticking check list item of life cycle and verifies
+     * the reception of email notification by un ticking the check list item.
+     */
     @Test(groups = { "wso2.greg",
             "wso2.greg.es" }, description = "Adding subscription to rest service on check list item unchecked",
             dependsOnMethods = { "addSubscriptionCheckListItem" })
     public void addSubscriptionUnCheckListItem() throws Exception {
-
         JSONObject dataObject = new JSONObject();
         dataObject.put("notificationType", "PublisherCheckListItemUnchecked");
         dataObject.put("notificationMethod", "email");
@@ -271,10 +235,10 @@ public class RestServiceEmailNotificationTestCase extends GregESTestBaseTest {
                         MediaType.APPLICATION_JSON, MediaType.APPLICATION_JSON, dataObject.toString(), queryParamMap,
                         headerMap, cookieHeader);
 
-        String payLoad = response.getEntity(String.class);
-        payLoad = payLoad.substring(payLoad.indexOf('{'));
-        JSONObject obj = new JSONObject(payLoad);
-        assertNotNull(obj.get("id").toString(),
+        String payload = response.getEntity(String.class);
+        payload = payload.substring(payload.indexOf('{'));
+        JSONObject payloadObject = new JSONObject(payload);
+        assertNotNull(payloadObject.get("id"),
                 "Response payload is not the in the correct format" + response.getEntity(String.class));
 
         // verify e-mail
@@ -300,16 +264,19 @@ public class RestServiceEmailNotificationTestCase extends GregESTestBaseTest {
         assertTrue(isNotificationMailAvailable,
                 "Publisher uncheck list item on life cycle, notification mail has failed to reach Gmail inbox");
         isNotificationMailAvailable = false;
-
     }
 
+    /**
+     * Method used to authenticate publisher and create a rest service asset. Created asset
+     * is used to add subscriptions and to receive notification.
+     */
     private void setTestEnvironment() throws JSONException, IOException, XPathExpressionException {
         // Authenticate Publisher
         ClientResponse response = authenticate(publisherUrl, genericRestClient,
                 automationContext.getSuperTenant().getTenantAdmin().getUserName(),
                 automationContext.getSuperTenant().getTenantAdmin().getPassword());
-        JSONObject obj = new JSONObject(response.getEntity(String.class));
-        jSessionId = obj.getJSONObject("data").getString("sessionId");
+        JSONObject responseObject = new JSONObject(response.getEntity(String.class));
+        String jSessionId = responseObject.getJSONObject("data").getString("sessionId");
         cookieHeader = "JSESSIONID=" + jSessionId;
 
         //Create rest service
@@ -319,24 +286,18 @@ public class RestServiceEmailNotificationTestCase extends GregESTestBaseTest {
                 .geneticRestRequestPost(publisherUrl + "/assets", MediaType.APPLICATION_JSON,
                         MediaType.APPLICATION_JSON, dataBody, queryParamMap, headerMap, cookieHeader);
         JSONObject createObj = new JSONObject(createResponse.getEntity(String.class));
-        assetId = createObj.get("id").toString();
-    }
-
-    private void deleteRestServiceAsset() throws JSONException {
-        genericRestClient.geneticRestRequestDelete(publisherUrl + "/assets/" + assetId, MediaType.APPLICATION_JSON,
-                MediaType.APPLICATION_JSON, queryParamMap, headerMap, cookieHeader);
+        assetId = (String) createObj.get("id");
     }
 
     @AfterClass(alwaysRun = true)
     public void cleanUp() throws RegistryException, JSONException, IOException, MessagingException {
-        deleteRestServiceAsset();
+        deleteAssetById(publisherUrl, genericRestClient, cookieHeader, assetId, queryParamMap);
         EmailUtil.deleteSentMails();
     }
 
     @DataProvider
     private static TestUserMode[][] userModeProvider() {
         return new TestUserMode[][] { new TestUserMode[] { TestUserMode.SUPER_TENANT_ADMIN }
-                //                new TestUserMode[]{TestUserMode.TENANT_USER},
         };
     }
 }

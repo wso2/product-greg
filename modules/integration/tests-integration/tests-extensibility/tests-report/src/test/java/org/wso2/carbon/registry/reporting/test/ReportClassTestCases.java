@@ -112,12 +112,11 @@ public class ReportClassTestCases extends ReportingTestCaseSuper {
         reportAdminServiceClient.getReportBytes(configurationBean);
 
         LogEvent[] logEvents = logViewerClient.getLogs("ERROR", "net.sf.jasperreports.engine.JRException: " +
-                                                                "Error retrieving field value from bean : " +
-                                                                "details_govCycleName", "", "");
-        assertTrue((logEvents != null && logEvents.length > 0) , "No Error Log Found. net.sf.jasperreports.engine.JRException: Error retrieving field value from bean : details_govCycleName");
+                                                                "data.bean.field.value.not.retrieved", "", "");
+        assertTrue((logEvents != null && logEvents.length > 0) , "No Error Log Found. net.sf.jasperreports.engine.JRException: data.bean.field.value.not.retrieved");
         assertEquals(
                 logEvents[0].getMessage(),
-                "net.sf.jasperreports.engine.JRException: Error retrieving field value from bean : details_govCycleName");
+                "net.sf.jasperreports.engine.JRException: data.bean.field.value.not.retrieved");
     }
 
     @AfterClass(groups = {"wso2.greg"}, alwaysRun = true)

@@ -1,11 +1,11 @@
 <table class="wr-configurations-table">
     <tr>
         <th></th>
-        <th>Email</th>
-        <th>Console</th>
+        <th>{{t "Email"}}</th>
+        <th>{{t "Publisher"}}</th>
     </tr>
     <tr>
-        <td>LifeCycle State Change</td>
+        <td>{{t "Lifecycle State Change"}}</td>
         <td>
             <label class="wr-input-control switch">
                 <input type="checkbox" id="lifeCycleStateChangedEmail" {{#if subscriptions.PublisherLifeCycleStateChanged.email.checked}}checked{{/if}} data-id="{{subscriptions.PublisherLifeCycleStateChanged.email.id}}"  data-method='PublisherLifeCycleStateChanged' data-type="email" >
@@ -20,7 +20,7 @@
         </td>
     </tr>
     <tr>
-        <td>Information Update</td>
+        <td>{{t "Information Update"}}</td>
         <td>
             <label class="wr-input-control switch">
                 <input type="checkbox"  id="resourceUpdatedEmail" {{#if subscriptions.PublisherResourceUpdated.email.checked}}checked{{/if}} data-id="{{subscriptions.PublisherResourceUpdated.email.id}}" data-method='PublisherResourceUpdated' data-type="email" >
@@ -35,7 +35,7 @@
         </td>
     </tr>
     <tr>
-        <td>Check LifeCycle Item</td>
+        <td>{{t "Check Lifecycle Item"}}</td>
         <td>
             <label class="wr-input-control switch">
                 <input type="checkbox" id="checkListItemCheckedEmail" {{#if subscriptions.PublisherCheckListItemChecked.email.checked}}checked{{/if}} data-id="{{subscriptions.PublisherCheckListItemChecked.email.id}}" data-method='PublisherCheckListItemChecked' data-type="email" >
@@ -50,7 +50,7 @@
         </td>
     </tr>
     <tr>
-        <td>UnCheck LifeCycle Item</td>
+        <td>{{t "UnCheck Lifecycle Item"}}</td>
         <td>
             <label class="wr-input-control switch">
                 <input type="checkbox" id="checkListItemUncheckedEmail"  {{#if subscriptions.PublisherCheckListItemUnchecked.email.checked}}checked{{/if}} data-id="{{subscriptions.PublisherCheckListItemUnchecked.email.id}}" data-method='PublisherCheckListItemUnchecked' data-type="email" >

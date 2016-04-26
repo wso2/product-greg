@@ -65,4 +65,6 @@ public interface MigrationClient {
      */
     public void cleanOldResources() throws GRegMigrationException;
 
+    public void endpointMigration() throws GRegMigrationException;
+
 }

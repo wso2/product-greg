@@ -3,7 +3,7 @@ app.server = function(ctx){
         endpoints:{
             pages:[
                 {
-                    title:'associations',
+                    title:'Associations',
                     url:'associations',
                     path:'associations.jag',
                     secured:true
