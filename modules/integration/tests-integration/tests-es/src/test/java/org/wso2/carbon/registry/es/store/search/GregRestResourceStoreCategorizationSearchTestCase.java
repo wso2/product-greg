@@ -20,6 +20,7 @@ package org.wso2.carbon.registry.es.store.search;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.wink.client.ClientResponse;
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.testng.annotations.*;
@@ -192,28 +193,22 @@ public class GregRestResourceStoreCategorizationSearchTestCase  extends GregESTe
             dependsOnMethods = {"authenticateStore"})
     public void searchByFilters() throws JSONException, IOException, InterruptedException {
 
-
         queryParamMap.clear();
         queryParamMap.put("paginationLimit", "20");
         queryParamMap.put("start", "0");
         queryParamMap.put("count", "20");
-        // https://localhost:9443/store/assets/restservice/list?
-        // q="categorization_product"%3A"(g-reg OR esb)"
+        // https://localhost:9443/store/apis/assets?q="categorization_product"%3A"(g-reg OR esb)"
         queryParamMap.put("q", "\"categorization_product" + "\":" + "\"(" + productOne + " OR "+productTwo+")\"");
-
         Thread.sleep(10000);
-
         ClientResponse response = genericRestClient.geneticRestRequestGet
-                (storeUrl.split("/apis")[0] + "/assets/restservice/list", queryParamMap, headerMap, storeCookieHeader);
+                (storeUrl + "/assets", queryParamMap, headerMap, storeCookieHeader);
 
         assertTrue((response.getStatusCode() == Response.Status.OK.getStatusCode()),
                 "Wrong status code ,Expected 200 OK ,But Received " + response.getStatusCode());
-
         assertTrue(response.getEntity(String.class).contains(restServiceNameOne),
                 "Response does not contain Rest service name " + restServiceNameOne);
         assertTrue(response.getEntity(String.class).contains(restServiceNameOne),
                 "Response does not contain Rest service name " + restServiceNameTwo);
-
     }
 
     @DataProvider
