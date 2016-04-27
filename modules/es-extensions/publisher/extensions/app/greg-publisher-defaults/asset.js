@@ -136,6 +136,10 @@ asset.renderer = function(ctx) {
                     {field: "overview_name", label: "Name"},
                     {field: "overview_version", label: "Version"},
                     {field: "createdDate", label: "Date/Time"}]);
+            },
+            taxonomy: function(page) {
+                require('/modules/page-decorators.js').pageDecorators.taxonomyAvailability(ctx, page, this);
+
             }
         }
     };
