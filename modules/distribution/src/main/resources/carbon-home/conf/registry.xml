@@ -141,6 +141,20 @@
         </filter>
     </handler>
 
+    <!-- This handler processes the rest services being added to the registry -->
+
+    <handler class="org.wso2.carbon.registry.extensions.handlers.RESTServiceMediaTypeHandler" profiles="default,uddi-registry">
+        <property name="swaggerLocationConfiguration" type="xml">
+            <location>/apimgt/applicationdata/api-docs/</location>
+        </property>
+        <property name="wadlLocationConfiguration" type="xml">
+            <location>/trunk/wadls/</location>
+        </property>
+        <filter class="org.wso2.carbon.registry.core.jdbc.handlers.filters.MediaTypeMatcher">
+            <property name="mediaType">application/vnd.wso2-restservice+xml</property>
+        </filter>
+    </handler>
+
     <!--This handler will delete resources individually when deleting a collection of resources-->
 
     <handler class="org.wso2.carbon.registry.extensions.handlers.RecursiveDeleteHandler">
