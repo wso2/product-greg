@@ -143,7 +143,7 @@ public class GregWildCardSearch extends GregESTestBaseTest {
         resourceAdminServiceClient
                 .addResource(schemaGarPath, "application/vnd.wso2.governance-archive", "adding swagger gar file",
                         new DataHandler(new URL("file:///" + swaggerGarPath)));
-        Thread.sleep(10000);
+        Thread.sleep(20000);
         resourceAdminServiceClient
                 .addResource(schemaGarPath, "application/vnd.wso2.governance-archive", "adding wadl gar file",
                         new DataHandler(new URL("file:///" + wadlGarPath)));
