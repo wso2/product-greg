@@ -121,9 +121,6 @@ asset.renderer = function(ctx) {
                     single_version = true;
                 }
                 page.single_version = single_version;
-            },
-            taxonomy: function(page) {
-                require('/modules/page-decorators.js').pageDecorators.taxonomyAvailability(ctx, page, this);
             }
         }
     }
