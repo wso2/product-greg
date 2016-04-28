@@ -122,12 +122,10 @@ function setSidePanelHeight(){
  * Toggle collapse down arrow direction when user click on the collapsing bar(store notificaton)
  */
 $('#collapseNotificationsSettings').on('shown.bs.collapse', function () {
-    console.log("Show");
     $("#headingNotificationsSettings .fw-down-arrow").removeClass("fw-down-arrow").addClass("fw-up-arrow");
 });
 
 $('#collapseNotificationsSettings').on('hidden.bs.collapse', function () {
-    console.log("Hide");
     $("#headingNotificationsSettings .fw-up-arrow").removeClass("fw-up-arrow").addClass("fw-down-arrow");
 });
 
