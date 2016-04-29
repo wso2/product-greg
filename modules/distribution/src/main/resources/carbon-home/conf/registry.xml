@@ -269,7 +269,7 @@
         </filter>
     </handler>
 
-    <handler class="org.wso2.carbon.registry.extensions.handlers.TaxonomyResourceHandler" profiles="default,uddi-registry">
+    <handler class="org.wso2.carbon.governance.taxonomy.handler.TaxonomyResourceHandler" profiles="default,uddi-registry">
         <filter class="org.wso2.carbon.registry.core.jdbc.handlers.filters.MediaTypeMatcher">
             <property name="mediaType">application/taxo+xml</property>
         </filter>
