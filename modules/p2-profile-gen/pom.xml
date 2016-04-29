@@ -205,6 +205,9 @@
                                     org.wso2.carbon.governance:org.wso2.carbon.governance.lifecycle.management.feature:${carbon.governance.version}
                                 </featureArtifactDef>
                                 <featureArtifactDef>
+                                    org.wso2.carbon.governance:org.wso2.carbon.governance.taxonomy.management.feature:${carbon.governance.version}
+                                </featureArtifactDef>
+                                <featureArtifactDef>
                                     org.wso2.carbon.governance:org.wso2.carbon.governance.notifications.configuration.feature:${carbon.governance.version}
                                 </featureArtifactDef>
                                 <featureArtifactDef>
@@ -737,6 +740,10 @@
                                 <!-- Governance features -->
                                 <feature>
                                     <id>org.wso2.carbon.governance.lifecycle.management.feature.group</id>
+                                    <version>${carbon.governance.version}</version>
+                                </feature>
+                                <feature>
+                                    <id>org.wso2.carbon.governance.taxonomy.management.feature.group</id>
                                     <version>${carbon.governance.version}</version>
                                 </feature>
 
