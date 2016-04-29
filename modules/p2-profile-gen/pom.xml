@@ -240,6 +240,10 @@
                                     org.wso2.greg:org.wso2.stratos.governance.ui.feature:${product.greg.version}
                                 </featureArtifactDef>
 
+                                <featureArtifactDef>
+                                    org.wso2.carbon.store:taxonomy.feature:${es.feature.version}
+                                </featureArtifactDef>
+
                                 <!--Asset Store Feature list -->
                                 <featureArtifactDef>org.jaggeryjs:org.jaggeryjs.feature:${jaggery.version}
                                 </featureArtifactDef>

@@ -119,3 +119,15 @@ function toggleSidePanel(view,button){
 function setSidePanelHeight(){
     $(sidePanel).height($('html').height() - offset);
 }
+
+/**
+ * Toggle collapse down arrow direction when user click on the collapsing bar(store notificaton)
+ */
+$('#collapseNotificationsSettings').on('shown.bs.collapse', function () {
+    $("#headingNotificationsSettings .fw-down-arrow").removeClass("fw-down-arrow").addClass("fw-up-arrow");
+});
+
+$('#collapseNotificationsSettings').on('hidden.bs.collapse', function () {
+    $("#headingNotificationsSettings .fw-up-arrow").removeClass("fw-up-arrow").addClass("fw-down-arrow");
+});
+
