@@ -32,6 +32,7 @@
                         {{/with}}
                     </nav>
                     <input id="categorization-query" type="hidden" value=""/>
+                    {{> categorization-entry .}}
                     {{#if tags}}
                         <div class="tags-wrapper">
                             <div class="tag-title"> {{t "Tags"}} </div>
@@ -55,7 +56,6 @@
                             </div>
                         </div>
                     {{/if}}
-                    {{> categorization-entry .}}
                     {{#if assetCategoryFilterDetails}}<style>div.body-container{min-height: 1220px;}</style>{{/if}}
                 </div>
             </div>
