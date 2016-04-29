@@ -25,4 +25,8 @@ public class GRegMigrationException extends Exception {
         super(msg, e);
     }
 
+    public GRegMigrationException(String msg) {
+        super(msg);
+    }
+
 }

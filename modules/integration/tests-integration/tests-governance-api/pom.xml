@@ -261,10 +261,30 @@
         <dependency>
             <groupId>org.wso2.carbon.governance</groupId>
             <artifactId>org.wso2.carbon.governance.list.stub</artifactId>
+            <exclusions>
+                <exclusion>
+                    <groupId>asm</groupId>
+                    <artifactId>asm</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>org.wso2.orbit.wadl.core</groupId>
+                    <artifactId>wadl-core</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
         <dependency>
             <groupId>org.wso2.carbon.registry</groupId>
             <artifactId>org.wso2.carbon.registry.activities</artifactId>
+            <exclusions>
+                <exclusion>
+                    <groupId>asm</groupId>
+                    <artifactId>asm</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>org.wso2.orbit.wadl.core</groupId>
+                    <artifactId>wadl-core</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
         <dependency>
             <groupId>org.codehaus.jettison</groupId>
@@ -277,6 +297,16 @@
         <dependency>
             <groupId>org.wso2.carbon.registry</groupId>
             <artifactId>org.wso2.carbon.registry.handler.stub</artifactId>
+            <exclusions>
+                <exclusion>
+                    <groupId>asm</groupId>
+                    <artifactId>asm</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>org.wso2.orbit.wadl.core</groupId>
+                    <artifactId>wadl-core</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
         <dependency>
             <groupId>org.wso2.carbon.commons</groupId>
@@ -289,18 +319,58 @@
         <dependency>
             <groupId>org.wso2.carbon.registry</groupId>
             <artifactId>org.wso2.carbon.registry.activities.stub</artifactId>
+            <exclusions>
+                <exclusion>
+                    <groupId>asm</groupId>
+                    <artifactId>asm</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>org.wso2.orbit.wadl.core</groupId>
+                    <artifactId>wadl-core</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
         <dependency>
             <groupId>org.wso2.carbon.registry</groupId>
             <artifactId>org.wso2.carbon.registry.reporting.stub</artifactId>
+            <exclusions>
+                <exclusion>
+                    <groupId>asm</groupId>
+                    <artifactId>asm</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>org.wso2.orbit.wadl.core</groupId>
+                    <artifactId>wadl-core</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
         <dependency>
             <groupId>org.wso2.carbon.registry</groupId>
             <artifactId>org.wso2.carbon.registry.relations.stub</artifactId>
+            <exclusions>
+                <exclusion>
+                    <groupId>asm</groupId>
+                    <artifactId>asm</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>org.wso2.orbit.wadl.core</groupId>
+                    <artifactId>wadl-core</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
         <dependency>
             <groupId>org.wso2.carbon.registry</groupId>
             <artifactId>org.wso2.carbon.registry.resource.stub</artifactId>
+            <exclusions>
+                <exclusion>
+                    <groupId>asm</groupId>
+                    <artifactId>asm</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>org.wso2.orbit.wadl.core</groupId>
+                    <artifactId>wadl-core</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
         <dependency>
             <groupId>org.wso2.carbon.automation</groupId>

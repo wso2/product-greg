@@ -73,7 +73,7 @@ $(function(){ // document ready
 function sidePanelPositionFix(){
     var windowTop = $(window).scrollTop(); // returns number
     if (headerHeight < windowTop){
-        $(sidePanel).css({ position: 'fixed', top: navHeight });
+        $(sidePanel).css({ position: 'fixed', top: '0' });
         $(sidePanel).css('opacity','0.95');
     }
     else {
@@ -115,5 +115,9 @@ function toggleSidePanel(view,button){
  * Set notification bar height to fill window height
  */
 function setSidePanelHeight(){
-    $(sidePanel).height($('html').height() - offset);
+    var screenHeight = Math.max(document.documentElement.clientHeight, window.innerHeight || 0);
+    var minHeight = screenHeight - 144;
+    $('.wr-side-panel').css('min-height', minHeight+'px');
+    //document.getElementsByClassName("wr-side-panel").style.minHeight = minHeight+"px";
+    $(sidePanel).height('100%');
 }

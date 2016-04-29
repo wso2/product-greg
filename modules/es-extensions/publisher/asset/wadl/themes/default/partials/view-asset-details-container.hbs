@@ -22,11 +22,11 @@
                         <div class="widget-content">
 
                             <h2 class="field-title">
-                                <a class="collapsing-h2" data-toggle="collapse" area-expanded="true">
-                                    {{t "Overview"}}
+                                <a class="collapsing-h2 collapsed" data-toggle="collapse" area-expanded="true" href="#collapseoverview">
+                                    <i class="cu-btn-exp-col btn-collapsed">{{t "Overview"}}</i>
                                 </a>
                             </h2>
-
+                            <div id="collapseoverview" class="collapse">
                             <div id="Overview" class="collapse in" area-expanded="true" style="">
                                 <div class="row padding-bottom-lg" id="Name">
                                     <div class="col-sm-2 custom-form-label text-right">{{t "Name"}} :</div>
@@ -41,13 +41,16 @@
                                     <div id="mediaValue" class="col-sm-10">{{mediaType}}</div>
                                 </div>
                             </div>
+                            </div>
 
                             <h2 class="field-title">
-                                <a class="collapsing-h2" data-toggle="collapse" area-expanded="true">
-                                    {{t "Associations"}}
+                                <a class="collapsing-h2 collapsed" data-toggle="collapse" area-expanded="true" href="#collapsedependencies">
+                                    <i class="cu-btn-exp-col btn-collapsed">{{t "Associations"}}</i>
                                 </a>
                             </h2>
 
+                            <div id="collapsedependencies" class="collpase">
+                            <div id=""
                             <div class="row padding-bottom-lg" id="Name">
                                 <div class="col-sm-2 custom-form-label text-right">{{t "Associated REST services"}} :</div>
                                 <table>
@@ -63,7 +66,7 @@
                                     {{/each}}
                                 </table>
                             </div>
-                           
+                           </div>
                             <div id='wadl-viewer'>
                                 <h2 class="field-title">
                                     <a class="collapsing-h2" data-toggle="collapse" area-expanded="true">

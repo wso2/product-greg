@@ -13,27 +13,34 @@
 * limitations under the License. 
 -->
 {{#with assets}}
-    {{#each tables}}
-        {{renderTablePreview .}}
-    {{/each}}
+{{#each tables}}
+{{renderTablePreview .}}
+{{/each}}
 
 {{#if isDependentsPresent}}
-<div>
-    <table class="table table-striped table-hover">
-        <thead>
-        <h4>{{t "Associations"}}</h4>
-        </thead>
-        <tbody>
-        <tr>
-            <th>{{t "Associated Artifacts"}} :</th>
-        {{#each dependencies}}
-            <tr>
-                <td><a href="../../../assets/{{this.associationType}}/details/{{this.associationUUID}}">{{this.associationName}}</a></td>
-            </tr>
-        {{/each}}
+
+<h2 class="field-title">
+ <a class="collapsing-h2 collapsed" data-toggle="collapse" area-expanded="true" href="#collapseassociations">
+    <i class="cu-btn-exp-col btn-collapsed">{{t "Associations"}}</i>
+</a>
+</h2>
+<div id="collapseassociations" class="collapse">
+    <table class="table table-bordered">
+        <thead class="decorated-table-heading">
+            <tr><th>
+                {{t "Associated Artifacts"}}
+            </th>
         </tr>
-        </tbody>
-    </table>
+    </thead>
+    <tbody>
+        {{#each dependencies}}
+        <tr>
+            <td><a href="../../../assets/{{this.associationType}}/details/{{this.associationUUID}}">{{this.associationName}}</a></td>
+        </tr>
+        {{/each}}
+    </tbody>
+</table>
 </div>
+
 {{/if}}
 {{/with}}
