@@ -1,0 +1,16 @@
+<WSO2 displayName="WSO2Tree">
+    <LineOfBusiness1 displayName="Line Of Business 1">
+        <Department1></Department1>
+    </LineOfBusiness1>
+    <LineOfBusiness2 displayName="Line Of Business 2">
+        <Department2></Department2>
+    </LineOfBusiness2>
+    <LineOfBusiness3 displayName="Line Of Business 3">
+        <Department3></Department3>
+    </LineOfBusiness3>
+    <LineOfBusiness4 displayName="Line Of Business 4">
+        <Department4></Department4>
+        <Department1></Department1>
+<DepartmentS></DepartmentS>
+    </LineOfBusiness4>
+</WSO2>
