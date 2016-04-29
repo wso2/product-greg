@@ -1,6 +1,6 @@
 
 /*
-*Copyright (c) 2015, WSO2 Inc. (http://www.wso2.org) All Rights Reserved.
+*Copyright (c) 2016, WSO2 Inc. (http://www.wso2.org) All Rights Reserved.
 *
 *WSO2 Inc. licenses this file to you under the Apache License,
 *Version 2.0 (the "License"); you may not use this file except
@@ -47,8 +47,8 @@ import javax.xml.xpath.XPathExpressionException;
 import static org.testng.Assert.assertTrue;
 
 @SetEnvironment(executionEnvironments = { ExecutionEnvironment.ALL})
-public class RestServiceCRUDTestCase extends GregESTestBaseTest {
-    private static final Log log = LogFactory.getLog(RestServiceCRUDTestCase.class);
+public class RestServiceCRUDTaxonomyTestCase extends GregESTestBaseTest {
+    private static final Log log = LogFactory.getLog(RestServiceCRUDTaxonomyTestCase.class);
     private TestUserMode userMode;
     String jSessionId;
     String assetId;
@@ -62,7 +62,7 @@ public class RestServiceCRUDTestCase extends GregESTestBaseTest {
     String resourcePath;
 
     @Factory(dataProvider = "userModeProvider")
-    public RestServiceCRUDTestCase(TestUserMode userMode) {
+    public RestServiceCRUDTaxonomyTestCase(TestUserMode userMode) {
         this.userMode = userMode;
     }
 
@@ -152,10 +152,10 @@ public class RestServiceCRUDTestCase extends GregESTestBaseTest {
 
     /**
 
-     * Can be used to add new rxt configuration
-     * @param fileName name of the new rxt file
-     * @param resourceFileName saving name for the rxt file
-     * @return true on successful addition of rxt
+     * Can be used to add new taxonomy configuration
+     * @param fileName name of the new taxonomy file
+     * @param resourceFileName saving name for the taxonomy file
+     * @return true on successful addition of taxonomy
      * @throws Exception
      */
     public boolean addNewTaxonomyConfiguration(String fileName, String resourceFileName) throws Exception {
