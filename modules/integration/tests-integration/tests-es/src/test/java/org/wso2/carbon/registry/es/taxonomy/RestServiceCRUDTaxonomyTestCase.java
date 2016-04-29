@@ -282,22 +282,6 @@ public class RestServiceCRUDTaxonomyTestCase extends GregESTestBaseTest {
                 "Wrong status code ,Expected 200 Created ,Received " + response.getStatusCode());
     }
 
-    @Test(groups = {"wso2.greg", "wso2.greg.es"}, description = "Add taxonomy to Rest Service in Publisher",
-            dependsOnMethods = {"deleteTaxonomyFromAsset"})
-    public void getTaxonomiesFromRestServiceAfterDelete() throws Exception {
-
-        Map<String, String> queryParamMap = new HashMap<>();
-        queryParamMap.put("type", "restservice");
-        assetName = "restService1";
-        ClientResponse response = genericRestClient
-                .geneticRestRequestGet(publisherUrl + "/asset/" + assetId + "/taxonomies", queryParamMap, headerMap,
-                        cookieHeader);
-        Assert.assertTrue((response.getStatusCode() == 200),
-                "Wrong status code ,Expected 200 Created ,Received " + response.getStatusCode());
-        JSONObject obj = new JSONObject(response.getEntity(String.class));
-        Assert.assertFalse((obj.length() > 0), "Taxonomy not added successfully" + response.getStatusCode());
-    }
-
     @AfterClass(alwaysRun = true)
     public void cleanUp() throws RegistryException, JSONException {
         Map<String, String> queryParamMap = new HashMap<>();
