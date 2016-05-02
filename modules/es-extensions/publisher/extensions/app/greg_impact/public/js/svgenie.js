@@ -65,12 +65,8 @@ var svgenie = (function(){
         };
 
         // IE10
-        if( window.navigator.msSaveBlob ){
-            conf.canvas.toBlob( function ( blobby ){
-                if( window.navigator.msSaveBlob ){
-                    window.navigator.msSaveBlob( blobby, conf.name );
-                }
-            }, "image/png" );
+        if (window.navigator.msSaveOrOpenBlob) {
+            navigator.msSaveOrOpenBlob(conf.canvas.msToBlob(), conf.name);
             return;
         }
 
