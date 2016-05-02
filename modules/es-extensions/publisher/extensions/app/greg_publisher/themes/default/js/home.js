@@ -117,6 +117,7 @@ var createQuery = function(options) {
     var input = $('#inp_searchAsset').val();
     var category = options.category || undefined;
     var searchQueryString = '?';
+    input = input.trim();
     if (input.indexOf(":") == -1 && input.trim() !== "") {
         input = setDefaultSearchQuery(input);
     }
