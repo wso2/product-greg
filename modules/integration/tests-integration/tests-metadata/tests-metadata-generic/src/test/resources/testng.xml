@@ -8,6 +8,7 @@
             <package name="org.wso2.carbon.registry.metadata.test.uri.*"/>
             <package name="org.wso2.carbon.registry.metadata.test.util.*"/>
             <package name="org.wso2.carbon.registry.metadata.test.server.*"/>
+            <package name="org.wso2.carbon.registry.metadata.test.restservice.*"/>
         </packages>
 
         <classes>
