@@ -813,29 +813,31 @@ function showRelations(d){
  * Function to save current screen as a .png image file.
  */
 function svgDownload(){
-    var minX = Number.POSITIVE_INFINITY, 
+    var minX = Number.POSITIVE_INFINITY,
         minY = Number.POSITIVE_INFINITY,
         currentScale = zoom.scale();
 
-    d3.selectAll("[group=node]").each(function(){
+    d3.selectAll("[group=node]").each(function () {
         console.log(this);
         var xforms = this.getAttribute('transform');
-        var parts  = /translate\(\s*([^\s,)]+)[ ,]([^\s,)]+)/.exec(xforms);
+        var parts = /translate\(\s*([^\s,)]+)[ ,]([^\s,)]+)/.exec(xforms);
         var firstX = parseInt(parts[1], 10),
             firstY = parseInt(parts[2], 10);
-        if (firstX < minX)
+        if (firstX < minX) {
             minX = firstX;
-        if (firstY <minY)
+        }
+        if (firstY < minY) {
             minY = firstY;
+        }
     });
-    minX = -minX +100;
-    minY = -minY +100;
+    minX = -minX + 100;
+    minY = -minY + 100;
 
-   var graphBBox = d3.select("svg g#mainG").node().getBBox();
+    var graphBBox = d3.select("svg g#mainG").node().getBBox();
 
     var clone = $(graphSVG).clone();
     clone.appendTo("#graph-capture");
-    clone.attr("id","cloned");
+    clone.attr("id", "cloned");
     clone.attr("width", (graphBBox.width + 200) * currentScale);
     clone.attr("height", (graphBBox.height + 100) * currentScale);
     clone.attr("viewBox", [
@@ -843,26 +845,26 @@ function svgDownload(){
         0,
         (graphBBox.width + 200) * currentScale,
         (graphBBox.height + 100) * currentScale
-      ].join(" "));
+    ].join(" "));
     var cssRules = {
-        'propertyGroups' : {
-            'block' : ['fill'],
-            'inline' : ['fill', 'stroke', 'stroke-width'],
-            'object' : ['fill'],
-            'headings' : ['font', 'font-size', 'font-family', 'font-weight', 'fill', 'display']
+        'propertyGroups': {
+            'block': ['fill'],
+            'inline': ['fill', 'stroke', 'stroke-width'],
+            'object': ['fill'],
+            'headings': ['font', 'font-size', 'font-family', 'font-weight', 'fill', 'display']
         },
-        'elementGroups' : {
-            'block' : ['g'],
-            'inline' : ['circle', 'line'],
-            'object' : ['svg', 'path'],
-            'headings' : ['text']
+        'elementGroups': {
+            'block': ['g'],
+            'inline': ['circle', 'line'],
+            'object': ['svg', 'path'],
+            'headings': ['text']
         }
     };
     var g = clone.children("g");
-    g.attr('transform','translate('+minX*currentScale+','+minY*currentScale+')'+' scale('+currentScale+')');
+    g.attr('transform', 'translate(' + minX * currentScale + ',' + minY * currentScale + ')' + ' scale(' + currentScale + ')');
     g.inlineStyler(cssRules);
 
-    svgenie.save(document.getElementById("cloned"), { name:DOWNLOAD_FILENAME+'.png' });
+    svgenie.save(document.getElementById("cloned"), { name: DOWNLOAD_FILENAME + '.png' });
     $(graphCaptureSVG).remove();
 }
 
