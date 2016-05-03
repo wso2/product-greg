@@ -89,7 +89,7 @@ public class RESTServiceUpdateTestCase extends GREGIntegrationBaseTest {
         GenericArtifact artifact = artifactManager.getGenericArtifact(artifactId);
         artifact.setAttribute("interface_swagger", "");
         artifact.setAttribute("interface_wadl",
-                "https://svn.wso2.org/repos/wso2/trunk/commons/qa/qa-artifacts/greg/wadl/SearchSearvice.wadl");
+                "https://raw.githubusercontent.com/wso2/wso2-qa-artifacts/master/automation-artifacts/greg/wadl/SearchSearvice.wadl");
 
         artifactManager.updateGenericArtifact(artifact);
 
@@ -112,7 +112,7 @@ public class RESTServiceUpdateTestCase extends GREGIntegrationBaseTest {
         GenericArtifact artifact = artifactManager.getGenericArtifact(artifactId);
         artifact.setAttribute("interface_swagger", "http://petstore.swagger.io/v2/swagger.json");
         artifact.setAttribute("interface_wadl",
-                "https://svn.wso2.org/repos/wso2/trunk/commons/qa/qa-artifacts/greg/wadl/SearchSearvice.wadl");
+                "https://raw.githubusercontent.com/wso2/wso2-qa-artifacts/master/automation-artifacts/greg/wadl/SearchSearvice.wadl");
 
         artifactManager.updateGenericArtifact(artifact);
 
@@ -125,7 +125,7 @@ public class RESTServiceUpdateTestCase extends GREGIntegrationBaseTest {
 
     /**
      * Creates an rest service without any interface urls and then update it by adding a swagger url.
-     * After that revert the change. Expected to be back to the previous state.
+     * After that revert the change. Expected to have the endpoint artifact but not the swagger document.
      *
      * @throws GovernanceException
      */
@@ -146,14 +146,14 @@ public class RESTServiceUpdateTestCase extends GREGIntegrationBaseTest {
         artifactManager.updateGenericArtifact(receivedArtifact);
 
         receivedArtifact = artifactManager.getGenericArtifact(receivedArtifact.getId());
-        assertEquals(receivedArtifact.getDependencies().length, 0, "All dependencies should have been removed.");
+        assertEquals(receivedArtifact.getDependencies().length, 1, "Only endpoint dependency is expected.");
 
         artifactManager.removeGenericArtifact(receivedArtifact.getId());
     }
 
     /**
      * Creates an rest service without any interface urls and then update it by adding a wadl url.
-     * After that revert the change. Expected to be back to the previous state.
+     * After that revert the change. Expected to have the endpoint artifact but not the wadl document.
      *
      * @throws GovernanceException
      */
@@ -163,7 +163,7 @@ public class RESTServiceUpdateTestCase extends GREGIntegrationBaseTest {
         String artifactId = createArtifact("RestService5");
         GenericArtifact artifact = artifactManager.getGenericArtifact(artifactId);
         artifact.setAttribute("interface_wadl",
-                "https://svn.wso2.org/repos/wso2/trunk/commons/qa/qa-artifacts/greg/wadl/SearchSearvice.wadl");
+                "https://raw.githubusercontent.com/wso2/wso2-qa-artifacts/master/automation-artifacts/greg/wadl/SearchSearvice.wadl");
 
 
         artifactManager.updateGenericArtifact(artifact);
@@ -177,7 +177,7 @@ public class RESTServiceUpdateTestCase extends GREGIntegrationBaseTest {
         artifactManager.updateGenericArtifact(receivedArtifact);
 
         receivedArtifact = artifactManager.getGenericArtifact(receivedArtifact.getId());
-        assertEquals(receivedArtifact.getDependencies().length, 0, "All dependencies should have been removed.");
+        assertEquals(receivedArtifact.getDependencies().length, 1, "Only endpoint dependency is expected.");
 
         artifactManager.removeGenericArtifact(receivedArtifact.getId());
     }
@@ -194,7 +194,7 @@ public class RESTServiceUpdateTestCase extends GREGIntegrationBaseTest {
         String artifactId = createArtifact("RestService6");
         GenericArtifact artifact = artifactManager.getGenericArtifact(artifactId);
         artifact.setAttribute("interface_wadl",
-                "https://svn.wso2.org/repos/wso2/trunk/commons/qa/qa-artifacts/greg/wadl/SearchSearvice.wadl");
+                "https://raw.githubusercontent.com/wso2/wso2-qa-artifacts/master/automation-artifacts/greg/wadl/SearchSearvice.wadl");
 
 
         artifactManager.updateGenericArtifact(artifact);

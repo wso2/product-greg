@@ -135,7 +135,7 @@ public class RESTServiceCreationTestCase extends GREGIntegrationBaseTest {
         artifact.setAttribute("overview_context", "/rs_test");
         artifact.setAttribute("overview_version", "1.1.1");
         artifact.setAttribute("interface_wadl",
-                "https://svn.wso2.org/repos/wso2/trunk/commons/qa/qa-artifacts/greg/wadl/SearchSearvice.wadl");
+                "https://raw.githubusercontent.com/wso2/wso2-qa-artifacts/master/automation-artifacts/greg/wadl/SearchSearvice.wadl");
         artifact.setAttribute("overview_description", "Description");
 
         artifactManager.addGenericArtifact(artifact);
@@ -161,7 +161,7 @@ public class RESTServiceCreationTestCase extends GREGIntegrationBaseTest {
         artifact.setAttribute("overview_context", "/rs_test");
         artifact.setAttribute("overview_version", "1.1.1");
         artifact.setAttribute("interface_wadl",
-                "https://svn.wso2.org/repos/wso2/trunk/commons/qa/qa-artifacts/greg/wadl/SearchSearvice.wadl");
+                "https://raw.githubusercontent.com/wso2/wso2-qa-artifacts/master/automation-artifacts/greg/wadl/SearchSearvice.wadl");
         artifact.setAttribute("interface_swagger", "http://petstore.swagger.io/v2/swagger.json");
         artifact.setAttribute("overview_description", "Description");
 
@@ -239,7 +239,7 @@ public class RESTServiceCreationTestCase extends GREGIntegrationBaseTest {
         artifact.setAttribute("overview_context", "/rs_test");
         artifact.setAttribute("overview_version", "1.4.1");
         artifact.setAttribute("interface_wadl",
-                "https://svn.wso2.org/repos/wso2/trunk/commons/qa/qa-artifacts/greg/wadl/SearchSearvice.wadl");
+                "https://raw.githubusercontent.com/wso2/wso2-qa-artifacts/master/automation-artifacts/greg/wadl/SearchSearvice.wadl");
         artifact.setAttribute("endpoints_entry", "None:http://test.org");
 
         artifactManager.addGenericArtifact(artifact);
