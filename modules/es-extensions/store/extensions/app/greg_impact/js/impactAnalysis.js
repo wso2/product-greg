@@ -817,7 +817,6 @@ function svgDownload(){
         currentScale = zoom.scale();
 
     d3.selectAll("[group=node]").each(function () {
-        console.log(this);
         var xforms = this.getAttribute('transform');
         var parts = /translate\(\s*([^\s,)]+)[ ,]([^\s,)]+)/.exec(xforms);
         var firstX = parseInt(parts[1], 10),
