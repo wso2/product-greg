@@ -813,8 +813,37 @@ function showRelations(d){
  * Function to save current screen as a .png image file.
  */
 function svgDownload(){
-    $(graphSVG).clone().appendTo("#graph-capture");
-    $(graphCaptureSVG).attr("id","cloned");
+    var minX = Number.POSITIVE_INFINITY, 
+        minY = Number.POSITIVE_INFINITY,
+        currentScale = zoom.scale();
+
+    d3.selectAll("[group=node]").each(function(){
+        console.log(this);
+        var xforms = this.getAttribute('transform');
+        var parts  = /translate\(\s*([^\s,)]+)[ ,]([^\s,)]+)/.exec(xforms);
+        var firstX = parseInt(parts[1], 10),
+            firstY = parseInt(parts[2], 10);
+        if (firstX < minX)
+            minX = firstX;
+        if (firstY <minY)
+            minY = firstY;
+    });
+    minX = -minX +100;
+    minY = -minY +100;
+
+   var graphBBox = d3.select("svg g#mainG").node().getBBox();
+
+    var clone = $(graphSVG).clone();
+    clone.appendTo("#graph-capture");
+    clone.attr("id","cloned");
+    clone.attr("width", (graphBBox.width + 200) * currentScale);
+    clone.attr("height", (graphBBox.height + 100) * currentScale);
+    clone.attr("viewBox", [
+        0,
+        0,
+        (graphBBox.width + 200) * currentScale,
+        (graphBBox.height + 100) * currentScale
+      ].join(" "));
     var cssRules = {
         'propertyGroups' : {
             'block' : ['fill'],
@@ -829,7 +858,10 @@ function svgDownload(){
             'headings' : ['text']
         }
     };
-    $(graphCaptureSVG + " g").inlineStyler(cssRules);
+    var g = clone.children("g");
+    g.attr('transform','translate('+minX*currentScale+','+minY*currentScale+')'+' scale('+currentScale+')');
+    g.inlineStyler(cssRules);
+
     svgenie.save(document.getElementById("cloned"), { name:DOWNLOAD_FILENAME+'.png' });
     $(graphCaptureSVG).remove();
 }
