@@ -672,6 +672,7 @@ function tickCallback(){
     $(".download").attr("disabled", false);
     $(".filters").css("display", "inline-block");
     onload = false;
+    zoomFit(); //Zoom out graph to fit screen on page load
 }
 
 /*
