@@ -656,23 +656,19 @@ function tick(){
             .attr("cy", function(d) { return screenOrientation * midPoint(d.source.y,d.target.y) });
 
     nodeEnter.attr("transform", function(d) { return "translate(" + d.x + "," + screenOrientation * d.y + ")"; });
-
-    if(onload == true){
-        zoomFit(); //Zoom out graph to fit screen on page load
-    }
 }
 
 /*
  * Function to run after nodes spreading done.
  */
 function tickCallback(){
+    zoomFit(); //Zoom out graph to fit screen on page load
     $("#preLoader").hide();
     $(".zoom").attr("disabled", false);
     $(".searchbox").attr("disabled", false);
     $(".download").attr("disabled", false);
     $(".filters").css("display", "inline-block");
     onload = false;
-    zoomFit(); //Zoom out graph to fit screen on page load
 }
 
 /*
