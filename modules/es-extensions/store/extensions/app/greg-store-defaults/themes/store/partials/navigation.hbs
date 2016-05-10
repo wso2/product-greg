@@ -38,18 +38,25 @@
                             <div class="tag-title"> {{t "Tags"}} </div>
                             <div class="tag-content">
                                 {{#each tags}}
-                                    {{#if this.selected}}
+                                    {{#if this.applied}}
                                         {{#if ../../assetCategoryDetails.hasCategories}}
                                             <a href='{{tenantedUrl ""}}{{this.searchPage}}?q="category":"{{../../assetCategoryDetails.selectedCategory}}","tags":"{{this.value}}"'><span class = "text-muted" >{{this.value}}</span></a>
                                         {{else}}
                                             <a href='{{tenantedUrl ""}}{{this.searchPage}}?q="tags":"{{this.value}}"'><span class = "text-muted" >{{this.value}}</span></a>
                                         {{/if}}
                                     {{else}}
-
-                                        {{#if ../../assetCategoryDetails.hasCategories}}
-                                            <a href='{{tenantedUrl ""}}{{this.searchPage}}?q="category":"{{../../../assetCategoryDetails.selectedCategory}}","tags":"{{this.value}}"'><span>{{this.value}}</span></a>
+                                        {{#if this.selected}}
+                                            {{#if ../../assetCategoryDetails.hasCategories}}
+                                                <a href='{{tenantedUrl ""}}{{this.searchPage}}?q="category":"{{../../assetCategoryDetails.selectedCategory}}","tags":"{{this.value}}"'><span class = "text-muted" >{{this.value}}</span></a>
+                                            {{else}}
+                                                <a href='{{tenantedUrl ""}}{{this.searchPage}}?q="tags":"{{this.value}}"'><span class = "text-muted" >{{this.value}}</span></a>
+                                            {{/if}}
                                         {{else}}
-                                            <a href='{{tenantedUrl ""}}{{this.searchPage}}?q="tags":"{{this.value}}"'><span>{{this.value}}</span></a>
+                                            {{#if ../../assetCategoryDetails.hasCategories}}
+                                                <a href='{{tenantedUrl ""}}{{this.searchPage}}?q="category":"{{../../../assetCategoryDetails.selectedCategory}}","tags":"{{this.value}}"'><span>{{this.value}}</span></a>
+                                            {{else}}
+                                                <a href='{{tenantedUrl ""}}{{this.searchPage}}?q="tags":"{{this.value}}"'><span>{{this.value}}</span></a>
+                                            {{/if}}
                                         {{/if}}
                                     {{/if}}
                                 {{/each}}
