@@ -17,7 +17,7 @@
  */
 
 $(function () {
-
+    var TAG_SELECT_BOX = '#select-tags';
     var tags = [];
     var formattedTags = [];
 
@@ -41,11 +41,53 @@ $(function () {
         formattedTags.push(formattedTag);
     }
 
-    $('#select-tags').select2({
+    $(TAG_SELECT_BOX).select2({
         tags: true,
         data: tags,
         multiple: true,
         cache: true,
+        createTag:function(term){
+            //Prevent tags with spaces by replacing it with a dash (-)
+            var modifiedTerm = term.term.trim();
+            var formatted = modifiedTerm.split(' ').join('-');
+            return {
+                id:formatted,
+                text:formatted
+            };
+        }
+    });
+    
+    //Search from already available tags and suggest to the user when adding tags to assets.
+    $(TAG_SELECT_BOX).select2({
+        tags: true,
+        ajax: {
+            url: caramel.context + '/apis/tags?type=' + store.publisher.type,
+            dataType: "json",
+            delay: 250,
+            data: function (params) {
+                var query = '"name":"' + params.term + '"';
+                return {
+                    q: query
+                };
+            },
+            processResults: function (data) {
+                var results = [];
+                for (var i = 0; i < data.length; i++) {
+                    results.push({
+                        id: data[i].name,
+                        text: data[i].name
+                    });
+                }
+                return {
+                    results: results
+                };
+            },
+            cache: true
+        },
+        minimumInputLength: 2,
+        templateSelection: function (data) {
+            return data.text;
+        },
         createTag:function(term){
             //Prevent tags with spaces by replacing it with a dash (-)
             var modifiedTerm = term.term.trim();
