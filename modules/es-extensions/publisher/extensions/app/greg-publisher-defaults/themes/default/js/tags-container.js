@@ -56,7 +56,8 @@ $(function () {
             };
         }
     });
-
+    
+    //Search from already available tags and suggest to the user when adding tags to assets.
     $(TAG_SELECT_BOX).select2({
         tags: true,
         ajax: {
@@ -70,13 +71,12 @@ $(function () {
                 };
             },
             processResults: function (data) {
-                var i;
-                var o;
-                var length = data.length;
                 var results = [];
-                for (i = 0; i < length; i++) {
-                    o = data[i];
-                    results.push({ id: o.name, text: o.name});
+                for (var i = 0; i < data.length; i++) {
+                    results.push({
+                        id: data[i].name,
+                        text: data[i].name
+                    });
                 }
                 return {
                     results: results
