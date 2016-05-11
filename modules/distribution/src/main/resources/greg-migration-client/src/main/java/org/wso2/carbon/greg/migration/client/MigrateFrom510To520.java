@@ -18,41 +18,24 @@
  */
 package org.wso2.carbon.greg.migration.client;
 
-import org.apache.axiom.om.OMElement;
-import org.apache.axiom.om.impl.builder.StAXOMBuilder;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.wso2.carbon.CarbonException;
 import org.wso2.carbon.base.MultitenantConstants;
 import org.wso2.carbon.context.PrivilegedCarbonContext;
 import org.wso2.carbon.greg.migration.GRegMigrationException;
-import org.wso2.carbon.greg.migration.MigrationDatabaseCreator;
 import org.wso2.carbon.greg.migration.client.internal.ServiceHolder;
 import org.wso2.carbon.greg.migration.util.Constants;
-import org.wso2.carbon.identity.core.util.IdentityConfigParser;
-import org.wso2.carbon.identity.core.util.IdentityCoreConstants;
 import org.wso2.carbon.registry.core.Registry;
 import org.wso2.carbon.registry.core.exceptions.RegistryException;
 import org.wso2.carbon.user.api.Tenant;
 import org.wso2.carbon.user.api.UserStoreException;
 import org.wso2.carbon.user.core.tenant.TenantManager;
-import org.wso2.carbon.utils.CarbonUtils;
-import org.wso2.carbon.identity.core.util.IdentityUtil;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStream;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Iterator;
 import java.util.List;
-import javax.naming.Context;
-import javax.naming.InitialContext;
-import javax.naming.NamingException;
 import javax.sql.DataSource;
-import javax.xml.namespace.QName;
 import javax.xml.stream.XMLStreamException;
 
 /**
@@ -65,39 +48,8 @@ public class MigrateFrom510To520 implements MigrationClient{
     private DataSource dataSource;
 
     @Override
-    public void databaseMigration(String migrateVersion) throws GRegMigrationException{
-        try {
-            long startTimeMillis = System.currentTimeMillis();
-            log.info("Identity databases migration started.");
-            initIdentityDataSource();
-            log.info("Migration for identity databases Completed Successfully in " +
-                     (System.currentTimeMillis() - startTimeMillis)
-                     + "ms");
-        } catch (IOException e) {
-            String msg = "Error while processing registry.xml fle";
-            log.error(msg, e);
-            throw new GRegMigrationException(msg, e);
-        } catch (CarbonException e) {
-            String msg = "Error while processing inputstream of registry.xml";
-            log.error(msg,e);
-            throw new GRegMigrationException(msg, e);
-        } catch (XMLStreamException e) {
-            String msg = "Error while processing string to xml";
-            log.error(msg, e);
-            throw new GRegMigrationException(msg, e);
-        } catch (NamingException e) {
-            String msg = "Error when looking up the Data Source.";
-            log.error(msg, e);
-            throw new GRegMigrationException(msg, e);
-        } catch (SQLException e) {
-            String msg = "Failed to execute the migration script. " + e.getMessage();
-            log.error(msg, e);
-            throw new GRegMigrationException(msg, e);
-        } catch (Exception e) {
-            String msg = "Error while migrating the idp and sp identity databases.";
-            log.error(msg, e);
-            throw new GRegMigrationException(msg, e);
-        }
+    public void databaseMigration(String migrateVersion) throws GRegMigrationException, SQLException {
+        log.info("Not implemented in 5.1.0 to 5.2.0 migration");
     }
 
     @Override
@@ -188,38 +140,4 @@ public class MigrateFrom510To520 implements MigrationClient{
 
     }
 
-    /**
-     * This method reads the identity.xml and initialize the identity datasource.
-     *
-     * @throws Exception
-     */
-    public void initIdentityDataSource() throws Exception {
-        OMElement persistenceManagerConfigElem = IdentityConfigParser.getInstance()
-                .getConfigElement("JDBCPersistenceManager");
-        if (persistenceManagerConfigElem == null) {
-            String errorMsg = "Identity Persistence Manager configuration is not available in " +
-                              "identity.xml file. Terminating the JDBC Persistence Manager " +
-                              "initialization. This may affect certain functionality.";
-            log.error(errorMsg);
-            throw new GRegMigrationException(errorMsg);
-        }
-        OMElement dataSourceElem = persistenceManagerConfigElem.getFirstChildWithName(
-                new QName(IdentityCoreConstants.IDENTITY_DEFAULT_NAMESPACE, "DataSource"));
-        if (dataSourceElem == null) {
-            String errorMsg = "DataSource Element is not available for JDBC Persistence " +
-                              "Manager in identity.xml file. Terminating the JDBC Persistence Manager " +
-                              "initialization. This might affect certain features.";
-            log.error(errorMsg);
-            throw new GRegMigrationException(errorMsg);
-        }
-        OMElement dataSourceNameElem = dataSourceElem.getFirstChildWithName(
-                new QName(IdentityCoreConstants.IDENTITY_DEFAULT_NAMESPACE, "Name"));
-        if (dataSourceNameElem != null) {
-            String dataSourceName = dataSourceNameElem.getText();
-            Context ctx = new InitialContext();
-            dataSource = (DataSource) ctx.lookup(dataSourceName);
-            MigrationDatabaseCreator migrationDatabaseCreator = new MigrationDatabaseCreator(dataSource);
-            migrationDatabaseCreator.addNewIdentityTables();
-        }
-    }
 }
