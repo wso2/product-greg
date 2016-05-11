@@ -77,7 +77,6 @@ public class GRegMigrationServiceComponent {
         argsMap.put("isFileSysMigrationNeeded", System.getProperty("migrateFS"));
         argsMap.put("isProviderMigrationNeeded", System.getProperty("migrateProvider"));
         argsMap.put("isEmailUsernameMigrationNeeded", System.getProperty("migrateEmailUsername"));
-        argsMap.put("isStoreConfigMigrationNeeded", System.getProperty("migrateStoreConfig"));
 
         if (!argsMap.isEmpty()) {
             migrateVersion = argsMap.get("migrateVersion");
@@ -129,7 +128,6 @@ public class GRegMigrationServiceComponent {
                 } else if (Constants.VERSION_520.equalsIgnoreCase(migrateVersion)) {
                     if (!isEmailUsernameMigrationNeeded && !isProviderMigrationNeeded) {
                         MigrateFrom510To520 migrateFrom510To520 = new MigrateFrom510To520();
-                        migrateFrom510To520.databaseMigration(migrateVersion);
                         migrateFrom510To520.cleanOldResources();
                     } else if (isEmailUsernameMigrationNeeded) {
                         EmailUserNameMigrationClient emailUserNameMigrationClient = new EmailUserNameMigrationClient();

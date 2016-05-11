@@ -57,13 +57,6 @@ public class MigrationDatabaseCreator {
     public MigrationDatabaseCreator(DataSource dataSource) {
         this.dataSource = dataSource;
     }
-    public String getDataBaseType() {
-        return dataBaseType;
-    }
-
-    public void setDataBaseType(String dataBaseType) {
-        this.dataBaseType = dataBaseType;
-    }
     /**
      * Execute Migration Script
      *
@@ -114,73 +107,6 @@ public class MigrationDatabaseCreator {
             }
         }
     }
-
-    /**
-     * Execute Migration Scripts related to database type
-     *
-     * @throws Exception
-     */
-    public void addNewIdentityTables() throws Exception {
-
-        try {
-            conn = dataSource.getConnection();
-            conn.setAutoCommit(false);
-            dataBaseType = DatabaseCreator.getDatabaseType(this.conn);
-            statement = conn.createStatement();
-            String dbscriptNameForIdp;
-            String dbscriptNameForSp;
-            switch (dataBaseType) {
-                case "h2":
-                    log.info("No changes to migrate (identity tables) when using H2 database");
-                    break;
-                case "mysql":
-                    dbscriptNameForIdp = Constants.IDP_MIGRATION_SCRIPT_MYSQL;
-                    dbscriptNameForSp = Constants.SP_MIGRATION_SCRIPT_MYSQL;
-                    executeIdentitySQLScript(dbscriptNameForIdp);
-                    executeIdentitySQLScript(dbscriptNameForSp);
-                    break;
-                case "oracle":
-                    dbscriptNameForIdp = Constants.IDP_MIGRATION_SCRIPT_ORACLE;
-                    dbscriptNameForSp = Constants.SP_MIGRATION_SCRIPT_ORACLE;
-                    executeIdentitySQLScript(dbscriptNameForIdp);
-                    executeIdentitySQLScript(dbscriptNameForSp);
-                    break;
-                case "mssql":
-                    dbscriptNameForIdp = Constants.IDP_MIGRATION_SCRIPT_MSSQL;
-                    dbscriptNameForSp = Constants.SP_MIGRATION_SCRIPT_MSSQL;
-                    executeIdentitySQLScript(dbscriptNameForIdp);
-                    executeIdentitySQLScript(dbscriptNameForSp);
-                    break;
-                case "postgresql":
-                    dbscriptNameForIdp = Constants.IDP_MIGRATION_SCRIPT_POSTGRESQL;
-                    dbscriptNameForSp = Constants.SP_MIGRATION_SCRIPT_POSTGRESQL;
-                    executeIdentitySQLScript(dbscriptNameForIdp);
-                    executeIdentitySQLScript(dbscriptNameForSp);
-                    break;
-                case "db2":
-                    dbscriptNameForIdp = Constants.IDP_MIGRATION_SCRIPT_DB2;
-                    dbscriptNameForSp = Constants.SP_MIGRATION_SCRIPT_DB2;
-                    executeIdentitySQLScript(dbscriptNameForIdp);
-                    executeIdentitySQLScript(dbscriptNameForSp);
-                    break;
-                default:
-                    break;
-            }
-            conn.commit();
-            if (log.isTraceEnabled()) {
-                log.trace("Migration script executed successfully.");
-            }
-        } finally {
-            try {
-                if (conn != null) {
-                    conn.close();
-                }
-            } catch (SQLException e) {
-                log.error("Failed to close database connection.", e);
-            }
-        }
-    }
-
     /**
      * executes content in idp  & sp SQL scripts
      *
