@@ -727,7 +727,7 @@ var gregAPI = {};
         var permissionCheck;
         var resource = registry.get(registryPath);
         try {
-            if(resource){
+            if (resource) {
                 permissionCheck = resource.getProperty(REGISTRY_PERMISSION_CHECK);
             }
 
@@ -763,7 +763,11 @@ var gregAPI = {};
                 results.pathWithVersion = permissionsBean.getPathWithVersion();
                 results.isAuthorizeAllowed = permissionsBean.isAuthorizeAllowed();
                 results.isVersionView = permissionsBean.isVersionView();
-                results.permissionCheck = permissionCheck;
+                if (permissionCheck) {
+                    results.permissionCheck = permissionCheck;
+                } else {
+                    results.permissionCheck = "other";
+                }
                 return results;
             } else {
                 return null;
