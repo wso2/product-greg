@@ -1,0 +1,46 @@
+
+    <div class="col-xs-12 col-sm-5 col-md-5 col-lg-5">
+        <div id='lifecycle-rendering-area' class='lifecycle-rendering-area'>
+            <svg></svg>
+        </div>
+    </div>
+    <div class="col-xs-12 col-sm-7 col-md-7 col-lg-7">
+
+        {{#hasAssetPermission . key="ASSET_CREATE" type=assets.type username=cuser.username tenantId=cuser.tenantId}}
+        <div id='lifecycle-checklist-container'>
+            <div id='lifecycle-checklist'>
+            </div>
+            <div id='lifecycle-checklist-overlay'></div>
+        </div>
+        <div id='lifecycle-actions-container' class="form-horizontal">
+            <div id='lifecycle-comments'>
+                <div class='form-group'>
+                    <label class="custom-form-label col-xs-12 col-sm-12 col-md-2 col-lg-2">Comment</label>
+                    <div class="custom-form-right col-xs-12 col-sm-12 col-md-10 col-lg-10">
+                        <textarea id='lifecycle-comment' class='form-control' placeholder='{{t "This comment will be recorded with the state transition"}}'></textarea>
+                    </div>
+                </div>
+            </div>
+            <div id='lifecycle-notifications'></div>
+            <div id='lifecycle-transition-inputs-ui'>
+                {{> lifecycle-transition-inputs-ui .}}
+            </div>
+            <div id='lifecycle-actions' class="col-xs-12 col-sm-8 col-md-8 col-lg-8 col-sm-offset-2 col-md-offset-2 col-lg-offset-2"></div>
+            <div id='lifecycle-actions-overlay'></div>
+            <div class="clearfix"></div>
+        </div>
+        {{/hasAssetPermission}}
+
+        <div id='lifecycle-history-container'>
+            <h3>History</h3>
+            <div id='lifecycle-history'>
+                <img src='{{url ""}}/themes/default/img/preloader-40x40.gif'/> Loading history details ...</img>
+            </div>
+            <h5 class="field-title">
+                <a id="load-more-btn" button="collapse" aria-expanded="false" class="collapsing-h2" >
+                    <i class="cu-btn-exp-col btn-collapsed">Load More</i>
+                </a>
+            </h5>
+
+        </div>
+    </div>
