@@ -268,12 +268,13 @@ public class ProviderMigrationClient {
                         Node node = childrenList.item(j);
                         if (Constants.PROVIDER.equals(node.getNodeName())) {
                             overview.removeChild(node);
+                            String newContentString = documentToString(dom);
+                            byte[] newContentObject = RegistryUtils.encodeString(newContentString);
+                            childResource.setContent(newContentObject);
+                            registry.put(path, childResource);
                         }
                     }
-                    String newContentString = documentToString(dom);
-                    byte[] newContentObject = RegistryUtils.encodeString(newContentString);
-                    childResource.setContent(newContentObject);
-                    registry.put(path, childResource);
+
                 }
             }
         }
