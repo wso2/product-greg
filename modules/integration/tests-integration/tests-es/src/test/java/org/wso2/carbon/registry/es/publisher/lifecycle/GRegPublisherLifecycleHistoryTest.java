@@ -268,7 +268,7 @@ public class GRegPublisherLifecycleHistoryTest extends GregESTestBaseTest {
         Assert.assertEquals(((JSONObject) ((JSONObject) dataObj.get(3)).getJSONArray("action").
                 get(0)).getString("name"), "Promote");
 
-        Assert.assertEquals(dataObj.length(), 8);
+        Assert.assertEquals(dataObj.length(), 5);
     }
 
 
