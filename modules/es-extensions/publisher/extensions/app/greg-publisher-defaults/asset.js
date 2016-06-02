@@ -157,6 +157,12 @@ asset.renderer = function(ctx) {
                     {field: "overview_name", label: "Name"},
                     {field: "overview_version", label: "Version"},
                     {field: "createdDate", label: "Date/Time"}]);
+            },
+            checkSubscriptionMenuItems:function(page) {
+                page.isContentType = false;
+                if(page.rxt && page.rxt.fileExtension){
+                    page.isContentType = true;
+                }
             }
         }
     };

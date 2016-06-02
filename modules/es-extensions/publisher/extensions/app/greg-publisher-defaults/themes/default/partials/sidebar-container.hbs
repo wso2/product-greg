@@ -49,24 +49,26 @@
 
         {{#hasAppPermission . key="GREG_COMMUNITY_FEATURES" username=cuser.username tenantId=cuser.tenantId}}
         <!-- notifications settings -->
-        <div class="panel panel-default">
-            <div class="panel-heading" role="tab" id="headingNotificationsSettings">
-                <h2 class="sub-title panel-title">
-                    <a data-toggle="collapse" href="#collapseNotificationsSettings" aria-expanded="true" aria-controls="collapseNotificationsSettings">
-                        <span class="fw-stack">
-                            <i class="fw fw-ring fw-stack-2x"></i>
-                            <i class="fw fw-arrow fw-down-arrow fw-stack-1x"></i>
-                        </span>
-                        {{t "Notifications"}}
-                    </a>
-                </h2>
-            </div>
-            <div id="collapseNotificationsSettings" class="panel-collapse collapse in" aria-labelledby="headingNotificationsSettings">
-                <div class="panel-body">
-                    {{> notifications-settings-container . }}
+            {{#unless isContentType}}  <!-- remove notification tab for content type artifacts-->
+                <div class="panel panel-default">
+                    <div class="panel-heading" role="tab" id="headingNotificationsSettings">
+                        <h2 class="sub-title panel-title">
+                            <a data-toggle="collapse" href="#collapseNotificationsSettings" aria-expanded="true" aria-controls="collapseNotificationsSettings">
+                                <span class="fw-stack">
+                                    <i class="fw fw-ring fw-stack-2x"></i>
+                                    <i class="fw fw-arrow fw-down-arrow fw-stack-1x"></i>
+                                </span>
+                                {{t "Notifications"}}
+                            </a>
+                        </h2>
+                    </div>
+                    <div id="collapseNotificationsSettings" class="panel-collapse collapse in" aria-labelledby="headingNotificationsSettings">
+                        <div class="panel-body">
+                            {{> notifications-settings-container . }}
+                        </div>
+                    </div>
                 </div>
-            </div>
-        </div>
+            {{/unless}}
         <!-- /notifications settings -->
         {{/hasAppPermission}}
     </div>

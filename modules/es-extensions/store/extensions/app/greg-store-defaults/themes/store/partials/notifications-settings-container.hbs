@@ -4,21 +4,23 @@
         <th>{{t "Email"}}</th>
         <th>{{t "Store"}}</th>
     </tr>
-    <tr>
-        <td>{{t "Lifecycle State Change"}}</td>
-        <td>
-            <label class="wr-input-control switch">
-                <input type="checkbox" id="lifeCycleStateChangedEmail" {{#if subscriptions.StoreLifeCycleStateChanged.email.checked}}checked{{/if}} data-id="{{subscriptions.StoreLifeCycleStateChanged.email.id}}"  data-method='StoreLifeCycleStateChanged' data-type="email" >
-                <span class="helper"></span>
-            </label>
-        </td>
-        <td>
-            <label class="wr-input-control switch">
-                <input type="checkbox" id="lifeCycleStateChangedWork" {{#if subscriptions.StoreLifeCycleStateChanged.work.checked}}checked{{/if}} data-id="{{subscriptions.StoreLifeCycleStateChanged.work.id}}" data-method='StoreLifeCycleStateChanged' data-type="work" >
-                <span class="helper"></span>
-            </label>
-        </td>
-    </tr>
+    {{#if assets.lifecycle}}
+        <tr>
+            <td>{{t "Lifecycle State Change"}}</td>
+            <td>
+                <label class="wr-input-control switch">
+                    <input type="checkbox" id="lifeCycleStateChangedEmail" {{#if subscriptions.StoreLifeCycleStateChanged.email.checked}}checked{{/if}} data-id="{{subscriptions.StoreLifeCycleStateChanged.email.id}}"  data-method='StoreLifeCycleStateChanged' data-type="email" >
+                    <span class="helper"></span>
+                </label>
+            </td>
+            <td>
+                <label class="wr-input-control switch">
+                    <input type="checkbox" id="lifeCycleStateChangedWork" {{#if subscriptions.StoreLifeCycleStateChanged.work.checked}}checked{{/if}} data-id="{{subscriptions.StoreLifeCycleStateChanged.work.id}}" data-method='StoreLifeCycleStateChanged' data-type="work" >
+                    <span class="helper"></span>
+                </label>
+            </td>
+        </tr>
+    {{/if}}
     <tr>
         <td>{{t "Information Update"}}</td>
         <td>

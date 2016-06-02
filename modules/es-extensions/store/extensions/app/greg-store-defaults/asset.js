@@ -121,6 +121,12 @@ asset.renderer = function(ctx) {
                     single_version = true;
                 }
                 page.single_version = single_version;
+            },
+            checkSubscriptionMenuItems:function(page) {
+                page.isContentType = false;
+                if(page.rxt && page.rxt.fileExtension){
+                    page.isContentType = true;
+                }
             }
         }
     }

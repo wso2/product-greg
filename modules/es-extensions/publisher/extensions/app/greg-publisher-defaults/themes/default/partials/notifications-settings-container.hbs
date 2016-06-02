@@ -4,21 +4,23 @@
         <th>{{t "Email"}}</th>
         <th>{{t "Publisher"}}</th>
     </tr>
-    <tr>
-        <td>{{t "Lifecycle State Change"}}</td>
-        <td>
-            <label class="wr-input-control switch">
-                <input type="checkbox" id="lifeCycleStateChangedEmail" {{#if subscriptions.PublisherLifeCycleStateChanged.email.checked}}checked{{/if}} data-id="{{subscriptions.PublisherLifeCycleStateChanged.email.id}}"  data-method='PublisherLifeCycleStateChanged' data-type="email" >
-                <span class="helper"></span>
-            </label>
-        </td>
-        <td>
-            <label class="wr-input-control switch">
-                <input type="checkbox" id="lifeCycleStateChangedWork" {{#if subscriptions.PublisherLifeCycleStateChanged.work.checked}}checked{{/if}} data-id="{{subscriptions.PublisherLifeCycleStateChanged.work.id}}" data-method='PublisherLifeCycleStateChanged' data-type="work" >
-                <span class="helper"></span>
-            </label>
-        </td>
-    </tr>
+    {{#if assets.lifecycle}}
+        <tr>
+            <td>{{t "Lifecycle State Change"}}</td>
+            <td>
+                <label class="wr-input-control switch">
+                    <input type="checkbox" id="lifeCycleStateChangedEmail" {{#if subscriptions.PublisherLifeCycleStateChanged.email.checked}}checked{{/if}} data-id="{{subscriptions.PublisherLifeCycleStateChanged.email.id}}"  data-method='PublisherLifeCycleStateChanged' data-type="email" >
+                    <span class="helper"></span>
+                </label>
+            </td>
+            <td>
+                <label class="wr-input-control switch">
+                    <input type="checkbox" id="lifeCycleStateChangedWork" {{#if subscriptions.PublisherLifeCycleStateChanged.work.checked}}checked{{/if}} data-id="{{subscriptions.PublisherLifeCycleStateChanged.work.id}}" data-method='PublisherLifeCycleStateChanged' data-type="work" >
+                    <span class="helper"></span>
+                </label>
+            </td>
+        </tr>
+    {{/if}}
     <tr>
         <td>{{t "Information Update"}}</td>
         <td>
@@ -34,34 +36,37 @@
             </label>
         </td>
     </tr>
-    <tr>
-        <td>{{t "Check Lifecycle Item"}}</td>
-        <td>
-            <label class="wr-input-control switch">
-                <input type="checkbox" id="checkListItemCheckedEmail" {{#if subscriptions.PublisherCheckListItemChecked.email.checked}}checked{{/if}} data-id="{{subscriptions.PublisherCheckListItemChecked.email.id}}" data-method='PublisherCheckListItemChecked' data-type="email" >
-                <span class="helper"></span>
-            </label>
-        </td>
-        <td>
-            <label class="wr-input-control switch">
-                <input type="checkbox" id="checkListItemCheckedWork" {{#if subscriptions.PublisherCheckListItemChecked.work.checked}}checked{{/if}} data-id="{{subscriptions.PublisherCheckListItemChecked.work.id}}" data-method='PublisherCheckListItemChecked' data-type="work" >
-                <span class="helper"></span>
-            </label>
-        </td>
-    </tr>
-    <tr>
-        <td>{{t "UnCheck Lifecycle Item"}}</td>
-        <td>
-            <label class="wr-input-control switch">
-                <input type="checkbox" id="checkListItemUncheckedEmail"  {{#if subscriptions.PublisherCheckListItemUnchecked.email.checked}}checked{{/if}} data-id="{{subscriptions.PublisherCheckListItemUnchecked.email.id}}" data-method='PublisherCheckListItemUnchecked' data-type="email" >
-                <span class="helper"></span>
-            </label>
-        </td>
-        <td>
-            <label class="wr-input-control switch">
-                <input type="checkbox" id="checkListItemUncheckedWork"  {{#if subscriptions.PublisherCheckListItemUnchecked.work.checked}}checked{{/if}} data-id="{{subscriptions.PublisherCheckListItemUnchecked.work.id}}" data-method='PublisherCheckListItemUnchecked' data-type="work" >
-                <span class="helper"></span>
-            </label>
-        </td>
-    </tr>
+    {{#if assets.lifecycle}}
+        <tr>
+            <td>{{t "Check Lifecycle Item"}}</td>
+            <td>
+                <label class="wr-input-control switch">
+                    <input type="checkbox" id="checkListItemCheckedEmail" {{#if subscriptions.PublisherCheckListItemChecked.email.checked}}checked{{/if}} data-id="{{subscriptions.PublisherCheckListItemChecked.email.id}}" data-method='PublisherCheckListItemChecked' data-type="email" >
+                    <span class="helper"></span>
+                </label>
+            </td>
+            <td>
+                <label class="wr-input-control switch">
+                    <input type="checkbox" id="checkListItemCheckedWork" {{#if subscriptions.PublisherCheckListItemChecked.work.checked}}checked{{/if}} data-id="{{subscriptions.PublisherCheckListItemChecked.work.id}}" data-method='PublisherCheckListItemChecked' data-type="work" >
+                    <span class="helper"></span>
+                </label>
+            </td>
+        </tr>
+
+        <tr>
+            <td>{{t "UnCheck Lifecycle Item"}}</td>
+            <td>
+                <label class="wr-input-control switch">
+                    <input type="checkbox" id="checkListItemUncheckedEmail"  {{#if subscriptions.PublisherCheckListItemUnchecked.email.checked}}checked{{/if}} data-id="{{subscriptions.PublisherCheckListItemUnchecked.email.id}}" data-method='PublisherCheckListItemUnchecked' data-type="email" >
+                    <span class="helper"></span>
+                </label>
+            </td>
+            <td>
+                <label class="wr-input-control switch">
+                    <input type="checkbox" id="checkListItemUncheckedWork"  {{#if subscriptions.PublisherCheckListItemUnchecked.work.checked}}checked{{/if}} data-id="{{subscriptions.PublisherCheckListItemUnchecked.work.id}}" data-method='PublisherCheckListItemUnchecked' data-type="work" >
+                    <span class="helper"></span>
+                </label>
+            </td>
+        </tr>
+    {{/if}}
 </table>
