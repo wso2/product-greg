@@ -99,9 +99,11 @@ asset.manager = function(ctx) {
                 var associationTypePlural = subPaths[2];
                 var associationName = name;
                 var associationUUID = resource.getUUID();
+                var associationVersion = genericArtifacts[index].getAttribute("overview_version");
                 deps.associationName = associationName;
                 deps.associationType = keyName;
                 deps.associationUUID = associationUUID;
+                deps.associationVersion = associationVersion;
                 associations.push(deps);
             }
         }

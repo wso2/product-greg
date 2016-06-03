@@ -64,11 +64,13 @@ asset.manager = function(ctx) {
                 var subPaths = path.split('/');
                 var associationTypePlural = subPaths[2];
                 var associationName = name;
+                var associationVersion = genericArtifacts[index].getAttribute("overview_version");
                 var resource = userRegistry.registry.get('/_system/governance' + path);
                 var associationUUID = resource.getUUID();
                 deps.associationName = associationName;
                 deps.associationType = keyName;
                 deps.associationUUID = associationUUID;
+                deps.associationVersion = associationVersion;
                 associations.push(deps);
             }
         }

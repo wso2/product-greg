@@ -89,9 +89,14 @@ asset.manager = function(ctx) {
                 var associationName = subPaths[subPaths.length - 1];
                 var resource = userRegistry.registry.get(configs.depends_asset_path_prefix+path);
                 var associationUUID = resource.getUUID();
+                var associationVersion = genericArtifacts[index].getAttribute("overview_version");
+                if(!associationVersion && (subPaths.length - 2)>-1){
+                    associationVersion = subPaths[subPaths.length - 2]
+                }
                 deps.associationName = associationName;
                 deps.associationType = associationTypePlural.substring(0,associationTypePlural.lastIndexOf('s'));
                 deps.associationUUID = associationUUID;
+                deps.associationVersion = associationVersion;
 
                 if(deps.associationType == "wsdl") {
                     associations.push(deps);

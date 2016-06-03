@@ -85,15 +85,21 @@ asset.manager = function(ctx) {
                 var resource = userRegistry.registry.get('/_system/governance' + path);
                 var mediaType = resource.getMediaType();
                 var name = genericArtifacts[index].getQName().getLocalPart();
-                var govUtils = Packages.org.wso2.carbon.governance.api.util.GovernanceUtils
+                var govUtils = Packages.org.wso2.carbon.governance.api.util.GovernanceUtils;
                 var keyName = govUtils.getArtifactConfigurationByMediaType(getRegistry(ctx.session).registry, mediaType).getKey();
                 var subPaths = path.split('/');
                 var associationName = name;
                 var associationUUID = resource.getUUID();
+                var associationVersion = genericArtifacts[index].getAttribute("overview_version");
+                // This is only for wadls and swaggers which have correct storage path
+                if(!associationVersion && (subPaths.length - 2)>-1){
+                    associationVersion = subPaths[subPaths.length - 2]
+                }
                 deps.associationName = associationName;
                 deps.associationType = keyName;
                 deps.associationUUID = associationUUID;
                 deps.associationPath = resource.getPath();
+                deps.associationVersion = associationVersion;
 
                 if(deps.associationType == "wadl") {
                     associations.push(deps);
