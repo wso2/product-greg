@@ -20,10 +20,12 @@ package org.wso2.greg.integration.common.clients;
 import org.apache.axis2.AxisFault;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.wso2.carbon.logging.view.stub.LogViewerException;
 import org.wso2.carbon.logging.view.stub.LogViewerLogViewerException;
 import org.wso2.carbon.logging.view.stub.LogViewerStub;
 import org.wso2.carbon.logging.view.stub.types.carbon.LogEvent;
 
+import javax.activation.DataHandler;
 import java.rmi.RemoteException;
 
 /**
@@ -94,5 +96,30 @@ public class LogViewerClient {
 
     public boolean clearLogs() throws RemoteException {
         return logViewerStub.clearLogs();
+    }
+
+    /**
+     * Download archived log files from backend.
+     *
+     * @param logFileName  name of the log file to download
+     * @param tenantDomain tenant domain
+     * @param serverKey    server key
+     * @return DataHandler object of the downloaded file
+     * @throws RemoteException
+     * @throws org.wso2.carbon.logging.view.stub.LogViewerException
+     */
+    public DataHandler downloadArchivedLogFiles(String logFileName, String tenantDomain, String serverKey)
+            throws RemoteException, LogViewerException {
+        String errorMsg = "Error occurred while downloading archived log files from backend";
+
+        try {
+            return logViewerStub.downloadArchivedLogFiles(logFileName, tenantDomain, serverKey);
+        } catch (RemoteException e) {
+            log.error(errorMsg, e);
+            throw e;
+        } catch (LogViewerException e) {
+            log.error(errorMsg, e);
+            throw e;
+        }
     }
 }
