@@ -163,6 +163,15 @@ asset.renderer = function(ctx) {
 };
 asset.configure = function() {
     return {
+        table: {
+            overview: {
+                fields: {
+                    provider: {
+                        auto: false
+                    }
+                }
+            }
+        },
         meta: {
             lifecycle: {
                 commentRequired: false,
