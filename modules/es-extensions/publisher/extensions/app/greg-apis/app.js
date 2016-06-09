@@ -38,11 +38,6 @@ app.server = function(ctx){
                     url:'permissions',
                     path:'permission.jag',
                     secured:true
-                },
-                {
-                    url:'governance-artifacts',
-                    path:'governance-artifacts.jag',
-                    secured:true
                 }
             ]
         }
