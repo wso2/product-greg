@@ -98,7 +98,8 @@
                         <li>
                             {{#hasAppPermission . key="GREG_COMMUNITY_FEATURES" username=cuser.username tenantId=cuser.tenantId}}
                                 {{#unless isContentType}}  <!-- remove options tab for content type artifacts-->
-                                    <a href="javascript:void(0)" onclick="toggleSidePanel('options',this)" class="cu-btn wr-side-panel-toggle-btn">
+                                    <a href="javascript:void(0)" onclick="toggleSidePanel('options',this)"
+                                       class="cu-btn wr-side-panel-toggle-btn">
                                     <span class="fw-stack-md options">
                                         <i class="fw fw-left-arrow fw-stack-1-5x"></i>
                                     </span>

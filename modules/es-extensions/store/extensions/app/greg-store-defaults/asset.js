@@ -124,7 +124,7 @@ asset.renderer = function(ctx) {
             },
             checkSubscriptionMenuItems:function(page) {
                 page.isContentType = false;
-                if(page.rxt && page.rxt.fileExtension){
+                if(page.rxt && page.rxt.fileExtension) {
                     page.isContentType = true;
                 }
             }
