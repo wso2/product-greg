@@ -58,7 +58,9 @@
                                         <tr>
                                             <td>
                                                 <div class="col-sm-20">
-                                                    <a href="../../../assets/{{this.associationType}}/details/{{this.associationUUID}}">{{this.associationName}}</a>
+                                                    <a href="../../../assets/{{this.associationType}}/details/{{this
+                                                    .associationUUID}}">{{this.associationName}} {{#if this.associationVersion}} v{{this.associationVersion}}
+                                                    {{/if}}</a>
                                                 </div>
                                                 <br>
                                             </td>

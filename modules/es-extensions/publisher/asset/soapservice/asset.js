@@ -115,6 +115,7 @@ asset.manager = function(ctx) {
                     deps.associationUUID = associationUUID;
 
                     if(deps.associationType == "wsdl") {
+                        deps.associationVersion = subPaths[subPaths.length - 2];
                         associations.push(deps);
                     }
                 }

@@ -30,12 +30,16 @@
             <tr><th>
                 {{t "Associated Artifacts"}}
             </th>
+                <th>
+                    {{t "Version"}}
+                </th>
         </tr>
     </thead>
     <tbody>
         {{#each dependencies}}
         <tr>
             <td><a href="../../../assets/{{this.associationType}}/details/{{this.associationUUID}}">{{this.associationName}}</a></td>
+            <td>{{#if this.associationVersion}} {{this.associationVersion}} {{/if}}</td>
         </tr>
         {{/each}}
     </tbody>

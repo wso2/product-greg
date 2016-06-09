@@ -90,7 +90,10 @@ asset.manager = function(ctx) {
                 deps.associationName = associationName;
                 deps.associationType = associationTypePlural.substring(0,associationTypePlural.lastIndexOf('s'));
                 deps.associationUUID = associationUUID;
-                associations.push(deps);
+                if(deps.associationType == "wadl" || deps.associationType == "wsdl") {
+                    deps.associationVersion = subPaths[subPaths.length - 2]
+                    associations.push(deps);
+                }
             }
         }
         return associations;

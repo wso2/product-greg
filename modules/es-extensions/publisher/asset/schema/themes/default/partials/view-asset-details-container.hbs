@@ -47,17 +47,20 @@
                             </div>
 
                             {{#if isDependentsPresent}}
-                            <h2 class="field-title">
-                                <a class="collapsing-h2" data-toggle="collapse" area-expanded="true" href="collapsedependencies">
-                                    {{t "Associations"}}
-                                </a>
-                            </h2>
+                                <h2 class="field-title">
+                                    <a class="collapsing-h2 collapsed" data-toggle="collapse" area-expanded="true" href="#collapsedependencies">
+                                        <i class="cu-btn-exp-col btn-collapsed"> {{t "Associations"}} </i>
+                                    </a>
+                                </h2>
                             <div id="collapsedependencies" class="collapse">
                                 <div class="collapse in" area-expanded="true" style="">
                                     <div class="row padding-bottom-lg">
-                                        <div class="col-sm-2 custom-form-label text-right">{{t "Dependent WADLs"}} :</div>
+                                        <div class="col-sm-2 custom-form-label text-right">{{t "Dependent
+                                        WADLs/WSDLs"}} :</div>
                                         {{#each dependencies}}
-                                        <div class="col-sm-10"><a href="../../../assets/{{this.associationType}}/details/{{this.associationUUID}}">{{this.associationName}}</a></div>
+                                        <div class="col-sm-10"><a href="../../../assets/{{this.associationType}}/details/{{this.associationUUID}}">{{this.associationName}}
+                                            {{#if this.associationVersion}} v{{this.associationVersion}}
+                                            {{/if}}</a></div>
                                         {{/each}}
                                     </div>
                                 </div>

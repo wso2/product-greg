@@ -39,6 +39,7 @@ asset.manager = function(ctx) {
                         var subPaths = path.split('/');
                         var associationName = subPaths[subPaths.length - 1];
                         var associationUUID = resource.getUUID();
+                        var associationVersion = subPaths[subPaths.length - 2];
                         deps.associationName = associationName;
 
                         if(mediaType == "application/wadl+xml") {
@@ -48,6 +49,7 @@ asset.manager = function(ctx) {
                         }
 
                         deps.associationUUID = associationUUID;
+                        deps.associationVersion = associationVersion;
                         associations.push(deps);
                     }
                 }
