@@ -260,7 +260,10 @@ var gregAPI = {};
                         workList.overviewName = String(govAttifact.getQName().getLocalPart());
                         var rxtManager = rxtModule.core.rxtManager(server.current(session).tenantId);
                         var versionAttribute = rxtManager.getVersionAttribute(key);
-                        workList.overviewVersion = String(govAttifact.getAttribute(versionAttribute));
+                        workList.overviewVersion = govAttifact.getAttribute(versionAttribute);
+                        if (!workList.overviewVersion) {
+                            workList.overviewVersion = "";
+                        }
                     }
 
                     workList.presentationSubject = workList.presentationSubject.replace("resource at path", workList.overviewName + " " + workList.overviewVersion);
