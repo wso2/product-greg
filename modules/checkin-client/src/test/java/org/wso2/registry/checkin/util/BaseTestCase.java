@@ -25,6 +25,7 @@ import org.wso2.carbon.registry.core.Registry;
 import org.wso2.carbon.registry.core.config.RegistryConfiguration;
 import org.wso2.carbon.registry.core.config.RegistryContext;
 import org.wso2.carbon.registry.core.internal.RegistryCoreServiceComponent;
+import org.wso2.carbon.registry.core.internal.RegistryDataHolder;
 import org.wso2.carbon.registry.core.jdbc.EmbeddedRegistryService;
 import org.wso2.carbon.registry.core.jdbc.realm.InMemoryRealmService;
 import org.wso2.carbon.user.core.service.RealmService;
@@ -95,6 +96,7 @@ public class BaseTestCase extends TestCase  {
         } catch (Exception e) {
             is = null;
         }
+        RegistryDataHolder.getInstance().setRealmService(realmService);
         ctx = RegistryContext.getBaseInstance(is, realmService);
         //RegistryConfigurationProcessor.populateRegistryConfig(is, ctx);
             EmbeddedRegistryService embeddedRegistry = ctx.getEmbeddedRegistryService();
