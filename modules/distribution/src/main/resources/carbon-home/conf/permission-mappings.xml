@@ -6,6 +6,12 @@
              resourcePaths="/_system/governance/repository/components/org.wso2.carbon.governance/types"/>
     <mapping managementPermission="/permission/admin/configure/governance/manage-rxt" resourcePermission="http://www.wso2.org/projects/registry/actions/delete"
              resourcePaths="/_system/governance/repository/components/org.wso2.carbon.governance/types"/>
+    <mapping managementPermission="/permission/admin/configure/governance/manage-rxt" resourcePermission="http://www.wso2.org/projects/registry/actions/get"
+             resourcePaths="/_system/config/repository/components/org.wso2.carbon.governance/configuration"/>
+    <mapping managementPermission="/permission/admin/configure/governance/manage-rxt" resourcePermission="http://www.wso2.org/projects/registry/actions/add"
+             resourcePaths="/_system/config/repository/components/org.wso2.carbon.governance/configuration"/>
+    <mapping managementPermission="/permission/admin/configure/governance/manage-rxt" resourcePermission="http://www.wso2.org/projects/registry/actions/delete"
+             resourcePaths="/_system/config/repository/components/org.wso2.carbon.governance/configuration"/>
     <mapping managementPermission="/permission/admin/manage/resources/govern/service/add" resourcePermission="http://www.wso2.org/projects/registry/actions/get"
              resourcePaths="/_system/governance/trunk/services,/_system/governance/branches/testing/services,/_system/governance/branches/production/services"/>
     <mapping managementPermission="/permission/admin/manage/resources/govern/wsdl/add" resourcePermission="http://www.wso2.org/projects/registry/actions/get"
