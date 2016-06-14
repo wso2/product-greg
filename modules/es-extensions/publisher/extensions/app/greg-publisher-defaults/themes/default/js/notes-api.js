@@ -44,12 +44,17 @@ $(function () {
     /**
      * This is used to add a note.
      */
-    $('#add-note').on('click', function () {
+    $('#add-note').on('click', function (e) {
+        e.preventDefault();
         var data = {};
         data.overview_resourcepath = store.publisher.assetPath;
         data.overview_note = $('#add-note-content').val();
         data.overview_visibility = "public";
         data.overview_status = "Open";
+        if(!data.overview_note){
+            $('#notes-error-add').show();
+            return;
+        }
 
         $.ajax({
             url: caramel.context + "/apis/assets?type=note",
@@ -87,9 +92,20 @@ $(function () {
     };
 
     /**
+     * This function is used to get error message container Id.
+     *
+     * @param id    id of the root note.
+     * @returns {string}
+     */
+    var errorContainerId = function (hash,id) {
+        return   hash + id + 'error';
+    };
+
+    /**
      * This function is used to get reply notes.
      */
-    $('.reply-note').on('click', function () {
+    $('.reply-note').on('click', function (e) {
+        e.preventDefault();
         var id = $(this).data('id');
         var noteContainer = this;
         var data = {};
@@ -98,6 +114,12 @@ $(function () {
         data.overview_replypath = this.dataset.path;
         data.overview_visibility = "public";
         data.overview_status = "Open";
+
+        if(!data.overview_note){
+            var errorId = errorContainerId("#",id);
+            $(errorId).show();
+            return;
+        }
 
         $.ajax({
             url: caramel.context + "/apis/assets?type=note",
@@ -126,6 +148,16 @@ $(function () {
 
         var path = $(this).closest('.wr-panel-note').data('path');
         var id = $(this).closest('.wr-panel-note').attr('href');
+        var errorId = errorContainerId("", id);
+        var replyId = replyContainerId(id.substring(1));
+        $(errorId).hide();
+
+        $(replyId).keyup(function(){
+            if($(this).val().length !=0)
+                $(errorId).hide();
+            else
+                $(errorId).show();
+        });
 
         $.ajax({
             url: caramel.context + '/apis/assets?type=note&q="overview_replypath":"' + path + '"',
@@ -156,6 +188,13 @@ $('document').ready(function(){
     else {
         $('#newThreadBtn .btn-text').html('New');
     }
+    $('#notes-error-add').hide();
+    $('#add-note-content').keyup(function(){
+        if($(this).val().length !=0)
+            $('#notes-error-add').hide();
+        else
+            $('#notes-error-add').show();
+    });
     $('#newThreadBtn').show();
 });
 
