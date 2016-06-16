@@ -32,7 +32,20 @@
                     <span class="ast-ver">V{{this.attributes.overview_version}} </span>
                 {{/if}}
                 <br/>
-                <span class="lifecycle-state"><small><i class="icon-circle lc-state-{{this.lifecycleState}}"></i> {{this.lifecycleState}}</small></span>
+                {{#if this.currentLCStateDurationColour}}
+                    <span class="lifecycle-state">
+                    <small>
+                        <div class="colorbar" Title="Current Lifecycle State Duration: {{this.currentLCStateDuration}}"
+                             style="background-color: {{this.currentLCStateDurationColour}}"></div>
+                        <i class="icon-circle lc-state-{{this.currentLCStateDuration}}"></i> {{this.lifecycleState}}
+                    </small></span>
+                {{else}}
+                    {{#if this.lifecycleState}}
+                        <span class="lifecycle-state"><small><i
+                                class="icon-circle lc-state-{{this.lifecycleState}}"></i> {{this.lifecycleState}}
+                        </small></span>
+                    {{/if}}
+                {{/if}}
             </div>
             <br class="c-both" />
         </div><br class="c-both" />
