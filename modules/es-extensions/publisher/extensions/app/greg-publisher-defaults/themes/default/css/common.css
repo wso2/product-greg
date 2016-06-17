@@ -605,6 +605,12 @@ a.cu-btn:hover, .wr-asset-type-switcher a.switcher-link:hover {
     background-color: #4D5461 !important;
 }
 
+.tab-selected {
+    pointer-events: none;
+    cursor: default;
+    background-color: #22536B;
+}
+
 .collapse {
     padding-bottom: 0;
 }
