@@ -1,0 +1,10 @@
+{{#with assets}}
+<span class="asset-show-dependency">
+     <a class="btn btn-default btn-lg pull-right"
+        href='{{tenantedUrl ""}}/pages/impact?path={{encodeURIComponent assets.path}}' target="_blank">
+                {{t "Show Dependencies"}}
+         <a class="top-common-btn-grp btn btn-default btn-lg pull-right" href='{{url ""}}/pages/test?id={{id}}' target="_blank">
+             {{t "Graphical View"}}
+         </a>
+</span>
+{{/with}}
