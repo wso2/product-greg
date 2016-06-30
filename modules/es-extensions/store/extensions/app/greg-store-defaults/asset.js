@@ -131,6 +131,7 @@ asset.configure = function() {
         meta: {
             'isDependencyShown': true,
             'isDiffViewShown': true,
+            timestamp:'createdDate',
             sorting: {
                 attributes: [
                     {name: "overview_name", label: "Name"},
