@@ -77,7 +77,10 @@
             </nav>
         </div>
 
-        {{> categorization-entry .}}
+        <div class="refine" id="categorization-div">
+            {{> categorization-entry .}}
+        </div>
+
         {{#if tags}}
             <div class="tags-wrapper">
                 <div class="tag-title"> Tags </div>
