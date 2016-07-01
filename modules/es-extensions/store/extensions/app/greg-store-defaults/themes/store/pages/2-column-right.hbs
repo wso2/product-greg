@@ -33,15 +33,28 @@
     <div class="container-fluid header-container">
         {{ include header}}
     </div>
-    <div class="container-fluid navigation-container">
+    <div class="page-content-wrapper" style="padding-left:200px">
         {{include navigation}}
-    </div>
-    <div class="container-fluid body-container">
-        <div class="col-xs-1 col-sm-2 col-md-1 col-lg-1 left-col "></div>
-        <div class="col-xs-10 col-sm-9 col-md-9 col-lg-10 wr-content padding-none">
-            <div id="assets-container">
-                {{include body}}
+
+        <div class="container-fluid">
+
+            <div id="taxonomy-expand-view" class="taxonomy-expand-view sidebar-wrapper sidebar-nav toggled nano" data-offset-bottom="40">
+                <div class="nano-content">
+                    <button type="button" class="btn btn-secondary pull-right btn-expand-taxonomy-toggle" id="contract-taxonomy" data-toggle="tooltip" data-placement="left" title="Contract Section">
+                        <i class="fw fw-contract"></i>
+                    </button>
+
+                    <nav class="taxonomy"><!-- Dynamic Content --></nav>
+                </div>
             </div>
+
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 wr-content padding-none">
+                <div id="assets-container">
+                    {{include body}}
+                </div>
+            </div>
+
+
         </div>
     </div>
 </div>

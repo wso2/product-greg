@@ -465,6 +465,23 @@ span.left-menu-item, span.left-menu-item.hover, a.all-item a.top-item a.all-item
     color: #23527c !important;
     text-decoration: underline !important;
 }
+.sidebar-wrapper nav.navigation{
+    min-height: auto;
+    padding-top:0;
+    height: auto;
+}
+nav.navigation > a.assets-show-more, nav.navigation > a.assets-show-less{
+    cursor: pointer;
+    height: auto;
+    padding: 3px 0 3px 10px;
+    display: block;
+}
+nav.navigation > a.active{
+    position: relative;
+}
+.sidebar-wrapper nav.navigation > a.active{
+    position: inherit;
+}
 /*span.left-menu-item {
     font-weight:300;
     font-size:20px;
