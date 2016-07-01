@@ -1,4 +1,6 @@
-<!--<script>-->
-    <!--diffView = {};-->
-    <!--diffView.content = '{{dump diffContent}}';-->
-<!--</script>-->
+<script>
+    if(!store.publisher){
+        store.publisher = {};
+    }
+    store.publisher.tenantDomain = '{{cuser.tenantDomain}}';
+</script>

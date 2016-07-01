@@ -277,17 +277,17 @@ body {
 
 .CodeMirror-merge-r-chunk-end, .CodeMirror-merge-r-chunk-start, .CodeMirror-merge-r-chunk {
     /*border-top-color: #161616;*/
-    border-top-color: #cf96b0;
+    border-top-color: #d9ffa5;
 }
 
 .CodeMirror-merge-r-chunk-end, .CodeMirror-merge-r-chunk-start, .CodeMirror-merge-r-chunk {
     /*border-bottom-color: #161616;*/
-    border-bottom-color: #cf96b0;
+    border-bottom-color: #d9ffa5;
 }
 
 .CodeMirror-merge-r-chunk {
     /*background-color: #161616;*/
-    background-color: #cf96b0;
+    background-color: #d9ffa5;
 }
 
 .cm-s-ambiance .cm-comment {
@@ -296,7 +296,7 @@ body {
 
 .CodeMirror-merge-r-connect {
     /*fill: #161616;*/
-    fill: #cf96b0;
+    fill: #d9ffa5;
     stroke: transparent;
 }
 
