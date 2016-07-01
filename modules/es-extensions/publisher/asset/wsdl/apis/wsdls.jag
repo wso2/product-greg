@@ -22,6 +22,7 @@ require('/modules/publisher.js').exec(function (ctx) {
     var utils = require('utils');
     var req = ctx.request;
     var ref = utils.file;
+    var res = ctx.response;
     var inputStream = Packages.java.io.InputStream;
     var ByteArrayDataSource = Packages.org.apache.axiom.attachments.ByteArrayDataSource;
     var IOUtils = Packages.org.apache.commons.io.IOUtils;
@@ -77,7 +78,11 @@ require('/modules/publisher.js').exec(function (ctx) {
         for (var i = 0; i < assets.length; i++) {
             if (assets[i].version == version) {
                 var msg = "Resource already exist with name \"" + wsdlFileName + "\" and version \"" + version + "\"";
-                throw msg;
+                var responseProcessor = require('utils').response;
+                response = responseProcessor.buildErrorResponseDefault(constants.STATUS_CODES.BAD_REQUEST,
+                                                                       'error on create asset', res,msg,
+                                                                       'more information on create asset error', []);
+                return;
             }
         }
     }

@@ -131,8 +131,10 @@ $(function() {
             window.location=$('#form-asset-create').attr('data-redirect-url');
             messages.alertSuccess("Successfully created the wsdl");
         },
-        error:function(){
-            messages.alertError("Error occurred while adding the wsdl");
+        error:function(xhr){
+            var response = xhr.responseJSON || {};
+            var msg = response.message || 'Failed to create';
+            messages.alertError(msg);
             var createButton = $('#form-asset-create input[type="submit"]');
             createButton.removeAttr('disabled');
             $('.fa-spinner').parent().remove();
