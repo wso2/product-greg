@@ -211,12 +211,13 @@ asset.renderer = function(ctx){
                 //Populate the links for downloading content RXTs
                 if(page.meta.pageName === 'details'){
                     var config = require('/config/store.js').config();
+                    var rxt = require('rxt').server;
                     var pluralType = 'swaggers';
                     var domain = require('carbon').server.tenantDomain({tenantId:ctx.tenantId});
                     page.assets.downloadMetaData = {}; 
                     page.assets.downloadMetaData.enabled = true;
                     page.assets.downloadMetaData.downloadFileType = 'Swagger';
-                    page.assets.downloadMetaData.url = config.server.https+'/governance/'+pluralType+'/'+page.assets.id+'/content?tenant='+domain;
+                    page.assets.downloadMetaData.url = rxt.buildURL('governance/') + pluralType+'/'+page.assets.id+'/content?tenant='+domain;
                     page.assets.downloadMetaData.swaggerUrl = '/pages/swagger?path='+page.assets.path;
                 }
             }
