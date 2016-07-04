@@ -1,6 +1,16 @@
 <!-- secondary header - app bar -->
 <nav class="navbar navbar-default navbar-themed">
     <div>
+        {{#if_equal meta.pageName "gc-landing"}}
+        {{else}}
+            <div class="breadcrumb-wrapper" style="background: #ffff00 !important;">
+                <ol class="breadcrumb">
+                    {{#each breadcrumb}}
+                        <li><a href='{{url ""}}{{this.link}}' class='breadcrumb-link'>{{this.label}}</a></li>
+                    {{/each}}
+                </ol>
+            </div>
+        {{/if_equal}}
         <div class="navbar-header">
             <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
                 <span class="sr-only">Toggle navigation</span>
@@ -9,9 +19,9 @@
                 <span class="icon-bar"></span>
             </button>
         </div>
-        
+
         <div id="navbar" class="navbar-collapse collapse">
-            
+
             <div class="wr-action-btn-bar">
                 <ul class="nav navbar-nav">
 
@@ -71,7 +81,7 @@
                         </li>
                     {{/if}}
                 </ul>
-            </div> 
+            </div>
 
         </div><!--/.nav-collapse -->
     </div>
