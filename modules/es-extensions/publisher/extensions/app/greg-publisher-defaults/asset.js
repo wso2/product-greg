@@ -154,9 +154,9 @@ asset.renderer = function(ctx) {
             },
             sorting: function (page) {
                 require('/modules/page-decorators.js').pageDecorators.sorting(ctx, page, [
-                    {field: "overview_name", label: "Name"},
-                    {field: "overview_version", label: "Version"},
-                    {field: "createdDate", label: "Date/Time"}]);
+                    {name: "overview_name", label: "Name"},
+                    {name: "overview_version", label: "Version"},
+                    {name: "createdDate", label: "Date/Time"}]);
             }
         }
     };
