@@ -731,7 +731,7 @@ a.cu-btn:hover, .wr-asset-type-switcher a.switcher-link:hover {
 .form-search a.advance {
     white-space: nowrap;
     font-size: 16px;
-    background: #2C313B;
+    background: transparent;
     width: 40px;
     right: 0;
 }
@@ -745,7 +745,7 @@ a.cu-btn:hover, .wr-asset-type-switcher a.switcher-link:hover {
 }
 
 .form-search a.advance span {
-    color: #FFF;
+    color: #0078d7;
     display: inline-block;
 }
 
