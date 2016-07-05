@@ -40,18 +40,29 @@
             <field type="text" required="true">
                 <name>Version</name>
             </field>
-            <field type="options">
-                <name label="Category">Category</name>
-                <values>
-                    <value>Engineering</value>
-                    <value>Finance</value>
-                    <value>HR</value>
-                    <value>Sales</value>
-                    <value>Marketing</value>
-                </values>
-            </field>
             <field type="text-area">
                 <name>Description</name>
+            </field>
+        </table>
+        <table name="Categorization">
+            <field type="options" categorization="true" priority="1">
+                <name label="Environment">Environment</name>
+                    <values>
+                        <value>Engineering</value>
+                        <value>Finance</value>
+                        <value>HR</value>
+                        <value>Sales</value>
+                        <value>Marketing</value>
+                    </values>
+            </field>
+            <field type="options" categorization="true" priority="2">
+                <name label="Level">Level</name>
+                    <values>
+                        <value>Level 1</value>
+                        <value>Level 2</value>
+                        <value>Level 3</value>
+                        <value>Level 4</value>
+                    </values>
             </field>
         </table>
         <table name="Interface">
