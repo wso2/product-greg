@@ -113,7 +113,7 @@ $(function() {
                 $('#wsdl_file_name').val(fileName);
             } else if (action === 'addNewAssetButton') {//upload via url.
                 if(!validator.isValidForm(importUI)) {
-                    messages.alertInfo("All required fields must be provided");
+                    messages.alertError("All required fields must be provided");
                     return false;
                 }
             }
