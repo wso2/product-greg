@@ -11,14 +11,13 @@
             </div>
         </header>
 
-        <div class="diff-view" style="background-color:rgb(206, 206, 206);">
-            <div class="row no-gutter">
-                <!--code view div should come here-->
-                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 view-panel">
-                    <div id="diffView" class="code-container"></div>
-                </div>
-            </div>
-        </div>
+        {{#if_equal mediaType "wsdl"}}
+            {{>wsdl-diff-base}}
+        {{else}}
+            {{>default-diff-base}}
+        {{/if_equal}}
+
+
     </div>
     {{>footer}}
 </div> 
