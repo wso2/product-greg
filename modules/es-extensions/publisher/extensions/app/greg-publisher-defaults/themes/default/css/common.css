@@ -776,7 +776,7 @@ a#search-info {
 
     .form-search a.advance {
         width: 170px;
-        left: 588px;
+        left: 618px;
     }
 
     .form-search a.advance i {
@@ -789,7 +789,7 @@ a#search-info {
     }
 
     a#search-info {
-        left: 758px;
+        left: 588px;
     }
 }
 
