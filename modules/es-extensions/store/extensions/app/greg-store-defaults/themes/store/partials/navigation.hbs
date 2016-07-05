@@ -27,7 +27,8 @@
                 {{#if noTypeSelected}}
                     <a href='{{tenantedUrl ""}}/pages/top-assets' id="all-assets"
                        class="{{#if navigationBar.landingPage}} active home top-item {{else}} home all-item  {{/if}}">
-                        <span class="icon"><i class="fw fw-store"></i></span> <span class="left-menu-item">{{t "Top Assets"}}</span>
+                        <span class="icon"><i class="fw fw-success"></i></span> <span
+                            class="left-menu-item">{{t "All"}}</span>
                     </a>
                     {{#each types}}
                         <a href='{{tenantedUrl ""}}{{this.listingUrl}}' id="{{this.shortName}}"
@@ -53,25 +54,28 @@
                         {{/if}}
                     {{/each}}
                     <a href='{{tenantedUrl ""}}/pages/top-assets' id="all-assets"
-                       class="{{#if navigationBar.landingPage}} active home top-item {{else}} home all-item  {{/if}}" style="display: none">
-                        <span class="icon"><i class="fw fw-store"></i></span> <span class="left-menu-item">{{t "Top Assets"}}</span>
+                       class="{{#if navigationBar.landingPage}} active home top-item {{else}} home all-item  {{/if}}"
+                       style="display: none">
+                        <span class="icon"><i class="fw fw-success"></i></span> <span
+                            class="left-menu-item">{{t "All"}}</span>
                     </a>
-                    <a class="assets-show-more"><i class="fw fw-down"></i> More</a>
-                    <a class="assets-show-less" style="display: none;"><i class="fw fw-up"></i> Less</a>
+                    <a class="assets-show-more"><i class="fw fw-down"></i></a>
+                    <a class="assets-show-less" style="display: none;"><i class="fw fw-up"></i></a>
                 {{/if}}
             {{/with}}
         </nav>
 
 
-        <div id="taxonomy-section">
+        <div id="taxonomy-section" style="display: none;">
 
-            <button type="button" class="btn btn-secondary pull-right btn-expand-taxonomy-toggle" id="maximize-taxonomy" data-toggle="tooltip" data-placement="left" title="Expand Section">
+            <button type="button" class="btn btn-secondary pull-right btn-expand-taxonomy-toggle" id="maximize-taxonomy"
+                    data-toggle="tooltip" data-placement="left" title="Expand Section">
                 <i class="fw fw-expand"></i>
             </button>
             <nav class="taxonomy">
                 <h1>Filter by</h1>
 
-                <ul id="accordion1" class="nav nav-stacked" >
+                <ul id="accordion1" class="nav nav-stacked">
                 </ul>
 
             </nav>
@@ -83,14 +87,16 @@
 
         {{#if tags}}
             <div class="tags-wrapper">
-                <div class="tag-title"> Tags </div>
+                <div class="tag-title"> Tags</div>
                 <div class="tag-content">
                     {{#each tags}}
                         {{#if this.selected}}
                             {{#if ../../assetCategoryDetails.hasCategories}}
-                                <a href='{{tenantedUrl ""}}{{this.searchPage}}?q="category":"{{../../assetCategoryDetails.selectedCategory}}","tags":"{{this.value}}"'><span class = "text-muted" >{{this.value}}</span></a>
+                                <a href='{{tenantedUrl ""}}{{this.searchPage}}?q="category":"{{../../assetCategoryDetails.selectedCategory}}","tags":"{{this.value}}"'><span
+                                        class="text-muted">{{this.value}}</span></a>
                             {{else}}
-                                <a href='{{tenantedUrl ""}}{{this.searchPage}}?q="tags":"{{this.value}}"'><span class = "text-muted" >{{this.value}}</span></a>
+                                <a href='{{tenantedUrl ""}}{{this.searchPage}}?q="tags":"{{this.value}}"'><span
+                                        class="text-muted">{{this.value}}</span></a>
                             {{/if}}
                         {{else}}
                             {{#if ../../assetCategoryDetails.hasCategories}}
@@ -117,12 +123,15 @@
                 <div class="search-wrapper" style="float:left;width:80%;position:relative;left:0px;">
 
                     {{#if rxt.pluralLabel}}
-                        <input  id="search"  type="text" class="typeahead es-form-control form-control" placeholder="Search in {{rxt.pluralLabel}}" value="{{searchQuery}}">
+                        <input id="search" type="text" class="typeahead es-form-control form-control"
+                               placeholder="Search in {{rxt.pluralLabel}}" value="{{searchQuery}}">
                     {{else}}
-                        <input  id="search"  type="text" class="typeahead es-form-control form-control" placeholder="Search in all asset types" value="{{searchQuery}}">
+                        <input id="search" type="text" class="typeahead es-form-control form-control"
+                               placeholder="Search in all asset types" value="{{searchQuery}}">
                     {{/if}}
                     <div class="es-input-group-btn input-group-btn">
-                        <button class="btn btn-default wrap-input-right" type="button" title="{{t "Search"}}" id="search-button" >
+                        <button class="btn btn-default wrap-input-right" type="button" title="{{t "Search"}}"
+                                id="search-button">
                             <i class="fw fw-search" aria-hidden="true"></i>
                         </button>
                         {{>search-options-popover .}}
@@ -135,28 +144,34 @@
             <div class="col-sm-3 col-md-5 col-lg-3 top-menu-right-custom right">
                 <div>
                     {{#hasAppPermission . key="APP_MYITEMS" username=cuser.username tenantId=cuser.tenantId}}
-                        <a href="{{url "/pages/my-items"}}" class="bookmark-link" style="display: none;">{{t "My bookmarks "}}<i class="fw fw-store fw-inverse fw-lg"></i></a>
+                        <a href="{{url "/pages/my-items"}}" class="bookmark-link"
+                           style="display: none;">{{t "My bookmarks "}}<i class="fw fw-store fw-inverse fw-lg"></i></a>
                     {{/hasAppPermission}}
                     <ul class="es-nav nav es-navbar-nav navbar-nav navbar-right">
                         {{#if isSidebarEnabled}}
                             <li>
                                 {{#hasAppPermission . key="GREG_COMMUNITY_FEATURES" username=cuser.username tenantId=cuser.tenantId}}
-                                    <a href="javascript:void(0)" onclick="toggleSidePanel('options',this)" class="cu-btn wr-side-panel-toggle-btn">
-                                <span class="fw-stack-md options">
-                                    <i class="fw fw-left-arrow fw-stack-1-5x"></i>
-                                </span>
-                                        Options
-                                    </a>
+                                    {{#unless isContentType}}  <!-- remove options tab for content type artifacts-->
+                                        <a href="javascript:void(0)" onclick="toggleSidePanel('options',this)"
+                                           class="cu-btn wr-side-panel-toggle-btn">
+                                    <span class="fw-stack-md options">
+                                        <i class="fw fw-left-arrow fw-stack-1-5x"></i>
+                                    </span>
+                                            Options
+                                        </a>
+                                    {{/unless}}
                                 {{/hasAppPermission}}
                             </li>
                         {{/if}}
                         {{#if isNotificationbarEnabled}}
                             <li>
-                                <a href="javascript:void(0)" onclick="toggleSidePanel('notifications',this)"  class="cu-btn wr-side-panel-toggle-btn wr-notification-toggle-btn">
+                                <a href="javascript:void(0)" onclick="toggleSidePanel('notifications',this)"
+                                   class="cu-btn wr-side-panel-toggle-btn wr-notification-toggle-btn">
                                 <span class="fw-stack-md notifications">
                                     <i class="fw fw-bell fw-stack-1-5x"></i>
                                 </span>
-                                    <span class="wr-notification-bubble" id="notificationCount" >{{notificationsCount.count}}</span>
+                                    <span class="wr-notification-bubble"
+                                          id="notificationCount">{{notificationsCount.count}}</span>
                                 </a>
 
                             </li>

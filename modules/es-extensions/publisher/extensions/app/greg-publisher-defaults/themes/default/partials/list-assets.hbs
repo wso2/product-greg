@@ -60,19 +60,30 @@
     </div>
     {{#if assets}}
         <div class="col-lg-2 col-md-2 col-sm-2 col-xs-3 wr-filters">
-            <div class="dropdown pull-right">
-                <a class="dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-expanded="true">
-          <span class="sort-asset-info"><span>( <span class="hidden-xs">{{sorting.selected.help}}</span> <i
-                  class="fa {{sorting.selected.helpIcon}}"></i> )</span> <img
-                  src="{{url "/themes/default/img/icons/ico-sort.png"}}"/></span>
-                </a>
-                <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1" id="ul-sort-assets">
-                    {{#each sorting.list}}
-                        <li role="presentation" class="{{#if active}}active{{/if}} {{sortBy.label}}"><a
-                                class="filter-item" href="?sort={{sortNext}}{{sortBy.field}}"><span
-                                class="pull-left">{{sortBy.label}}</span><i class="fa {{sortIcon}} pull-right"></i> </a>
-                        </li>
-                    {{/each}}
+            <div class="sort-wrapper">
+                <ul class="nav nav-pills navbar-mid remove-margin" role="tablist">
+                    <li data-toggle="tooltip" title="sort result">
+                        <button class="btn btn-default" data-toggle="dropdown" aria-expanded="false">
+                            <!--
+                            TODO: Enable sort icon when update the ES fonts
+                            <i class="fw {{ sorting.selected.helpIcon }} fw-2x"></i>
+                            -->
+                            <span>Sort by : <strong>{{ sorting.selected.help }} </strong></span>
+                        </button>
+                        <ul class="dropdown-menu arrow arrow-top-right dark sort-list add-margin-top-2x">
+                            <li class="dropdown-header">Sort by</li>
+                            {{#each sorting.list}}
+                                <li><a
+                                        data-column="@index"
+                                        class="{{#if active}}{{sortIcon}} active {{/if}} {{sortBy.label}}"
+                                        href="?sort={{sortNext}}{{sortBy.name}}"
+                                >
+                                    {{sortBy.label}}
+                                </a>
+                                </li>
+                            {{/each}}
+                        </ul>
+                    </li>
                 </ul>
             </div>
         </div>

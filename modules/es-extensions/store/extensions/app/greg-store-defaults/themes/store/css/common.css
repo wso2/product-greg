@@ -475,6 +475,7 @@ nav.navigation > a.assets-show-more, nav.navigation > a.assets-show-less{
     height: auto;
     padding: 3px 0 3px 10px;
     display: block;
+    text-align: center;
 }
 nav.navigation > a.active{
     position: relative;

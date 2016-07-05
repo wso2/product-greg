@@ -1024,6 +1024,10 @@ a.ctrl-filter-category {
     display: none;
 }
 
+.asset-details-right{
+    position: absolute; left: 200px;
+}
+
 .form-group > .popover {
     background-color: #F7F7F7;
     border: 0px;
