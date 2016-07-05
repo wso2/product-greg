@@ -47,10 +47,10 @@
                        title="Search">
                         <i class="fa fa-search" aria-hidden="true"></i>
                     </a>
+                    {{>search-options-popover .}}
                     <a id="advance-search" href="{{url ""}}/pages/advanced-search" class="form-control-feedback advance"
                        title="Advanced Search">
                         <span>Advanced Search</span></a>
-                    {{>search-options-popover .}}
                     <input type="hidden" name="sortby" value="{{paging.sortBy}}"/>
                     <input type="hidden" name="sort" value="{{paging.sortOrder}}"/>
                 </div>
