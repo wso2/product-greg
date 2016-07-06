@@ -1107,3 +1107,7 @@ span.fw-stack-md.fw-lg {
 .note-resolved, .reply-resolved {
     background: #dedede !important;
 }
+
+.resolve-icon-note {
+    display: inline !important;
+}

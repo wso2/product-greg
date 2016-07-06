@@ -81,5 +81,13 @@
             class="wr-panel-time"><i class="fw fw-clock"></i> </span> <span
             class="">{{attributes.overview_timecreated}} </span> <span class="">{{attributes.overview_date}}</span>
     </div>
+{{#if_equal attributes.overview_status "Resolved"}}
+        <span class="resolve-icon resolve-icon-note">
+            <span class="fw-stack-md">
+                <i class="fw fw-ok fw-stack-1-5x"></i>
+            </span>
+            Resolved
+        </span>
+{{/if_equal}}
 
 </div>
