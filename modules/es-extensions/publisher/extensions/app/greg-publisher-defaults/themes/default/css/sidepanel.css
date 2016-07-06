@@ -1,14 +1,17 @@
+html, body {
+    min-width: 530px;
+}
 .wr-side-panel {
     width: 400px;
     position: absolute;
     right: -400px;
-    z-index: 1000;
     transition: right 0.4s ease 0s;
     overflow-y: auto;
     overflow-x: hidden;
     background: #696969;
     color: #333;
     padding: 0;
+    z-index: 1001;
 }
 
 .wr-side-panel hr {
@@ -122,7 +125,33 @@ a.cu-btn.wr-side-panel-toggle-btn.selected:hover,
 a.cu-btn.wr-side-panel-toggle-btn.selected:focus {
     background-color: #696969 !important;
 }
-
+a.wr-side-panel-toggle-btn-small{
+    display: none;
+}
+@media (max-width: 768px) {
+    a.wr-side-panel-toggle-btn-small{
+        display: inline-block;
+    }
+    li.wr-side-panel-toggle-btn-wrapper{
+        display: none;
+    }
+    #navbar .wr-action-btn-bar{
+        display: block;
+        position: relative;
+        z-index: 1000;
+    }
+    .wr-asset-type-switcher{
+        z-index: 2;
+        position: fixed;
+        top:80px;
+    }
+}
+.ribbon-container .navbar-toggle{
+    position: absolute;
+    right: 120px;
+    top: 31px;
+    height: 34px;
+}
 .wr-side-panel .panel-title a {
     display: block;
     padding: 10px;

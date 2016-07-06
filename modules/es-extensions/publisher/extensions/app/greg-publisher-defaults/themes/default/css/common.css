@@ -16,7 +16,9 @@ body {
     margin-bottom: 0;
     min-height: 100%;
 }
-
+html, body {
+    min-width: 530px;
+}
 b, strong {
     font-weight: 500;
 }
