@@ -1101,3 +1101,7 @@ i.fw.association-icon {
 span.fw-stack-md.fw-lg {
     right: 5px;
 }
+
+.note-resolved, .reply-resolved {
+    background: #dedede !important;
+}
