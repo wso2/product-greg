@@ -1,5 +1,5 @@
 /*
- *  Copyright (c) 2015, WSO2 Inc. (http://www.wso2.org) All Rights Reserved.
+ *  Copyright (c) 2016, WSO2 Inc. (http://www.wso2.org) All Rights Reserved.
  *
  *  WSO2 Inc. licenses this file to you under the Apache License,
  *  Version 2.0 (the "License"); you may not use this file except
@@ -19,16 +19,33 @@
 asset.manager = function (ctx) {
     return {
         create: function (options) {
-            options.attributes.overview_hash = Math.random();
+            if(options.attributes.overview_hash == null){
+                var uuid = require('uuid');
+                options.attributes.overview_hash = uuid.generate();
+            }
+            var d = new Date();
+            options.attributes.overview_timecreated = d.getHours() + ":" + d.getMinutes();
+            options.attributes.overview_date = d.getDate() + "-" + d.getMonth() + "-" + d.getFullYear();
+            options.attributes.overview_user = ctx.username;
             try {
                 this._super.create.call(this, options);
             } catch (e) {
-                log.error(e);
+                throw e;
+            }
+        },
+        update: function (options) {
+            var d = new Date();
+            options.attributes.overview_timecreated = d.getHours() + ":" + d.getMinutes();
+            options.attributes.overview_date = d.getDate() + "-" + d.getMonth() + "-" + d.getFullYear();
+            options.attributes.overview_user = ctx.username;
+            try {
+                this._super.update.call(this, options);
+            } catch (e) {
                 throw e;
             }
         },
         postCreate:function(){
-            
+
         }
     };
 };

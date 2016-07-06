@@ -1,6 +1,9 @@
 {{#each notes}}
-    <div class="wr-panel-note collapsed" role="tab" data-toggle="collapse" data-parent="#accordion" href="#{{id}}"
-         aria-expanded="false" aria-controls="{{id}}" data-path="{{path}}">
+    <div class="wr-panel-note collapsed" role="tab" data-toggle="collapse" data-parent="#accordion"
+        {{#if_equal attributes.overview_status "Open"}}
+         href="#{{id}}"
+        {{/if_equal}}
+         aria-expanded="false" aria-controls="{{id}}" id="note-{{id}}" data-path="{{path}}">
         {{> notes-note .}}
     </div>
     <div id="{{id}}" class="panel-collapse collapse" role="tabpanel" aria-labelledby="{{id}}">
@@ -11,7 +14,7 @@
             <!--Sub comments go here -->
         </div>
 
-        <div class="well">
+        <div class="well reply-note-text-container" id="note-thread-textarea-{{id}}">
             <textarea placeholder="reply..." id="{{id}}reply" data-path="{{path}}"></textarea>
             <div class="error" id="{{id}}error">Pleas enter a reply</div>
             <a href="#" class="cu-btn-inner reply-note" data-path="{{path}}" data-id="{{id}}">
