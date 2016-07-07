@@ -102,7 +102,7 @@ if (!user) {
 
             if (user.isAnonContext) {
                 registry = user.systemRegistry;
-            } 
+            }
             else {
                 registry = new carbon.registry.Registry(user.um.server.url,user);
             }
@@ -144,6 +144,10 @@ if (!user) {
     <link href="<%printAppContext();%>/extensions/app/greg_impact/public/css/jquery-ui.css" rel="stylesheet" />
     <link href="<%printAppContext();%>/extensions/app/greg_impact/public/css/select2.css" rel="stylesheet" />
     <link href="<%printAppContext();%>/extensions/app/greg_impact/css/style.css" rel="stylesheet" />
+
+    <!-- CSRF fix -->
+    <script src="<%=APP_CONTEXT%>/csrf.js" type="text/javascript"></script>
+    
     <script>
         var gc = {};
         gc.context = '<%printAppContext();%>';
@@ -220,6 +224,6 @@ if (!user) {
 </body>
 </html>
 
-<% //} 
-}, request, response, session); 
+<% //}
+}, request, response, session);
 %>
