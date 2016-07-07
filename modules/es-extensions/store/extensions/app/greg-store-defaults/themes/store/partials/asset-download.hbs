@@ -12,6 +12,7 @@
                         <input type="text" class="form-control" value="{{downloadMetaData.url}}"
                                aria-describedby="basic-addon2" readonly>
                         <a class="btn btn-default copy-button input-group-addon" id="copy-button"
+                           onclick="afterCopyFunction()"
                            data-clipboard-text="{{downloadMetaData.url}}"><i title='{{t "Copy URL"}}'
                                                                              class="fw fw-copy"></i> {{t "Copy URL"}}
                         </a>
