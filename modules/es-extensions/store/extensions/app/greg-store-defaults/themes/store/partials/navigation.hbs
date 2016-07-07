@@ -45,12 +45,6 @@
                                 <span class="icon"><i class="{{ui.icon}}"></i></span> <span
                                     class="left-menu-item">{{pluralLabel}}</span>
                             </a>
-                        {{else}}
-                            <a href='{{tenantedUrl ""}}{{this.listingUrl}}' id="{{this.shortName}}"
-                               class="{{ui.iconColor}} {{this.style}}" style="display: none;">
-                                <span class="icon"><i class="{{ui.icon}}"></i></span> <span
-                                    class="left-menu-item">{{pluralLabel}}</span>
-                            </a>
                         {{/if}}
                     {{/each}}
                     <a href='{{tenantedUrl ""}}/pages/top-assets' id="all-assets"
@@ -59,8 +53,18 @@
                         <span class="icon"><i class="fw fw-success"></i></span> <span
                             class="left-menu-item">{{t "All"}}</span>
                     </a>
-                    <a class="assets-show-more"><i class="fw fw-down"></i> More</a>
-                    <a class="assets-show-less" style="display: none;"><i class="fw fw-up"></i> Less</a>
+                    {{#each types}}
+                        {{#unless this.selected}}
+                            <a href='{{tenantedUrl ""}}{{this.listingUrl}}' id="{{this.shortName}}"
+                               class="{{ui.iconColor}} {{this.style}}" style="display: none;">
+                                <span class="icon"><i class="{{ui.icon}}"></i></span> <span
+                                    class="left-menu-item">{{pluralLabel}}</span>
+                            </a>
+                        {{/unless}}
+                    {{/each}}
+
+                    <a class="assets-show-more"><i class="fw fw-down"></i></a>
+                    <a class="assets-show-less" style="display: none;"><i class="fw fw-up"></i></a>
                 {{/if}}
             {{/with}}
         </nav>

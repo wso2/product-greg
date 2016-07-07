@@ -1,0 +1,64 @@
+<h4 class="panel-title-diff-view">
+    <span class="">{{assetName}}</span>
+</h4>
+
+<div class="panel-title-diff-sub-menu">
+    <div class="" role="tab">
+        <h4 class="panel-title">
+            <a role="button" class="text-diff" href="#">
+                Complete Text Diff
+            </a>
+        </h4>
+    </div>
+</div>
+
+<div class="panel-title-diff-sub-menu">
+    <div class="" role="tab">
+        <h4 class="panel-title">
+            <span role="button" class="text-diff" href="#">
+                Detailed Diff
+            </span>
+        </h4>
+    </div>
+</div>
+
+{{#each sections}}
+    <div class="panel-sub-menu">
+        <div class="panel-heading" role="tab" id="heading{{this.name}}">
+            <h4 class="panel-title">
+                <a role="button" data-toggle="collapse" data-parent="#sectionList" href="#collapse{{this.name}}"
+                   aria-expanded="false" aria-controls="collapse{{this.name}}">
+                    {{this.title}}
+                    <span class="pull-right">
+                        <span class="glyphicon glyphicon-chevron-down panel-detail-sub-menu" aria-hidden="true"></span>
+                    </span>
+                </a>
+            </h4>
+        </div>
+        <div class="panel-collapse collapse" role="tabpanel" id="collapse{{this.name}}"
+             aria-labelledby="heading{{this.name}}">
+            <div class="list-group" id="sectionChanges{{this.name}}">
+                {{#if this.data.content.CONTENT_ADDITION}}
+                    <a href="#" class="details-sub-menu" data-section="{{this.name}}" data-change="CONTENT_ADDITION">
+                        Additions
+                    </a>
+                {{/if}}
+                {{#if this.data.content.CONTENT_REMOVAL}}
+                    <a href="#" class="details-sub-menu"  data-section="{{this.name}}" data-change="CONTENT_REMOVAL">
+                        Removals
+                    </a>
+                {{/if}}
+                {{#if this.data.content.CONTENT_CHANGE}}
+                    <a href="#" class="details-sub-menu"  data-section="{{this.name}}" data-change="CONTENT_CHANGE">
+                        Changes
+                    </a>
+                {{/if}}
+                {{#if this.data.content.CONTENT_TEXT}}
+                    <a href="#" class="details-sub-menu"  data-section="{{this.name}}" data-change="CONTENT_TEXT">
+                        Content Text
+                    </a>
+                {{/if}}
+            </div>
+        </div>
+    </div>
+{{/each}}

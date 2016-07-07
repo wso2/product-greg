@@ -1,5 +1,5 @@
 /*
- *  Copyright (c) 2015, WSO2 Inc. (http://www.wso2.org) All Rights Reserved.
+ *  Copyright (c) 2016, WSO2 Inc. (http://www.wso2.org) All Rights Reserved.
  *
  *  WSO2 Inc. licenses this file to you under the Apache License,
  *  Version 2.0 (the "License"); you may not use this file except
@@ -19,23 +19,33 @@
 
 $(function () {
 
-    var id = function(name) {
+    var id = function (name) {
         return '#' + name;
     };
 
-    var partial = function(name) {
+    var partial = function (name) {
         return '/extensions/app/greg-publisher-defaults/themes/' + caramel.themer + '/partials/' + name + '.hbs';
     };
 
-    var renderPartial = function(partialKey,data, fn) {
-        fn = fn || function() {};
+    var renderPartial = function (partialKey, data, fn) {
+        fn = fn || function () {
+        };
         var partialName = partialKey;
         if (!partialName) {
             throw 'A template name has not been specified for template key ' + partialKey;
         }
         var obj = {};
         obj[partialName] = partial(partialName);
-        caramel.partials(obj, function() {
+        caramel.partials(obj, function () {
+            Handlebars.registerHelper('if_equal', function (lvalue, rvalue, options) {
+                if (arguments.length < 3)
+                    throw new Error("Handlebars Helper equal needs 2 parameters");
+                if (lvalue != rvalue) {
+                    return options.inverse(this);
+                } else {
+                    return options.fn(this);
+                }
+            });
             var template = Handlebars.partials[partialName](data);
             fn(template);
         });
@@ -44,8 +54,7 @@ $(function () {
     /**
      * This is used to add a note.
      */
-    $('#add-note').on('click', function (e) {
-        e.preventDefault();
+    $('#add-note').on('click', function () {
         var data = {};
         data.overview_resourcepath = store.publisher.assetPath;
         data.overview_note = $('#add-note-content').val();
@@ -66,19 +75,258 @@ $(function () {
                 var input = {};
                 input.notes = [];
                 input.notes.push(response.data);
-                    renderPartial('notes-note',{},function(result){
-                        renderPartial('notes-note-container',input,function(result){
-                            $('#collapseNotes .wr-panel-notes').append(result);
-                        });
+                renderPartial('notes-note', {}, function (result) {
+                    renderPartial('notes-note-container', input, function (result) {
+                        $('#collapseNotes .wr-panel-notes').append(result);
                     });
-                    $('#add-note-content').val('');
+                });
+                $('#add-note-content').val('');
                 messages.alertSuccess("Note added successfully");
-                setTimeout(function(){location.reload(true);},3000);
+                setTimeout(function () {
+                    location.reload(true);
+                }, 3000);
             },
             error: function () {
                 //console.log("Error adding a note.");
             }
         });
+    });
+
+    /**
+     * This is used to delete a note.
+     */
+    $(document).on('click', '.delete-note', function () {
+        var id = $(this).attr('data-id');
+        $.ajax({
+            url: caramel.context + "/apis/assets/".concat(id).concat("?type=note"),
+            type: 'DELETE',
+            contentType: "application/json",
+            dataType: 'json',
+            success: function (response) {
+                $('#add-note-content').val('');
+                messages.alertSuccess("Note deleted successfully");
+                $('#note-' + id).hide();
+                $('#' + id).hide();
+            },
+            error: function (e) {
+                console.log("Error deleting a note.");
+                console.log(e);
+            }
+        });
+    });
+
+    /**
+     * This is used to delete a note reply.
+     */
+    $(document).on('click', '.delete-reply', function () {
+        var id = $(this).attr('data-id');
+        $.ajax({
+            url: caramel.context + "/apis/assets/".concat(id).concat("?type=note"),
+            type: 'DELETE',
+            contentType: "application/json",
+            dataType: 'json',
+            success: function (response) {
+                messages.alertSuccess("Reply deleted successfully");
+                $('#note-reply-icon-' + id).remove();
+                $('#note-reply-' + id).remove();
+            },
+            error: function (e) {
+                console.log("Error deleting a note.");
+                console.log(e);
+            }
+        });
+    });
+
+    /**
+     * This is used to edit a note.
+     */
+    $(document).on('click', '.edit-note', function () {
+
+        var id = $(this).attr('data-id');
+        var note_content = $('#' + id + '_note').html();
+        $('#' + id + '-edit-thread').show();
+        $('#' + id + '-edit-note-content').empty();
+        $('#' + id + '-edit-note-content').append(note_content);
+    });
+
+    /**
+     * This is used to edit a note.
+     */
+    $(document).on('click', '.update-note', function () {
+
+        var id = $(this).attr('data-id');
+        var note_content = $('#' + id + '-edit-note-content').val();
+        var resourcepath = $(this).attr('data-resourcepath');
+        var overview_hash = $(this).attr('data-overview_hash');
+        var data = {};
+        data.id = id;
+        data.overview_note = note_content;
+        data.overview_resourcepath = resourcepath;
+        data.overview_hash = overview_hash;
+        data.overview_status = "Open";
+
+        $.ajax({
+            url: caramel.context + "/apis/assets/" + id + "?type=note",
+            type: 'POST',
+            data: JSON.stringify(data),
+            contentType: "application/json",
+            dataType: 'json',
+            success: function (response) {
+                $('#' + id + '-edit-note-content').empty();
+                $('#' + id + '-edit-thread').hide();
+                $('#' + id + '_note').empty();
+                $('#' + id + '_note').append(note_content);
+                messages.alertSuccess("Note Updated successfully");
+                // setTimeout(function(){location.reload(true);},3000);
+            },
+            error: function () {
+                //console.log("Error adding a note.");
+            }
+        });
+
+    });
+
+
+    /**
+     * This is used to resolve a note.
+     */
+    $(document).on('click', '.resolve-thread', function () {
+
+        var id = $(this).attr('data-id');
+        var resourcepath = $(this).attr('data-resourcepath');
+        var overview_hash = $(this).attr('data-overview_hash');
+        var data = {};
+        data.id = id;
+        data.overview_note = $('#' + id + '_note').text();
+        data.overview_resourcepath = resourcepath;
+        data.overview_hash = overview_hash;
+        data.overview_status = "Resolved";
+
+        $.ajax({
+            url: caramel.context + "/apis/assets/" + id + "?type=note",
+            type: 'POST',
+            data: JSON.stringify(data),
+            contentType: "application/json",
+            dataType: 'json',
+            success: function (response) {
+                messages.alertSuccess("Note Resolved successfully");
+                setTimeout(function () {
+                    location.reload(true);
+                }, 3000);
+            },
+            error: function () {
+                //console.log("Error adding a note.");
+            }
+        });
+
+    });
+
+    /**
+     * This is used to re-open.
+     */
+    $(document).on('click', '.reopen-thread', function () {
+
+        var id = $(this).attr('data-id');
+        var resourcepath = $(this).attr('data-resourcepath');
+        var overview_hash = $(this).attr('data-overview_hash');
+        var data = {};
+        data.id = id;
+        data.overview_note = $('#' + id + '_note').text();
+        data.overview_resourcepath = resourcepath;
+        data.overview_hash = overview_hash;
+        data.overview_status = "Open";
+
+        $.ajax({
+            url: caramel.context + "/apis/assets/" + id + "?type=note",
+            type: 'POST',
+            data: JSON.stringify(data),
+            contentType: "application/json",
+            dataType: 'json',
+            success: function (response) {
+                var input = {};
+                input.notes = [];
+                input.notes.push(response.data);
+                renderPartial('notes-note', {}, function (result) {
+                    renderPartial('notes-note-container', input, function (result) {
+                        $('#collapseNotes .wr-panel-notes').append(result);
+                    });
+                });
+                $('#add-note-content').val('');
+                messages.alertSuccess("Note thread Re-opened successfully");
+                setTimeout(function () {
+                    location.reload(true);
+                }, 3000);
+            },
+            error: function () {
+                //console.log("Error adding a note.");
+            }
+        });
+
+    });
+
+
+    /**
+     * This is used to edit a reply.
+     */
+    $(document).on('click', '.edit-reply', function () {
+
+        var id = $(this).attr('data-id');
+        var reply_content = $('#' + id + '_reply').html();
+        $('#' + id + '-edit-thread').show();
+        $('.reply-note-text-container').hide();
+        $('#' + id + '-edit-reply-content').empty();
+        $('#' + id + '-edit-reply-content').append(reply_content);
+    });
+
+    /**
+     * This is used to edit a note.
+     */
+    $(document).on('click', '.update-reply', function () {
+
+        var id = $(this).attr('data-id');
+        var reply_content = $('#' + id + '-edit-reply-content').val();
+        var resourcepath = $(this).attr('data-resourcepath');
+        var overview_hash = $(this).attr('data-overview_hash');
+        var overview_replypath = $(this).attr('data-replypath');
+        var data = {};
+        data.id = id;
+        data.overview_note = reply_content;
+        data.overview_resourcepath = resourcepath;
+        data.overview_hash = overview_hash;
+        data.overview_replypath = overview_replypath;
+        data.overview_status = "Open";
+
+        $.ajax({
+            url: caramel.context + "/apis/assets/" + id + "?type=note",
+            type: 'POST',
+            data: JSON.stringify(data),
+            contentType: "application/json",
+            dataType: 'json',
+            success: function (response) {
+                var input = {};
+                input.notes = [];
+                input.notes.push(response.data);
+                renderPartial('notes-note', {}, function (result) {
+                    renderPartial('notes-note-container', input, function (result) {
+                        $('#collapseNotes .wr-panel-notes').append(result);
+                    });
+                });
+                $('#add-note-content').val('');
+                $('#' + id + '-edit-reply-content').empty();
+                $('#' + id + '-edit-thread').hide();
+                $('#' + id + '_reply').empty();
+                $('#' + id + '_reply').append(reply_content);
+                $('#note-thread-textarea-' + id).show();
+                messages.alertSuccess("Reply Updated successfully");
+                setTimeout(function () {
+                    location.reload(true);
+                }, 3000);
+            },
+            error: function () {
+                //console.log("Error adding a note.");
+            }
+        });
+
     });
 
     /**
@@ -104,10 +352,8 @@ $(function () {
     /**
      * This function is used to get reply notes.
      */
-    $('.reply-note').on('click', function (e) {
-        e.preventDefault();
+    $('.reply-note').on('click', function () {
         var id = $(this).data('id');
-        var noteContainer = this;
         var data = {};
         data.overview_resourcepath = this.dataset.path;
         data.overview_note = $(replyContainerId(id)).val();
@@ -128,12 +374,11 @@ $(function () {
             contentType: "application/json",
             dataType: 'json',
             success: function (response) {
-                /*renderPartial('notes-note',response.list,function(result){
-                    $(noteContainer).closest('div.well').siblings('.wr-panel-sub-note').append(result);
-                });*/
                 $(replyContainerId(id)).val('');
                 messages.alertSuccess("Reply added successfully");
-                setTimeout(function(){location.reload(true);},2000);
+                setTimeout(function () {
+                    location.reload(true);
+                }, 2000);
             },
             error: function () {
                 //console.log("Error while adding reply");
@@ -144,7 +389,7 @@ $(function () {
     /**
      * This function is used to get reply notes.
      */
-    $('.wr-panel-note > .wr-panel-msg').on('click', function() {
+    $('.note-thread').on('click', function () {
 
         var path = $(this).closest('.wr-panel-note').data('path');
         var id = $(this).closest('.wr-panel-note').attr('href');
@@ -164,8 +409,8 @@ $(function () {
             type: 'GET',
             success: function (response) {
                 $(id + "> .wr-panel-sub-note").html("");
-                $.each(response.list, function(key, value){
-                    renderPartial('notes-note',value,function(result){
+                $.each(response.list, function (key, value) {
+                    renderPartial('notes-note', value, function (result) {
                         $(id + "> .wr-panel-sub-note").append(result);
                     });
                 });
@@ -175,14 +420,22 @@ $(function () {
             }
         });
     });
-    
+
+    /**
+     * This is used to edit a reply.
+     */
+    $(document).on('click', '.note-thread', function () {
+        var id = $(this).attr('data-id');
+        $('#note-thread-textarea-' + id).show();
+    });
+
 });
 
 /**
  * On DOM load if note are empty, button text changes to "Add Note" else "New".
  */
-$('document').ready(function(){
-    if ($('#collapseNotes .panel-group .panel > div').length == 0){
+$('document').ready(function () {
+    if ($('#collapseNotes .panel-group .panel > div').length == 0) {
         $('#newThreadBtn .btn-text').html('Add Note');
     }
     else {
@@ -201,6 +454,6 @@ $('document').ready(function(){
 /**
  * On button "Add Note"/"New" click, show text input field
  */
-$('#newThreadBtn').click(function(){
+$('#newThreadBtn').click(function () {
     $('#newThread').fadeIn('fast');
 });

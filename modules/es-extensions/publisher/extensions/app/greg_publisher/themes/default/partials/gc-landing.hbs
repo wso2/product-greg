@@ -10,11 +10,11 @@
             <a href="javascript:void(0)" id="searchButton" class="form-control-feedback search" title="{{t "Search"}}">
                 <i class="fw fw-search" aria-hidden="true"></i>
             </a>
+            {{>search-options-popover .}}
             <a href="/publisher/pages/advanced-search" class="form-control-feedback advance" id="advance-search"
                title="{{t "Advance Search"}}">
                 <span>{{t "Advanced Search"}}</span>
             </a>
-            {{>search-options-popover .}}
             <input type="hidden" name="sortby" value=""/>
             <input type="hidden" name="sort" value=""/>
         </div>
