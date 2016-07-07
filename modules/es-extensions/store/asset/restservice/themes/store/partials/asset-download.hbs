@@ -10,7 +10,7 @@
                     <div style="display:none" id='download-link'>{{downloadMetaData.url}}</div>
 
                     <div class="input-group">
-                        <input type="text" class="form-control" value="{{downloadMetaData.url}}"
+                        <input type="text" class="form-control" onClick="this.setSelectionRange(0, this.value.length)" value="{{downloadMetaData.url}}"
                                aria-describedby="basic-addon2" readonly>
                         <a class="btn btn-default copy-button input-group-addon" id="copy-button"
                            onclick="afterCopyFunction()"
