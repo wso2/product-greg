@@ -17,7 +17,7 @@
 
 
 <div class="sidebar-wrapper sidebar-nav toggled nano" id="left-sidebar" data-side="left" data-width="200"
-     data-offset-bottom="40">
+     data-offset-bottom="40" style="display: none">
     <div class="nano-content">
 
 
@@ -124,24 +124,30 @@
     <div id="nav" class="es-row row wr-app-bar">
         <div class="col-md-12 wr-action-container">
             <div id="the-basics" class="es-input-group input-group input-wrap">
-                <div class="search-wrapper" style="float:left;width:80%;position:relative;left:0px;">
 
-                    {{#if rxt.pluralLabel}}
-                        <input id="search" type="text" class="typeahead es-form-control form-control"
-                               placeholder="Search in {{rxt.pluralLabel}}" value="{{searchQuery}}">
-                    {{else}}
-                        <input id="search" type="text" class="typeahead es-form-control form-control"
-                               placeholder="Search in all asset types" value="{{searchQuery}}">
-                    {{/if}}
-                    <div class="es-input-group-btn input-group-btn">
-                        <button class="btn btn-default wrap-input-right" type="button" title="{{t "Search"}}"
-                                id="search-button">
-                            <i class="fw fw-search" aria-hidden="true"></i>
-                        </button>
-                        {{>search-options-popover .}}
+                <div class="search-wrapper" id="the-basics">
+                    <div class="input-group">
+                        <span class="input-group-addon toggle-menu-left-wrapper" style="display: none">
+                            <button type="button" class="btn btn-primary toggle-menu-left">
+                                <div class="toggle-menu-left-bar"></div>
+                                <div class="toggle-menu-left-bar"></div>
+                                <div class="toggle-menu-left-bar"></div>
+                            </button>
+                        </span>
+                        <input  id="search"  type="text" class="typeahead es-form-control form-control"
+                            {{#if rxt.pluralLabel}}
+                                placeholder="Search in {{rxt.pluralLabel}}"
+                            {{else}}
+                                placeholder="Search in all asset types"
+                            {{/if}}
+                                value="{{searchQuery}}">
+                        <span class="input-group-btn">
+                           <button class="btn btn-secondary" id="search-button" type="button"><i class="fw fw-search" aria-hidden="true"></i></button>
+                        </span>
+                        <span class="input-group-addon search-options-link-wrapper" id="basic-addon2">
+                            {{>search-options-popover .}}
+                        </span>
                     </div>
-
-
                 </div>
             </div>
 
