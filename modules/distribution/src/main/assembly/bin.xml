@@ -51,6 +51,7 @@
                 <exclude>**/claim-config.xml</exclude>
                 <exclude>**/email/email-admin-config.xml</exclude>
                 <exclude>**/launch.ini</exclude>
+                <exclude>**/Owasp.CsrfGuard.Carbon.properties</exclude>
                 <!--<exclude>**/lib/org.wso2.carbon.server-${carbon.kernel.version}.jar</exclude>-->
 
             </excludes>
