@@ -81,8 +81,9 @@ var gregPermissionUtil = {};
         var permissionRemoveString = ":rd^true:wd^true:dd^true";
         var pathWithVersion = params.pathWithVersion;
         var roleToRemove = params.roleToRemove;
+        var permissionCheck = params.permissionCheck;
         var permissionsString = "|" + roleToRemove + permissionRemoveString;
-        return gregAPI.permissions.modify(am, pathWithVersion, permissionsString);
+        return gregAPI.permissions.modify(am, pathWithVersion, permissionsString, permissionCheck);
     };
 
 }(gregPermissionUtil));
