@@ -203,3 +203,39 @@
     </div>
     <!-- secondary header - app bar -->
 </div>
+
+{{#if assetCategoryDetails.hasCategories}}
+    <div class="category-wrapper">
+        {{#if assetCategoryDetails.hasCategories}}
+            <div class="col-lg-12 category-content">
+                <div class="category padding-top">
+                    <a href="#" class="ico-filter ctrl-filter-category dropdown-toggle" data-toggle="dropdown"
+                       aria-expanded="true" id="categoryDropDown" title="All Categories">
+                        {{#if assetCategoryDetails.selectedCategory}}
+                            {{assetCategoryDetails.selectedCategory}}
+                        {{else}}
+                            <span>All Categories</span>
+                        {{/if}}
+                    </a>
+                    <ul class="es-dropdown-menu dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
+                        <input type="hidden" name="selectedTag" id="selectedTag" value="{{selectedTag.value}}">
+                        {{#if assetCategoryDetails.selectedCategory}}
+                            <li><a tabindex="-1" href="#">All Categories</a></li>
+                        {{/if}}
+                        {{#each assetCategoryDetails.values}}
+                            <li><a tabindex="-1" href="#">{{this}}</a></li>
+                        {{/each}}
+                    </ul>
+                    {{#if selectedTag.value}}
+                        <div class="tags-breadcrumb">
+                            <a class="tag-label"
+                               href=' {{tenantedUrl ""}}{{selectedTag.url}}?q="category":"{{../assetCategoryDetails.selectedCategory}}"'>
+                                {{selectedTag.value}} <span>&times;</span>
+                            </a>
+                        </div>
+                    {{/if}}
+                </div>
+            </div>
+        {{/if}}
+    </div>
+{{/if}}
