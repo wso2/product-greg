@@ -354,7 +354,7 @@
             <dependency>
                 <groupId>org.wso2.carbon.identity</groupId>
                 <artifactId>org.wso2.carbon.user.mgt.stub</artifactId>
-                <version>${carbon.identity.version}</version>
+                <version>${carbon.identity.framework.version}</version>
                 <scope>test</scope>
             </dependency>
             <dependency>
@@ -366,7 +366,7 @@
             <dependency>
                 <groupId>org.wso2.carbon.identity</groupId>
                 <artifactId>org.wso2.carbon.identity.user.profile.stub</artifactId>
-                <version>${carbon.identity.version}</version>
+                <version>${carbon.identity.framework.version}</version>
                 <scope>test</scope>
             </dependency>
             <dependency>
@@ -487,7 +487,7 @@
             <dependency>
                 <groupId>org.wso2.carbon.identity</groupId>
                 <artifactId>org.wso2.carbon.user.mgt</artifactId>
-                <version>${carbon.identity.version}</version>
+                <version>${carbon.identity.framework.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.wso2.carbon</groupId>
@@ -1043,7 +1043,7 @@
         <identity.inbound.auth.oidc.version>5.1.1</identity.inbound.auth.oidc.version>
         <identity.inbound.auth.saml.version>5.1.1</identity.inbound.auth.saml.version>
         <identity.inbound.auth.openid.version>5.1.1</identity.inbound.auth.openid.version>
-        <carbon.identity.version>5.1.1-SNAPSHOT</carbon.identity.version>
+        <carbon.identity.um.version>5.1.1</carbon.identity.um.version>
 
         <carbon.deployment.version>4.7.0</carbon.deployment.version>
 
@@ -1094,6 +1094,6 @@
         <org.json.wso2.version>2.0.0.wso2v1</org.json.wso2.version>
         <resteasy.version>3.0.2.Final</resteasy.version>
         <javax.ws.rs.version>2.0.1</javax.ws.rs.version>
-        <carbon.metrics.version>1.2.1</carbon.metrics.version>
+        <carbon.metrics.version>1.2.2</carbon.metrics.version>
     </properties>
 </project>
