@@ -944,16 +944,16 @@
 
         <!-- Store -->
 
-        <caramel.feature.version>1.5.3-SNAPSHOT</caramel.feature.version>
-        <handlebars.feature.version>1.5.3-SNAPSHOT</handlebars.feature.version>
-        <markdown.feature.version>1.5.3-SNAPSHOT</markdown.feature.version>
-        <process.feature.version>1.5.3-SNAPSHOT</process.feature.version>
-        <carbon.feature.version>1.5.3-SNAPSHOT</carbon.feature.version>
-        <uuid.feature.version>1.5.3-SNAPSHOT</uuid.feature.version>
-        <sso.feature.version>1.5.3-SNAPSHOT</sso.feature.version>
-        <es.feature.version>2.4.0-SNAPSHOT</es.feature.version>
-        <carbon.social.version>2.4.0-SNAPSHOT</carbon.social.version>
-        <i18n.feature.version>1.5.3-SNAPSHOT</i18n.feature.version>
+        <caramel.feature.version>1.5.3</caramel.feature.version>
+        <handlebars.feature.version>1.5.3</handlebars.feature.version>
+        <markdown.feature.version>1.5.3</markdown.feature.version>
+        <process.feature.version>1.5.3</process.feature.version>
+        <carbon.feature.version>1.5.3</carbon.feature.version>
+        <uuid.feature.version>1.5.3</uuid.feature.version>
+        <sso.feature.version>1.5.3</sso.feature.version>
+        <es.feature.version>2.4.0</es.feature.version>
+        <carbon.social.version>2.4.0</carbon.social.version>
+        <i18n.feature.version>1.5.3</i18n.feature.version>
         <!--<event.feature.version>1.0.0</event.feature.version>-->
         <!--<login.feature.version>1.0.0</login.feature.version>-->
         <!--<permission.feature.version>1.0.0</permission.feature.version>-->
@@ -1021,14 +1021,14 @@
         <carbon.kernel.registry.imp.pkg.version>[1.0.1, 2.0.0)</carbon.kernel.registry.imp.pkg.version>
         
         <!-- Carbon Registry -->
-        <carbon.registry.version>4.5.6-SNAPSHOT</carbon.registry.version>
+        <carbon.registry.version>4.5.6</carbon.registry.version>
         <carbon.registry.package.import.version.range>[4.5.0, 5.0.0)
         </carbon.registry.package.import.version.range>
 
         <!-- Carbon Governance -->
-        <carbon.governance.version>4.6.4-SNAPSHOT</carbon.governance.version>
+        <carbon.governance.version>4.6.4</carbon.governance.version>
 
-        <carbon.governance.ext.version>4.4.13-SNAPSHOT</carbon.governance.ext.version>
+        <carbon.governance.ext.version>4.5.0</carbon.governance.ext.version>
 
         <carbon.business.process.version>4.4.9</carbon.business.process.version>
         
