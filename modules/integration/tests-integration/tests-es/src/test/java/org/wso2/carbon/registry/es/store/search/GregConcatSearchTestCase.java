@@ -317,7 +317,7 @@ public class GregConcatSearchTestCase extends GregESTestBaseTest {
         }
 
         // If this test fails please increase the time(20000) first
-        assertEquals(count, 2*2, "There should be 2x2 occurrences of " + valueToBeFoundInHTML);
+        assertEquals(count, 6, "There should be 2x2 occurrences of " + valueToBeFoundInHTML);
     }
 
     @Test(groups = {"wso2.greg", "wso2.greg.es"}, description = "Search Added SOAP Service in store",
