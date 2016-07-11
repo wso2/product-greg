@@ -4,10 +4,10 @@
         {{#if this.selected}}
             {{#if ../../assetCategoryDetails.hasCategories}}
                 <a href='{{tenantedUrl ""}}{{this.searchPage}}?q="category":"{{../../assetCategoryDetails.selectedCategory}}","tags":"{{this.value}}"'><span
-                        class="text-muted">{{this.value}}</span></a>
+                        class="es-asset-tag text-muted">{{this.value}}</span></a>
             {{else}}
                 <a href='{{tenantedUrl ""}}{{this.searchPage}}?q="tags":"{{this.value}}"'><span
-                        class="text-muted">{{this.value}}</span></a>
+                        class="es-asset-tag text-muted">{{this.value}}</span></a>
             {{/if}}
         {{else}}
             {{#if ../../assetCategoryDetails.hasCategories}}
