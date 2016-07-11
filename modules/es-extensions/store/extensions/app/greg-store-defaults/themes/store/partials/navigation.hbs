@@ -17,7 +17,7 @@
 
 
 <div class="sidebar-wrapper sidebar-nav toggled nano" id="left-sidebar" data-side="left" data-width="200"
-     data-offset-bottom="40">
+     data-offset-bottom="40" style="display: none">
     <div class="nano-content">
 
 
@@ -63,8 +63,8 @@
                         {{/unless}}
                     {{/each}}
 
-                    <a class="assets-show-more"><i class="fw fw-down"></i></a>
-                    <a class="assets-show-less" style="display: none;"><i class="fw fw-up"></i></a>
+                    <a title="Show more" class="assets-show-more"><i class="fw fw-down"></i></a>
+                    <a title="Show less" class="assets-show-less" style="display: none;"><i class="fw fw-up"></i></a>
                 {{/if}}
             {{/with}}
         </nav>
@@ -72,7 +72,7 @@
 
         <div id="taxonomy-section" style="display: none;">
 
-            <button type="button" class="btn btn-secondary pull-right btn-expand-taxonomy-toggle" id="maximize-taxonomy"
+            <button type="button" class="btn btn-secondary btn-taxonomy pull-right btn-expand-taxonomy-toggle" id="maximize-taxonomy"
                     data-toggle="tooltip" data-placement="left" title="Expand Section">
                 <i class="fw fw-expand"></i>
             </button>
@@ -92,7 +92,7 @@
         {{#if tags}}
             <div class="tags-wrapper">
                 <div class="tag-title"> Tags</div>
-                <div class="tag-content">
+                <div id="tag-container" class="tag-content">
                     {{#each tags}}
                         {{#if this.selected}}
                             {{#if ../../assetCategoryDetails.hasCategories}}
@@ -111,6 +111,14 @@
                         {{/if}}
                     {{/each}}
                 </div>
+                <div id="tags-collapse" class="tags-collapse" align="center">
+                    <p class="small">
+                        <span id="tags-collapse-text">Show all tags&nbsp;&nbsp;</span>
+                        <span class="icon">
+                            <i id="tags-collapse-icon" class="fw fw-down"></i>
+                        </span>
+                    </p>
+                </div>
             </div>
         {{/if}}
 
@@ -124,24 +132,30 @@
     <div id="nav" class="es-row row wr-app-bar">
         <div class="col-md-12 wr-action-container">
             <div id="the-basics" class="es-input-group input-group input-wrap">
-                <div class="search-wrapper" style="float:left;width:80%;position:relative;left:0px;">
 
-                    {{#if rxt.pluralLabel}}
-                        <input id="search" type="text" class="typeahead es-form-control form-control"
-                               placeholder="Search in {{rxt.pluralLabel}}" value="{{searchQuery}}">
-                    {{else}}
-                        <input id="search" type="text" class="typeahead es-form-control form-control"
-                               placeholder="Search in all asset types" value="{{searchQuery}}">
-                    {{/if}}
-                    <div class="es-input-group-btn input-group-btn">
-                        <button class="btn btn-default wrap-input-right" type="button" title="{{t "Search"}}"
-                                id="search-button">
-                            <i class="fw fw-search" aria-hidden="true"></i>
-                        </button>
-                        {{>search-options-popover .}}
+                <div class="search-wrapper" id="the-basics">
+                    <div class="input-group">
+                        <span class="input-group-addon toggle-menu-left-wrapper" style="display: none">
+                            <button type="button" class="btn btn-primary toggle-menu-left">
+                                <div class="toggle-menu-left-bar"></div>
+                                <div class="toggle-menu-left-bar"></div>
+                                <div class="toggle-menu-left-bar"></div>
+                            </button>
+                        </span>
+                        <input  id="search"  type="text" class="typeahead es-form-control form-control"
+                            {{#if rxt.pluralLabel}}
+                                placeholder="Search in {{rxt.pluralLabel}}"
+                            {{else}}
+                                placeholder="Search in all asset types"
+                            {{/if}}
+                                value="{{searchQuery}}">
+                        <span class="input-group-btn">
+                           <button class="btn btn-secondary" id="search-button" type="button"><i class="fw fw-search" aria-hidden="true"></i></button>
+                        </span>
+                        <span class="input-group-addon search-options-link-wrapper" id="basic-addon2">
+                            {{>search-options-popover .}}
+                        </span>
                     </div>
-
-
                 </div>
             </div>
 

@@ -35,10 +35,10 @@ span.twitter-typeahead {
 
 .tt-menu {    /* used to be tt-dropdown-menu in older versions */
   float:left;
-  top:37px !important;
-  left:208px !important;
+  top:0;
+  left:0;
   position:relative;
-  width: 40%;
+  width: 100%;
   margin-top: 4px;
   padding: 4px 0;
   background-color: #fff;
@@ -80,10 +80,3 @@ span.twitter-typeahead {
 /*span.twitter-typeahead {
     display: none;
 }*/
-
-/* Small Devices, Tablets */
-@media (max-width: 768px) {
-.tt-menu {
-  left:90px !important;
-}
-}
