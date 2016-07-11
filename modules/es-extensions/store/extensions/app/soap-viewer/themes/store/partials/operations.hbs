@@ -46,7 +46,7 @@
                                         {{#each messages.input.messageParts}}
                                             <div class="operation-value">
                                                     <span class="label label-default">
-                                                        <b>Message Name:</b><i>{{name}}</i>
+                                                        <b> Name:</b><i>{{name}}</i>
                                                     </span>
                                                 {{#if subElements}}
                                                     <a href="#messageType-{{escapeC ../../name}}-{{escapeC type}}-{{escapeC ../../binding}}-input"
@@ -57,12 +57,12 @@
                                                                     <i class="fw fw-stack-1x toggle-icon"></i>
                                                                     <i class="fw fw-ring fw-stack-2x"></i>
                                                                 </span>
-                                                                Message Type:
+                                                                 Type:
                                                             </b><i>{{type}}</i>
                                                         </span>
                                                     </a>
                                                 {{else}}
-                                                    <span class="label label-default"><b>Message Type:</b><i>{{type}}</i></span>
+                                                    <span class="label label-default"><b> Type:</b><i>{{type}}</i></span>
                                                 {{/if}}
                                                 <div id="messageType-{{escapeC ../../name}}-{{escapeC type}}-{{escapeC ../binding}}-input"
                                                      class="operation-value collapse">
@@ -83,7 +83,7 @@
                                         {{#each messages.output.messageParts}}
                                             <div class="operation-value">
                                                 <span class="label label-default">
-                                                    <b>Message Name:</b><i>{{name}}</i>
+                                                    <b> Name:</b><i>{{name}}</i>
                                                 </span>
                                                 {{#if subElements}}
                                                     <a href="#messageType-{{escapeC ../../name}}-{{escapeC type}}-{{escapeC ../../binding}}-output"
@@ -94,12 +94,12 @@
                                                                     <i class="fw fw-stack-1x toggle-icon"></i>
                                                                     <i class="fw fw-ring fw-stack-2x"></i>
                                                                 </span>
-                                                                Message Type:
+                                                                 Type:
                                                             </b><i>{{type}}</i>
                                                         </span>
                                                     </a>
                                                 {{else}}
-                                                    <span class="label label-default"><b>Message Type:</b><i>{{type}}</i></span>
+                                                    <span class="label label-default"><b> Type:</b><i>{{type}}</i></span>
                                                 {{/if}}
                                                 <div id="messageType-{{escapeC ../../name}}-{{escapeC type}}-{{escapeC ../binding}}-output"
                                                      class="operation-value collapse">
@@ -112,46 +112,47 @@
                                     </div>
 
                                 </div>
-
-                                <div class="media bg-warning">
-                                    <div class="media-left text-center bg-warning">
-                                        <div class="service-label label label-warning">Fault</div>
-                                    </div>
-                                    <div class="media-body">
-                                        {{#each messages.fault.messageParts}}
-                                            <div class="operation-value">
+                                {{#if messages.fault.messageParts}}
+                                    <div class="media bg-warning">
+                                        <div class="media-left text-center bg-warning">
+                                            <div class="service-label label label-warning">Fault</div>
+                                        </div>
+                                        <div class="media-body">
+                                            {{#each messages.fault.messageParts}}
+                                                <div class="operation-value">
                                                 <span class="label label-default">
-                                                        <b>Message Name:</b><i>{{name}}</i>
+                                                        <b> Name:</b><i>{{name}}</i>
                                                 </span>
-                                                </span>
-                                                {{#if subElements}}
-                                                    <a href="#messageType-{{escapeC ../../name}}-{{escapeC type}}-{{escapeC ../../binding}}-fault"
-                                                       data-toggle="collapse" class="collapsed">
+                                                    </span>
+                                                    {{#if subElements}}
+                                                        <a href="#messageType-{{escapeC ../../name}}-{{escapeC type}}-{{escapeC ../../binding}}-fault"
+                                                           data-toggle="collapse" class="collapsed">
                                                         <span class="label label-warning">
                                                             <b>
                                                                 <span class="fw fw-stack">
                                                                     <i class="fw fw-stack-1x toggle-icon"></i>
                                                                     <i class="fw fw-ring fw-stack-2x"></i>
                                                                 </span>
-                                                                Message Type:
+                                                                Type:
                                                             </b><i>{{type}}</i>
                                                         </span>
-                                                    </a>
-                                                {{else}}
-                                                    <span class="label label-default"><b>Message Type:</b><i>{{type}}</i></span>
-                                                {{/if}}
-                                                <div id="messageType-{{escapeC ../../name}}-{{escapeC type}}-{{escapeC ../binding}}-fault"
-                                                     class="operation-value collapse">
-                                                    {{#mergeContext thisContext=this parentContextOperation=../../name parentContextBinding=../binding parentContextCssClass="warning" }}
-                                                        {{> types }}
-                                                    {{/mergeContext}}
+                                                        </a>
+                                                    {{else}}
+                                                        <span class="label label-default"><b>
+                                                            Type:</b><i>{{type}}</i></span>
+                                                    {{/if}}
+                                                    <div id="messageType-{{escapeC ../../name}}-{{escapeC type}}-{{escapeC ../binding}}-fault"
+                                                         class="operation-value collapse">
+                                                        {{#mergeContext thisContext=this parentContextOperation=../../name parentContextBinding=../binding parentContextCssClass="warning" }}
+                                                            {{> types }}
+                                                        {{/mergeContext}}
+                                                    </div>
                                                 </div>
-                                            </div>
-                                        {{/each}}
+                                            {{/each}}
+                                        </div>
+
                                     </div>
-
-                                </div>
-
+                                {{/if}}
                                 <h5 class="remove-margin-bottom"><i class="icon fw fw-endpoint"></i> <b>Endpoint:</b> <span
                                         class="text-primary">{{address}}</span></h5>
 

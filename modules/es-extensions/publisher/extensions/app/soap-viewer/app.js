@@ -26,7 +26,7 @@ app.server = function () {
                 },
 
                 {
-                    url: 'test',
+                    url: 'wsdl-viewer',
                     path: 'wsdl-viewer.jag'
                 }
             ]
