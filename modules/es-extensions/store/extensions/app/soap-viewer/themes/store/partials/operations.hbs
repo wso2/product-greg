@@ -1,0 +1,169 @@
+<div id='content'>
+    {{#each .}}
+        <div class="page-header" id="{{name}}">
+            <h1>{{name}}</h1>
+        </div>
+        <div class="collapsible-controls">
+            <a data-toggle="expand-all">Expand All</a> /
+            <a data-toggle="collapse-all">Collapse All</a>
+        </div>
+
+        <div class="list-group services-ui" id="operations-list" aria-multiselectable="true">
+            {{#each operations}}
+                <div class="panel well">
+
+                    <h2 class="field-title">
+                        <a data-toggle="collapse" href="#{{escapeC name}}"
+                           aria-expanded="{{#if operationIndex}}false{{else}}true{{/if}}"
+                           class="collapsing-h2 {{#if operationIndex}}collapsed{{/if}}">
+                            <i class="cu-btn-exp-col btn-collapsed">{{name}}</i>
+                        </a>
+                    </h2>
+                    <div id="{{escapeC name}}" class="operation collapse {{#unless operationIndex}}in{{/unless}}"
+                         aria-expanded="{{#if operationIndex}}false{{else}}true{{/if}}">
+                        <div class="form-horizontal">
+                            <div class="form-group add-margin-bottom-3x add-margin-top-3x">
+                                <div class="col-sm-3">
+                                    <label class="control-label">Transport Type:</label>
+                                    <select class="form-control" data-change="transport-type">
+                                        {{#each WSDLEndpoints}}
+                                            <option value="Operation-{{escapeC name}}-{{escapeC binding}}">{{binding}}</option>
+                                        {{/each}}
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+
+                        {{#each WSDLEndpoints}}
+                            <div class="media-group operation-values collapse {{#unless endpointIndex}}in{{/unless}}"
+                                 id="Operation-{{escapeC name}}-{{escapeC binding}}"  aria-expanded="{{#if endpointIndex}}false{{else}}true{{/if}}">
+
+                                <div class="media bg-info">
+                                    <div class="media-left text-center">
+                                        <div class="service-label label label-primary">Input</div>
+                                    </div>
+                                    <div class="media-body">
+                                        {{#each messages.input.messageParts}}
+                                            <div class="operation-value">
+                                                    <span class="label label-default">
+                                                        <b> Name:</b><i>{{name}}</i>
+                                                    </span>
+                                                {{#if subElements}}
+                                                    <a href="#messageType-{{escapeC ../../name}}-{{escapeC type}}-{{escapeC ../../binding}}-input"
+                                                       data-toggle="collapse" class="collapsed">
+                                                        <span class="label label-primary">
+                                                            <b>
+                                                                <span class="fw fw-stack">
+                                                                    <i class="fw fw-stack-1x toggle-icon"></i>
+                                                                    <i class="fw fw-ring fw-stack-2x"></i>
+                                                                </span>
+                                                                 Type:
+                                                            </b><i>{{type}}</i>
+                                                        </span>
+                                                    </a>
+                                                {{else}}
+                                                    <span class="label label-default"><b> Type:</b><i>{{type}}</i></span>
+                                                {{/if}}
+                                                <div id="messageType-{{escapeC ../../name}}-{{escapeC type}}-{{escapeC ../binding}}-input"
+                                                     class="operation-value collapse">
+                                                    {{#mergeContext thisContext=this parentContextOperation=../../name parentContextBinding=../binding parentContextCssClass="primary" }}
+                                                        {{> types }}
+                                                    {{/mergeContext}}
+                                                </div>
+                                            </div>
+                                        {{/each}}
+                                    </div>
+                                </div>
+
+                                <div class="media bg-success">
+                                    <div class="media-left text-center bg-success">
+                                        <div class="service-label label label-success">Output</div>
+                                    </div>
+                                    <div class="media-body">
+                                        {{#each messages.output.messageParts}}
+                                            <div class="operation-value">
+                                                <span class="label label-default">
+                                                    <b> Name:</b><i>{{name}}</i>
+                                                </span>
+                                                {{#if subElements}}
+                                                    <a href="#messageType-{{escapeC ../../name}}-{{escapeC type}}-{{escapeC ../../binding}}-output"
+                                                       data-toggle="collapse" class="collapsed">
+                                                        <span class="label label-success">
+                                                            <b>
+                                                                <span class="fw fw-stack">
+                                                                    <i class="fw fw-stack-1x toggle-icon"></i>
+                                                                    <i class="fw fw-ring fw-stack-2x"></i>
+                                                                </span>
+                                                                 Type:
+                                                            </b><i>{{type}}</i>
+                                                        </span>
+                                                    </a>
+                                                {{else}}
+                                                    <span class="label label-default"><b> Type:</b><i>{{type}}</i></span>
+                                                {{/if}}
+                                                <div id="messageType-{{escapeC ../../name}}-{{escapeC type}}-{{escapeC ../binding}}-output"
+                                                     class="operation-value collapse">
+                                                    {{#mergeContext thisContext=this parentContextOperation=../../name parentContextBinding=../binding parentContextCssClass="success" }}
+                                                        {{> types }}
+                                                    {{/mergeContext}}
+                                                </div>
+                                            </div>
+                                        {{/each}}
+                                    </div>
+
+                                </div>
+                                {{#if messages.fault.messageParts}}
+                                    <div class="media bg-warning">
+                                        <div class="media-left text-center bg-warning">
+                                            <div class="service-label label label-warning">Fault</div>
+                                        </div>
+                                        <div class="media-body">
+                                            {{#each messages.fault.messageParts}}
+                                                <div class="operation-value">
+                                                <span class="label label-default">
+                                                        <b> Name:</b><i>{{name}}</i>
+                                                </span>
+                                                    </span>
+                                                    {{#if subElements}}
+                                                        <a href="#messageType-{{escapeC ../../name}}-{{escapeC type}}-{{escapeC ../../binding}}-fault"
+                                                           data-toggle="collapse" class="collapsed">
+                                                        <span class="label label-warning">
+                                                            <b>
+                                                                <span class="fw fw-stack">
+                                                                    <i class="fw fw-stack-1x toggle-icon"></i>
+                                                                    <i class="fw fw-ring fw-stack-2x"></i>
+                                                                </span>
+                                                                Type:
+                                                            </b><i>{{type}}</i>
+                                                        </span>
+                                                        </a>
+                                                    {{else}}
+                                                        <span class="label label-default"><b>
+                                                            Type:</b><i>{{type}}</i></span>
+                                                    {{/if}}
+                                                    <div id="messageType-{{escapeC ../../name}}-{{escapeC type}}-{{escapeC ../binding}}-fault"
+                                                         class="operation-value collapse">
+                                                        {{#mergeContext thisContext=this parentContextOperation=../../name parentContextBinding=../binding parentContextCssClass="warning" }}
+                                                            {{> types }}
+                                                        {{/mergeContext}}
+                                                    </div>
+                                                </div>
+                                            {{/each}}
+                                        </div>
+
+                                    </div>
+                                {{/if}}
+                                <h5 class="remove-margin-bottom"><i class="icon fw fw-endpoint"></i> <b>Endpoint:</b> <span
+                                        class="text-primary">{{address}}</span></h5>
+
+                            </div>
+
+                        {{/each}}
+
+
+                    </div>
+                </div>
+            {{/each}}
+        </div>
+    {{/each}}
+</div>

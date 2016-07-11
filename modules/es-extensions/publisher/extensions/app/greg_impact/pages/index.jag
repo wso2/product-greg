@@ -19,6 +19,8 @@
 
 var user = require('store').server.current(session);
 var log = new Log();
+var rxt = require('rxt');
+var appContext =  rxt.app.getContext();
 
 /*
  * query parameters of the original request should be passed to the
@@ -129,6 +131,9 @@ else {
     <link href="../extensions/app/greg_impact/public/css/select2.css" rel="stylesheet" />
     <link href="../extensions/app/greg_impact/css/style.css" rel="stylesheet" />
 
+    <!-- CSRF fix -->
+    <script src="<%=appContext%>/csrf.js" type="text/javascript"></script>
+    
     <script src="../extensions/app/greg_impact/public/js/d3.v3.js"></script>
     <script src="../extensions/app/greg_impact/public/js/jquery-1.11.1.js"></script>
     <script src="../extensions/app/greg_impact/public/js/jquery-ui.js"></script>

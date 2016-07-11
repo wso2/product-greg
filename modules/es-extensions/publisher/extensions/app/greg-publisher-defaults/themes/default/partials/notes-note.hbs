@@ -1,7 +1,92 @@
-<div class="wr-panel-desc-icon">
+<div class="wr-panel-desc-icon" id="note-reply-icon-{{id}}">
     <i class="wr-panel-desc-icon fw fw-user"></i>
 </div>
-<div class="wr-panel-msg">
-    <div>{{attributes.overview_note}}</div>
-    <div class="wr-panel-msg-details"><span class="wr-list-username">{{attributes.overview_user}}</span></div>
+{{#if_equal attributes.overview_status "Resolved"}}
+    {{#if attributes.overview_replypath}}
+        <div class="wr-panel-msg note-resolved reply-thread" id="note-reply-{{id}}" data-id="{{id}}">
+    {{else}}
+        <div class="wr-panel-msg note-resolved" id="note-note-{{id}}" data-id="{{id}}">
+    {{/if}}
+{{else}}
+    {{#if attributes.overview_replypath}}
+        <div class="wr-panel-msg reply-thread" id="note-reply-{{id}}"
+             data-id="{{id}}">
+    {{else}}
+        <div class="wr-panel-msg note-thread" id="note-note-{{id}}" data-id="{{id}}">
+    {{/if}}
+{{/if_equal}}
+    <div class="msg-options">
+        <a aria-expanded="false" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" href="#">
+            <i class="fw fw-dots fw-rotate-90"></i>
+        </a>
+        {{#if_equal attributes.overview_status "Open"}}
+            <ul class="dropdown-menu">
+                {{#if attributes.overview_replypath}}
+                    <li class="edit-reply" data-id="{{id}}"><a href="#"><i class="fw fw-edit fa-fw"></i> Edit</a></li>
+                    <li class="delete-reply" data-id="{{id}}"><a h><i class="fw fw-delete fa-fw"></i> Delete</a></li>
+                {{else}}
+                    <li class="edit-note" data-id="{{id}}"><a href="#"><i class="fw fw-edit fa-fw"></i> Edit</a></li>
+                    <li class="delete-note" data-id="{{id}}"><a h><i class="fw fw-delete fa-fw"></i> Delete</a></li>
+                {{/if}}
+                {{#unless attributes.overview_replypath}}
+                    <li class="divider"></li>
+                    <li><a href="#" class="resolve-thread" data-id="{{id}}"
+                           data-overview_hash="{{ attributes.overview_hash}}"
+                           data-resourcepath="{{attributes.overview_resourcepath}}">
+                        <i class="i"></i> Resolve Thread</a></li>
+                {{/unless}}
+            </ul>
+        {{else}}
+            <ul class="dropdown-menu">
+                {{#unless attributes.overview_replypath}}
+                    <li><a href="#" class="reopen-thread" data-id="{{id}}"
+                           data-overview_hash="{{ attributes.overview_hash}}"
+                           data-resourcepath="{{attributes.overview_resourcepath}}">
+                        <i class="i"></i> Re-open Thread</a></li>
+                {{/unless}}
+            </ul>
+        {{/if_equal}}
+    </div>
+{{#if attributes.overview_replypath}}
+        <div id="{{id}}_reply">{{attributes.overview_note}}</div>
+{{else}}
+        <div id="{{id}}_note">{{attributes.overview_note}}</div>
+{{/if}}
+
+    <div class="well" id="{{id}}-edit-thread" style="display:none;">
+        {{#if attributes.overview_replypath}}
+            <textarea id="{{id}}-edit-reply-content"></textarea>
+            <a href="javascript:void(0)" class="update-reply" class="cu-btn-inner" data-id={{id}}
+                    data-replypath="{{attributes.overview_replypath}}"
+        {{else}}
+            <textarea id="{{id}}-edit-note-content"></textarea>
+                <a href="javascript:void(0)" class="update-note" class="cu-btn-inner" data-id={{id}}
+        {{/if}}
+        {{#if attributes.overview_resourcepath}}
+        data-resourcepath={{attributes.overview_resourcepath}}
+        {{/if}}
+        {{#if attributes.overview_hash}}
+        data-overview_hash={{attributes.overview_hash}}
+        {{/if}}
+            >
+        <span class="fw-stack">
+            <i class="fw fw-ring fw-stack-2x"></i>
+            <i class="fw fw-message fw-stack-1x"></i>
+        </span>
+        {{t "Update"}}
+    </a>
+    </div>
+
+    <div class="wr-panel-msg-details"><span class="wr-list-username">{{attributes.overview_user}}</span> | <span
+            class="wr-panel-time"><i class="fw fw-clock"></i> </span> <span
+            class="">{{attributes.overview_timecreated}} </span> <span class="">{{attributes.overview_date}}</span>
+    </div>
+    {{#if_equal attributes.overview_status "Resolved"}}
+            <span class="resolve-icon resolve-icon-note">
+                <span class="fw-stack-md">
+                    <i class="fw fw-ok fw-stack-1-5x"></i>
+                </span>
+                Resolved
+            </span>
+    {{/if_equal}}
 </div>

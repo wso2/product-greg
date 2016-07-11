@@ -1,0 +1,43 @@
+{{#each thisContext.subElements}}
+
+    {{#if name}}
+        <div>
+            <span class="label label-default"><b> Name:</b><i>{{name}}</i></span>
+    {{/if}}
+    {{#if type}}
+        {{#if subElements}}
+                <a href="#messageType-{{escapeC ../../../parentContextOperation}}-{{escapeC type}}-{{escapeC ../../../parentContextBinding}}-{{../../../parentContextCssClass}}" data-toggle="collapse" class="collapsed">
+                <span class="label label-{{../../../parentContextCssClass}}">
+                    <b>
+                        <span class="fw fw-stack">
+                            <i class="fw fw-stack-1x toggle-icon"></i>
+                            <i class="fw fw-ring fw-stack-2x"></i>
+                        </span>
+                         Type:</b><i>{{type}}</i>
+                </span>
+                </a>
+        {{else}}
+                <span class="label label-default"><b> Type:</b><i>{{type}}</i></span>
+        {{/if}}
+
+
+    {{/if}}
+    </div>
+
+    {{#if subElements}}
+        {{#if type}}
+            <div id="messageType-{{escapeC ../../../parentContextOperation}}-{{escapeC type}}-{{escapeC ../../../parentContextBinding}}-{{../../../parentContextCssClass}}" class="operation-value collapse">
+        {{/if}}
+
+        {{#mergeContext thisContext=../. parentContextOperation=../../parentContextOperation parentContextBinding=../../parentContextBinding parentContextCssClass=../../parentContextCssClass}}
+            {{> types}}
+        {{/mergeContext}}
+
+        {{#if type}}
+            </div>
+        {{/if}}
+
+    {{/if}}
+
+
+{{/each}}
