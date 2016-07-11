@@ -108,6 +108,10 @@ h2.field-title a {
     background: transparent;
 }
 
+.services-ui .operation-value {
+    margin-bottom: 5px;
+}
+
 .services-ui .operation-value span.label > b,
 .services-ui .operation-value span.label > i {
     padding: 0 .8em;
