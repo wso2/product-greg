@@ -65,21 +65,6 @@ $(function(){ // document ready
             sidePanelPositionFix();
         });
     }
-
-    $('.assets-show-more').click(function(){
-        $(this).toggle();
-        $('.assets-show-less').toggle();
-        $('.navigation .all-item').show();
-    });
-    $('.assets-show-less').click(function(){
-        $(this).toggle();
-        $('.assets-show-more').toggle();
-        $('.navigation .all-item').each(function(){
-            if(!$(this).attr('data-selected')){
-                $(this).hide();
-            }
-        });
-    });
 });
 
 /*
