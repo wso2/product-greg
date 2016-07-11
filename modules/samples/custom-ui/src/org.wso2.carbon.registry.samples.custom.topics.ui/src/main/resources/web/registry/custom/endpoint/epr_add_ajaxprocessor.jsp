@@ -16,6 +16,7 @@
  ~ under the License.
  -->
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib uri="http://www.owasp.org/index.php/Category:OWASP_CSRFGuard_Project/Owasp.CsrfGuard.tld" prefix="csrf" %>
 
 <%
     String parentPath = request.getParameter("parentPath");
@@ -58,7 +59,7 @@ submitEPRForm = function() {
 }
 </script>
 
-<form id="eprAddForm" name="eprAddForm" action="../registry/custom/endpoint/epr_add_handler_ajaxprocessor.jsp" method="post">
+<form id="eprAddForm" name="eprAddForm" action="../registry/custom/endpoint/epr_add_handler_ajaxprocessor.jsp?<csrf:tokenname/>=<csrf:tokenvalue/>" method="post">
 <input type="hidden" name="parentPath" value="<%=parentPath%>"/>
 <table style="width:100%" class="styledLeft">
 	<thead>

@@ -1,10 +1,10 @@
-<a class="btn btn-default btn-lg pull-right input-group-addon"
+<a class="btn btn-default input-group-addon"
    href='{{tenantedUrl ""}}/pages/impact?path={{encodeURIComponent assets.path}}' target="_blank">
-    {{t "Show Dependencies"}}
+    <i class="fw fw-depend"></i>{{t " Show Dependencies"}}
 </a>
 {{#with assets}}
-    <a class="top-common-btn-grp btn btn-default btn-lg pull-right input-group-addon"
+    <a class="btn btn-default input-group-addon"
        href='{{url ""}}/pages/wsdl-viewer?id={{id}}' target="_blank"><i class="fw fw-view"></i>
-        {{t "Visualize"}}
+        {{t " Visualize"}}
     </a>
 {{/with}}

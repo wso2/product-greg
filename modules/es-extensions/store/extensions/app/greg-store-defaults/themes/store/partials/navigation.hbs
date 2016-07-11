@@ -90,35 +90,8 @@
         </div>
 
         {{#if tags}}
-            <div class="tags-wrapper">
-                <div class="tag-title"> Tags</div>
-                <div id="tag-container" class="tag-content">
-                    {{#each tags}}
-                        {{#if this.selected}}
-                            {{#if ../../assetCategoryDetails.hasCategories}}
-                                <a href='{{tenantedUrl ""}}{{this.searchPage}}?q="category":"{{../../assetCategoryDetails.selectedCategory}}","tags":"{{this.value}}"'><span
-                                        class="text-muted">{{this.value}}</span></a>
-                            {{else}}
-                                <a href='{{tenantedUrl ""}}{{this.searchPage}}?q="tags":"{{this.value}}"'><span
-                                        class="text-muted">{{this.value}}</span></a>
-                            {{/if}}
-                        {{else}}
-                            {{#if ../../assetCategoryDetails.hasCategories}}
-                                <a href='{{tenantedUrl ""}}{{this.searchPage}}?q="category":"{{../../../assetCategoryDetails.selectedCategory}}","tags":"{{this.value}}"'><span>{{this.value}}</span></a>
-                            {{else}}
-                                <a href='{{tenantedUrl ""}}{{this.searchPage}}?q="tags":"{{this.value}}"'><span>{{this.value}}</span></a>
-                            {{/if}}
-                        {{/if}}
-                    {{/each}}
-                </div>
-                <div id="tags-collapse" class="tags-collapse">
-                    <p class="small">
-                        <span id="tags-collapse-text" class="tags-collapse-span">Show all tags&nbsp;&nbsp;</span>
-                        <span class="icon">
-                            <i id="tags-collapse-icon" class="fw fw-down"></i>
-                        </span>
-                    </p>
-                </div>
+            <div class="tags-wrapper" id="tags-wrapper">
+                {{> tag-cloud .}}
             </div>
         {{/if}}
 
