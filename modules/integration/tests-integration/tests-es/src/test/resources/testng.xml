@@ -11,7 +11,7 @@
             <package name="org.wso2.carbon.registry.es.notes"/>
             <package name="org.wso2.carbon.registry.es.tags"/>
             <package name="org.wso2.carbon.registry.jira"/>
-            <!--<package name="org.wso2.carbon.registry.es.taxonomy"/>-->
+            <package name="org.wso2.carbon.registry.es.taxonomy"/>
         </packages>
         <classes>
             <class name="org.wso2.carbon.registry.es.permission.SoapServicePermissionTestCase"/>

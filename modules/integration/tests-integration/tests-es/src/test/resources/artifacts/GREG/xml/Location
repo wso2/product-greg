@@ -1,0 +1,80 @@
+<taxonomy id="Location" name="Location">
+
+    <root id="locations" displayName="Location">
+
+        <node id="africa" displayName="Africa">
+            <node id="burundi" displayName="Burundi"></node>
+            <node id="comoros" displayName="Comoros"></node>
+            <node id="djibouti" displayName="Djibouti"></node>
+            <node id="eritrea" displayName="Eritrea"></node>
+            <node id="ethiopia" displayName="Ethiopia"></node>
+        </node>
+        <node id="asia" displayName="Asia">
+            <node id="afganistan" displayName="Afganistan"></node>
+            <node id="armenia" displayName="Armenia"></node>
+            <node id="azerbaijan" displayName="Azerbaijan"></node>
+            <node id="bangladesh" displayName="Bangladesh"></node>
+            <node id="bhutan" displayName="Bhutan"></node>
+            <node id="bruneiDarussalam" displayName="Brunei Darussalam"></node>
+            <node id="Ccambodia" displayName="Cambodia"></node>
+            <node id="china" displayName="China"></node>
+            <node id="georgia" displayName="Georgia"></node>
+            <node id="hongKong" displayName="Hong Kong"></node>
+            <node id="india" displayName="India"></node>
+            <node id="indonesia" displayName="Indonesia"></node>
+            <node id="japan" displayName="Japan"></node>
+            <node id="malaysia" displayName="Malaysia"></node>
+            <node id="sriLanka" displayName="Sri Lanka"></node>
+
+        </node>
+        <node id="centralAmerica" displayName="Central America">
+            <node id="belize" displayName="Belize"></node>
+            <node id="costaRica" displayName="Costa Rica"></node>
+            <node id="elSalvador" displayName="El Salvador"></node>
+            <node id="guatemala" displayName="Guatemala"></node>
+            <node id="honduras" displayName="Honduras"></node>
+        </node>
+        <node id="easternEurope" displayName="Eastern Europe">
+            <node id="austria" displayName="Austria"></node>
+            <node id="belgium" displayName="Belgium"></node>
+            <node id="bulgaria" displayName="Bulgaria"></node>
+            <node id="cyprus" displayName="Cyprus"></node>
+            <node id="czechRepublic" displayName="Czech Republic"></node>
+        </node>
+        <node id="middleEast" displayName="Middle East">
+            <node id="bahrain" displayName="Bahrain"></node>
+            <node id="iraq" displayName="Iraq"></node>
+            <node id="iran" displayName="Iran"></node>
+            <node id="israel" displayName="Israel"></node>
+            <node id="jordan" displayName="Jordan"></node>
+        </node>
+        <node id="northAmerica" displayName="North America">
+            <node id="bermuda" displayName="Bermuda"></node>
+            <node id="canada" displayName="Canada"></node>
+            <node id="greenland" displayName="Greenland"></node>
+            <node id="sSaintPierreandMiquelon" displayName="Saint Pierre and Miquelon"></node>
+            <node id="unitedStates" displayName="United States"></node>
+        </node>
+        <node id="oceania" displayName="Oceania">
+            <node id="australia" displayName="Australia"></node>
+            <node id="fiji" displayName="Fiji"></node>
+            <node id="frenchPolynesia" displayName="French Polynesia"></node>
+            <node id="guam" displayName="Guam"></node>
+            <node id="kiribati" displayName="Kiribati"></node>
+        </node>
+        <node id="southAmerica" displayName="South America">
+            <node id="argentina" displayName="Argentina"></node>
+            <node id="bBolivia" displayName="Bolivia"></node>
+            <node id="brazil" displayName="Brazil"></node>
+            <node id="chile" displayName="Chile"></node>
+            <node id="colombia" displayName="Colombia"></node>
+        </node>
+        <node id="caribbean" displayName="The Caribbean">
+            <node id="anguilla" displayName="Anguilla"></node>
+            <node id="antiguaandBarbuda" displayName="Antigua and Barbuda"></node>
+            <node id="aruba" displayName="Aruba"></node>
+            <node id="bahamas" displayName="Bahamas"></node>
+            <node id="barbados" displayName="Barbados"></node>
+        </node>
+    </root>
+</taxonomy>
