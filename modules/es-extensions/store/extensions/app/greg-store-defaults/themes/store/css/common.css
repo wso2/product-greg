@@ -558,4 +558,10 @@ a.btn.btn-default.input-group-addon {
     border: solid 1px #ccc;
 }
 
+.btn.btn-default.btn-lg.input-group-addon.with-dropdown {
+    position: relative;
+    border-left: none;
+    border-right: none;
+}
+
 /*</Top button group in store artifact pages>*/
