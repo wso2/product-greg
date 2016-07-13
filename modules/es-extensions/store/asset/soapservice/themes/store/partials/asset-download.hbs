@@ -5,15 +5,8 @@
                 <h4>{{downloadMetaData.downloadFileType}}</h4>
                 <hr>
             {{else}}
-                {{#if wadlContent}}
-                    <h4>{{t "WADL"}}</h4>
-                    <hr>
-                {{else}}
-                    {{#if swaggerContent}}
-                        <h4>{{t "SWAGGER"}}</h4>
-                        <hr>
-                    {{/if}}
-                {{/if}}
+                <h4>{{t "WSDL"}}</h4>
+                <hr>
             {{/if}}
         </div>
     </div>
