@@ -21,11 +21,7 @@ app.server = function () {
         endpoints: {
             pages: [
                 {
-                    url: 'soap-viewer',
-                    path: 'soap-viewer.jag'
-                },
-
-                {
+                    title: 'Visualizer WSDL',
                     url: 'wsdl-viewer',
                     path: 'wsdl-viewer.jag'
                 }
