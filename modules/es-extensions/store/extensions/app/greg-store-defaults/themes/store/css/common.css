@@ -536,3 +536,32 @@ a#search-info {
     font-size: 2.2em;
     padding: 9px 5px !important;
 }
+
+/* Copy URL popover - activates only in hasFlash=true and Safari=true */
+.popover-content input {
+    border: none;
+    box-shadow: none;
+    width: 100% !important;
+}
+
+/*<Top button group in store artifact pages>*/
+
+div#diff-view-version {
+    float: left;
+}
+
+.btn.btn-default.input-group-addon {
+    margin-left: 0px;
+}
+
+a.btn.btn-default.input-group-addon {
+    border: solid 1px #ccc;
+}
+
+.btn.btn-default.btn-lg.input-group-addon.with-dropdown {
+    position: relative;
+    border-left: none;
+    border-right: none;
+}
+
+/*</Top button group in store artifact pages>*/
