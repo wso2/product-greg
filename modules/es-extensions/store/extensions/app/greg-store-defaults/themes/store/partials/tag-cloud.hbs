@@ -4,16 +4,20 @@
         {{#if this.selected}}
             {{#if ../../assetCategoryDetails.hasCategories}}
                 <a href='{{tenantedUrl ""}}{{this.searchPage}}?q="category":"{{../../assetCategoryDetails.selectedCategory}}","tags":"{{this.value}}"'><span
-                        class="es-asset-tag text-muted">{{this.value}}</span><i class="fw fw-cancel"></i></a>
+                        class="es-remove-tag text-muted">{{this.value}}</span><i class="es-remove-tag fw fw-cancel"></i></a>
             {{else}}
                 <a href='{{tenantedUrl ""}}{{this.searchPage}}?q="tags":"{{this.value}}"'><span
-                        class="es-asset-tag text-muted">{{this.value}}</span><i class="fw fw-cancel"></i></a>
+                        class="es-remove-tag text-muted">{{this.value}}</span><i class="es-remove-tag  fw fw-cancel"></i></a>
             {{/if}}
         {{else}}
             {{#if ../../assetCategoryDetails.hasCategories}}
-                <a href='{{tenantedUrl ""}}{{this.searchPage}}?q="category":"{{../../../assetCategoryDetails.selectedCategory}}","tags":"{{this.value}}"'><span>{{this.value}}</span></a>
+                <a href='{{tenantedUrl ""}}{{this.searchPage}}?q="category":"{{../../../assetCategoryDetails.selectedCategory}}","tags":"{{this.value}}"'>
+                <span class='es-add-tag' data-selected-tag='{{this.value}}'>{{this.value}}</span>
+                </a>
             {{else}}
-                <a href='{{tenantedUrl ""}}{{this.searchPage}}?q="tags":"{{this.value}}"'><span>{{this.value}}</span></a>
+                <a href='{{tenantedUrl ""}}{{this.searchPage}}?q="tags":"{{this.value}}"'>
+                    <span class='es-add-tag' data-selected-tag='{{this.value}}'>{{this.value}}</span>
+                </a>
             {{/if}}
         {{/if}}
     {{/each}}
