@@ -529,6 +529,10 @@ a#search-info {
     border-bottom-color: #333;
 }
 
+.search-options-link-wrapper {
+    padding: 0 0 0 0px;
+}
+
 /* </Search Option Popover> */
 
 /* Asset listing mini thumbnail */
@@ -565,3 +569,8 @@ a.btn.btn-default.input-group-addon {
 }
 
 /*</Top button group in store artifact pages>*/
+
+.modal-content{
+    background: #dfdfdf;
+    opacity: 0.9;
+}

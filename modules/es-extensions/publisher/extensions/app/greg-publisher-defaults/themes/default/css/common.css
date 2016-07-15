@@ -1138,3 +1138,8 @@ a.btn.btn-default.input-group-addon {
 }
 
 /*</Top button group in store artifact pages>*/
+
+.modal-content{
+    background: #dfdfdf;
+    opacity: 0.9;
+}
