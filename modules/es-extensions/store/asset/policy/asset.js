@@ -208,12 +208,13 @@ asset.renderer = function(ctx){
                         return;
                     }
                     var config = require('/config/store.js').config();
+                    var rxt = require('rxt').server;
                     var pluralType = 'policys';
                     var domain = require('carbon').server.tenantDomain({tenantId:ctx.tenantId});
                     page.downloadMetaData = {}; 
                     page.downloadMetaData.downloadFileType = page.rxt.singularLabel;
                     page.downloadMetaData.enabled = isDownloadable;
-                    page.downloadMetaData.url = config.server.https+'/governance/'+pluralType+'/'+page.assets.id+'/content?tenant='+domain;
+                    page.downloadMetaData.url = rxt.buildURL('governance/') + pluralType+'/'+page.assets.id+'/content?tenant='+domain;
                 }
             }
         }

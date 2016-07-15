@@ -119,7 +119,7 @@ $(function() {
         BootstrapDialog.show({
             type: BootstrapDialog.TYPE_WARNING,
             title: 'Warning!',
-            message: '<div><i class="fa fa-check"></i> Are you sure you want to clear all notifications?</div>',
+            message: '<div><i class="fw fw-warning"></i> Are you sure you want to clear all notifications?</div>',
             buttons: [{
                 label: 'Yes',
                 action: function (dialogItself) {
@@ -140,7 +140,7 @@ $(function() {
                             BootstrapDialog.show({
                                 type: BootstrapDialog.TYPE_DANGER,
                                 title: 'Error!',
-                                message: '<div><i class="fa fa-warning"></i> Error while clearing notifications</div>',
+                                message: '<div><i class="fw fw-error"></i> Error while clearing notifications</div>',
                                 buttons: [{
                                     label: 'Close',
                                     action: function (dialogItself) {

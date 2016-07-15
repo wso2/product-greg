@@ -28,7 +28,6 @@ function getNodesAndEdges(registry, user, resourcePath, graph, depth){
     var userName = user.username;
     var util = require('/extensions/app/greg_impact/modules/utility.js');
     var governanceUtils = Packages.org.wso2.carbon.governance.api.util.GovernanceUtils;
-    var CommonUtil = Packages.org.wso2.carbon.governance.registry.extensions.utils.CommonUtil;
 
     var govRegistry = governanceUtils.getGovernanceUserRegistry(registry.registry, userName, user.tenantId);
 
@@ -63,7 +62,7 @@ function getNodesAndEdges(registry, user, resourcePath, graph, depth){
             graph.nodes[resourcePath] = graphDataObject;
             graph.nodes.push(graphDataObject);
 
-            if (CommonUtil.getDependencyGraphMaxDepth() >= 0 && depth == CommonUtil.getDependencyGraphMaxDepth()) {
+            if (graph.maxDepth >= 0 && depth == graph.maxDepth) {
                 depth--;
                 return true;
             }

@@ -15,6 +15,13 @@ body {
     padding: 7px 15px;
 }
 
+@media all and (-ms-high-contrast: none), (-ms-high-contrast: active) {
+    /* IE10+ CSS styles go here */
+    .form-search input.form-control {
+        padding: 0px 15px;
+    }
+}
+
 .thumbnail .title h1 {
     font-weight: 300;
     padding: 0;

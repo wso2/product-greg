@@ -10,6 +10,8 @@ require('/modules/publisher.js').exec(function(ctx) {
 	var tenantId = user.tenantId;
 	var log = new Log();
 	var page = rxtAPI.ui.buildPage(ctx.session,ctx.request, tenantId);
+       var proxyContext = rxtAPI.app.getContext();
+       page.context = proxyContext;
 	var output;
 	var activatedAssets = rxtAPI.app.getUIActivatedAssets(tenantId);
 	var assets = [];
