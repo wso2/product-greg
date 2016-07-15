@@ -888,6 +888,13 @@ var gregAPI = {};
      * @returns {boolean}
      */
     gregAPI.permissions.modify = function (am, resourcePath, permissionString, permissionCheck) {
+
+        var username = require('store').server.current(session).username;
+
+        var private_role = "INTERNAL/private_private";
+        var private_User_role = "INTERNAL/private_" + username;
+        permissionString = permissionString.replace(private_role, private_User_role);
+
         var userRegistry = am.registry;
         var registry = userRegistry.registry;
         var ChangeRolePermissionsUtil =
