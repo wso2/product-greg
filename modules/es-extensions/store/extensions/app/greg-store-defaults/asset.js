@@ -85,14 +85,18 @@ asset.renderer = function(ctx) {
                     page.notifications = gregAPI.notifications.list(am);
                 }
             },
-        	checkDependents:function(page) {
-        		if(page.assets){
-        			var dependencies  = page.assets.dependencies || [];
-        			var dependents = page.assets.dependents || [];
-        			var isDependentsPresent =  ( dependencies.length > 0 ) || (dependents.length > 0 );
-        			page.assets.isDependentsPresent = isDependentsPresent;
-        		}
-        	},
+            checkDependents: function (page) {
+                if (page.assets) {
+                    var dependencies = page.assets.dependencies || [];
+                    var dependents = page.assets.dependents || [];
+                    var dependencyCheck = {
+                        isDependencies: dependencies.length > 0,
+                        isDependents: dependents.length > 0
+                    };
+                    dependencyCheck.isAnyDependence = ( dependencyCheck.isDependencies ) || ( dependencyCheck.isDependents );
+                    page.assets.dependencyCheck = dependencyCheck;
+                }
+            },
             downloadPopulator:function(page){
                 //Populate the links for downloading content RXTs
                 if(page.meta.pageName === 'details'){

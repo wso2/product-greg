@@ -30,42 +30,48 @@
             </div>
         </div>
     {{/if}}
-    {{#if isDependentsPresent}}
+    {{#if dependencyCheck.isAnyDependence}}
         <div class="es-col-lg-12 col-lg-12">
-            <h4>Associations</h4><hr>
-            <div class="es-col-lg-12 col-lg-12 table table-striped table-hover divrow">
-                <div class="col-lg-2 "><b>{{t "Dependencies"}} :</b></div>
-                <table>
-                    {{#each dependencies}}
-                        <tr>
-                            <td>
-                                <div class="col-lg-20"><a class="dependencies-link"
-                                                          href="../../../assets/{{this
-                                                          .associationType}}/details/{{this.associationUUID}}">{{this.associationName}} {{#if this.associationVersion}} v{{this
-                                .associationVersion}}{{/if}}</a>
-                                </div>
-                            </td>
-                        </tr>
-                    {{/each}}
-                </table>
-            </div>
+            <h4>Associations</h4>
+            <hr>
+            {{#if dependencyCheck.isDependencies}}
+                <div class="es-col-lg-12 col-lg-12 table table-striped table-hover divrow">
+                    <div class="col-lg-2 "><b>{{t "Dependencies"}} :</b></div>
+                    <table>
+                        {{#each dependencies}}
+                            <tr>
+                                <td>
+                                    <div class="col-lg-20"><a class="dependencies-link"
+                                                              href="../../../assets/{{this.associationType}}/details/{{this.associationUUID}}">
+                                        {{this.associationName}} {{#if this.associationVersion}}v{{this.associationVersion}}
+                                    {{/if}}</a>
+                                    </div>
+                                </td>
+                            </tr>
+                        {{/each}}
+                    </table>
+                </div>
+            {{/if}}
 
-            <div class="es-col-lg-12 col-lg-12 divrow">
-                <div class="col-lg-2"><b>{{t "Dependents"}} :</b></div>
-                <table>
-                    {{#each dependents}}
-                        <tr>
-                            <td>
-                                <div class="col-lg-20"><a class="dependencies-link"
-                                                          href="../../../assets/{{this
-                                                          .associationType}}/details/{{this.associationUUID}}">{{this.associationName}} {{#if this.associationVersion}} v{{this
-                                .associationVersion}}{{/if}}</a>
-                                </div>
-                            </td>
-                        </tr>
-                    {{/each}}
-                </table>
-            </div>
+            {{#if dependencyCheck.isDependents}}
+                <div class="es-col-lg-12 col-lg-12 divrow">
+                    <div class="col-lg-2"><b>{{t "Dependents"}} :</b></div>
+                    <table>
+                        {{#each dependents}}
+                            <tr>
+                                <td>
+                                    <div class="col-lg-20"><a class="dependencies-link"
+                                                              href="../../../assets/{{this
+                                                              .associationType}}/details/{{this.associationUUID}}">{{this.associationName}} {{#if this.associationVersion}}
+                                        v{{this
+                                    .associationVersion}}{{/if}}</a>
+                                    </div>
+                                </td>
+                            </tr>
+                        {{/each}}
+                    </table>
+                </div>
+            {{/if}}
         </div>
     {{/if}}
 
