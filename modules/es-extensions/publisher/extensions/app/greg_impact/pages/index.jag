@@ -98,6 +98,7 @@ else {
 
             var allParams = inputParameters;
             var queryPath = allParams.path ? decodeURIComponent(allParams.path) : '';
+            var queryDepth = allParams.depth ? decodeURIComponent(allParams.depth) : '';
             var fileName = queryPath.substring(2).split('/').join('-');
             fileName = fileName || 'graph';
 
@@ -112,6 +113,11 @@ else {
                 graph.relations = [];
                 graph.index = 0;
                 graph.relationIndex = 0;
+                graph.maxDepth = queryDepth;
+                if (!graph.maxDepth) {
+                    var CommonUtil = Packages.org.wso2.carbon.governance.registry.extensions.utils.CommonUtil;
+                    graph.maxDepth = CommonUtil.getDependencyGraphMaxDepth();
+                }
 
                 dataPopulator.getNodesAndEdges(registry, user, inputParameters.path, graph, depth);
                 //log.info(graph);
