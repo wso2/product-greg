@@ -263,9 +263,10 @@ public class Main {
     private static void addSchemaGar(ResourceServiceClient resourceServiceClient, String projectPath) throws Exception {
         DataHandler dh = new DataHandler(new URL("file:" + fileSeparator + projectPath + File
                 .separator+ "resources" + File.separator+ "schemas.gar"));
+        String[][] properties = { { "registry.mediaType", "application/x-xsd+xml" }, { "version", "1.0.0" } };
         resourceServiceClient
                 .addResource("/_system/governance/trunk/test/schemas/", GOVERNANCE_ARCHIVE_MEDIA_TYPE, null, dh, null,
-                        null);
+                        properties);
     }
 
     /**
