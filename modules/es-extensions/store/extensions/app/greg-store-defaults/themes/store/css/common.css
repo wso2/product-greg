@@ -465,23 +465,6 @@ span.left-menu-item, span.left-menu-item.hover, a.all-item a.top-item a.all-item
     color: #23527c !important;
     text-decoration: underline !important;
 }
-.sidebar-wrapper nav.navigation{
-    min-height: auto;
-    padding-top:0;
-    height: auto;
-}
-nav.navigation > a.assets-show-more, nav.navigation > a.assets-show-less{
-    cursor: pointer;
-    height: auto;
-    padding: 3px 0 3px 10px;
-    display: block;
-}
-nav.navigation > a.active{
-    position: relative;
-}
-.sidebar-wrapper nav.navigation > a.active{
-    position: inherit;
-}
 /*span.left-menu-item {
     font-weight:300;
     font-size:20px;
@@ -546,10 +529,48 @@ a#search-info {
     border-bottom-color: #333;
 }
 
+.search-options-link-wrapper {
+    padding: 0 0 0 0px;
+}
+
 /* </Search Option Popover> */
 
 /* Asset listing mini thumbnail */
 .ast-img .ast-type-icon i {
     font-size: 2.2em;
     padding: 9px 5px !important;
+}
+
+/* Copy URL popover - activates only in hasFlash=true and Safari=true */
+.popover-content input {
+    border: none;
+    box-shadow: none;
+    width: 100% !important;
+}
+
+/*<Top button group in store artifact pages>*/
+
+div#diff-view-version {
+    float: left;
+}
+
+.btn.btn-default.input-group-addon {
+    margin-left: 0px;
+}
+
+a.btn.btn-default.input-group-addon {
+    border: solid 1px #ccc;
+}
+
+.btn.btn-default.btn-lg.input-group-addon.with-dropdown {
+    position: relative;
+    border-left: none;
+    border-right: none;
+}
+
+/*</Top button group in store artifact pages>*/
+
+.modal-content{
+    background: #dfdfdf;
+    opacity: 0.9;
 }

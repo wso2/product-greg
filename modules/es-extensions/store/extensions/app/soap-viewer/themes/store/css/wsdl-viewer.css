@@ -1,0 +1,227 @@
+/*
+ * Copyright (c) 2016, WSO2 Inc. (http://www.wso2.org) All Rights Reserved.
+ *
+ * WSO2 Inc. licenses this file to you under the Apache License,
+ * Version 2.0 (the "License"); you may not use this file except
+ * in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *    http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing,
+ * software distributed under the License is distributed on an
+ * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ * KIND, either express or implied.  See the License for the
+ * specific language governing permissions and limitations
+ * under the License.
+ */
+.add-margin-top-3x {
+    margin-top: 15px !important;
+}
+
+.remove-margin-bottom {
+    margin-bottom: 0 !important;
+}
+
+.page-header {
+    margin: 10px 0 20px;
+}
+
+.page-header > h1 {
+    margin-bottom: inherit;
+    margin-top: 0;
+}
+
+.service-h2{
+    color:blue;
+}
+
+.well {
+    background: #f5f5f5;
+}
+
+h2.field-title {
+    margin: 0;
+    border: none;
+    padding: 0;
+}
+
+.form-horizontal .control-label {
+    font-weight: 500;
+}
+
+h2.field-title a {
+    display: block;
+}
+
+.services-ui h5 {
+    margin: 20px 0;
+}
+
+.services-ui h5 > b {
+    font-weight: 700;
+    text-transform: uppercase;
+}
+
+.services-ui h5 > .icon {
+    margin-bottom: 4px;
+}
+
+.services-ui > .panel {
+    margin-bottom: 5px;
+}
+
+.services-ui .service-label {
+    display: inline-block;
+    text-transform: uppercase;
+    font-size: 15px;
+    font-weight: 400;
+    padding: 11px;
+    font-size: 16px;
+    border-radius: 0;
+}
+
+.services-ui .media {
+    margin-top: 5px;
+    width: 100%;
+    overflow-x: auto;
+    white-space: nowrap;
+}
+
+.services-ui .media-body {
+    padding: 7px;
+}
+
+.services-ui .media-left,
+.services-ui .media > .pull-left {
+    padding: 0;
+    min-width: 85px;
+}
+
+.services-ui .label {
+    border-radius: 0;
+    width: 100%;
+}
+
+.services-ui .operation-value span.label {
+    padding: 0;
+    background: transparent;
+}
+
+.services-ui .operation-value {
+    margin-bottom: 5px;
+}
+
+.services-ui .operation-value span.label > b,
+.services-ui .operation-value span.label > i {
+    padding: 0 .8em;
+    line-height: 25px;
+    display: inline-block;
+    font-style: normal;
+}
+
+.services-ui .operation-value span.label > b:empty,
+.services-ui .operation-value span.label > i:empty {
+    display: none;
+}
+
+.services-ui .operation-value > div {
+    position: relative;
+    margin-top: 5px;
+}
+
+.services-ui .operation-value > div:not(.operation-value):after {
+    content: "";
+    display: block;
+    width: 0;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: -30px;
+    border-left: 1px solid;
+}
+
+.services-ui .operation-value > div:not(.operation-value):before {
+    content: "";
+    display: block;
+    width: 20px;
+    height: 0;
+    border-top: 1px solid;
+    margin-top: -1px;
+    position: absolute;
+    top: 0.9em;
+    left: -30px;
+}
+
+.operation-values a[data-toggle=collapse] > span > b .toggle-icon:before {
+    font-family: font-wso2;
+    content: "\e616";
+}
+.operation-values a[data-toggle=collapse].collapsed > span > b .toggle-icon:before {
+    content: "\e615";
+}
+
+.services-ui .operation-values div.collapse,
+.services-ui .operation-values div.collapsing,
+.services-ui .operation-values div.collapse.in {
+    margin-left: 50px;
+}
+
+.services-ui .label-default > b,
+.services-ui .label-default > a > b {
+    background-color: #05345C;
+}
+.services-ui .label-default > i,
+.services-ui .label-default > a > i {
+    background-color: #486176;
+}
+
+.services-ui .label-primary > b,
+.services-ui .label-primary > a > b {
+    background-color: #064479;
+}
+.services-ui .label-primary > i,
+.services-ui .label-primary > a > i {
+    background-color: #337AB7;
+}
+
+.services-ui .label-success > b,
+.services-ui .label-success > a > b {
+    background-color: #287928;
+}
+.services-ui .label-success > i,
+.services-ui .label-success > a > i {
+    background-color: #5CB85C;
+}
+
+.services-ui .label-warning > b,
+.services-ui .label-warning > a > b {
+    background-color: #B6771E;
+}
+.services-ui .label-warning > i,
+.services-ui .label-warning > a > i {
+    background-color: #F0AD4E;
+}
+
+.services-ui .label-danger > b,
+.services-ui .label-danger > a > b {
+    background-color: #8D1815;
+}
+.services-ui .label-danger > i,
+.services-ui .label-danger > a > i {
+    background-color: #D9534F;
+}
+
+.services-ui .service-body > div > .label {
+    display: inline-block;
+    text-align: left;
+    min-width: 100px;
+}
+
+.collapsible-controls {
+    margin-bottom: 10px;
+}
+
+.collapsible-controls > a:hover {
+    color: #f0ad4e;
+}

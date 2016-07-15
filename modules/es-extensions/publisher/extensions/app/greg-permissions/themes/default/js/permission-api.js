@@ -1,4 +1,4 @@
-/*
+    /*
  *  Copyright (c) 2015, WSO2 Inc. (http://www.wso2.org) All Rights Reserved.
  *
  *  WSO2 Inc. licenses this file to you under the Apache License,
@@ -117,7 +117,8 @@ $(function () {
 
     var invokeRemovePermissionAPI = function (data, role) {
         var url = caramel.context + "/apis/permissions?assetType=" + data.assetType + "&assetId=" + data.assetId
-            + "&pathWithVersion=" + data.pathWithVersion + "&roleToRemove=" + data.roleToRemove;
+            + "&pathWithVersion=" + data.pathWithVersion + "&roleToRemove=" + data.roleToRemove
+            + "&permissionCheck=" + data.permissionCheck;
 
         $.ajax({
             url: url,
@@ -207,7 +208,11 @@ $(function () {
     };
 
     var capitalizeRole = function(role) {
-        return role.substr(0, role.indexOf("/")).toUpperCase() + role.substr(role.indexOf("/"));
+        if (role.indexOf("/") > -1) {
+            return role.substr(0, role.indexOf("/")).toUpperCase() + role.substr(role.indexOf("/"));
+        } else {
+            return role;
+        }
     };
 
     var addOptionsToSelect2 = function (role) {
@@ -311,6 +316,7 @@ $(function () {
                 data.assetType = assetType;
                 data.pathWithVersion = pathWithVersion;
                 data.roleToRemove = roleToRemove;
+                data.permissionCheck = "other";
                 $(this).attr("disabled", "disabled");
                 invokeRemovePermissionAPI(data, formattedRoleName);
                 addOptionsToSelect2(roleToRemove);

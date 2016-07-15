@@ -73,11 +73,15 @@ $(function() {
             data: JSON.stringify(data),
             type: 'POST',
             contentType: 'application/json',
-            success: function () {
-                messages.alertSuccess('Association added successfully');
-                setTimeout(function () {
-                    location.reload(true);
-                }, 2000);
+            success: function (response) {
+                if (response.code == 400) {
+                    messages.alertInfo(response.message);
+                } else {
+                    messages.alertSuccess(response.message);
+                    setTimeout(function () {
+                        location.reload(true);
+                    }, 2000);
+                }
             },
             error: function () {
                 messages.alertError('Error occurred while adding association');

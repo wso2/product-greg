@@ -17,22 +17,23 @@
     <div class="well asset-well">
         <div class="container-fluid">
             <div class="row">
-                <div class="col-lg-1">
-                  {{> default-thumbnail .}}
-                </div>
-                <div class="col-lg-10 padding-left-double">
-                    <h4>{{name}}</h4>
-                    {{#if version}}
-                        <p>Version : {{version}}</p>
-                    {{/if}}
-                    {{#if lifecycleState}}
-                        <p>{{lifecycle}} : {{lifecycleState}}</p>
-                    {{/if}}
-                    <div class="well-description">{{tables.0.fields.createdtime.value}}</div>
+                <div class="col-lg-12">
+                    <div class="pull-left">
+                      {{> default-thumbnail .}}
+                    </div>
+                    <div class="asset-details-right">
+                        <h4>{{name}}</h4>
+                        {{#if version}}
+                            <p>Version : {{version}}</p>
+                        {{/if}}
+                        {{#if lifecycleState}}
+                            <p>{{lifecycle}} : {{lifecycleState}}</p>
+                        {{/if}}
+                        <div class="well-description">{{tables.0.fields.createdtime.value}}</div>
+                    </div>
                 </div>
             </div>
         </div>
-
     </div>
 {{/with}}
 {{> update_form .}}

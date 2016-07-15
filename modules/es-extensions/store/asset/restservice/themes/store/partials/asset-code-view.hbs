@@ -3,20 +3,45 @@
     <div class="col-lg-12">
         <div id='wadl-viewer'>
             {{#if dependencies.[0]}}
-            <div class="col-lg-12 table table-striped table-hover divrow">
-                <div class="col-lg-2">
-                <b>
-                    {{t "Raw Content :"}}
-                </b>
+                <div class="col-lg-12 table table-striped table-hover divrow">
+                    <div class="col-lg-2">
+                        <b>
+                            {{t "Raw Content :"}}
+                        </b>
+                    </div>
                 </div>
-            </div>
+            {{else}}
+                {{#if wadlContent}}
+                    <div class="col-lg-12 table table-striped table-hover divrow">
+                        <div class="col-lg-2">
+                            <b>
+                                {{t "Raw Content :"}}
+                            </b>
+                        </div>
+                    </div>
+                {{else}}
+                    {{#if swaggerContent}}
+                        <div class="col-lg-12 table table-striped table-hover divrow">
+                            <div class="col-lg-2">
+                                <b>
+                                    {{t "Raw Content :"}}
+                                </b>
+                            </div>
+                        </div>
+                    {{/if}}
+                {{/if}}
             {{/if}}
             {{#if wadlContent}}
                 <textarea id="wadlcontent" name="wadlcontent" style="width:100%">{{wadlContent}}</textarea>
-            {{/if}}
-            {{#if swaggerContent}}
-                <textarea id="swaggercontent" name="swaggercontent" style="width:100%">{{swaggerContent}}</textarea>
+            {{else}}
+                {{#if swaggerContent}}
+                    <textarea id="swaggercontent" name="swaggercontent" style="width:100%">{{swaggerContent}}</textarea>
+                {{else}}
+                    <p>{{t "No Swagger or WADL Content To Display"}}</p>
+                {{/if}}
             {{/if}}
         </div>
     </div>
 </div>
+
+

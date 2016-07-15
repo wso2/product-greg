@@ -16,7 +16,9 @@ body {
     margin-bottom: 0;
     min-height: 100%;
 }
-
+html, body {
+    min-width: 530px;
+}
 b, strong {
     font-weight: 500;
 }
@@ -731,7 +733,7 @@ a.cu-btn:hover, .wr-asset-type-switcher a.switcher-link:hover {
 .form-search a.advance {
     white-space: nowrap;
     font-size: 16px;
-    background: #2C313B;
+    background: transparent;
     width: 40px;
     right: 0;
 }
@@ -745,7 +747,7 @@ a.cu-btn:hover, .wr-asset-type-switcher a.switcher-link:hover {
 }
 
 .form-search a.advance span {
-    color: #FFF;
+    color: #0078d7;
     display: inline-block;
 }
 
@@ -776,7 +778,7 @@ a#search-info {
 
     .form-search a.advance {
         width: 170px;
-        left: 588px;
+        left: 618px;
     }
 
     .form-search a.advance i {
@@ -789,7 +791,7 @@ a#search-info {
     }
 
     a#search-info {
-        left: 758px;
+        left: 588px;
     }
 }
 
@@ -1024,6 +1026,10 @@ a.ctrl-filter-category {
     display: none;
 }
 
+.asset-details-right{
+    position: absolute; left: 200px;
+}
+
 .form-group > .popover {
     background-color: #F7F7F7;
     border: 0px;
@@ -1096,4 +1102,44 @@ i.fw.association-icon {
 /* Top ribbon user name */
 span.fw-stack-md.fw-lg {
     right: 5px;
+}
+
+.note-resolved, .reply-resolved {
+    background: #dedede !important;
+}
+
+.resolve-icon-note {
+    display: inline !important;
+}
+
+/* Copy URL popover - activates only in hasFlash=true and Safari=true */
+.popover-content input {
+    border: none;
+    box-shadow: none;
+    width: 100% !important;
+}
+
+/*<Top button group in store artifact pages>*/
+
+div#diff-view-version {
+    float: left;
+}
+
+.btn.btn-default.input-group-addon {
+    margin-left: 0px;
+}
+
+a.btn.btn-default.input-group-addon {
+    border: solid 1px #ccc;
+}
+
+.top-common-btn-grp2.input-group.col-sm-8.pull-right.btn-group {
+    width: 100%;
+}
+
+/*</Top button group in store artifact pages>*/
+
+.modal-content{
+    background: #dfdfdf;
+    opacity: 0.9;
 }

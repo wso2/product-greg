@@ -20,7 +20,7 @@
     <link href="{{url "/extensions/app/greg-diff///themes/store/css/custom.css"}}" rel="stylesheet" media="screen">
     <link href="{{url "/extensions/app/greg-diff///themes/store/css/common.css"}}" rel="stylesheet" media="screen">
     <link href="{{url "/extensions/app/greg-diff///themes/store/css/base16-light.css"}}" rel="stylesheet" media="screen">
-    
+
     <!-- fontawesome -->
     <link rel="stylesheet" href="{{url "/themes/store/css/font-awesome.min.css"}}">
 
@@ -45,6 +45,9 @@
 <body>
 
 {{include listassets}}
+
+<!--  CSRF Protection -->
+<script src='{{url ""}}/csrf.js' type="text/javascript"></script>
 
 <script src="{{url "/themes/store/js/jquery-1.11.1.min.js"}}"></script>
 <script src="{{url "/extensions/app/greg-diff/themes/store/js/libs/jquery.form.min.js"}}"></script>
@@ -83,4 +86,3 @@
 </script>
 </body>
 </html>
-

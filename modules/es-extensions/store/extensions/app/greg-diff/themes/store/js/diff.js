@@ -26,15 +26,15 @@ var appBar = '.app-bar',
 /*
  * On window loaded functions.
  */
-$(window).load(function(){
-    setViewPanelsHeight();
-    addTitle();
-});
+//$(window).load(function(){
+//    setViewPanelsHeight();
+//    addTitle();
+//});
 
 /*
  * On window resize functions.
  */
-$(window).resize(function(){
+$(window).resize(function () {
     setViewPanelsHeight();
 });
 
@@ -42,34 +42,36 @@ $(window).resize(function(){
  * On main div.container resize functions.
  * @required  jquery.resize.js
  */
-$('.container-fluid').resize(function(){
+$('.container-fluid').resize(function () {
     setViewPanelsHeight();
 });
 
 /*
  * Set view panels height relatively to the window
  */
-function setViewPanelsHeight(){
-    if($(window).width() > 768){
-        $(viewPanel).css('height', ($('body').height() - ($(window).height()*.1)));
+function setViewPanelsHeight() {
+    if ($(window).width() > 768) {
+        $(viewPanel).css('height', ($('body').height() - ($(window).height() * .1)));
     }
-    else{
-        $(viewPanel).css('height', ($('body').height() - ($(window).height()*.1)));
+    else {
+        $(viewPanel).css('height', 'auto');
+        //$(viewPanel).css('height', ($('body').height() - ($(window).height()*.1)));
     }
-    $('.CodeMirror, .CodeMirror-merge').height(($(viewPanel).height()-($(window).height()*.1)));
+    $('.CodeMirror, .CodeMirror-merge').height(($(viewPanel).height() - ($(window).height() * .1)));
 
     /* Fix for code mirror diff view panels width unbalance issue */
     var CodeMirrorSizerMinWidth = '500px';
-    $('.CodeMirror-sizer').each(function(){
-        if($(this).css('min-width') < CodeMirrorSizerMinWidth){
+    $('.CodeMirror-sizer').each(function () {
+        if ($(this).css('min-width') < CodeMirrorSizerMinWidth) {
             CodeMirrorSizerMinWidth = $(this).css('min-width');
+            $('.CodeMirror-sizer').css('min-width', CodeMirrorSizerMinWidth);
         }
     });
-    $('.CodeMirror-sizer').css('min-width', CodeMirrorSizerMinWidth);
     $('.CodeMirror-vscrollbar').scrollTop(2);
+    $('.CodeMirror-hscrollbar').scrollLeft(2);
 
     /* Fix for code mirror scrollbar not shows on window load */
-    if($('.CodeMirror').height() < $('.CodeMirror-code').height()){
+    if ($('.CodeMirror').height() < $('.CodeMirror-code').height()) {
         $('.CodeMirror-vscrollbar').show();
         $('.CodeMirror-vscrollbar > div').height($('.CodeMirror-sizer').height());
     }
@@ -78,15 +80,18 @@ function setViewPanelsHeight(){
 /*
  * Adding code mirror pane title
  */
-function addTitle() {
+function addTitle(baseVersion, revisionVersion, change) {
     $('.CodeMirror-merge-pane').each(function (i) {
+        if ("CONTENT_ADDITION" === change) {
+            i = 1;
+        }
         var title;
         switch (i) {
             case 0:
-                title = 'Base';
+                title = 'Base ( V' + baseVersion + ' )';
                 break;
             case 1:
-                title = 'Revision';
+                title = 'Revision ( V' + revisionVersion + ' )';
                 break;
         }
 

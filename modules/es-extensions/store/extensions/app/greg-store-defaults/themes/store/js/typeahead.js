@@ -51,7 +51,7 @@ $(document).ready(function () {
 			{
 				name: 'history',
 				display: function (o) {
-					return o;
+					return $((document.createElement('div'))).html(o).text();
 				},
 				source: substringMatcher(history),
 				templates: {

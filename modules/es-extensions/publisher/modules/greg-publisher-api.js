@@ -388,6 +388,66 @@ var gregAPI = {};
         return am;
     };
 
+    /**
+     * Used to create the response object.
+     *
+     * @param code      response code
+     * @param message   response message to be shown.
+     * @param data      returned data of the response.
+     * @return response message object.
+     */
+    var msg = function (code, message, data) {
+        var obj = {};
+        obj.code = code;
+        obj.message = message;
+        obj.data = data;
+        return obj;
+    };
+
+    /**
+     * Used to create the success response message.
+     *
+     * @param obj      response object
+     * @return response success object.
+     */
+    var successMsg = function (obj) {
+        obj.success = true;
+        return obj;
+    };
+
+    /**
+     * Used to create the error response message.
+     *
+     * @param obj      response object
+     * @return response error object.
+     */
+    var errorMsg = function (obj) {
+        obj.success = false;
+        return obj;
+    };
+
+    /**
+     * Validate association already exist before adding.
+     *
+     * @param session
+     * @param type              short name of the asset.
+     * @param sourcePath        registry path of the source asset of association.
+     * @param destPath          registry path of the destination asset of association.
+     * @param associationType   type of the association.
+     * @return true if association already exists. Otherwise false.
+     */
+    var checkExistingAssociations = function (session, type, sourcePath, destPath, associationType) {
+        var am = assetManager(session, type);
+        var associations = am.registry.associations(sourcePath);
+        for (var i = 0; i < associations.length; i++) {
+            if (associations[i].dest == destPath && associations[i].type == associationType) {
+                return true;
+            }
+        }
+        return false;
+
+    };
+
     gregAPI.associations.listPossible = function (type, association, id) {
         var resultList = new Object();
         resultList.results = [];
@@ -449,10 +509,17 @@ var gregAPI = {};
             reverseAssociationType = CommonUtil.getReverseAssociationType("default", associationType);
         }
         var destPath = destam.get(destUUID).path;
-        srcam.registry.registry.addAssociation(sourcePath,destPath,associationType);
-        if(reverseAssociationType) {
+        var isAssociationExist = checkExistingAssociations(session, sourceType, sourcePath, destPath, associationType);
+        if (isAssociationExist) {
+            return errorMsg(msg(400, 'Association already exists'));
+        } else {
+            srcam.registry.registry.addAssociation(sourcePath, destPath, associationType);
+
+        }
+        if (reverseAssociationType) {
             srcam.registry.registry.addAssociation(destPath, sourcePath, reverseAssociationType);
         }
+        return successMsg(msg(200, 'Association added successfully'));
     }
 
     gregAPI.associations.list = function(session, type, path) {
@@ -730,7 +797,7 @@ var gregAPI = {};
         var permissionCheck;
         var resource = registry.get(registryPath);
         try {
-            if(resource){
+            if (resource) {
                 permissionCheck = resource.getProperty(REGISTRY_PERMISSION_CHECK);
             }
 
@@ -766,7 +833,11 @@ var gregAPI = {};
                 results.pathWithVersion = permissionsBean.getPathWithVersion();
                 results.isAuthorizeAllowed = permissionsBean.isAuthorizeAllowed();
                 results.isVersionView = permissionsBean.isVersionView();
-                results.permissionCheck = permissionCheck;
+                if (permissionCheck) {
+                    results.permissionCheck = permissionCheck;
+                } else {
+                    results.permissionCheck = "other";
+                }
                 return results;
             } else {
                 return null;

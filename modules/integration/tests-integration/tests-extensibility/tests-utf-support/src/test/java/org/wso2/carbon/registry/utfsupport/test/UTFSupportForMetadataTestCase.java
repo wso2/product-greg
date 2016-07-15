@@ -169,7 +169,7 @@ public class UTFSupportForMetadataTestCase extends GREGIntegrationBaseTest {
         Thread.sleep(20000);
         CustomSearchParameterBean searchQuery = new CustomSearchParameterBean();
         SearchParameterBean paramBean = new SearchParameterBean();
-        paramBean.setTags(utfString);
+        paramBean.setTags(utfString.toLowerCase());
 
         ArrayOfString[] paramList = paramBean.getParameterList();
 

@@ -10,6 +10,7 @@
 
     <!-- Le styles -->
     <link href="{{url "/themes/store/css/bootstrap.min.css"}}" rel="stylesheet">
+    <link href="{{url "/themes/store/css/nanoscroller.css"}}" rel="stylesheet">
     <link href="{{url "/themes/store/css/custom.css"}}" rel="stylesheet">
     <link href="{{url "/themes/store/css/font-awesome.min.css"}}" rel="stylesheet">
     <link href="{{url "/themes/store/css/font-wso2.css"}}" rel="stylesheet">
@@ -33,14 +34,14 @@
     <div class="container-fluid header-container">
         {{ include header}}
     </div>
-    <div class="page-content-wrapper" style="padding-left:200px">
+    <div class="page-content-wrapper">
         {{include navigation}}
 
         <div class="container-fluid">
 
             <div id="taxonomy-expand-view" class="taxonomy-expand-view sidebar-wrapper sidebar-nav toggled nano" data-offset-bottom="40">
                 <div class="nano-content">
-                    <button type="button" class="btn btn-secondary pull-right btn-expand-taxonomy-toggle" id="contract-taxonomy" data-toggle="tooltip" data-placement="left" title="Contract Section">
+                    <button type="button" class="btn btn-secondary pull-right btn-expand-taxonomy-toggle btn-taxonomy" id="contract-taxonomy" data-toggle="tooltip" data-placement="left" title="Contract Section">
                         <i class="fw fw-contract"></i>
                     </button>
 
@@ -66,13 +67,19 @@
 <!-- Le javascript
 ================================================== -->
 <!-- Placed at the end of the document so the pages load faster -->
+
+<!--  CSRF Protection -->
+<script src='{{url ""}}/csrf.js' type="text/javascript"></script>
+
 <script src="{{url "/themes/store/js/jquery-1.11.1.min.js"}}"></script>
+<script src="{{url "/themes/store/js/jquery.nanoscroller-custom.min.js"}}"></script>
 <script src="{{url "/themes/store/js/bootstrap.min.js"}}"></script>
 <script src="{{url "/themes/store/js/async.min.js"}}"></script>
 <script src="{{url "/themes/store/js/handlebars.js"}}"></script>
 <script src="{{url "/themes/store/js/notify.min.js"}}"></script>
 <script src="{{url "/themes/store/js/messages.js"}}"></script>
 <script src="{{url "/themes/store/js/theme.js"}}"></script>
+<script src="{{url "/themes/store/js/url.js"}}"></script>
 {{js}}
 {{code}}
 <script src="{{url "/themes/store/js/caramel.handlebars.client.js"}}"></script>
