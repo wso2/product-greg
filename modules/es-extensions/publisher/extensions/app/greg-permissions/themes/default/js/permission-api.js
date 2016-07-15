@@ -293,6 +293,10 @@ $(function () {
         } else {
             if ($(".wr-permission").text() == "No permissions to show") {
                 messages.alertError("No permissions to share resource");
+            } else if($("#private-me").prop("checked")){
+                data.permissionObject = buildPermissionArrayForPrivateToME();
+                data.permissionCheck = "private";
+                invokeUpdatePermissionAPI(data, "private");
             } else {
                 data.permissionObject = buildPermissionArray();
                 data.permissionCheck = "other";
@@ -366,6 +370,16 @@ $(function () {
         $(rolesDivId +" > div").each(function () {
             var roleName = $("input[id=roleName]", this).attr("value");
             permissionObject[roleName] = $("[data-role-id='" + roleName + "\^action']").val();
+        });
+        return permissionObject;
+    };
+
+    var buildPermissionArrayForPrivateToME = function () {
+        var permissionObject = {};
+        var rolesDivId = "#div-roles";
+        $(rolesDivId +" > div").each(function () {
+            var roleName = $("input[id=roleName]", this).attr("value");
+            permissionObject[roleName] = "rd^true:wd^true:dd^true";
         });
         return permissionObject;
     };
