@@ -18,8 +18,6 @@
 
 var render = function(theme,data,meta,require){
 
-  var log = new Log();
-  log.info('Renderer hit');
   theme('2-column-right',{
    title:data.meta.title,
    applicationTitle:data.meta.applicationTitle,
