@@ -208,7 +208,11 @@ $(function () {
     };
 
     var capitalizeRole = function(role) {
-        return role.substr(0, role.indexOf("/")).toUpperCase() + role.substr(role.indexOf("/"));
+        if (role.indexOf("/") > -1) {
+            return role.substr(0, role.indexOf("/")).toUpperCase() + role.substr(role.indexOf("/"));
+        } else {
+            return role;
+        }
     };
 
     var addOptionsToSelect2 = function (role) {
