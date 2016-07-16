@@ -889,18 +889,42 @@ var gregAPI = {};
      */
     gregAPI.permissions.modify = function (am, resourcePath, permissionString, permissionCheck) {
 
-        var username = require('store').server.current(session).username;
-
-        var private_role = "INTERNAL/private_private";
-        var private_User_role = "INTERNAL/private_" + username;
-        permissionString = permissionString.replace(private_role, private_User_role);
-
         var userRegistry = am.registry;
         var registry = userRegistry.registry;
         var ChangeRolePermissionsUtil =
             Packages.org.wso2.carbon.registry.resource.services.utils.ChangeRolePermissionsUtil;
+
         var resource = registry.get(resourcePath);
+        var username = require('store').server.current(session).username;
+        var private_role = "INTERNAL/private_private";
+
         try {
+            if (permissionString.indexOf(private_role) > -1 != -1) {
+                var private_User_role = "INTERNAL/private_" + username;
+
+                var PermissionUtil = Packages.org.wso2.carbon.registry.resource.services.utils.PermissionUtil;
+
+                var permissionsBean = PermissionUtil.getPermissions(userRegistry.registry, resourcePath);
+                if (permissionsBean) {
+
+                    var permissions = permissionsBean.getRolePermissions();
+                    var permissionStringNew = "";
+                    var denyAll = "rd^true:wd^true:dd^true";
+
+                    for (var i = 0; i < permissions.length; i++) {
+                        var permission = permissions[i];
+                        permissionStringNew = permissionStringNew + "|" + permission.getUserName() + ":" + denyAll;
+
+                        if (permission.isAuthorizeAllow()) {
+                            permissionStringNew = permissionStringNew + ":aa^true";
+                        }
+                    }
+                    permissionStringNew = permissionStringNew + "|" + private_User_role + ":ra^true:wa^true:da^true:aa^true";
+                }
+
+                permissionString = permissionStringNew;
+            }
+
             if (resource) {
                 resource.setProperty(REGISTRY_PERMISSION_CHECK, permissionCheck);
                 registry.put(resourcePath, resource);
