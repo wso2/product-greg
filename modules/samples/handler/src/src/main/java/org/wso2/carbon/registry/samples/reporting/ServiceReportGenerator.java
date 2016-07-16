@@ -28,8 +28,10 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.wso2.carbon.governance.api.generic.GenericArtifactManager;
 import org.wso2.carbon.governance.api.generic.dataobjects.GenericArtifact;
+import org.wso2.carbon.governance.api.util.GovernanceUtils;
 import org.wso2.carbon.registry.core.Registry;
 import org.wso2.carbon.registry.core.exceptions.RegistryException;
+import org.wso2.carbon.registry.core.session.UserRegistry;
 import org.wso2.carbon.registry.core.utils.RegistryUtils;
 import org.wso2.carbon.registry.reporting.AbstractReportGenerator;
 import org.wso2.carbon.reporting.api.ReportingException;
@@ -68,6 +70,7 @@ public class ServiceReportGenerator extends AbstractReportGenerator {
     public ByteArrayOutputStream execute(String template, String type) throws IOException {
         try {
             Registry registry = getRegistry();
+            Registry gov = GovernanceUtils.getGovernanceUserRegistry(registry, "admin");
             if (registry == null) {
                 throw new RuntimeException("Registry is null");
             }
@@ -113,8 +116,9 @@ public class ServiceReportGenerator extends AbstractReportGenerator {
                 templateContent = stringBuffer.toString();
                 stringBuffer.delete(0, stringBuffer.length());
             }
+            GovernanceUtils.loadGovernanceArtifacts((UserRegistry) gov);
             // Create Report Bean Collection
-            GenericArtifactManager genericArtifactManager = new GenericArtifactManager(registry, "restservice");
+            GenericArtifactManager genericArtifactManager = new GenericArtifactManager(gov, "restservice");
             List<ReportBean> beanList = new LinkedList<ReportBean>();
             for(GenericArtifact genericArtifact:genericArtifactManager.getAllGenericArtifacts()){
                 beanList.add(new ReportBean(genericArtifact.getAttribute("overview_name"),
