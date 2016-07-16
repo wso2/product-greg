@@ -126,8 +126,10 @@
                 <include name="commons-lang*.jar"/>
                 <include name="xmlbeans*.jar"/>
                 <include name="poi*.jar"/>
-                 <include name="woden_*.jar"/>
-                 <include name="javax.cache.wso2_*.jar"/>
+                <include name="woden_*.jar"/>
+                <include name="javax.cache.wso2_*.jar"/>
+		 <include name="org.wso2.carbon.queuing_*.jar"/>
+		 <include name="org.wso2.carbon.securevault_*.jar"/>
             </fileset>
         </path>
     </target>
