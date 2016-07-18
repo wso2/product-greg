@@ -72,9 +72,17 @@ $(function() {
             if (selectedValue == "upload") {
                 name = encodeURIComponent($('#policy_file_name').val());
                 version = $('#file_version').val();
+                if (!validator.isValidForm(uploadUI)) {
+                    messages.alertError("All required fields must be provided");
+                    return false;
+                }
             } else {
                 name = encodeURIComponent($('input[name="overview_name"]').val());
                 version = $('input[name="overview_version"]').val();
+                if (!validator.isValidForm(importUI)) {
+                    messages.alertError("All required fields must be provided");
+                    return false;
+                }
             }
             var ajaxURL = caramel.context + '/apis/assets?type=policy&q="name":"' + name +
                 '","version":"' + version + '"';
