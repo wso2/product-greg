@@ -1,0 +1,8 @@
+<taxonomy id="DataCenters" name="DataCenters">
+ 	<root id="dataCenters" displayName="DataCenters">
+		<node id="boston" displayName="Boston"></node>
+		<node id="austin" displayName="Austin"></node>
+		<node id="vancouver" displayName="Vancouver"></node>
+		<node id="singapore" displayName="Singapore"></node>
+	</root>
+</taxonomy>

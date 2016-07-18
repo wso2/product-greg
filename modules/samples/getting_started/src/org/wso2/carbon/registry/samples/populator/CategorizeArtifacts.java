@@ -12,16 +12,15 @@ import org.wso2.carbon.registry.core.pagination.PaginationContext;
 import org.wso2.carbon.registry.core.session.UserRegistry;
 import org.wso2.carbon.registry.resource.ui.clients.ResourceServiceClient;
 import org.wso2.carbon.registry.samples.populator.utils.LifeCycleManagementClient;
-import org.wso2.carbon.registry.samples.populator.utils.UserManagementClient;
+import org.wso2.carbon.registry.samples.populator.utils.PopulatorConstants;
 import org.wso2.carbon.registry.ws.client.registry.WSRegistryServiceClient;
-import org.wso2.carbon.user.mgt.stub.types.carbon.ClaimValue;
 
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
-import java.lang.String;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 /*
 * This class add filters, tags to rest and soap services, and create publisher and
@@ -50,6 +49,7 @@ public class CategorizeArtifacts {
             "registry", "apps", "services" };
     private static String rootpath = "";
     private static String governancePath = "/_system/governance";
+    private static HashMap<String, String[]> serviceTaxo;
 
     private static WSRegistryServiceClient initialize() throws Exception {
 
@@ -67,6 +67,9 @@ public class CategorizeArtifacts {
                 .separator)) {
             rootpath = ".." + File.separator;
         }
+
+        serviceTaxo = PopulatorConstants.getTaxa();
+
         return new WSRegistryServiceClient(serverURL, username, password, configContext) {
 
             public void setCookie(String cookie) {
@@ -124,6 +127,15 @@ public class CategorizeArtifacts {
                             artifactManager1.updateGenericArtifact(artifact);
                             String path = artifact.getPath();
                             gov.applyTag(path, tagsList[i % 10]);
+
+                            if (serviceTaxo.containsKey(artifact.getQName().getLocalPart())) {
+                                gov.applyTag(path, PopulatorConstants.TEAMS_TAXONOMY[i % 6]);
+                                gov.applyTag(path, PopulatorConstants.DATA_CENTER_TAXONOMY[i % 4]);
+                                String[] taxonomies = serviceTaxo.get(artifact.getQName().getLocalPart());
+                                for (int k = 0; k < taxonomies.length; k++) {
+                                    gov.applyTag(path, taxonomies[k]);
+                                }
+                            }
                             changeLcState((i % 4), path);
                             if (i % 3 == 0) {
                                 addAnonymousViewToAssets(resourceServiceClient, artifact);
@@ -173,6 +185,15 @@ public class CategorizeArtifacts {
                         artifactManager2.updateGenericArtifact(artifact);
                         String path = artifact.getPath();
                         gov.applyTag(path, tagsList[j % 10]);
+
+                        if (serviceTaxo.containsKey(artifact.getQName().getLocalPart())) {
+                            gov.applyTag(path, "developmentTeam/boston/thinkTank");
+                            String[] taxonomies = serviceTaxo.get(artifact.getQName().getLocalPart());
+                            for (int k = 0; k < taxonomies.length; k++) {
+                                gov.applyTag(path, taxonomies[k]);
+                            }
+                        }
+
                         if (j % 3 == 0) {
                             addAnonymousViewToAssets(resourceServiceClient, artifact);
                         }

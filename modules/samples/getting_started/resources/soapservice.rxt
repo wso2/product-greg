@@ -20,6 +20,10 @@
     <nameAttribute>overview_name</nameAttribute>
     <namespaceAttribute>overview_namespace</namespaceAttribute>
     <lifecycle>ServiceLifeCycle</lifecycle>
+    <taxonomies>
+        <taxonomy name="Teams" />
+        <taxonomy name="Services" />
+    </taxonomies>
     <ui>
         <list>
             <column name="Service Name">

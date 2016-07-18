@@ -1,0 +1,73 @@
+<taxonomy id="Services" name="Services">
+   <root id="BuyMoreServices" displayName="BuyMore Services">
+      <node id="sales" displayName="Sales">
+         <node id="foods" displayName="Foods" />
+         <node id="pharmacy" displayName="Pharmacy" />
+         <node id="electronic" displayName="Electronic" />
+         <node id="groceries" displayName="Groceries" />
+         <node id="returns" displayName="Returns" />
+      </node>
+      <node id="marketing" displayName="Marketing">
+         <node id="marketResearch" displayName="Market Research">
+            <node id="local" displayName="Local" />
+            <node id="international" displayName="International" />
+         </node>
+         <node id="eventManagement" displayName="Event Management" />
+         <node id="brandManagement" displayName="Brand Management">
+            <node id="media" displayName="Media" />
+            <node id="publication" displayName="Publication" />
+         </node>
+      </node>
+      <node id="inventory" displayName="Inventory">
+         <node id="storeManagement" displayName="Store Management">
+            <node id="foods" displayName="Foods" />
+            <node id="pharmacy" displayName="Pharmacy" />
+            <node id="electronic" displayName="Electronic" />
+            <node id="groceries" displayName="Groceries" />
+         </node>
+         <node id="transportManagement" displayName="Transport Management" />
+         <node id="shipping" displayName="Shipping">
+            <node id="local" displayName="Local" />
+            <node id="international" displayName="International" />
+         </node>
+         <node id="delivery" displayName="Delivery">
+            <node id="local" displayName="Local">
+               <node id="postal" displayName="Postal" />
+               <node id="nearestStore" displayName="Nearest Store" />
+               <node id="courier" displayName="Courier" />
+            </node>
+            <node id="international" displayName="International">
+               <node id="postal" displayName="Postal" />
+               <node id="courier" displayName="Courier" />
+            </node>
+         </node>
+      </node>
+      <node id="supplerManagement" displayName="Suppler Management">
+         <node id="localCorporate" displayName="Local Corporate" />
+         <node id="smallAndMedium" displayName="Small and medium" />
+         <node id="foreign" displayName="Foreign">
+            <node id="nA" displayName="NA" />
+            <node id="eU" displayName="EU" />
+            <node id="aPAC" displayName="APAC" />
+         </node>
+      </node>
+      <node id="audits" displayName="Audits" />
+      <node id="accounting" displayName="Accounting" />
+      <node id="hR" displayName="HR">
+         <node id="store" displayName="Store">
+            <node id="general" displayName="General" />
+            <node id="pharmacy" displayName="Pharmacy" />
+            <node id="electric" displayName="Electric" />
+         </node>
+         <node id="transport" displayName="Transport" />
+         <node id="inventoryAndProcessing" displayName="Inventory and Processing" />
+         <node id="administration" displayName="Administration" />
+      </node>
+      <node id="administration" displayName="Administration">
+         <node id="general" displayName="General" />
+         <node id="legal" displayName="Legal" />
+         <node id="security" displayName="Security" />
+         <node id="cSR" displayName="CSR" />
+      </node>
+   </root>
+</taxonomy>

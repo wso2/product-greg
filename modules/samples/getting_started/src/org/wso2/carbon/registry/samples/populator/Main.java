@@ -18,18 +18,25 @@
  */
 package org.wso2.carbon.registry.samples.populator;
 
+import org.apache.axiom.om.util.AXIOMUtil;
 import org.apache.axis2.context.ConfigurationContext;
 import org.apache.axis2.context.ConfigurationContextFactory;
+import org.wso2.carbon.governance.api.generic.GenericArtifactManager;
+import org.wso2.carbon.governance.api.generic.dataobjects.GenericArtifact;
+import org.wso2.carbon.governance.api.util.GovernanceUtils;
 import org.wso2.carbon.registry.core.Registry;
+import org.wso2.carbon.registry.core.session.UserRegistry;
 import org.wso2.carbon.registry.resource.stub.ResourceAdminServiceExceptionException;
 import org.wso2.carbon.registry.resource.ui.clients.ResourceServiceClient;
 import org.wso2.carbon.registry.samples.populator.utils.SwaggerImportClient;
 import org.wso2.carbon.registry.ws.client.registry.WSRegistryServiceClient;
 
+import javax.activation.DataHandler;
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileReader;
 import java.net.URL;
 import java.rmi.RemoteException;
-import javax.activation.DataHandler;
 
 /*
 * This class is used to add sample wsdls ,wadls,swagger doces, policies and scehmas to G-Reg server.
@@ -200,6 +207,64 @@ public class Main {
                 System.out.println("######## Successfully uploaded sample policies ########\n\n");
             } catch (Exception e) {
                 System.out.println("######## Unable to upload sample policies ########\n\n");
+            }
+
+            try {
+                System.out.println("Uploading sample restservices .........");
+                String shortName = "restservice";
+                BufferedReader bufferedReader = new BufferedReader(new FileReader(
+                        projectPath + File.separator + "resources" + File.separator + "taxo-" + shortName + ".txt"));
+                String artifactName;
+                Registry govRegistry = GovernanceUtils.getGovernanceUserRegistry(registry, "admin");
+                //Should be load the governance artifact.
+                GovernanceUtils.loadGovernanceArtifacts((UserRegistry) govRegistry);
+                GenericArtifactManager manager = new GenericArtifactManager(govRegistry, shortName);
+                while ((artifactName = bufferedReader.readLine()) != null) {
+                    StringBuffer restDynamicContent = new StringBuffer(
+                            "<metadata xmlns=\"http://www.wso2.org/governance/metadata\"><overview><context>/"
+                                    + artifactName + "</context><name>" + artifactName + "</name><description>"
+                                    + artifactName
+                                    + " service</description><version>1.0.0</version></overview><endpoints/><security><authenticationType>None</authenticationType></security><contacts/></metadata>");
+                    // System.out.println(restDynamicContent.toString());
+                    org.apache.axiom.om.OMElement XMLContent = AXIOMUtil.stringToOM(restDynamicContent.toString());
+                    GenericArtifact artifact = manager.newGovernanceArtifact(XMLContent);
+                    manager.addGenericArtifact(artifact);
+
+                }
+
+                System.out.println("######## Successfully uploaded sample restservices ########\n\n");
+
+            } catch (Exception e) {
+                System.out.println("######## Unable to upload sample restservices ########\n\n");
+            }
+
+            try {
+                System.out.println("Uploading sample soapservices .........");
+                String shortName = "soapservice";
+                BufferedReader bufferedReader = new BufferedReader(new FileReader(
+                        projectPath + File.separator + "resources" + File.separator + "taxo-" + shortName + ".txt"));
+                String artifactName;
+                Registry govRegistry = GovernanceUtils.getGovernanceUserRegistry(registry, "admin");
+                //Should be load the governance artifact.
+                GovernanceUtils.loadGovernanceArtifacts((UserRegistry) govRegistry);
+                GenericArtifactManager manager = new GenericArtifactManager(govRegistry, shortName);
+                while ((artifactName = bufferedReader.readLine()) != null) {
+                    StringBuffer soapDynamicContent = new StringBuffer(
+                            "<metadata xmlns=\"http://www.wso2.org/governance/metadata\"><overview><name>"
+                                    + artifactName + "</name><namespace>" + artifactName
+                                    + ".com</namespace><version>1.0.0</version><description>" + artifactName
+                                    + " service</description></overview></metadata>");
+                    // System.out.println(soapDynamicContent.toString());
+                    org.apache.axiom.om.OMElement XMLContent = AXIOMUtil.stringToOM(soapDynamicContent.toString());
+                    GenericArtifact artifact = manager.newGovernanceArtifact(XMLContent);
+                    manager.addGenericArtifact(artifact);
+
+                }
+
+                System.out.println("######## Successfully uploaded sample soapservices ########\n\n");
+
+            } catch (Exception e) {
+                System.out.println("######## Unable to upload sample soapservices ########\n\n");
             }
 
         } catch (Exception e) {
