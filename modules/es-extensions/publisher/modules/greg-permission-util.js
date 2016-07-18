@@ -68,8 +68,6 @@ var gregPermissionUtil = {};
                     actions = actions + readAllow + "^true:" + writeAllow + "^true:" + deleteDeny + "^true";
                 } else if (rolePermissionType == deleteAllow) {
                     actions = actions + readAllow + "^true:" + writeAllow + "^true:" + deleteAllow + "^true";
-                } else {
-                    actions = actions + permissionObject[role];
                 }
                 newPermissionsString = newPermissionsString + roleId + actions;
             }
