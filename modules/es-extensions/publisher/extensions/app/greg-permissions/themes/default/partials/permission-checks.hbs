@@ -16,14 +16,6 @@
 }}
 <div class="radio block">
     <label class="wr-permissions-font">
-        <input type="radio" id="private-me" name="roles"
-               value="ra" {{#if_equal rolePermissions.permissionCheck "private"}}
-               checked {{/if_equal}}>
-        Private to me
-    </label>
-</div>
-<div class="radio block">
-    <label class="wr-permissions-font">
         <input type="radio" id="public-everyone" name="roles"
                value="ra" {{#if_equal rolePermissions.permissionCheck "public"}}
                checked {{/if_equal}}>
