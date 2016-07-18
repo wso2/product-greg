@@ -567,7 +567,9 @@ a.btn.btn-default.input-group-addon {
     border-left: none;
     border-right: none;
 }
-
+#the-basics{
+    padding-left: 15px;
+}
 /*</Top button group in store artifact pages>*/
 
 .modal-content{
