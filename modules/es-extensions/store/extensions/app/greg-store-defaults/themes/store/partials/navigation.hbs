@@ -90,9 +90,11 @@
         </div>
 
         {{#if tags}}
-            <div class="tags-wrapper" id="tags-wrapper">
-                {{> tag-cloud .}}
-            </div>
+            {{#if showTagCloud}}
+                <div class="tags-wrapper" id="tags-wrapper">
+                    {{> tag-cloud . }}
+                </div>
+            {{/if}}
         {{/if}}
 
     </div>
