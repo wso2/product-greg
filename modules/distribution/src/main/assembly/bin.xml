@@ -52,6 +52,7 @@
                 <exclude>**/email/email-admin-config.xml</exclude>
                 <exclude>**/launch.ini</exclude>
                 <exclude>**/Owasp.CsrfGuard.Carbon.properties</exclude>
+                <exclude>**/identity/service-providers/default.xml</exclude>
                 <!--<exclude>**/lib/org.wso2.carbon.server-${carbon.kernel.version}.jar</exclude>-->
 
             </excludes>
@@ -971,6 +972,12 @@
         <file>
             <source>src/main/resources/carbon-home/conf/security/Owasp.CsrfGuard.Carbon.properties</source>
             <outputDirectory>${pom.artifactId}-${build.version}/repository/conf/security</outputDirectory>
+            <filtered>true</filtered>
+            <fileMode>644</fileMode>
+        </file>
+        <file>
+            <source>src/main/resources/carbon-home/conf/identity/default.xml</source>
+            <outputDirectory>${pom.artifactId}-${build.version}/repository/conf/identity/service-providers</outputDirectory>
             <filtered>true</filtered>
             <fileMode>644</fileMode>
         </file>
