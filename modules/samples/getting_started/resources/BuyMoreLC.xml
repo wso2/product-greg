@@ -173,13 +173,16 @@
                     <transition event="Demote" target="Production"/>
                 </state>
                 <state id="Obsolete">
+                    <checkpoints>
+                        <checkpoint id="ObsoleteOne" durationColour="red">
+                            <boundary min="0d:0h:0m:0s" max="0d:24h:00m:00s" />
+                        </checkpoint>
+                        <checkpoint id="ObsoleteTwo" durationColour="orange">
+                            <boundary min="0d:24h:0m:0s" max="0d:48h:00m:00s" />
+                        </checkpoint>
+                    </checkpoints>
                 </state>
             </scxml>
         </lifecycle>
     </configuration>
 </aspect>
-
-
-
-
-
