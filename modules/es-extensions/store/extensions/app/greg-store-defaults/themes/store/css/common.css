@@ -574,3 +574,12 @@ a.btn.btn-default.input-group-addon {
     background: #dfdfdf;
     opacity: 0.9;
 }
+
+.notification-message {
+    padding-bottom: 3px;
+    padding-right: 3px;
+}
+
+.notification-message-dialog-box {
+    text-align: center;
+}
