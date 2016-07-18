@@ -369,6 +369,7 @@ $(function () {
         });
         return permissionObject;
     };
+
     init();
 
 });

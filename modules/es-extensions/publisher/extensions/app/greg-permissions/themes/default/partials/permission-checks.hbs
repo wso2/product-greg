@@ -1,4 +1,4 @@
-{{! Copyright (c) 2015, WSO2 Inc. (http://www.wso2.org) All Rights Reserved.
+{{! Copyright (c) 2016, WSO2 Inc. (http://www.wso2.org) All Rights Reserved.
 
     WSO2 Inc. licenses this file to you under the Apache License,
     Version 2.0 (the "License"); you may not use this file except
@@ -16,15 +16,17 @@
 }}
 <div class="radio block">
     <label class="wr-permissions-font">
-        <input type="radio" id="private-me" name="roles" value="ra" {{#if_equal rolePermissions.permissionCheck
-        "private"}}
+        <input type="radio" id="private-me" name="roles"
+               value="ra" {{#if_equal rolePermissions.permissionCheck "private"}}
                checked {{/if_equal}}>
         Private to me
     </label>
 </div>
 <div class="radio block">
     <label class="wr-permissions-font">
-        <input type="radio" id="public-everyone" name="roles" value="ra" checked>
+        <input type="radio" id="public-everyone" name="roles"
+               value="ra" {{#if_equal rolePermissions.permissionCheck "public"}}
+               checked {{/if_equal}}>
         Visible to public
     </label>
 </div>
