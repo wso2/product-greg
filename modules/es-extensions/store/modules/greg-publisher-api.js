@@ -296,6 +296,15 @@ var gregAPI = {};
             org.wso2.carbon.humantask.client.api.types.TSimpleQueryCategory.ASSIGNED_TO_ME);
         var resultSet = taskOperationService.simpleQuery(queryInput);
         var rows = resultSet.getRow();
+        var queryInputClaim = new org.wso2.carbon.humantask.client.api.types.TSimpleQueryInput();
+        queryInputClaim.setPageNumber(0);
+        queryInputClaim.setSimpleQueryCategory(org.wso2.carbon.humantask.client.api.types.TSimpleQueryCategory.CLAIMABLE);
+        var resultSetClaim = taskOperationService.simpleQuery(queryInputClaim);
+        if (rows != null && resultSetClaim.getRow() != null) {
+            rows = org.apache.commons.lang.ArrayUtils.addAll(rows, resultSetClaim.getRow());
+        } else if (rows == null && resultSetClaim.getRow() != null) {
+            rows = resultSetClaim.getRow();
+        }
         if (rows) {
             for (var i = 0; i < rows.length; i++) {
                 var row =  rows[i];
