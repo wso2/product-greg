@@ -72,7 +72,7 @@ h1 {
 }
 
 .wr-auth .dropdown-menu-content {
-    background-color: #4F5050; 
+    background-color: #4F5050;
 }
 
 .footer {
@@ -637,16 +637,16 @@ a.cu-btn:hover, .wr-asset-type-switcher a.switcher-link:hover {
     text-decoration: none;
 }
 
-.thumbnail .icon { 
+.thumbnail .icon {
     text-align: center;
     font-size: 120px;
     line-height: 150px;
     height: 130px;
     background: #4f5050;
-    
+
     width: 180px;
     height: 180px;
-    
+
     -webkit-transition: all 0.5s ease;
     -moz-transition: all 0.5s ease;
     -o-transition: all 0.5s ease;
@@ -655,7 +655,7 @@ a.cu-btn:hover, .wr-asset-type-switcher a.switcher-link:hover {
 }
 
 .thumbnail:hover > a .icon {
-    color: #fff; 
+    color: #fff;
     width: 190px;
     height: 190px;
 }
@@ -702,7 +702,7 @@ a.cu-btn:hover, .wr-asset-type-switcher a.switcher-link:hover {
 
 .form-search input.form-control {
     background: #444;
-    height: 40px;    
+    height: 40px;
     border: none;
     color: #fff;
     line-height: 40px;
@@ -1142,4 +1142,9 @@ a.btn.btn-default.input-group-addon {
 .modal-content{
     background: #dfdfdf;
     opacity: 0.9;
+}
+
+.notification-message {
+    padding-bottom: 3px;
+    padding-right: 3px;
 }

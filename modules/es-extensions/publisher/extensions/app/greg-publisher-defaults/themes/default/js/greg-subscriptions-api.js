@@ -119,7 +119,7 @@ $(function() {
         BootstrapDialog.show({
             type: BootstrapDialog.TYPE_WARNING,
             title: 'Warning!',
-            message: '<div><i class="fw fw-warning"></i> Are you sure you want to clear all notifications?</div>',
+            message: '<div><i class="fw fw-warning notification-message"></i> Are you sure you want to clear all notifications?</div>',
             buttons: [{
                 label: 'Yes',
                 action: function (dialogItself) {

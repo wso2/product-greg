@@ -17,13 +17,13 @@ $(function() {
             contentType: 'application/json',
             success: function(data) {
                 if (data.error != null) {
-                	messages.alertError(data.error);
+                    messages.alertError(data.error);
                     $(element).prop("checked", false);
                     $(element).change(function() {
                         addSubscription(element, id, type, method, option);
                     });
                 } else {
-                	messages.alertSuccess('You will now receive notifications for <strong>'+resolveSubscriptionLabel(element) + '</strong> events.');
+                    messages.alertSuccess('You will now receive notifications for <strong>'+resolveSubscriptionLabel(element) + '</strong> events.');
                     var subcriptionid = data[0].id;
                     $(element).prop("checked", true);
                     $(element).change(function() {
@@ -49,13 +49,13 @@ $(function() {
             contentType: 'application/json',
             success: function(data) {
                 if (data.error != null) {
-                	messages.alertError(data.error);
+                    messages.alertError(data.error);
                     $(element).prop("checked", true);
                     $(element).change(function() {
                         removeSubscription(element, id, type, subcriptionid, method, option);
                     });
                 } else {
-                	messages.alertSuccess('You will no longer receive notifications for <strong>'+resolveSubscriptionLabel(element) + '</strong> events.');
+                    messages.alertSuccess('You will no longer receive notifications for <strong>'+resolveSubscriptionLabel(element) + '</strong> events.');
                     $(element).prop("checked", false);
                     $(element).change(function() {
                         addSubscription(element, id, type, method, option);
@@ -115,7 +115,8 @@ $(function() {
         BootstrapDialog.show({
             type: BootstrapDialog.TYPE_WARNING,
             title: 'Warning!',
-            message: '<div><i class="fa fa-check"></i> Are you sure you want to clear all notifications?</div>',
+            message: '<div class="notification-message-dialog-box"><i class="fw fw-warning notification-message">' +
+            '</i> Are you sure you want to clear all notifications?</div>',
             buttons: [{
                 label: 'Yes',
                 action: function (dialogItself) {
