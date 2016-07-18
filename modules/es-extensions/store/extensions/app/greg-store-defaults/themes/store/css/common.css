@@ -110,8 +110,12 @@ a.ast-type-item:hover {
     border-color: #2c313b;
 }
 
+.tab-content .tab-pane{
+    margin-top: 0;
+}
 .nav-tabs > li.active > a, .nav-tabs > li.active > a:hover, .nav-tabs > li.active > a:focus {
-    background-color: #2c313b;
+    background-color: #ffffff;
+    color:#444;
 }
 
 .footer {
@@ -538,9 +542,13 @@ a#search-info {
 /* Asset listing mini thumbnail */
 .ast-img .ast-type-icon i {
     font-size: 2.2em;
-    padding: 9px 5px !important;
+    padding: 9px 5px;
 }
 
+.asset-description .asset-details-header .ast-type-icon{
+    width: 40px;
+    height: 40px;
+}
 /* Copy URL popover - activates only in hasFlash=true and Safari=true */
 .popover-content input {
     border: none;
@@ -568,7 +576,7 @@ a.btn.btn-default.input-group-addon {
     border-right: none;
 }
 #the-basics{
-    padding-left: 15px;
+    padding-left: 5px;
 }
 /*</Top button group in store artifact pages>*/
 
