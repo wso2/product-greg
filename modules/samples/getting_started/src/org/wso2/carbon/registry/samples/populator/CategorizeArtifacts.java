@@ -116,9 +116,9 @@ public class CategorizeArtifacts {
                 for (GenericArtifact artifact : restServices) {
                     if (restServicesList.contains(artifact.getQName().getLocalPart())) {
                         String lifeCycleName = artifact.getLifecycleName();
-                        if(!BUYMORE_LIFE_CYCLE.equals(lifeCycleName)) {
-                            String environment = environments[i % 5];
-                            String level = levels[i % 4];
+                        String environment = environments[i % 5];
+                        String level = levels[i % 4];
+                        if (!BUYMORE_LIFE_CYCLE.equals(lifeCycleName)) {
                             artifact.setAttribute("categorization_environment", environment);
                             artifact.setAttribute("categorization_level", level);
                             artifactManager1.updateGenericArtifact(artifact);
@@ -130,8 +130,9 @@ public class CategorizeArtifacts {
                             }
                             i++;
                         } else {
-                            String category = "Sales";
-                            artifact.setAttribute("overview_category", category);
+                            environment = "Sales";
+                            artifact.setAttribute("categorization_environment", environment);
+                            artifact.setAttribute("categorization_level", level);
                             artifactManager1.updateGenericArtifact(artifact);
                             String path = artifact.getPath();
                             gov.applyTag(path, "BuyMore");
