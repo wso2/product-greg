@@ -837,16 +837,15 @@ var gregAPI = {};
                 }
 
                 results.list = result;
-                results.roleNames = permissionsBean.getRoleNames();
+                results.roleNames = results.roleNames = permissionsBean.getRoleNames().filter(function(_item) {
+                 return !_item.match(/^Internal\/private/);
+                 });
                 results.authorizedRoles = authorizedRoles;
                 results.pathWithVersion = permissionsBean.getPathWithVersion();
                 results.isAuthorizeAllowed = permissionsBean.isAuthorizeAllowed();
                 results.isVersionView = permissionsBean.isVersionView();
-                if (permissionCheck) {
-                    results.permissionCheck = permissionCheck;
-                } else {
-                    results.permissionCheck = "other";
-                }
+                results.permissionCheck = permissionCheck;
+
                 return results;
             } else {
                 return null;
