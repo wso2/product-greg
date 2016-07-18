@@ -111,7 +111,8 @@ asset.renderer = function(ctx) {
                     page.downloadMetaData = {}; 
                     page.downloadMetaData.downloadFileType = page.rxt.singularLabel;
                     page.downloadMetaData.enabled = isDownloadable;
-                    page.downloadMetaData.url = rxt.buildURL('governance/') + pluralType+'/'+page.assets.id+'/content?tenant='+domain;
+                    page.downloadMetaData.url = config.server.https + rxt.buildURL('governance/') +
+                        pluralType + '/' + page.assets.id + '/content?tenant=' + domain;
                 }
             },
             versions: function (page) {
