@@ -8,6 +8,7 @@
     <target name="run">
         <antcall target="populate"/>
         <antcall target="buymore"/>
+        <antcall target="taxo-deploy"/>
         <antcall target="rxt-modify"/>
         <antcall target="categorize"/>
     </target>
@@ -15,6 +16,7 @@
     <target name="remove">
         <antcall target="cleanup"/>
         <antcall target="re-deploy"/>
+        <antcall target="remove-taxonomy"/>
     </target>
 
     <target name="populate" depends="jar">
@@ -55,6 +57,24 @@
 
     <target name="categorize" depends="jar">
         <java classname="org.wso2.carbon.registry.samples.populator.CategorizeArtifacts" classpathref="javac.classpath"
+              fork="true">
+            <sysproperty key="carbon.home"  value="${registry.home}"/>
+            <arg value="${port}"/>
+            <arg value="${host}"/>
+        </java>
+    </target>
+
+    <target name="taxo-deploy" depends="jar">
+        <java classname="org.wso2.carbon.registry.samples.populator.TaxonomyDeploy" classpathref="javac.classpath"
+              fork="true">
+            <sysproperty key="carbon.home"  value="${registry.home}"/>
+            <arg value="${port}"/>
+            <arg value="${host}"/>
+        </java>
+    </target>
+
+    <target name="remove-taxonomy" depends="jar">
+        <java classname="org.wso2.carbon.registry.samples.populator.RemoveTaxonomy" classpathref="javac.classpath"
               fork="true">
             <sysproperty key="carbon.home"  value="${registry.home}"/>
             <arg value="${port}"/>

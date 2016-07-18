@@ -19,6 +19,11 @@
     <storagePath>/trunk/restservices/@{overview_version}/@{overview_name}</storagePath>
     <nameAttribute>overview_name</nameAttribute>
     <lifecycle>ServiceLifeCycle</lifecycle>
+    <taxonomies>
+        <taxonomy name="Teams" />
+        <taxonomy name="DataCenters" />
+        <taxonomy name="Services" />
+    </taxonomies>
     <ui>
         <list>
             <column name="Name">

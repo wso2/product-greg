@@ -1,0 +1,16 @@
+<taxonomy id="Teams" name="Teams">
+	<root id="developmentTeam" displayName="Development team">
+		<node id="newJersey" displayName="New Jersey">
+			<node id="theRockStars" displayName="The Rock Stars"></node>
+			<node id="topShelf" displayName="Top Shelf"></node>
+		</node>
+		<node id="boston" displayName="Boston">
+			<node id="thinkTank" displayName="Think Tank"></node>
+			<node id="conceptCrew" displayName="Concept Crew"></node>
+			<node id="theDominators" displayName="The Dominators"></node>
+		</node>
+		<node id="chicago" displayName="Chicago">
+			<node id="centurions" displayName="Centurions"/>
+		</node>
+	</root>
+</taxonomy>
