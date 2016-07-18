@@ -19,7 +19,8 @@
     <link href="{{url "/themes/default/css/bootstrap.min.css"}}" rel="stylesheet" media="screen">
     <link href="{{url "/extensions/app/greg-diff///themes/default/css/custom.css"}}" rel="stylesheet" media="screen">
     <link href="{{url "/extensions/app/greg-diff///themes/default/css/common.css"}}" rel="stylesheet" media="screen">
-    <link href="{{url "/extensions/app/greg-diff///themes/default/css/base16-light.css"}}" rel="stylesheet" media="screen">
+<!--     <link href="{{url "/extensions/app/greg-diff///themes/default/css/base16-light.css"}}" rel="stylesheet" media="screen"> -->
+<link href="{{url "/extensions/app/greg-diff///themes/default/css/ambiance.css"}}" rel="stylesheet" media="screen">
 
     <!-- fontawesome -->
     <link rel="stylesheet" href="{{url "/themes/default/css/font-awesome.min.css"}}">
@@ -46,6 +47,9 @@
 <body>
 
 {{include listassets}}
+
+<!--  CSRF Protection -->
+<script src='{{url ""}}/csrf.js' type="text/javascript"></script>
 
 <script src="{{url "/themes/default/js/jquery-1.10.2.min.js"}}"></script>
 <script src="{{url "/themes/default/js/libs/jquery.form.min.js"}}"></script>
@@ -89,4 +93,3 @@
 </script>
 </body>
 </html>
-

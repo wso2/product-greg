@@ -65,15 +65,23 @@ var svgenie = (function(){
         };
 
         // IE10
-        if( window.navigator.msSaveBlob ){
-            conf.canvas.toBlob( function ( blobby ){
-                if( window.navigator.msSaveBlob ){
-                    window.navigator.msSaveBlob( blobby, conf.name );
-                }
-            }, "image/png" );
+        if (window.navigator.msSaveOrOpenBlob) {
+            navigator.msSaveOrOpenBlob(conf.canvas.msToBlob(), conf.name);
             return;
         }
 
+        //if above options does not work (Ex - Safari) the image will be opened as a png image in a new tab
+        //user has to manually download the image from the browser.
+        a.href = conf.data;
+        a.download = conf.name;
+        a.target = "_blank";
+        a.addEventListener("click", function (e) {
+            a.parentNode.removeChild(a);
+        });
+
+        document.body.appendChild(a);
+        _pretendClick(a);
+        return;
     };
 
     function _pretendClick(eElement) {

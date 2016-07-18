@@ -14,133 +14,165 @@
    ~ limitations under the License.
    -->
 <!-- secondary header - app bar -->
-<div id="nav" class="es-row row wr-app-bar">
-    <div class="col-md-12 wr-action-container">
-        <div class="wr-asset-type-switcher">
-            <div class="ctrl-asset-type-switcher">
-                <div class="left-menu">
-                    <nav class="navigation">
-                        <a href='{{tenantedUrl ""}}/pages/top-assets' id="all-assets" class="{{#if navigationBar.landingPage}} active home top-item {{else}} home all-item  {{/if}}">
-                            <span class="icon"><i class="fw fw-store"></i></span> <span class="left-menu-item">{{t "ALL"}}</span>
-                        </a>
-                        {{#with navigationBar}}
-                            {{#each types}}
-                                <a href='{{tenantedUrl ""}}{{this.listingUrl}}' id="{{this.shortName}}" class="{{ui.iconColor}} {{this.style}}">
-                                    <span class="icon"><i class="{{ui.icon}}"></i></span> <span class="left-menu-item">{{pluralLabel}}</span>
-                                </a>
-                            {{/each}}
-                        {{/with}}
-                    </nav>
-                    {{#if tags}}
-                        <div class="tags-wrapper">
-                            <div class="tag-title"> {{t "Tags"}} </div>
-                            <div class="tag-content">
-                                {{#each tags}}
-                                    {{#if this.selected}}
-                                        {{#if ../../assetCategoryDetails.hasCategories}}
-                                            <a href='{{tenantedUrl ""}}{{this.searchPage}}?q="category":"{{../../assetCategoryDetails.selectedCategory}}","tags":"{{this.value}}"'><span class = "text-muted" >{{this.value}}</span></a>
-                                        {{else}}
-                                            <a href='{{tenantedUrl ""}}{{this.searchPage}}?q="tags":"{{this.value}}"'><span class = "text-muted" >{{this.value}}</span></a>
-                                        {{/if}}
-                                    {{else}}
 
-                                        {{#if ../../assetCategoryDetails.hasCategories}}
-                                            <a href='{{tenantedUrl ""}}{{this.searchPage}}?q="category":"{{../../../assetCategoryDetails.selectedCategory}}","tags":"{{this.value}}"'><span>{{this.value}}</span></a>
-                                        {{else}}
-                                            <a href='{{tenantedUrl ""}}{{this.searchPage}}?q="tags":"{{this.value}}"'><span>{{this.value}}</span></a>
-                                        {{/if}}
-                                    {{/if}}
-                                {{/each}}
-                            </div>
-                        </div>
-                    {{/if}}
-                </div>
-            </div>
-        </div>
-        <div id="the-basics" class="es-input-group input-group input-wrap">
-            <div class="search-wrapper" style="float:left;width:80%;position:relative;left:0px;margin-left:-10px;">
-                {{#if rxt.pluralLabel}}
-                    <input  id="search"  type="text" class="typeahead es-form-control form-control" placeholder="Search in {{rxt.pluralLabel}}" value="{{searchQuery}}">
-                {{else}}
-                    <input  id="search"  type="text" class="typeahead es-form-control form-control" placeholder="Search in all asset types" value="{{searchQuery}}">
-                {{/if}}
-                <div class="es-input-group-btn input-group-btn">
-                    <button class="btn btn-default wrap-input-right" type="button" title="{{t "Search"}}" id="search-button" >
-                        <i class="fw fw-search" aria-hidden="true"></i>
-                    </button>
-            </div>
-        </div>
-            
-        </div>
-        <div class="col-sm-3 col-md-5 col-lg-3 top-menu-right-custom right">
-            <div>
-                {{#hasAppPermission . key="APP_MYITEMS" username=cuser.username tenantId=cuser.tenantId}}
-                    <a href="{{url "/pages/my-items"}}" class="bookmark-link" style="display: none;">{{t "My bookmarks "}}<i class="fw fw-store fw-inverse fw-lg"></i></a>
-                {{/hasAppPermission}}
-                 <ul class="es-nav nav es-navbar-nav navbar-nav navbar-right">
-                    {{#if isSidebarEnabled}}
-                        <li>
-                            {{#hasAppPermission . key="GREG_COMMUNITY_FEATURES" username=cuser.username tenantId=cuser.tenantId}}
-                                <a href="javascript:void(0)" onclick="toggleSidePanel('options',this)" class="cu-btn wr-side-panel-toggle-btn">
-                                <span class="fw-stack-md">
-                                    <i class="fw fw-left-arrow fw-stack-1-5x"></i>
-                                </span>
-                                    Options
-                                </a>
-                            {{/hasAppPermission}}
-                        </li>
-                    {{/if}}
-                    {{#if isNotificationbarEnabled}}
-                        <li>
-                            <a href="javascript:void(0)" onclick="toggleSidePanel('notifications',this)"  class="cu-btn wr-side-panel-toggle-btn wr-notification-toggle-btn">
-                                <span class="fw-stack-md">
-                                    <i class="fw fw-bell fw-stack-1-5x"></i>
-                                </span>
-                                <span class="wr-notification-bubble" id="notificationCount" >{{notificationsCount.count}}</span>
-                            </a>
 
-                        </li>
-                    {{/if}}
-                </ul>
-            </div>
-        </div>
-    </div>
-</div>
-<!-- secondary header - app bar -->
-{{> action-bar .}}
-{{#if assetCategoryDetails.hasCategories}}
-    <div class="col-md-12 category-wrapper">
-        {{#if assetCategoryDetails.hasCategories}}
-            <div class="col-xs-1 col-sm-2 col-md-1 col-lg-1 left-col"></div>
-            <div class="col-xs-10 col-sm-8 col-md-4 col-lg-10">
-                <div class="category padding-top">
-                    <a href="#" class="ico-filter ctrl-filter-category dropdown-toggle" data-toggle="dropdown"
-                       aria-expanded="true" id="categoryDropDown" title="All Categories">
-                        {{#if assetCategoryDetails.selectedCategory}}
-                            {{assetCategoryDetails.selectedCategory}}
-                        {{else}}
-                            <span>{{t "All Categories"}}</span>
-                        {{/if}}
+<div class="sidebar-wrapper sidebar-nav toggled nano" id="left-sidebar" data-side="left" data-width="200"
+     data-offset-bottom="40" style="display: none">
+    <div class="nano-content">
+
+
+        <nav class="navigation">
+
+            {{#with navigationBar}}
+                {{#if noTypeSelected}}
+                    <a href='{{tenantedUrl ""}}/pages/top-assets' id="all-assets"
+                       class="{{#if navigationBar.landingPage}} active home top-item {{else}} home all-item  {{/if}}">
+                        <span class="icon"><i class="fw fw-success"></i></span> <span
+                            class="left-menu-item">{{t "All"}}</span>
                     </a>
-                    <ul class="es-dropdown-menu dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
-                        <input type="hidden" name="selectedTag" id="selectedTag" value="{{selectedTag.value}}">
-                        {{#if assetCategoryDetails.selectedCategory}}
-                            <li><a tabindex="-1" href="#">{{t "All Categories"}}</a></li>
-                        {{/if}}
-                        {{#each assetCategoryDetails.values}}
-                            <li><a tabindex="-1" href="#">{{this}}</a></li>
-                        {{/each}}
-                    </ul>
-                    {{#if selectedTag.value}}
-                        <div class="tags-breadcrumb">
-                            <a class="tag-label"
-                               href=' {{tenantedUrl ""}}{{selectedTag.url}}?q="category":"{{../assetCategoryDetails.selectedCategory}}"'>
-                                {{selectedTag.value}} <span>&times;</span>
+                    {{#each types}}
+                        <a href='{{tenantedUrl ""}}{{this.listingUrl}}' id="{{this.shortName}}"
+                           class="{{ui.iconColor}} {{this.style}}">
+                            <span class="icon"><i class="{{ui.icon}}"></i></span> <span
+                                class="left-menu-item">{{pluralLabel}}</span>
+                        </a>
+                    {{/each}}
+                {{else}}
+                    {{#each types}}
+                        {{#if this.selected}}
+                            <a href='{{tenantedUrl ""}}{{this.listingUrl}}' id="{{this.shortName}}"
+                               class="{{ui.iconColor}} {{this.style}}" data-selected="true">
+                                <span class="icon"><i class="{{ui.icon}}"></i></span> <span
+                                    class="left-menu-item">{{pluralLabel}}</span>
                             </a>
-                        </div>
-                    {{/if}}
-                </div>
+                        {{/if}}
+                    {{/each}}
+                    <a href='{{tenantedUrl ""}}/pages/top-assets' id="all-assets"
+                       class="{{#if navigationBar.landingPage}} active home top-item {{else}} home all-item  {{/if}}"
+                       style="display: none">
+                        <span class="icon"><i class="fw fw-success"></i></span> <span
+                            class="left-menu-item">{{t "All"}}</span>
+                    </a>
+                    {{#each types}}
+                        {{#unless this.selected}}
+                            <a href='{{tenantedUrl ""}}{{this.listingUrl}}' id="{{this.shortName}}"
+                               class="{{ui.iconColor}} {{this.style}}" style="display: none;">
+                                <span class="icon"><i class="{{ui.icon}}"></i></span> <span
+                                    class="left-menu-item">{{pluralLabel}}</span>
+                            </a>
+                        {{/unless}}
+                    {{/each}}
+
+                    <a title="Show more" class="assets-show-more"><i class="fw fw-down"></i></a>
+                    <a title="Show less" class="assets-show-less" style="display: none;"><i class="fw fw-up"></i></a>
+                {{/if}}
+            {{/with}}
+        </nav>
+
+
+        <div id="taxonomy-section" style="display: none;">
+
+            <button type="button" class="btn btn-secondary btn-taxonomy pull-right btn-expand-taxonomy-toggle" id="maximize-taxonomy"
+                    data-toggle="tooltip" data-placement="left" title="Expand Section">
+                <i class="fw fw-expand"></i>
+            </button>
+            <nav class="taxonomy">
+                <h1>Filter by</h1>
+
+                <ul id="accordion1" class="nav nav-stacked">
+                </ul>
+
+            </nav>
+        </div>
+
+        <div class="refine" id="categorization-div">
+            {{> categorization-entry .}}
+        </div>
+
+        {{#if tags}}
+            <div class="tags-wrapper" id="tags-wrapper">
+                {{> tag-cloud .}}
             </div>
         {{/if}}
+
     </div>
-{{/if}}
+
+</div>
+
+<input id="categorization-query" type="hidden" value=""/>
+<div class="container-fluid navigation-container">
+    <!-- secondary header - app bar -->
+    <div id="nav" class="es-row row wr-app-bar">
+        <div class="col-md-12 wr-action-container">
+            <div id="the-basics" class="es-input-group input-group input-wrap">
+
+                <div class="search-wrapper" id="the-basics">
+                    <div class="input-group">
+                        <span class="input-group-addon toggle-menu-left-wrapper" style="display: none">
+                            <button type="button" class="btn btn-primary toggle-menu-left">
+                                <div class="toggle-menu-left-bar"></div>
+                                <div class="toggle-menu-left-bar"></div>
+                                <div class="toggle-menu-left-bar"></div>
+                            </button>
+                        </span>
+                        <input  id="search"  type="text" class="typeahead es-form-control form-control"
+                            {{#if rxt.pluralLabel}}
+                                placeholder="Search in {{rxt.pluralLabel}}"
+                            {{else}}
+                                placeholder="Search in all asset types"
+                            {{/if}}
+                                value="{{searchQuery}}">
+                        <span class="input-group-btn">
+                           <button class="btn btn-secondary" id="search-button" type="button"><i class="fw fw-search" aria-hidden="true"></i></button>
+                        </span>
+                        <span class="input-group-addon search-options-link-wrapper" id="basic-addon2">
+                            {{>search-options-popover .}}
+                        </span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="top-menu-right-custom right">
+                <div>
+                    {{#hasAppPermission . key="APP_MYITEMS" username=cuser.username tenantId=cuser.tenantId}}
+                        <a href="{{url "/pages/my-items"}}" class="bookmark-link"
+                           style="display: none;">{{t "My bookmarks "}}<i class="fw fw-store fw-inverse fw-lg"></i></a>
+                    {{/hasAppPermission}}
+                    <ul class="es-nav nav es-navbar-nav navbar-nav navbar-right">
+                        {{#if isSidebarEnabled}}
+                            <li>
+                                {{#hasAppPermission . key="GREG_COMMUNITY_FEATURES" username=cuser.username tenantId=cuser.tenantId}}
+                                    {{#unless isContentType}}  <!-- remove options tab for content type artifacts-->
+                                        <a href="javascript:void(0)" onclick="toggleSidePanel('options',this)"
+                                           class="cu-btn wr-side-panel-toggle-btn">
+                                    <span class="fw-stack-md options">
+                                        <i class="fw fw-left-arrow fw-stack-1-5x"></i>
+                                    </span>
+                                            Options
+                                        </a>
+                                    {{/unless}}
+                                {{/hasAppPermission}}
+                            </li>
+                        {{/if}}
+                        {{#if isNotificationbarEnabled}}
+                            <li>
+                                <a href="javascript:void(0)" onclick="toggleSidePanel('notifications',this)"
+                                   class="cu-btn wr-side-panel-toggle-btn wr-notification-toggle-btn">
+                                <span class="fw-stack-md notifications">
+                                    <i class="fw fw-bell fw-stack-1-5x"></i>
+                                </span>
+                                    <span class="wr-notification-bubble"
+                                          id="notificationCount">{{notificationsCount.count}}</span>
+                                </a>
+
+                            </li>
+                        {{/if}}
+                    </ul>
+                </div>
+            </div>
+
+
+        </div>
+    </div>
+    <!-- secondary header - app bar -->
+</div>

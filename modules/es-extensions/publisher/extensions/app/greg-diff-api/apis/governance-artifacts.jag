@@ -1,5 +1,6 @@
 <% require('/modules/publisher.js').exec(function (ctx) {
     var ref = require('utils').request;
+    var core = require('rxt').core;
     var diffAPI = require('/extensions/app/greg-diff-api/modules/governance-diff-api.js').api;
     var pattern = '/{context}/apis/governance-artifacts/{action}';
     var DIFF_DETAIL = 'diff-detail';
@@ -17,7 +18,11 @@
     var resourcePaths = qParams.targets.split(',');
     var base_path = resourcePaths[0];
     var new_path = resourcePaths[1];
-    var media_type = qParams.type;
+    var type = qParams.type;
+    var MultitenantConstants = Packages.org.wso2.carbon.base.MultitenantConstants;
+    var tenantDomain = qParams.tenant ? qParams.tenant : MultitenantConstants.SUPER_TENANT_DOMAIN_NAME;
+    var tenantId = carbon.server.tenantId({domain: tenantDomain});
+    var media_type = core.rxtManager(tenantId).getMediaType(type);
 
     //Resolve the method to use
     switch (options.action) {

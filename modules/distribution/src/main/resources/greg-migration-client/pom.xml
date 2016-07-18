@@ -60,6 +60,15 @@
                 </executions>
             </plugin>
             <plugin>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>2.3.1</version>
+                <inherited>true</inherited>
+                <configuration>
+                    <source>1.7</source>
+                    <target>1.7</target>
+                </configuration>
+            </plugin>
+            <plugin>
                 <groupId>org.apache.felix</groupId>
                 <artifactId>maven-bundle-plugin</artifactId>
                 <extensions>true</extensions>
@@ -74,6 +83,7 @@
                         <Import-Package>
                             org.apache.commons.logging.*; version=${org.wso2.carbon.logging.import.version},
                             org.wso2.carbon.registry.core.* version=${org.wso2.carbon.registry.core.import.version},
+                            org.wso2.carbon.identity.core.*; version=${carbon.identity.version},
                             *;resolution:=optional
                         </Import-Package>
                         <DynamicImport-Package>*</DynamicImport-Package>
@@ -150,21 +160,27 @@
             <artifactId>org.wso2.carbon.governance.api</artifactId>
             <version>${org.wso2.carbon.governance.version}</version>
         </dependency>
+        <dependency>
+            <groupId>org.wso2.carbon.identity</groupId>
+            <artifactId>org.wso2.carbon.identity.core</artifactId>
+            <version>${carbon.identity.version}</version>
+        </dependency>
     </dependencies>
 
     <properties>
+        <carbon.identity.version>5.0.8</carbon.identity.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <org.apache.felix.src.plugin.version>1.7.2</org.apache.felix.src.plugin.version>
         <org.apache.felix.budnle.plugin.version>2.5.3</org.apache.felix.budnle.plugin.version>
         <org.apache.ws.commons.axiom.version>1.2.14</org.apache.ws.commons.axiom.version>
         <org.apache.ws.commons.axiom.wso2.version>1.2.11.wso2v5</org.apache.ws.commons.axiom.wso2.version>
         <org.bouncycastle.wso2.version>1.49.0.wso2v2</org.bouncycastle.wso2.version>
-        <org.wso2.carbon.core.services.version>4.4.0</org.wso2.carbon.core.services.version>
+        <org.wso2.carbon.core.services.version>4.4.5</org.wso2.carbon.core.services.version>
         <org.wso2.carbon.logging.version>4.4.0</org.wso2.carbon.logging.version>
         <org.wso2.carbon.logging.import.version>1.0.4</org.wso2.carbon.logging.import.version>
         <org.wso2.carbon.utils.version>4.4.0</org.wso2.carbon.utils.version>
         <org.wso2.carbon.registry.api.version>4.4.1</org.wso2.carbon.registry.api.version>
-        <org.wso2.carbon.registry.core.version>4.4.1</org.wso2.carbon.registry.core.version>
+        <org.wso2.carbon.registry.core.version>4.4.5</org.wso2.carbon.registry.core.version>
         <org.wso2.carbon.registry.core.import.version>1.0.1</org.wso2.carbon.registry.core.import.version>
         <commons-digester.version>1.8</commons-digester.version>
         <commons-codec.version>1.10</commons-codec.version>

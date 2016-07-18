@@ -6,4 +6,6 @@
 {{> view-asset-top-common-addons-container .}}
 {{> view-asset-details-container .}}
 {{> view-asset-tags-container .}}
-
+{{#if taxonomyAvailability}}
+{{> taxonomy-overview .}}
+{{/if}}

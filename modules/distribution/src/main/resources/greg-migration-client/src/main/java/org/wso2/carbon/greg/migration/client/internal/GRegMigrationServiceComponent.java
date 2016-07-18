@@ -1,5 +1,5 @@
 /*
-* Copyright (c) 2015, WSO2 Inc. (http://www.wso2.org) All Rights Reserved.
+* Copyright (c) 2015-2016, WSO2 Inc. (http://www.wso2.org) All Rights Reserved.
 *
 * Licensed under the Apache License, Version 2.0 (the "License");
 * you may not use this file except in compliance with the License.
@@ -18,10 +18,11 @@ package org.wso2.carbon.greg.migration.client.internal;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.apache.poi.hssf.record.BookBoolRecord;
 import org.osgi.service.component.ComponentContext;
 import org.wso2.carbon.greg.migration.GRegMigrationException;
+import org.wso2.carbon.greg.migration.client.EmailUserNameMigrationClient;
 import org.wso2.carbon.greg.migration.client.MigrateFrom460To500;
+import org.wso2.carbon.greg.migration.client.MigrateFrom510To520;
 import org.wso2.carbon.greg.migration.client.MigrationClient;
 import org.wso2.carbon.greg.migration.client.ProviderMigrationClient;
 import org.wso2.carbon.greg.migration.util.Constants;
@@ -68,12 +69,14 @@ public class GRegMigrationServiceComponent {
         boolean isRegistryMigrationNeeded = false;
         boolean isFileSystemMigrationNeeded = false;
         boolean isProviderMigrationNeeded = false;
+        boolean isEmailUsernameMigrationNeeded = false;
 
         Map<String, String> argsMap = new HashMap<String, String>();
         argsMap.put("migrateVersion", System.getProperty("migrate"));
         argsMap.put("isRegMigrationNeeded", System.getProperty("migrateReg"));
         argsMap.put("isFileSysMigrationNeeded", System.getProperty("migrateFS"));
         argsMap.put("isProviderMigrationNeeded", System.getProperty("migrateProvider"));
+        argsMap.put("isEmailUsernameMigrationNeeded", System.getProperty("migrateEmailUsername"));
 
         if (!argsMap.isEmpty()) {
             migrateVersion = argsMap.get("migrateVersion");
@@ -85,6 +88,9 @@ public class GRegMigrationServiceComponent {
             }
             if (argsMap.get("isProviderMigrationNeeded") != null) {
                 isProviderMigrationNeeded = Boolean.parseBoolean(argsMap.get("isProviderMigrationNeeded"));
+            }
+            if (argsMap.get("isEmailUsernameMigrationNeeded") != null) {
+                isEmailUsernameMigrationNeeded = Boolean.parseBoolean(argsMap.get("isEmailUsernameMigrationNeeded"));
             }
         }
 
@@ -104,24 +110,36 @@ public class GRegMigrationServiceComponent {
                     } else {
                         //Only performs registry migration which also includes endpoint migration as well.
                         if (isRegistryMigrationNeeded) {
-                            log.info("Migrating WSO2 Governance Registry 4.6.0 registry resources to WSO2 Governance Registry 5.0.0");
+                            log.info("Migrating WSO2 Governance Registry 4.6.0 registry resources to WSO2 Governance " +
+                                     "Registry 5.0.0");
                             migrationClient.registryResourceMigration();
                             migrationClient.endpointMigration();
                         }
                         //Only performs file system migration
                         if (isFileSystemMigrationNeeded) {
-                            log.info("Migrating WSO2 Governance Registry 4.6.0 file system resources to WSO2 Governance Registry 5.0.0");
+                            log.info("Migrating WSO2 Governance Registry 4.6.0 file system resources to WSO2 Governance " +
+                                     "Registry 5.0.0");
                             migrationClient.fileSystemMigration();
                         }
                     }
                     if (log.isDebugEnabled()) {
                         log.debug("WSO2 Governance Registry 4.6.0 to 5.0.0 migration successfully completed");
                     }
-                } else if (Constants.VERSION_520.equalsIgnoreCase(migrateVersion) && isProviderMigrationNeeded){
-                    ProviderMigrationClient providerMigrationClient = new ProviderMigrationClient();
-                    providerMigrationClient.providerMigration();
+                } else if (Constants.VERSION_520.equalsIgnoreCase(migrateVersion)) {
+                    if (!isEmailUsernameMigrationNeeded && !isProviderMigrationNeeded) {
+                        MigrateFrom510To520 migrateFrom510To520 = new MigrateFrom510To520();
+                        migrateFrom510To520.cleanOldResources();
+                    } else if (isEmailUsernameMigrationNeeded) {
+                        EmailUserNameMigrationClient emailUserNameMigrationClient = new EmailUserNameMigrationClient();
+                        emailUserNameMigrationClient.migrateResourcesWithEmailUserName();
+                    } else if (isProviderMigrationNeeded) {
+                        ProviderMigrationClient providerMigrationClient = new ProviderMigrationClient();
+                        providerMigrationClient.providerMigration();
+                    }
+
                 } else {
-                    log.error("The given migrate version " + migrateVersion + " is not supported. Please check the version and try again.");
+                    log.error("The given migrate version " + migrateVersion + " is not supported. Please check the " +
+                              "version and try again.");
                 }
             }
         } catch (GRegMigrationException e) {

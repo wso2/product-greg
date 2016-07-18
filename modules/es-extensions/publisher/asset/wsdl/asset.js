@@ -85,6 +85,7 @@ asset.manager = function(ctx) {
             deps.associationUUID = associationUUID;
 
             if(deps.associationType == "soapservice") {
+                deps.associationVersion = subPaths[subPaths.length - 2];
                 associations.push(deps);
             }
         }

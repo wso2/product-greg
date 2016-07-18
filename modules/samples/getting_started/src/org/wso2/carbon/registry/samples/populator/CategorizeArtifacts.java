@@ -24,7 +24,7 @@ import java.lang.String;
 import java.util.ArrayList;
 
 /*
-* This class add categories,tags to rest and soap services, and create publisher and
+* This class add filters, tags to rest and soap services, and create publisher and
 * store user roles.
  */
 public class CategorizeArtifacts {
@@ -44,7 +44,8 @@ public class CategorizeArtifacts {
     private static String port;
     private static String host;
     private static String serverURL;
-    private static final String[] categories = new String[] { "Engineering", "Finance", "HR", "Sales", "Marketing" };
+    private static final String[] environments = new String[] { "Engineering", "Finance", "HR", "Sales", "Marketing" };
+    private static final String[] levels = new String[] { "Level 1", "Level 2", "Level 3", "Level 4" };
     private static final String[] tagsList = new String[] { "wso2", "greg", "pay", "money", "json", "js", "people",
             "registry", "apps", "services" };
     private static String rootpath = "";
@@ -115,9 +116,11 @@ public class CategorizeArtifacts {
                 for (GenericArtifact artifact : restServices) {
                     if (restServicesList.contains(artifact.getQName().getLocalPart())) {
                         String lifeCycleName = artifact.getLifecycleName();
-                        if(!BUYMORE_LIFE_CYCLE.equals(lifeCycleName)) {
-                            String category = categories[i % 5];
-                            artifact.setAttribute("overview_category", category);
+                        String environment = environments[i % 5];
+                        String level = levels[i % 4];
+                        if (!BUYMORE_LIFE_CYCLE.equals(lifeCycleName)) {
+                            artifact.setAttribute("categorization_environment", environment);
+                            artifact.setAttribute("categorization_level", level);
                             artifactManager1.updateGenericArtifact(artifact);
                             String path = artifact.getPath();
                             gov.applyTag(path, tagsList[i % 10]);
@@ -127,8 +130,9 @@ public class CategorizeArtifacts {
                             }
                             i++;
                         } else {
-                            String category = "Sales";
-                            artifact.setAttribute("overview_category", category);
+                            environment = "Sales";
+                            artifact.setAttribute("categorization_environment", environment);
+                            artifact.setAttribute("categorization_level", level);
                             artifactManager1.updateGenericArtifact(artifact);
                             String path = artifact.getPath();
                             gov.applyTag(path, "BuyMore");
@@ -162,8 +166,10 @@ public class CategorizeArtifacts {
                 int j = 0;
                 for (GenericArtifact artifact : soapServices) {
                     if (soapServicesList.contains(artifact.getQName().getLocalPart())) {
-                        String category = categories[j % 5];
-                        artifact.setAttribute("overview_category", category);
+                        String environment = environments[j % 5];
+                        String level = levels[j % 4];
+                        artifact.setAttribute("categorization_environment", environment);
+                        artifact.setAttribute("categorization_level", level);
                         artifactManager2.updateGenericArtifact(artifact);
                         String path = artifact.getPath();
                         gov.applyTag(path, tagsList[j % 10]);

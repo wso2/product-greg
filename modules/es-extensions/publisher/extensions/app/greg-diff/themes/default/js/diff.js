@@ -26,10 +26,10 @@ var appBar = '.app-bar',
 /*
  * On window loaded functions.
  */
-$(window).load(function(){
-    setViewPanelsHeight();
-    addTitle();
-});
+//$(window).load(function(){
+//    setViewPanelsHeight();
+//    addTitle();
+//});
 
 /*
  * On window resize functions.
@@ -54,7 +54,8 @@ function setViewPanelsHeight(){
         $(viewPanel).css('height', ($('body').height() - ($(window).height()*.1)));
     }
     else{
-        $(viewPanel).css('height', ($('body').height() - ($(window).height()*.1)));
+        $(viewPanel).css('height', 'auto');
+        //$(viewPanel).css('height', ($('body').height() - ($(window).height()*.1)));
     }
     $('.CodeMirror, .CodeMirror-merge').height(($(viewPanel).height()-($(window).height()*.1)));
 
@@ -63,10 +64,11 @@ function setViewPanelsHeight(){
     $('.CodeMirror-sizer').each(function(){
         if($(this).css('min-width') < CodeMirrorSizerMinWidth){
             CodeMirrorSizerMinWidth = $(this).css('min-width');
+            $('.CodeMirror-sizer').css('min-width', CodeMirrorSizerMinWidth);
         }
     });
-    $('.CodeMirror-sizer').css('min-width', CodeMirrorSizerMinWidth);
     $('.CodeMirror-vscrollbar').scrollTop(2);
+    $('.CodeMirror-hscrollbar').scrollLeft(2);
 
     /* Fix for code mirror scrollbar not shows on window load */
     if($('.CodeMirror').height() < $('.CodeMirror-code').height()){
@@ -78,15 +80,18 @@ function setViewPanelsHeight(){
 /*
  * Adding code mirror pane title
  */
-function addTitle() {
+function addTitle(baseVersion, revisionVersion, change) {
     $('.CodeMirror-merge-pane').each(function (i) {
+        if ("CONTENT_ADDITION" === change) {
+            i = 1;
+        }
         var title;
         switch (i) {
             case 0:
-                title = 'Base';
+                title = 'Base ( V' + baseVersion + ' )';
                 break;
             case 1:
-                title = 'Revision';
+                title = 'Revision ( V' + revisionVersion + ' )';
                 break;
         }
 

@@ -102,13 +102,18 @@ if (!user) {
 
             if (user.isAnonContext) {
                 registry = user.systemRegistry;
-            } 
+            }
             else {
                 registry = new carbon.registry.Registry(user.um.server.url,user);
             }
 
             var inputParameters = request.getAllParameters("UTF-8");
             var obj;
+
+            var allParams = inputParameters;
+            var queryPath = allParams.path ? decodeURIComponent(allParams.path) : '';
+            var fileName = queryPath.substring(2).split('/').join('-');
+            fileName = fileName || 'graph';
 
             if(util.isNotNullOrEmpty(inputParameters.path)){
                 var dataPopulator = require("../modules/dataPopulator.js");
@@ -139,6 +144,10 @@ if (!user) {
     <link href="<%printAppContext();%>/extensions/app/greg_impact/public/css/jquery-ui.css" rel="stylesheet" />
     <link href="<%printAppContext();%>/extensions/app/greg_impact/public/css/select2.css" rel="stylesheet" />
     <link href="<%printAppContext();%>/extensions/app/greg_impact/css/style.css" rel="stylesheet" />
+
+    <!-- CSRF fix -->
+    <script src="<%=APP_CONTEXT%>/csrf.js" type="text/javascript"></script>
+    
     <script>
         var gc = {};
         gc.context = '<%printAppContext();%>';
@@ -161,6 +170,7 @@ if (!user) {
     <script src="<%printAppContext();%>/extensions/app/greg_impact/js/impactAnalysis.js"></script>
     <script>
 
+        var DOWNLOAD_FILENAME = '<%= fileName %>';
         var imageScale = 0.9,
             footerHeight = 50,
             width = ($(window).width()),
@@ -214,6 +224,6 @@ if (!user) {
 </body>
 </html>
 
-<% //} 
-}, request, response, session); 
+<% //}
+}, request, response, session);
 %>

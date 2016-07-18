@@ -115,6 +115,7 @@ asset.manager = function(ctx) {
                     deps.associationUUID = associationUUID;
 
                     if(deps.associationType == "wsdl") {
+                        deps.associationVersion = subPaths[subPaths.length - 2];
                         associations.push(deps);
                     }
                 }
@@ -259,7 +260,7 @@ asset.manager = function(ctx) {
         },
         create: function(options) {
             var log = new Log();
-            var name = options.attributes.overview_name;
+            var name = encodeURIComponent(options.attributes.overview_name);
             var version = options.attributes.overview_version;
             var rxt = require('rxt');
             var am = rxt.asset.createUserAssetManager(ctx.session, this.type);
@@ -268,7 +269,7 @@ asset.manager = function(ctx) {
             var assets = am.search(query);
             for (var i = 0; i < assets.length; i++) {
                 if (assets[i].version == version) {
-                    var msg = "Resource already exist with same Name \"" + name + "\" and version \"" + version + "\"";
+                    var msg = "Resource already exist with same Name \"" + decodeURIComponent(name) + "\" and version \"" + version + "\"";
                     var exceptionUtils = require('utils');
                     var exceptionModule = exceptionUtils.exception;
                     var constants = rxt.constants;

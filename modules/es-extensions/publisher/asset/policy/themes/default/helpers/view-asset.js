@@ -41,6 +41,6 @@ var resources = function(page, meta) {
     o.css.push('es_codemirror.css');
     o.js.push('codemirror.js');
     o.js.push('xml.js');
-    o.js.push('view-asset.js');
+    o.js.push('codemirror-init.js');
     return o;
 };

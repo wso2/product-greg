@@ -51,6 +51,7 @@
                 <exclude>**/claim-config.xml</exclude>
                 <exclude>**/email/email-admin-config.xml</exclude>
                 <exclude>**/launch.ini</exclude>
+                <exclude>**/Owasp.CsrfGuard.Carbon.properties</exclude>
                 <!--<exclude>**/lib/org.wso2.carbon.server-${carbon.kernel.version}.jar</exclude>-->
 
             </excludes>
@@ -165,13 +166,13 @@
                 <exclude>**/.svn</exclude>
             </excludes>
         </fileSet>
-        <fileSet>
+        <!--fileSet>
             <directory>../p2-profile-gen/target/wso2carbon-core-${carbon.kernel.version}/dbscripts/storage</directory>
             <outputDirectory>${pom.artifactId}-${build.version}/dbscripts/storage</outputDirectory>
             <includes>
                 <include>**/*</include>
             </includes>
-        </fileSet>
+        </fileSet-->
         <fileSet>
             <directory>src/main/resources/carbon-home/conf/node</directory>
             <outputDirectory>${pom.artifactId}-${build.version}/repository/conf</outputDirectory>
@@ -536,10 +537,22 @@
             <directory>../p2-profile-gen/target/wso2carbon-core-${carbon.kernel.version}/repository/resources/store/extensions/app/greg_swagger</directory>
             <outputDirectory>${pom.artifactId}-${pom.version}/repository/deployment/server/jaggeryapps/store/extensions/app/greg_swagger</outputDirectory>
         </fileSet>
+	 <fileSet>
+            <directory>../p2-profile-gen/target/wso2carbon-core-${carbon.kernel.version}/repository/resources/publisher/extensions/app/soap-viewer</directory>
+            <outputDirectory>${pom.artifactId}-${pom.version}/repository/deployment/server/jaggeryapps/publisher/extensions/app/soap-viewer</outputDirectory>
+        </fileSet>
+        <fileSet>
+            <directory>../p2-profile-gen/target/wso2carbon-core-${carbon.kernel.version}/repository/resources/store/extensions/app/soap-viewer</directory>
+            <outputDirectory>${pom.artifactId}-${pom.version}/repository/deployment/server/jaggeryapps/store/extensions/app/soap-viewer</outputDirectory>
+        </fileSet>
 
         <fileSet>
             <directory>../p2-profile-gen/target/wso2carbon-core-${carbon.kernel.version}/repository/resources/publisher/extensions/app/greg-publisher-defaults</directory>
             <outputDirectory>${pom.artifactId}-${pom.version}/repository/deployment/server/jaggeryapps/publisher/extensions/app/greg-publisher-defaults</outputDirectory>
+        </fileSet>
+        <fileSet>
+            <directory>../p2-profile-gen/target/wso2carbon-core-${carbon.kernel.version}/repository/resources/publisher/extensions/app/greg-permissions</directory>
+            <outputDirectory>${pom.artifactId}-${pom.version}/repository/deployment/server/jaggeryapps/publisher/extensions/app/greg-permissions</outputDirectory>
         </fileSet>
         <fileSet>
             <directory>../p2-profile-gen/target/wso2carbon-core-${carbon.kernel.version}/repository/resources/publisher/extensions/app/greg-associations</directory>
@@ -667,6 +680,7 @@
        		<exclude>**/sso-idp-config.xml</exclude>
             </excludes>
         </fileSet>
+
 	<fileSet>
             <directory>src/main/resources/carbon-home/conf</directory>
             <outputDirectory>${project.artifactId}-${product.greg.version}/repository/conf/identity/</outputDirectory>
@@ -708,6 +722,16 @@
             <outputDirectory>${project.artifactId}-${product.greg.version}/lib/</outputDirectory>
             <includes>
                 <include>**/org.wso2.ciphertool-1.0.0-wso2v3.jar</include>
+            </includes>
+        </fileSet>
+
+        <fileSet>
+            <directory>
+                ../p2-profile-gen/target/wso2carbon-core-${carbon.kernel.version}/dbscripts/metrics/
+            </directory>
+            <outputDirectory>${project.artifactId}-${product.greg.version}/dbscripts/metrics</outputDirectory>
+            <includes>
+                <include>**/*.sql</include>
             </includes>
         </fileSet>
     </fileSets>
@@ -945,6 +969,12 @@
             <fileMode>644</fileMode>
         </file-->
         <file>
+            <source>src/main/resources/carbon-home/conf/security/Owasp.CsrfGuard.Carbon.properties</source>
+            <outputDirectory>${pom.artifactId}-${build.version}/repository/conf/security</outputDirectory>
+            <filtered>true</filtered>
+            <fileMode>644</fileMode>
+        </file>
+        <file>
             <source>../p2-profile-gen/target/wso2carbon-core-${carbon.kernel.version}/repository/conf/tomcat/webapp-classloading-environments.xml</source>
             <outputDirectory>${pom.artifactId}-${pom.version}/repository/conf/tomcat</outputDirectory>
             <filtered>true</filtered>
@@ -988,7 +1018,7 @@
             <fileMode>644</fileMode>
         </file>
         <file>
-            <source>../p2-profile-gen/target/wso2carbon-core-${carbon.kernel.version}/repository/conf/event-broker.xml</source>
+            <source>../p2-profile-gen/target/wso2carbon-core-${carbon.kernel.version}/repository/conf/registry-event-broker.xml</source>
             <outputDirectory>${pom.artifactId}-${build.version}/repository/conf/</outputDirectory>
             <filtered>true</filtered>
             <fileMode>644</fileMode>
@@ -1177,17 +1207,39 @@
             <filtered>true</filtered>
             <fileMode>644</fileMode>
         </file>
-        <file>
-            <source>src/main/resources/carbon-home/conf/carbon/web.xml</source>
-            <outputDirectory>${pom.artifactId}-${build.version}/repository/conf/tomcat/carbon/WEB-INF</outputDirectory>
-            <filtered>true</filtered>
-            <fileMode>644</fileMode>
-        </file>
+        <!--<file>-->
+            <!--<source>src/main/resources/carbon-home/conf/carbon/web.xml</source>-->
+            <!--<outputDirectory>${pom.artifactId}-${build.version}/repository/conf/tomcat/carbon/WEB-INF</outputDirectory>-->
+            <!--<filtered>true</filtered>-->
+            <!--<fileMode>644</fileMode>-->
+        <!--</file>-->
+
         <file>
             <source>src/main/resources/carbon-home/conf/webapp-mode/web.xml</source>
             <outputDirectory>${pom.artifactId}-${build.version}/webapp-mode/WEB-INF</outputDirectory>
             <filtered>true</filtered>
             <fileMode>644</fileMode>
         </file>
-      </files>
+        <file>
+            <source>../p2-profile-gen/target/wso2carbon-core-${carbon.kernel.version}/repository/conf/metrics.xml</source>
+            <outputDirectory>${pom.artifactId}-${build.version}/repository/conf/</outputDirectory>
+            <filtered>false</filtered>
+        </file>
+        <file>
+            <source>../p2-profile-gen/target/wso2carbon-core-${carbon.kernel.version}/repository/conf/metrics.properties</source>
+            <outputDirectory>${pom.artifactId}-${build.version}/repository/conf/</outputDirectory>
+            <filtered>false</filtered>
+        </file>
+        <file>
+            <source>../p2-profile-gen/target/wso2carbon-core-${carbon.kernel.version}/repository/conf/datasources/metrics-datasources.xml</source>
+            <outputDirectory>${pom.artifactId}-${build.version}/repository/conf/datasources/</outputDirectory>
+            <fileMode>644</fileMode>
+        </file>
+        <file>
+            <source>../p2-profile-gen/target/wso2carbon-core-${carbon.kernel.version}/repository/database/WSO2METRICS_DB.h2.db</source>
+            <outputDirectory>${pom.artifactId}-${build.version}/repository/database/</outputDirectory>
+            <fileMode>644</fileMode>
+        </file>
+
+    </files>
 </assembly>

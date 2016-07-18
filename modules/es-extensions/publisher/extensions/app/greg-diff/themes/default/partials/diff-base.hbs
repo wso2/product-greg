@@ -1,25 +1,23 @@
 <div class="wrapper">
     <div class="container-fluid">
 
-            <header>
-                <div class="row wr-global-header">
-                    <div class="col-xs-8 col-sm-6 col-lg-8 app-logo">
-                        <a href='{{url ""}}{{meta.landingPage}}'>
-                            <img src="{{url "/themes/default/img/logo.png"}}" />
-                            <h2 class="app-title">Governance Center - Publisher</h2>
-                        </a>
-                    </div>
-                </div>
-            </header>
-
-        <div class="diff-view">
-            <div class="row no-gutter">
-                <!--code view div should come here-->
-                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 view-panel">
-                    <div id="diffView" class="code-container"></div>
+        <header>
+            <div class="row wr-global-header">
+                <div class="col-xs-8 col-sm-6 col-lg-8 app-logo">
+                    <a href='{{url ""}}{{meta.landingPage}}'>
+                        <img src="{{url "/themes/default/img/logo.png"}}"/>
+                        <h2 class="app-title">Governance Center - Publisher</h2>
+                    </a>
                 </div>
             </div>
-        </div>
-{{>footer}}
+        </header>
+
+        {{#if_equal rxt.type "application/wsdl+xml"}}
+            {{>wsdl-diff-base}}
+        {{else}}
+            {{>default-diff-base}}
+        {{/if_equal}}
+
+        {{>footer}}
     </div>
 </div>

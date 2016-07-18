@@ -1,0 +1,112 @@
+<!--
+  ~ Copyright (c) WSO2 Inc. (http://wso2.com) All Rights Reserved.
+  ~
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~ http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+-->
+<div class="row">
+    <div class="col-lg-10 col-md-10 col-sm-10 col-xs-9 wr-filters">
+        {{#if assetCategoryDetails.hasCategories}}
+            <div class="wr-filter-category">
+                <a href="#" class="ico-filter ctrl-filter-category dropdown-toggle" data-toggle="dropdown"
+                   aria-expanded="true" id="categoryDropDown" title="All Categories">
+                    {{#if assetCategoryDetails.selectedCategory}}
+                        {{assetCategoryDetails.selectedCategory}}
+                    {{else}}
+                        <span>All Categories</span>
+                    {{/if}}
+                    <span class="fa fa-angle-down pull-right"></span>
+                </a>
+                <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
+                    {{#if assetCategoryDetails.selectedCategory}}
+                        <li><a tabindex="-1" href="#">All Categories</a></li>
+                    {{/if}}
+                    {{#each assetCategoryDetails.values}}
+                        <li><a tabindex="-1" href="#">{{this}}</a></li>
+                    {{/each}}
+                </ul>
+            </div>
+        {{/if}}
+
+        <div class="wr-search">
+            <form class="form-group" id="assetSearchForm" action='{{url "/assets/"}}{{rxt.shortName}}/list'>
+                <div class="form-group has-feedback form-search">
+                    <input type="text" name="query" class="form-control" placeholder="{{t "Search asset by name..."}}"
+                           id="inp_searchAsset"
+                           value="{{searchQuery}}"/>
+                    <a href="#" class="form-control-feedback search" id="searchButton" class="fa fa-search"
+                       title="Search">
+                        <i class="fa fa-search" aria-hidden="true"></i>
+                    </a>
+                    {{>search-options-popover .}}
+                    <a id="advance-search" href="{{url ""}}/pages/advanced-search" class="form-control-feedback advance"
+                       title="Advanced Search">
+                        <span>Advanced Search</span></a>
+                    <input type="hidden" name="sortby" value="{{paging.sortBy}}"/>
+                    <input type="hidden" name="sort" value="{{paging.sortOrder}}"/>
+                </div>
+
+            </form>
+        </div>
+    </div>
+    {{#if assets}}
+        <div class="col-lg-2 col-md-2 col-sm-2 col-xs-3 wr-filters">
+            <div class="sort-wrapper">
+                <ul class="nav nav-pills navbar-mid remove-margin" role="tablist">
+                    <li data-toggle="tooltip" title="sort result">
+                        <button class="btn btn-default" data-toggle="dropdown" aria-expanded="false">
+                            <!--
+                            TODO: Enable sort icon when update the ES fonts
+                            <i class="fw {{ sorting.selected.helpIcon }} fw-2x"></i>
+                            -->
+                            <span>Sort by : <strong>{{ sorting.selected.help }} </strong></span>
+                        </button>
+                        <ul class="dropdown-menu arrow arrow-top-right dark sort-list add-margin-top-2x">
+                            <li class="dropdown-header">Sort by</li>
+                            {{#each sorting.list}}
+                                <li><a
+                                        data-column="@index"
+                                        class="{{#if active}}{{sortIcon}} active {{/if}} {{sortBy.label}}"
+                                        href="?sort={{sortNext}}{{sortBy.name}}"
+                                >
+                                    {{sortBy.label}}
+                                </a>
+                                </li>
+                            {{/each}}
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    {{/if}}
+    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 ">
+        <!-- content -->
+        <div class="ast-container" id="list_assets_table_body">
+            {{#if assets}}
+                <div id="list_assets_content">
+                    {{> loading ../../../.}}
+                    {{>list_assets_table_body .}}
+                </div>
+            {{else}}
+                <div class="emptyAssets-MsgDiv">
+
+                    <p class="emptyAssets">We are sorry! we couldn't find anything for you ...</p>
+
+                </div>
+            {{/if}}
+        </div>
+    </div>
+</div>
+
+
+
+

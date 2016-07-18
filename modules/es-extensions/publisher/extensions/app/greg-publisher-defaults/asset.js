@@ -58,7 +58,8 @@ asset.renderer = function(ctx) {
             },
             notificationPopulator: function(page) {
                 if (allowedPagesForSidebar.indexOf(page.meta.pageName)>-1) {
-                    page.notificationsCount = gregAPI.notifications.count();
+                    var am = assetManager(ctx.session,ctx.assetType);
+                    page.notificationsCount = gregAPI.notifications.count(am);
                 }
             },
             notificationListPopulator: function(page) {
@@ -73,7 +74,7 @@ asset.renderer = function(ctx) {
             associationMetaDataPopulator: function(page, util) {
                 var ptr = page.leftNav || [];
                 var entry;
-                var allowedPages = ['details', 'lifecycle', 'update', 'associations', 'copy', 'delete'];
+                var allowedPages = ['details', 'lifecycle', 'update', 'associations', 'permissions', 'copy', 'delete'];
                 log.debug('Association populator ' + page.meta.pageName);
                 //if (((page.meta.pageName !== 'associations') && (page.meta.pageName !== 'list')) &&(page.meta.pageName !== 'create')) {
                 if(allowedPages.indexOf(page.meta.pageName)>-1){
@@ -81,13 +82,34 @@ asset.renderer = function(ctx) {
                     entry = {};
                     entry.id = 'Associations';
                     entry.name = 'Associations';
-                    entry.iconClass = 'btn-lifecycle';
+                    entry.iconClass = 'btn-association';
                     entry.url = this.buildAppPageUrl('associations') + '/' + page.assets.type + '/' + page.assets.id
                     ptr.push(entry);
                     if (ptr[5] != null && ptr[4] != null) {
                         var temp = ptr[5];
                         ptr[5] = ptr[4];
                         ptr[4] = temp;
+                    }
+                }
+            },
+            permissionMetaDataPopulator: function(page, util) {
+                var ptr = page.leftNav || [];
+                var am = assetManager(ctx.session,ctx.assetType);
+                var entry;
+                var allowedPages = ['details','lifecycle','update','associations','permissions', 'copy', 'delete'];
+                log.debug('Permission populator ' + page.meta.pageName);
+                if(allowedPages.indexOf(page.meta.pageName)>-1){
+                    var permissionList = gregAPI.permissions.list(am, page.assets.id);
+                    if(permissionList){
+                        if(permissionList.isAuthorizeAllowed && !permissionList.isVersionView){
+                            log.debug('adding link');
+                            entry = {};
+                            entry.name = 'Permissions';
+                            entry.iconClass = 'btn-permission';
+                            entry.url = this.buildAppPageUrl('permissions') + '/' + page.assets.type + '/'
+                                + page.assets.id;
+                            ptr.push(entry);
+                        }
                     }
                 }
             },
@@ -129,12 +151,33 @@ asset.renderer = function(ctx) {
                     var isDependentsPresent =  ( dependencies.length > 0 );
                     page.assets.isDependentsPresent = isDependentsPresent;
                 }
+            },
+            sorting: function (page) {
+                require('/modules/page-decorators.js').pageDecorators.sorting(ctx, page, [
+                    {name: "overview_name", label: "Name"},
+                    {name: "overview_version", label: "Version"},
+                    {name: "createdDate", label: "Date/Time"}]);
+            },
+            checkSubscriptionMenuItems: function (page) {
+                page.isContentType = false;
+                if (page.rxt && page.rxt.fileExtension) {
+                    page.isContentType = true;
+                }
             }
         }
     };
 };
 asset.configure = function() {
     return {
+        table: {
+            overview: {
+                fields: {
+                    provider: {
+                        auto: false
+                    }
+                }
+            }
+        },
         meta: {
             lifecycle: {
                 commentRequired: false,

@@ -39,6 +39,7 @@ asset.manager = function(ctx) {
                         var subPaths = path.split('/');
                         var associationName = subPaths[subPaths.length - 1];
                         var associationUUID = resource.getUUID();
+                        var associationVersion = subPaths[subPaths.length - 2];
                         deps.associationName = associationName;
 
                         if(mediaType == "application/wadl+xml") {
@@ -48,6 +49,7 @@ asset.manager = function(ctx) {
                         }
 
                         deps.associationUUID = associationUUID;
+                        deps.associationVersion = associationVersion;
                         associations.push(deps);
                     }
                 }
@@ -82,7 +84,7 @@ asset.manager = function(ctx) {
             return item;
         },
         create: function(options) {
-            var name = options.attributes.overview_name;
+            var name = encodeURIComponent(options.attributes.overview_name);
             var version = options.attributes.overview_version;
             var rxt = require('rxt');
             var am = rxt.asset.createUserAssetManager(ctx.session, this.type);
@@ -91,7 +93,7 @@ asset.manager = function(ctx) {
             var assets = am.search(query);
             for (var i = 0; i < assets.length; i++) {
                 if (assets[i].version == version) {
-                    var msg = "Resource already exist with same Name \"" + name + "\" and version \"" + version + "\"";
+                    var msg = "Resource already exist with same Name \"" + decodeURIComponent(name) + "\" and version \"" + version + "\"";
                     var exceptionUtils = require('utils');
                     var exceptionModule = exceptionUtils.exception;
                     var constants = rxt.constants;

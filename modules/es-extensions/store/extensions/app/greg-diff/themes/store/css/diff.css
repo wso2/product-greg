@@ -277,17 +277,17 @@ body {
 
 .CodeMirror-merge-r-chunk-end, .CodeMirror-merge-r-chunk-start, .CodeMirror-merge-r-chunk {
     /*border-top-color: #161616;*/
-    border-top-color: #cf96b0;
+    border-top-color: #566149;
 }
 
 .CodeMirror-merge-r-chunk-end, .CodeMirror-merge-r-chunk-start, .CodeMirror-merge-r-chunk {
     /*border-bottom-color: #161616;*/
-    border-bottom-color: #cf96b0;
+    border-bottom-color: #566149;
 }
 
 .CodeMirror-merge-r-chunk {
     /*background-color: #161616;*/
-    background-color: #cf96b0;
+    background-color: #566149;
 }
 
 .cm-s-ambiance .cm-comment {
@@ -296,7 +296,7 @@ body {
 
 .CodeMirror-merge-r-connect {
     /*fill: #161616;*/
-    fill: #cf96b0;
+    fill: #566149;
     stroke: transparent;
 }
 
@@ -323,10 +323,56 @@ body {
 }
 
 .CodeMirror-merge .title {
-    background: #424650;
+    background: #838383;
     padding: 0 100px 0 70px;
     line-height: 30px;
     height: 30px;
     position: absolute;
     margin-top: -30px;
+}
+
+.panel-title-diff-view {
+    background: #000000;
+    color: #ffffff;
+    padding: 15px;
+}
+
+.panel-title-diff-sub-menu{
+    background: #202125;
+    color: #ffffff;
+    padding: 10px; 
+    margin: 5px;
+}
+
+.panel-sub-menu {
+    background: #7b7b7b;
+    color: #ffffff;
+    margin: 5px;
+}
+
+.panel-sub-menu { 
+    margin-left: 40px;
+}
+
+.panel-group {
+    background: #34373D;
+    color: #ffffff;
+}
+
+.view-panel{
+    background: #34373D !important;
+    color: #ffffff;
+}
+
+.details-sub-menu {
+    background: #484646;
+    color: #ffffff;
+    padding-left: 20px;
+    display: block;
+    padding-bottom: 2px;
+    padding: 4px 8px;
+}
+
+.details-sub-menu:hover {
+    background: #ffffff;
 }

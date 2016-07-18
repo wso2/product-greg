@@ -73,11 +73,13 @@ $(function(){ // document ready
 function sidePanelPositionFix(){
     var windowTop = $(window).scrollTop(); // returns number
     if (headerHeight < windowTop){
-        $(sidePanel).css({ position: 'fixed', top: navHeight });
+        $(sidePanel).css({ position: 'fixed', top: '0px' });
+        $(sidePanel).css('opacity','0.92');
     }
     else {
         $(sidePanel).css('position','absolute');
         $(sidePanel).css('top', offset);
+        $(sidePanel).css('opacity','0.92');
     }
 }
 
@@ -97,14 +99,14 @@ function toggleSidePanel(view,button){
     $(button).toggleClass('selected');
 
     if($(button).hasClass('selected')){
-        $('.top-menu-right-custom  .fw-stack-md  .fw-stack-1-5x').removeClass('fw-left-arrow');
-        $('.top-menu-right-custom  .fw-stack-md  .fw-stack-1-5x').addClass('fw-right-arrow');
+        $('.top-menu-right-custom  .'+view+'  .fw-stack-1-5x').removeClass('fw-left-arrow');
+        $('.top-menu-right-custom  .'+view+'  .fw-stack-1-5x').addClass('fw-right-arrow');
         $(sidePanel).show();
         $(sidePanel).addClass('toggled');
     }
     else {
-        $('.top-menu-right-custom  .fw-stack-md  .fw-stack-1-5x').removeClass('fw-right-arrow');
-        $('.top-menu-right-custom  .fw-stack-md  .fw-stack-1-5x').addClass('fw-left-arrow');
+        $('.top-menu-right-custom  .'+view+'  .fw-stack-1-5x').removeClass('fw-right-arrow');
+        $('.top-menu-right-custom  .'+view+'  .fw-stack-1-5x').addClass('fw-left-arrow');
         $(sidePanel).hide();
         $(sidePanel).removeClass('toggled');
     }
@@ -117,3 +119,14 @@ function toggleSidePanel(view,button){
 function setSidePanelHeight(){
     $(sidePanel).height($('html').height() - offset);
 }
+
+/**
+ * Toggle collapse down arrow direction when user click on the collapsing bar(store notificaton)
+ */
+$('#collapseNotificationsSettings').on('shown.bs.collapse', function () {
+    $("#headingNotificationsSettings .fw-down-arrow").removeClass("fw-down-arrow").addClass("fw-up-arrow");
+});
+
+$('#collapseNotificationsSettings').on('hidden.bs.collapse', function () {
+    $("#headingNotificationsSettings .fw-up-arrow").removeClass("fw-up-arrow").addClass("fw-down-arrow");
+});

@@ -155,7 +155,7 @@ System Requirements
    have Maven 3.0.5 or later.
 
 For more details see
-   http://docs.wso2.org/display/Governance510/Installation+Prerequisites
+   http://docs.wso2.org/display/Governance530/Installation+Prerequisites
 
 
 Project Resources
@@ -176,9 +176,9 @@ Documentation and Quick Start Guide
 ========================
 
 1. On-line product documentation is available at:
-     https://docs.wso2.com/display/Governance520/WSO2+Governance+Registry+Documentation
+     https://docs.wso2.com/display/Governance530/WSO2+Governance+Registry+Documentation
 2. Quick introductory guide on WSO2 Governance Registry is available at:
-     https://docs.wso2.com/display/Governance520/Quick+Start+Guide
+     https://docs.wso2.com/display/Governance530/Quick+Start+Guide
     
 Installation and Running
 ========================
@@ -187,7 +187,7 @@ Installation and Running
 2. Run the wso2server.sh or wso2server.bat file in the /bin directory
 3. For more information, see the Installation Guide:
      Locally    : INSTALL.txt
-     On the web : http://docs.wso2.org/wiki/display/Governance520/Getting+Started
+     On the web : http://docs.wso2.org/wiki/display/Governance530/Getting+Started
 4. Once the server starts, point your Web browser to https://localhost:9443/carbon/
 5. Governance Center Publisher web application is running at https://localhost:9443/publisher. You may login
    to the Publisher using the default administrator credentials (user: admin, pass: admin).

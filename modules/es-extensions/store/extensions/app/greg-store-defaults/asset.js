@@ -47,6 +47,15 @@ asset.renderer = function(ctx) {
     };
 	return {
         pageDecorators: {
+            recentAssets: function (page) {
+                return;
+            },
+            myAssets: function (page) {
+                return;
+            },
+            embedLinks: function (page, meta) {
+                return;
+            },
             sidebarPopulator: function(page) {
                 if (page.meta.pageName === 'details') {
                     page.isSidebarEnabled = true;
@@ -66,7 +75,8 @@ asset.renderer = function(ctx) {
             },
             notificationPopulator: function(page) {
                 if (page.meta.pageName === 'list' || page.meta.pageName === 'details') {
-                    page.notificationsCount = gregAPI.notifications.count();
+                    var am = assetManager(ctx.session,ctx.assetType);
+                    page.notificationsCount = gregAPI.notifications.count(am);
                 }
             },
             notificationListPopulator: function(page) {
@@ -75,14 +85,18 @@ asset.renderer = function(ctx) {
                     page.notifications = gregAPI.notifications.list(am);
                 }
             },
-        	checkDependents:function(page) {
-        		if(page.assets){
-        			var dependencies  = page.assets.dependencies || [];
-        			var dependents = page.assets.dependents || [];
-        			var isDependentsPresent =  ( dependencies.length > 0 ) || (dependents.length > 0 );
-        			page.assets.isDependentsPresent = isDependentsPresent;
-        		}
-        	},
+            checkDependents: function (page) {
+                if (page.assets) {
+                    var dependencies = page.assets.dependencies || [];
+                    var dependents = page.assets.dependents || [];
+                    var dependencyCheck = {
+                        isDependencies: dependencies.length > 0,
+                        isDependents: dependents.length > 0
+                    };
+                    dependencyCheck.isAnyDependence = ( dependencyCheck.isDependencies ) || ( dependencyCheck.isDependents );
+                    page.assets.dependencyCheck = dependencyCheck;
+                }
+            },
             downloadPopulator:function(page){
                 //Populate the links for downloading content RXTs
                 if(page.meta.pageName === 'details'){
@@ -91,6 +105,7 @@ asset.renderer = function(ctx) {
                         return;
                     }
                     var config = require('/config/store.js').config();
+                    var rxt = require('rxt').server;
                     var pluralType = page.rxt.pluralLabel.toLowerCase();
                     var domain = require('carbon').server.tenantDomain({tenantId:ctx.tenantId});
                     page.downloadMetaData = {}; 
@@ -112,6 +127,12 @@ asset.renderer = function(ctx) {
                     single_version = true;
                 }
                 page.single_version = single_version;
+            },
+            checkSubscriptionMenuItems: function (page) {
+                page.isContentType = false;
+                if (page.rxt && page.rxt.fileExtension) {
+                    page.isContentType = true;
+                }
             }
         }
     }
@@ -120,7 +141,15 @@ asset.renderer = function(ctx) {
 asset.configure = function() {
     return {
         meta: {
-            'isDiffViewShown': true
+            'isDependencyShown': true,
+            'isDiffViewShown': true,
+            timestamp:'createdDate',
+            sorting: {
+                attributes: [
+                    {name: "overview_name", label: "Name"},
+                    {name: "createdDate", label: "Date/Time"}
+                ]
+            }
         }
     }
 };

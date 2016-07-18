@@ -4,8 +4,14 @@
     var pattern = '/{context}/apis/governance-artifacts/{action}';
     var DIFF_DETAIL = 'diff-detail';
     var DIFF_TEXT = 'diff-text';
+    var core = require('rxt').core;
     var req = ctx.request;
     var uriMatcher = new URIMatcher(req.getRequestURI());
+    var MultitenantConstants = Packages.org.wso2.carbon.base.MultitenantConstants;
+    var carbon = require('carbon');
+    var store = require('store');
+    var user = store.server.current(session);
+    var username = user ? user.username : carbon.user.anonUser;
     var options = uriMatcher.match(pattern) || {};
     if (!options.action) {
         response.sendError(404);
@@ -17,15 +23,25 @@
     var resourcePaths = qParams.targets.split(',');
     var base_path = resourcePaths[0];
     var new_path = resourcePaths[1];
-    var media_type = qParams.type;
+    var short_name = qParams.type;
+    var tenantDomain = qParams.tenant ?  qParams.tenant : MultitenantConstants.SUPER_TENANT_DOMAIN_NAME;
+    var tenantId = carbon.server.tenantId({domain:tenantDomain});
+    options.tenantId = tenantId;
+    options.username = username;
+
+    var media_type = core.rxtManager(tenantId).getMediaType(short_name);
 
     //Resolve the method to use
     switch (options.action) {
         case DIFF_DETAIL:
-            diffAPI.getDetailsDiff(base_path, new_path, media_type);
+            store.server.sandbox(options,function(){
+                diffAPI.getDetailsDiff(base_path, new_path, media_type,tenantId);
+            });
             break;
         case DIFF_TEXT:
-            diffAPI.getTextDiff(base_path, new_path);
+            store.server.sandbox(options,function(){
+                diffAPI.getTextDiff(base_path, new_path,tenantId);
+            });
             break;
         default:
             log.error('Action: ' + options.action + ' not supported');

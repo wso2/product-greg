@@ -16,6 +16,8 @@
 
 package org.wso2.carbon.greg.migration.client;
 
+import org.apache.axiom.om.OMElement;
+import org.apache.axiom.om.util.AXIOMUtil;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.w3c.dom.Document;
@@ -43,10 +45,13 @@ import java.io.StringReader;
 import java.io.StringWriter;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Iterator;
 import java.util.List;
+import javax.xml.namespace.QName;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.stream.XMLStreamException;
 import javax.xml.transform.OutputKeys;
 import javax.xml.transform.Transformer;
 import javax.xml.transform.TransformerException;
@@ -72,7 +77,7 @@ public class ProviderMigrationClient {
                 migrate(tenant);
             }
             log.info("Migration Completed Successfully in " + (System.currentTimeMillis() - startTimeMillis)
-                    + "ms");
+                     + "ms");
         } catch (IOException e) {
             String msg = "Error occurred while performing operations on input source. ";
             log.error(msg, e);
@@ -97,6 +102,10 @@ public class ProviderMigrationClient {
             String msg = "Error occurred while defining document builder. ";
             log.error(msg, e);
             throw new GRegMigrationException(msg, e);
+        } catch (XMLStreamException e) {
+            String msg = "Error while processing string to xml";
+            log.error(msg, e);
+            throw new GRegMigrationException(msg, e);
         }
     }
 
@@ -118,7 +127,7 @@ public class ProviderMigrationClient {
      */
     private void migrate(Tenant tenant)
             throws UserStoreException, RegistryException, SAXException, TransformerException,
-            ParserConfigurationException, IOException {
+                   ParserConfigurationException, IOException, XMLStreamException {
         int tenantId = tenant.getId();
         try {
             PrivilegedCarbonContext.startTenantFlow();
@@ -134,21 +143,26 @@ public class ProviderMigrationClient {
             for (String resourceTypeRxtPath : resourceTypesRxtPaths) {
                 if (!isContentArtifact(resourceTypeRxtPath, registry)) {
                     ServiceHolder.getRXTStoragePathService().addStoragePath(getMediaType(resourceTypeRxtPath, registry),
-                            getStoragePath(resourceTypeRxtPath, registry));
-                    String[] storagePathElements = getStoragePath(resourceTypeRxtPath, registry).split("/");
-                    String storagePath = Constants.GOV_PATH;
-                    for (String storagePathElement : storagePathElements) {
-                        if (storagePathElement.startsWith("@")) {
-                            break;
+                                                                            getStoragePath(resourceTypeRxtPath, registry));
+                    if (!(getStoragePath(resourceTypeRxtPath, registry).contains("@{overview_provider}")) ||
+                        !hasOverviewProviderElement(resourceTypeRxtPath, registry)) {
+                        String[] storagePathElements = getStoragePath(resourceTypeRxtPath, registry).split("/");
+                        String storagePath = Constants.GOV_PATH;
+                        for (String storagePathElement : storagePathElements) {
+                            if (storagePathElement.startsWith("@")) {
+                                break;
+                            }
+                            if (!storagePathElement.isEmpty()) {
+                                storagePath += ("/" + storagePathElement);
+                            }
                         }
-                        if (!storagePathElement.isEmpty()) {
-                            storagePath += ("/" + storagePathElement);
+                        if (registry.resourceExists(storagePath)) {
+                            Collection storageCollection = (Collection) registry.get(storagePath);
+                            migrateProvider(storageCollection, registry);
                         }
                     }
-                    if (registry.resourceExists(storagePath)) {
-                        Collection storageCollection = (Collection) registry.get(storagePath);
-                        migrateProvider(storageCollection, registry);
-                    }
+
+
                 }
             }
         } finally {
@@ -195,6 +209,43 @@ public class ProviderMigrationClient {
         return storagePath.getFirstChild().getNodeValue();
     }
 
+    /**
+     * This method checks whether there is a provider in the overview table.
+     * @param rxtPath
+     * @param registry
+     * @return boolean
+     * @throws RegistryException
+     * @throws IOException
+     * @throws SAXException
+     * @throws ParserConfigurationException
+     * @throws XMLStreamException
+     */
+    private boolean hasOverviewProviderElement(String rxtPath, Registry registry)
+            throws RegistryException, IOException, SAXException, ParserConfigurationException, XMLStreamException {
+        Resource artifactRxt = registry.get(rxtPath);
+        byte[] rxtContent = (byte[]) artifactRxt.getContent();
+        String rxtContentString = RegistryUtils.decodeBytes(rxtContent);
+        OMElement rxtContentOM = AXIOMUtil.stringToOM(rxtContentString);
+        OMElement contentElement = rxtContentOM.getFirstChildWithName(new QName(Constants.CONTENT));
+        Iterator tableNodes = contentElement.getChildrenWithLocalName(Constants.TABLE);
+        while (tableNodes.hasNext()) {
+            OMElement tableOMElement = (OMElement) tableNodes.next();
+            if ("Overview".equals(tableOMElement.getAttributeValue(new QName(Constants.NAME)))) {
+                Iterator fieldNodes = tableOMElement.getChildrenWithLocalName(Constants.FIELD);
+                while (fieldNodes.hasNext()) {
+                    OMElement fieldElement = (OMElement) fieldNodes.next();
+                    OMElement nameElement = fieldElement.getFirstChildWithName(new QName(Constants.NAME));
+                    if (nameElement != null) {
+                        if ("Provider".equals(nameElement.getText())) {
+                            return true;
+                        }
+                    }
+                }
+            }
+        }
+
+        return false;
+    }
     /*
      * This method is used to remove the 'provider' child of 'overview' from the xml content
      */
@@ -217,12 +268,13 @@ public class ProviderMigrationClient {
                         Node node = childrenList.item(j);
                         if (Constants.PROVIDER.equals(node.getNodeName())) {
                             overview.removeChild(node);
+                            String newContentString = documentToString(dom);
+                            byte[] newContentObject = RegistryUtils.encodeString(newContentString);
+                            childResource.setContent(newContentObject);
+                            registry.put(path, childResource);
                         }
                     }
-                    String newContentString = documentToString(dom);
-                    byte[] newContentObject = RegistryUtils.encodeString(newContentString);
-                    childResource.setContent(newContentObject);
-                    registry.put(path, childResource);
+
                 }
             }
         }

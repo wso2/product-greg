@@ -11,13 +11,18 @@ var gregAPI = {};
     var time = require('utils').time;
     var constants = require('rxt').constants;
     var responseProcessor = require('utils').response;
+    var rxtModule = require('rxt');
     var taskOperationService = carbon.server.osgiService('org.wso2.carbon.humantask.core.TaskOperationService');
+
+    var REGISTRY_PERMISSION_CHECK = "registry.permissionCheck";
+
     gregAPI.notifications = {};
     gregAPI.subscriptions = {};
     gregAPI.notes = {};
     gregAPI.associations = {};
     gregAPI.serviceDiscovery = {};
     gregAPI.password = {};
+    gregAPI.permissions = {};
     var formatResultSet = function(output) {
         var results = {};
         var entry;
@@ -44,13 +49,13 @@ var gregAPI = {};
         results.PublisherCheckListItemUnchecked.work.checked = false;
 
         for(var index = 0; index < output.length; index++){
-        	entry = output[index];
-        	resultEntry = results[entry.eventName];
-        	if(resultEntry){
-        		//If the notification method is found then set the state to true
-        		resultEntry[entry.notificationMethod].checked = true;
-        		resultEntry[entry.notificationMethod].id = entry.id;
-        	}
+            entry = output[index];
+            resultEntry = results[entry.eventName];
+            if(resultEntry){
+                //If the notification method is found then set the state to true
+                resultEntry[entry.notificationMethod].checked = true;
+                resultEntry[entry.notificationMethod].id = entry.id;
+            }
         }
         return results;
     };
@@ -189,9 +194,9 @@ var gregAPI = {};
         };
         //log.info(message);
     };
-    gregAPI.notifications.count = function() {
-        var results = {};
-        var count = 0;
+
+    var getNotificationRows = function () {
+
         var queryInput = new org.wso2.carbon.humantask.client.api.types.TSimpleQueryInput();
         queryInput.setPageNumber(0);
         queryInput.setSimpleQueryCategory(org.wso2.carbon.humantask.client.api.types.TSimpleQueryCategory.ASSIGNED_TO_ME);
@@ -202,37 +207,45 @@ var gregAPI = {};
         queryInputClaim.setPageNumber(0);
         queryInputClaim.setSimpleQueryCategory(org.wso2.carbon.humantask.client.api.types.TSimpleQueryCategory.CLAIMABLE);
         var resultSetClaim = taskOperationService.simpleQuery(queryInputClaim);
-        if (rows != null && resultSetClaim.getRow() != null){
+        if (rows != null && resultSetClaim.getRow() != null) {
             rows = org.apache.commons.lang.ArrayUtils.addAll(rows, resultSetClaim.getRow());
-        } else if (rows == null && resultSetClaim.getRow() != null){
+        } else if (rows == null && resultSetClaim.getRow() != null) {
             rows = resultSetClaim.getRow();
         }
-        if (rows != null){
-            count = rows.length;
+
+        return rows;
+    };
+
+    gregAPI.notifications.count = function(am) {
+        var results = {};
+        var count = 0;
+        var rows = getNotificationRows();
+
+        if (rows != null) {
+            for (var i = 0; i < rows.length; i++) {
+                var row = rows[i];
+                var presentSub = String(row.getPresentationSubject());
+                var pathValue = presentSub.substring(presentSub.indexOf("/"));
+                //This code is done since there are different messages are received for lifecycle and information update notification
+                pathValue = pathValue.replace("was updated", "");
+                if (endsWith('.', pathValue)) {
+                    pathValue = pathValue.substr(0, pathValue.length - 1);
+                }
+                pathValue = pathValue.trim();
+                if (am.registry.registry.resourceExists(pathValue) &&
+                    am.registry.registry.get(pathValue).getMediaType() != null &&
+                    getTimeFromRow(row.getCreatedTime()) > getTimeFromDate(am.registry.registry.get(pathValue).getCreatedTime())) {
+                    count++;
+                }
+            }
         }
-        //log.info(parseInt(count));
         results.count = count;
         return results;
     };
     gregAPI.notifications.list = function(am) {
         var results = {};
         var result = [];
-        var count = 0;
-        var queryInput = new org.wso2.carbon.humantask.client.api.types.TSimpleQueryInput();
-        queryInput.setPageNumber(0);
-        queryInput.setSimpleQueryCategory(org.wso2.carbon.humantask.client.api.types.TSimpleQueryCategory.ASSIGNED_TO_ME);
-        var resultSet = taskOperationService.simpleQuery(queryInput);
-        var rows = resultSet.getRow();
-
-        var queryInputClaim = new org.wso2.carbon.humantask.client.api.types.TSimpleQueryInput();
-        queryInputClaim.setPageNumber(0);
-        queryInputClaim.setSimpleQueryCategory(org.wso2.carbon.humantask.client.api.types.TSimpleQueryCategory.CLAIMABLE);
-        var resultSetClaim = taskOperationService.simpleQuery(queryInputClaim);
-        if (rows && resultSetClaim.getRow()){
-            rows = org.apache.commons.lang.ArrayUtils.addAll(rows, resultSetClaim.getRow());
-        } else if (!rows && resultSetClaim.getRow()){
-            rows = resultSetClaim.getRow();
-        }
+        var rows = getNotificationRows();
 
         if (rows != null) {
             for (var i = 0; i < rows.length; i++) {
@@ -241,18 +254,18 @@ var gregAPI = {};
                 workList.id = String(row.getId());
                 workList.presentationSubject = String(row.getPresentationSubject());
 
-                //Get Assrt information
-                var arr = workList.presentationSubject.split(" ");
-                var pathValue;
-                for (var a = 0; a < arr.length; a++) {
-                    if(10 < arr[a].length){
-                        pathValue = arr[a];
-                    }
-                }
+                var pathValue = workList.presentationSubject.substring(workList.presentationSubject.indexOf("/"));
+                //This code is done since there are different messages are received for lifecycle and information update notification
+                pathValue = pathValue.replace("was updated", "");
                 if (endsWith('.',pathValue)){
                     pathValue = pathValue.substr(0,pathValue.length-1);
                 }
-                if (am.registry.registry.resourceExists(pathValue) && am.registry.registry.get(pathValue).getMediaType() != null) {
+                pathValue = pathValue.trim();
+                if (am.registry.registry.resourceExists(pathValue) &&
+                    am.registry.registry.get(pathValue).getMediaType() != null &&
+                    getTimeFromRow(row.getCreatedTime()) > getTimeFromDate(am.registry.registry.get(pathValue).getCreatedTime())) {
+                    workList.id = String(row.getId());
+                    workList.presentationSubject = String(row.getPresentationSubject());
                     var uuid = am.registry.registry.get(pathValue).getUUID();
                     workList.presentationSubject = workList.presentationSubject.replace(pathValue, "");
 
@@ -265,31 +278,34 @@ var gregAPI = {};
                     if (key === 'wsdl' || key === 'wadl' || key === 'policy' || key === 'schema' || key === 'endpoint' || key === 'swagger') {
                         var subPaths = pathValue.split('/');
                         workList.overviewName = subPaths[subPaths.length - 1];
+                        workList.overviewVersion = subPaths[subPaths.length - 2];
                     } else {
                         var govAttifact = Packages.org.wso2.carbon.governance.api.util.GovernanceUtils.retrieveGovernanceArtifactByPath(am.registry.registry, pathValue);
                         workList.overviewName = String(govAttifact.getQName().getLocalPart());
+                        var rxtManager = rxtModule.core.rxtManager(server.current(session).tenantId);
+                        var versionAttribute = rxtManager.getVersionAttribute(key);
+                        workList.overviewVersion = govAttifact.getAttribute(versionAttribute);
+                        if (!workList.overviewVersion) {
+                            workList.overviewVersion = "";
+                        }
                     }
 
-                    workList.presentationSubject = workList.presentationSubject.replace("resource at path", workList.overviewName);
-                    workList.presentationSubject = workList.presentationSubject.replace("resource at", workList.overviewName);
+                    workList.presentationSubject = workList.presentationSubject.replace("resource at path", workList.overviewName + " " + workList.overviewVersion);
+                    workList.presentationSubject = workList.presentationSubject.replace("resource at", workList.overviewName + " " + workList.overviewVersion);
                     //workList.message = workList.overviewName +
                     workList.clickResource = true; //This will be checked in order to show or not 'Click here' link in the notification.
+                    workList.presentationName = String(row.getPresentationName());
+                    workList.priority = String(row.getPriority());
+                    workList.status = String(row.getStatus());
+                    workList.time = time.formatTimeAsTimeSince(getDateTime(row.getCreatedTime()));
+                    var owner = taskOperationService.loadTask(row.getId()).getActualOwner();
+                    if (owner != null) {
+                        workList.user = String(owner.getTUser());
+                    } else {
+                        workList.user = "";
+                    }
+                    result.push(workList);
                 }
-                else {
-                    workList.clickResource = false;//If this is false 'Click here' link will not be shown as there is no such resource.
-                }
-                workList.presentationName = String(row.getPresentationName());
-                workList.priority = String(row.getPriority());
-                workList.status = String(row.getStatus());
-                workList.time = time.formatTimeAsTimeSince(getDateTime(row.getCreatedTime()));
-                //workList.createdTime = String(row.getCreatedTime());
-                var owner = taskOperationService.loadTask(row.getId()).getActualOwner();
-                if (owner != null) {
-                    workList.user = String(owner.getTUser());
-                } else {
-                    workList.user = "";
-                }
-                result.push(workList);
             }
         }
         results.list = result;
@@ -336,18 +352,100 @@ var gregAPI = {};
         return new Date(year,month,day,hours,minutes,seconds);
     };
 
+    var getTimeFromRow = function(date) {
+        var year = date.get(date.YEAR);
+        var month = date.get(date.MONTH);
+        var day = date.get(date.DAY_OF_MONTH);
+        var hours = date.get(date.HOUR_OF_DAY);
+        var minutes = date.get(date.MINUTE);
+        var seconds = date.get(date.SECOND);
+
+        return new Date(year,month,day,hours,minutes,seconds).getTime();
+    };
+
+    var getTimeFromDate = function(date) {
+        var year = 1900+date.getYear();
+        var month = date.getMonth();
+        var day = date.getDate();
+        var hours = date.getHours();
+        var minutes = date.getMinutes();
+        var seconds = date.getSeconds();
+
+        return new Date(year,month,day,hours,minutes,seconds).getTime();
+    };
+
     var endsWith = function(suffix, val) {
         return val.indexOf(suffix, val.length - suffix.length) !== -1;
     };
 
     var startsWith  = function(str, prefix) {
-       return str.indexOf(prefix) === 0;
+        return str.indexOf(prefix) === 0;
     }
 
     var assetManager = function(session, type) {
         var rxt = require('rxt');
         var am = rxt.asset.createUserAssetManager(session, type);
         return am;
+    };
+
+    /**
+     * Used to create the response object.
+     *
+     * @param code      response code
+     * @param message   response message to be shown.
+     * @param data      returned data of the response.
+     * @return response message object.
+     */
+    var msg = function (code, message, data) {
+        var obj = {};
+        obj.code = code;
+        obj.message = message;
+        obj.data = data;
+        return obj;
+    };
+
+    /**
+     * Used to create the success response message.
+     *
+     * @param obj      response object
+     * @return response success object.
+     */
+    var successMsg = function (obj) {
+        obj.success = true;
+        return obj;
+    };
+
+    /**
+     * Used to create the error response message.
+     *
+     * @param obj      response object
+     * @return response error object.
+     */
+    var errorMsg = function (obj) {
+        obj.success = false;
+        return obj;
+    };
+
+    /**
+     * Validate association already exist before adding.
+     *
+     * @param session
+     * @param type              short name of the asset.
+     * @param sourcePath        registry path of the source asset of association.
+     * @param destPath          registry path of the destination asset of association.
+     * @param associationType   type of the association.
+     * @return true if association already exists. Otherwise false.
+     */
+    var checkExistingAssociations = function (session, type, sourcePath, destPath, associationType) {
+        var am = assetManager(session, type);
+        var associations = am.registry.associations(sourcePath);
+        for (var i = 0; i < associations.length; i++) {
+            if (associations[i].dest == destPath && associations[i].type == associationType) {
+                return true;
+            }
+        }
+        return false;
+
     };
 
     gregAPI.associations.listPossible = function (type, association, id) {
@@ -393,7 +491,7 @@ var gregAPI = {};
                 }
             } catch (e) {
                 log.warn('Artifact type ' + assetsTypes[i]
-                + ' defined in the association-config.xml is not in registry or unable to find relevant configuration.' + e);
+                    + ' defined in the governance.xml is not in registry or unable to find relevant configuration.' + e);
             }
 
         }
@@ -411,10 +509,17 @@ var gregAPI = {};
             reverseAssociationType = CommonUtil.getReverseAssociationType("default", associationType);
         }
         var destPath = destam.get(destUUID).path;
-        srcam.registry.registry.addAssociation(sourcePath,destPath,associationType);
-        if(reverseAssociationType) {
+        var isAssociationExist = checkExistingAssociations(session, sourceType, sourcePath, destPath, associationType);
+        if (isAssociationExist) {
+            return errorMsg(msg(400, 'Association already exists'));
+        } else {
+            srcam.registry.registry.addAssociation(sourcePath, destPath, associationType);
+
+        }
+        if (reverseAssociationType) {
             srcam.registry.registry.addAssociation(destPath, sourcePath, reverseAssociationType);
         }
+        return successMsg(msg(200, 'Association added successfully'));
     }
 
     gregAPI.associations.list = function(session, type, path) {
@@ -443,9 +548,9 @@ var gregAPI = {};
                     log.info("resource at path /_system/governance " + destPath + " is not a governance artifact!");
                     continue;
                 }
-                    artifactConfig = Packages.org.wso2.carbon.governance.api.util.GovernanceUtils.
-                        findGovernanceArtifactConfigurationByMediaType(am.registry.registry.get(destPath).
-                            getMediaType(), am.registry.registry);
+                artifactConfig = Packages.org.wso2.carbon.governance.api.util.GovernanceUtils.
+                    findGovernanceArtifactConfigurationByMediaType(am.registry.registry.get(destPath).
+                        getMediaType(), am.registry.registry);
 
                 var assetJson = new Object();
                 var uuid = am.registry.registry.get(destPath).getUUID();
@@ -494,15 +599,25 @@ var gregAPI = {};
         return resultList;
     }
 
-    gregAPI.associations.listTypes = function(type) {
-        var map = CommonUtil.getAssociationConfig(type);
-        if(!map){
-            map = CommonUtil.getAssociationConfig("default");
+    gregAPI.associations.listTypes = function (type) {
+        var map = CommonUtil.getAssociationWithIcons(type);
+        if (!map) {
+            map = CommonUtil.getAssociationWithIcons("default");
         }
-        var results = map.keySet().toArray();
-        return results;
 
+        var keySet = map.keySet().toArray();
+        var results = [], item;
+
+        for (var i = 0; i < keySet.length; i++) {
+            item = {};
+            item.key = keySet[i];
+            item.value = String(map.get(keySet[i]));
+            results.push(item);
+        }
+
+        return results;
     }
+
     gregAPI.associations.remove = function(session, sourceType, sourceUUID, destType, destUUID, associationType) {
 
         var srcam = assetManager(session, sourceType);
@@ -664,5 +779,151 @@ var gregAPI = {};
             properties = collection.getProperties();
         }
         return properties;
-    }
+    };
+
+    /***
+     * Calls the registry util class to get the role permissions for a particular resource
+     * @param am
+     * @param assetId
+     * @returns {{}}
+     */
+    gregAPI.permissions.list = function (am, assetId) {
+        var registryPath = am.get(assetId).path;
+        var userRegistry = am.registry;
+        var registry = userRegistry.registry;
+        var PermissionUtil = Packages.org.wso2.carbon.registry.resource.services.utils.PermissionUtil;
+        var results = {};
+        var result = [];
+        var permissionCheck;
+        var resource = registry.get(registryPath);
+        try {
+            if (resource) {
+                permissionCheck = resource.getProperty(REGISTRY_PERMISSION_CHECK);
+            }
+
+            var permissionsBean = PermissionUtil.getPermissions(userRegistry.registry, registryPath);
+            if (permissionsBean) {
+                var permissions = permissionsBean.getRolePermissions();
+                var authorizedRoles = [];
+
+                for (var i = 0; i < permissions.length; i++) {
+                    var permissionOptions = {};
+                    var permission = permissions[i];
+
+                    if (!permission.isAuthorizeAllow()) {
+                        permissionOptions.userName = permission.getUserName();
+                        permissionOptions.formattedUserName = renderRoles(permission.getUserName());
+                        permissionOptions.readAllow = permission.isReadAllow();
+                        permissionOptions.readDeny = permission.isReadDeny();
+                        permissionOptions.writeAllow = permission.isWriteAllow();
+                        permissionOptions.writeDeny = permission.isWriteDeny();
+                        permissionOptions.deleteAllow = permission.isDeleteAllow();
+                        permissionOptions.deleteDeny = permission.isDeleteDeny();
+                        permissionOptions.notReadOnly = !(permission.getUserName() == "SYSTEM/wso2.anonymous.role");
+
+                        result.push(permissionOptions);
+                    } else {
+                        authorizedRoles.push(permission.getUserName());
+                    }
+                }
+
+                results.list = result;
+                results.roleNames = permissionsBean.getRoleNames();
+                results.authorizedRoles = authorizedRoles;
+                results.pathWithVersion = permissionsBean.getPathWithVersion();
+                results.isAuthorizeAllowed = permissionsBean.isAuthorizeAllowed();
+                results.isVersionView = permissionsBean.isVersionView();
+                if (permissionCheck) {
+                    results.permissionCheck = permissionCheck;
+                } else {
+                    results.permissionCheck = "other";
+                }
+                return results;
+            } else {
+                return null;
+            }
+        } catch (e) {
+            log.error(e);
+            throw "Unable to retrieve permissions";
+        }
+    };
+
+    /***
+     *
+     * Calls the registry util class to add the role permissions for a particular resource
+     * @param am
+     * @param pathToAuthorize
+     * @param roleToAuthorize
+     * @param actionToAuthorize
+     * @param permissionType
+     * @param permissionCheck
+     * @returns {boolean}
+     */
+    gregAPI.permissions.add = function (am, pathToAuthorize,
+                                        roleToAuthorize, actionToAuthorize, permissionType, permissionCheck) {
+        var userRegistry = am.registry;
+        var AddRolePermissionUtil = Packages.org.wso2.carbon.registry.resource.services.utils.AddRolePermissionUtil;
+        var registry = userRegistry.registry;
+        var resource = registry.get(pathToAuthorize);
+        try {
+            if (resource) {
+                resource.setProperty(REGISTRY_PERMISSION_CHECK, permissionCheck);
+                registry.put(pathToAuthorize, resource);
+            }
+
+            AddRolePermissionUtil.addRolePermission(userRegistry.registry,
+                pathToAuthorize, roleToAuthorize, actionToAuthorize, permissionType);
+            return true;
+        } catch (e) {
+            log.error(e);
+            throw "Unable to add role permissions";
+        }
+    };
+
+    /***
+     * Calls the registry util class to modify the role permissions for a particular resource
+     * @param am
+     * @param resourcePath
+     * @param permissionString
+     * @param permissionCheck
+     * @returns {boolean}
+     */
+    gregAPI.permissions.modify = function (am, resourcePath, permissionString, permissionCheck) {
+        var userRegistry = am.registry;
+        var registry = userRegistry.registry;
+        var ChangeRolePermissionsUtil =
+            Packages.org.wso2.carbon.registry.resource.services.utils.ChangeRolePermissionsUtil;
+        var resource = registry.get(resourcePath);
+        try {
+            if (resource) {
+                resource.setProperty(REGISTRY_PERMISSION_CHECK, permissionCheck);
+                registry.put(resourcePath, resource);
+            }
+            ChangeRolePermissionsUtil.changeRolePermissions(registry, resourcePath, permissionString);
+            return true;
+        } catch (e) {
+            log.error(e);
+            throw "Unable to change role permissions";
+        }
+    };
+
+    var renderRoles = function (role) {
+        var modifiedRole = "";
+        //UM API sometimes returns uppercase letters
+        var roleLower = role.toLowerCase();
+        if (roleLower == "internal/everyone") {
+            modifiedRole = "All tenant users";
+        } else if (roleLower == "system/wso2.anonymous.role") {
+            modifiedRole = "Public";
+        } else if (roleLower.startsWith("internal/")) {
+            modifiedRole = capitalize(roleLower.substr(roleLower.indexOf("/")+1));
+        } else {
+            modifiedRole = capitalize(roleLower);
+        }
+        return modifiedRole;
+    };
+
+    var capitalize = function(role) {
+        return role.substr(0, 1).toUpperCase() + role.substr(1);
+    };
 }(gregAPI));

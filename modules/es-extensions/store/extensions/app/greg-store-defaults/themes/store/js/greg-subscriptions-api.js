@@ -1,6 +1,8 @@
 var GregSubscriptionAPI = {};
 $(function() {
-
+    var resolveSubscriptionLabel = function(element){
+        return $($(element).parent().parent().siblings()[0]).html();
+    };
     var addSubscription = function(element, id, type, method, option) {
         var urlSub = caramel.context + '/apis/subscription/' + type + '/' + id;
         //alert('addSubscription');
@@ -15,11 +17,13 @@ $(function() {
             contentType: 'application/json',
             success: function(data) {
                 if (data.error != null) {
+                    messages.alertError(data.error);
                     $(element).prop("checked", false);
                     $(element).change(function() {
                         addSubscription(element, id, type, method, option);
                     });
                 } else {
+                    messages.alertSuccess('You will now receive notifications for <strong>'+resolveSubscriptionLabel(element) + '</strong> events.');
                     var subcriptionid = data[0].id;
                     $(element).prop("checked", true);
                     $(element).change(function() {
@@ -45,11 +49,13 @@ $(function() {
             contentType: 'application/json',
             success: function(data) {
                 if (data.error != null) {
+                    messages.alertError(data.error);
                     $(element).prop("checked", true);
                     $(element).change(function() {
                         removeSubscription(element, id, type, subcriptionid, method, option);
                     });
                 } else {
+                    messages.alertSuccess('You will no longer receive notifications for <strong>'+resolveSubscriptionLabel(element) + '</strong> events.');
                     $(element).prop("checked", false);
                     $(element).change(function() {
                         addSubscription(element, id, type, method, option);
@@ -94,6 +100,7 @@ $(function() {
                     $('#notificationCount').html(updatedNotiCount);
                     if(updatedNotiCount == 0){
                         $("#clearalldiv").hide();
+                        toggleSidePanel('notifications',$('.wr-notification-toggle-btn'));
                     }
                 }
             },
@@ -108,7 +115,8 @@ $(function() {
         BootstrapDialog.show({
             type: BootstrapDialog.TYPE_WARNING,
             title: 'Warning!',
-            message: '<div><i class="fa fa-check"></i> Are you sure you want to clear all notifications?</div>',
+            message: '<div class="notification-message-dialog-box"><i class="fw fw-warning notification-message">' +
+            '</i> Are you sure you want to clear all notifications?</div>',
             buttons: [{
                 label: 'Yes',
                 action: function (dialogItself) {
@@ -122,6 +130,7 @@ $(function() {
                                 $('#notificationCount').html(0);
                                 $("#clearalldiv").hide();
                                 $(".wr-notification-desc").hide();
+                                toggleSidePanel('notifications',$('.wr-notification-toggle-btn'));
                             }
                         },
                         error: function () {

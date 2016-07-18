@@ -87,6 +87,7 @@ asset.manager = function(ctx) {
                 deps.associationName = associationName;
                 deps.associationType = "restservice";
                 deps.associationUUID = associationUUID;
+                deps.associationVersion = subPaths[subPaths.length - 2];
 
                 associations.push(deps);
             }

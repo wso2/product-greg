@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2015, WSO2 Inc. (http://www.wso2.org) All Rights Reserved.
+ * Copyright (c) 2016, WSO2 Inc. (http://www.wso2.org) All Rights Reserved.
  *
  * WSO2 Inc. licenses this file to you under the Apache License,
  * Version 2.0 (the "License"); you may not use this file except
@@ -16,7 +16,9 @@
  * under the License.
  */
 
-* { box-sizing: border-box; }
+* {
+    box-sizing: border-box;
+}
 
 *::-webkit-scrollbar {
     width: 6px;
@@ -26,10 +28,17 @@
     cursor: all-scroll;
 }
 
-*::-webkit-scrollbar-thumb { background: #007d85; }
-*::-webkit-scrollbar-thumb:hover { background: #007d85; }
-*::-webkit-scrollbar-thumb:active { background: #007d85; }
+*::-webkit-scrollbar-thumb {
+    background: #007d85;
+}
 
+*::-webkit-scrollbar-thumb:hover {
+    background: #007d85;
+}
+
+*::-webkit-scrollbar-thumb:active {
+    background: #007d85;
+}
 
 html, body {
     height: 100%;
@@ -70,14 +79,14 @@ body {
 
 /*.row.no-gutter [class*='col-']:not(:first-child), .row.no-gutter [class*='col-']:not(:last-child) {*/
 .row.no-gutter > [class*='col-']:first-child, .row.no-gutter > [class*='col-']:last-child {
-    padding-right:0;
-    padding-left:0;
+    padding-right: 0;
+    padding-left: 0;
 }
 
 .app-bar {
     background: #161616;
     color: #ffffff;
-    width:100%;
+    width: 100%;
     min-height: 50px;
     white-space: nowrap;
 }
@@ -90,6 +99,7 @@ body {
 .app-bar a:hover {
     text-decoration: underline;
 }
+
 /*
 .app-bar span {
     padding: 15px;
@@ -110,7 +120,7 @@ body {
 
 .app-bar .file-name {
     background: #161616;
-    border-right:2px solid #20232A;
+    border-right: 2px solid #20232A;
 }
 
 .app-bar .file-name .icon {
@@ -148,7 +158,7 @@ body {
 
 .diff-view [class*='col-']:first-child {
     position: relative;
-    background-color:rgb(206, 206, 206);
+    background-color: rgb(206, 206, 206);
 }
 
 .view-panel {
@@ -158,7 +168,7 @@ body {
 }
 
 .view-panel.list {
-    border-right:2px solid #20232A;
+    border-right: 2px solid #20232A;
 }
 
 .view-panel.list ul, .view-panel.list ul li {
@@ -184,7 +194,7 @@ body {
     margin-bottom: 10px;
 }
 
-.view-panel.list ul li a .icon  {
+.view-panel.list ul li a .icon {
     background: #2c313b;
     font-size: 10px;
     padding: 4px;
@@ -195,7 +205,6 @@ body {
     font-size: 18px;
     background: transparent;
 }
-
 
 .view-panel.list ul li.added a .icon {
     background: #00bb8d;
@@ -233,18 +242,26 @@ body {
 }
 
 /* Code mirror overides */
-.CodeMirror { line-height: 1.2; }
+.CodeMirror {
+    line-height: 1.2;
+}
 
 @media screen and (min-width: 1300px) {
-      article { max-width: 1000px; }
-      #nav { border-right: 499px solid transparent; }
+    article {
+        max-width: 1000px;
     }
-    span.clicky {
-      cursor: pointer;
-      background: #d70;
-      color: white;
-      padding: 0 3px;
-      border-radius: 3px;
+
+    #nav {
+        border-right: 499px solid transparent;
+    }
+}
+
+span.clicky {
+    cursor: pointer;
+    background: #d70;
+    color: white;
+    padding: 0 3px;
+    border-radius: 3px;
 }
 
 .code-container {
@@ -277,17 +294,17 @@ body {
 
 .CodeMirror-merge-r-chunk-end, .CodeMirror-merge-r-chunk-start, .CodeMirror-merge-r-chunk {
     /*border-top-color: #161616;*/
-    border-top-color: #cf96b0;
+    border-top-color: #566149;
 }
 
 .CodeMirror-merge-r-chunk-end, .CodeMirror-merge-r-chunk-start, .CodeMirror-merge-r-chunk {
     /*border-bottom-color: #161616;*/
-    border-bottom-color: #cf96b0;
+    border-bottom-color: #566149;
 }
 
 .CodeMirror-merge-r-chunk {
     /*background-color: #161616;*/
-    background-color: #cf96b0;
+    background-color: #566149;
 }
 
 .cm-s-ambiance .cm-comment {
@@ -296,7 +313,7 @@ body {
 
 .CodeMirror-merge-r-connect {
     /*fill: #161616;*/
-    fill: #cf96b0;
+    fill: #566149;
     stroke: transparent;
 }
 
@@ -323,10 +340,54 @@ body {
 }
 
 .CodeMirror-merge .title {
-    background: #424650;
+    background: #838383;
     padding: 0 100px 0 70px;
     line-height: 30px;
     height: 30px;
     position: absolute;
     margin-top: -30px;
+}
+
+.panel-title-diff-view {
+    background: #000000;
+    color: #ffffff;
+    padding: 15px;
+}
+
+.panel-title-diff-sub-menu {
+    background: #202125;
+    color: #ffffff;
+    padding: 10px;
+    margin: 5px;
+}
+
+.panel-sub-menu {
+    background: #7b7b7b;
+    color: #ffffff;
+    margin: 5px;
+}
+
+.panel-sub-menu {
+    margin-left: 40px;
+}
+
+.panel-group {
+    background: #34373D;
+    color: #ffffff;
+}
+
+.view-panel {
+    background: #34373D !important;
+    color: #ffffff;
+}
+
+.details-sub-menu {
+    background: #484646;
+    color: #ffffff;
+    display: block;
+    padding: 4px 8px;
+}
+
+.details-sub-menu:hover {
+    background: #ffffff;
 }

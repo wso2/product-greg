@@ -85,11 +85,13 @@ asset.manager = function(ctx) {
                 var subPaths = path.split('/');
                 var associationTypePlural = subPaths[2];
                 var associationName = subPaths[subPaths.length - 1];
+                var associationVersion = genericArtifacts[index].getAttribute("overview_version");
                 var resource = userRegistry.registry.get(configs.depends_asset_path_prefix + path);
                 var associationUUID = resource.getUUID();
                 deps.associationName = associationName;
                 deps.associationType = associationTypePlural.substring(0, associationTypePlural.lastIndexOf('s'));
                 deps.associationUUID = associationUUID;
+                deps.associationVersion = associationVersion;
                 associations.push(deps);
             }
         }
@@ -206,6 +208,7 @@ asset.renderer = function(ctx){
                         return;
                     }
                     var config = require('/config/store.js').config();
+                    var rxt = require('rxt').server;
                     var pluralType = 'policys';
                     var domain = require('carbon').server.tenantDomain({tenantId:ctx.tenantId});
                     page.downloadMetaData = {}; 

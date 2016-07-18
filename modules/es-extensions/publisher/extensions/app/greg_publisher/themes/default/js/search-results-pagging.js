@@ -87,7 +87,7 @@ $(function () {
                 }
                 if (results.length == 0) {
                     if (from == 0) {
-                        $('#search-results').html('We are sorry but we could not find any matching assets');
+                        $('#search-results').html('<div class="emptyAssets-MsgDiv"><p class="emptyAssets">We are sorry! we couldn\'t find anything for you ...</p></div>');
                     }
                     $('.loading-animation-big').remove();
                     doPagination = false;
@@ -147,28 +147,34 @@ $(function () {
     };
 
 
-    var modifiedQuery = function (q) {
-        if(q.indexOf('&quot;') > -1){
-            var comps;
-            var queryWithoutQuots = q+' _wildcard:false';
+    /**
+     * Split the query params by space and quotation mark
+     * @param  {q} input - search value input from user.
+     * @return {String[]}       Output string array
+     */
+    var splitQuery = function (q) {
+        var comps;
+        if (q.indexOf('"') > -1) {
+            var queryWithoutQuots = q;
             // Searching is only allowed with quots for tags and content.
-            var queryWithQuots = q.match(/(tags|content|name):&quot;(.*?)&quot;/g);
+            var queryWithQuots = q.match(/(tags|content|name):"(.*?)"/g);
 
-            for (var i = 0;queryWithQuots!=null && i < queryWithQuots.length; i++) {
-                queryWithoutQuots = queryWithoutQuots.replace(queryWithQuots[i],'').trim();
-                queryWithQuots[i] = replaceAll(queryWithQuots[i],'&quot;','\\"');
+            for (var i = 0; queryWithQuots != null && i < queryWithQuots.length; i++) {
+                queryWithoutQuots = queryWithoutQuots.replace(queryWithQuots[i], '').trim();
+                queryWithQuots[i] = replaceAll(queryWithQuots[i], '"', '\\"');
             }
 
-            var queryNameWithQuots = queryWithoutQuots.match(/&quot;(.*?)&quot;/g);
+            var queryNameWithQuots = queryWithoutQuots.match(/"(.*?)"/g);
 
-            for (var i = 0;queryNameWithQuots!=null && i < queryNameWithQuots.length; i++) {
-                queryWithoutQuots = queryWithoutQuots.replace(queryNameWithQuots[i],'').trim();
-                queryNameWithQuots[i] = replaceAll(queryNameWithQuots[i],'&quot;','\\"');
+            for (var i = 0; queryNameWithQuots != null && i < queryNameWithQuots.length; i++) {
+                queryWithoutQuots = queryWithoutQuots.replace(queryNameWithQuots[i], '').trim();
+                queryNameWithQuots[i] = replaceAll(queryNameWithQuots[i], '"', '\\"');
             }
 
-            if(queryWithQuots!=null && queryNameWithQuots!=null){
+            // merging queryWithQuots and queryNameWithQuots for ease of use.
+            if (queryWithQuots != null && queryNameWithQuots != null) {
                 queryWithQuots.concat(queryNameWithQuots);
-            } else if(queryNameWithQuots!=null){
+            } else if (queryNameWithQuots != null) {
                 queryWithQuots = queryNameWithQuots;
             }
 
@@ -179,11 +185,24 @@ $(function () {
             }
             // 2 or less pairs. Ex: (tags:"customer service" content:she)
             else {
-                var comps = queryWithQuots.concat(queryWithoutQuots);
+                // if there is no queryWithoutQuots
+                if (queryWithoutQuots == "") {
+                    comps = queryWithQuots;
+                } else {
+                    comps = queryWithQuots.concat(queryWithoutQuots);
+                }
+
             }
-        } else{
+        } else {
             comps = q.split(' ');
         }
+
+        return comps;
+    };
+
+
+    var modifiedQuery = function (q) {
+        var comps = splitQuery(q);
 
         return comps.map(function (key) {
             var keyPair = key.split(':');
@@ -199,7 +218,9 @@ $(function () {
         doPagination = true;
         rows_added = 0;
         $('#search-results').html('');
-        var query = store.publisher.query;
+        // Note: fix for page scrolling issue.
+        // var query = store.publisher.query;
+        var query = $('#inp_searchAsset').val();
         query = modifiedQuery(query);
         if (isEmptyQuery(query)) {
             //console.log('User has not entered anything');

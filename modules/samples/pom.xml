@@ -25,7 +25,7 @@
 
     <modelVersion>4.0.0</modelVersion>
     <groupId>org.wso2.greg</groupId>
-    <version>5.2.0-SNAPSHOT</version>
+    <version>5.3.0-SNAPSHOT</version>
     <artifactId>governance-samples</artifactId>
     <packaging>pom</packaging>
     <name>WSO2 Governance Registry - Samples</name>
@@ -58,16 +58,6 @@
     </licenses>
 
     <repositories>
-        <repository>
-            <id>wso2-bps</id>
-            <name>WSO2 internal Repository</name>
-            <url>http://maven.wso2.org/nexus/content/repositories/orgwso2carbonbusiness-process-393/</url>
-            <releases>
-                <enabled>true</enabled>
-                <updatePolicy>daily</updatePolicy>
-                <checksumPolicy>ignore</checksumPolicy>
-            </releases>
-        </repository>
         <repository>
             <id>wso2-nexus</id>
             <name>WSO2 internal Repository</name>
@@ -372,17 +362,17 @@
 
         <javax.servlet.jsp.version>2.0.0.v200706191603</javax.servlet.jsp.version>
 
-        <carbon.kernel.version>4.4.4</carbon.kernel.version>
+        <carbon.kernel.version>4.4.7</carbon.kernel.version>
         <!-- Carbon Registry -->
-        <carbon.registry.version>4.5.2</carbon.registry.version>
+        <carbon.registry.version>4.5.7-SNAPSHOT</carbon.registry.version>
         <!-- Carbon Governance -->
-        <carbon.governance.version>4.6.2-SNAPSHOT</carbon.governance.version>
+        <carbon.governance.version>4.6.5-SNAPSHOT</carbon.governance.version>
 
-        <carbon.governance.ext.version>4.4.11-SNAPSHOT</carbon.governance.ext.version>
+        <carbon.governance.ext.version>4.5.0</carbon.governance.ext.version>
 
-        <carbon.business.process.version>4.4.7</carbon.business.process.version>
+        <carbon.business.process.version>4.4.9</carbon.business.process.version>
         <!-- Carbon Commons -->
-        <carbon.commons.version>4.5.2</carbon.commons.version>
+        <carbon.commons.version>4.5.4</carbon.commons.version>
 
         <carbon.kernel.registry.imp.pkg.version>[1.0.1, 2.0.0)</carbon.kernel.registry.imp.pkg.version>
         <carbon.registry.package.import.version.range>[4.5.0, 5.0.0)</carbon.registry.package.import.version.range>

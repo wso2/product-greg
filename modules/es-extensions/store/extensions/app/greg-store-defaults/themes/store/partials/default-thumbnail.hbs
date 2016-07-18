@@ -1,13 +1,13 @@
 {{#if uniqueColor}}
-    <div class="ast-img setbgcolor" style="background: {{uniqueColor}}">
-    <span class="ast-type-icon">
+    <div class="ast-img setbgcolor" style="background: {{uniqueColor}}" title="{{name}}">
+    <span class="ast-type-icon" title="{{this.singularLabel}}">
       <i class="{{icon}} fw-lg"></i>
       </span>
         <div class="ast-name-icon">{{nameToChar}}{{../rxt}}</div>
     </div>
 {{else}}
-    <div class="ast-img setbgcolor" style="background: {{assets.uniqueColor}}">
-    <span class="ast-type-icon">
+    <div class="ast-img setbgcolor" style="background: {{assets.uniqueColor}}" title="{{name}}">
+    <span class="ast-type-icon" title="{{assets.singularLabel}}">
       <i class="f{{assets.icon}} fw-lg"></i>
       </span>
         <div class="ast-name-icon">{{assets.nameToChar}}</div>

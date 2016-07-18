@@ -92,7 +92,7 @@ public class GRegPublisherLifecycleHistoryTest extends GregESTestBaseTest {
 
         //Add a rest service
         ClientResponse response = createAsset(resourcePath + "json" + File.separator +
-                                              "publisherPublishRestResource.json", publisherUrl,
+                                              "RESTserviceforcheckingLChistory.json", publisherUrl,
                                               cookieHeader, "restservice", genericRestClient);
 
         JSONObject obj = new JSONObject(response.getEntity(String.class));
@@ -155,7 +155,7 @@ public class GRegPublisherLifecycleHistoryTest extends GregESTestBaseTest {
 
         //add a new rest service with same resource path
         response = createAsset(resourcePath + "json" + File.separator +
-                               "publisherPublishRestResource.json", publisherUrl,
+                               "RESTserviceforcheckingLChistory.json", publisherUrl,
                                cookieHeader, "restservice", genericRestClient);
 
         obj = new JSONObject(response.getEntity(String.class));
@@ -268,7 +268,7 @@ public class GRegPublisherLifecycleHistoryTest extends GregESTestBaseTest {
         Assert.assertEquals(((JSONObject) ((JSONObject) dataObj.get(3)).getJSONArray("action").
                 get(0)).getString("name"), "Promote");
 
-        Assert.assertEquals(dataObj.length(), 6);
+        Assert.assertEquals(dataObj.length(), 5);
     }
 
 

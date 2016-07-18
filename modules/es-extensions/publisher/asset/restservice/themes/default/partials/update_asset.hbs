@@ -18,24 +18,26 @@
     <div class="well asset-well">
         <div class="container-fluid">
             <div class="row">
-                <div class="col-lg-1">
-                    <div class="ast-img setbgcolor" style="background: {{this.uniqueColor}}">
-                    <span class="ast-type-icon">
-                        <i class="fw fw-rest-service fw-lg"></i>
-                    </span>
+                <div class="col-lg-12">
+                    <div class="pull-left ast-img setbgcolor" style="background: {{this.uniqueColor}}" title="{{name}}">
+                        <span class="ast-type-icon" title="{{this.singularLabel}}">
+                            <i class="fw fw-rest-service fw-lg"></i>
+                        </span>
                         <div class="ast-name-icon">{{this.nameToChar}}</div>
                     </div>
-                </div>
-                <div class="col-lg-10 padding-left-double">
-                    <h1>{{name}}</h1>
-                    {{#if lifecycleState}}
-                    <i class="fa fa-circle"></i> {{lifecycleState}}
-                    {{/if}}
-                    <div class="well-description">{{tables.0.fields.createdtime.value}}</div>
+                    <div class="asset-details-right">
+                        <h4>{{name}}</h4>
+                        {{#if version}}
+                            <p>Version : {{version}}</p>
+                        {{/if}}
+                        {{#if lifecycleState}}
+                            <p>{{lifecycle}} : {{lifecycleState}}</p>
+                        {{/if}}
+                        <div class="well-description">{{tables.0.fields.createdtime.value}}</div>
+                    </div>
                 </div>
             </div>
         </div>
-
     </div>
 {{/with}}
 

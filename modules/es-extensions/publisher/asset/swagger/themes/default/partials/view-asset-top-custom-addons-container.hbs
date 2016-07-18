@@ -1,6 +1,7 @@
 {{#with assets}}
-<span class="asset-show-dependency">
-    <a class="top-common-btn-grp btn btn-default btn-lg pull-right" href='{{url ""}}/pages/swagger?path={{path}}' target="_blank">
-        {{t "Show Swagger UI"}}</a>
-</span>
+    <a class="top-common-btn-grp btn btn-default btn-lg pull-right input-group-addon"
+       href='{{url ""}}/pages/swagger?path={{path}}' target="_blank">
+        <i class="fw fw-depend"></i>
+        {{t "Visualize"}}
+    </a>
 {{/with}}

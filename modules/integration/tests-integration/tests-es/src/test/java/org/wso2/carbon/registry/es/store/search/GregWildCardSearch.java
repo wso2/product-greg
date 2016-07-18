@@ -72,22 +72,30 @@ public class GregWildCardSearch extends GregESTestBaseTest {
         resourceAdminServiceClient = new ResourceAdminServiceClient(automationContext.getContextUrls().getBackEndUrl(),
                 sessionCookie);
 
+        deteleExistingData();
+
+    }
+
+    private void deteleExistingData() {
+        deleteResource("/_system/governance/trunk/restservices");
+        deleteResource("/_system/governance/apimgt/applicationdata/api-docs");
+        deleteResource("/_system/governance/trunk/schemas");
+        deleteResource("/_system/governance/trunk/wadls");
+        deleteResource("/_system/governance/trunk/endpoints");
     }
 
     @AfterClass(alwaysRun = true)
     private void cleanUp() throws RegistryException {
+        deteleExistingData();
+    }
+
+    private void deleteResource(String path){
         try {
-            resourceAdminServiceClient.deleteResource("/_system/governance/trunk/restservices");
-            resourceAdminServiceClient.deleteResource("/_system/governance/apimgt/applicationdata/api-docs");
-            resourceAdminServiceClient.deleteResource("/_system/governance/trunk/schemas");
-            resourceAdminServiceClient.deleteResource("/_system/governance/trunk/wadls");
-            resourceAdminServiceClient.deleteResource("/_system/governance/trunk/endpoints");
-        } catch (RemoteException e) {
+            resourceAdminServiceClient.deleteResource(path);
+        }catch (RemoteException e) {
             log.error("Failed to Remove Resource :" + e);
-            throw new RegistryException("Failed to Remove Resource :" + e);
         } catch (ResourceAdminServiceExceptionException e) {
             log.error("Failed to Remove Resource :" + e);
-            throw new RegistryException("Failed to Remove Resource :" + e);
         }
     }
 
@@ -131,15 +139,15 @@ public class GregWildCardSearch extends GregESTestBaseTest {
         resourceAdminServiceClient
                 .addResource(schemaGarPath, "application/vnd.wso2.governance-archive", "adding schema gar file",
                         new DataHandler(new URL("file:///" + schemaGarPath)));
-        Thread.sleep(7000);
+        Thread.sleep(10000);
         resourceAdminServiceClient
                 .addResource(schemaGarPath, "application/vnd.wso2.governance-archive", "adding swagger gar file",
                         new DataHandler(new URL("file:///" + swaggerGarPath)));
-        Thread.sleep(7000);
+        Thread.sleep(20000);
         resourceAdminServiceClient
                 .addResource(schemaGarPath, "application/vnd.wso2.governance-archive", "adding wadl gar file",
                         new DataHandler(new URL("file:///" + wadlGarPath)));
-        Thread.sleep(7000);
+        Thread.sleep(10000);
     }
 
     @Test(groups = {"wso2.greg", "wso2.greg.es"}, description = "Search Added assets",
@@ -151,7 +159,7 @@ public class GregWildCardSearch extends GregESTestBaseTest {
         // https://localhost:9443/publisher/pages/search-results?q=%22name%22:%22xwildx%22
         queryParamMap.put("q", "\"name" + "\":" + "\"" + wildcard + "\"");
 
-        Thread.sleep(15000);
+        Thread.sleep(17000);
 
         ClientResponse response = genericRestClient
                 .geneticRestRequestGet(publisherUrl.split("/apis")[0] + "/pages/search-results", queryParamMap,
@@ -175,7 +183,7 @@ public class GregWildCardSearch extends GregESTestBaseTest {
         }
 
         // If this test fails please increase the time(10000) first
-        assertEquals(count, 26, "Page should be full of assets. ");
+        assertEquals(count, 38, "Page should be full of assets. ");
     }
 
     @Test(groups = {"wso2.greg", "wso2.greg.es"}, description = "Authenticate Store",
@@ -212,6 +220,8 @@ public class GregWildCardSearch extends GregESTestBaseTest {
         ClientResponse response = genericRestClient
                 .geneticRestRequestGet(storeUrl.split("/apis")[0] + "/pages/top-assets", queryParamMap, headerMap,
                         storeCookieHeader);
+
+        log.info("Store search result for search by name: "+ response.getEntity(String.class));
 
         assertTrue((response.getStatusCode() == Response.Status.OK.getStatusCode()),
                 "Wrong status code ,Expected 200 OK ,But Received " + response.getStatusCode());

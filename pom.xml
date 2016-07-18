@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?ml version="1.0" encoding="utf-8"?>
 <!--
  ~ Copyright (c) 2015, WSO2 Inc. (http://www.wso2.org) All Rights Reserved.
  ~
@@ -25,7 +25,7 @@
     <groupId>org.wso2.greg</groupId>
     <artifactId>governance-parent</artifactId>
     <packaging>pom</packaging>
-    <version>5.2.0-SNAPSHOT</version>
+    <version>5.3.0-SNAPSHOT</version>
     <name>WSO2 Governance Registry</name>
     <url>http://wso2.com/products/governance-registry</url>
     <description>WSO2 Governance Registry</description>
@@ -354,7 +354,7 @@
             <dependency>
                 <groupId>org.wso2.carbon.identity</groupId>
                 <artifactId>org.wso2.carbon.user.mgt.stub</artifactId>
-                <version>${carbon.identity.version}</version>
+                <version>${carbon.identity.framework.version}</version>
                 <scope>test</scope>
             </dependency>
             <dependency>
@@ -366,7 +366,7 @@
             <dependency>
                 <groupId>org.wso2.carbon.identity</groupId>
                 <artifactId>org.wso2.carbon.identity.user.profile.stub</artifactId>
-                <version>${carbon.identity.version}</version>
+                <version>${carbon.identity.framework.version}</version>
                 <scope>test</scope>
             </dependency>
             <dependency>
@@ -487,7 +487,7 @@
             <dependency>
                 <groupId>org.wso2.carbon.identity</groupId>
                 <artifactId>org.wso2.carbon.user.mgt</artifactId>
-                <version>${carbon.identity.version}</version>
+                <version>${carbon.identity.framework.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.wso2.carbon</groupId>
@@ -738,6 +738,11 @@
                 <artifactId>org.wso2.carbon.registry.reporting</artifactId>
                 <version>${carbon.registry.version}</version>
             </dependency>
+            <dependency>
+                <groupId>wsdl4j.wso2</groupId>
+                <artifactId>wsdl4j</artifactId>
+                <version>${orbit.version.wsdl4j}</version>
+            </dependency>
         </dependencies>
     </dependencyManagement>
 
@@ -939,16 +944,16 @@
 
         <!-- Store -->
 
-        <caramel.feature.version>1.4.5-SNAPSHOT</caramel.feature.version>
-        <handlebars.feature.version>1.4.5-SNAPSHOT</handlebars.feature.version>
-        <markdown.feature.version>1.4.5-SNAPSHOT</markdown.feature.version>
-        <process.feature.version>1.4.5-SNAPSHOT</process.feature.version>
-        <carbon.feature.version>1.4.5-SNAPSHOT</carbon.feature.version>
-        <uuid.feature.version>1.4.5-SNAPSHOT</uuid.feature.version>
-        <sso.feature.version>1.4.5-SNAPSHOT</sso.feature.version>
-        <es.feature.version>2.3.10-SNAPSHOT</es.feature.version>
-        <carbon.social.version>2.3.10-SNAPSHOT</carbon.social.version>
-        <i18n.feature.version>1.4.5-SNAPSHOT</i18n.feature.version>
+        <caramel.feature.version>1.5.3</caramel.feature.version>
+        <handlebars.feature.version>1.5.3</handlebars.feature.version>
+        <markdown.feature.version>1.5.3</markdown.feature.version>
+        <process.feature.version>1.5.3</process.feature.version>
+        <carbon.feature.version>1.5.3</carbon.feature.version>
+        <uuid.feature.version>1.5.3</uuid.feature.version>
+        <sso.feature.version>1.5.3</sso.feature.version>
+        <es.feature.version>2.4.1-SNAPSHOT</es.feature.version>
+        <carbon.social.version>2.4.1-SNAPSHOT</carbon.social.version>
+        <i18n.feature.version>1.5.3</i18n.feature.version>
         <!--<event.feature.version>1.0.0</event.feature.version>-->
         <!--<login.feature.version>1.0.0</login.feature.version>-->
         <!--<permission.feature.version>1.0.0</permission.feature.version>-->
@@ -959,7 +964,7 @@
         <!--<claims.feature.version>1.0.0</claims.feature.version>-->
 
         <maven-resources-plugin.version>2.5</maven-resources-plugin.version>
-        <jaggery.version>0.12.3</jaggery.version>
+        <jaggery.version>0.12.6</jaggery.version>
 	    <jaggery-test.feature.version>1.4.0</jaggery-test.feature.version>
         <eclipse.version>3.2.0</eclipse.version>
         <jasperreports.wso2.version>6.1.1.wso2v1</jasperreports.wso2.version>
@@ -1009,38 +1014,46 @@
 
         <!-- Carbon Kernel -->
 
-        <carbon.kernel.version>4.4.4</carbon.kernel.version>
+        <carbon.kernel.version>4.4.7</carbon.kernel.version>
         <carbon.kernel.package.import.version.range>[4.4.0, 4.5.0)
         </carbon.kernel.package.import.version.range>
 
         <carbon.kernel.registry.imp.pkg.version>[1.0.1, 2.0.0)</carbon.kernel.registry.imp.pkg.version>
         
         <!-- Carbon Registry -->
-        <carbon.registry.version>4.5.3-SNAPSHOT</carbon.registry.version>
+        <carbon.registry.version>4.5.7-SNAPSHOT</carbon.registry.version>
         <carbon.registry.package.import.version.range>[4.5.0, 5.0.0)
         </carbon.registry.package.import.version.range>
-        
+
         <!-- Carbon Governance -->
-        <carbon.governance.version>4.6.2-SNAPSHOT</carbon.governance.version>
+        <carbon.governance.version>4.6.5-SNAPSHOT</carbon.governance.version>
 
-        <carbon.governance.ext.version>4.4.11-SNAPSHOT</carbon.governance.ext.version>
+        <carbon.governance.ext.version>4.5.0</carbon.governance.ext.version>
 
-        <carbon.business.process.version>4.4.7</carbon.business.process.version>
+        <carbon.business.process.version>4.4.9</carbon.business.process.version>
         
         <!-- Carbon Commons -->
-        <carbon.commons.version>4.5.2</carbon.commons.version>
+        <carbon.commons.version>4.5.4</carbon.commons.version>
         <!-- Carbon Identity -->
-        <carbon.identity.version>5.0.8</carbon.identity.version>
+        <carbon.identity.framework.version>5.2.0</carbon.identity.framework.version>
+        <identity.application.auth.basic.auth.version>5.1.1</identity.application.auth.basic.auth.version>
+        <identity.auth.saml2.version>5.1.1</identity.auth.saml2.version>
+        <identity.inbound.auth.oauth.version>5.1.1</identity.inbound.auth.oauth.version>
+        <identity.applicatoin.oauth.oidc.version>5.1.1</identity.applicatoin.oauth.oidc.version>
+        <identity.inbound.auth.oidc.version>5.1.1</identity.inbound.auth.oidc.version>
+        <identity.inbound.auth.saml.version>5.1.1</identity.inbound.auth.saml.version>
+        <identity.inbound.auth.openid.version>5.1.1</identity.inbound.auth.openid.version>
+        <carbon.identity.um.version>5.1.1</carbon.identity.um.version>
 
-        <carbon.deployment.version>4.6.1</carbon.deployment.version>
+        <carbon.deployment.version>4.7.0</carbon.deployment.version>
 
-        <carbon.multitenancy.version>4.5.1</carbon.multitenancy.version>
+        <carbon.multitenancy.version>4.5.2</carbon.multitenancy.version>
 
         <!-- Carbon APIMgt -->
         <carbon.apimgt.feature.version>1.3.3</carbon.apimgt.feature.version>
         <carbon.apimgt.version>1.3.3</carbon.apimgt.version>
 
-        <carbon.analytics.common.version>5.0.6</carbon.analytics.common.version>
+        <carbon.analytics.common.version>5.0.11</carbon.analytics.common.version>
 
         <apache.felix.framework.version>1.0.3</apache.felix.framework.version>
         <apache.felix.main.version>1.0.3</apache.felix.main.version>
@@ -1069,7 +1082,7 @@
         <javax.activation.version>1.1.1</javax.activation.version>
 
         <!-- Product G-Reg -->
-        <product.greg.version>5.2.0-SNAPSHOT</product.greg.version>
+        <product.greg.version>5.3.0-SNAPSHOT</product.greg.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 
@@ -1081,5 +1094,6 @@
         <org.json.wso2.version>2.0.0.wso2v1</org.json.wso2.version>
         <resteasy.version>3.0.2.Final</resteasy.version>
         <javax.ws.rs.version>2.0.1</javax.ws.rs.version>
+        <carbon.metrics.version>1.2.2</carbon.metrics.version>
     </properties>
 </project>

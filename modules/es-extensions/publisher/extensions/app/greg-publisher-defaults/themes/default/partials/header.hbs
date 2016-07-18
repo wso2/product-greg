@@ -2,17 +2,18 @@
 {{> sidebar-container . }}
 <header>
     <div class="row wr-global-header">
-        <div class="col-xs-8 col-sm-6 col-lg-8 app-logo">
+        <div class="col-xs-5 col-sm-6 col-lg-8 app-logo">
             <a href="{{url ""}}{{meta.landingPage}}"><img src="{{url "/themes/default/img/logo.png"}}" /><h2 class="app-title">Governance Center - Publisher</h2></a>
         </div>
-        <div class="col-xs-4 col-sm-6 col-lg-4 wr-auth-container">
+        <div class="col-xs-7 col-sm-6 col-lg-4 wr-auth-container">
             <div class="wr-auth pull-right">
                 <a href="#" data-toggle="dropdown">
                     <div id="auth-btn" class="auth-img">
-                        {{cuser.username}}
                         <span class="fw-stack-md fw-lg">
                             <i class="fw fw-user fw-stack-1-5x"></i>
                         </span>
+                        {{cuser.username}}
+                        <span class="caret"></span>
                     </div>
                 </a>
                 <div class="dropdown-menu">

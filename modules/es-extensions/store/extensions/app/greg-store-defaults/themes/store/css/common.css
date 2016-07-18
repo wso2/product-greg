@@ -460,6 +460,11 @@ span.left-menu-item, span.left-menu-item.hover, a.all-item a.top-item a.all-item
 .asset-rating-container {
     padding-bottom: 11px;
 }
+
+.dependencies-link:focus, .dependencies-link:hover {
+    color: #23527c !important;
+    text-decoration: underline !important;
+}
 /*span.left-menu-item {
     font-weight:300;
     font-size:20px;
@@ -476,3 +481,105 @@ span.left-menu-item, span.left-menu-item.hover, a.all-item a.top-item a.all-item
 span.left-menu-item:hover {
     text-decoration: none;
 }*/
+
+/* Search Option Popover */
+a#search-info {
+    background: #2C313B;
+    color: #ccc;
+    font-size: 17px;
+    margin-top: -1px;
+    margin-left: 0px;
+}
+
+.es-input-group-btn > .popover {
+    background-color: #333;
+    border: 0px;
+    margin-top: 16px;
+    opacity: 0.8;
+}
+
+.es-input-group-btn > .popover > .popover-content {
+    background-color: #333;
+    border: 0px;
+    width: 320px;
+    color: #E0E0E0;
+    font-size: 12px;
+    padding: 15px;
+    line-height: 20px;
+    margin-top: 0;
+}
+
+.es-input-group-btn > .popover > .popover-content > ul {
+    list-style-type: none;
+    padding-left: 20px;
+}
+
+.es-input-group-btn > .popover > .popover-content > h3 {
+    padding-left: 20px;
+    margin-top: 0;
+    padding-left: 0;
+    font-size: 18px;
+}
+
+.es-input-group-btn > .popover > .popover-title {
+    display: none;
+}
+
+.es-input-group-btn > .popover.bottom > .arrow:after {
+    border-bottom-color: #333;
+}
+
+.search-options-link-wrapper {
+    padding: 0 0 0 0px;
+}
+
+/* </Search Option Popover> */
+
+/* Asset listing mini thumbnail */
+.ast-img .ast-type-icon i {
+    font-size: 2.2em;
+    padding: 9px 5px !important;
+}
+
+/* Copy URL popover - activates only in hasFlash=true and Safari=true */
+.popover-content input {
+    border: none;
+    box-shadow: none;
+    width: 100% !important;
+}
+
+/*<Top button group in store artifact pages>*/
+
+div#diff-view-version {
+    float: left;
+}
+
+.btn.btn-default.input-group-addon {
+    margin-left: 0px;
+}
+
+a.btn.btn-default.input-group-addon {
+    border: solid 1px #ccc;
+}
+
+.btn.btn-default.btn-lg.input-group-addon.with-dropdown {
+    position: relative;
+    border-left: none;
+    border-right: none;
+}
+
+/*</Top button group in store artifact pages>*/
+
+.modal-content{
+    background: #dfdfdf;
+    opacity: 0.9;
+}
+
+.notification-message {
+    padding-bottom: 3px;
+    padding-right: 3px;
+}
+
+.notification-message-dialog-box {
+    text-align: center;
+}

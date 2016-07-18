@@ -1,20 +1,39 @@
 <!-- secondary header - app bar -->
 <nav class="navbar navbar-default navbar-themed">
     <div>
+        {{#if_equal meta.pageName "gc-landing"}}
+        {{else}}
+            <div class="breadcrumb-wrapper" style="background: #ffff00 !important;">
+                <ol class="breadcrumb">
+                    {{#each breadcrumb}}
+                        <li><a href='{{url ""}}{{this.link}}' class='breadcrumb-link'>{{this.label}}</a></li>
+                    {{/each}}
+                </ol>
+            </div>
+        {{/if_equal}}
         <div class="navbar-header">
+            {{#if isSidebarEnabled}}
+            <a href="javascript:void(0)" onclick="toggleSidePanel('options',this)" class="cu-btn wr-side-panel-toggle-btn-small">
+                            <span class="fw-stack-md options">
+                                <i class="fw fw-left-arrow fw-stack-1-5x"></i>
+                            </span>
+                Options
+            </a>
+            {{/if}}
             <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
                 <span class="sr-only">Toggle navigation</span>
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
+
+
         </div>
-        
+
         <div id="navbar" class="navbar-collapse collapse">
-            
+
             <div class="wr-action-btn-bar">
                 <ul class="nav navbar-nav">
-
                     <li>
                         <div class="wr-asset-type-switcher">
                             <a id="popoverExampleTwo" data-placement="bottom" class="ctrl-asset-type-switcher pull-left" href="javascript:void(0)" data-click-event="popover">
@@ -38,7 +57,9 @@
                             {{#if rxt.pluralLabel}}<a class="pull-left switcher-link" href='{{url ""}}{{currentUrl}}{{ribbon.currentUrl}}'>{{rxt.pluralLabel}}</a>{{/if}}
                         </div>
                     </li>
-
+                    <li>
+                       &nbsp;
+                    </li>
                     {{#each leftNav}}
                         <li>
                             <a id="{{this.id}}" href='{{url ""}}{{this.url}}' class="cu-btn {{this.iconClass}}">
@@ -49,9 +70,9 @@
 
                     {{#if isSidebarEnabled}}
 
-                        <li class="pull-right">
+                        <li class="pull-right wr-side-panel-toggle-btn-wrapper">
                             <a href="javascript:void(0)" onclick="toggleSidePanel('options',this)" class="cu-btn wr-side-panel-toggle-btn">
-                            <span class="fw-stack-md">
+                            <span class="fw-stack-md options">
                                 <i class="fw fw-left-arrow fw-stack-1-5x"></i>
                             </span>
                                 Options
@@ -62,7 +83,7 @@
 
                         <li class="pull-right">
                             <a href="javascript:void(0)" onclick="toggleSidePanel('notifications',this)"  class="cu-btn wr-side-panel-toggle-btn wr-notification-toggle-btn">
-                            <span class="fw-stack-md">
+                            <span class="fw-stack-md notifications">
                                 <i class="fw fw-bell fw-stack-1-5x"></i>
                             </span>
                                 <span class="wr-notification-bubble" id="notificationCount" >{{notificationsCount.count}}</span>
@@ -71,7 +92,7 @@
                         </li>
                     {{/if}}
                 </ul>
-            </div> 
+            </div>
 
         </div><!--/.nav-collapse -->
     </div>

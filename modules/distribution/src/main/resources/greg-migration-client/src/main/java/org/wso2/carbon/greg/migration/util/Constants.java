@@ -16,6 +16,8 @@
 
 package org.wso2.carbon.greg.migration.util;
 
+import java.io.File;
+
 public class Constants {
 
     public static final String VERSION_500 = "5.0.0";
@@ -51,6 +53,42 @@ public class Constants {
     public static final String ARTIFACT_TYPE = "artifactType";
     public static final String TYPE = "type";
     public static final String FILE_EXTENSION = "fileExtension";
+    public static final String CONTENT = "content";
+    public static final String TABLE = "table";
+    public static final String NAME = "name";
+    public static final String FIELD = "field";
 
+    //Constants for email username migration client
+    public static final String METADATA_NAMESPACE = "http://www.wso2.org/governance/metadata";
+    public static final String OLD_EMAIL_AT_SIGN = ":";
+    public static final String NEW_EMAIL_AT_SIGN = "-at-";
+    public static final String CARBON_HOME = System.getProperty("carbon.home");
+    public static final String REGISTRY_MIGRATION_SCRIPT = "/migration-scripts/reg_migration.sql";
+    public static final String UM_MIGRATION_SCRIPT = "/migration-scripts/um_migration.sql";
+    public static final String REGISTRY_XML_PATH = Constants.CARBON_HOME + File.separator + "repository" + File.separator
+                                                   + "conf" + File.separator + "registry.xml";
 
+    //registry path for store.json file at config registry
+    public static final String STORE_CONFIG_PATH = "/store/configs/store.json";
+
+    //Constants for 510 to 520 migration
+    public enum DatabaseTypes {
+        oracle, mssql, mysql, postgresql, h2, db2
+    }
+
+    //script files related to IDP_METADATA tables .(Define FORWARD SLASH for both ubuntu and windows as windows read jar
+    // files with forward slash.)
+    public static final String IDP_MIGRATION_SCRIPT_DB2 = "/migration-scripts/identity/idp/idp_db2.sql";
+    public static final String IDP_MIGRATION_SCRIPT_H2 = "/migration-scripts/identity/idp/idp_h2.sql";
+    public static final String IDP_MIGRATION_SCRIPT_MSSQL = "/migration-scripts/identity/idp/idp_mssql.sql";
+    public static final String IDP_MIGRATION_SCRIPT_MYSQL = "/migration-scripts/identity/idp/idp_mysql.sql";
+    public static final String IDP_MIGRATION_SCRIPT_ORACLE = "/migration-scripts/identity/idp/idp_oracle.sql";
+    public static final String IDP_MIGRATION_SCRIPT_POSTGRESQL = "/migration-scripts/identity/idp/idp_postgresql.sql";
+    //script files related to SP_METADATA tables.
+    public static final String SP_MIGRATION_SCRIPT_DB2 = "/migration-scripts/identity/sp/sp_db2.sql";
+    public static final String SP_MIGRATION_SCRIPT_H2 = "/migration-scripts/identity/sp/sp_h2.sql";
+    public static final String SP_MIGRATION_SCRIPT_MSSQL = "/migration-scripts/identity/sp/sp_mssql.sql";
+    public static final String SP_MIGRATION_SCRIPT_MYSQL = "/migration-scripts/identity/sp/sp_mysql.sql";
+    public static final String SP_MIGRATION_SCRIPT_ORACLE = "/migration-scripts/identity/sp/sp_oracle.sql";
+    public static final String SP_MIGRATION_SCRIPT_POSTGRESQL = "/migration-scripts/identity/sp/sp_postgresql.sql";
 }

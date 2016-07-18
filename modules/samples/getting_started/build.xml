@@ -3,7 +3,7 @@
     <property name="class.dir" value="target/classes"/>
     <property name="host" value="localhost"/>
     <property name="port" value="9443"/>
-    <property name="version" value="5.1.0"/>
+    <property name="version" value="5.2.0"/>
 
     <target name="run">
         <antcall target="populate"/>
@@ -126,8 +126,10 @@
                 <include name="commons-lang*.jar"/>
                 <include name="xmlbeans*.jar"/>
                 <include name="poi*.jar"/>
-                 <include name="woden_*.jar"/>
-                 <include name="javax.cache.wso2_*.jar"/>
+                <include name="woden_*.jar"/>
+                <include name="javax.cache.wso2_*.jar"/>
+		 <include name="org.wso2.carbon.queuing_*.jar"/>
+		 <include name="org.wso2.carbon.securevault_*.jar"/>
             </fileset>
         </path>
     </target>

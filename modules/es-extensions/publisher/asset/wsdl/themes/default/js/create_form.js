@@ -68,10 +68,10 @@ $(function() {
             var version;
             var name;
             if (selectedValue == "upload") {
-                name = $('#wsdl_file_name').val();
+                name = encodeURIComponent($('#wsdl_file_name').val());
                 version = $('#file_version').val();
             } else {
-                name = $('input[name="overview_name"]').val();
+                name = encodeURIComponent($('input[name="overview_name"]').val());
                 version = $('input[name="overview_version"]').val();
             }
             var ajaxURL = caramel.context + '/apis/assets?type=wsdl&q="name":"' + name +
@@ -113,7 +113,7 @@ $(function() {
                 $('#wsdl_file_name').val(fileName);
             } else if (action === 'addNewAssetButton') {//upload via url.
                 if(!validator.isValidForm(importUI)) {
-                    messages.alertInfo("All required fields must be provided");
+                    messages.alertError("All required fields must be provided");
                     return false;
                 }
             }
@@ -131,8 +131,10 @@ $(function() {
             window.location=$('#form-asset-create').attr('data-redirect-url');
             messages.alertSuccess("Successfully created the wsdl");
         },
-        error:function(){
-            messages.alertError("Error occurred while adding the wsdl");
+        error:function(xhr){
+            var response = xhr.responseJSON || {};
+            var msg = response.message || 'Failed to create';
+            messages.alertError(msg);
             var createButton = $('#form-asset-create input[type="submit"]');
             createButton.removeAttr('disabled');
             $('.fa-spinner').parent().remove();

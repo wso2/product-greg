@@ -2,7 +2,7 @@
     <div class="es-col-lg-12 col-lg-12">
         <h4>{{t "Overview"}}</h4><hr>
         <div class="es-col-lg-12 col-lg-12 table table-striped table-hover divrow">
-            <div class="col-lg-2">{{t "Name"}}</div>
+            <div class="col-lg-2"><b>{{t "Name"}} :</b></div>
             {{#if name}}
                 <div class="col-lg-10">{{name}}</div>
             {{else}}
@@ -11,7 +11,7 @@
         </div>
 
         <div class="es-col-lg-12 col-lg-12 divrow">
-            <div class="col-lg-2">{{t "Version"}}</div>
+            <div class="col-lg-2"><b>{{t "Version"}} :</b></div>
             <div class="col-lg-10">{{version}}</div>
         </div>
     </div>
@@ -19,33 +19,59 @@
         <div class="es-col-lg-12 col-lg-12">
             <h4>Lifecycle</h4><hr>
             <div class="es-col-lg-12 col-lg-12 table table-striped table-hover divrow">
-                <div class="col-lg-2">{{t "Name"}} :</div>
+                <div class="col-lg-2"><b>{{t "Name"}} :</b></div>
 
                 <div class="col-lg-10">{{lifecycle}}</div>
             </div>
 
             <div class="es-col-lg-12 col-lg-12 divrow">
-                <div class="col-lg-2">{{t "State"}} :</div>
+                <div class="col-lg-2"><b>{{t "State"}} :</b></div>
                 <div class="col-lg-10">{{lifecycleState}}</div>
             </div>
         </div>
     {{/if}}
-    {{#if isDependentsPresent}}
+    {{#if dependencyCheck.isAnyDependence}}
         <div class="es-col-lg-12 col-lg-12">
-            <h4>Associations</h4><hr>
-            <div class="es-col-lg-12 col-lg-12 table table-striped table-hover divrow">
-                {{#each dependencies}}
-                    <div class="col-lg-2 ">{{t "Dependencies"}} :</div>
-                    <div class="col-lg-10"><a href="../../../assets/{{this.associationType}}/details/{{this.associationUUID}}">{{this.associationName}}</a></div>
-                {{/each}}
-            </div>
+            <h4>Associations</h4>
+            <hr>
+            {{#if dependencyCheck.isDependencies}}
+                <div class="es-col-lg-12 col-lg-12 table table-striped table-hover divrow">
+                    <div class="col-lg-2 "><b>{{t "Dependencies"}} :</b></div>
+                    <table>
+                        {{#each dependencies}}
+                            <tr>
+                                <td>
+                                    <div class="col-lg-20"><a class="dependencies-link"
+                                                              href="../../../assets/{{this.associationType}}/details/{{this.associationUUID}}">
+                                        {{this.associationName}} {{#if this.associationVersion}}v{{this.associationVersion}}
+                                    {{/if}}</a>
+                                    </div>
+                                </td>
+                            </tr>
+                        {{/each}}
+                    </table>
+                </div>
+            {{/if}}
 
-            <div class="es-col-lg-12 col-lg-12 divrow">
-                {{#each dependents}}
-                    <div class="col-lg-2">{{t "Dependents"}} :</div>
-                    <div class="col-lg-10"><a href="../../../assets/{{this.associationType}}/details/{{this.associationUUID}}">{{this.associationName}}</a></div>
-                {{/each}}
-            </div>
+            {{#if dependencyCheck.isDependents}}
+                <div class="es-col-lg-12 col-lg-12 divrow">
+                    <div class="col-lg-2"><b>{{t "Dependents"}} :</b></div>
+                    <table>
+                        {{#each dependents}}
+                            <tr>
+                                <td>
+                                    <div class="col-lg-20"><a class="dependencies-link"
+                                                              href="../../../assets/{{this
+                                                              .associationType}}/details/{{this.associationUUID}}">{{this.associationName}} {{#if this.associationVersion}}
+                                        v{{this
+                                    .associationVersion}}{{/if}}</a>
+                                    </div>
+                                </td>
+                            </tr>
+                        {{/each}}
+                    </table>
+                </div>
+            {{/if}}
         </div>
     {{/if}}
 

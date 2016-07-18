@@ -24,19 +24,19 @@
         </div>
     <div id="importUI" style="display: none;">
         <div class="form-group">
-            <label class="custom-form-label col-lg-2 col-md-2 col-sm-12 col-xs-12" for="overview_url">{{t "Schema Url"}}<sup class="text-danger"> *</sup></label>
+            <label class="custom-form-label col-lg-2 col-md-2 col-sm-12 col-xs-12 text-right" for="overview_url">{{t "Schema Url"}}<sup class="required-field"> *</sup> :</label>
             <div class="custom-form-right col-lg-5 col-md-8 col-sm-8 col-xs-12">
                 <input type='text' name='overview_url' id='overview_url' class="form-control validate-required" placeholder="Schema Url"/>
             </div>
         </div>
         <div class="form-group">
-            <label class="custom-form-label col-lg-2 col-md-2 col-sm-12 col-xs-12" for="overview_name">{{t "Name"}}<sup class="text-danger"> *</sup></label>
+            <label class="custom-form-label col-lg-2 col-md-2 col-sm-12 col-xs-12 text-right" for="overview_name">{{t "Name"}}<sup class="required-field"> *</sup> :</label>
             <div class="custom-form-right col-lg-5 col-md-8 col-sm-8 col-xs-12">
                 <input type='text' name='overview_name' id='overview_name' class="form-control validate-required" placeholder="Name"/>
             </div>
         </div>
         <div class="form-group">
-            <label class="custom-form-label col-lg-2 col-md-2 col-sm-12 col-xs-12" for="overview_version">{{t "Version"}}<sup class="text-danger"> *</sup></label>
+            <label class="custom-form-label col-lg-2 col-md-2 col-sm-12 col-xs-12 text-right" for="overview_version">{{t "Version"}}<sup class="required-field"> *</sup> :</label>
             <div class="custom-form-right col-lg-5 col-md-8 col-sm-8 col-xs-12">
                 <input type='text' name='overview_version' id='overview_version' class="form-control validate-required" placeholder="Version"/>
             </div>
@@ -53,7 +53,7 @@
         <div class="form-group">
             <label class="custom-form-label col-lg-2 col-md-2 col-sm-12 col-xs-12" for="schema_zip">{{t "Schema/Zip file"}}<sup class="text-danger"> *</sup></label>
             <div class="custom-form-right col-lg-5 col-md-8 col-sm-8 col-xs-12">
-                <input type='file' name='schema_file' id='schema_file' class="validate-required"/>
+                <input type='file' name='schema_file' id='schema_file' class="validate-required" accept=".zip,.xsd,.gar"/>
                 <!--Use a hidden field to save the zip name and pass it to request, as 'file' 
                     attribute is not passed to the request unless it is defined in the rxt.-->
                 <input type='hidden' name='schema_file_name' id='schema_file_name' />

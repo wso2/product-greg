@@ -25,7 +25,7 @@
         </div>
 
         <div class="col-xs-4 col-sm-4 wr-auth-container">
-            <div class="wr-auth pull-right fuck">
+            <div class="wr-auth pull-right">
             {{#if cuser.username}}
                 <a href="#" data-toggle="dropdown" class="">
                     <div class="auth-img">
@@ -35,11 +35,11 @@
                 <div class="es-dropdown-menu es-logout-menu dropdown-menu">
                     <div class="cu-arrow"></div>
                     <div class="dropdown-menu-content">
-                        <a class="filter-item" onclick="window.location.href='/store/logout'">{{t "Sign out"}}</a>
+                        <a class="filter-item" onclick="window.location.href='{{tenantedUrl ""}}/logout'">{{t "Sign out"}}</a>
                     </div>
                 </div>
             {{else}}
-                <a href="#" data-toggle="dropdown" class="" onclick="window.location.href='/store/login'">
+                <a href="#" data-toggle="dropdown" class="" onclick="window.location.href='{{tenantedUrl ""}}/login'">
                     <div class="auth-img">
                         <span id="logedInUser" class="hidden-xs-320">Sign in&nbsp;&nbsp;</span><i class="fw fw-user"></i>
                     </div>
