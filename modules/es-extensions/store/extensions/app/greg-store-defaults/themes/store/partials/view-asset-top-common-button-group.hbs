@@ -22,6 +22,23 @@
                        href='{{tenantedUrl ""}}{{assets.downloadMetaData.swaggerUrl}}'>
                         <i class="fw fw-swagger"></i> {{t "Visualize"}}</a>
                 {{/if}}
+                {{#if assets.wsdlContent}}
+                    {{#if assets.wsdl_uuid}}
+                        <a class="btn btn-default input-group-addon"
+                           href='{{url ""}}/pages/wsdl-viewer?id={{assets.wsdl_uuid}}' target="_blank"><i
+                                class="fw fw-view"></i>
+                            {{t " Visualize"}}
+                        </a>
+                    {{else}}
+                        {{#if assets.id}}
+                            <a class="btn btn-default input-group-addon"
+                               href='{{url ""}}/pages/wsdl-viewer?id={{assets.id}}' target="_blank"><i
+                                    class="fw fw-view"></i>
+                                {{t " Visualize"}}
+                            </a>
+                        {{/if}}
+                    {{/if}}
+                {{/if}}
                 {{#if rxt.meta.isDependencyShown}}
                     {{> view-asset-top-common-addons-container }}
                 {{/if}}
@@ -38,17 +55,17 @@
                     </a>
                     <a class='btn btn-default input-group-addon' target='_blank' href="{{assets.downloadMetaData.url}}"><i
                             class="fw fw-download"></i> {{t "Download"}}</a>
+                {{else}}
+                    {{#if downloadMetaData.enabled}}
+                        <a style="display:none" id='download-link'>{{downloadMetaData.url}}</a>
+                        <a class="btn btn-default copy-button input-group-addon" id='copy-button'
+                           data-clipboard-text="{{downloadMetaData.url}}"><i title='{{t "Copy URL"}}'
+                                                                             class="fw fw-copy"></i> {{t "Copy URL"}}
+                        </a>
+                        <a class='btn btn-default input-group-addon' target='_blank' href="{{downloadMetaData.url}}">
+                            <i class="fw fw-download"></i> {{t "Download"}}</a>
+                    {{/if}}
                 {{/if}}
-                {{#if downloadMetaData.enabled}}
-                    <a style="display:none" id='download-link'>{{downloadMetaData.url}}</a>
-                    <a class="btn btn-default copy-button input-group-addon" id='copy-button'
-                       data-clipboard-text="{{downloadMetaData.url}}"><i title='{{t "Copy URL"}}'
-                                                                         class="fw fw-copy"></i> {{t "Copy URL"}}
-                    </a>
-                    <a class='btn btn-default input-group-addon' target='_blank' href="{{downloadMetaData.url}}">
-                        <i class="fw fw-download"></i> {{t "Download"}}</a>
-                {{/if}}
-
             </div>
         </form>
     </div>
