@@ -217,7 +217,8 @@ asset.renderer = function(ctx){
                     page.assets.downloadMetaData = {}; 
                     page.assets.downloadMetaData.enabled = true;
                     page.assets.downloadMetaData.downloadFileType = 'Swagger';
-                    page.assets.downloadMetaData.url = rxt.buildURL('governance/') + pluralType+'/'+page.assets.id+'/content?tenant='+domain;
+                    page.assets.downloadMetaData.url = config.server.https + rxt.buildURL('governance/')
+                        + pluralType + '/' + page.assets.id + '/content?tenant=' + domain;
                     page.assets.downloadMetaData.swaggerUrl = '/pages/swagger?path='+page.assets.path;
                 }
             }
