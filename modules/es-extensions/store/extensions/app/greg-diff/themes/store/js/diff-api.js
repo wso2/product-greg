@@ -88,8 +88,8 @@ $(document).ready(function () {
     function resolveDomain() {
         var tenantDomain;
         var domain = '';
-        if ((store) && (store.publisher)) {
-            tenantDomain = store.publisher.tenantDomain;
+        if ((store) && (store.store)) {
+            tenantDomain = store.store.tenantDomain;
         }
         //Construct the tenant query parameter if a tenant domain was resolved
         if (tenantDomain) {
