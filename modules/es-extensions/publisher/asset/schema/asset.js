@@ -111,6 +111,7 @@ asset.manager = function(ctx) {
             var am = rxt.asset.createUserAssetManager(ctx.session, this.type);
             var query = {};
             query.overview_name = name;
+            query._wildcard = false;
             var assets = am.search(query);
             for (var i = 0; i < assets.length; i++) {
                 if (assets[i].version == version) {
