@@ -20,8 +20,8 @@ var api = {};
 (function (api) {
     var WSDLVisualizer = Packages.org.wso2.carbon.governance.soap.viewer.WSDLVisualizer;
     //Get the list of services object list for the given wsdl file
-    api.getWSDLServices = function (wsdlPath) {
-        var vis = new WSDLVisualizer(wsdlPath);
+    api.getWSDLServices = function (wsdlPath, tenantId) {
+        var vis = new WSDLVisualizer(wsdlPath, tenantId);
         return vis.getListOfServices();
     };
 
