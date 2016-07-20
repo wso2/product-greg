@@ -21,6 +21,7 @@ var caramel;
 
 require('/modules/publisher.js').exec(function(ctx){
   var wsdlAPI = require('/extensions/app/soap-viewer/modules/wsdl-api.js').api;
+    var user = require('store').server.current(session);
   caramel = require('caramel');
   var rxtAPI = require('rxt');
   var app =  rxtAPI.app;
@@ -39,7 +40,7 @@ require('/modules/publisher.js').exec(function(ctx){
   var assetManager = rxtAPI.asset.createUserAssetManager(ctx.session,type);
   var wsdl = assetManager.get(wsdlId);
   output =  appManager.render([],page);
-  var services = wsdlAPI.getWSDLServices(wsdl.path);
+  var services = wsdlAPI.getWSDLServices(wsdl.path,user.tenantId);
   output.wsdlServicesJsonString = services;
   caramel.render(output);
 },request,response,session);

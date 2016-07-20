@@ -37,6 +37,8 @@ require('/modules/store.js').exec(function(ctx){
   	return;
   }
   var tenantAPI = require('/modules/tenant-api.js').api;
+    var tenantDetails = tenantAPI.createTenantDetails(ctx.request, ctx.session);
+    var tenantId = tenantDetails.tenantId;
   var tenantContext = tenantAPI.createTenantAwareAssetResources(ctx.session,{
     type:'wsdl'
   });
@@ -45,7 +47,7 @@ require('/modules/store.js').exec(function(ctx){
   var wsdl = assetManager.get(wsdlId);
   output =  appManager.render([],page);
   var config = require('/config/store.js').config();
-  var test = wsdlAPI.getWSDLServices(wsdl.path);
+  var test = wsdlAPI.getWSDLServices(wsdl.path,tenantId);
   output.wsdlServicesJsonString = test;
   caramel.render(output);
 },request,response,session);

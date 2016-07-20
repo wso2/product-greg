@@ -1028,7 +1028,7 @@
         <!-- Carbon Governance -->
         <carbon.governance.version>4.7.0</carbon.governance.version>
 
-        <carbon.governance.ext.version>4.5.1</carbon.governance.ext.version>
+        <carbon.governance.ext.version>4.5.2-SNAPSHOT</carbon.governance.ext.version>
 
         <carbon.business.process.version>4.4.9</carbon.business.process.version>
         

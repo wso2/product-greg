@@ -25,14 +25,14 @@
                 {{#if assets.wsdlContent}}
                     {{#if assets.wsdl_uuid}}
                         <a class="btn btn-default input-group-addon"
-                           href='{{url ""}}/pages/wsdl-viewer?id={{assets.wsdl_uuid}}' target="_blank"><i
+                           href='{{tenantedUrl ""}}/pages/wsdl-viewer?id={{assets.wsdl_uuid}}' target="_blank"><i
                                 class="fw fw-view"></i>
                             {{t " Visualize"}}
                         </a>
                     {{else}}
                         {{#if assets.id}}
                             <a class="btn btn-default input-group-addon"
-                               href='{{url ""}}/pages/wsdl-viewer?id={{assets.id}}' target="_blank"><i
+                               href='{{tenantedUrl ""}}/pages/wsdl-viewer?id={{assets.id}}' target="_blank"><i
                                     class="fw fw-view"></i>
                                 {{t " Visualize"}}
                             </a>
