@@ -20,8 +20,7 @@
         <div class="col-xs-8 col-sm-8 app-logo">
             <a href="{{tenantedUrl ""}}{{meta.landingPage}}">
                 <img src="{{url "/themes/store/img/logo.png"}}" />
-                <h2 class="app-title hidden-xs-320">Governance Center - Store</h2>
-                <h2 class="app-title visible-xs-320">ES</h2>
+                <h2 class="app-title">Governance Center - Store</h2>
             </a>
         </div>
 
@@ -38,7 +37,7 @@
                 <div class="es-dropdown-menu es-logout-menu dropdown-menu">
                     <div class="cu-arrow"></div>
                     <div class="dropdown-menu-content">
-                        <a class="filter-item" onclick="window.location.href='{{url ""}}/logout'">{{t "Sign out"}}</a>
+                        <a class="filter-item" onclick="window.location.href='{{tenantedUrl ""}}/logout'">{{t "Sign out"}}</a>
                     </div>
                 </div>
             {{else}}
