@@ -4,6 +4,8 @@ import java.util.HashMap;
 
 public class PopulatorConstants {
 
+    public static final String username = "admin";
+    public static final String password = "admin";
     public static final String[] TEAMS_TAXONOMY = new String[] { "developmentTeam/newJersey/theRockStars",
             "developmentTeam/newJersey/topShelf", "developmentTeam/boston/thinkTank",
             "developmentTeam/boston/conceptCrew", "developmentTeam/boston/theDominators",

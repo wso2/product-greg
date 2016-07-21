@@ -38,8 +38,9 @@ public class CategorizeArtifacts {
             CARBON_HOME + File.separator + "repository" + File.separator + "deployment" + File.separator + "client";
     private static final String axis2Conf = ServerConfiguration.getInstance()
             .getFirstProperty("Axis2Config.clientAxis2XmlLocation");
-    private static final String username = "admin";
-    private static final String password = "admin";
+    private static final String username = PopulatorConstants.username;
+    private static final String password = PopulatorConstants.password;
+    private static String user = PopulatorConstants.username;
     private static String port;
     private static String host;
     private static String serverURL;
@@ -67,6 +68,9 @@ public class CategorizeArtifacts {
                 .separator)) {
             rootpath = ".." + File.separator;
         }
+        if(username.contains("@")){
+            user = username.split("@")[0];
+        }
 
         serviceTaxo = PopulatorConstants.getTaxa();
 
@@ -92,7 +96,7 @@ public class CategorizeArtifacts {
             serverURL = "https://" + host + ":" + port + "/services/";
             final Registry registry = initialize();
             ResourceServiceClient resourceServiceClient = new ResourceServiceClient(cookie, serverURL, configContext);
-            Registry gov = GovernanceUtils.getGovernanceUserRegistry(registry, "admin");
+            Registry gov = GovernanceUtils.getGovernanceUserRegistry(registry, user);
             // Should be load the governance artifact.
             GovernanceUtils.loadGovernanceArtifacts((UserRegistry) gov);
 

@@ -28,6 +28,7 @@ import org.wso2.carbon.registry.core.Registry;
 import org.wso2.carbon.registry.core.session.UserRegistry;
 import org.wso2.carbon.registry.resource.stub.ResourceAdminServiceExceptionException;
 import org.wso2.carbon.registry.resource.ui.clients.ResourceServiceClient;
+import org.wso2.carbon.registry.samples.populator.utils.PopulatorConstants;
 import org.wso2.carbon.registry.samples.populator.utils.SwaggerImportClient;
 import org.wso2.carbon.registry.ws.client.registry.WSRegistryServiceClient;
 
@@ -49,8 +50,9 @@ public class Main {
     private static final String MEDIA_TYPE_SWAGGER = "application/swagger+json";
     private static final String MEDIA_TYPE_POLICY = "application/policy+xml";
     private static String cookie;
-    private static final String username = "admin";
-    private static final String password = "admin";
+    private static final String username = PopulatorConstants.username;
+    private static final String password = PopulatorConstants.password;
+    private static String user = PopulatorConstants.username;
     private static final String fileSeparator = File.separator + File.separator + File.separator;
     private static String port ;
     private static String host ;
@@ -66,6 +68,9 @@ public class Main {
         System.setProperty("javax.net.ssl.trustStorePassword", "wso2carbon");
         System.setProperty("javax.net.ssl.trustStoreType", "JKS");
         System.setProperty("carbon.repo.write.mode", "true");
+        if(username.contains("@")){
+            user = username.split("@")[0];
+        }
     }
 
     public static void main(String[] args) {
@@ -215,8 +220,8 @@ public class Main {
                 BufferedReader bufferedReader = new BufferedReader(new FileReader(
                         projectPath + File.separator + "resources" + File.separator + "taxo-" + shortName + ".txt"));
                 String artifactName;
-                Registry govRegistry = GovernanceUtils.getGovernanceUserRegistry(registry, "admin");
-                //Should be load the governance artifact.
+                Registry govRegistry = GovernanceUtils.getGovernanceUserRegistry(registry, user);
+                // Should be load the governance artifact.
                 GovernanceUtils.loadGovernanceArtifacts((UserRegistry) govRegistry);
                 GenericArtifactManager manager = new GenericArtifactManager(govRegistry, shortName);
                 while ((artifactName = bufferedReader.readLine()) != null) {
@@ -237,15 +242,14 @@ public class Main {
             } catch (Exception e) {
                 System.out.println("######## Unable to upload sample restservices ########\n\n");
             }
-
             try {
                 System.out.println("Uploading sample soapservices .........");
                 String shortName = "soapservice";
                 BufferedReader bufferedReader = new BufferedReader(new FileReader(
                         projectPath + File.separator + "resources" + File.separator + "taxo-" + shortName + ".txt"));
                 String artifactName;
-                Registry govRegistry = GovernanceUtils.getGovernanceUserRegistry(registry, "admin");
-                //Should be load the governance artifact.
+                Registry govRegistry = GovernanceUtils.getGovernanceUserRegistry(registry, user);
+                // Should be load the governance artifact.
                 GovernanceUtils.loadGovernanceArtifacts((UserRegistry) govRegistry);
                 GenericArtifactManager manager = new GenericArtifactManager(govRegistry, shortName);
                 while ((artifactName = bufferedReader.readLine()) != null) {
@@ -296,7 +300,7 @@ public class Main {
      * @param projectPath  absolute path of the gar file.
      * @throws Exception
      */
-	private static void addWsdlGar(ResourceServiceClient resourceServiceClient, String projectPath) throws Exception {       
+    private static void addWsdlGar(ResourceServiceClient resourceServiceClient, String projectPath) throws Exception {
         DataHandler dh = new DataHandler(new URL("file:" + fileSeparator + projectPath + File.separator +
                 "resources" + File.separator + "wsdl_new.gar"));
         resourceServiceClient
