@@ -1026,7 +1026,7 @@
         </carbon.registry.package.import.version.range>
 
         <!-- Carbon Governance -->
-        <carbon.governance.version>4.7.0</carbon.governance.version>
+        <carbon.governance.version>4.7.1-SNAPSHOT</carbon.governance.version>
 
         <carbon.governance.ext.version>4.5.2-SNAPSHOT</carbon.governance.ext.version>
 
