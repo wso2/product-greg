@@ -6,6 +6,7 @@ import org.wso2.carbon.registry.core.Registry;
 import org.wso2.carbon.registry.core.Resource;
 import org.wso2.carbon.registry.core.exceptions.RegistryException;
 import org.wso2.carbon.registry.resource.ui.clients.ResourceServiceClient;
+import org.wso2.carbon.registry.samples.populator.utils.PopulatorConstants;
 import org.wso2.carbon.registry.ws.client.registry.WSRegistryServiceClient;
 
 import java.io.BufferedReader;
@@ -26,8 +27,8 @@ public class TaxonomyDeploy {
 
     public static final String TAXO_MEDIA_TYPE = "application/taxo+xml";
     private static String cookie;
-    private static final String username = "admin";
-    private static final String password = "admin";
+    private static final String username = PopulatorConstants.username;
+    private static final String password = PopulatorConstants.password;
     private static String port;
     private static String host;
     private static String serverURL;

@@ -4,6 +4,7 @@ import org.apache.axis2.context.ConfigurationContext;
 import org.apache.axis2.context.ConfigurationContextFactory;
 import org.wso2.carbon.registry.core.Registry;
 import org.wso2.carbon.registry.resource.ui.clients.ResourceServiceClient;
+import org.wso2.carbon.registry.samples.populator.utils.PopulatorConstants;
 import org.wso2.carbon.registry.samples.populator.utils.UserManagementClient;
 import org.wso2.carbon.registry.ws.client.registry.WSRegistryServiceClient;
 
@@ -19,8 +20,8 @@ public class RXTReDeploy {
 
     public static final String RXT_MEDIA_TYPE = "application/vnd.wso2.registry-ext-type+xml";
     private static String cookie;
-    private static final String username = "admin";
-    private static final String password = "admin";
+    private static final String username = PopulatorConstants.username;
+    private static final String password = PopulatorConstants.password;
     private static String port ;
     private static String host ;
     private static String serverURL;

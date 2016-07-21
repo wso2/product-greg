@@ -30,6 +30,7 @@ import org.wso2.carbon.registry.core.Registry;
 import org.wso2.carbon.registry.core.session.UserRegistry;
 import org.wso2.carbon.registry.resource.ui.clients.ResourceServiceClient;
 import org.wso2.carbon.registry.samples.populator.utils.LifeCycleManagementClient;
+import org.wso2.carbon.registry.samples.populator.utils.PopulatorConstants;
 import org.wso2.carbon.registry.samples.populator.utils.UserManagementClient;
 import org.wso2.carbon.registry.samples.populator.utils.Utils;
 import org.wso2.carbon.registry.ws.client.registry.WSRegistryServiceClient;
@@ -48,8 +49,9 @@ import java.nio.file.Paths;
 public class AddSampleStory {
 
     private static String cookie;
-    private static final String username = "admin";
-    private static final String password = "admin";
+    private static final String username = PopulatorConstants.username;
+    private static final String password = PopulatorConstants.password;
+    private static String user = PopulatorConstants.username;
     private static String port;
     private static String host;
     private static String rootpath = "";
@@ -84,6 +86,9 @@ public class AddSampleStory {
         if (System.getProperty("carbon.home").equals(".." + File.separator + ".." + File.separator + ".." + File
                 .separator)) {
             rootpath = ".." + File.separator;
+        }
+        if(username.contains("@")){
+            user = username.split("@")[0];
         }
     }
 
@@ -153,8 +158,7 @@ public class AddSampleStory {
 
             System.out.println("Added Swagger files, WSDL and WS-Policy");
             Thread.sleep(3 * 500);
-
-            Registry gov = GovernanceUtils.getGovernanceUserRegistry(registry, "admin");
+            Registry gov = GovernanceUtils.getGovernanceUserRegistry(registry, user);
             // Should be load the governance artifact.
             GovernanceUtils.loadGovernanceArtifacts((UserRegistry) gov);
 
