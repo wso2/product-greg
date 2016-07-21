@@ -8,6 +8,7 @@ import org.wso2.carbon.registry.core.exceptions.RegistryException;
 import org.wso2.carbon.registry.resource.ui.clients.ResourceServiceClient;
 import org.wso2.carbon.registry.samples.populator.utils.PopulatorConstants;
 import org.wso2.carbon.registry.ws.client.registry.WSRegistryServiceClient;
+import org.wso2.carbon.governance.api.util.GovernanceUtils;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -75,9 +76,9 @@ public class RXTModifier {
                     super.setCookie(cookie);
                 }
             };
-
-            backUpRXTs(registry,serviceRxtPath + "restservice.rxt", "restserviceExisting.rxt");
-            backUpRXTs(registry, serviceRxtPath + "soapservice.rxt", "soapserviceExisting.rxt");
+            Registry govRegistry = GovernanceUtils.getGovernanceUserRegistry(registry, username);
+            backUpRXTs(govRegistry, serviceRxtPath + "restservice.rxt", "restserviceExisting.rxt");
+            backUpRXTs(govRegistry, serviceRxtPath + "soapservice.rxt", "soapserviceExisting.rxt");
             ResourceServiceClient resourceServiceClient = new ResourceServiceClient(cookie,
                     serverURL, configContext);
             String restServiceRxtPath = serviceRxtPath + "restservice.rxt";
