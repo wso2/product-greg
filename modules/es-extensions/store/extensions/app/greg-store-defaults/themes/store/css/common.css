@@ -48,6 +48,18 @@ a.cu-btn-inner.inverse {
     margin-bottom: 5px;
 }
 
+@media (max-width: 640px) {
+    .signup-actions span.ro-text {
+        display: none;
+    }
+    .signup-actions{
+        padding-right: 20px;
+    }
+    h2.app-title{
+        font-size: 16px;
+    }
+}
+
 @media (min-width: 768px) {
     .page-header > .lead {
         font-size: 19px;
