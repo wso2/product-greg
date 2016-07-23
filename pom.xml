@@ -944,16 +944,16 @@
 
         <!-- Store -->
 
-        <caramel.feature.version>1.5.3</caramel.feature.version>
-        <handlebars.feature.version>1.5.3</handlebars.feature.version>
-        <markdown.feature.version>1.5.3</markdown.feature.version>
-        <process.feature.version>1.5.3</process.feature.version>
-        <carbon.feature.version>1.5.3</carbon.feature.version>
-        <uuid.feature.version>1.5.3</uuid.feature.version>
-        <sso.feature.version>1.5.3</sso.feature.version>
+        <caramel.feature.version>1.5.4-SNAPSHOT</caramel.feature.version>
+        <handlebars.feature.version>1.5.4-SNAPSHOT</handlebars.feature.version>
+        <markdown.feature.version>1.5.4-SNAPSHOT</markdown.feature.version>
+        <process.feature.version>1.5.4-SNAPSHOT</process.feature.version>
+        <carbon.feature.version>1.5.4-SNAPSHOT</carbon.feature.version>
+        <uuid.feature.version>1.5.4-SNAPSHOT</uuid.feature.version>
+        <sso.feature.version>1.5.4-SNAPSHOT</sso.feature.version>
         <es.feature.version>2.4.2-SNAPSHOT</es.feature.version>
         <carbon.social.version>2.4.2-SNAPSHOT</carbon.social.version>
-        <i18n.feature.version>1.5.3</i18n.feature.version>
+        <i18n.feature.version>1.5.4-SNAPSHOT</i18n.feature.version>
         <!--<event.feature.version>1.0.0</event.feature.version>-->
         <!--<login.feature.version>1.0.0</login.feature.version>-->
         <!--<permission.feature.version>1.0.0</permission.feature.version>-->
