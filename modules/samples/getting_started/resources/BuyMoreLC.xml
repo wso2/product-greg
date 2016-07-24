@@ -1,5 +1,5 @@
 <!--
- ~ Copyright (c) 2005-2010, WSO2 Inc. (http://www.wso2.org) All Rights Reserved.
+ ~ Copyright (c) 2016, WSO2 Inc. (http://www.wso2.org) All Rights Reserved.
  ~
  ~ WSO2 Inc. licenses this file to you under the Apache License,
  ~ Version 2.0 (the "License"); you may not use this file except
@@ -89,6 +89,18 @@
                         </data>
                     </datamodel>
                     <transition event="Promote" target="Testing"/>
+                    <checkpoints>
+                        <checkpoint id="DevelopmentStageOne" durationColour="green">
+                            <boundary min="0d:0h:0m:0s" max="0d:0h:20m:00s" />
+                        </checkpoint>
+                        <checkpoint id="DevelopmentStageTwo" durationColour="blue">
+                            <boundary min="0d:0h:20m:00s" max="0d:0h:40m:00s" />
+                        </checkpoint>
+                        <checkpoint id="DevelopmentStageThree" durationColour="red">
+                            <boundary min="0d:0h:40m:00s" max="0d:1h:00m:00s" />
+                        </checkpoint>
+                    </checkpoints>
+
                 </state>
                 <state id="Testing">
                     <datamodel>
@@ -141,6 +153,19 @@
                     </datamodel>
                     <transition event="Promote" target="Production"/>
                     <transition event="Demote" target="Development"/>
+
+                    <checkpoints>
+                        <checkpoint id="TestingStageOne" durationColour="green">
+                            <boundary min="0d:0h:0m:0s" max="0d:0h:20m:00s" />
+                        </checkpoint>
+                        <checkpoint id="TestingStageTwo" durationColour="blue">
+                            <boundary min="0d:0h:20m:00s" max="0d:0h:40m:00s" />
+                        </checkpoint>
+                        <checkpoint id="TestingStageThree" durationColour="red">
+                            <boundary min="0d:0h:40m:00s" max="0d:1h:00m:00s" />
+                        </checkpoint>
+                    </checkpoints>
+
                 </state>
                 <state id="Production">
                     <datamodel>
@@ -157,6 +182,17 @@
                     </datamodel>
                     <transition event="Deprecate" target="Deprecated"/>
                     <transition event="Demote" target="Testing"/>
+                    <checkpoints>
+                        <checkpoint id="ProductionStageOne" durationColour="green">
+                            <boundary min="0d:0h:0m:0s" max="0d:0h:20m:00s" />
+                        </checkpoint>
+                        <checkpoint id="ProductionStageTwo" durationColour="blue">
+                            <boundary min="0d:0h:20m:00s" max="0d:0h:40m:00s" />
+                        </checkpoint>
+                        <checkpoint id="ProductionStageThree" durationColour="red">
+                            <boundary min="0d:0h:40m:00s" max="0d:1h:00m:00s" />
+                        </checkpoint>
+                    </checkpoints>
                 </state>
                 <state id="Deprecated">
                     <datamodel>
@@ -171,6 +207,17 @@
                     </datamodel>
                     <transition event="Obsolete" target="Obsolete"/>
                     <transition event="Demote" target="Production"/>
+                    <checkpoints>
+                        <checkpoint id="DeprecateStageOne" durationColour="blue">
+                            <boundary min="0d:0h:0m:0s" max="0d:0h:20m:00s" />
+                        </checkpoint>
+                        <checkpoint id="DeprecateStageTwo" durationColour="orange">
+                            <boundary min="0d:0h:20m:00s" max="0d:0h:40m:00s" />
+                        </checkpoint>
+                        <checkpoint id="DeprecateStageThree" durationColour="red">
+                            <boundary min="0d:0h:40m:00s" max="0d:1h:00m:00s" />
+                        </checkpoint>
+                    </checkpoints>
                 </state>
                 <state id="Obsolete">
                     <checkpoints>

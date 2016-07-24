@@ -49,9 +49,9 @@ import java.nio.file.Paths;
 public class AddSampleStory {
 
     private static String cookie;
-    private static final String username = PopulatorConstants.username;
-    private static final String password = PopulatorConstants.password;
-    private static String user = PopulatorConstants.username;
+    private static final String username = PopulatorConstants.USERNAME;
+    private static final String password = PopulatorConstants.PASSWORD;
+    private static String user = username;
     private static String port;
     private static String host;
     private static String rootpath = "";
@@ -120,6 +120,7 @@ public class AddSampleStory {
 
             resourceServiceClient = new ResourceServiceClient(cookie, serverURL, configContext);
             lifeCycleManagementClient = new LifeCycleManagementClient(cookie, serverURL, configContext);
+            Registry gov = GovernanceUtils.getGovernanceUserRegistry(registry, user);
 
             addUsers(configContext);
 
@@ -158,7 +159,7 @@ public class AddSampleStory {
 
             System.out.println("Added Swagger files, WSDL and WS-Policy");
             Thread.sleep(3 * 500);
-            Registry gov = GovernanceUtils.getGovernanceUserRegistry(registry, user);
+
             // Should be load the governance artifact.
             GovernanceUtils.loadGovernanceArtifacts((UserRegistry) gov);
 

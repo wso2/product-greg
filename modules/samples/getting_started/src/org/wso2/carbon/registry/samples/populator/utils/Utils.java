@@ -24,34 +24,33 @@ import org.wso2.carbon.registry.core.exceptions.RegistryException;
 
 import java.io.*;
 
-
 public class Utils {
 
     /**
-     *This method is used to back up existing RXTs.
+     *This method is used to back up existing Files.
      *
      * @param registry      registry instance.
      * @param path          path of the rxt.
      * @param fileName      file name of backed up rxt files.
      * @throws RegistryException
      */
-    public static void backUpRXTs(Registry registry, String path, String fileName) throws RegistryException{
+    public static void backUpFiles(Registry registry, String path, String fileName) throws RegistryException {
         Resource resource = registry.get(path);
         try {
-            RXTContentToFile(resource.getContentStream(), fileName);
-        } catch (FileNotFoundException e){
-            System.out.println("Could not read rxt content");
+            contentToFile(resource.getContentStream(), fileName);
+        } catch (FileNotFoundException e) {
+            System.out.println("Could not read file content");
         }
     }
 
     /**
-     *This method is used to write rxt content to text file.
+     *This method is used to write file content to text file.
      *
      * @param is        rxt content as a input stream
-     * @param filename  file name of backed up rxt file.
+     * @param fileName  file name of backed up rxt file.
      * @throws FileNotFoundException
      */
-    private static void RXTContentToFile(InputStream is, String filename) throws FileNotFoundException {
+    private static void contentToFile(InputStream is, String fileName) throws FileNotFoundException {
 
         BufferedReader br = null;
         StringBuilder sb = new StringBuilder();
@@ -64,7 +63,7 @@ public class Utils {
             }
 
         } catch (IOException e) {
-            System.out.println("Could not read rxt content");
+            System.out.println("Could not read file content");
         } finally {
             if (br != null) {
                 try {
@@ -74,7 +73,7 @@ public class Utils {
                 }
             }
         }
-        PrintWriter out = new PrintWriter("resources/" + filename);
+        PrintWriter out = new PrintWriter("resources" + File.separator + fileName);
         out.println(sb.toString());
         out.flush();
         out.close();

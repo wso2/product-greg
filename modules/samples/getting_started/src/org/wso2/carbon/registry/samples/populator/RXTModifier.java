@@ -7,6 +7,7 @@ import org.wso2.carbon.registry.core.Resource;
 import org.wso2.carbon.registry.core.exceptions.RegistryException;
 import org.wso2.carbon.registry.resource.ui.clients.ResourceServiceClient;
 import org.wso2.carbon.registry.samples.populator.utils.PopulatorConstants;
+import org.wso2.carbon.registry.samples.populator.utils.Utils;
 import org.wso2.carbon.registry.ws.client.registry.WSRegistryServiceClient;
 import org.wso2.carbon.governance.api.util.GovernanceUtils;
 
@@ -25,15 +26,15 @@ import javax.activation.DataHandler;
 * new rxts with categorization feild.
  */
 public class RXTModifier {
+
     private static String cookie;
-    private static final String username = PopulatorConstants.username;
-    private static final String password = PopulatorConstants.password;
-    private static String port ;
-    private static String host ;
+    private static final String username = PopulatorConstants.USERNAME;
+    private static final String password = PopulatorConstants.PASSWORD;
+    private static String port;
+    private static String host;
     private static String serverURL;
     private static final String fileSeparator = File.separator + File.separator + File.separator;
-    private static final String serviceRxtPath =
-            "/repository/components/org.wso2.carbon.governance/types/";
+    private static final String serviceRxtPath = "/repository/components/org.wso2.carbon.governance/types/";
 
     private static void setSystemProperties() {
         StringBuilder builder = new StringBuilder();
@@ -50,14 +51,14 @@ public class RXTModifier {
     public static void main(String[] args) {
         try {
             port = args[0];
-            if(port == null || port.length() ==0){
+            if (port == null || port.length() == 0) {
                 port = "9443";
             }
-            host =args [1];
-            if(host == null || host.length() ==0){
+            host = args[1];
+            if (host == null || host.length() == 0) {
                 host = "localhost";
             }
-            serverURL = "https://"+host+":"+port+"/services/";
+            serverURL = "https://" + host + ":" + port + "/services/";
             setSystemProperties();
             String projectPath = System.getProperty("user.dir");
             StringBuilder builder = new StringBuilder();
@@ -68,34 +69,38 @@ public class RXTModifier {
             ConfigurationContext configContext = ConfigurationContextFactory
                     .createConfigurationContextFromFileSystem(axis2Configuration);
 
-            Registry registry = new WSRegistryServiceClient(
-                    serverURL, username,
-                    password, configContext) {
+            Registry registry = new WSRegistryServiceClient(serverURL, username, password, configContext) {
+
                 public void setCookie(String cookie) {
                     RXTModifier.cookie = cookie;
                     super.setCookie(cookie);
                 }
             };
+
+            String restServiceRxtPath = "/_system/governance" + serviceRxtPath + "restservice.rxt";
+            String soapServiceRxtPath = "/_system/governance" + serviceRxtPath + "soapservice.rxt";
+
             Registry govRegistry = GovernanceUtils.getGovernanceUserRegistry(registry, username);
-            backUpRXTs(govRegistry, serviceRxtPath + "restservice.rxt", "restserviceExisting.rxt");
-            backUpRXTs(govRegistry, serviceRxtPath + "soapservice.rxt", "soapserviceExisting.rxt");
-            ResourceServiceClient resourceServiceClient = new ResourceServiceClient(cookie,
-                    serverURL, configContext);
-            String restServiceRxtPath = serviceRxtPath + "restservice.rxt";
+            Utils.backUpFiles(govRegistry, serviceRxtPath + "restservice.rxt", "restserviceExisting.rxt");
+            Utils.backUpFiles(govRegistry, serviceRxtPath + "soapservice.rxt", "soapserviceExisting.rxt");
+            ResourceServiceClient resourceServiceClient = new ResourceServiceClient(cookie, serverURL, configContext);
             resourceServiceClient.delete(restServiceRxtPath);
-            DataHandler dh1 = new DataHandler(new URL("file:" + fileSeparator + projectPath+ File
-                    .separator + "resources" +File.separator + "restservice.rxt"));
-            resourceServiceClient.addResource(restServiceRxtPath,
-                    "application/vnd.wso2.registry-ext-type+xml", null, dh1, null, null);
+            DataHandler dh1 = new DataHandler(
+                    new URL("file:" + fileSeparator + projectPath + File.separator + "resources" + File.separator
+                            + "restservice.rxt"));
+            resourceServiceClient
+                    .addResource(restServiceRxtPath, "application/vnd.wso2.registry-ext-type+xml", null, dh1, null,
+                            null);
             //Thread.sleep(5 * 1000);
             System.out.println("Successfully added categorization field to Rest Service RXT");
 
-            String soapServiceRxtPath = serviceRxtPath + "soapservice.rxt";
             resourceServiceClient.delete(soapServiceRxtPath);
-            DataHandler dh2 = new DataHandler(new URL("file:" + fileSeparator + projectPath+ File
-                    .separator + "resources" + File.separator + "soapservice.rxt"));
-            resourceServiceClient.addResource(soapServiceRxtPath,
-                    "application/vnd.wso2.registry-ext-type+xml", null, dh2, null, null);
+            DataHandler dh2 = new DataHandler(
+                    new URL("file:" + fileSeparator + projectPath + File.separator + "resources" + File.separator
+                            + "soapservice.rxt"));
+            resourceServiceClient
+                    .addResource(soapServiceRxtPath, "application/vnd.wso2.registry-ext-type+xml", null, dh2, null,
+                            null);
             Thread.sleep(3 * 1000);
             System.out.println("Successfully added categorization field to Soap Service RXT");
 
@@ -104,59 +109,5 @@ public class RXTModifier {
             e.printStackTrace();
         }
         System.exit(0);
-    }
-
-    /**
-     *This method is used to back up existing RXTs.
-     *
-     * @param registry      registry instance.
-     * @param path          path of the rxt.
-     * @param fileName      file name of backed up rxt files.
-     * @throws RegistryException
-     */
-    private static void backUpRXTs(Registry registry, String path, String fileName) throws RegistryException{
-        Resource resource = registry.get(path);
-        try {
-            RXTContentToFile(resource.getContentStream(), fileName);
-        } catch (FileNotFoundException e){
-            System.out.println("Could not read rxt content");
-        }
-    }
-
-    /**
-     *This method is used to write rxt content to text file.
-     *
-     * @param is        rxt content as a input stream
-     * @param fileName  file name of backed up rxt file.
-     * @throws FileNotFoundException
-     */
-    private static void RXTContentToFile(InputStream is, String fileName) throws FileNotFoundException {
-
-        BufferedReader br = null;
-        StringBuilder sb = new StringBuilder();
-        String line;
-        try {
-            br = new BufferedReader(new InputStreamReader(is));
-            while ((line = br.readLine()) != null) {
-                sb.append(line);
-                sb.append("\n");
-            }
-
-        } catch (IOException e) {
-            System.out.println("Could not read rxt content");
-        } finally {
-            if (br != null) {
-                try {
-                    br.close();
-                } catch (IOException e) {
-                    System.out.println("Could not close input stream");
-                }
-            }
-        }
-        PrintWriter out = new PrintWriter("resources" + File.separator + fileName);
-        out.println(sb.toString());
-        out.flush();
-        out.close();
-
     }
 }

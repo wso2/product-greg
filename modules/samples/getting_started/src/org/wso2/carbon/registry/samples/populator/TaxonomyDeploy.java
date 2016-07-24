@@ -27,8 +27,8 @@ public class TaxonomyDeploy {
 
     public static final String TAXO_MEDIA_TYPE = "application/taxo+xml";
     private static String cookie;
-    private static final String username = PopulatorConstants.username;
-    private static final String password = PopulatorConstants.password;
+    private static final String username = PopulatorConstants.USERNAME;
+    private static final String password = PopulatorConstants.PASSWORD;
     private static String port;
     private static String host;
     private static String serverURL;

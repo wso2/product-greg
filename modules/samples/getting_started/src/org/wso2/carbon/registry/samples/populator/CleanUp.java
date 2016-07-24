@@ -43,6 +43,9 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import java.nio.file.Files;
+import java.nio.file.Paths;
+
 /*
 * This class is used to delete all the added sample data.
  */
@@ -50,9 +53,9 @@ public class CleanUp {
 
     private static String cookie;
     private static String rootpath = "";
-    private static final String username = PopulatorConstants.username;
-    private static final String password = PopulatorConstants.password;
-    private static String user = PopulatorConstants.username;
+    private static final String username = PopulatorConstants.USERNAME;
+    private static final String password = PopulatorConstants.PASSWORD;
+    private static String user = username;
     private static String port ;
     private static String host ;
     private static String serverURL;
@@ -358,7 +361,7 @@ public class CleanUp {
     }
 
     /***
-     * This method is used to delete roles
+     * This method is used to delete LifeCycles
      *
      * @param lcNames
      * @param configContext
@@ -372,6 +375,30 @@ public class CleanUp {
                 lifeCycleManagementClient.deleteLifecycle(lcNames[i]);
             }
         }
+    }
+
+    /***
+     * This method is used to add LifeCycles
+     *
+     * @param lcNames
+     * @param configContext
+     * @throws Exception
+     */
+    private static void addLifeCycles(String [] lcNames, ConfigurationContext configContext) throws Exception{
+        if (lcNames != null && lcNames.length > 0) {
+            LifeCycleManagementClient lifeCycleManagementClient = new LifeCycleManagementClient(cookie, serverURL,
+                    configContext);
+            String projectPath = System.getProperty("user.dir");
+            for (int i =0; i < lcNames.length; i++) {
+                lifeCycleManagementClient.createLifecycle(readFile(projectPath + File.separator + "resources" +
+                        File.separator + lcNames[i]+"Existing.xml"));
+                Thread.sleep(3 * 1000);
+            }
+        }
+    }
+
+    private static String readFile(String filePath) throws IOException {
+        return new String(Files.readAllBytes(Paths.get(filePath)));
     }
 
     /**
