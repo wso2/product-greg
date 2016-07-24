@@ -20,14 +20,13 @@ public class RXTReDeploy {
 
     public static final String RXT_MEDIA_TYPE = "application/vnd.wso2.registry-ext-type+xml";
     private static String cookie;
-    private static final String username = PopulatorConstants.username;
-    private static final String password = PopulatorConstants.password;
-    private static String port ;
-    private static String host ;
+    private static final String username = PopulatorConstants.USERNAME;
+    private static final String password = PopulatorConstants.PASSWORD;
+    private static String port;
+    private static String host;
     private static String serverURL;
     private static final String fileSeparator = File.separator + File.separator + File.separator;
-    private static final String serviceRxtPath =
-            "/_system/governance/repository/components/org.wso2.carbon.governance/types/";
+    private static final String serviceRxtPath = "/repository/components/org.wso2.carbon.governance/types/";
 
     private static void setSystemProperties() {
         StringBuilder builder = new StringBuilder();
@@ -44,14 +43,14 @@ public class RXTReDeploy {
     public static void main(String[] args) {
         try {
             port = args[0];
-            if(port == null || port.length() ==0){
+            if (port == null || port.length() == 0) {
                 port = "9443";
             }
-            host =args [1];
-            if(host == null || host.length() ==0){
+            host = args[1];
+            if (host == null || host.length() == 0) {
                 host = "localhost";
             }
-            serverURL = "https://"+host+":"+port+"/services/";
+            serverURL = "https://" + host + ":" + port + "/services/";
             setSystemProperties();
             String projectPath = System.getProperty("user.dir");
             StringBuilder builder = new StringBuilder();
@@ -70,8 +69,10 @@ public class RXTReDeploy {
                 }
             };
 
+            String restServiceRxtPath = "/_system/governance" + serviceRxtPath + "restservice.rxt";
+            String soapServiceRxtPath = "/_system/governance" + serviceRxtPath + "soapservice.rxt";
+
             ResourceServiceClient resourceServiceClient = new ResourceServiceClient(cookie, serverURL, configContext);
-            String restServiceRxtPath = serviceRxtPath + "restservice.rxt";
             resourceServiceClient.delete(restServiceRxtPath);
             DataHandler dh1 = new DataHandler(new URL("file:" + fileSeparator + projectPath + File.separator +
                     "resources" + File.separator + "restserviceExisting.rxt"));
@@ -79,14 +80,12 @@ public class RXTReDeploy {
             //Thread.sleep(5 * 1000);
             System.out.println("Successfully re deployed Rest Service RXT");
 
-            String soapServiceRxtPath = serviceRxtPath + "soapservice.rxt";
             resourceServiceClient.delete(soapServiceRxtPath);
-            DataHandler dh2 = new DataHandler(new URL("file:" +fileSeparator + projectPath + File.separator +
+            DataHandler dh2 = new DataHandler(new URL("file:" + fileSeparator + projectPath + File.separator +
                     "resources" + File.separator + "soapserviceExisting.rxt"));
             resourceServiceClient.addResource(soapServiceRxtPath, RXT_MEDIA_TYPE, null, dh2, null, null);
             //Thread.sleep(5 * 1000);
             System.out.println("Successfully re deployed Soap Service RXT");
-
 
         } catch (Exception e) {
             System.out.println("An error occurred.");

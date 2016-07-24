@@ -38,9 +38,9 @@ public class CategorizeArtifacts {
             CARBON_HOME + File.separator + "repository" + File.separator + "deployment" + File.separator + "client";
     private static final String axis2Conf = ServerConfiguration.getInstance()
             .getFirstProperty("Axis2Config.clientAxis2XmlLocation");
-    private static final String username = PopulatorConstants.username;
-    private static final String password = PopulatorConstants.password;
-    private static String user = PopulatorConstants.username;
+    private static final String username = PopulatorConstants.USERNAME;
+    private static final String password = PopulatorConstants.PASSWORD;
+    private static String user = username;
     private static String port;
     private static String host;
     private static String serverURL;

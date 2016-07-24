@@ -50,9 +50,9 @@ public class Main {
     private static final String MEDIA_TYPE_SWAGGER = "application/swagger+json";
     private static final String MEDIA_TYPE_POLICY = "application/policy+xml";
     private static String cookie;
-    private static final String username = PopulatorConstants.username;
-    private static final String password = PopulatorConstants.password;
-    private static String user = PopulatorConstants.username;
+    private static final String username = PopulatorConstants.USERNAME;
+    private static final String password = PopulatorConstants.PASSWORD;
+    private static String user = username;
     private static final String fileSeparator = File.separator + File.separator + File.separator;
     private static String port ;
     private static String host ;
