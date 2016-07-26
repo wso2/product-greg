@@ -605,3 +605,9 @@ a.btn.btn-default.input-group-addon {
 .notification-message-dialog-box {
     text-align: center;
 }
+
+/*<Top ribbon>*/
+span.fw-stack-md.ribonArrow {
+    margin-top: -3px;
+}
+/*</Top ribbon>*/
