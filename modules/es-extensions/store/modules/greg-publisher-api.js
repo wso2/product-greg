@@ -172,23 +172,62 @@ var gregAPI = {};
         //log.info(message);
     };
 
-    var getNotificationRows = function() {
+    /**
+     * This method retrieve notifications from humantask core TaskOperationService
+     */
+    var getRefreshedNotificationRows = function () {
+
         var queryInput = new org.wso2.carbon.humantask.client.api.types.TSimpleQueryInput();
         queryInput.setPageNumber(0);
         queryInput.setSimpleQueryCategory(org.wso2.carbon.humantask.client.api.types.TSimpleQueryCategory.ASSIGNED_TO_ME);
         var resultSet = taskOperationService.simpleQuery(queryInput);
         var rows = resultSet.getRow();
+
         var queryInputClaim = new org.wso2.carbon.humantask.client.api.types.TSimpleQueryInput();
         queryInputClaim.setPageNumber(0);
         queryInputClaim.setSimpleQueryCategory(org.wso2.carbon.humantask.client.api.types.TSimpleQueryCategory.CLAIMABLE);
         var resultSetClaim = taskOperationService.simpleQuery(queryInputClaim);
-        if (rows && resultSetClaim.getRow()){
+        if (rows != null && resultSetClaim.getRow() != null) {
             rows = org.apache.commons.lang.ArrayUtils.addAll(rows, resultSetClaim.getRow());
-        } else if (!rows && resultSetClaim.getRow()){
+        } else if (rows == null && resultSetClaim.getRow() != null) {
             rows = resultSetClaim.getRow();
         }
 
         return rows;
+    };
+
+    /**
+     * This method is to clean the notifications
+     */
+    var getNotificationRows = function () {
+
+        var rows = getRefreshedNotificationRows();
+
+        // Below if block is a workaround to stop showing duplicate notifications.
+        if (rows != null) {
+            for (var i = 0; i < rows.length; i++) {
+                var row = rows[i];
+                if (rows.length > (i + 1)) {
+                    var row2 = rows[i + 1];
+                    if ((String(row.getPresentationSubject()) == String(row2.getPresentationSubject()))
+                        && (getTimeFromRow(row.getCreatedTime()) == getTimeFromRow(row2.getCreatedTime()))) {
+                        var id = String(row2.getId());
+                        var idObj = new org.apache.axis2.databinding.types.URI(id);
+                        try {
+                            // Deleting duplicate notifications permanently.
+                            taskOperationService.start(idObj);
+                            taskOperationService.complete(idObj, "<WorkResponse>true</WorkResponse>");
+                        } catch (e) {
+                            log.warn(e);
+                        }
+                    }
+                }
+            }
+        }
+
+        var newRows = getRefreshedNotificationRows();
+
+        return newRows;
     };
 
     gregAPI.notifications.count = function(am) {
@@ -288,32 +327,17 @@ var gregAPI = {};
         return results;
     };
 
-    gregAPI.notifications.clear = function(res) {
-        var queryInput = new TSimpleQueryInput();
-        var message;
-        queryInput.setPageNumber(0);
-        queryInput.setSimpleQueryCategory(
-            org.wso2.carbon.humantask.client.api.types.TSimpleQueryCategory.ASSIGNED_TO_ME);
-        var resultSet = taskOperationService.simpleQuery(queryInput);
-        var rows = resultSet.getRow();
-        var queryInputClaim = new org.wso2.carbon.humantask.client.api.types.TSimpleQueryInput();
-        queryInputClaim.setPageNumber(0);
-        queryInputClaim.setSimpleQueryCategory(org.wso2.carbon.humantask.client.api.types.TSimpleQueryCategory.CLAIMABLE);
-        var resultSetClaim = taskOperationService.simpleQuery(queryInputClaim);
-        if (rows != null && resultSetClaim.getRow() != null) {
-            rows = org.apache.commons.lang.ArrayUtils.addAll(rows, resultSetClaim.getRow());
-        } else if (rows == null && resultSetClaim.getRow() != null) {
-            rows = resultSetClaim.getRow();
-        }
+    gregAPI.notifications.clear = function (res) {
+        var rows = getNotificationRows();
         if (rows) {
             for (var i = 0; i < rows.length; i++) {
-                var row =  rows[i];
+                var row = rows[i];
                 var id = String(row.getId());
                 var idObj = new org.apache.axis2.databinding.types.URI(id);
-                try{
+                try {
                     taskOperationService.start(idObj);
                     taskOperationService.complete(idObj, "<WorkResponse>true</WorkResponse>");
-                } catch (e){
+                } catch (e) {
                     log.warn(e);
                     return responseProcessor.buildErrorResponseDefault(e.code, 'error on clearing notifications', res,
                         'Failed to clear all notifications ', e.message, []);

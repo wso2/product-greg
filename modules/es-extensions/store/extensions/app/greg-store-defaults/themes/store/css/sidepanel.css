@@ -2,7 +2,7 @@
     width: 400px;
     position: absolute;
     right: -400px;
-    z-index: 1000;
+    z-index: 999999;
     transition: right 0.4s ease 0s;
     overflow-y: auto;
     overflow-x: hidden;
