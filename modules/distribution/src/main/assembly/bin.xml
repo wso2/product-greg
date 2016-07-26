@@ -221,6 +221,7 @@
             <outputDirectory>${pom.artifactId}-${build.version}/repository/resources</outputDirectory>
             <includes>
                 <include>**/lifecycle-config.xsd</include>
+                <include>**/taxonomy.xsd</include>
                 <include>**/rxt.xsd</include>
                 <include>**/scxml.xsd</include>
                 <include>**/services-config.xml</include>
