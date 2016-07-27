@@ -273,6 +273,47 @@ public class GovernanceRestApiEndpointTestCase extends GregESTestBaseTest {
         Assert.assertEquals(obj.get(endpointLifecycle), activeState);
     }
 
+    @Test(groups = { "wso2.greg", "wso2.greg.governance.rest.api" }, description = "Get all associations",
+            dependsOnMethods = { "getEndpointState" })
+    public void getAssociations() throws IOException, JSONException, XPathExpressionException, InterruptedException {
+
+        setTestEnvironment();
+        Map<String, String> queryParamMap = new HashMap<>();
+        queryParamMap.put("type", "restservice");
+        String restTemplate1 = readFile(resourcePath + "json" + File.separator + "restservice-sample.json");
+        String dataBody = String.format(restTemplate1, "TestRESTService2", "wso2", "/rest", restServiceVersion);
+        ClientResponse response = genericRestClient
+                .geneticRestRequestPost(publisherUrl + "/assets", MediaType.APPLICATION_JSON,
+                        MediaType.APPLICATION_JSON, dataBody, queryParamMap, headerMap, cookieHeader);
+        JSONObject obj = new JSONObject(response.getEntity(String.class));
+        Assert.assertTrue((response.getStatusCode() == 201), "Wrong status code ,Expected 201 Created ,Received " +
+                response.getStatusCode());
+        String assetId = (String) obj.get("id");
+        Assert.assertNotNull(assetId, "Empty asset resource id available" + response.getEntity(String.class));
+
+        String governanceRestApiUrlForEndpointsAssociation = governanceRestApiUrlForEndpoints + "/restservices/" +
+                assetId;
+        String dataBody2 = GovernanceRestApiUtil.createEndpointDataBody(restTemplate, associationEndpointName,
+                enviornment_qa);
+        ClientResponse response2 = GovernanceRestApiUtil.createAsset(genericRestClient, dataBody2, queryParamMap,
+                headerMap, governanceRestApiUrlForEndpointsAssociation);
+
+        Assert.assertTrue(response.getStatusCode() == HttpStatus.CREATED.getCode(),
+                "Wrong status code ,Expected 201 Created ,Received " + response2.getStatusCode());
+        String locationHeader = response2.getHeaders().get("Location").get(0);
+        String assetIdOfEndpoint = locationHeader.substring(locationHeader.lastIndexOf("/") + 1);
+        Thread.sleep(1000);
+
+        Map<String, String> headerMap = new HashMap<>();
+        headerMap.put(AUTHORIZATION_HEADER, AUTHORIZATION_HEADER_VALUE);
+        String governanceRestApiUrlForEndpointState = governaceAPIUrl + "/restservices/" + assetId + "/associations";
+        ClientResponse response3 = genericRestClient.geneticRestRequestGet(governanceRestApiUrlForEndpointState,
+                queryParamMap, headerMap, null);
+        String obj2 = response3.getEntity(String.class);
+        Assert.assertEquals(obj2.contains(assetId), true);
+        Assert.assertEquals(obj2.contains(assetIdOfEndpoint), true);
+    }
+
     @Test(groups = {"wso2.greg", "wso2.greg.governance.rest.api"}, description = "Deactivate an endpoint",
           dependsOnMethods = {"getEndpointState"})
     public void deactivateEndpoint()
