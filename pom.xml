@@ -944,16 +944,16 @@
 
         <!-- Store -->
 
-        <caramel.feature.version>1.5.4-SNAPSHOT</caramel.feature.version>
-        <handlebars.feature.version>1.5.4-SNAPSHOT</handlebars.feature.version>
-        <markdown.feature.version>1.5.4-SNAPSHOT</markdown.feature.version>
-        <process.feature.version>1.5.4-SNAPSHOT</process.feature.version>
-        <carbon.feature.version>1.5.4-SNAPSHOT</carbon.feature.version>
-        <uuid.feature.version>1.5.4-SNAPSHOT</uuid.feature.version>
-        <sso.feature.version>1.5.4-SNAPSHOT</sso.feature.version>
-        <es.feature.version>2.4.2-SNAPSHOT</es.feature.version>
-        <carbon.social.version>2.4.2-SNAPSHOT</carbon.social.version>
-        <i18n.feature.version>1.5.4-SNAPSHOT</i18n.feature.version>
+        <caramel.feature.version>1.5.4</caramel.feature.version>
+        <handlebars.feature.version>1.5.4</handlebars.feature.version>
+        <markdown.feature.version>1.5.4</markdown.feature.version>
+        <process.feature.version>1.5.4</process.feature.version>
+        <carbon.feature.version>1.5.4</carbon.feature.version>
+        <uuid.feature.version>1.5.4</uuid.feature.version>
+        <sso.feature.version>1.5.4</sso.feature.version>
+        <es.feature.version>2.4.2</es.feature.version>
+        <carbon.social.version>2.4.2</carbon.social.version>
+        <i18n.feature.version>1.5.4</i18n.feature.version>
         <!--<event.feature.version>1.0.0</event.feature.version>-->
         <!--<login.feature.version>1.0.0</login.feature.version>-->
         <!--<permission.feature.version>1.0.0</permission.feature.version>-->
@@ -1026,9 +1026,9 @@
         </carbon.registry.package.import.version.range>
 
         <!-- Carbon Governance -->
-        <carbon.governance.version>4.7.1-SNAPSHOT</carbon.governance.version>
+        <carbon.governance.version>4.7.1</carbon.governance.version>
 
-        <carbon.governance.ext.version>4.5.2-SNAPSHOT</carbon.governance.ext.version>
+        <carbon.governance.ext.version>4.5.2</carbon.governance.ext.version>
 
         <carbon.business.process.version>4.4.9</carbon.business.process.version>
         
