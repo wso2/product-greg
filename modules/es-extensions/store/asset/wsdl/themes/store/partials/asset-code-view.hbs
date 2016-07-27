@@ -11,7 +11,13 @@
             {{#if wsdlContent}}
                 <textarea id="wsdlcontent" name="wsdlcontent" style="width:100%">{{../wsdlContent}}</textarea>
             {{else}}
-                <p>{{t "No WSDL Content To Display"}}</p>
+                <div class="col-lg-12 table table-striped table-hover divrow">
+                    <div class="col-lg-4">
+                        <b>
+                            {{t "No WSDL content to display."}}
+                        </b>
+                    </div>
+                </div>
             {{/if}}
         </div>
     </div>

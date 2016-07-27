@@ -37,7 +37,17 @@
                 {{#if swaggerContent}}
                     <textarea id="swaggercontent" name="swaggercontent" style="width:100%">{{swaggerContent}}</textarea>
                 {{else}}
-                    <p>{{t "No Swagger or WADL Content To Display"}}</p>
+                    <div class="es-col-lg-12">
+                        <h4>{{t "Content"}}</h4>
+                        <hr>
+                    </div>
+                    <div class="col-lg-12 table table-striped table-hover divrow">
+                        <div class="col-lg-4">
+                            <b>
+                                {{t "No Swagger or WADL content to display."}}
+                            </b>
+                        </div>
+                    </div>
                 {{/if}}
             {{/if}}
         </div>
