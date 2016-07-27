@@ -1037,7 +1037,7 @@
         <!-- Carbon Identity -->
         <carbon.identity.framework.version>5.2.0</carbon.identity.framework.version>
         <identity.application.auth.basic.auth.version>5.1.1</identity.application.auth.basic.auth.version>
-        <identity.auth.saml2.version>5.1.1</identity.auth.saml2.version>
+        <identity.auth.saml2.version>5.1.2</identity.auth.saml2.version>
         <identity.inbound.auth.oauth.version>5.1.1</identity.inbound.auth.oauth.version>
         <identity.applicatoin.oauth.oidc.version>5.1.1</identity.applicatoin.oauth.oidc.version>
         <identity.inbound.auth.oidc.version>5.1.1</identity.inbound.auth.oidc.version>
