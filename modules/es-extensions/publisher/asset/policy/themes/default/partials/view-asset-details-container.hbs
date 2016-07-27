@@ -27,7 +27,7 @@
                                     </i>
                                 </a>
                             </h2>
-                            <div id="collapseoverview" class="collapse">
+                            <div id="collapseoverview" class="collapse in">
                                 <div id="Overview" class="collapse in" area-expanded="true" style="">
                                     <div class="row padding-bottom-lg" id="Name">
                                         <div class="col-sm-2 custom-form-label text-right">{{t "Name"}} :</div>
@@ -46,11 +46,13 @@
 
                             <div id='policy-viewer'>
                                 <h2 class="field-title">
-                                    <a class="collapsing-h2" data-toggle="collapse" area-expanded="true" collapseoverview="">
-                                        Content
+                                    <a class="collapsing-h2" data-toggle="collapse" area-expanded="true" href="#collapseContent">
+                                        <i class="cu-btn-exp-col btn-collapsed"> {{t "Content"}}</i>
                                     </a>
                                 </h2>
-                                <textarea id="policycontent" name="policycontent">{{content}}</textarea>
+                                <div id="collapseContent" class="collapse in">
+                                    <textarea id="policycontent" name="policycontent">{{content}}</textarea>
+                                </div>
                             </div>
 
                         </div>

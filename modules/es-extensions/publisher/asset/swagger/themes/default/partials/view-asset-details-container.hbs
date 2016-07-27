@@ -27,7 +27,7 @@
                                 </a>
                             </h2>
 
-                            <div id="collpaseoverview" class="collapse">
+                            <div id="collpaseoverview" class="collapse in">
                                 <div id="Overview" class="collapse in" area-expanded="true" style="">
                                     <div class="row padding-bottom-lg" id="Name">
                                         <div class="col-sm-2 custom-form-label text-right">{{t "Name"}} :</div>
@@ -75,12 +75,14 @@
                             {{/if}}
 
                             <div id='swagger-viewer'>
-                            <h2 class="field-title">
-                                <a class="collapsing-h2" data-toggle="collapse" area-expanded="true">
-                                    {{t "Content"}}
-                                </a>
-                            </h2>
-                                <textarea id="swaggercontent" name="swaggercontent">{{content}}</textarea>
+                                <h2 class="field-title">
+                                    <a class="collapsing-h2" data-toggle="collapse" area-expanded="true" href="#collapseContent">
+                                        <i class="cu-btn-exp-col btn-collapsed"> {{t "Content"}}</i>
+                                    </a>
+                                </h2>
+                                <div id="collapseContent" class="collapse in">
+                                    <textarea id="swaggercontent" name="swaggercontent">{{content}}</textarea>
+                                </div>
                             </div>
 
                         </div>

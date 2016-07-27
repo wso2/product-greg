@@ -26,7 +26,7 @@
                                     <i class="cu-btn-exp-col btn-collapsed">{{t "Overview"}}</i>
                                 </a>
                             </h2>
-                            <div id="collapseoverview" class="collapse">
+                            <div id="collapseoverview" class="collapse in">
                             <div id="Overview" class="collapse in" area-expanded="true" style="">
                                 <div class="row padding-bottom-lg" id="Name">
                                     <div class="col-sm-2 custom-form-label text-right">{{t "Name"}} :</div>
@@ -49,33 +49,34 @@
                                 </a>
                             </h2>
 
-                            <div id="collapsedependencies" class="collpase">
-                            <div id=""
-                            <div class="row padding-bottom-lg" id="Name">
-                                <div class="col-sm-2 custom-form-label text-right">{{t "Associated REST services"}} :</div>
-                                <table>
-                                    {{#each dependencies}}
-                                        <tr>
-                                            <td>
-                                                <div class="col-sm-20">
-                                                    <a href="../../../assets/{{this.associationType}}/details/{{this
-                                                    .associationUUID}}">{{this.associationName}} {{#if this.associationVersion}} v{{this.associationVersion}}
-                                                    {{/if}}</a>
-                                                </div>
-                                                <br>
-                                            </td>
-                                        </tr>
-                                    {{/each}}
-                                </table>
+                            <div id="collapsedependencies" class="collapse">
+                                <div class="row padding-bottom-lg" id="Name">
+                                    <div class="col-sm-2 custom-form-label text-right">{{t "Associated REST services"}} :</div>
+                                    <table>
+                                        {{#each dependencies}}
+                                            <tr>
+                                                <td>
+                                                    <div class="col-sm-20">
+                                                        <a href="../../../assets/{{this.associationType}}/details/{{this
+                                                        .associationUUID}}">{{this.associationName}} {{#if this.associationVersion}} v{{this.associationVersion}}
+                                                        {{/if}}</a>
+                                                    </div>
+                                                    <br>
+                                                </td>
+                                            </tr>
+                                        {{/each}}
+                                    </table>
+                                </div>
                             </div>
-                           </div>
                             <div id='wadl-viewer'>
                                 <h2 class="field-title">
-                                    <a class="collapsing-h2" data-toggle="collapse" area-expanded="true">
-                                        {{t "Content"}}
+                                    <a class="collapsing-h2" data-toggle="collapse" area-expanded="true" href="#collapseContent">
+                                        <i class="cu-btn-exp-col btn-collapsed"> {{t "Content"}}</i>
                                     </a>
                                 </h2>
-                                <textarea id="wadlcontent" name="wadlcontent">{{content}}</textarea>
+                                <div id="collapseContent" class="collapse in">
+                                    <textarea id="wadlcontent" name="wadlcontent">{{content}}</textarea>
+                                </div>
                             </div>
                         </div>
                     </div>
