@@ -122,7 +122,7 @@ function createRelation(sourceID, targetID, relationType, relationID){
 
     relation.source = sourceID;
     relation.target = targetID;
-    relation.relation = relationType;
+    relation.relation = encodeURIComponent(relationType);
     relation.id = relationID;
 
     return relation;
