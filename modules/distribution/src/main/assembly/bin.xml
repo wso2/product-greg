@@ -649,6 +649,13 @@
                 <include>**/master-datasources.xml</include>
             </includes>
         </fileSet>
+	<fileSet>
+            <directory>src/main/resources/carbon-home/conf/identity</directory>
+            <outputDirectory>${pom.artifactId}-${build.version}/repository/conf/identity/service-providers</outputDirectory>
+            <includes>
+                <include>**/default.xml</include>
+            </includes>
+	</fileSet>
         <fileSet>
             <directory>../p2-profile-gen/target/wso2carbon-core-${carbon.kernel.version}/repository/conf</directory>
             <outputDirectory>${pom.artifactId}-${build.version}/repository/conf</outputDirectory>
@@ -973,12 +980,6 @@
         <file>
             <source>src/main/resources/carbon-home/conf/security/Owasp.CsrfGuard.Carbon.properties</source>
             <outputDirectory>${pom.artifactId}-${build.version}/repository/conf/security</outputDirectory>
-            <filtered>true</filtered>
-            <fileMode>644</fileMode>
-        </file>
-        <file>
-            <source>src/main/resources/carbon-home/conf/identity/default.xml</source>
-            <outputDirectory>${pom.artifactId}-${build.version}/repository/conf/identity/service-providers</outputDirectory>
             <filtered>true</filtered>
             <fileMode>644</fileMode>
         </file>
