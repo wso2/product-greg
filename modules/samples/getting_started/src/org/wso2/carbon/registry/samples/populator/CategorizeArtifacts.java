@@ -44,8 +44,8 @@ public class CategorizeArtifacts {
     private static String port;
     private static String host;
     private static String serverURL;
-    private static final String[] environments = new String[] { "Engineering", "Finance", "HR", "Sales", "Marketing" };
-    private static final String[] levels = new String[] { "Level 1", "Level 2", "Level 3", "Level 4" };
+    private static final String[] languages = new String[] { "Java", "Jaggeryjs", "C#net", "Python", "Nodejs", "PHP" };
+    private static final String[] tiers = new String[] { "Bronze", "Silver", "Gold", "Unlimited" };
     private static final String[] tagsList = new String[] { "wso2", "greg", "pay", "money", "json", "js", "people",
             "registry", "apps", "services" };
     private static String rootpath = "";
@@ -123,11 +123,11 @@ public class CategorizeArtifacts {
                 for (GenericArtifact artifact : restServices) {
                     if (restServicesList.contains(artifact.getQName().getLocalPart())) {
                         String lifeCycleName = artifact.getLifecycleName();
-                        String environment = environments[i % 5];
-                        String level = levels[i % 4];
+                        String language = languages[i % 6];
+                        String tier = tiers[i % 4];
                         if (!BUYMORE_LIFE_CYCLE.equals(lifeCycleName)) {
-                            artifact.setAttribute("categorization_environment", environment);
-                            artifact.setAttribute("categorization_level", level);
+                            artifact.setAttribute("categorization_language", language);
+                            artifact.setAttribute("categorization_tier", tier);
                             artifactManager1.updateGenericArtifact(artifact);
                             String path = artifact.getPath();
                             gov.applyTag(path, tagsList[i % 10]);
@@ -146,9 +146,9 @@ public class CategorizeArtifacts {
                             }
                             i++;
                         } else {
-                            environment = "Sales";
-                            artifact.setAttribute("categorization_environment", environment);
-                            artifact.setAttribute("categorization_level", level);
+                            language = "Java";
+                            artifact.setAttribute("categorization_language", language);
+                            artifact.setAttribute("categorization_tier", tier);
                             artifactManager1.updateGenericArtifact(artifact);
                             String path = artifact.getPath();
                             gov.applyTag(path, "BuyMore");
@@ -182,10 +182,10 @@ public class CategorizeArtifacts {
                 int j = 0;
                 for (GenericArtifact artifact : soapServices) {
                     if (soapServicesList.contains(artifact.getQName().getLocalPart())) {
-                        String environment = environments[j % 5];
-                        String level = levels[j % 4];
-                        artifact.setAttribute("categorization_environment", environment);
-                        artifact.setAttribute("categorization_level", level);
+                        String language = languages[j % 6];
+                        String tier = tiers[j % 4];
+                        artifact.setAttribute("categorization_language", language);
+                        artifact.setAttribute("categorization_tier", tier);
                         artifactManager2.updateGenericArtifact(artifact);
                         String path = artifact.getPath();
                         gov.applyTag(path, tagsList[j % 10]);
