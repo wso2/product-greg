@@ -25,10 +25,11 @@ app.server = function(){
 					path:'soap-viewer.jag'
 				},
 
-		        {
-		          url:'wsdl-viewer',
-		          path:'wsdl-viewer.jag'
-        		}
+                {
+                    title: 'Visualize WSDL',
+                    url: 'wsdl-viewer',
+                    path: 'wsdl-viewer.jag'
+                }
 			]
 		}
 	};
