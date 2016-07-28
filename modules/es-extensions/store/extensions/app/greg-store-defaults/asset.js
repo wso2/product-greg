@@ -149,6 +149,9 @@ asset.configure = function() {
                     {name: "overview_name", label: "Name"},
                     {name: "createdDate", label: "Date/Time"}
                 ]
+            },
+            ui:{
+                icon:'fw fw-resource'
             }
         }
     }
