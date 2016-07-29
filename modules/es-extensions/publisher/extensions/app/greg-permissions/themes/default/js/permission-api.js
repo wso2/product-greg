@@ -1,4 +1,4 @@
-    /*
+/*
  *  Copyright (c) 2015, WSO2 Inc. (http://www.wso2.org) All Rights Reserved.
  *
  *  WSO2 Inc. licenses this file to you under the Apache License,
@@ -65,7 +65,7 @@ $(function () {
                 var roleNames = data.data.roleNames;
                 authorizedRoles = data.data.authorizedRoles;
                 for (var i in roleNames) {
-                    if(roleNames.hasOwnProperty(i)){
+                    if (roleNames.hasOwnProperty(i)) {
                         var role = capitalizeRole(roleNames[i].toLowerCase());
                         addOptionsToSelect2(role);
                     }
@@ -80,8 +80,8 @@ $(function () {
     var isRoleAuthorized = function (role) {
         var status = false;
         for (var i in authorizedRoles) {
-            if(authorizedRoles.hasOwnProperty(i)){
-                if(authorizedRoles[i] == role){
+            if (authorizedRoles.hasOwnProperty(i)) {
+                if (authorizedRoles[i] == role) {
                     status = true;
                 }
             }
@@ -168,7 +168,7 @@ $(function () {
                     "No permissions to show</div>");
             }
         }, 250);
-        if(action == "restricted"){
+        if (action == "restricted") {
             messages.alertSuccess("Resource successfully " + action + " from " + role);
         } else {
             messages.alertSuccess("Resource successfully " + action + " with " + role);
@@ -203,11 +203,11 @@ $(function () {
         return modifiedRole;
     };
 
-    var capitalize = function(role) {
+    var capitalize = function (role) {
         return role.substr(0, 1).toUpperCase() + role.substr(1);
     };
 
-    var capitalizeRole = function(role) {
+    var capitalizeRole = function (role) {
         if (role.indexOf("/") > -1) {
             return role.substr(0, role.indexOf("/")).toUpperCase() + role.substr(role.indexOf("/"));
         } else {
@@ -228,7 +228,7 @@ $(function () {
         var assetType = store.publisher.type;
         $("#addPermission").on("click", function () {
             var roleToAuthorize = $(SELECT_CONTAINER).val();
-            var formattedRoleName = $(SELECT_CONTAINER+" option:selected").text();
+            var formattedRoleName = $(SELECT_CONTAINER + " option:selected").text();
             if (roleToAuthorize != "0") {
                 data.assetId = fromAssetId;
                 data.assetType = assetType;
@@ -237,7 +237,7 @@ $(function () {
                 data.pathWithVersion = pathWithVersion;
                 data.permissionType = "1";
                 data.permissionCheck = "other";
-                if(!isRoleAuthorized(roleToAuthorize)){
+                if (!isRoleAuthorized(roleToAuthorize)) {
                     $("#new-version-loading-add").removeClass("hide");
                     invokePermissionAPI(data, formattedRoleName);
                     $(SELECT_CONTAINER + " option[value='" + roleToAuthorize + "']").remove();
@@ -276,7 +276,7 @@ $(function () {
                 data.permissionCheck = "public";
                 roleName = "Public";
             }
-            if(!isRoleAuthorized(data.roleToAuthorize)){
+            if (!isRoleAuthorized(data.roleToAuthorize)) {
                 $("#new-version-loading-save").removeClass("hide");
                 invokePermissionAPI(data, roleName);
                 setTimeout(function () {
@@ -333,7 +333,7 @@ $(function () {
 
     var initSelect2Roles = function () {
         var rolesDivId = "#div-roles";
-        $(rolesDivId +" > div").each(function () {
+        $(rolesDivId + " > div").each(function () {
             var roleName = $("input[id=roleName]", this).attr("value");
             $(SELECT_CONTAINER + " option[value='" + roleName + "']").remove();
         });
@@ -363,7 +363,7 @@ $(function () {
     var buildPermissionArray = function () {
         var permissionObject = {};
         var rolesDivId = "#div-roles";
-        $(rolesDivId +" > div").each(function () {
+        $(rolesDivId + " > div").each(function () {
             var roleName = $("input[id=roleName]", this).attr("value");
             permissionObject[roleName] = $("[data-role-id='" + roleName + "\^action']").val();
         });
