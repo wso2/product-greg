@@ -479,7 +479,7 @@ var gregAPI = {};
 
     };
 
-    gregAPI.associations.listPossible = function (type, association, id) {
+    gregAPI.associations.listPossible = function (type, association, id, name) {
         var resultList = new Object();
         resultList.results = [];
         var map = CommonUtil.getAssociationConfig(type);
@@ -489,15 +489,18 @@ var gregAPI = {};
         var assetsTypes = (map.get(association)).split(",");
         var paging = {
             'start': 0,
-            'count': 1000,
+            'count': 10,
             'sortOrder': 'ASC',
             'sortBy': 'overview_name',
-            'paginationLimit': 1000
+            'paginationLimit': 10
         };
         for (var i = 0; i < assetsTypes.length; i++) {
             try {
+                var rxtManager = rxtModule.core.rxtManager(server.current(session).tenantId);
+                var nameAttribute = rxtManager.getNameAttribute(assetsTypes[i]);
+                var query = parse('{"' + nameAttribute + '" : "' + name + '"}');
                 var manager = assetManager(session, assetsTypes[i]).am;
-                var artifacts = manager.search(null,paging);
+                var artifacts = manager.search(query,paging);
                 for (var j = 0; j < artifacts.length; j++) {
                     var assetJson = new Object();
                     assetJson.uuid = manager.registry.registry.get(artifacts[j].path).getUUID();
@@ -528,7 +531,7 @@ var gregAPI = {};
         }
         return resultList;
 
-    }
+    };
 
     gregAPI.associations.add = function(session, sourceType, sourceUUID, destType, destUUID, associationType) {
         var srcam = assetManager(session, sourceType);
