@@ -10,6 +10,7 @@ $(document).ready(function () {
 
 $(function () {
 
+    // Template of the select options.
     var SELECT_ENTRY_TEMPLATE = "" +
         "<div class='item' data-uuid='{{uuid}}' data-type='{{shortName}}'>" +
         "<div class='text'>" +
@@ -41,9 +42,19 @@ $(function () {
         return store.publisher.assetId;
     };
 
+    /**
+     *  This is the method that load data to select option
+     *
+     * @param assetType         G-Reg artifact type.
+     * @param associationType   Association type.
+     * @param id                UUID of the origin asset.
+     */
     var initSelect2 = function (assetType, associationType, id) {
+        $(SELECT_CONTAINER).html('');
         $(SELECT_CONTAINER).select2({
-            placeholder: "Please select a asset...",
+            placeholder: "Please select an asset...",
+            multiple: false,
+            width: "100%",
             ajax: {
                 url: associatableURL(assetType, associationType, id),
                 dataType: "json",
@@ -55,10 +66,10 @@ $(function () {
                     };
                 },
                 processResults: function (data) {
-                    data.results.forEach(function (entry, index) {
-                        entry.id = index + 2;
+                    data.results.forEach(function (entry) {
+                        entry.id = entry.uuid;
                     });
-                    //renderSelect2Box(data);
+                    // Show/Hide Add button
                     if (data.results.length !== 0) {
                         $(ADD_ASSOCIATION_BUTTON_ID).css('display', 'inline-block');
                     } else {
@@ -76,6 +87,8 @@ $(function () {
             templateSelection: function (data) {
                 return template(data);
             },
+            dropdownCssClass: SELECT_CONTAINER_CSS,
+            containerCssClass: SELECT_CONTAINER_CSS,
             escapeMarkup: function (m) {
                 return m;
             }
@@ -181,7 +194,6 @@ $(function () {
         });
     };
     var init = function () {
-
         $('#association-type-container > li').each(function () {
             $(this).on('click', function () {
 
