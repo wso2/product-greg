@@ -152,6 +152,15 @@ public class CategorizeArtifacts {
                             artifactManager1.updateGenericArtifact(artifact);
                             String path = artifact.getPath();
                             gov.applyTag(path, "BuyMore");
+
+                            if (serviceTaxo.containsKey(artifact.getQName().getLocalPart())) {
+                                gov.applyTag(path, "developmentTeam/boston/thinkTank");
+                                gov.applyTag(path, PopulatorConstants.DATA_CENTER_TAXONOMY[i % 4]);
+                                String[] taxonomies = serviceTaxo.get(artifact.getQName().getLocalPart());
+                                for (int k = 0; k < taxonomies.length; k++) {
+                                    gov.applyTag(path, taxonomies[k]);
+                                }
+                            }
                         }
                     }
                 }
