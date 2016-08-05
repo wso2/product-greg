@@ -100,6 +100,10 @@ public class PopulatorConstants {
         taxaMap.put("CSRInqueryService", new String[] { "BuyMoreServices/administration/cSR" });
         taxaMap.put("CSRNewsService", new String[] { "BuyMoreServices/administration/cSR" });
 
+        taxaMap.put("BuyMoreBillCalculateRESTAPI", new String[] { "BuyMoreServices/sales/foods" });
+        taxaMap.put("BuyMoreLoyaltyRESTAPI", new String[] { "BuyMoreServices/marketing/eventManagement" });
+        taxaMap.put("BuyMore", new String[] { "BuyMoreServices/sales/groceries" });
+
         return taxaMap;
     }
 }
