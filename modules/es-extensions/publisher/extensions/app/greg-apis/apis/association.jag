@@ -1,4 +1,5 @@
 <% require('/modules/publisher.js').exec(function(ctx) {
+  var log = new Log('association.jag');
   var matcher = new URIMatcher(request.getRequestURI());
   var options;
   var ASSOCIATION_LIST = '/{context}/apis/association/{type}/{association}/{id}';
@@ -38,7 +39,11 @@
 
 
       if (options.association) {
-        var restuls = gregAPI.associations.listPossible(options.type, options.association, options.id);
+        var params = ctx.request.getAllParameters();
+        var q = params.q || '';
+        q = parse('{'+q+'}');
+        var name = q.name;
+        var restuls = gregAPI.associations.listPossible(options.type, options.association, options.id, name);
         print(restuls);
       } else if (options) {
         var restuls = gregAPI.associations.listTypes(options.type);
