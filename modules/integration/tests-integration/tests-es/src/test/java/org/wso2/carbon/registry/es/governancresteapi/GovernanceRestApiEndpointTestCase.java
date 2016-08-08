@@ -201,17 +201,19 @@ public class GovernanceRestApiEndpointTestCase extends GregESTestBaseTest {
         assetIdOfRestService = createRestService();
         String governanceRestApiUrlForEndpointsAssociation = governanceRestApiUrlForEndpoints + "/restservices/" +
                                                              assetIdOfRestService;
-        String dataBody = GovernanceRestApiUtil.createEndpointDataBody(restTemplate, associationEndpointName, enviornment_qa);
+        String dataBody = GovernanceRestApiUtil.createEndpointDataBody(restTemplate, associationEndpointName,
+                enviornment_qa);
         ClientResponse response = GovernanceRestApiUtil.createAsset(genericRestClient, dataBody, queryParamMap,
-                                                                    headerMap, governanceRestApiUrlForEndpointsAssociation);
+                headerMap, governanceRestApiUrlForEndpointsAssociation);
 
         Assert.assertTrue(response.getStatusCode() == HttpStatus.CREATED.getCode(),
-                          "Wrong status code ,Expected 201 Created ,Received " + response.getStatusCode());
+                "Wrong status code ,Expected 201 Created ,Received " + response.getStatusCode());
         String locationHeader = response.getHeaders().get("Location").get(0);
         String assetIdOfEndpoint = locationHeader.substring(locationHeader.lastIndexOf("/") + 1);
         Thread.sleep(1000);
 
         Map<String, String> headerMap = new HashMap<>();
+        queryParamMap.put("q", "\"name\":\"\"");
         ClientResponse associationList = genericRestClient.geneticRestRequestGet(publisherUrl +
                                                                                  "/association/restservice/depends/"
                                                                                  + assetIdOfRestService, queryParamMap,
@@ -246,6 +248,7 @@ public class GovernanceRestApiEndpointTestCase extends GregESTestBaseTest {
         String assetIdOfEndpoint = locationHeader.substring(locationHeader.lastIndexOf("/") + 1);
         Thread.sleep(1000);
         Map<String, String> headerMap = new HashMap<>();
+        queryParamMap.put("q", "\"name\":\"\"");
         ClientResponse associationList = genericRestClient.geneticRestRequestGet(publisherUrl +
                                                                                  "/association/restservice/depends/"
                                                                                  + assetIdOfRestService, queryParamMap,
