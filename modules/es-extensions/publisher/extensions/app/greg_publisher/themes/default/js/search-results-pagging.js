@@ -194,7 +194,7 @@ $(function () {
 
             }
         } else if (q.indexOf(' AND ') > -1 || q.indexOf(' OR ') > -1) {
-            // Note: if user want to do a boolean search within multiple attributes this is the place he has to change.
+            // Note: if user wants to do a boolean search within multiple attributes this is the place he has to change.
             comps = (q + ',').split(','); // Since JSON.parse("[" + q + "]") is not working
             comps.splice(comps.length - 1, 1); // Removing empty array element
         } else {
