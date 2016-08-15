@@ -91,16 +91,17 @@ asset.manager = function(ctx) {
             //TODO: support services added through WSDL, once multiple lifecycle is supported.
             var asset = this._super.get.call(this, id);
             var userRegistry = getRegistry(ctx.session);
-            try {
-                setCustomAssetAttributes(asset, userRegistry);
-            } catch (e){}            //get the GenericArtifactManager
             var rawArtifact = this.am.manager.getGenericArtifact(id);
             try {
                 setDependencies(rawArtifact, asset, userRegistry);
-            } catch (e){}
+            } catch (e){
+                log.error('Error occurred while retrieving associated "depends" dependencies');
+            }
             try {
                 setDependents(rawArtifact, asset, userRegistry);
-            } catch (e){}
+            } catch (e){
+                log.error('Error occurred while retrieving associated "usedBy" dependencies');
+            }
             return asset;
         }
     };
