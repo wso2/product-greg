@@ -498,14 +498,25 @@ var gregAPI = {};
             try {
                 var rxtManager = rxtModule.core.rxtManager(server.current(session).tenantId);
                 var nameAttribute = rxtManager.getNameAttribute(assetsTypes[i]);
-                var query = parse('{"' + nameAttribute + '" : "' + name + '"}');
+                paging.sortBy = nameAttribute ? nameAttribute : paging.sortBy;
+                var query = null;
+                if (name && name != 'undefined') {
+                    query = parse('{"' + nameAttribute + '" : "' + name + '"}');
+                }
                 var manager = assetManager(session, assetsTypes[i]).am;
                 var artifacts = manager.search(query,paging);
                 for (var j = 0; j < artifacts.length; j++) {
                     var assetJson = new Object();
                     assetJson.uuid = manager.registry.registry.get(artifacts[j].path).getUUID();
                     if(assetJson.uuid == id ) { continue; }
-                    assetJson.text = artifacts[j].attributes.overview_name;
+
+                    // below script will read the name attribute from rxt if it is defined.
+                    if (nameAttribute) {
+                        assetJson.text = artifacts[j].attributes[nameAttribute];
+                    } else {
+                        assetJson.text = artifacts[j].attributes.overview_name;
+                    }
+                    // below script will read the name attribute from storage path.
                     if(assetJson.text == null){
                         var subPaths =  artifacts[j].path.split('/');
                         assetJson.text = subPaths[subPaths.length - 1]
