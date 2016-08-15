@@ -19,6 +19,11 @@
 asset.manager = function(ctx) {
     var configs = require("/extensions/assets/schema/config/properties.json");
     var tenantAPI = require('/modules/tenant-api.js').api;
+    var rxtApp = require('rxt').app;
+    var availableUIAssetTypes = rxtApp.getUIActivatedAssets(ctx.tenantId);
+    var availableAssetTypes = rxtApp.getActivatedAssets(ctx.tenantId);
+    var allAvailableAssetTypes = String(availableAssetTypes.concat(availableUIAssetTypes));
+
     /**
      * The function augments the provided query to include published state information
      * @param  {[type]} query [description]
@@ -80,24 +85,39 @@ asset.manager = function(ctx) {
         if (genericArtifacts != null) {
             for (var index in genericArtifacts) {
                 var deps = {};
-                //extract the association name via the path.
                 var path = genericArtifacts[index].getPath();
-                var subPaths = path.split('/');
-                var associationTypePlural = subPaths[2];
-                var associationName = subPaths[subPaths.length - 1];
-                var resource = userRegistry.registry.get(configs.depends_asset_path_prefix+path);
-                var associationUUID = resource.getUUID();
-                deps.associationName = associationName;
-                deps.associationType = associationTypePlural.substring(0,associationTypePlural.lastIndexOf('s'));
-                deps.associationUUID = associationUUID;
-                if(deps.associationType == "wadl" || deps.associationType == "wsdl") {
-                    deps.associationVersion = subPaths[subPaths.length - 2]
-                    associations.push(deps);
+                var mediaType = genericArtifacts[index].getMediaType();
+                var name = genericArtifacts[index].getQName().getLocalPart();
+                var govUtils = Packages.org.wso2.carbon.governance.api.util.GovernanceUtils;
+                var keyName = govUtils.getArtifactConfigurationByMediaType(getRegistry(ctx.session).registry, mediaType).getKey();
+                if (isDisabledAsset(keyName)) {
+                    continue;
                 }
+                var subPaths = path.split('/');
+                var associationVersion = genericArtifacts[index].getAttribute("overview_version");
+                if (!associationVersion && (subPaths.length - 2) > -1) {
+                    associationVersion = subPaths[subPaths.length - 2]
+                }
+                var resource = userRegistry.registry.get(configs.depends_asset_path_prefix + path);
+                var associationUUID = resource.getUUID();
+                deps.associationName = name;
+                deps.associationType = keyName;
+                deps.associationUUID = associationUUID;
+                deps.associationVersion = associationVersion;
+                associations.push(deps);
             }
         }
         return associations;
     };
+
+    var isDisabledAsset = function (shortName) {
+        // This method will return true if shortName not available in allAvailableAssetTypes string.
+        var pat1 = new RegExp("^" + shortName + ",");
+        var pat2 = new RegExp("," + shortName + "$");
+        var pat3 = new RegExp("," + shortName + ",");
+        return (!(pat3.test(allAvailableAssetTypes)) && !(pat1.test(allAvailableAssetTypes)) && !(pat2.test(allAvailableAssetTypes)));
+    };
+
     var setDependencies = function(genericArtifact, asset ,userRegistry) {
         //get dependencies of the artifact.
         var dependencyArtifacts = genericArtifact.getDependencies();
