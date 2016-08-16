@@ -208,6 +208,21 @@ svg .inactive svg path { fill: #3a424d; }
 }
 .filters .tag.hidden { background: #161616; opacity: 0.7; }
 
+.filters .tag.mediaType {
+    color: #ffffff;
+    background: #a77979;
+    font-size: 11px;
+    display: inline-block;
+    cursor: pointer;
+    padding: 3px 6px;
+    margin: 3px 0;
+}
+
+.filters .tag.mediaType.hidden {
+    background: #2b2121;
+    opacity: 0.7;
+}
+
 .searchfield { visibility: hidden; }
 .searchfield button { display: inline-block; }
 .searchfield button.reset-locate, .searchfield button.btn-locate { display: none; }
