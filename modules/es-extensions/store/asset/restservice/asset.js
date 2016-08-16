@@ -18,6 +18,11 @@
  */
 asset.manager = function(ctx) {
     var tenantAPI = require('/modules/tenant-api.js').api;
+    var rxtApp = require('rxt').app;
+    var availableUIAssetTypes = rxtApp.getUIActivatedAssets(ctx.tenantId);
+    var availableAssetTypes = rxtApp.getActivatedAssets(ctx.tenantId);
+    var allAvailableAssetTypes = String(availableAssetTypes.concat(availableUIAssetTypes));
+
     var setCustomAssetAttributes = function (asset, userRegistry) {
         var wadlUrl = asset.attributes.interface_wadl;
         if (wadlUrl != null) {
@@ -87,29 +92,34 @@ asset.manager = function(ctx) {
                 var name = genericArtifacts[index].getQName().getLocalPart();
                 var govUtils = Packages.org.wso2.carbon.governance.api.util.GovernanceUtils;
                 var keyName = govUtils.getArtifactConfigurationByMediaType(getRegistry(ctx.session).registry, mediaType).getKey();
+                if (isDisabledAsset(keyName)) {
+                    continue;
+                }
                 var subPaths = path.split('/');
-                var associationName = name;
                 var associationUUID = resource.getUUID();
-                var associationVersion = genericArtifacts[index].getAttribute("overview_version");
-                // This is only for wadls and swaggers which have correct storage path
-                if(!associationVersion && (subPaths.length - 2)>-1){
+                var versionAttribute = ctx.rxtManager.getVersionAttribute(keyName);
+                var associationVersion = genericArtifacts[index].getAttribute(versionAttribute);
+                // This is only for WSO2 OOTB artifacts which have correct storage path
+                if (!associationVersion && (subPaths.length - 2) > -1) {
                     associationVersion = subPaths[subPaths.length - 2]
                 }
-                deps.associationName = associationName;
+                deps.associationName = name;
                 deps.associationType = keyName;
                 deps.associationUUID = associationUUID;
                 deps.associationPath = resource.getPath();
                 deps.associationVersion = associationVersion;
-
-                if(deps.associationType == "wadl") {
-                    associations.push(deps);
-                }
-                if(deps.associationType == "swagger") {
-                    associations.push(deps);
-                }
+                associations.push(deps);
             }
         }
         return associations;
+    };
+
+    var isDisabledAsset = function (shortName) {
+        // This method will return true if shortName not available in allAvailableAssetTypes string.
+        var pat1 = new RegExp("^" + shortName + ",");
+        var pat2 = new RegExp("," + shortName + "$");
+        var pat3 = new RegExp("," + shortName + ",");
+        return (!(pat3.test(allAvailableAssetTypes)) && !(pat1.test(allAvailableAssetTypes)) && !(pat2.test(allAvailableAssetTypes)));
     };
 
     return {
