@@ -65,11 +65,11 @@ require('/modules/publisher.js').exec(function(ctx) {
       case 'DELETE':
           if (matcher.match(SUB_ITEM)) {
               var idObj = new org.apache.axis2.databinding.types.URI(options.id);
-              try{
+              try {
                   taskOperationService.start(idObj);
                   taskOperationService.complete(idObj, "<WorkResponse>true</WorkResponse>");
-              } catch (e){
-                  message= {'error':'Not supported'};
+              } catch (e) {
+                  message = {'error': 'Not supported'};
                   print(message);
                   return;
               }
