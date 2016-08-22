@@ -18,6 +18,11 @@
  */
 asset.manager = function(ctx) {    
     var tenantAPI = require('/modules/tenant-api.js').api;
+    var rxtApp = require('rxt').app;
+    var availableUIAssetTypes = rxtApp.getUIActivatedAssets(ctx.tenantId);
+    var availableAssetTypes = rxtApp.getActivatedAssets(ctx.tenantId);
+    var allAvailableAssetTypes = String(availableAssetTypes.concat(availableUIAssetTypes));
+
     var getRegistry = function(cSession) {
         var tenantDetails = tenantAPI.createTenantAwareAssetResources(cSession,{type:ctx.assetType});
         if((!tenantDetails)&&(!tenantDetails.am)) {
@@ -59,15 +64,21 @@ asset.manager = function(ctx) {
                 var path = genericArtifacts[index].getPath();
                 var mediaType = genericArtifacts[index].getMediaType();
                 var name = genericArtifacts[index].getQName().getLocalPart();
-                var govUtils = Packages.org.wso2.carbon.governance.api.util.GovernanceUtils
+                var govUtils = Packages.org.wso2.carbon.governance.api.util.GovernanceUtils;
                 var keyName = govUtils.getArtifactConfigurationByMediaType(getRegistry(ctx.session).registry, mediaType).getKey();
+                if (isDisabledAsset(keyName)) {
+                    continue;
+                }
                 var subPaths = path.split('/');
-                var associationTypePlural = subPaths[2];
-                var associationName = name;
-                var associationVersion = genericArtifacts[index].getAttribute("overview_version");
+                var versionAttribute = ctx.rxtManager.getVersionAttribute(keyName);
+                var associationVersion = genericArtifacts[index].getAttribute(versionAttribute);
+                // This is only for WSO2 OOTB artifacts which have correct storage path
+                if (!associationVersion && (subPaths.length - 2) > -1) {
+                    associationVersion = subPaths[subPaths.length - 2]
+                }
                 var resource = userRegistry.registry.get('/_system/governance' + path);
                 var associationUUID = resource.getUUID();
-                deps.associationName = associationName;
+                deps.associationName = name;
                 deps.associationType = keyName;
                 deps.associationUUID = associationUUID;
                 deps.associationVersion = associationVersion;
@@ -75,6 +86,14 @@ asset.manager = function(ctx) {
             }
         }
         return associations;
+    };
+
+    var isDisabledAsset = function (shortName) {
+        // This method will return true if shortName not available in allAvailableAssetTypes string.
+        var pat1 = new RegExp("^" + shortName + ",");
+        var pat2 = new RegExp("," + shortName + "$");
+        var pat3 = new RegExp("," + shortName + ",");
+        return (!(pat3.test(allAvailableAssetTypes)) && !(pat1.test(allAvailableAssetTypes)) && !(pat2.test(allAvailableAssetTypes)));
     };
 
     var setDependencies = function(genericArtifact, asset ,userRegistry) {

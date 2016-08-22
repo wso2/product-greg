@@ -181,6 +181,9 @@ function update(d) {
         .data(links)
         .enter().append("g")
         .attr("group", "link")
+        .attr("mediatypes", function (d, i) {
+            return (d.source.shortName + ";" + d.target.shortName);
+        })
         .attr("id", function(d,i){
             return "link_"+[i];
         })
@@ -450,6 +453,21 @@ function setupFilters(){
     for(var i = 0; i < filters.length; i++) {
         $('#filters').append('<div class="tag" onclick="filter(this)"><span>' +filters[i]+ '</span> <i class="fa fa-check" aria-hidden="true"></i></div><br />');
     }
+
+    var mediaTypeFilters = [];
+
+    d3.selectAll("[group=node] text.media-type").each(function(){
+        var mediaType = $(this).html();
+
+        var newFilter = mediaType;
+        if(mediaTypeFilters.indexOf(newFilter) === -1) {
+            mediaTypeFilters.push(newFilter)
+        }
+    });
+
+    for(var j = 0; j < mediaTypeFilters.length; j++) {
+        $('#filters').append('<div class="tag mediaType" onclick="filter(this)"><span>' +mediaTypeFilters[j]+ '</span> <i class="fa fa-check" aria-hidden="true"></i></div><br />');
+    }
 }
 
 /* Function to filter resources by it's connected relationships.
@@ -461,22 +479,28 @@ function filter(elem){
 
     $('i', elem).toggleClass('fa fa-check', function(){
 
-        $("svg").find("[group='link']").hide();
-        $('.tag').each(function(){
-            if(!$(this).hasClass('hidden')) {
+        $("svg").find("[group='link']").show();
+        $('.tag').each(function () {
+            if ($(this).hasClass('hidden')) {
 
                 var filter = $('span', this).html();
-                d3.selectAll("[group=link]").each(function(){
+                d3.selectAll("[group=link]").each(function () {
+                    var mediaTypes = $(this).attr("mediatypes"),
+                        mediaType = mediaTypes.split(';');
+
                     var associations = $(this).attr("associations"),
                         association = associations.split(';');
 
-                    for(var i = 0; i < association.length; i++) {
-                        if(association[i] == filter){
-                            $(this).show();
+                    for (var i = 0; i < association.length; i++) {
+                        if (association[i] == filter) {
+                            $(this).hide();
                         }
                     }
-                });
 
+                    if ((mediaType.indexOf(filter) > -1)) {
+                        $(this).hide();
+                    }
+                });
             }
         });
 
