@@ -40,7 +40,7 @@ asset.renderer = function(ctx) {
     return {
         pageDecorators: {
             sidebarPopulator: function(page) {
-                if(allowedPagesForSidebar.indexOf(page.meta.pageName)>-1){
+                if (allowedPagesForSidebar.indexOf(page.meta.pageName) > -1) {
                     page.isNotificationbarEnabled = true;
                 }
 
@@ -57,13 +57,13 @@ asset.renderer = function(ctx) {
                 }
             },
             notificationPopulator: function(page) {
-                if (allowedPagesForSidebar.indexOf(page.meta.pageName)>-1) {
+                if (allowedPagesForSidebar.indexOf(page.meta.pageName) > -1) {
                     page.notificationsCount = gregAPI.notifications.count();
                 }
             },
             notificationListPopulator: function(page) {
-                if (allowedPagesForSidebar.indexOf(page.meta.pageName)>-1) {
-                    var am = assetManager(ctx.session,ctx.assetType);
+                if (allowedPagesForSidebar.indexOf(page.meta.pageName) > -1) {
+                    var am = assetManager(ctx.session, ctx.assetType);
                     page.notifications = gregAPI.notifications.list(am);
                 }
             },
