@@ -54,7 +54,6 @@ public class GregWsdlNotesESTestCase extends GregESTestBaseTest {
     String resourcePath;
     String noteName;
     String noteOverviewHash;
-    String replyOverviewHash;
     String noteAssetId;
     String replyAssetId;
     ESTestCommonUtils esTestCommonUtils;
@@ -96,14 +95,18 @@ public class GregWsdlNotesESTestCase extends GregESTestBaseTest {
                 "Wrong status code ,Expected 201 OK ,Received " +
                         response.getStatusCode());
         JSONObject responseObj = new JSONObject(response.getEntity(String.class));
-        Assert.assertTrue(responseObj.getJSONObject("attributes").get("overview_note").toString().contains(noteName), "Does not create a note");
-        Assert.assertTrue(responseObj.getJSONObject("attributes").get("overview_resourcepath").toString().contains(assetType),"Fault resource path for note");
+        Assert.assertTrue(responseObj.getJSONObject("attributes").get("overview_note").toString().contains(noteName),
+                "Does not create a note");
+        Assert.assertTrue(
+                responseObj.getJSONObject("attributes").get("overview_resourcepath").toString().contains(assetType),
+                "Fault resource path for note");
+        Assert.assertNotNull(responseObj.getJSONObject("attributes").get("overview_hash"));
         noteOverviewHash = responseObj.getJSONObject("attributes").get("overview_hash").toString();
-        Assert.assertNotNull(noteOverviewHash);
         noteAssetId =responseObj.get("id").toString();
     }
 
-    @Test(groups = {"wso2.greg", "wso2.greg.es"}, dependsOnMethods = "addNoteToWsdlAsset", description = "Add Reply to note added for a wsdl Asset test")
+    @Test(groups = {"wso2.greg", "wso2.greg.es"}, dependsOnMethods = "addNoteToWsdlAsset",
+            description = "Add Reply to note added for a wsdl Asset test")
     public void addReplyToNoteWsdl() throws JSONException, IOException {
         queryParamMap.put("type", "note");
         String dataBody = String.format(readFile(resourcePath + "publisherNoteReplyRestResource.json")
@@ -118,14 +121,17 @@ public class GregWsdlNotesESTestCase extends GregESTestBaseTest {
                         response.getStatusCode());
 
         JSONObject responseObj = new JSONObject(response.getEntity(String.class));
-        Assert.assertTrue(responseObj.getJSONObject("attributes").get("overview_note").toString().contains("replyNote123"), "Does not create a note");
-        Assert.assertTrue(responseObj.getJSONObject("attributes").get("overview_resourcepath").toString().contains(noteOverviewHash),"Fault resource path for note");
-        replyOverviewHash= responseObj.getJSONObject("attributes").get("overview_hash").toString();
-        Assert.assertNotNull(replyOverviewHash);
+        Assert.assertTrue(
+                responseObj.getJSONObject("attributes").get("overview_note").toString().contains("replyNote123"),
+                "Does not create a note");
+        Assert.assertTrue(responseObj.getJSONObject("attributes").get("overview_resourcepath").toString()
+                .contains(noteOverviewHash), "Fault resource path for note");
+        Assert.assertNotNull(responseObj.getJSONObject("attributes").get("overview_hash"));
         replyAssetId =responseObj.get("id").toString();
     }
 
-    @Test(groups = {"wso2.greg", "wso2.greg.es"}, dependsOnMethods = "addReplyToNoteWsdl", description = "Delete Reply to note added for a wsdl Asset test")
+    @Test(groups = {"wso2.greg", "wso2.greg.es"}, dependsOnMethods = "addReplyToNoteWsdl",
+            description = "Delete Reply to note added for a wsdl Asset test")
     public void deleteReplyToNoteWsdl() throws JSONException, IOException {
         queryParamMap.put("type", "note");
         ClientResponse response =
@@ -134,10 +140,10 @@ public class GregWsdlNotesESTestCase extends GregESTestBaseTest {
                         MediaType.APPLICATION_JSON
                         , queryParamMap, headerMap, cookieHeaderPublisher);
         response.getEntity(String.class).contains("Asset Deleted Successfully");
-        // isTagAvailablePublisher("testTag");
     }
 
-    @Test(groups = {"wso2.greg", "wso2.greg.es"}, dependsOnMethods = "deleteReplyToNoteWsdl", description = "Delete Note test")
+    @Test(groups = {"wso2.greg", "wso2.greg.es"}, dependsOnMethods = "deleteReplyToNoteWsdl",
+            description = "Delete Note test")
     public void deleteNote() throws JSONException, IOException {
         queryParamMap.put("type", "note");
         //  https://localhost:9443/publisher/apis/assets?type=note
@@ -147,7 +153,6 @@ public class GregWsdlNotesESTestCase extends GregESTestBaseTest {
                         MediaType.APPLICATION_JSON
                         , queryParamMap, headerMap, cookieHeaderPublisher);
 
-        // isTagAvailablePublisher("testTag");
         response.getEntity(String.class).contains("Asset Deleted Successfully");
     }
 
@@ -203,7 +208,6 @@ public class GregWsdlNotesESTestCase extends GregESTestBaseTest {
     private static TestUserMode[][] userModeProvider() {
         return new TestUserMode[][]{
                 new TestUserMode[]{TestUserMode.SUPER_TENANT_ADMIN},
-//                new TestUserMode[]{TestUserMode.TENANT_USER},
         };
     }
 }

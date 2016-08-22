@@ -57,7 +57,6 @@ public class GregCustomRxtNotesTestESTestCase extends GregESTestBaseTest {
     String resourcePath;
     String noteName;
     String noteOverviewHash;
-    String replyOverviewHash;
     String noteAssetId;
     String replyAssetId;
     ESTestCommonUtils esTestCommonUtils;
@@ -104,14 +103,18 @@ public class GregCustomRxtNotesTestESTestCase extends GregESTestBaseTest {
                 "Wrong status code ,Expected 201 OK ,Received " +
                         response.getStatusCode());
         JSONObject responseObj = new JSONObject(response.getEntity(String.class));
-        Assert.assertTrue(responseObj.getJSONObject("attributes").get("overview_note").toString().contains(noteName), "Does not create a note");
-        Assert.assertTrue(responseObj.getJSONObject("attributes").get("overview_resourcepath").toString().contains(assetType),"Fault resource path for note");
+        Assert.assertTrue(responseObj.getJSONObject("attributes").get("overview_note").toString().contains(noteName),
+                "Does not create a note");
+        Assert.assertTrue(
+                responseObj.getJSONObject("attributes").get("overview_resourcepath").toString().contains(assetType),
+                "Fault resource path for note");
+        Assert.assertNotNull(responseObj.getJSONObject("attributes").get("overview_hash"));
         noteOverviewHash = responseObj.getJSONObject("attributes").get("overview_hash").toString();
-        Assert.assertNotNull(noteOverviewHash);
         noteAssetId =responseObj.get("id").toString();
     }
 
-    @Test(groups = {"wso2.greg", "wso2.greg.es"}, dependsOnMethods = "addNoteToCustomRxtAsset", description = "Add Reply to note added for a custom rxt Asset test")
+    @Test(groups = { "wso2.greg", "wso2.greg.es" }, dependsOnMethods = "addNoteToCustomRxtAsset",
+            description = "Add Reply to note added for a custom rxt Asset test")
     public void addReplyToNoteCustomRxt() throws JSONException, IOException {
         queryParamMap.put("type", "note");
         String dataBody = String.format(readFile(resourcePath + "publisherNoteReplyRestResource.json")
@@ -126,14 +129,17 @@ public class GregCustomRxtNotesTestESTestCase extends GregESTestBaseTest {
                         response.getStatusCode());
 
         JSONObject responseObj = new JSONObject(response.getEntity(String.class));
-        Assert.assertTrue(responseObj.getJSONObject("attributes").get("overview_note").toString().contains("replyNote123"), "Does not create a note");
-        Assert.assertTrue(responseObj.getJSONObject("attributes").get("overview_resourcepath").toString().contains(noteOverviewHash),"Fault resource path for note");
-        replyOverviewHash= responseObj.getJSONObject("attributes").get("overview_hash").toString();
-        Assert.assertNotNull(replyOverviewHash);
+        Assert.assertTrue(
+                responseObj.getJSONObject("attributes").get("overview_note").toString().contains("replyNote123"),
+                "Does not create a note");
+        Assert.assertTrue(responseObj.getJSONObject("attributes").get("overview_resourcepath").toString()
+                .contains(noteOverviewHash), "Fault resource path for note");
+        Assert.assertNotNull(responseObj.getJSONObject("attributes").get("overview_hash"));
         replyAssetId =responseObj.get("id").toString();
     }
 
-    @Test(groups = {"wso2.greg", "wso2.greg.es"}, dependsOnMethods = "addReplyToNoteCustomRxt", description = "Delete Reply to note added for a custom rxt Asset test")
+    @Test(groups = {"wso2.greg", "wso2.greg.es"}, dependsOnMethods = "addReplyToNoteCustomRxt",
+            description = "Delete Reply to note added for a custom rxt Asset test")
     public void deleteReplyToNoteCustomRxt() throws JSONException, IOException {
         queryParamMap.put("type", "note");
         ClientResponse response =
@@ -144,7 +150,8 @@ public class GregCustomRxtNotesTestESTestCase extends GregESTestBaseTest {
         response.getEntity(String.class).contains("Asset Deleted Successfully");
     }
 
-    @Test(groups = {"wso2.greg", "wso2.greg.es"}, dependsOnMethods = "deleteReplyToNoteCustomRxt", description = "Delete Note test")
+    @Test(groups = {"wso2.greg", "wso2.greg.es"}, dependsOnMethods = "deleteReplyToNoteCustomRxt",
+            description = "Delete Note test")
     public void deleteNote() throws JSONException, IOException {
         queryParamMap.put("type", "note");
         ClientResponse response =
