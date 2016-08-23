@@ -98,10 +98,10 @@ asset.renderer = function(ctx) {
                 var entry;
                 var allowedPages = ['details','lifecycle','update','associations','permissions', 'copy', 'delete'];
                 log.debug('Permission populator ' + page.meta.pageName);
-                if(allowedPages.indexOf(page.meta.pageName)>-1){
+                if (allowedPages.indexOf(page.meta.pageName) > -1) {
                     var permissionList = gregAPI.permissions.list(am, page.assets.id);
-                    if(permissionList){
-                        if(permissionList.isAuthorizeAllowed && !permissionList.isVersionView){
+                    if (permissionList) {
+                        if (permissionList.isAuthorizeAllowed && !permissionList.isVersionView) {
                             log.debug('adding link');
                             entry = {};
                             entry.name = 'Permissions';
