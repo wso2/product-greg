@@ -24,7 +24,11 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.testng.Assert;
-import org.testng.annotations.*;
+import org.testng.annotations.AfterClass;
+import org.testng.annotations.BeforeClass;
+import org.testng.annotations.DataProvider;
+import org.testng.annotations.Factory;
+import org.testng.annotations.Test;
 import org.wso2.carbon.automation.engine.context.TestUserMode;
 import org.wso2.carbon.automation.engine.frameworkutils.FrameworkPathUtil;
 import org.wso2.carbon.registry.core.exceptions.RegistryException;
@@ -71,10 +75,10 @@ public class GregWsdlNotesESTestCase extends GregESTestBaseTest {
         genericRestClient = new GenericRestClient();
         queryParamMap = new HashMap<String, String>();
         headerMap = new HashMap<String, String>();
-        resourcePath = FrameworkPathUtil.getSystemResourceLocation()
-                + "artifacts" + File.separator + "GREG" + File.separator + "json" + File.separator;
-        publisherUrl = automationContext.getContextUrls()
-                .getSecureServiceUrl().replace("services", "publisher/apis");
+        resourcePath =
+                FrameworkPathUtil.getSystemResourceLocation() + "artifacts" + File.separator + "GREG" + File.separator
+                        + "json" + File.separator;
+        publisherUrl = automationContext.getContextUrls().getSecureServiceUrl().replace("services", "publisher/apis");
         esTestCommonUtils = new ESTestCommonUtils(genericRestClient, publisherUrl, headerMap);
         SetTestEnvironment();
     }
@@ -84,16 +88,14 @@ public class GregWsdlNotesESTestCase extends GregESTestBaseTest {
     public void addNoteToWsdlAsset() throws JSONException, IOException {
         queryParamMap.put("type", "note");
         //  https://localhost:9443/publisher/apis/assets?type=note
-        String dataBody = String.format(readFile(resourcePath + "publisherAddNoteRestResource.json")
-                , assetType, "testservice1234", noteName);
-        ClientResponse response =
-                genericRestClient.geneticRestRequestPost(publisherUrl + "/assets",
-                        MediaType.APPLICATION_JSON,
-                        MediaType.APPLICATION_JSON, dataBody
-                        , queryParamMap, headerMap, cookieHeaderPublisher);
+        String dataBody = String
+                .format(readFile(resourcePath + "publisherAddNoteRestResource.json"), assetType, "testservice1234",
+                        noteName);
+        ClientResponse response = genericRestClient
+                .geneticRestRequestPost(publisherUrl + "/assets", MediaType.APPLICATION_JSON,
+                        MediaType.APPLICATION_JSON, dataBody, queryParamMap, headerMap, cookieHeaderPublisher);
         Assert.assertTrue((response.getStatusCode() == 201),
-                "Wrong status code ,Expected 201 OK ,Received " +
-                        response.getStatusCode());
+                "Wrong status code ,Expected 201 OK ,Received " + response.getStatusCode());
         JSONObject responseObj = new JSONObject(response.getEntity(String.class));
         Assert.assertTrue(responseObj.getJSONObject("attributes").get("overview_note").toString().contains(noteName),
                 "Does not create a note");
@@ -109,16 +111,14 @@ public class GregWsdlNotesESTestCase extends GregESTestBaseTest {
             description = "Add Reply to note added for a wsdl Asset test")
     public void addReplyToNoteWsdl() throws JSONException, IOException {
         queryParamMap.put("type", "note");
-        String dataBody = String.format(readFile(resourcePath + "publisherNoteReplyRestResource.json")
-                , noteOverviewHash,"replyNote123",noteOverviewHash);
-        ClientResponse response =
-                genericRestClient.geneticRestRequestPost(publisherUrl + "/assets",
-                        MediaType.APPLICATION_JSON,
-                        MediaType.APPLICATION_JSON, dataBody
-                        , queryParamMap, headerMap, cookieHeaderPublisher);
+        String dataBody = String
+                .format(readFile(resourcePath + "publisherNoteReplyRestResource.json"), noteOverviewHash,
+                        "replyNote123", noteOverviewHash);
+        ClientResponse response = genericRestClient
+                .geneticRestRequestPost(publisherUrl + "/assets", MediaType.APPLICATION_JSON,
+                        MediaType.APPLICATION_JSON, dataBody, queryParamMap, headerMap, cookieHeaderPublisher);
         Assert.assertTrue((response.getStatusCode() == 201),
-                "Wrong status code ,Expected 200 OK ,Received " +
-                        response.getStatusCode());
+                "Wrong status code ,Expected 200 OK ,Received " + response.getStatusCode());
 
         JSONObject responseObj = new JSONObject(response.getEntity(String.class));
         Assert.assertTrue(
@@ -134,11 +134,9 @@ public class GregWsdlNotesESTestCase extends GregESTestBaseTest {
             description = "Delete Reply to note added for a wsdl Asset test")
     public void deleteReplyToNoteWsdl() throws JSONException, IOException {
         queryParamMap.put("type", "note");
-        ClientResponse response =
-                genericRestClient.geneticRestRequestDelete(publisherUrl + "/assets/" + replyAssetId,
-                        MediaType.APPLICATION_JSON,
-                        MediaType.APPLICATION_JSON
-                        , queryParamMap, headerMap, cookieHeaderPublisher);
+        ClientResponse response = genericRestClient
+                .geneticRestRequestDelete(publisherUrl + "/assets/" + replyAssetId, MediaType.APPLICATION_JSON,
+                        MediaType.APPLICATION_JSON, queryParamMap, headerMap, cookieHeaderPublisher);
         response.getEntity(String.class).contains("Asset Deleted Successfully");
     }
 
@@ -147,11 +145,9 @@ public class GregWsdlNotesESTestCase extends GregESTestBaseTest {
     public void deleteNote() throws JSONException, IOException {
         queryParamMap.put("type", "note");
         //  https://localhost:9443/publisher/apis/assets?type=note
-        ClientResponse response =
-                genericRestClient.geneticRestRequestDelete(publisherUrl + "/assets/" + noteAssetId,
-                        MediaType.APPLICATION_JSON,
-                        MediaType.APPLICATION_JSON
-                        , queryParamMap, headerMap, cookieHeaderPublisher);
+        ClientResponse response = genericRestClient
+                .geneticRestRequestDelete(publisherUrl + "/assets/" + noteAssetId, MediaType.APPLICATION_JSON,
+                        MediaType.APPLICATION_JSON, queryParamMap, headerMap, cookieHeaderPublisher);
 
         response.getEntity(String.class).contains("Asset Deleted Successfully");
     }
@@ -163,21 +159,18 @@ public class GregWsdlNotesESTestCase extends GregESTestBaseTest {
 
     private void SetTestEnvironment() throws JSONException, XPathExpressionException,
             IOException {
-        JSONObject objSessionPublisher =
-                new JSONObject(authenticate(publisherUrl, genericRestClient,
-                        automationContext.getSuperTenant().getTenantAdmin().getUserName(),
-                        automationContext.getSuperTenant().getTenantAdmin().getPassword())
-                        .getEntity(String.class));
+        JSONObject objSessionPublisher = new JSONObject(authenticate(publisherUrl, genericRestClient,
+                automationContext.getSuperTenant().getTenantAdmin().getUserName(),
+                automationContext.getSuperTenant().getTenantAdmin().getPassword()).getEntity(String.class));
         jSessionId = objSessionPublisher.getJSONObject("data").getString("sessionId");
         cookieHeaderPublisher = "JSESSIONID=" + jSessionId;
         esTestCommonUtils.setCookieHeader(cookieHeaderPublisher);
 
         String dataBody = readFile(resourcePath + "wsdl-ops.json");
         assetName = (String)(new JSONObject(dataBody)).get("overview_name");
-        JSONObject objSessionId = new JSONObject(createAsset(resourcePath + "wsdl-ops.json"
-                , publisherUrl,
-                cookieHeaderPublisher, assetType,
-                genericRestClient).getEntity(String.class));
+        JSONObject objSessionId = new JSONObject(
+                createAsset(resourcePath + "wsdl-ops.json", publisherUrl, cookieHeaderPublisher, assetType,
+                        genericRestClient).getEntity(String.class));
 
         String resultName = objSessionId.get("overview_name").toString();
         Assert.assertEquals(resultName,assetName);
