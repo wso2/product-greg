@@ -88,28 +88,26 @@ public class GregCustomRxtNotesTestESTestCase extends GregESTestBaseTest {
         resourceAdminServiceClient = new ResourceAdminServiceClient(backendURL, session);
         addCustomRxt();
         new ServerConfigurationManager(automationContext).restartGracefully();
-        Thread.sleep(120000);
-        SetTestEnvironment();
+        Thread.sleep(12000);
+        setTestEnvironment();
     }
 
     @Test(groups = {"wso2.greg", "wso2.greg.es"}, alwaysRun = true, description = "Add note to custom rxt asset test")
     public void addNoteToCustomRxtAsset() throws JSONException, IOException {
         queryParamMap.put("type", "note");
         //  https://localhost:9443/publisher/apis/assets?type=note
-        String dataBody = String
-                .format(readFile(resourcePath + "publisherAddNoteRestResource.json"), assetType, "testservice1234",
-                        noteName);
-        ClientResponse response = genericRestClient
-                .geneticRestRequestPost(publisherUrl + "/assets", MediaType.APPLICATION_JSON,
-                        MediaType.APPLICATION_JSON, dataBody, queryParamMap, headerMap, cookieHeaderPublisher);
+        String dataBody = String.format(readFile(resourcePath + "publisherAddNoteRestResource.json"),
+                assetType, "testservice1234", noteName);
+        ClientResponse response = genericRestClient.geneticRestRequestPost(publisherUrl + "/assets",
+                MediaType.APPLICATION_JSON, MediaType.APPLICATION_JSON, dataBody, queryParamMap,
+                headerMap, cookieHeaderPublisher);
         Assert.assertTrue((response.getStatusCode() == 201),
                 "Wrong status code ,Expected 201 OK ,Received " + response.getStatusCode());
         JSONObject responseObj = new JSONObject(response.getEntity(String.class));
-        Assert.assertTrue(responseObj.getJSONObject("attributes").get("overview_note").toString().contains(noteName),
-                "Does not create a note");
-        Assert.assertTrue(
-                responseObj.getJSONObject("attributes").get("overview_resourcepath").toString().contains(assetType),
-                "Fault resource path for note");
+        Assert.assertTrue(responseObj.getJSONObject("attributes").get("overview_note")
+                .toString().contains(noteName), "Does not create a note");
+        Assert.assertTrue(responseObj.getJSONObject("attributes").get("overview_resourcepath")
+                .toString().contains(assetType), "Fault resource path for note");
         Assert.assertNotNull(responseObj.getJSONObject("attributes").get("overview_hash"));
         noteOverviewHash = responseObj.getJSONObject("attributes").get("overview_hash").toString();
         noteAssetId =responseObj.get("id").toString();
@@ -119,21 +117,19 @@ public class GregCustomRxtNotesTestESTestCase extends GregESTestBaseTest {
             description = "Add Reply to note added for a custom rxt Asset test")
     public void addReplyToNoteCustomRxt() throws JSONException, IOException {
         queryParamMap.put("type", "note");
-        String dataBody = String
-                .format(readFile(resourcePath + "publisherNoteReplyRestResource.json"), noteOverviewHash,
-                        "replyNote123", noteOverviewHash);
-        ClientResponse response = genericRestClient
-                .geneticRestRequestPost(publisherUrl + "/assets", MediaType.APPLICATION_JSON,
-                        MediaType.APPLICATION_JSON, dataBody, queryParamMap, headerMap, cookieHeaderPublisher);
+        String dataBody = String.format(readFile(resourcePath + "publisherNoteReplyRestResource.json"),
+                noteOverviewHash, "replyNote123", noteOverviewHash);
+        ClientResponse response = genericRestClient.geneticRestRequestPost(publisherUrl + "/assets",
+                MediaType.APPLICATION_JSON, MediaType.APPLICATION_JSON, dataBody, queryParamMap,
+                headerMap, cookieHeaderPublisher);
         Assert.assertTrue((response.getStatusCode() == 201),
                 "Wrong status code ,Expected 200 OK ,Received " + response.getStatusCode());
 
         JSONObject responseObj = new JSONObject(response.getEntity(String.class));
-        Assert.assertTrue(
-                responseObj.getJSONObject("attributes").get("overview_note").toString().contains("replyNote123"),
-                "Does not create a note");
-        Assert.assertTrue(responseObj.getJSONObject("attributes").get("overview_resourcepath").toString()
-                .contains(noteOverviewHash), "Fault resource path for note");
+        Assert.assertTrue(responseObj.getJSONObject("attributes").get("overview_note")
+                .toString().contains("replyNote123"), "Does not create a note");
+        Assert.assertTrue(responseObj.getJSONObject("attributes").get("overview_resourcepath")
+                .toString().contains(noteOverviewHash), "Fault resource path for note");
         Assert.assertNotNull(responseObj.getJSONObject("attributes").get("overview_hash"));
         replyAssetId =responseObj.get("id").toString();
     }
@@ -142,9 +138,9 @@ public class GregCustomRxtNotesTestESTestCase extends GregESTestBaseTest {
             description = "Delete Reply to note added for a custom rxt Asset test")
     public void deleteReplyToNoteCustomRxt() throws JSONException, IOException {
         queryParamMap.put("type", "note");
-        ClientResponse response = genericRestClient
-                .geneticRestRequestDelete(publisherUrl + "/assets/" + replyAssetId, MediaType.APPLICATION_JSON,
-                        MediaType.APPLICATION_JSON, queryParamMap, headerMap, cookieHeaderPublisher);
+        ClientResponse response = genericRestClient.geneticRestRequestDelete(publisherUrl + "/assets/"
+                + replyAssetId, MediaType.APPLICATION_JSON, MediaType.APPLICATION_JSON,
+                queryParamMap, headerMap, cookieHeaderPublisher);
         response.getEntity(String.class).contains("Asset Deleted Successfully");
     }
 
@@ -152,9 +148,9 @@ public class GregCustomRxtNotesTestESTestCase extends GregESTestBaseTest {
             description = "Delete Note test")
     public void deleteNote() throws JSONException, IOException {
         queryParamMap.put("type", "note");
-        ClientResponse response = genericRestClient
-                .geneticRestRequestDelete(publisherUrl + "/assets/" + noteAssetId, MediaType.APPLICATION_JSON,
-                        MediaType.APPLICATION_JSON, queryParamMap, headerMap, cookieHeaderPublisher);
+        ClientResponse response = genericRestClient.geneticRestRequestDelete(publisherUrl + "/assets/"
+                + noteAssetId, MediaType.APPLICATION_JSON, MediaType.APPLICATION_JSON,
+                queryParamMap, headerMap, cookieHeaderPublisher);
 
         response.getEntity(String.class).contains("Asset Deleted Successfully");
     }
@@ -162,8 +158,8 @@ public class GregCustomRxtNotesTestESTestCase extends GregESTestBaseTest {
     private void addCustomRxt()
             throws RegistryException, IOException, ResourceAdminServiceExceptionException, InterruptedException {
         Thread.sleep(2000);
-        String filePath = getTestArtifactLocation() + "artifacts" + File.separator + "GREG" + File.separator + "rxt"
-                + File.separator + "application.rxt";
+        String filePath = getTestArtifactLocation() + "artifacts" + File.separator + "GREG"
+                + File.separator + "rxt" + File.separator + "application.rxt";
         DataHandler dh = new DataHandler(new URL("file:///" + filePath));
         resourceAdminServiceClient.addResource(
                 "/_system/governance/repository/components/org.wso2.carbon.governance/types/application.rxt",
@@ -183,11 +179,11 @@ public class GregCustomRxtNotesTestESTestCase extends GregESTestBaseTest {
                 "/_system/governance/repository/components/org.wso2.carbon.governance/types/application.rxt");
     }
 
-    private void SetTestEnvironment() throws JSONException, XPathExpressionException,
+    private void setTestEnvironment() throws JSONException, XPathExpressionException,
             IOException {
-        ClientResponse response = genericRestClient
-                .geneticRestRequestPost(publisherUrl + "/authenticate/", MediaType.APPLICATION_FORM_URLENCODED,
-                        MediaType.APPLICATION_JSON, "username=admin&password=admin", queryParamMap, headerMap, null);
+        ClientResponse response = genericRestClient.geneticRestRequestPost(publisherUrl + "/authenticate/",
+                MediaType.APPLICATION_FORM_URLENCODED, MediaType.APPLICATION_JSON,
+                "username=admin&password=admin", queryParamMap, headerMap, null);
         JSONObject obj = new JSONObject(response.getEntity(String.class));
         jSessionId = obj.getJSONObject("data").getString("sessionId");
         cookieHeaderPublisher = "JSESSIONID=" + jSessionId;
@@ -195,9 +191,9 @@ public class GregCustomRxtNotesTestESTestCase extends GregESTestBaseTest {
         //Create rest service
         queryParamMap.put("type", "applications");
         String dataBody = readFile(resourcePath + "publisherPublishCustomResource.json");
-        ClientResponse createResponse = genericRestClient
-                .geneticRestRequestPost(publisherUrl + "/assets", MediaType.APPLICATION_JSON,
-                        MediaType.APPLICATION_JSON, dataBody, queryParamMap, headerMap, cookieHeaderPublisher);
+        ClientResponse createResponse = genericRestClient.geneticRestRequestPost(publisherUrl + "/assets",
+                MediaType.APPLICATION_JSON, MediaType.APPLICATION_JSON, dataBody, queryParamMap,
+                headerMap, cookieHeaderPublisher);
         JSONObject createObj = new JSONObject(createResponse.getEntity(String.class));
         assetId = createObj.get("id").toString();
     }
