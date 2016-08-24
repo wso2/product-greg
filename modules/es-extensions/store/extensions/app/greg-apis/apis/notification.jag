@@ -68,7 +68,7 @@ require('/modules/store.js').exec(function(ctx) {
               try{
                   taskOperationService.start(idObj);
                   taskOperationService.complete(idObj, "<WorkResponse>true</WorkResponse>");
-              } catch (e){
+              } catch (e) {
                   message= {'error':'Not supported'};
                   print(message);
                   return;
