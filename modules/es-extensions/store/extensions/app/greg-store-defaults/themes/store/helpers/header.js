@@ -28,16 +28,18 @@ for (name in hps) {
         that[name] = hps[name];
     }
 }
-var fn = that.resources||function() { return {} };
-var resources = function(page, meta) {
+var fn = that.resources || function () {
+        return {}
+    };
+var resources = function (page, meta) {
     var o = fn(page, meta);
     if (!o.css) {
         o.css = [];
     }
-    if(!o.js){
+    if (!o.js) {
         o.js = [];
     }
-    if(!o.code){
+    if (!o.code) {
         o.code = [];
     }
     o.css.push('common.css');
