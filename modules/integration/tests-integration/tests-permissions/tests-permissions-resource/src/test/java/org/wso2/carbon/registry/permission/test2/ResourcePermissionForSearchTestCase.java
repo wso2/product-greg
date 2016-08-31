@@ -63,9 +63,12 @@ public class ResourcePermissionForSearchTestCase extends GREGIntegrationBaseTest
     };
     private static final String[] SEARCH_ENABLED_USERS = {"searchEnabledUser"};
     private static final String SEARCH_ENABLED_ROLE = "searchEnabledRole";
+    private static final String[] USER1 = {"userSpecialCharacter"};
+    private static final String USER_ROLE_WITH_SPECIAL_CHAR = "user:role1";
     private ResourceAdminServiceClient adminResourceAdminClient;
     private SearchAdminServiceClient adminSearchAdminClient;
     private SearchAdminServiceClient nonAdminSearchAdminClient;
+    private SearchAdminServiceClient nonAdminSearchAdminClient2;
     private UserManagementClient userManagementClient;
     private LogViewerClient logViewerClient;
 
@@ -78,9 +81,13 @@ public class ResourcePermissionForSearchTestCase extends GREGIntegrationBaseTest
         String sessionCookie = getSessionCookie();
         AutomationContext automationContextUser1 = new AutomationContext("GREG", "greg001",
                 FrameworkConstants.SUPER_TENANT_KEY, SEARCH_ENABLED_USERS[0]);
+        AutomationContext automationContextUser2 = new AutomationContext("GREG", "greg001",
+                FrameworkConstants.SUPER_TENANT_KEY, USER1[0]);
 
         userManagementClient = new UserManagementClient(backendURL, sessionCookie);
         userManagementClient.addRole(SEARCH_ENABLED_ROLE, SEARCH_ENABLED_USERS,
+                PERMISSION_SEARCH_ENABLED);
+        userManagementClient.addRole(USER_ROLE_WITH_SPECIAL_CHAR, USER1,
                 PERMISSION_SEARCH_ENABLED);
         userManagementClient.updateUserListOfRole(FrameworkConstants.ADMIN_ROLE, null,SEARCH_ENABLED_USERS);
 
@@ -89,6 +96,9 @@ public class ResourcePermissionForSearchTestCase extends GREGIntegrationBaseTest
         nonAdminSearchAdminClient =
                 new SearchAdminServiceClient(automationContextUser1.getContextUrls()
                         .getBackEndUrl(), new LoginLogoutClient(automationContextUser1).login());
+        nonAdminSearchAdminClient2 =
+                new SearchAdminServiceClient(automationContextUser2.getContextUrls()
+                        .getBackEndUrl(), new LoginLogoutClient(automationContextUser2).login());
         adminResourceAdminClient =
                 new ResourceAdminServiceClient(backendURL, sessionCookie);
         logViewerClient = new LogViewerClient(backendURL, sessionCookie);
@@ -134,8 +144,8 @@ public class ResourcePermissionForSearchTestCase extends GREGIntegrationBaseTest
         searchQuery.setParameterValues(paramList);
         AdvancedSearchResultsBean result = adminSearchAdminClient.getAdvancedSearchResults(searchQuery);
         assertNotNull(result.getResourceDataList());
-        boolean logFound1 = getLogEvents("user roles filter query values: (internal/everyone OR admin)", 1);
-        boolean logFound2 = getLogEvents("user roles filter query values: (admin OR internal/everyone)", 1);
+        boolean logFound1 = getLogEvents("user roles filter query values: (internal\\/everyone OR admin)", 1);
+        boolean logFound2 = getLogEvents("user roles filter query values: (admin OR internal\\/everyone)", 1);
         Assert.assertTrue(logFound1 || logFound2);
     }
 
@@ -150,9 +160,34 @@ public class ResourcePermissionForSearchTestCase extends GREGIntegrationBaseTest
         searchQuery.setParameterValues(paramList);
         AdvancedSearchResultsBean result = nonAdminSearchAdminClient.getAdvancedSearchResults(searchQuery);
         assertNull(result.getResourceDataList());
-        boolean logFound1 = getLogEvents("user roles filter query values: (searchenabledrole OR internal/everyone)", 1);
-        boolean logFound2 = getLogEvents("user roles filter query values: (internal/everyone OR searchenabledrole)", 1);
+        boolean logFound1 = getLogEvents("user roles filter query values: (searchenabledrole OR internal\\/everyone)", 1);
+        boolean logFound2 = getLogEvents("user roles filter query values: (internal\\/everyone OR searchenabledrole)", 1);
         Assert.assertTrue(logFound1 || logFound2);
+    }
+
+    @Test(groups = "wso2.greg", description = "Test search resources with allowed user with special characters",
+            dependsOnMethods = "testUserDisallowSearchToResource")
+    public void testSearchResourceWithSpecialCharRole()
+            throws SearchAdminServiceRegistryExceptionException, LogViewerLogViewerException, RemoteException {
+        CustomSearchParameterBean searchQuery = new CustomSearchParameterBean();
+        SearchParameterBean paramBean = new SearchParameterBean();
+        paramBean.setResourceName(RESOURCE_NAME);
+        ArrayOfString[] paramList = paramBean.getParameterList();
+        searchQuery.setParameterValues(paramList);
+        double time1 = System.currentTimeMillis();
+        AdvancedSearchResultsBean resultOfUser1;
+
+        do {
+            resultOfUser1 = nonAdminSearchAdminClient2.getAdvancedSearchResults(searchQuery);
+
+            double time2 = System.currentTimeMillis();
+            if ((time2 - time1) > 240000) {
+                log.error("Timeout while searching for resources | time waited: " + (time2 - time1));
+                break;
+            }
+        } while (resultOfUser1.getResourceDataList() == null);
+
+        assertNotNull(resultOfUser1.getResourceDataList());
     }
 
     private boolean getLogEvents(String message, int length) throws RemoteException, LogViewerLogViewerException {
@@ -176,6 +211,10 @@ public class ResourcePermissionForSearchTestCase extends GREGIntegrationBaseTest
 
         if( userManagementClient.roleNameExists(SEARCH_ENABLED_ROLE)){
             userManagementClient.deleteRole(SEARCH_ENABLED_ROLE);
+        }
+
+        if( userManagementClient.roleNameExists(USER_ROLE_WITH_SPECIAL_CHAR)){
+            userManagementClient.deleteRole(USER_ROLE_WITH_SPECIAL_CHAR);
         }
     }
 }

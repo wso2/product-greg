@@ -210,6 +210,10 @@
                         <userName>notificationUM1</userName>
                         <password>notificationUM1</password>
                     </user>
+                    <user key="userSpecialCharacter">
+                        <userName>userSpecialCharacter</userName>
+                        <password>userSpecialCharacter</password>
+                    </user>
                 </users>
             </tenant>
         </superTenant>
