@@ -47,12 +47,6 @@ require('/modules/publisher.js').exec(function (ctx) {
         var url = config.server.https;
 
         if (commonConstants.SWAGGER_MEDIA_TYPE.equals(resource.getMediaType())) {
-            /*log.info("wrong content type");
-             response.status = 400;
-             print("swagger UI generation is only avaialable for swagger artifacts," +
-             " Please specify a registry path of a swagger artifact!");
-             return;*/
-
             childAPIs = {};
             childAPIs.baseCollection = resource.path.substr(0, resource.path.lastIndexOf("/"));
             // if swagger content version not equlas to 2.0

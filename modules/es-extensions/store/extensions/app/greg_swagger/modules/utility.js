@@ -16,9 +16,8 @@
  * under the License.
  */
 
-function isNotNullOrEmpty(checkText){
-
-    if(checkText == "" || checkText === 'null' || checkText == null || checkText.length <= 0){
+function isNotNullOrEmpty(checkText) {
+    if (checkText == "" || checkText === 'null' || checkText == null || checkText.length <= 0) {
         return false;
     }
     return true;
