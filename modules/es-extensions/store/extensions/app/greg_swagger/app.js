@@ -16,26 +16,26 @@
  * under the License.
  */
 
-app.server = function(ctx){
+app.server = function (ctx) {
     return {
-        endpoints:{
-            pages:[
+        endpoints: {
+            pages: [
                 {
-                    title:'Swagger',
-                    url:'swagger',
-                    path:'index.jag',
-                    secured:false
+                    title: 'Swagger',
+                    url: 'swagger',
+                    path: 'index.jag',
+                    secured: false
                 }
             ]
         }
     };
 };
 
-app.pageHandlers = function(ctx) {
+app.pageHandlers = function (ctx) {
     return {
-        onPageLoad: function() {
+        onPageLoad: function () {
             if ((ctx.isAnonContext) && (ctx.endpoint.secured)) {
-                ctx.res.sendRedirect(ctx.appContext+'/login');
+                ctx.res.sendRedirect(ctx.appContext + '/login');
                 return false;
             }
             return true;

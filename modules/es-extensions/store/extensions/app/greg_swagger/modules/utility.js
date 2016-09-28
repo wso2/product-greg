@@ -23,12 +23,12 @@ function isNotNullOrEmpty(checkText) {
     return true;
 }
 
-function inputNotNullOrEmpty(jsonObj, paramNameArray){
+function inputNotNullOrEmpty(jsonObj, paramNameArray) {
 
     var input;
     for (var i = 0; i < paramNameArray.length; i++) {
         input = jsonObj[paramNameArray[i]];
-        if(input == "" || input === 'null' || input == null || input.length <= 0){
+        if (input == "" || input === 'null' || input == null || input.length <= 0) {
             return false;
         }
     }

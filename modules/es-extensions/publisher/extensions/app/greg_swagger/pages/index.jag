@@ -122,8 +122,8 @@ require('/modules/publisher.js').exec(function (ctx) {
                url: url,
                dom_id: "swagger-ui-container",
                supportedSubmitMethods: ['get', 'post', 'put', 'delete', 'patch'],
-               onComplete: function(swaggerApi, swaggerUi){
-                 if(typeof initOAuth == "function") {
+               onComplete: function (swaggerApi, swaggerUi) {
+                 if (typeof initOAuth == "function") {
                    initOAuth({
                      clientId: "your-client-id",
                      realm: "your-realms",
@@ -145,7 +145,7 @@ require('/modules/publisher.js').exec(function (ctx) {
                showRequestHeaders: false
              });
 
-             function addApiKeyAuthorization(){
+             function addApiKeyAuthorization() {
                var key = encodeURIComponent($('#input_apiKey')[0].value);
                if(key && key.trim() != "") {
                    var apiKeyAuth = new SwaggerClient.ApiKeyAuthorization("api_key", key, "query");
