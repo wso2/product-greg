@@ -33,6 +33,9 @@ import java.util.concurrent.TimeUnit;
 
 import static org.testng.Assert.assertTrue;
 
+/**
+ * This test case tests operations related to assets listing of Governance Store
+ */
 public class AssetsListingTestCase extends GREGIntegrationUIBaseTest {
 
     private WebDriver driver;
@@ -78,20 +81,28 @@ public class AssetsListingTestCase extends GREGIntegrationUIBaseTest {
         log.info("Verifying "+aType);
         StoreAssetListPage assetListPage = storeHomePage.clickOnNavButton(aType);
 
-        if (aType.equals("policy")) {
+        switch (aType) {
+        case "policy":
             assertTrue(assetListPage.verifyPolicyAssetListPageSubtitle(), "Listing page subtitle is not Policies");
-        } else if (aType.equals("restservice")) {
+            break;
+        case "restservice":
             assertTrue(assetListPage.verifyRESTAssetListPageSubtitle(), "Listing page subtitle is not REST Services");
-        } else if (aType.equals("schema")) {
+            break;
+        case "schema":
             assertTrue(assetListPage.verifySchemaAssetListPageSubtitle(), "Listing page subtitle is not Schemas");
-        } else if (aType.equals("soapservice")) {
+            break;
+        case "soapservice":
             assertTrue(assetListPage.verifySOAPAssetListPageSubtitle(), "Listing page subtitle is not SOAP Services");
-        } else if (aType.equals("swagger")) {
+            break;
+        case "swagger":
             assertTrue(assetListPage.verifySwaggerAssetListPageSubtitle(), "Listing page subtitle is not Swaggers");
-        } else if (aType.equals("wadl")) {
+            break;
+        case "wadl":
             assertTrue(assetListPage.verifyWADLAssetListPageSubtitle(), "Listing page subtitle is not WADLs");
-        } else if (aType.equals("wsdl")) {
-            assertTrue(assetListPage.verifyWSDLAssetListPageSubtitle(), "WSDLs");
+            break;
+        case "wsdl":
+            assertTrue(assetListPage.verifyWSDLAssetListPageSubtitle(), "Listing page subtitle is not WSDLs");
+            break;
         }
 
         assertTrue(assetListPage.verifyAssetsListing());

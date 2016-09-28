@@ -31,6 +31,9 @@ import java.util.concurrent.TimeUnit;
 
 import static org.testng.Assert.assertTrue;
 
+/**
+ * This test case tests visibility of certain assets on anonymous mode and logged in mode of Governance Store
+ */
 public class StoreHomePageTestCase extends GREGIntegrationUIBaseTest {
 
     private WebDriver driver;
