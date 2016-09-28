@@ -403,7 +403,7 @@ var gregAPI = {};
         return tenantResources.am;
     };
     /*Need assetManager for getAssetVersions*/
-    gregAPI.getAssetVersions = function (session, type, path, name) { /* TODO: Instead of path accept asset itself*/
+    gregAPI.getAssetVersions = function (session, type, path, name) {
         var am = assetManager(session,type);
         var asset = {};
         asset.attributes = {};
