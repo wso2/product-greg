@@ -24,12 +24,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.testng.Assert;
-import org.testng.annotations.AfterClass;
-import org.testng.annotations.BeforeClass;
-import org.testng.annotations.BeforeMethod;
-import org.testng.annotations.DataProvider;
-import org.testng.annotations.Factory;
-import org.testng.annotations.Test;
+import org.testng.annotations.*;
 import org.wso2.carbon.automation.engine.context.TestUserMode;
 import org.wso2.carbon.automation.engine.exceptions.AutomationFrameworkException;
 import org.wso2.carbon.automation.engine.frameworkutils.FrameworkPathUtil;
@@ -309,6 +304,41 @@ public class GregRestResourceLifeCycleManagementTestCase extends GregESTestBaseT
         Assert.assertEquals(((JSONObject) checkItems.get(1)).getString("isVisible"), "true");
         //checklist item 2 should not be available to non-manager role user
         Assert.assertEquals(((JSONObject) checkItems.get(2)).getString("isVisible"), "null");
+    }
+
+    @Test(groups = { "wso2.greg",
+            "wso2.greg.es" }, description = "Check error message in promoting rest service from production state to publish state",
+            dependsOnMethods = {
+                    "promoteLifeCycleWithUserWithcorrectRolePermission" })
+    public void checkErrorInPromotingRestServiceFromProductionState() throws JSONException {
+        ClientResponse response = genericRestClient
+                .geneticRestRequestPost(publisherUrl + "/authenticate/", MediaType.APPLICATION_FORM_URLENCODED,
+                        MediaType.APPLICATION_JSON, "username=admin&password=admin", queryParamMap, headerMap, null);
+        JSONObject obj = new JSONObject(response.getEntity(String.class));
+        Assert.assertTrue((response.getStatusCode() == 200),
+                "Wrong status code ,Expected 200 OK ,Received " + response.getStatusCode());
+        jSessionId = obj.getJSONObject("data").getString("sessionId");
+        cookieHeader = "JSESSIONID=" + jSessionId;
+
+        queryParamMap.put("type", "restservice");
+        queryParamMap.put("lifecycle", "ServiceLifeCycle");
+
+        response = genericRestClient.geneticRestRequestPost(publisherUrl + "/asset/" + assetId + "/change-state",
+                MediaType.APPLICATION_FORM_URLENCODED, MediaType.APPLICATION_JSON,
+                "nextAction=Promote&nextState=testing&comment=Completed", queryParamMap, headerMap, cookieHeader);
+        Assert.assertTrue((response.getStatusCode() == 200),
+                "Wrong status code ,Expected 200 OK ,Received " + response.getStatusCode());
+
+        response = genericRestClient.geneticRestRequestPost(publisherUrl + "/asset/" + assetId + "/change-state",
+                MediaType.APPLICATION_FORM_URLENCODED, MediaType.APPLICATION_JSON,
+                "nextAction=Promote&nextState=production&comment=Completed", queryParamMap, headerMap, cookieHeader);
+        Assert.assertTrue((response.getStatusCode() == 200),
+                "Wrong status code ,Expected 200 OK ,Received " + response.getStatusCode());
+
+        response = genericRestClient.geneticRestRequestPost(publisherUrl + "/asset/" + assetId + "/change-state",
+                MediaType.APPLICATION_FORM_URLENCODED, MediaType.APPLICATION_JSON, "nextState=published.to.apistore",
+                queryParamMap, headerMap, cookieHeader);
+        Assert.assertEquals(response.getStatusCode(), 500);
     }
 
     @AfterClass(alwaysRun = true)
