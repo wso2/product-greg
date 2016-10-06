@@ -281,15 +281,17 @@ public class GovernanceRestAPITestCase extends GregESTestBaseTest {
         ClientResponse responseOne = genericRestClient.geneticRestRequestGet(governanceRestApiUrl, queryParamMap,
                                                                              headerMap, null);
         JSONObject jsonObject = new JSONObject(responseOne.getEntity(String.class));
-        Assert.assertEquals(jsonObject.get(LIFECYCLE), lCState, "Incorrect life cycle state. Expected " + lCState
-                                                                + " ,received " + jsonObject.get(LIFECYCLE));
+        String lcState = jsonObject.getJSONArray("states").getJSONObject(0).getString("state");
+        Assert.assertEquals(lcState, lCState, "Incorrect life cycle state. Expected " + lCState
+                                                                + " ,received " + lcState);
         queryParamMap.clear();
         queryParamMap.put("lc", "ServiceLifeCycle");
         ClientResponse responseTwo = genericRestClient.geneticRestRequestGet(governanceRestApiUrl, queryParamMap,
                                                                              headerMap, null);
         JSONObject lifeCycleState = new JSONObject(responseTwo.getEntity(String.class));
-        Assert.assertEquals(lifeCycleState.get("state"), lCState, "Incorrect life cycle state. Expected " + lCState
-                                                                  + " ,received " + lifeCycleState.get("state"));
+        lcState = jsonObject.getJSONArray("states").getJSONObject(0).getString("state");
+        Assert.assertEquals(lcState, lCState, "Incorrect life cycle state. Expected " + lCState
+                                                                  + " ,received " + lcState);
         queryParamMap.clear();
     }
 
@@ -307,10 +309,11 @@ public class GovernanceRestAPITestCase extends GregESTestBaseTest {
                                                                           queryParamMap, headerMap,
                                                                           null);
         JSONObject jsonObject = new JSONObject(response.getEntity(String.class));
-        Assert.assertEquals(jsonObject.get(LIFECYCLE), NEXT_LIFECYCLE_STATE, "Incorrect life cycle state. Expected " +
+        String lcState = jsonObject.getJSONArray("states").getJSONObject(0).getString("state");
+        Assert.assertEquals(lcState, NEXT_LIFECYCLE_STATE, "Incorrect life cycle state. Expected " +
                                                                              NEXT_LIFECYCLE_STATE
                                                                              + " ,received " +
-                                                                             jsonObject.get(LIFECYCLE));
+                lcState);
     }
 
     @Test(groups = {"wso2.greg", "wso2.greg.governance.rest.api"}, description = "Delete a rest service",
