@@ -273,7 +273,8 @@ public class GovernanceRestApiEndpointTestCase extends GregESTestBaseTest {
         ClientResponse response = genericRestClient.geneticRestRequestGet(governanceRestApiUrlForEndpointState,
                                                                           queryParamMap, headerMap, null);
         JSONObject obj = new JSONObject(response.getEntity(String.class));
-        Assert.assertEquals(obj.get(endpointLifecycle), activeState);
+        log.error(obj);
+        Assert.assertEquals(obj.getJSONArray("states").getJSONObject(0).getString("state"), activeState);
     }
 
     @Test(groups = { "wso2.greg", "wso2.greg.governance.rest.api" }, description = "Get all associations",
