@@ -47,7 +47,8 @@ $('.container-fluid').resize(function () {
 });
 
 /*
- * Set view panels height relatively to the window
+ * Set view panels height relatively to the window. If the screen height is > than 768px, we are obtaining 90% of the
+ * screen resolution for codemirror panels. 
  */
 function setViewPanelsHeight() {
     if ($(window).width() > 768) {
