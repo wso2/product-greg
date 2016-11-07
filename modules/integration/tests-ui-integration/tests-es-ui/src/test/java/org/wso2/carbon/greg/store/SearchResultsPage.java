@@ -43,8 +43,8 @@ public class SearchResultsPage {
 
         this.driver = driver;
         uiElementMapper = UIElementMapper.getInstance();
-
         String searchbarMapperId = "store.searchbar.id";
+        
         this.driver.findElement(By.id(uiElementMapper.getElement(searchbarMapperId))).click();
         this.driver.findElement(By.id(uiElementMapper.getElement(searchbarMapperId))).clear();
         if (hitEnter) {
