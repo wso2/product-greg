@@ -105,8 +105,8 @@ public class GRegMigrationServiceComponent {
                     //Default operation will migrate all three types of resources
                     if (argsMap.get("isRegMigrationNeeded") == null && argsMap.get("isFileSysMigrationNeeded") ==
                             null) {
-                        log.info(
-                                "Migrating WSO2 Governance Registry 4.6.0 resources to WSO2 Governance Registry 5.0.0");
+                        log.info("Migrating WSO2 Governance Registry 4.6.0 resources to" +
+                                         " WSO2 Governance Registry 5.0.0");
                         migrationClient.registryResourceMigration();
                         migrationClient.fileSystemMigration();
                         migrationClient.endpointMigration();
@@ -122,7 +122,6 @@ public class GRegMigrationServiceComponent {
                         if (isFileSystemMigrationNeeded) {
                             log.info(
                                     "Migrating WSO2 Governance Registry 4.6.0 file system resources to WSO2 Governance " +
-
                                             "Registry 5.0.0");
                             migrationClient.fileSystemMigration();
                         }
