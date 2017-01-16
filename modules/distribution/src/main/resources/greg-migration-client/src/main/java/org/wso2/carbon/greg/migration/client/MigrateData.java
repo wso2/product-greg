@@ -40,27 +40,26 @@ import java.util.Arrays;
 import java.util.List;
 
 /**
- * This class remove the old store tenant configuration (store.json) coming from G-Reg 5.1.0 and do a database migration
- * for latest identity tables.
+ * This class remove the old store and publisher tenant configuration (store.json) coming from G-Reg 5.3.0.
  */
 public class MigrateData implements MigrationClient {
 
-    private static final Log log = LogFactory.getLog(MigrateFrom510To520.class);
+    private static final Log log = LogFactory.getLog(MigrateData.class);
     private DataSource dataSource;
 
     @Override
     public void databaseMigration(String migrateVersion) throws GRegMigrationException, SQLException {
-        log.info("Not implemented in 5.1.0 to 5.2.0 migration");
+        log.info("Not implemented in 5.2.0 to 5.3.0 migration");
     }
 
     @Override
     public void registryResourceMigration() throws GRegMigrationException {
-        log.info("Not implemented in 5.1.0 to 5.2.0 migration");
+        log.info("Not implemented in 5.2.0 to 5.3.0 migration");
     }
 
     @Override
     public void fileSystemMigration() throws GRegMigrationException {
-        log.info("Not implemented in 5.1.0 to 5.2.0 migration");
+        log.info("Not implemented in 5.2.0 to 5.3.0 migration");
     }
 
     @Override
