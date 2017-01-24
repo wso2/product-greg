@@ -22,6 +22,7 @@ public class Constants {
 
     public static final String VERSION_500 = "5.0.0";
     public static final String VERSION_520 = "5.2.0";
+    public static final String VERSION_530 = "5.3.0";
 
     public static final String ANONYMOUS_ROLE = "system/wso2.anonymous.role";
 
@@ -70,6 +71,12 @@ public class Constants {
 
     //registry path for store.json file at config registry
     public static final String STORE_CONFIG_PATH = "/store/configs/store.json";
+    public static final String PUBLISHER_CONFIG_PATH = "/publisher/configs/publisher.json";
+
+    public static final String LOGIN_PERMISSION = "\"/permission/admin/login\":";
+    public static final String PERMISSION_ACTION = "[\"ui.execute\"]";
+    public static final String LOGIN_SCRIPT = "\"/permission/admin/login\":[\"ui.execute\"]";
+
 
     //Constants for 510 to 520 migration
     public enum DatabaseTypes {

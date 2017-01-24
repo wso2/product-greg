@@ -22,6 +22,7 @@ import org.osgi.service.component.ComponentContext;
 import org.wso2.carbon.greg.migration.GRegMigrationException;
 import org.wso2.carbon.greg.migration.client.EmailUserNameMigrationClient;
 import org.wso2.carbon.greg.migration.client.MigrateFrom460To500;
+import org.wso2.carbon.greg.migration.client.MigrateData;
 import org.wso2.carbon.greg.migration.client.MigrateFrom510To520;
 import org.wso2.carbon.greg.migration.client.MigrationClient;
 import org.wso2.carbon.greg.migration.client.ProviderMigrationClient;
@@ -102,8 +103,10 @@ public class GRegMigrationServiceComponent {
                     MigrationClient migrationClient = new MigrateFrom460To500();
 
                     //Default operation will migrate all three types of resources
-                    if (argsMap.get("isRegMigrationNeeded") == null && argsMap.get("isFileSysMigrationNeeded") == null) {
-                        log.info("Migrating WSO2 Governance Registry 4.6.0 resources to WSO2 Governance Registry 5.0.0");
+                    if (argsMap.get("isRegMigrationNeeded") == null && argsMap.get("isFileSysMigrationNeeded") ==
+                            null) {
+                        log.info("Migrating WSO2 Governance Registry 4.6.0 resources to" +
+                                         " WSO2 Governance Registry 5.0.0");
                         migrationClient.registryResourceMigration();
                         migrationClient.fileSystemMigration();
                         migrationClient.endpointMigration();
@@ -111,14 +114,15 @@ public class GRegMigrationServiceComponent {
                         //Only performs registry migration which also includes endpoint migration as well.
                         if (isRegistryMigrationNeeded) {
                             log.info("Migrating WSO2 Governance Registry 4.6.0 registry resources to WSO2 Governance " +
-                                     "Registry 5.0.0");
+                                             "Registry 5.0.0");
                             migrationClient.registryResourceMigration();
                             migrationClient.endpointMigration();
                         }
                         //Only performs file system migration
                         if (isFileSystemMigrationNeeded) {
-                            log.info("Migrating WSO2 Governance Registry 4.6.0 file system resources to WSO2 Governance " +
-                                     "Registry 5.0.0");
+                            log.info(
+                                    "Migrating WSO2 Governance Registry 4.6.0 file system resources to WSO2 Governance " +
+                                            "Registry 5.0.0");
                             migrationClient.fileSystemMigration();
                         }
                     }
@@ -137,6 +141,9 @@ public class GRegMigrationServiceComponent {
                         providerMigrationClient.providerMigration();
                     }
 
+                }else if (Constants.VERSION_530.equalsIgnoreCase(migrateVersion)) {
+                    MigrateData migrateData = new MigrateData();
+                    migrateData.cleanOldResources();
                 } else {
                     log.error("The given migrate version " + migrateVersion + " is not supported. Please check the " +
                               "version and try again.");
