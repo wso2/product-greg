@@ -51,4 +51,27 @@ public class StoreLoginPage {
         driver.findElement(By.xpath(uiElementMapper.getElement("store.login.submit.xpath"))).click();
         return new StoreHomePage(driver);
     }
+
+    public StoreHomePage Register(String username, String password, String email, String fname, String lname)
+            throws StoreTestException {
+        driver.findElement(By.id(uiElementMapper.getElement("store.register.reg-username.id"))).clear();
+        driver.findElement(By.id(uiElementMapper.getElement("store.register.reg-password.id"))).clear();
+        driver.findElement(By.id(uiElementMapper.getElement("store.register.reg-password2.id"))).clear();
+        driver.findElement(By.id(uiElementMapper.getElement("store.register.reg-email.id"))).clear();
+        driver.findElement(By.id(uiElementMapper.getElement("store.register.reg-first-name.id"))).clear();
+        driver.findElement(By.id(uiElementMapper.getElement("store.register.reg-last-name.id"))).clear();
+
+        driver.findElement(By.id(uiElementMapper.getElement("store.register.reg-username.id"))).sendKeys(username);
+        driver.findElement(By.id(uiElementMapper.getElement("store.register.reg-password.id"))).sendKeys(password);
+        driver.findElement(By.id(uiElementMapper.getElement("store.register.reg-password2.id"))).sendKeys(password);
+        driver.findElement(By.id(uiElementMapper.getElement("store.register.reg-email.id"))).sendKeys(email);
+        driver.findElement(By.id(uiElementMapper.getElement("store.register.reg-first-name.id"))).sendKeys(fname);
+        driver.findElement(By.id(uiElementMapper.getElement("store.register.reg-last-name.id"))).sendKeys(lname);
+
+        driver.findElement(By.xpath(uiElementMapper.getElement("store.register.registrationSubmit.id"))).click();
+
+
+        return new StoreHomePage(driver);
+    }
 }
+
