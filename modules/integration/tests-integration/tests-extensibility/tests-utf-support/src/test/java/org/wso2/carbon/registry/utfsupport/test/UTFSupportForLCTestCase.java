@@ -45,7 +45,7 @@ public class UTFSupportForLCTestCase extends GREGIntegrationBaseTest {
     public void testEditLifecycle() throws Exception {
         String resourcePath = FrameworkPathUtil.getSystemResourceLocation() + "artifacts" +
                               File.separator + "GREG" + File.separator + "lifecycle" + File.separator + "PromoteLC2.xml";
-        String lifeCycleContent = FileManager.readFile(resourcePath);
+        String lifeCycleContent = UTFSupport.readFile(resourcePath);
 
 
         lifeCycleManagementClient.editLifeCycle(LC_NAME, lifeCycleContent);
