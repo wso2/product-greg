@@ -183,6 +183,7 @@ public class UTFSupportForServiceTestCase extends GREGIntegrationBaseTest {
         service.setAttribute("overview_version", "1.0.0");
 
         serviceManager.addService(service);
+        Thread.sleep(15000L);
 
         for (String serviceId : serviceManager.getAllServiceIds()) {
             service = serviceManager.getService(serviceId);
