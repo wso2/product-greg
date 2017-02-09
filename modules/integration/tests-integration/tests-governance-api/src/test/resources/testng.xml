@@ -5,10 +5,10 @@
     <test name="Test - GREG" preserve-order="true" parallel="false">
         <packages>
             <package name="org.wso2.carbon.registry.governance.api.test"/>
-            <package name="org.wso2.carbon.registry.governance.api.metadata.test"/>
+            <!--package name="org.wso2.carbon.registry.governance.api.metadata.test"/>
             <package name="org.wso2.carbon.registry.governance.api.ui.test"/>
             <package name="org.wso2.carbon.registry.governance.api.lifecycle.test"/>
-            <package name="org.wso2.carbon.registry.governance.api.service.test"/>
+            <package name="org.wso2.carbon.registry.governance.api.service.test"/-->
         </packages>
     </test>
 </suite>

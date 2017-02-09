@@ -15,7 +15,7 @@
 *specific language governing permissions and limitations
 *under the License.
 */
-package org.wso2.carbon.registry.governance.api.test.old;
+package org.wso2.carbon.registry.governance.api.test;
 
 import org.apache.axiom.om.OMElement;
 import org.testng.annotations.AfterClass;

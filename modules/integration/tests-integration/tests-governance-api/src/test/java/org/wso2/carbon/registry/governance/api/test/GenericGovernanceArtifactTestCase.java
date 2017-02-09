@@ -14,7 +14,7 @@
 * limitations under the License.
 */
 
-package org.wso2.carbon.registry.governance.api.test.old;
+package org.wso2.carbon.registry.governance.api.test;
 
 import org.apache.axiom.om.util.AXIOMUtil;
 import org.apache.commons.logging.Log;

@@ -95,7 +95,7 @@ public class GovernanceLCTransitionsTestCase extends GREGIntegrationBaseTest {
     public void testGetVotingEvents() throws RegistryException {
         Service service = getAddedService();
 
-        String[] votingItems = service.getAllVotingItems();
+        String[] votingItems = service.getAllVotingItems(LIFE_CYCLE_NAME);
         Assert.assertEquals(votingItems[0], "Promote", "Unexpected voting event found");
     }
 
@@ -103,13 +103,13 @@ public class GovernanceLCTransitionsTestCase extends GREGIntegrationBaseTest {
     public void testVoting() throws RegistryException {
         Service service = getAddedService();
 
-        service.vote(0);
-        Assert.assertTrue(service.isVoted(0), "Not voted");
+        service.vote(0, LIFE_CYCLE_NAME);
+        Assert.assertTrue(service.isVoted(0, LIFE_CYCLE_NAME), "Not voted");
 
-        service.unvote(0);
-        Assert.assertFalse(service.isVoted(0), "Vote not reverted");
+        service.unvote(0, LIFE_CYCLE_NAME);
+        Assert.assertFalse(service.isVoted(0, LIFE_CYCLE_NAME), "Vote not reverted");
 
-        service.vote(0);
+        service.vote(0, LIFE_CYCLE_NAME);
     }
 
     @Test(groups = {"wso2.greg"}, description = "LC Transition", dependsOnMethods = "testVoting")
