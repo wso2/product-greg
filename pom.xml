@@ -352,7 +352,7 @@
                 <scope>test</scope>
             </dependency>
             <dependency>
-                <groupId>org.wso2.carbon.identity</groupId>
+                <groupId>org.wso2.carbon.identity.framework</groupId>
                 <artifactId>org.wso2.carbon.user.mgt.stub</artifactId>
                 <version>${carbon.identity.framework.version}</version>
                 <scope>test</scope>
@@ -364,7 +364,7 @@
                 <scope>test</scope>
             </dependency>
             <dependency>
-                <groupId>org.wso2.carbon.identity</groupId>
+                <groupId>org.wso2.carbon.identity.framework</groupId>
                 <artifactId>org.wso2.carbon.identity.user.profile.stub</artifactId>
                 <version>${carbon.identity.framework.version}</version>
                 <scope>test</scope>
@@ -485,7 +485,7 @@
                 <version>${junit.version}</version>
             </dependency>
             <dependency>
-                <groupId>org.wso2.carbon.identity</groupId>
+                <groupId>org.wso2.carbon.identity.framework</groupId>
                 <artifactId>org.wso2.carbon.user.mgt</artifactId>
                 <version>${carbon.identity.framework.version}</version>
             </dependency>
@@ -743,6 +743,11 @@
                 <artifactId>wsdl4j</artifactId>
                 <version>${orbit.version.wsdl4j}</version>
             </dependency>
+            <dependency>
+                <groupId>org.wso2.carbon.identity.metadata.saml2</groupId>
+                <artifactId>org.wso2.carbon.identity.sp.metadata.saml2</artifactId>
+                <version>1.0.0</version>
+            </dependency>
         </dependencies>
     </dependencyManagement>
 
@@ -951,8 +956,8 @@
         <carbon.feature.version>1.5.5</carbon.feature.version>
         <uuid.feature.version>1.5.5</uuid.feature.version>
         <sso.feature.version>1.5.5</sso.feature.version>
-        <es.feature.version>2.4.6</es.feature.version>
-        <carbon.social.version>2.4.6</carbon.social.version>
+        <es.feature.version>2.4.8</es.feature.version>
+        <carbon.social.version>2.4.8</carbon.social.version>
         <i18n.feature.version>1.5.5</i18n.feature.version>
         <!--<event.feature.version>1.0.0</event.feature.version>-->
         <!--<login.feature.version>1.0.0</login.feature.version>-->
@@ -1014,35 +1019,36 @@
 
         <!-- Carbon Kernel -->
 
-        <carbon.kernel.version>4.4.7</carbon.kernel.version>
+        <carbon.kernel.version>4.4.11</carbon.kernel.version>
         <carbon.kernel.package.import.version.range>[4.4.0, 4.5.0)
         </carbon.kernel.package.import.version.range>
 
         <carbon.kernel.registry.imp.pkg.version>[1.0.1, 2.0.0)</carbon.kernel.registry.imp.pkg.version>
         
         <!-- Carbon Registry -->
-        <carbon.registry.version>4.6.2-SNAPSHOT</carbon.registry.version>
+        <carbon.registry.version>4.6.2</carbon.registry.version>
         <carbon.registry.package.import.version.range>[4.6.0, 5.0.0)
         </carbon.registry.package.import.version.range>
 
         <!-- Carbon Governance -->
-        <carbon.governance.version>4.7.3-SNAPSHOT</carbon.governance.version>
+        <carbon.governance.version>4.7.3</carbon.governance.version>
 
-        <carbon.governance.ext.version>4.5.3-SNAPSHOT</carbon.governance.ext.version>
+        <carbon.governance.ext.version>4.5.3</carbon.governance.ext.version>
 
         <carbon.business.process.version>4.4.9</carbon.business.process.version>
         
         <!-- Carbon Commons -->
         <carbon.commons.version>4.5.4</carbon.commons.version>
         <!-- Carbon Identity -->
-        <carbon.identity.framework.version>5.2.0</carbon.identity.framework.version>
-        <identity.application.auth.basic.auth.version>5.1.1</identity.application.auth.basic.auth.version>
-        <identity.auth.saml2.version>5.1.3</identity.auth.saml2.version>
+        <carbon.identity.framework.version>5.7.5</carbon.identity.framework.version>
+        <identity.application.auth.basic.auth.version>5.3.0</identity.application.auth.basic.auth.version>
+        <identity.auth.saml2.version>5.2.0</identity.auth.saml2.version>
         <identity.applicatoin.oauth.oidc.version>5.1.1</identity.applicatoin.oauth.oidc.version>
         <identity.inbound.auth.oidc.version>5.1.1</identity.inbound.auth.oidc.version>
-        <identity.inbound.auth.saml.version>5.1.1</identity.inbound.auth.saml.version>
-        <identity.inbound.auth.openid.version>5.1.1</identity.inbound.auth.openid.version>
-        <carbon.identity.um.version>5.1.1</carbon.identity.um.version>
+        <identity.inbound.auth.saml.version>5.3.0</identity.inbound.auth.saml.version>
+        <identity.inbound.auth.openid.version>5.2.1</identity.inbound.auth.openid.version>
+        <carbon.identity.metadata.smal2.version>1.0.0</carbon.identity.metadata.smal2.version>
+        <carbon.identity.um.version>5.1.4</carbon.identity.um.version>
 
         <carbon.deployment.version>4.7.0</carbon.deployment.version>
 

@@ -389,7 +389,7 @@
             <version>2.7.3</version>
         </dependency>
         <dependency>
-            <groupId>org.wso2.carbon.identity</groupId>
+            <groupId>org.wso2.carbon.identity.framework</groupId>
             <artifactId>org.wso2.carbon.user.mgt.stub</artifactId>
         </dependency>
         <dependency>

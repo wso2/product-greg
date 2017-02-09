@@ -35,6 +35,7 @@
                 <exclude>**/repository/components/features/**</exclude>
                 <exclude>**/pom.xml</exclude>
                 <exclude>**/registry.xml</exclude>
+                <exclude>**/user-mgt.xml</exclude>
                 <exclude>**/*.sh</exclude>
                 <exclude>**/version.txt</exclude>
                 <exclude>**/README*</exclude>
@@ -112,6 +113,7 @@
             <outputDirectory>${pom.artifactId}-${build.version}/repository/conf</outputDirectory>
             <includes>
                 <include>**/registry.xml</include>
+                <include>**/user-mgt.xml</include>
                 <include>**/notifications-email-verification.xml</include>
                 <!--<include>**/api-manager.xml</include>-->
             </includes>
