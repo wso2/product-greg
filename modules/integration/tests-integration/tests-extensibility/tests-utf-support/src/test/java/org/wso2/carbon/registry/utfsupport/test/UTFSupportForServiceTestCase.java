@@ -9,7 +9,8 @@ import org.wso2.carbon.automation.engine.context.TestUserMode;
 import org.wso2.carbon.governance.api.services.ServiceManager;
 import org.wso2.carbon.governance.api.services.dataobjects.Service;
 import org.wso2.carbon.governance.api.util.GovernanceUtils;
-import org.wso2.carbon.governance.custom.lifecycles.checklist.stub.CustomLifecyclesChecklistAdminServiceExceptionException;
+import org.wso2.carbon.governance.custom.lifecycles.checklist.stub
+        .CustomLifecyclesChecklistAdminServiceExceptionException;
 import org.wso2.carbon.governance.list.stub.ListMetadataServiceRegistryExceptionException;
 import org.wso2.carbon.registry.core.Registry;
 import org.wso2.carbon.registry.core.exceptions.RegistryException;
@@ -18,7 +19,12 @@ import org.wso2.carbon.registry.info.stub.RegistryExceptionException;
 import org.wso2.carbon.registry.resource.stub.ResourceAdminServiceExceptionException;
 import org.wso2.carbon.registry.utfsupport.test.util.UTFSupport;
 import org.wso2.carbon.registry.ws.client.registry.WSRegistryServiceClient;
-import org.wso2.greg.integration.common.clients.*;
+import org.wso2.greg.integration.common.clients.InfoServiceAdminClient;
+import org.wso2.greg.integration.common.clients.LifeCycleAdminServiceClient;
+import org.wso2.greg.integration.common.clients.LifeCycleManagementClient;
+import org.wso2.greg.integration.common.clients.RelationAdminServiceClient;
+import org.wso2.greg.integration.common.clients.ResourceAdminServiceClient;
+import org.wso2.greg.integration.common.clients.UserManagementClient;
 import org.wso2.greg.integration.common.utils.GREGIntegrationBaseTest;
 import org.wso2.greg.integration.common.utils.RegistryProviderUtil;
 
@@ -50,6 +56,8 @@ public class UTFSupportForServiceTestCase extends GREGIntegrationBaseTest {
     private String backEndUrl;
     private String userName;
     private String userNameWithoutDomain;
+    boolean roleAdded = false;
+    boolean lcAdded = false;
 
     @BeforeClass(alwaysRun = true)
     public void init() throws Exception {
@@ -120,21 +128,20 @@ public class UTFSupportForServiceTestCase extends GREGIntegrationBaseTest {
     @Test(groups = {"wso2.greg"}, description = "create lifecycle", dependsOnMethods = {"testAddServiceAssociation"})
     public void testcreateLifecycle() throws Exception {
         Assert.assertTrue(UTFSupport.createLifecycle(lifeCycleManagementClient, LC_NAME));
-
+        lcAdded = true;
     }
 
     @Test(groups = "wso2.greg", description = "Add role", dependsOnMethods = "testcreateLifecycle")
     public void testAddRole() throws Exception {
 
         Assert.assertTrue(UTFSupport.addRole(userManagementClient, utfString, automationContext));
-
+        roleAdded = true;
     }
 
     @Test(groups = "wso2.greg", description = "Add subscription", dependsOnMethods = {"testAddRole"})
     public void testAddSubscription() throws Exception {
 
         Assert.assertTrue(UTFSupport.addSubscription(infoServiceAdminClient, pathPrefix + servicepath1, utfString, automationContext));
-
     }
 
 
@@ -185,8 +192,10 @@ public class UTFSupportForServiceTestCase extends GREGIntegrationBaseTest {
         serviceManager.addService(service);
         Thread.sleep(15000L);
 
+        log.info("Looking for : " + serviceName);
         for (String serviceId : serviceManager.getAllServiceIds()) {
             service = serviceManager.getService(serviceId);
+            log.info("Added service : " + service.getPath());
             if (service.getPath().endsWith(serviceName) && service.getPath().contains("trunk")) {
                 currentServiceID = serviceId;
                 return service.getPath();
@@ -211,8 +220,12 @@ public class UTFSupportForServiceTestCase extends GREGIntegrationBaseTest {
         }
         Assert.assertTrue(serviceDeleted);
         delete(pathPrefix + servicePath2);
-        userManagementClient.deleteRole(utfString);
-        lifeCycleManagementClient.deleteLifeCycle(LC_NAME);
+        if (roleAdded) {
+            userManagementClient.deleteRole(utfString);
+        }
+        if (lcAdded) {
+            lifeCycleManagementClient.deleteLifeCycle(LC_NAME);
+        }
 
         utfString = null;
         governance = null;

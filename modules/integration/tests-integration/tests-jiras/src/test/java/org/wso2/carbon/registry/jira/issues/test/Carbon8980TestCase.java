@@ -23,16 +23,17 @@ import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 import org.wso2.carbon.automation.engine.context.TestUserMode;
-import org.wso2.carbon.integration.common.admin.client.UserManagementClient;
 import org.wso2.carbon.registry.search.metadata.test.utils.PermissionTestConstants;
 import org.wso2.carbon.user.mgt.stub.types.carbon.FlaggedName;
+import org.wso2.greg.integration.common.clients.UserManagementClient;
 import org.wso2.greg.integration.common.utils.GREGIntegrationBaseTest;
 
 public class Carbon8980TestCase extends GREGIntegrationBaseTest {
 
     private static final String[] SECURITY_PERMISSION_LIST = {
             "/permission/admin/login",
-            "/permission/admin/configure/security"
+            "/permission/admin/configure/security",
+            "/permission/admin/manage/identity"
     };
 
     private static final String[] DUMMY_ROLE_PERMISSION_LIST = {
