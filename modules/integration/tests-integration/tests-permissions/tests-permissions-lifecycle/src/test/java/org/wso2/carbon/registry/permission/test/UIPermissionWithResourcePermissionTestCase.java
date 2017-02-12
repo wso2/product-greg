@@ -64,8 +64,8 @@ public class UIPermissionWithResourcePermissionTestCase extends GREGIntegrationB
         registryProviderUtil = new RegistryProviderUtil();
         registry = registryProviderUtil.getWSRegistry(automationContext);
         roleName = "manager";
-        userName = "ajith";
-        userPassword = "ajith123";
+        userName = "chaminda";
+        userPassword = "chaminda123";
 
         if (userManagementClient.roleNameExists(roleName)) {  //delete the role if exists
             userManagementClient.deleteRole(roleName);
@@ -94,7 +94,7 @@ public class UIPermissionWithResourcePermissionTestCase extends GREGIntegrationB
     }
 
     @Test(groups = {"wso2.greg"}, description = "Create a role manager and user" +
-            " ajith and trying to delete wsdl without granting the resource permission",
+            " chaminda and trying to delete wsdl without granting the resource permission",
           dependsOnMethods = "testAddMetaDataByAdmin")
     public void testDeleteMetaDataPermissionUser() throws Exception{
 
