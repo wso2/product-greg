@@ -125,7 +125,7 @@ public class CRUDOperationsRxt extends GREGIntegrationBaseTest {
         OMElement omElement = client.sendReceive(AXIOMUtil.stringToOM("<ser:addPerson " +
                 "xmlns:ser=\"http://services.add.person.governance.carbon.wso2.org\"><ser:info>&lt;metadata " +
                 "xmlns=\"http://www.wso2.org/governance/metadata\">&lt;overview>&lt;title>Mr." +
-                "&lt;/title>&lt;id>1&lt;/id>&lt;name>eranda&lt;/name>&lt;/overview>&lt;contactDetails/>" +
+                "&lt;/title>&lt;id>1&lt;/id>&lt;name>chaminda&lt;/name>&lt;/overview>&lt;contactDetails/>" +
                 "&lt;externalLinks/>&lt;comments/>&lt;/metadata></ser:info></ser:addPerson>"));
         AXIOMXPath expression = new AXIOMXPath("//ns:return");
 
