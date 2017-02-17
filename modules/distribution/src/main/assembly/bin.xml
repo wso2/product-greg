@@ -52,6 +52,7 @@
                 <exclude>**/claim-config.xml</exclude>
                 <exclude>**/email/email-admin-config.xml</exclude>
                 <exclude>**/launch.ini</exclude>
+                <exclude>**/logging-bridge.properties</exclude>
                 <exclude>**/Owasp.CsrfGuard.Carbon.properties</exclude>
                 <exclude>**/identity/service-providers/default.xml</exclude>
                 <!--<exclude>**/lib/org.wso2.carbon.server-${carbon.kernel.version}.jar</exclude>-->
@@ -137,6 +138,7 @@
             <outputDirectory>${pom.artifactId}-${build.version}/repository/conf/etc</outputDirectory>
             <includes>
                 <include>**/launch.ini</include>
+                <include>**/logging-bridge.properties</include>
             </includes>
         </fileSet>
         <fileSet>

@@ -106,7 +106,7 @@ public class SOAPServiceTestCase extends GREGIntegrationBaseTest {
         artifact.setAttribute("overview_version", "4.5.0");
         artifact.setAttribute("overview_namespace", "com.wso2.sample");
         artifact.setAttribute("interface_wsdlURL",
-                              "http://graphical.weather.gov/xml/SOAP_server/ndfdXMLserver.php?wsdl");
+                              "https://graphical.weather.gov/xml/SOAP_server/ndfdXMLserver.php?wsdl");
         artifact.setAttribute("overview_description", "Description");
 
         artifactManager.addGenericArtifact(artifact);
@@ -149,7 +149,7 @@ public class SOAPServiceTestCase extends GREGIntegrationBaseTest {
         artifact.setAttribute("overview_version", "4.5.0");
         artifact.setAttribute("overview_namespace", "com.wso2.sample");
         artifact.setAttribute("interface_wsdlURL",
-                              "http://graphical.weather.gov/xml/SOAP_server/ndfdXMLserver.php?wsdl");
+                              "https://graphical.weather.gov/xml/SOAP_server/ndfdXMLserver.php?wsdl");
         artifact.setAttribute("overview_description", "Description");
 
         artifactManager.addGenericArtifact(artifact);
