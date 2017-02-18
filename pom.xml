@@ -956,8 +956,8 @@
         <carbon.feature.version>1.5.5</carbon.feature.version>
         <uuid.feature.version>1.5.5</uuid.feature.version>
         <sso.feature.version>1.5.5</sso.feature.version>
-        <es.feature.version>2.4.9</es.feature.version>
-        <carbon.social.version>2.4.9</carbon.social.version>
+        <es.feature.version>2.4.10</es.feature.version>
+        <carbon.social.version>2.4.10</carbon.social.version>
         <i18n.feature.version>1.5.5</i18n.feature.version>
         <!--<event.feature.version>1.0.0</event.feature.version>-->
         <!--<login.feature.version>1.0.0</login.feature.version>-->
