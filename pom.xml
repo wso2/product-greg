@@ -956,8 +956,8 @@
         <carbon.feature.version>1.5.5</carbon.feature.version>
         <uuid.feature.version>1.5.5</uuid.feature.version>
         <sso.feature.version>1.5.5</sso.feature.version>
-        <es.feature.version>2.4.10</es.feature.version>
-        <carbon.social.version>2.4.10</carbon.social.version>
+        <es.feature.version>2.4.12</es.feature.version>
+        <carbon.social.version>2.4.12</carbon.social.version>
         <i18n.feature.version>1.5.5</i18n.feature.version>
         <!--<event.feature.version>1.0.0</event.feature.version>-->
         <!--<login.feature.version>1.0.0</login.feature.version>-->
@@ -1031,9 +1031,9 @@
         </carbon.registry.package.import.version.range>
 
         <!-- Carbon Governance -->
-        <carbon.governance.version>4.7.4</carbon.governance.version>
+        <carbon.governance.version>4.7.5</carbon.governance.version>
 
-        <carbon.governance.ext.version>4.5.4</carbon.governance.ext.version>
+        <carbon.governance.ext.version>4.5.5</carbon.governance.ext.version>
 
         <carbon.business.process.version>4.4.9</carbon.business.process.version>
         
