@@ -77,7 +77,8 @@ asset.renderer = function(ctx) {
                 var allowedPages = ['details', 'lifecycle', 'update', 'associations', 'permissions', 'copy', 'delete'];
                 log.debug('Association populator ' + page.meta.pageName);
                 //if (((page.meta.pageName !== 'associations') && (page.meta.pageName !== 'list')) &&(page.meta.pageName !== 'create')) {
-                if(allowedPages.indexOf(page.meta.pageName)>-1){
+                // Fix REGISTRY-3926, only render association page if user has permission
+                /**if(allowedPages.indexOf(page.meta.pageName)>-1){
                     log.debug('adding link');
                     entry = {};
                     entry.id = 'Associations';
@@ -90,7 +91,7 @@ asset.renderer = function(ctx) {
                         ptr[5] = ptr[4];
                         ptr[4] = temp;
                     }
-                }
+                }**/
             },
             permissionMetaDataPopulator: function(page, util) {
                 var ptr = page.leftNav || [];
