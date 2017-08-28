@@ -32,7 +32,7 @@ app.server = function(ctx){
                 {
                     url:'association',
                     path:'association.jag',
-		            permission: 'ASSET_ASSOCIATIONS',
+                    permission: 'ASSET_ASSOCIATIONS',
                     secured:true
                 },
                 {
