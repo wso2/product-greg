@@ -26,6 +26,7 @@
         <module>tests-search-version</module>
         <module>tests-soapservice</module>
         <module>cmis-tck</module>
+        <module>tests-samples</module>
         <module>reports</module>
     </modules>
 
