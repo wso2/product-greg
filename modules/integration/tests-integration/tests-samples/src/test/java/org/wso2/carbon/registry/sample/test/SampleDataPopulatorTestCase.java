@@ -36,6 +36,7 @@ import org.wso2.carbon.utils.CarbonUtils;
 import org.wso2.carbon.utils.FileManipulator;
 import org.wso2.greg.integration.common.utils.GREGIntegrationBaseTest;
 import org.wso2.greg.integration.common.utils.RegistryProviderUtil;
+import org.wso2.carbon.integration.common.utils.LoginLogoutClient;
 
 import java.io.*;
 import java.util.List;
@@ -55,6 +56,7 @@ public class SampleDataPopulatorTestCase extends GREGIntegrationBaseTest {
     @BeforeClass(alwaysRun = true, groups = {"wso2.greg"})
     public void initTest() throws Exception {
         super.init(TestUserMode.SUPER_TENANT_ADMIN);
+        String sessionCookie = new LoginLogoutClient(automationContext).login();
         RegistryProviderUtil registryProviderUtil = new RegistryProviderUtil();
         log.debug("Running SuccessCase");
         wsRegistry = registryProviderUtil.getWSRegistry(automationContext);
@@ -136,16 +138,17 @@ public class SampleDataPopulatorTestCase extends GREGIntegrationBaseTest {
 
     @Test(groups = {"wso2.greg"})
     public void dataUploadTest() throws RegistryException {
-        assertTrue(wsRegistry.resourceExists("/_system/governance/trunk/wsdls/net/webservicex/www/globalweather.asmx.wsdl"), "Resource not found.");
-        assertTrue(wsRegistry.resourceExists("/_system/governance/trunk/services/foo/service"), "Service not added.");
+        assertTrue(registry.resourceExists("/trunk/wsdls/net/webservicex/www/1.0.0/globalweather.asmx.wsdl"),
+                "Resource not found.");
+        assertTrue(registry.resourceExists("/trunk/services/foo/1.0.0/service"), "Service not added.");
     }
 
     @Test(groups = {"wso2.greg"})
     public void lifecycleOperationTest() throws RegistryException {
-        assertTrue(wsRegistry.resourceExists("/_system/governance/branches/testing/services/net/webservicex/www/1.0.0/GlobalWeather"),
+        assertTrue(registry.resourceExists("/trunk/soapservices/net/webservicex/www/1.0.0/GlobalWeather"),
                 "Resource not found.");
-        assertEquals(wsRegistry.get("/_system/governance/branches/testing/services/net/webservicex/www/1.0.0/GlobalWeather").getProperty("registry.LC.name"),
-                "ServiceLifeCycle", "Lifecycle not attached.");
+        assertEquals(registry.get("/trunk/soapservices/net/webservicex/www/1.0.0/GlobalWeather")
+                .getProperty("registry.LC.name"), "ServiceLifeCycle", "Lifecycle not attached.");
     }
 
     @AfterClass(alwaysRun = true)

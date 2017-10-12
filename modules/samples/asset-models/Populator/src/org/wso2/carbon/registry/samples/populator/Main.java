@@ -519,7 +519,7 @@ public class Main {
                         String aspect = getCellValue(row.getCell(1), null);
                         String action = getCellValue(row.getCell(2), null);
                         if (action == null) {
-                            if (aspect.equals(registry.get(path).getProperty("registry.LC.name"))) {
+                            if (!aspect.equals(registry.get(path).getProperty("registry.LC.name"))) {
                                 client.removeAspect(path, aspect);
                             } else {
                                 client.addAspect(path, aspect);
