@@ -1,0 +1,32 @@
+ <form class="form-horizontal" id='form-asset-update' method='post' action='{{url ""}}/apis/assets/{{assets.id}}?type={{rxt.shortName}}' >
+    <div class="control-group">
+        
+                    <div class="table table-striped table-hover">
+                        <label class="control-label" for="overview_name">{{t "Name"}}</label>
+                        <div class="controls">
+                            <input type='text' name='overview_name' id='overview_name' value={{assets.name}} readonly />
+                        </div>
+                    </div>
+                    <div class="table table-striped table-hover">
+                        <label class="control-label" for="overview_version">{{t "Version"}}</label>
+                        <div class="controls">
+                            <input type='text' name='overview_version' id='overview_version' value={{assets.version}} readonly />
+                        </div>
+                    </div>
+
+                    <div id='xslt-viewer' class="control-group">
+                        <legend><h4>{{t "Content"}}</h4></legend>
+                        <textarea id="xsltcontent" name="xsltcontent"  style="width: 790px; height: 150px;"  class="input-large">{{assets.content}}</textarea>
+                    </div>
+        
+    </div> 
+    <div class="form-group">
+         <div class="col-sm-offset-2 col-sm-10">
+             <input type="submit" value="Update" class="btn btn-primary" name="editAssetButton" id="editAssetButton">
+             <input type="reset" value="Reset" class="btn btn-default">
+             <input type="hidden" value="{{rxt.shortName}}" name="{{rxt.shortName}}" id="meta-asset-type">
+         </div>
+     </div>
+    <div id="saveButtons" class="form-actions">
+    </div>    
+</form>

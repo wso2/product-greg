@@ -1,0 +1,70 @@
+<!-- Copyright (c) 2014, WSO2 Inc. (http://www.wso2.org) All Rights Reserved.
+*
+* Licensed under the Apache License, Version 2.0 (the "License");
+* you may not use this file except in compliance with the License.
+* You may obtain a copy of the License at
+*
+* http://www.apache.org/licenses/LICENSE-2.0
+*
+* Unless required by applicable law or agreed to in writing, software
+* distributed under the License is distributed on an "AS IS" BASIS,
+* WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+* See the License for the specific language governing permissions and
+* limitations under the License.
+-->
+<form  method='post' class="form-horizontal" id="form-asset-create" name ="form-asset-create" data-redirect-url='{{url ""}}/asts/{{rxt.shortName}}/list' >
+    <div class="control-group">
+        <select id="addMethodSelector">
+            <option value="import" selected="selected">{{t "Import XSLT from a url"}}</option>
+            <option value="upload">{{t "Upload XSLT from a file"}}</option>
+        </select>
+    </div>
+    <div id="importUI" style="display: none;">
+        <div class="control-group">
+            <label class="control-label" for="overview_url">{{t "XSLT Url"}}</label>
+            <div class="controls">
+                <input type='text' name='overview_url' id='overview_url' />
+            </div>
+        </div>
+        <div class="control-group">
+            <label class="control-label" for="overview_name">{{t "Name"}}</label>
+            <div class="controls">
+                <input type='text' name='overview_name' id='overview_name' />
+            </div>
+        </div>
+        <div class="control-group">
+            <label class="control-label" for="overview_version">{{t "Version"}}</label>
+            <div class="controls">
+                <input type='text' name='overview_version' id='overview_version' />
+            </div>
+        </div>
+        <div id="saveButtons" class="form-actions">
+            <input type='submit' id="btn-create-asset" class="btn btn-primary" name="addNewAssetButton" value='{{t "Create"}}'>
+            <button class="btn" type="reset">{{t "Reset"}}</button>
+            <input type="hidden" value="{{rxt.shortName}}" name="{{rxt.shortName}}" id="meta-asset-type">
+        </div>
+    </div>
+    <div id="uploadUI" style="display: none;">
+        <div class="control-group">
+            <label class="control-label" for="xslt_zip">{{t "XSLT/Zip file"}}</label>
+            <div class="controls">
+                <input type='file' name='xslt_file' id='xslt_file' />
+                <!--Use a hidden field to save the zip name and pass it to request, as 'file' 
+                    attribute is not passed to the request unless it is defined in the rxt.-->
+                <input type='hidden' name='xslt_file_name' id='xslt_file_name' />
+            </div>
+        </div>
+        <div class="control-group">
+            <label class="control-label" for="file_version">{{t "Version"}}</label>
+            <div class="controls">
+                <input type='text' name='file_version' id='file_version' />
+            </div>
+        </div>
+        <div id="saveButtons" class="form-actions">
+            <input type='submit' id="btn-create-asset" class="btn btn-primary" name="addNewXsltFileAssetButton" value='{{t "Create"}}'>
+            <button class="btn" type="reset">{{t "Reset"}}</button>
+            <input type="hidden" value="{{rxt.shortName}}" name="{{rxt.shortName}}" id="meta-asset-type">
+        </div>
+    </div>
+
+</form>
