@@ -1,6 +1,6 @@
 #WSO2 Governance Registry
 
-The WSO2 Governance Registry is a Registry and a Repository available under the
+The Iconnectel WSO2 Governance Registry is a Registry and a Repository available under the
 Apache Software License v2.0 which provides the right level of structure
 straight out of the box to support SOA Governance, configuration governance,
 development process governance, design and run-time governance, lifecycle
