@@ -1,0 +1,42 @@
+{{#with assets}}
+    <div class="well asset-well">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-lg-2 col-md-2 thumbnail-width-fixer">
+                    {{>asset-thumbnail .}}
+                </div>
+                <div class="col-lg-10 col-md-10">
+                    <h1 class="asset-name">{{name}}</h1>
+                    {{#if version}}
+                        <h5 class="ast-ver ast-details">Version : {{version}}</h5>
+                    {{/if}}
+                    {{#if lifecycleState}}
+                        <h5 class="ast-lc ast-details">{{lifecycle}} : {{lifecycleState}}</h5>
+                    {{/if}}
+                    {{#if createdDate}}
+                    <div class="well-description padding-bottom-lg">{{createdDate}}</div>
+                    {{/if}}
+                </div>
+            </div>
+        </div>
+    </div>
+{{/with}}
+<div class="copy" id="newVersionModal" >
+    <div>
+        <p id="delete-msg" class="">{{t "Do you want to create a new version of the "}} <b>{{assets.name}}{{t " "}}</b>{{rxt.singularLabel}}{{t "?"}}</p>
+        <p id="shallow-msg" class="">{{t "Please note that new version will be a shallow copy of "}} <b>{{assets.name}}</b>{{t ". Lifecycle and association details of the original version will not be copied to the new version."}}</p>
+        <div class='form-inline'>
+            <div class='form-group'>
+                <label class="custom-form-label">{{t "Version"}} : </label>
+                <input type="text" class="form-control input-m" name="new-version" id="new-version">
+                <input type="hidden" id="asset-id" value="{{assets.id}}">
+                <input type="hidden" id="asset-type" value="{{assets.type}}">
+            </div>
+        </div>
+        <div id="alertSection" class="alert hide" role="alert"></div>
+        <i class="fa fa-spinner fa-spin fa-3x hide" id="new-version-loading"></i>
+        <br/>
+        <button type="button" id="btn-create-version" class="btn btn-primary" >{{t "Create"}}</button>
+        <button type="button" id="btn-cancel-version" class="btn btn-default" >{{t "Cancel"}}</button>
+    </div>
+</div>
