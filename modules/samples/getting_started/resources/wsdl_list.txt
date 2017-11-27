@@ -5,7 +5,6 @@ echo2
 info
 With In line Policy And Schema
 dummy-service
-bank
 BizService
 echo
 GeoIPService.svc
