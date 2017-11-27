@@ -1,12 +1,12 @@
-$("#diff-view-version li").on('mouseover',function(event){
+$("#diff-view-version li").on('mouseover', function (event) {
 
     var id = $(this).parents('.select').attr('id');
     var version = $(this).children().text();
     var path = $(this).children().attr("id");
     var base_path = $(this).children().data("base_path");
-    var selected_option = $('#'+id+' .selected');
+    var selected_option = $('#' + id + ' .selected');
     selected_option.text(version);
-    selected_option.attr('data-selected_base_path',path);
+    selected_option.attr('data-selected_base_path', path);
 
     var assetType = store.asset.type;
     var diff_view_url = "/store/pages/diff?type=" + assetType + "&path=" + path + ',' + base_path;

@@ -175,7 +175,8 @@ asset.renderer = function(ctx) {
                         isDependencies: dependencies.length > 0,
                         isDependents: dependents.length > 0
                     };
-                    dependencyCheck.isAnyDependence = ( dependencyCheck.isDependencies ) || ( dependencyCheck.isDependents );
+                    dependencyCheck.isAnyDependence = ( dependencyCheck.isDependencies )
+                        || ( dependencyCheck.isDependents );
                     page.assets.dependencyCheck = dependencyCheck;
                 }
             },

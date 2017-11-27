@@ -35,7 +35,7 @@ app.apiHandlers = function(ctx) {
     return {
         onApiLoad: function() {
             if ((ctx.isAnonContext) && (ctx.endpoint.secured)) {
-                print('{ error:"Authentication error" }'); //TODO: Fix this to return a proper status code
+                print('{ error:"Authentication error" }');
                 return false;
             }
             return true;
