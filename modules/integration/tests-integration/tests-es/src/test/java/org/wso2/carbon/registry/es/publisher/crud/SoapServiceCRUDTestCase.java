@@ -204,7 +204,10 @@ public class SoapServiceCRUDTestCase extends GregESTestBaseTest {
                         response.getStatusCode());
         JSONObject obj = new JSONObject(response.getEntity(String.class));
         assocAssetId = obj.get("id").toString();
+        String version = obj.get("version").toString();
         Assert.assertNotNull(assocAssetId, "Empty asset resource id available" +
+                response.getEntity(String.class));
+        Assert.assertNotNull(version, "Empty asset resource version available" +
                 response.getEntity(String.class));
         Map<String,String> assocMap = getAssociationsFromPages(publisherUrl, genericRestClient, cookieHeader, assocAssetId, queryParamMap);
         assertEquals(assocMap.size(), 2, "Expecting 2 dependencies : WSDL and Endpoint");
