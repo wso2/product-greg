@@ -37,6 +37,13 @@ import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertNotNull;
 
 public class RESTServiceCreationTestCase extends GREGIntegrationBaseTest {
+    private static final String OVERVIEW_NAME = "overview_name";
+    private static final String OVERVIEW_CONTEXT = "overview_context";
+    private static final String OVERVIEW_VERSION = "overview_version";
+    private static final String OVERVIEW_DESCRIPTION = "overview_description";
+    private static final String INTERFACE_SWAGGER = "interface_swagger";
+    private static final String INTERFACE_WADL = "interface_wadl";
+    private static final String ENDPOINTS_ENTRY = "endpoints_entry";
     private GenericArtifactManager artifactManager;
     private Registry registry;
 
@@ -66,15 +73,15 @@ public class RESTServiceCreationTestCase extends GREGIntegrationBaseTest {
     public void createRESTService() throws GovernanceException {
         GenericArtifact artifact = artifactManager.newGovernanceArtifact(new QName("org.wso2.test", "RESTService1"));
 
-        artifact.setAttribute("overview_name", "RESTService1");
-        artifact.setAttribute("overview_context", "/rs_test");
-        artifact.setAttribute("overview_version", "4.5.0");
-        artifact.setAttribute("overview_description", "Description");
+        artifact.setAttribute(OVERVIEW_NAME, "RESTService1");
+        artifact.setAttribute(OVERVIEW_CONTEXT, "/rs_test");
+        artifact.setAttribute(OVERVIEW_VERSION, "4.5.0");
+        artifact.setAttribute(OVERVIEW_DESCRIPTION, "Description");
 
         artifactManager.addGenericArtifact(artifact);
 
         GenericArtifact receivedArtifact = artifactManager.getGenericArtifact(artifact.getId());
-        assertEquals(artifact.getAttribute("overview_name"), receivedArtifact.getAttribute("overview_name"),
+        assertEquals(artifact.getAttribute(OVERVIEW_NAME), receivedArtifact.getAttribute(OVERVIEW_NAME),
                 " Service name must be equal");
 
         artifactManager.removeGenericArtifact(artifact.getId());
@@ -85,14 +92,14 @@ public class RESTServiceCreationTestCase extends GREGIntegrationBaseTest {
     public void createRESTServiceFault() throws GovernanceException {
         GenericArtifact artifact = artifactManager.newGovernanceArtifact(new QName("RESTService2"));
 
-        artifact.setAttribute("overview_name", "RESTService2");
-        artifact.setAttribute("overview_context", "/rs_test");
-        artifact.setAttribute("overview_description", "Description");
+        artifact.setAttribute(OVERVIEW_NAME, "RESTService2");
+        artifact.setAttribute(OVERVIEW_CONTEXT, "/rs_test");
+        artifact.setAttribute(OVERVIEW_DESCRIPTION, "Description");
 
         artifactManager.addGenericArtifact(artifact);
 
         GenericArtifact receivedArtifact = artifactManager.getGenericArtifact(artifact.getId());
-        assertEquals(artifact.getAttribute("overview_name"), receivedArtifact.getAttribute("overview_name"),
+        assertEquals(artifact.getAttribute(OVERVIEW_NAME), receivedArtifact.getAttribute(OVERVIEW_NAME),
                 " Service name must be equal");
     }
 
@@ -106,11 +113,11 @@ public class RESTServiceCreationTestCase extends GREGIntegrationBaseTest {
     public void createRESTServiceWithSwagger() throws GovernanceException {
         GenericArtifact artifact = artifactManager.newGovernanceArtifact(new QName("RESTService2"));
 
-        artifact.setAttribute("overview_name", "RESTService2");
-        artifact.setAttribute("overview_context", "/rs_test");
-        artifact.setAttribute("overview_version", "4.5.0");
-        artifact.setAttribute("interface_swagger", "http://petstore.swagger.io/v2/swagger.json");
-        artifact.setAttribute("overview_description", "Description");
+        artifact.setAttribute(OVERVIEW_NAME, "RESTService2");
+        artifact.setAttribute(OVERVIEW_CONTEXT, "/rs_test");
+        artifact.setAttribute(OVERVIEW_VERSION, "4.5.0");
+        artifact.setAttribute(INTERFACE_SWAGGER, "http://petstore.swagger.io/v2/swagger.json");
+        artifact.setAttribute(OVERVIEW_DESCRIPTION, "Description");
 
         artifactManager.addGenericArtifact(artifact);
 
@@ -131,12 +138,12 @@ public class RESTServiceCreationTestCase extends GREGIntegrationBaseTest {
     public void createRESTServiceWithWadl() throws GovernanceException {
         GenericArtifact artifact = artifactManager.newGovernanceArtifact(new QName("RESTService3"));
 
-        artifact.setAttribute("overview_name", "RESTService3");
-        artifact.setAttribute("overview_context", "/rs_test");
-        artifact.setAttribute("overview_version", "1.1.1");
-        artifact.setAttribute("interface_wadl",
+        artifact.setAttribute(OVERVIEW_NAME, "RESTService3");
+        artifact.setAttribute(OVERVIEW_CONTEXT, "/rs_test");
+        artifact.setAttribute(OVERVIEW_VERSION, "1.1.1");
+        artifact.setAttribute(INTERFACE_WADL,
                 "https://raw.githubusercontent.com/wso2/wso2-qa-artifacts/master/automation-artifacts/greg/wadl/SearchSearvice.wadl");
-        artifact.setAttribute("overview_description", "Description");
+        artifact.setAttribute(OVERVIEW_DESCRIPTION, "Description");
 
         artifactManager.addGenericArtifact(artifact);
 
@@ -157,13 +164,13 @@ public class RESTServiceCreationTestCase extends GREGIntegrationBaseTest {
     public void createRESTServiceWithWadlAndSwagger() throws GovernanceException {
         GenericArtifact artifact = artifactManager.newGovernanceArtifact(new QName("RESTService3"));
 
-        artifact.setAttribute("overview_name", "RESTService3");
-        artifact.setAttribute("overview_context", "/rs_test");
-        artifact.setAttribute("overview_version", "1.1.1");
-        artifact.setAttribute("interface_wadl",
+        artifact.setAttribute(OVERVIEW_NAME, "RESTService3");
+        artifact.setAttribute(OVERVIEW_CONTEXT, "/rs_test");
+        artifact.setAttribute(OVERVIEW_VERSION, "1.1.1");
+        artifact.setAttribute(INTERFACE_WADL,
                 "https://raw.githubusercontent.com/wso2/wso2-qa-artifacts/master/automation-artifacts/greg/wadl/SearchSearvice.wadl");
-        artifact.setAttribute("interface_swagger", "http://petstore.swagger.io/v2/swagger.json");
-        artifact.setAttribute("overview_description", "Description");
+        artifact.setAttribute(INTERFACE_SWAGGER, "http://petstore.swagger.io/v2/swagger.json");
+        artifact.setAttribute(OVERVIEW_DESCRIPTION, "Description");
 
         artifactManager.addGenericArtifact(artifact);
 
@@ -184,11 +191,11 @@ public class RESTServiceCreationTestCase extends GREGIntegrationBaseTest {
     public void createRESTServiceWithEndpoints() throws GovernanceException {
         GenericArtifact artifact = artifactManager.newGovernanceArtifact(new QName("RESTService4"));
 
-        artifact.setAttribute("overview_name", "RESTService4");
-        artifact.setAttribute("overview_context", "/rs_test");
-        artifact.setAttribute("overview_version", "1.0.1");
-        artifact.setAttribute("endpoints_entry", "None:http://test.org");
-        artifact.setAttribute("endpoints_entry", ":http://test.org");
+        artifact.setAttribute(OVERVIEW_NAME, "RESTService4");
+        artifact.setAttribute(OVERVIEW_CONTEXT, "/rs_test");
+        artifact.setAttribute(OVERVIEW_VERSION, "1.0.1");
+        artifact.setAttribute(ENDPOINTS_ENTRY, "None:http://test.org");
+        artifact.setAttribute(ENDPOINTS_ENTRY, ":http://test.org");
 
         artifactManager.addGenericArtifact(artifact);
 
@@ -209,11 +216,11 @@ public class RESTServiceCreationTestCase extends GREGIntegrationBaseTest {
     public void createRESTServiceWithEndpointsAndSwagger() throws GovernanceException {
         GenericArtifact artifact = artifactManager.newGovernanceArtifact(new QName("RESTService5"));
 
-        artifact.setAttribute("overview_name", "RESTService5");
-        artifact.setAttribute("overview_context", "/rs_test");
-        artifact.setAttribute("overview_version", "1.0.1");
-        artifact.setAttribute("interface_swagger", "http://petstore.swagger.io/v2/swagger.json");
-        artifact.setAttribute("endpoints_entry", "None:http://test.org");
+        artifact.setAttribute(OVERVIEW_NAME, "RESTService5");
+        artifact.setAttribute(OVERVIEW_CONTEXT, "/rs_test");
+        artifact.setAttribute(OVERVIEW_VERSION, "1.0.1");
+        artifact.setAttribute(INTERFACE_SWAGGER, "http://petstore.swagger.io/v2/swagger.json");
+        artifact.setAttribute(INTERFACE_WADL, "None:http://test.org");
 
         artifactManager.addGenericArtifact(artifact);
 
@@ -235,12 +242,12 @@ public class RESTServiceCreationTestCase extends GREGIntegrationBaseTest {
     public void createRESTServiceWithEndpointsAndWadl() throws GovernanceException {
         GenericArtifact artifact = artifactManager.newGovernanceArtifact(new QName("RESTService6"));
 
-        artifact.setAttribute("overview_name", "RESTService6");
-        artifact.setAttribute("overview_context", "/rs_test");
-        artifact.setAttribute("overview_version", "1.4.1");
-        artifact.setAttribute("interface_wadl",
+        artifact.setAttribute(OVERVIEW_NAME, "RESTService6");
+        artifact.setAttribute(OVERVIEW_CONTEXT, "/rs_test");
+        artifact.setAttribute(OVERVIEW_VERSION, "1.4.1");
+        artifact.setAttribute(INTERFACE_WADL,
                 "https://raw.githubusercontent.com/wso2/wso2-qa-artifacts/master/automation-artifacts/greg/wadl/SearchSearvice.wadl");
-        artifact.setAttribute("endpoints_entry", "None:http://test.org");
+        artifact.setAttribute(ENDPOINTS_ENTRY, "None:http://test.org");
 
         artifactManager.addGenericArtifact(artifact);
 
@@ -261,10 +268,10 @@ public class RESTServiceCreationTestCase extends GREGIntegrationBaseTest {
     public void createRESTServiceWithInvalidSwaggerUrl() throws GovernanceException {
         GenericArtifact artifact = artifactManager.newGovernanceArtifact(new QName("RESTService7"));
 
-        artifact.setAttribute("overview_name", "RESTService7");
-        artifact.setAttribute("overview_context", "/rs_test");
-        artifact.setAttribute("overview_version", "1.4.1");
-        artifact.setAttribute("interface_swagger", "http://wso2.com/");
+        artifact.setAttribute(OVERVIEW_NAME, "RESTService7");
+        artifact.setAttribute(OVERVIEW_CONTEXT, "/rs_test");
+        artifact.setAttribute(OVERVIEW_VERSION, "1.4.1");
+        artifact.setAttribute(INTERFACE_SWAGGER, "http://wso2.com/");
 
         try {
             artifactManager.addGenericArtifact(artifact);
@@ -282,12 +289,12 @@ public class RESTServiceCreationTestCase extends GREGIntegrationBaseTest {
     @Test(groups = { "wso2.greg" }, description = "add REST service with invalid wadl url.",
             expectedExceptions = GovernanceException.class)
     public void createRESTServiceWithInvalidWadlUrl() throws GovernanceException {
-        GenericArtifact artifact = artifactManager.newGovernanceArtifact(new QName("RESTService7"));
+        GenericArtifact artifact = artifactManager.newGovernanceArtifact(new QName("RESTService8"));
 
-        artifact.setAttribute("overview_name", "RESTService7");
-        artifact.setAttribute("overview_context", "/rs_test");
-        artifact.setAttribute("overview_version", "1.4.1");
-        artifact.setAttribute("interface_wadl", "http://wso2.com/");
+        artifact.setAttribute(OVERVIEW_NAME, "RESTService7");
+        artifact.setAttribute(OVERVIEW_CONTEXT, "/rs_test");
+        artifact.setAttribute(OVERVIEW_VERSION, "1.4.1");
+        artifact.setAttribute(INTERFACE_WADL, "http://wso2.com/");
 
         try {
             artifactManager.addGenericArtifact(artifact);

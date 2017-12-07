@@ -37,6 +37,12 @@ import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertNotNull;
 
 public class RESTServiceUpdateTestCase extends GREGIntegrationBaseTest {
+    private static final String OVERVIEW_NAME = "overview_name";
+    private static final String OVERVIEW_CONTEXT = "overview_context";
+    private static final String OVERVIEW_VERSION = "overview_version";
+    private static final String OVERVIEW_DESCRIPTION = "overview_description";
+    private static final String INTERFACE_SWAGGER = "interface_swagger";
+    private static final String INTERFACE_WADL = "interface_wadl";
     private GenericArtifactManager artifactManager;
     private Registry registry;
 
@@ -66,7 +72,7 @@ public class RESTServiceUpdateTestCase extends GREGIntegrationBaseTest {
     public void updateRESTServiceWithSwagger() throws GovernanceException {
         String artifactId = createArtifact("RestService1");
         GenericArtifact artifact = artifactManager.getGenericArtifact(artifactId);
-        artifact.setAttribute("interface_swagger", "http://petstore.swagger.io/v2/swagger.json");
+        artifact.setAttribute(INTERFACE_SWAGGER, "http://petstore.swagger.io/v2/swagger.json");
 
         artifactManager.updateGenericArtifact(artifact);
 
@@ -87,8 +93,8 @@ public class RESTServiceUpdateTestCase extends GREGIntegrationBaseTest {
     public void updateRESTServiceWithWadl() throws GovernanceException {
         String artifactId = createArtifact("RestService2");
         GenericArtifact artifact = artifactManager.getGenericArtifact(artifactId);
-        artifact.setAttribute("interface_swagger", "");
-        artifact.setAttribute("interface_wadl",
+        artifact.setAttribute(INTERFACE_SWAGGER, "");
+        artifact.setAttribute(INTERFACE_WADL,
                 "https://raw.githubusercontent.com/wso2/wso2-qa-artifacts/master/automation-artifacts/greg/wadl/SearchSearvice.wadl");
 
         artifactManager.updateGenericArtifact(artifact);
@@ -110,8 +116,8 @@ public class RESTServiceUpdateTestCase extends GREGIntegrationBaseTest {
     public void updateRESTServiceWithWadlAndSwagger() throws GovernanceException {
         String artifactId = createArtifact("RestService3");
         GenericArtifact artifact = artifactManager.getGenericArtifact(artifactId);
-        artifact.setAttribute("interface_swagger", "http://petstore.swagger.io/v2/swagger.json");
-        artifact.setAttribute("interface_wadl",
+        artifact.setAttribute(INTERFACE_SWAGGER, "http://petstore.swagger.io/v2/swagger.json");
+        artifact.setAttribute(INTERFACE_WADL,
                 "https://raw.githubusercontent.com/wso2/wso2-qa-artifacts/master/automation-artifacts/greg/wadl/SearchSearvice.wadl");
 
         artifactManager.updateGenericArtifact(artifact);
@@ -133,7 +139,7 @@ public class RESTServiceUpdateTestCase extends GREGIntegrationBaseTest {
     public void updateRESTServiceAddSwaggerAndRemove() throws GovernanceException {
         String artifactId = createArtifact("RestService4");
         GenericArtifact artifact = artifactManager.getGenericArtifact(artifactId);
-        artifact.setAttribute("interface_swagger", "http://petstore.swagger.io/v2/swagger.json");
+        artifact.setAttribute(INTERFACE_SWAGGER, "http://petstore.swagger.io/v2/swagger.json");
 
         artifactManager.updateGenericArtifact(artifact);
 
@@ -141,7 +147,7 @@ public class RESTServiceUpdateTestCase extends GREGIntegrationBaseTest {
         assertNotNull(receivedArtifact.getDependencies());
         assertEquals(receivedArtifact.getDependencies().length, 2, "Expecting 2 dependencies : Swagger and Endpoint");
 
-        receivedArtifact.removeAttribute("interface_swagger");
+        receivedArtifact.removeAttribute(INTERFACE_SWAGGER);
 
         artifactManager.updateGenericArtifact(receivedArtifact);
 
@@ -162,7 +168,7 @@ public class RESTServiceUpdateTestCase extends GREGIntegrationBaseTest {
     public void updateRESTServiceAddWadlAndRemove() throws GovernanceException {
         String artifactId = createArtifact("RestService5");
         GenericArtifact artifact = artifactManager.getGenericArtifact(artifactId);
-        artifact.setAttribute("interface_wadl",
+        artifact.setAttribute(INTERFACE_WADL,
                 "https://raw.githubusercontent.com/wso2/wso2-qa-artifacts/master/automation-artifacts/greg/wadl/SearchSearvice.wadl");
 
 
@@ -172,7 +178,7 @@ public class RESTServiceUpdateTestCase extends GREGIntegrationBaseTest {
         assertNotNull(receivedArtifact.getDependencies());
         assertEquals(receivedArtifact.getDependencies().length, 2, "Expecting 2 dependencies : Wadl and Endpoint");
 
-        receivedArtifact.removeAttribute("interface_wadl");
+        receivedArtifact.removeAttribute(INTERFACE_WADL);
 
         artifactManager.updateGenericArtifact(receivedArtifact);
 
@@ -193,7 +199,7 @@ public class RESTServiceUpdateTestCase extends GREGIntegrationBaseTest {
     public void updateRESTServiceAddWadlAndSwagger() throws GovernanceException {
         String artifactId = createArtifact("RestService6");
         GenericArtifact artifact = artifactManager.getGenericArtifact(artifactId);
-        artifact.setAttribute("interface_wadl",
+        artifact.setAttribute(INTERFACE_WADL,
                 "https://raw.githubusercontent.com/wso2/wso2-qa-artifacts/master/automation-artifacts/greg/wadl/SearchSearvice.wadl");
 
 
@@ -203,7 +209,7 @@ public class RESTServiceUpdateTestCase extends GREGIntegrationBaseTest {
         assertNotNull(receivedArtifact.getDependencies());
         assertEquals(receivedArtifact.getDependencies().length, 2, "Expecting 2 dependencies : Wadl and Endpoint");
 
-        receivedArtifact.setAttribute("interface_swagger", "http://petstore.swagger.io/v2/swagger.json");
+        receivedArtifact.setAttribute(INTERFACE_SWAGGER, "http://petstore.swagger.io/v2/swagger.json");
 
         artifactManager.updateGenericArtifact(receivedArtifact);
 
@@ -249,10 +255,10 @@ public class RESTServiceUpdateTestCase extends GREGIntegrationBaseTest {
     private String createArtifact(String serviceName) throws GovernanceException {
         GenericArtifact artifact = artifactManager.newGovernanceArtifact(new QName("org.wso2.test", serviceName));
 
-        artifact.setAttribute("overview_name", serviceName);
-        artifact.setAttribute("overview_context", "/rs_test");
-        artifact.setAttribute("overview_version", "4.5.0");
-        artifact.setAttribute("overview_description", "Description");
+        artifact.setAttribute(OVERVIEW_NAME, serviceName);
+        artifact.setAttribute(OVERVIEW_CONTEXT, "/rs_test");
+        artifact.setAttribute(OVERVIEW_VERSION, "4.5.0");
+        artifact.setAttribute(OVERVIEW_DESCRIPTION, "Description");
 
         artifactManager.addGenericArtifact(artifact);
         return artifact.getId();
