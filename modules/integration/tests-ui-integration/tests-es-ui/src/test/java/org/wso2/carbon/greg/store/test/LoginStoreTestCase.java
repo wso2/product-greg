@@ -34,6 +34,9 @@ import java.util.concurrent.TimeUnit;
 
 import static org.testng.AssertJUnit.assertEquals;
 
+/**
+ * This class contains the methods to test Login and Logout operations of Governance Store
+ */
 public class LoginStoreTestCase extends GREGIntegrationUIBaseTest {
 
     private WebDriver driver;
@@ -59,9 +62,9 @@ public class LoginStoreTestCase extends GREGIntegrationUIBaseTest {
                 automationContext.getContextTenant().getContextUser().getPassword());
         WebElement signedInUser = driver
                 .findElement(By.id(uiElementMapper.getElement("store.homepage.loggedinuser.id")));
-        assertEquals("Signed is user is different from context username", signedInUser.getText().trim(),
+        assertEquals("Signed in user is different from context username", signedInUser.getText().trim(),
                 automationContext.getContextTenant().getContextUser().getUserName());
-        log.info("Successfully logged in");
+        log.info("Successfully logged in to Governance Store");
     }
 
     @Test(description = "This tests the logout functionality of Store home page", dependsOnMethods = "testLoginStore")
@@ -70,7 +73,7 @@ public class LoginStoreTestCase extends GREGIntegrationUIBaseTest {
         WebElement signInButton = driver
                 .findElement(By.id(uiElementMapper.getElement("store.homepage.loginbutton.id")));
         assertEquals("Not properly signed out from the store", signInButton.getText(), "Sign in");
-        log.info("Successfully logged out");
+        log.info("Successfully logged out from Governance Store");
     }
 
     @AfterClass(alwaysRun = true)

@@ -21,10 +21,12 @@ require('/modules/store.js').exec(function(ctx) {
 	}
 
 	var log = new Log();
-	log.debug("Printing user ############" + stringify(user));
-    
-    var tenantDetails = tenantApi.createTenantDetails(request, session);
-    var tenantId = tenantDetails.tenantId;
+	if (log.isDebugEnabeld()) {
+		log.debug("Printing user ############" + stringify(user));
+	}
+
+	var tenantDetails = tenantApi.createTenantDetails(request, session);
+	var tenantId = tenantDetails.tenantId;
 
 	var activatedAssets = rxtAPI.app.getUIActivatedAssets(tenantId);
 	var assets = [];

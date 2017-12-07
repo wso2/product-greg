@@ -35,12 +35,16 @@ import java.util.concurrent.TimeUnit;
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertTrue;
 
+/**
+ * This testcase tests different operations related to Governance Store search feature
+ */
 public class SearchTestCase extends GREGIntegrationUIBaseTest {
 
     private WebDriver driver;
     private String baseUrl;
     private StoreHomePage storeHomePage;
     private UIElementMapper uiElementMapper;
+    private final static String ASSET_NOT_RETURNED = "Expected asset is not returned from the search query";
 
     @BeforeClass(alwaysRun = true, description = "Basic setup and populating the store")
     public void setUp() throws Exception {
@@ -82,18 +86,18 @@ public class SearchTestCase extends GREGIntegrationUIBaseTest {
         int countName = searchResultspageByName.countResults();
         assertTrue(
                 searchResultspageByName.containsAsset(uiElementMapper.getElement("store.search.namesearch1.asset1.id")),
-                "Expected asset is not returned from the search query");
+                ASSET_NOT_RETURNED);
         assertTrue(
                 searchResultspageByName.containsAsset(uiElementMapper.getElement("store.search.namesearch2.asset1.id")),
-                "Expected asset is not returned from the search query");
+                ASSET_NOT_RETURNED);
 
         SearchResultsPage searchResultspageByNameTag = new SearchResultsPage(driver, "name:uber", false);
         assertTrue(searchResultspageByNameTag
                         .containsAsset(uiElementMapper.getElement("store.search.namesearch1.asset1.id")),
-                "Expected asset is not returned from the search query");
+                ASSET_NOT_RETURNED);
         assertTrue(searchResultspageByNameTag
                         .containsAsset(uiElementMapper.getElement("store.search.namesearch2.asset1.id")),
-                "Expected asset is not returned from the search query");
+                ASSET_NOT_RETURNED);
         int countNameTag = searchResultspageByNameTag.countResults();
 
         assertEquals(countName, countNameTag, "Results returned from name search queries are different");
@@ -104,11 +108,11 @@ public class SearchTestCase extends GREGIntegrationUIBaseTest {
         SearchResultsPage searchResultspage = new SearchResultsPage(driver, "tags:people", false);
         int countSearch = searchResultspage.countResults();
         assertTrue(searchResultspage.containsAsset(uiElementMapper.getElement("store.search.tag1.resultasset.id")),
-                "Expected asset is not returned from the search query");
+                ASSET_NOT_RETURNED);
         searchResultspage.clickOnTag("people");
         int countTag = searchResultspage.countResults();
         assertTrue(searchResultspage.containsAsset(uiElementMapper.getElement("store.search.tag1.resultasset.id")),
-                "Expected asset is not returned from the search query");
+                ASSET_NOT_RETURNED);
         assertEquals(countSearch, countTag);
     }
 
@@ -116,20 +120,20 @@ public class SearchTestCase extends GREGIntegrationUIBaseTest {
     public void testSearchByVersion() {
         SearchResultsPage searchResultspage = new SearchResultsPage(driver, "version:1.0.0", false);
         assertTrue(searchResultspage.containsAsset(uiElementMapper.getElement("store.search.version1.asset1.id")),
-                "Expected asset is not returned from the search query");
+                ASSET_NOT_RETURNED);
         assertTrue(searchResultspage.containsAsset(uiElementMapper.getElement("store.search.version1.asset2.id")),
-                "Expected asset is not returned from the search query");
+                ASSET_NOT_RETURNED);
     }
 
     @Test(description = "Test the ability to search by content")
     public void testSearchByContent() {
         SearchResultsPage searchResultspage = new SearchResultsPage(driver, "content:pet", false);
         assertTrue(searchResultspage.containsAsset(uiElementMapper.getElement("store.search.content.asset1.id")),
-                "Expected asset is not returned from the search query");
+                ASSET_NOT_RETURNED);
         assertTrue(searchResultspage.containsAsset(uiElementMapper.getElement("store.search.content.asset2.id")),
-                "Expected asset is not returned from the search query");
+                ASSET_NOT_RETURNED);
         assertTrue(searchResultspage.containsAsset(uiElementMapper.getElement("store.search.content.asset3.id")),
-                "Expected asset is not returned from the search query");
+                ASSET_NOT_RETURNED);
     }
 
     @Test(description = "Test the ability to search by lifecycle name")
@@ -138,13 +142,13 @@ public class SearchTestCase extends GREGIntegrationUIBaseTest {
         SearchResultsPage searchResultspage = new SearchResultsPage(driver, "lcName:ServiceLifeCycle", false);
         assertTrue(searchResultspage
                         .containsAsset(uiElementMapper.getElement("store.search.lc.ServiceLifeCycle.asset1.id")),
-                "Expected asset is not returned from the search query");
+                ASSET_NOT_RETURNED);
         assertTrue(searchResultspage
                         .containsAsset(uiElementMapper.getElement("store.search.lc.ServiceLifeCycle.asset2.id")),
-                "Expected asset is not returned from the search query");
+                ASSET_NOT_RETURNED);
         assertTrue(searchResultspage
                         .containsAsset(uiElementMapper.getElement("store.search.lc.ServiceLifeCycle.asset3.id")),
-                "Expected asset is not returned from the search query");
+                ASSET_NOT_RETURNED);
         driver.findElement(By.id(uiElementMapper.getElement("store.navmenu.all"))).click();
     }
 
@@ -153,7 +157,7 @@ public class SearchTestCase extends GREGIntegrationUIBaseTest {
         SearchResultsPage searchResultspage = new SearchResultsPage(driver, "name:uber version:1.0", false);
         log.info("searched by name and version");
         assertTrue(searchResultspage.containsAsset(uiElementMapper.getElement("store.search.name.version.asset1.id")),
-                "Expected asset is not returned from the search query");
+                ASSET_NOT_RETURNED);
     }
 
     @AfterClass(alwaysRun = true)

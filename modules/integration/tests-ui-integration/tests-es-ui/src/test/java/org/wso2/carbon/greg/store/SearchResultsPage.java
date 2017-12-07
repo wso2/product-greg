@@ -43,15 +43,16 @@ public class SearchResultsPage {
 
         this.driver = driver;
         uiElementMapper = UIElementMapper.getInstance();
-
-        this.driver.findElement(By.id(uiElementMapper.getElement("store.searchbar.id"))).click();
-        this.driver.findElement(By.id(uiElementMapper.getElement("store.searchbar.id"))).clear();
+        String searchbarMapperId = "store.searchbar.id";
+        
+        this.driver.findElement(By.id(uiElementMapper.getElement(searchbarMapperId))).click();
+        this.driver.findElement(By.id(uiElementMapper.getElement(searchbarMapperId))).clear();
         if (hitEnter) {
-            this.driver.findElement(By.id(uiElementMapper.getElement("store.searchbar.id")))
+            this.driver.findElement(By.id(uiElementMapper.getElement(searchbarMapperId)))
                     .sendKeys(query, Keys.ENTER);
         } else {
-            this.driver.findElement(By.id(uiElementMapper.getElement("store.searchbar.id"))).sendKeys(query);
-            this.driver.findElement(By.id(uiElementMapper.getElement("store.searchbtn.id"))).click();
+            this.driver.findElement(By.id(uiElementMapper.getElement(searchbarMapperId))).sendKeys(query);
+            this.driver.findElement(By.id(uiElementMapper.getElement(searchbarMapperId))).click();
         }
         assertTrue(driver.getCurrentUrl().contains("q="));
     }

@@ -14,7 +14,7 @@ require('/modules/store.js').exec(function (ctx) {
     }
     var tenantResources = tenantApi.createTenantAwareAppResources(ctx.session);
     var appManager = tenantResources.appManager;
-    var page = ui.buildPage(ctx.session,ctx.request, tenantId);
+    var page = ui.buildPage(ctx.session, ctx.request, tenantId);
     var output = appManager.render([],page);
     output.mediaType = options.type;
     caramel.render(output);
