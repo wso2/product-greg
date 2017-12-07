@@ -16,18 +16,27 @@
 
 package org.wso2.carbon.registry.capp.deployment.test;
 
+import org.apache.axiom.om.OMAbstractFactory;
+import org.apache.axiom.om.OMElement;
+import org.apache.axiom.om.OMFactory;
+import org.apache.axiom.om.impl.builder.StAXOMBuilder;
+import org.apache.axiom.om.xpath.AXIOMXPath;
 import org.testng.Assert;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 import org.wso2.carbon.application.mgt.stub.ApplicationAdminExceptionException;
+import org.wso2.carbon.automation.engine.context.AutomationContext;
 import org.wso2.carbon.automation.engine.context.TestUserMode;
 import org.wso2.carbon.automation.engine.frameworkutils.FrameworkPathUtil;
 import org.wso2.carbon.automation.test.utils.common.FileManager;
+import org.wso2.carbon.integration.common.admin.client.LogViewerClient;
+import org.wso2.carbon.integration.common.utils.mgt.ServerConfigurationManager;
+import org.wso2.carbon.logging.view.stub.types.carbon.LogEvent;
 import org.wso2.carbon.registry.core.exceptions.RegistryException;
-import org.wso2.carbon.registry.handler.stub.ExceptionException;
 import org.wso2.carbon.registry.resource.stub.ResourceAdminServiceExceptionException;
 import org.wso2.carbon.registry.ws.client.registry.WSRegistryServiceClient;
+import org.wso2.carbon.utils.CarbonUtils;
 import org.wso2.greg.integration.common.clients.ApplicationAdminClient;
 import org.wso2.greg.integration.common.clients.CarbonAppUploaderClient;
 import org.wso2.greg.integration.common.clients.HandlerManagementServiceClient;
@@ -36,20 +45,25 @@ import org.wso2.greg.integration.common.utils.GREGIntegrationBaseTest;
 import org.wso2.greg.integration.common.utils.RegistryProviderUtil;
 
 import javax.activation.DataHandler;
+import javax.xml.stream.XMLInputFactory;
+import javax.xml.stream.XMLOutputFactory;
+import javax.xml.stream.XMLStreamException;
+import javax.xml.stream.XMLStreamReader;
+import javax.xml.stream.XMLStreamWriter;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.rmi.RemoteException;
 
 import static org.testng.Assert.assertTrue;
 
 /**
- * + * This test case is  to verify the Capp deployment,
- * + * and undeployment with new ArticatCleaupHandler
- * +
+ * + * This test case is  to verify the Capp deployment, + * and undeployment with new ArticatCleaupHandler +
  */
-public class REGISTRY2102_CarFileWithGarTestCase extends GREGIntegrationBaseTest {
+public class TenantCappTestCase extends GREGIntegrationBaseTest {
 
     private WSRegistryServiceClient wsRegistry;
     private CarbonAppUploaderClient cAppUploader;
@@ -70,58 +84,82 @@ public class REGISTRY2102_CarFileWithGarTestCase extends GREGIntegrationBaseTest
     private String userName;
     private String userNameWithoutDomain;
 
+    private LogViewerClient logViewerClient;
+
     @BeforeClass(alwaysRun = true)
     public void init() throws Exception {
 
-        super.init(TestUserMode.SUPER_TENANT_ADMIN);
+        super.init(TestUserMode.TENANT_ADMIN);
         backEndUrl = getBackendURL();
         sessionCookie = getSessionCookie();
         userName = automationContext.getContextTenant().getContextUser().getUserName();
 
-        if (userName.contains("@"))
+        if (userName.contains("@")) {
             userNameWithoutDomain = userName.substring(0, userName.indexOf('@'));
-        else
+        } else {
             userNameWithoutDomain = userName;
+        }
 
         resourceAdminServiceClient =
                 new ResourceAdminServiceClient(backEndUrl,
-                        sessionCookie);
+                                               sessionCookie);
         adminServiceApplicationAdmin =
                 new ApplicationAdminClient(backEndUrl,
-                        sessionCookie);
+                                           sessionCookie);
 
         cAppUploader =
                 new CarbonAppUploaderClient(backEndUrl,
-                        sessionCookie);
+                                            sessionCookie);
 
         RegistryProviderUtil registryProviderUtil = new RegistryProviderUtil();
         wsRegistry = registryProviderUtil.getWSRegistry(automationContext);
         handlerManagementServiceClient = new HandlerManagementServiceClient(backEndUrl,
-                sessionCookie);
+                                                                            sessionCookie);
 
     }
 
     @Test(groups = {"wso2.greg"}, description = "Add new Handler")
-    public void addNewHandler() throws IOException, Exception, InterruptedException {
-        Thread.sleep(60000L);
+    public void addNewHandler() throws Exception {
         assertTrue(handlerManagementServiceClient.createHandler(FileManager.readFile(newHandlerPath)));
     }
 
     @Test(description = "Upload CApp having gar file", dependsOnMethods = {"addNewHandler"})
     public void uploadCApplicationWithGar()
-            throws MalformedURLException, RemoteException, InterruptedException,
-            ApplicationAdminExceptionException {
+            throws Exception {
         String filePath = FrameworkPathUtil.getSystemResourceLocation() + "artifacts" + File.separator +
                 "GREG" + File.separator + "car" + File.separator + "GarTestCApp_1.0.0.car";
         cAppUploader.uploadCarbonAppArtifact("GarTestCApp_1.0.0.car",
-                new DataHandler(new URL("file:///" + filePath)));
+                                             new DataHandler(new URL("file:///" + filePath)));
 
         Assert.assertTrue(CAppTestUtils.isCAppDeployed(sessionCookie, cAppName, adminServiceApplicationAdmin)
                 , "Deployed CApplication not in CApp List");
+
+        AutomationContext automationContext2 = new AutomationContext("GREG", TestUserMode.SUPER_TENANT_ADMIN);
+        ServerConfigurationManager serverConfigurationManager = new ServerConfigurationManager(automationContext2);
+        String resourcePath =
+                getTestArtifactLocation() + "artifacts" + File.separator + "GREG" + File.separator + "carbon" +
+                        File.separator + "carbon.xml";
+        serverConfigurationManager.applyConfiguration(new File(resourcePath));
+        //serverConfigurationManager.restartGracefully();
+
+        super.init(TestUserMode.TENANT_ADMIN);
+        backEndUrl = getBackendURL();
+        sessionCookie = getSessionCookie();
+
+        resourceAdminServiceClient = new ResourceAdminServiceClient(backEndUrl, sessionCookie);
+        adminServiceApplicationAdmin = new ApplicationAdminClient(backEndUrl, sessionCookie);
+
+        cAppUploader = new CarbonAppUploaderClient(backEndUrl, sessionCookie);
+        handlerManagementServiceClient = new HandlerManagementServiceClient(backEndUrl, sessionCookie);
+
+        RegistryProviderUtil registryProviderUtil = new RegistryProviderUtil();
+        wsRegistry = registryProviderUtil.getWSRegistry(automationContext);
+        logViewerClient = new LogViewerClient(backendURL, sessionCookie);
+        Assert.assertTrue(testSearchLogs());
     }
 
     @Test(description = "Search whether CApp is in /_system/config/repository/applications",
-            dependsOnMethods = {"uploadCApplicationWithGar"})
+          dependsOnMethods = {"uploadCApplicationWithGar"})
     public void isCApplicationInRegistry() throws RegistryException {
         wsRegistry.get("/_system/config/repository/carbonapps/gar_mapping/Axis2Service");
         wsRegistry.get("/_system/config/repository/carbonapps/path_mapping/" + cAppName);
@@ -132,14 +170,15 @@ public class REGISTRY2102_CarFileWithGarTestCase extends GREGIntegrationBaseTest
 
         Assert.assertTrue(wsRegistry.resourceExists(wsdlPath), wsdlPath + " resource does not exist");
         Assert.assertTrue(wsRegistry.resourceExists(servicePath), servicePath + " resource does not exist");
-        //        Assert.assertTrue(registry.resourceExists(wsdlUploadedPath), wsdlUploadedPath + " resource does not exist");
+        //        Assert.assertTrue(registry.resourceExists(wsdlUploadedPath), wsdlUploadedPath + " resource does not
+        // exist");
 
     }
 
     @Test(description = "Delete Carbon Application ", dependsOnMethods = {"isResourcesExist"})
     public void deleteCApplication()
             throws ApplicationAdminExceptionException, RemoteException, InterruptedException,
-            RegistryException {
+                   RegistryException {
         adminServiceApplicationAdmin.deleteApplication(cAppName);
 
         Assert.assertTrue(CAppTestUtils.isCAppDeleted(sessionCookie, cAppName, adminServiceApplicationAdmin)
@@ -153,7 +192,15 @@ public class REGISTRY2102_CarFileWithGarTestCase extends GREGIntegrationBaseTest
     }
 
     @Test(description = "Verify Resource Deletion", dependsOnMethods = {"deleteCApplication"})
-    public void isResourcesDeleted() throws RegistryException {
+    public void isResourcesDeleted() throws Exception {
+
+        delete(wsdlPath);
+        delete(servicePath);
+        delete("/_system/governance/trunk/services/org/wso2/carbon/service/Axis2Service");
+        delete("/_system/governance/trunk/wsdls/org/wso2/carbon/service/Axis2Service.wsdl");
+        delete("/_system/governance/trunk/schemas/org/wso2/carbon/service/axis2serviceschema.xsd");
+        delete("/_system/governance/trunk/endpoints/_1");
+        delete("/_system/config/repository/carbonapps/gar_mapping/Axis2Service");
 
         Assert.assertFalse(wsRegistry.resourceExists(wsdlPath), "Resource not deleted");
         Assert.assertFalse(wsRegistry.resourceExists(servicePath), "Resource not deleted");
@@ -161,21 +208,21 @@ public class REGISTRY2102_CarFileWithGarTestCase extends GREGIntegrationBaseTest
         Assert.assertFalse(wsRegistry.resourceExists("/_system/config/repository/carbonapps/path_mapping/" + cAppName)
                 , "CApp Resource not deleted");
         Assert.assertFalse(wsRegistry.resourceExists("/_system/config/repository/carbonapps/gar_mapping/Axis2Service"),
-                "CApp Resource not deleted");
+                           "CApp Resource not deleted");
 
     }
 
     @Test(groups = {"wso2.greg"}, description = "delete handler", dependsOnMethods = "isResourcesDeleted")
-    public void deleteHandler() throws ExceptionException, RemoteException {
+    public void deleteHandler() throws Exception {
         assertTrue(handlerManagementServiceClient.deleteHandler(handlerName));
     }
 
     @AfterClass(alwaysRun = true)
     public void destroy()
             throws ApplicationAdminExceptionException, RemoteException, InterruptedException,
-            ResourceAdminServiceExceptionException, RegistryException {
+                   ResourceAdminServiceExceptionException, RegistryException {
         if (!(CAppTestUtils.isCAppDeleted(sessionCookie,
-                cAppName, adminServiceApplicationAdmin))) {
+                                          cAppName, adminServiceApplicationAdmin))) {
             adminServiceApplicationAdmin.deleteApplication(cAppName);
         }
 
@@ -199,5 +246,65 @@ public class REGISTRY2102_CarFileWithGarTestCase extends GREGIntegrationBaseTest
         if (wsRegistry.resourceExists(destPath)) {
             resourceAdminServiceClient.deleteResource(destPath);
         }
+    }
+
+    private void increaseSearchIndexStartTimeDelay() throws Exception {
+
+        FileOutputStream fileOutputStream = null;
+        XMLStreamWriter writer = null;
+        OMElement documentElement = getRegistryXmlOmElement();
+        try {
+            AXIOMXPath xpathExpression = new AXIOMXPath("/Server/Tenant/LoadingPolicy/LazyLoading");
+
+            OMElement element = (OMElement) xpathExpression.selectSingleNode(documentElement);
+            element.detach();
+
+            AXIOMXPath xpathExpression1 = new AXIOMXPath("/Server/Tenant/LoadingPolicy");
+            OMElement indexConfigNode1 = (OMElement) xpathExpression1.selectSingleNode(documentElement);
+
+            OMFactory factory = OMAbstractFactory.getOMFactory();
+            OMElement method = factory.createOMElement("EagerLoading", null);
+            OMElement value = factory.createOMElement("Include", null);
+            value.addChild(factory.createOMText(value, "*"));
+            method.addChild(value);
+
+            fileOutputStream = new FileOutputStream(getRegistryXMLPath());
+            writer = XMLOutputFactory.newInstance().createXMLStreamWriter(fileOutputStream);
+            documentElement.serialize(writer);
+            documentElement.build();
+            Thread.sleep(2000);
+
+        } catch (Exception e) {
+            log.error("registry.xml edit fails" + e.getMessage());
+            throw new Exception("registry.xml edit fails" + e.getMessage());
+        } finally {
+            assert fileOutputStream != null;
+            fileOutputStream.close();
+            assert writer != null;
+            writer.flush();
+        }
+    }
+
+    public boolean testSearchLogs() throws RemoteException {
+        LogEvent[] logEvents = logViewerClient.getLogs("INFO", "GarTestCApp_1.0.0 {tenant-1}", "", "");
+        return (logEvents[0].getMessage().contains("GarTestCApp_1.0.0 {tenant-1}"));
+    }
+
+    public static OMElement getRegistryXmlOmElement()
+            throws FileNotFoundException, XMLStreamException {
+
+        String registryXmlPath = CarbonUtils.getCarbonHome() + File.separator + "repository" + File.separator
+                + "conf" + File.separator + "carbon.xml";
+        File registryFile = new File(registryXmlPath);
+        FileInputStream inputStream = new FileInputStream(registryFile);
+        XMLStreamReader parser = XMLInputFactory.newInstance().createXMLStreamReader(inputStream);
+        StAXOMBuilder builder = new StAXOMBuilder(parser);
+        return builder.getDocumentElement();
+
+    }
+
+    private String getRegistryXMLPath() {
+        return CarbonUtils.getCarbonHome() + File.separator + "repository" + File.separator
+                + "conf" + File.separator + "carbon.xml";
     }
 }
