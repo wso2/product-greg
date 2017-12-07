@@ -70,6 +70,16 @@ public class StoreHomePage {
     }
 
     /**
+     * Performs moving to login page.
+     *
+     * @return Login page object.
+     */
+    public StoreLoginPage moveToRegister() {
+        driver.findElement(By.id(uiElementMapper.getElement("store.homepage.register.id"))).click();
+        return new StoreLoginPage(driver);
+    }
+
+    /**
      * Performs running the ant script for getting started guide and populating the store.
      */
     public void populateStore() {
