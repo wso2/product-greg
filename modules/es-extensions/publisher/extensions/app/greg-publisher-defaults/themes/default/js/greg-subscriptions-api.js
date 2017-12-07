@@ -102,9 +102,9 @@ $(function() {
                     var updatedNotiCount = notiCount - 1;
                     element.parent().parent().remove();
                     $('#notificationCount').html(updatedNotiCount);
-                    if(updatedNotiCount == 0){
+                    if (updatedNotiCount == 0) {
                         $("#clearalldiv").hide();
-                        toggleSidePanel('notifications',$('.wr-notification-toggle-btn'));
+                        toggleSidePanel('notifications', $('.wr-notification-toggle-btn'));
                     }
                 }
             },
