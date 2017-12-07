@@ -32,6 +32,9 @@ import java.util.List;
  * put commandline arguments as ( -Diterations=10 ). 10 will be your iteration count
  */
 public class Controller extends GREGIntegrationUIBaseTest {
+
+    private static final String ITERATION_COUNT = "[0-9]+";
+
     @BeforeSuite(groups = "wso2.greg")
     public void testController() throws InterruptedException {
         //Create an instance on TestNG
@@ -40,12 +43,11 @@ public class Controller extends GREGIntegrationUIBaseTest {
         List<XmlTest> testsList;
         List<XmlClass> testClasses;
         XmlSuite testSuite;
-        String regex = "[0-9]+";
         int testIterations = 1;
         // read the command line argument , if not provided use default as 1
         String iterations = System.getProperty("iterations");
         if (iterations != null) {
-            if (iterations.matches(regex)) {
+            if (iterations.matches(ITERATION_COUNT)) {
                 testIterations = Integer.parseInt(iterations);
             }
         }

@@ -151,9 +151,6 @@ public class CustomLifecycleUITestCase extends GREGIntegrationUIBaseTest {
         driver.findElement(By.id(uiElementMapper.getElement("publisher.lifecycle"))).click();
         driver.findElement(By.xpath(uiElementMapper.getElement("publisher.promote.checkbox1.xpath"))).click();
         asset.addLCComment("going to promote");
-        // since permission is not working for custom RXT
-      /*  assertTrue(isElementPresent(driver, By.id(uiElementMapper.getElement("publisher.promote"))),
-                "Promote button not available in lifecycle UI for test case " + log.getClass().getName()); */
 
     }
 

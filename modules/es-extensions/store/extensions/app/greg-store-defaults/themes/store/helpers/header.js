@@ -28,16 +28,18 @@ for (name in hps) {
         that[name] = hps[name];
     }
 }
-var fn = that.resources||function() { return {} };
-var resources = function(page, meta) {
+var fn = that.resources || function () {
+        return {}
+    };
+var resources = function (page, meta) {
     var o = fn(page, meta);
     if (!o.css) {
         o.css = [];
     }
-    if(!o.js){
+    if (!o.js) {
         o.js = [];
     }
-    if(!o.code){
+    if (!o.code) {
         o.code = [];
     }
     o.css.push('common.css');
@@ -50,8 +52,6 @@ var resources = function(page, meta) {
     o.js.push('greg-subscriptions-api.js');
     o.js.push('bootstrap-dialog.min.js');
     o.js.push('typeahead.bundle.min.js');
-    // remove this line, because this file is loaded twice in store side. That occurs search-box css issue
-    //o.js.push('typeahead.js');
     o.code.push('taxonomy-meta-data.hbs');
     o.code.push('tenant-meta-data.hbs');
     return o;
