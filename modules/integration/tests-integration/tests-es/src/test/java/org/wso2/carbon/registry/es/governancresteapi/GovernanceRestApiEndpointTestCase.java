@@ -213,13 +213,14 @@ public class GovernanceRestApiEndpointTestCase extends GregESTestBaseTest {
         Thread.sleep(1000);
 
         Map<String, String> headerMap = new HashMap<>();
-        queryParamMap.put("q", "\"name\":\"\"");
+        queryParamMap.put("q", "\"name\":\""+associationEndpointName+"\"");
         ClientResponse associationList = genericRestClient.geneticRestRequestGet(publisherUrl +
                                                                                  "/association/restservice/depends/"
                                                                                  + assetIdOfRestService, queryParamMap,
                                                                                  headerMap, cookieHeader);
         JsonArray jsonObject = new JsonParser().parse(associationList.getEntity(String.class)).
                 getAsJsonObject().get("results").getAsJsonArray();
+        assertTrue(jsonObject.size() == 1);
         assertTrue(jsonObject.toString().contains(assetIdOfEndpoint));
         assertTrue(jsonObject.toString().contains(associationEndpointName));
         setTestEnvironment();
