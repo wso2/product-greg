@@ -17,8 +17,10 @@
 */
 package org.wso2.greg.integration.resources.server.mgt.test;
 
+import org.apache.axiom.om.OMAbstractFactory;
 import org.apache.axiom.om.OMAttribute;
 import org.apache.axiom.om.OMElement;
+import org.apache.axiom.om.OMFactory;
 import org.apache.axiom.om.impl.builder.StAXOMBuilder;
 import org.apache.axiom.om.util.AXIOMUtil;
 import org.apache.axiom.om.xpath.AXIOMXPath;
@@ -194,6 +196,19 @@ public class RegistryConfiguratorTestCase extends GREGIntegrationBaseTest {
             AXIOMXPath xpathExpression3 = new AXIOMXPath("/wso2registry/indexingConfiguration/indexerPoolSize");
             OMElement indexConfigNode3 = (OMElement) xpathExpression3.selectSingleNode(documentElement);
             indexConfigNode3.setText("50");
+            OMElement disableIndexingCache = documentElement.getFirstChildWithName(new QName("indexingConfiguration"))
+                    .getFirstChildWithName(new QName("skipCache"));
+            if (disableIndexingCache == null) {
+                OMFactory fac = OMAbstractFactory.getOMFactory();
+                OMElement indexConfiguration = documentElement
+                        .getFirstChildWithName(new QName("indexingConfiguration"));
+                disableIndexingCache = fac.createOMElement("skipCache", "", "");
+                disableIndexingCache.setText("true");
+                indexConfiguration.addChild(disableIndexingCache);
+
+            } else if (disableIndexingCache != null && disableIndexingCache.getText().equals("false")) {
+                disableIndexingCache.setText("true");
+            }
 
             fileOutputStream = new FileOutputStream(getRegistryXMLPath());
             writer = XMLOutputFactory.newInstance().createXMLStreamWriter(fileOutputStream);
@@ -211,6 +226,8 @@ public class RegistryConfiguratorTestCase extends GREGIntegrationBaseTest {
             writer.flush();
         }
     }
+
+
 
     private void enableJmxManagement () throws Exception {
 
