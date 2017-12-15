@@ -9,6 +9,7 @@
             <package name="org.wso2.carbon.registry.governance.api.ui.test"/>
             <package name="org.wso2.carbon.registry.governance.api.lifecycle.test"/>
             <package name="org.wso2.carbon.registry.governance.api.service.test"/-->
+            <package name="org.wso2.carbon.registry.governance.api.rest.test"/>
         </packages>
     </test>
 </suite>
