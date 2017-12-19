@@ -32,7 +32,7 @@ public class GovernanceRESTAPITestCase extends GREGIntegrationBaseTest {
     }
 
     @Test(groups = { "wso2.greg" }, description = "test rest api POST")
-    public void testRestApiGET() throws Exception {
+    public void testRestApiPOST() throws Exception {
         Map<String, String> requestHeaders = new HashMap<>();
         requestHeaders.put("Authorization", "Basic YWRtaW46YWRtaW4=");
         requestHeaders.put("Content-Type", "application/json");
@@ -46,9 +46,9 @@ public class GovernanceRESTAPITestCase extends GREGIntegrationBaseTest {
 
     @Test(groups = {
             "wso2.greg" }, description = "test rest api GET", dependsOnMethods = "testRestApiGET")
-    public void testRestApiPOST()
+    public void testRestApiGet()
             throws Exception {
-        Thread.sleep(20000);
+        Thread.sleep(30000);
         Map<String, String> requestHeaders = new HashMap<>();
         requestHeaders.put("Authorization", "Basic YWRtaW46YWRtaW4=");
         requestHeaders.put("Content-Type", "application/json");
