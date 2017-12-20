@@ -45,7 +45,7 @@ public class GovernanceRESTAPITestCase extends GREGIntegrationBaseTest {
     }
 
     @Test(groups = {
-            "wso2.greg" }, description = "test rest api GET", dependsOnMethods = "testRestApiGET")
+            "wso2.greg" }, description = "test rest api GET", dependsOnMethods = "testRestApiPOST")
     public void testRestApiGet()
             throws Exception {
         Thread.sleep(30000);
@@ -53,11 +53,17 @@ public class GovernanceRESTAPITestCase extends GREGIntegrationBaseTest {
         requestHeaders.put("Authorization", "Basic YWRtaW46YWRtaW4=");
         requestHeaders.put("Content-Type", "application/json");
         HttpResponse response = HTTPSClientUtils.doGet(serverUrl + "/" + createdAssetUUID, requestHeaders);
-        String expectedPayload = "{  \"assets\": [    {      \"name\": \"rest\",      \"id\": \"" + createdAssetUUID
-                + "\",      \"type\": \"restservice\",      \"type\": \"restservice\",      \"description\": \"description\",      \"context\": \"contest\",      \"version\": \"1.2.3\",      \"security_authenticationType\": \"None\",      \"uritemplate\": [        {          \"urlPattern\": \"/api\",          \"httpVerb\": \"http\",          \"authType\": \"Basic AUth\"        },        {          \"urlPattern\": \"/auth/api\",          \"httpVerb\": \"https\",          \"authType\": \"oauth\"        }      ],      \"self-link\": \"https://localhost:10343/governance/restservices/"
-                + createdAssetUUID + "\",      \"content-link\": \"https://localhost:10343/governance/restservices/"
-                + createdAssetUUID + "/content\"    }  ]}";
-        Assert.assertTrue(response.getData().contains(expectedPayload));
+        Assert.assertTrue(response.getData().contains(createdAssetUUID));
+        Assert.assertTrue(response.getData().contains("httpVerb"));
+        Assert.assertTrue(response.getData().contains("https"));
+
+        Assert.assertTrue(response.getData().contains("urlPattern"));
+        Assert.assertTrue(response.getData().contains("/auth/api"));
+
+        Assert.assertTrue(response.getData().contains("authType"));
+        Assert.assertTrue(response.getData().contains("httpVerb"));
+
+        Assert.assertTrue(response.getData().contains("http"));
         Assert.assertEquals(response.getResponseCode(), 200);
     }
 
