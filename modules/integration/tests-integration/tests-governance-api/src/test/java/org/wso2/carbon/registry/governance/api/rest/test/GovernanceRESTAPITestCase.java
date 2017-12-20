@@ -45,7 +45,7 @@ public class GovernanceRESTAPITestCase extends GREGIntegrationBaseTest {
     }
 
     @Test(groups = {
-            "wso2.greg" }, description = "test rest api GET", dependsOnMethods = "testRestApiGET")
+            "wso2.greg" }, description = "test rest api GET", dependsOnMethods = "testRestApiPOST")
     public void testRestApiGet()
             throws Exception {
         Thread.sleep(30000);
