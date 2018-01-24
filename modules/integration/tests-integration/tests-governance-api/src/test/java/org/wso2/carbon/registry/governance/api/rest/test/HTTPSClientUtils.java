@@ -25,6 +25,7 @@ import org.apache.http.NameValuePair;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.config.RequestConfig;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
+import org.apache.http.client.methods.HttpDelete;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.client.methods.HttpPut;
@@ -153,6 +154,19 @@ public class HTTPSClientUtils {
     }
 
     /**
+     * do HTTP DELETE operation for the given URL
+     *
+     * @param url     request URL
+     * @param headers headers to be send
+     * @throws IOException if connection issue occurred
+     */
+    public static void doDelete(String url,Map<String, String> headers) throws IOException {
+
+        HttpClient httpClient = getHttpsClient();
+        sendDELETERequest(httpClient, url, headers);
+    }
+
+    /**
      * get the HTTP Client
      *
      * @return HttpClient
@@ -180,6 +194,26 @@ public class HTTPSClientUtils {
     private static org.apache.http.HttpResponse sendGetRequest(HttpClient httpClient, String url,
             Map<String, String> headers) throws IOException {
         HttpGet request = new HttpGet(url);
+        if (headers != null) {
+            for (Map.Entry<String, String> head : headers.entrySet()) {
+                request.addHeader(head.getKey(), head.getValue());
+            }
+        }
+        return httpClient.execute(request);
+    }
+
+    /**
+     * DELETE function implementation
+     *
+     * @param httpClient http client to use
+     * @param url        request URL
+     * @param headers    headers to be send
+     * @return org.apache.http.HttpResponse
+     * @throws IOException if connection issue occurred
+     */
+    private static org.apache.http.HttpResponse sendDELETERequest(HttpClient httpClient, String url,
+                                                                  Map<String, String> headers) throws IOException {
+        HttpDelete request = new HttpDelete(url);
         if (headers != null) {
             for (Map.Entry<String, String> head : headers.entrySet()) {
                 request.addHeader(head.getKey(), head.getValue());
