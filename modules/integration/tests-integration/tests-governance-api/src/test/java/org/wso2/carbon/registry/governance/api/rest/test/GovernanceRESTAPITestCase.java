@@ -67,4 +67,15 @@ public class GovernanceRESTAPITestCase extends GREGIntegrationBaseTest {
         Assert.assertEquals(response.getResponseCode(), 200);
     }
 
+    @Test(groups = {
+            "wso2.greg" }, description = "test rest api POST for conflict", dependsOnMethods = "testRestApiPOST")
+    public void testRestApiPOSTForConflict() throws Exception {
+        Map<String, String> requestHeaders = new HashMap<>();
+        requestHeaders.put("Authorization", "Basic YWRtaW46YWRtaW4=");
+        requestHeaders.put("Content-Type", "application/json");
+        HttpResponse response = HTTPSClientUtils.doPost(serverUrl, requestHeaders, PAYLOAD);
+        Assert.assertEquals(response.getResponseCode(), 409);
+        Assert.assertEquals(response.getData().toString(),
+                "Governance artifact rest already exists at /trunk/restservices/1.2.3/rest");
+    }
 }
