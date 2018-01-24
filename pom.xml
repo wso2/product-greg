@@ -1036,9 +1036,9 @@
         </carbon.registry.package.import.version.range>
 
         <!-- Carbon Governance -->
-        <carbon.governance.version>4.7.21</carbon.governance.version>
+        <carbon.governance.version>4.7.23</carbon.governance.version>
 
-        <carbon.governance.ext.version>4.5.8</carbon.governance.ext.version>
+        <carbon.governance.ext.version>4.5.10</carbon.governance.ext.version>
 
         <carbon.business.process.version>4.4.9</carbon.business.process.version>
         
