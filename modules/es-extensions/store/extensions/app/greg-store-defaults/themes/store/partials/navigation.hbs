@@ -106,7 +106,7 @@
     <!-- secondary header - app bar -->
     <div id="nav" class="es-row row wr-app-bar">
         <div class="col-md-12 wr-action-container">
-            <div id="the-basics" class="es-input-group input-group input-wrap">
+            <div id="the-basics">
 
                 <div class="search-wrapper" id="the-basics">
                     <div class="input-group">
@@ -130,9 +130,17 @@
                         <span class="input-group-addon search-options-link-wrapper es-input-group-btn" id="basic-addon2">
                             {{>search-options-popover .}}
                         </span>
+                        {{#if cuser.username}}
+                        <div class="has-feedback form-search">
+                            <a href="/store/pages/advanced-search" class="form-control-feedback advance" id="advance-search" title="{{t " Advanced Search "}}">
+                            <span>{{t "Advanced Search"}}</span>
+                        </a>
                     </div>
+                    {{/if}}
                 </div>
             </div>
+        </div>
+
 
             <div class="top-menu-right-custom right">
                 <div>
