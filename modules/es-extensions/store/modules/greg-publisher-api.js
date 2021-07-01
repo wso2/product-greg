@@ -403,7 +403,7 @@ var gregAPI = {};
         return tenantResources.am;
     };
     /*Need assetManager for getAssetVersions*/
-    gregAPI.getAssetVersions = function (session, type, path, name) {
+    gregAPI.getAssetVersions = function (session, type, path, name) { /* TODO: Instead of path accept asset itself*/
         var am = assetManager(session,type);
         var asset = {};
         asset.attributes = {};
@@ -417,4 +417,105 @@ var gregAPI = {};
         );
         return filtered_resources;
     };
+
+    gregAPI.associations.list = function(session, type, path) {
+        var username = require('store').server.current(session).username;
+        var am = assetManager(session, type);
+        var resultList = new Object();
+        resultList.results = [];
+        var results = am.registry.associations(path);
+        var artifact,artifactConfig;
+        for(var i=0; i < results.length; i++){
+            if (results[i].src == path){
+                var destPath = results[i].dest
+                try {
+                    var artifactPath = destPath.replace("/_system/governance", "");
+                    var govRegistry = Packages.org.wso2.carbon.governance.api.util.GovernanceUtils.
+                        getGovernanceUserRegistry(am.registry.registry, username);
+                    artifact = Packages.org.wso2.carbon.governance.api.util.GovernanceUtils.
+                        retrieveGovernanceArtifactByPath(govRegistry, artifactPath);
+                } catch (e) {
+                    log.warn("Association can not be retrieved. Resource does not exist at path " + destPath);
+                    continue;
+                }
+
+
+                if (artifact == null) { //if associated artifact is not a resource we are not displaying it in publisher
+                    log.info("resource at path /_system/governance " + destPath + " is not a governance artifact!");
+                    continue;
+                }
+
+
+                artifactConfig = Packages.org.wso2.carbon.governance.api.util.GovernanceUtils.
+                    findGovernanceArtifactConfigurationByMediaType(am.registry.registry.get(destPath).
+                        getMediaType(), am.registry.registry);
+
+                var assetJson = new Object();
+                var uuid = am.registry.registry.get(destPath).getUUID();
+                var key = String(artifactConfig.getKey());
+
+                var uniqueAttributesNames = artifactConfig.getUniqueAttributes();
+                var artifactNameAttribute = artifactConfig.getArtifactNameAttribute();
+
+                assetJson.uniqueAttributesValues = [];
+                assetJson.uniqueAttributesNames = [];
+
+                for (var j = 0; j < uniqueAttributesNames.size(); j++) {
+                    if (artifactNameAttribute == uniqueAttributesNames.get(j)) {
+                        continue;
+                    }
+                    var attributeName = uniqueAttributesNames.get(j);
+                    if (key === 'wsdl' || key === 'wadl' || key === 'policy' ||
+                        key === 'schema' || key === 'endpoint' || key === 'swagger'){
+                        attributeName = attributeName.replace("overview_", "");
+                    }
+                    if (artifact.getAttributes(attributeName) != null) {
+                        assetJson.uniqueAttributesNames[j] = attributeName;
+                        assetJson.uniqueAttributesValues[j] = artifact.getAttributes(attributeName)[0];
+                        if(attributeName.indexOf(attributeName === 'version' || attributeName === 'overview_version')){
+                            assetJson.associationVersion =  artifact.getAttributes(attributeName)[0];  
+                        }
+                    }
+                };
+
+                if (key === 'wsdl' || key === 'wadl' || key === 'policy' || key === 'schema' || key === 'endpoint' || key === 'swagger'){
+                    var subPaths = destPath.split('/');
+                    assetJson.text = subPaths[subPaths.length - 1];
+                } else {
+                    var govAttifact = Packages.org.wso2.carbon.governance.api.util.GovernanceUtils.retrieveGovernanceArtifactByPath(am.registry.registry,destPath);
+                    var name = (govAttifact.getAttribute("overview_name"));
+                    if (name === null || name.length === 0) {
+                        assetJson.text = govAttifact.getQName().getLocalPart();
+                    } else {
+                        assetJson.text = String(name);
+                    }
+                }
+                assetJson.type = am.registry.registry.get(destPath).getMediaType();
+                assetJson.associationType = results[i].type;
+                assetJson.uuid = uuid;
+                assetJson.shortName = key;
+                resultList.results.push(assetJson);
+            }
+        }
+        return resultList;
+    }
+
+    gregAPI.associations.listTypes = function (type) {
+        var map = CommonUtil.getAssociationWithIcons(type);
+        if (!map) {
+            map = CommonUtil.getAssociationWithIcons("default");
+        }
+
+        var keySet = map.keySet().toArray();
+        var results = [], item;
+
+        for (var i = 0; i < keySet.length; i++) {
+            item = {};
+            item.key = keySet[i];
+            item.value = String(map.get(keySet[i]));
+            results.push(item);
+        }
+
+        return results;
+    }
 }(gregAPI));
